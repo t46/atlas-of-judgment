@@ -29,6 +29,8 @@ h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: ba
 .lede { color: var(--ink-2); max-width: 82ch; margin: 0; font-size: 15.5px; }
 .lede em, .caption em { color: var(--ink); font-style: italic; }
 section { padding: 84px 0 6px; }
+.plate-scope { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 7px; }
+.plate-scope b { color: var(--brass); font-weight: 500; }
 .plate-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
 .plate-head h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12; }
 /* engraved frame */
@@ -112,6 +114,8 @@ svg text { font-family: var(--serif); }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
 .filters select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 8px 12px; font-size: 11.5px; font-family: var(--mono); }
 .filters .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.1em; }
+.unit-toggle { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 1px dashed var(--brass-line); color: var(--brass); padding: 6px 14px; cursor: pointer; margin-top: 10px; align-self: flex-start; }
+.unit-toggle:hover { border-style: solid; }
 .review-card { border: 1px solid var(--brass-faint); background: rgba(22,19,36,0.5); padding: 24px 26px; display: flex; flex-direction: column; gap: 14px; }
 .review-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; border-bottom: 1px solid var(--brass-faint); padding-bottom: 12px; }
 .review-head .title { font-family: var(--display); font-size: 20px; font-weight: 600; }
@@ -222,10 +226,10 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       <div class="tp-eyebrow">Atlas of Judgment</div>
       <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:12px"><a href="about.html" style="color:var(--ink-2);text-decoration:none">About ↗</a><span style="color:var(--muted)"> · </span><a href="method.html" style="color:var(--ink-2);text-decoration:none">Method ↗</a><span style="color:var(--muted)"> · </span><a href="https://github.com/t46/atlas-of-judgment" style="color:var(--ink-2);text-decoration:none">GitHub ↗</a><span style="color:var(--muted)"> · </span><a href="https://atlas-of-judgment.pages.dev" style="color:var(--brass);text-decoration:none">Live ↗</a></div>
       <h1 class="tp-title">How a Paper<br>is <em>Judged</em></h1>
-      <p class="tp-sub">Every public review of ICLR 2026, decomposed into atomic units of evaluative logic — what was inspected, what was observed, which standard was invoked, what was concluded — and charted like a sky.</p>
+      <p class="tp-sub">The public reviews of ICLR 2026 — 98% of them, read at the finest grain — decomposed into atomic units of evaluative logic: what was inspected, what was observed, which standard was invoked, what was concluded — and charted like a sky. The plates that follow also read the venue’s nine-year record, 2018–2026, with the same taxonomy.</p>
       <div class="tp-spec">
         <b class="cnt" data-n="410586">410,586</b> logic units · <b class="cnt" data-n="74380">74,380</b> reviews · <b class="cnt" data-n="19474">19,474</b> papers<br>
-        taxonomy induced, not imposed · coverage 98.1% · ICLR MMXXVI
+        + <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI
       </div>
     </div>
     <div style="justify-self:center;max-width:520px;width:100%"><canvas id="planisphere" aria-label="circular star chart of all logic units" style="width:100%;aspect-ratio:1"></canvas>
@@ -238,6 +242,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section id="field" style="padding-top:56px">
   <div class="plate-head">
     <div class="plate-no">Prolegomenon · The Field</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · OpenReview public record · 52,460 forums</div>
     <h2>ICLR itself, 2018 → 2026</h2>
     <p class="lede">Before the atlas: the ground it stands on. Submissions have grown twenty-one-fold in nine years; the numbers below are the raw census of the venue whose judgment this atlas dissects.</p>
   </div>
@@ -251,6 +256,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate I · The Anatomy</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track · 410,586 units from 74,380 reviews</div>
     <h2>Object → standard → verdict</h2>
     <p class="lede">Ribbon width is unit count. Twelve objects of scrutiny; twelve epistemic standards that convert observation into judgment; five verdict polarities. Hover a node to trace its paths — <em>click one to dissect it</em>. Every term on this page reveals its definition on hover; the full lexicon lives in <a href="#lexicon">the appendix</a>.</p>
   </div>
@@ -268,6 +274,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate II · The Grammar</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track</div>
     <h2>Each object has its canonical standard</h2>
     <p class="lede">Row-normalized: when a reviewer inspects <em>x</em>, how often do they reason via <em>y</em>? The bright diagonal is the discipline's grammar — novelty is judged by the novelty standard, cost by cost-benefit, notation by the trust it signals.</p>
   </div>
@@ -280,6 +287,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate III · The Rhetoric</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 1,009,592 units</div>
     <h2>Each standard has a voice</h2>
     <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units of the nine-year forum-level track</em> (introduced fully in Plate IX; neighboring plates use the 410,586-unit 2026 track) by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
   </div>
@@ -299,6 +307,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate IV · The Script</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track</div>
     <h2>Reviews follow a script</h2>
     <p class="lede">Position within the review is not random. Reviews <em>open</em> with the conceptual — framing, novelty, design — and <em>close</em> with hygiene: reproducibility, statistics. And the temperature follows an arc.</p>
   </div>
@@ -317,6 +326,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate V · The Wheel</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track</div>
     <h2>How attention orbits within a review</h2>
     <p class="lede">From each logic unit to the next: which topic follows which. The ring carries the twelve objects of scrutiny; each chord is a pair of topics that follow one another in consecutive units — bright brass where the pairing runs far above chance. Hover the ring.</p>
   </div>
@@ -337,6 +347,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate VI · The Minds</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 98,513 reviewer-forum profiles</div>
     <h2>Five kinds of reviewer</h2>
     <p class="lede">Cluster 98,513 reviewer-forum profiles — one reviewer on one paper — by which standards they habitually invoke, and five archetypes emerge. Each rose has twelve petals — one per standard — sized by how far that reviewer-kind leans on it relative to the field. The names are editorial; the petals are not.</p>
   </div>
@@ -350,6 +361,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate VII · The Verdicts</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track</div>
     <h2>Where scrutiny turns hostile — and when it helps</h2>
   </div>
   <div class="plate"><div class="plate-inner">
@@ -365,6 +377,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate VIII · The Ladder</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track · official ratings joined at display time</div>
     <h2>What each score sounds like</h2>
     <p class="lede">Join every 2026 review's official rating — never shown to the extraction pipeline — to its logic units, and the scale becomes audible: what a 2 argues about, what an 8 still checks, and where on the ladder the reviewer's own confidence lives.</p>
   </div>
@@ -403,6 +416,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate IX · The Drift</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 1,009,592 units</div>
     <h2>Nine years of shifting scrutiny</h2>
     <p class="lede">The same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em> (the forum-level Direct track). Share of reviewer attention per year; the four biggest movers are named, the rest recede.</p>
   </div>
@@ -420,6 +434,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate X · The Rebuttal</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · Fig. 10c: 2026 only</div>
     <h2>Author responses barely move the needle</h2>
     <p class="lede">130,650 units sit after the author response (2018–2026). When the reviewer's judgment moves at all, it moves toward <em>reinforcement</em> two and a half times more often than concession — and no kind of response escapes that ratio.</p>
   </div>
@@ -442,6 +457,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XI · The Tribunal</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track · decisions joined at display time</div>
     <h2>Which criticism travels with rejection</h2>
     <p class="lede">13,704 of the 19,474 reviewed ICLR 2026 papers carry a non-withdrawn decision; the rest are excluded here. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
   </div>
@@ -455,6 +471,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XII · The Gauntlet</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track · decisions joined at display time</div>
     <h2>Acceptance falls with every new front of criticism</h2>
     <p class="lede">For each ICLR 2026 paper: on how many of the twelve objects did it draw at least one negative unit — and did it survive? Dot size is the number of papers standing at that breadth.</p>
   </div>
@@ -468,6 +485,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XIII · The Panel</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track</div>
     <h2>Dissent, and the kinder judge</h2>
     <p class="lede">Where do reviewers of the same paper split — and how does the meta-reviewer differ from the panel they oversee?</p>
   </div>
@@ -486,6 +504,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XIV · The Specimens</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track · 232 sampled reviews</div>
     <h2>Raw reasoning, unretouched</h2>
     <p class="lede">232 reviews sampled across every category, shown as their structured logic flows. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview forum, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</p>
   </div>
@@ -508,6 +527,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <section>
   <div class="plate-head">
     <div class="plate-no">Appendix II · Provenance &amp; Method</div>
+    <div class="plate-scope">Fig. 15: ICLR 2018–2026 · Fig. 16: ICLR 2026 — sub-scores exist only since 2024</div>
     <h2>Where this atlas comes from</h2>
   </div>
   <div id="prov"></div>
@@ -712,8 +732,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const NS = "http://www.w3.org/2000/svg";
   let revealed = REDUCED;
   let paths = [];
+  let particles = [], canvas = null, ctx = null, CW = 0, CH = 0;
+  let dimPred = null;   // when set, particles & ribbons off-focus recede
+  let inView = false;
   function build() {
     host.innerHTML = "";
+    host.style.position = "relative";
     const W = Math.max(260, host.clientWidth || 1100);
     const narrow = W < 760;
     const H = narrow ? 620 : 780;
@@ -732,6 +756,24 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("width", W); svg.setAttribute("height", H);
     svg.style.display = "block";
+    // engraved gradients: judgment gathers color as it flows rightward
+    const defs = document.createElementNS(NS, "defs");
+    function grad(id, x1, x2, stops) {
+      const g = document.createElementNS(NS, "linearGradient");
+      g.setAttribute("id", id); g.setAttribute("gradientUnits", "userSpaceOnUse");
+      g.setAttribute("x1", x1); g.setAttribute("y1", 0); g.setAttribute("x2", x2); g.setAttribute("y2", 0);
+      for (const [off, c, op] of stops) {
+        const st = document.createElementNS(NS, "stop");
+        st.setAttribute("offset", off); st.setAttribute("stop-color", c);
+        if (op != null) st.setAttribute("stop-opacity", op);
+        g.appendChild(st);
+      }
+      defs.appendChild(g);
+    }
+    grad("sgL", colX[0] + NW, colX[1], [[0, "#8a8172", 0.75], [1, "#c9a45c", 1]]);
+    grad("sgLm", colX[0] + NW, colX[1], [[0, "#847c6e", 0.75], [1, "#b3aa99", 1]]);
+    for (const v of VAL_ORDER) grad("sgR-" + v, colX[1] + NW, colX[2], [[0, "#c9a45c", 0.42], [0.55, VAL_COLOR[v], 0.8], [1, VAL_COLOR[v], 1]]);
+    svg.appendChild(defs);
     function ribbon(x0, y0, h0, x1, y1, h1) {
       const xm = (x0 + x1) / 2;
       return `M${x0},${y0} C${xm},${y0} ${xm},${y1} ${x1},${y1} L${x1},${y1 + h1} C${xm},${y1 + h1} ${xm},${y0 + h0} ${x0},${y0 + h0} Z`;
@@ -750,7 +792,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       off1[o] += h0; off2in[r] += h1;
       const major = top3[o].has(r);
       paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1),
-        fill: major ? "#c9a45c" : "#b3aa99", base: major ? 0.20 : 0.05, hi: major ? 0.5 : 0.35, o, r, n,
+        fill: major ? "url(#sgL)" : "url(#sgLm)", pc: major ? "#d8b26a" : "#b3aa99",
+        base: major ? 0.22 : 0.05, hi: major ? 0.55 : 0.35, o, r, n,
+        x0: colX[0] + NW, y0, h0, x1: colX[1], y1, h1,
         tipHtml: `<div class="t">${objLabel[o]} → ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
     }
     for (const r of reaOrder) for (const v of VAL_ORDER) {
@@ -758,7 +802,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       const h0 = n * L2.scale, h1 = n * L3.scale;
       const y0 = L2.pos[r].y + (off2out[r] = off2out[r] || 0), y1 = L3.pos[v].y + (off3[v] = off3[v] || 0);
       off2out[r] += h0; off3[v] += h1;
-      paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1), fill: VAL_COLOR[v], base: 0.42, hi: 0.8, r, v, n,
+      paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1),
+        fill: "url(#sgR-" + v + ")", pc: VAL_COLOR[v], base: 0.42, hi: 0.85, r, v, n,
+        x0: colX[1] + NW, y0, h0, x1: colX[2], y1, h1,
         tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
     }
     for (const p of paths) {
@@ -769,8 +815,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       el.addEventListener("mouseleave", hideTip);
       p.el = el; svg.appendChild(el);
     }
-    function highlight(pred) { for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
-    function reset() { for (const p of paths) p.el.style.opacity = p.base; }
+    function highlight(pred) { dimPred = pred; for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
+    function reset() { dimPred = null; for (const p of paths) p.el.style.opacity = p.base; }
     function node(x, y, h, fill) {
       const el = document.createElementNS(NS, "rect");
       el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("width", NW);
@@ -820,7 +866,61 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       const el = label(x, 11, t, "middle", narrow ? 8.5 : 10, "#c9a45c");
       el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", narrow ? "1.5" : "3");
     }
+    for (const x of [(colX[0] + colX[1]) / 2, (colX[1] + colX[2]) / 2]) {
+      const el = label(x, 11, "→", "middle", narrow ? 9 : 11, "#6f6758");
+      el.setAttribute("font-family", "IBM Plex Mono, monospace");
+    }
     host.appendChild(svg);
+
+    // ---- the current: particles of judgment flowing down the ribbons ----
+    if (!REDUCED) {
+      canvas = document.createElement("canvas");
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.cssText = `position:absolute;inset:0;width:${W}px;height:${H}px;pointer-events:none;mix-blend-mode:screen`;
+      ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
+      CW = W; CH = H;
+      host.appendChild(canvas);
+      const PCOUNT = narrow ? 130 : 240;
+      const sumN = paths.reduce((a, p) => a + p.n, 0);
+      particles = [];
+      for (const p of paths) {
+        const k = Math.round(PCOUNT * p.n / sumN);
+        for (let i = 0; i < k; i++) {
+          const lane = Math.random();
+          particles.push({ p, lane, t: Math.random(), dur: 4200 + Math.random() * 3600, r: 0.8 + Math.random() * 0.9 });
+        }
+      }
+    } else { canvas = null; ctx = null; particles = []; }
+  }
+  function bez(a, c1, c2, b, t) {
+    const u = 1 - t;
+    return u * u * u * a + 3 * u * u * t * c1 + 3 * u * t * t * c2 + t * t * t * b;
+  }
+  let last = performance.now();
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if (!ctx || !inView || !revealed) { last = now; return; }
+    const dt = Math.min(now - last, 64); last = now;
+    ctx.clearRect(0, 0, CW, CH);
+    ctx.globalCompositeOperation = "lighter";
+    for (const pt of particles) {
+      pt.t += dt / pt.dur;
+      if (pt.t >= 1) { pt.t -= 1; pt.lane = Math.random(); }
+      const p = pt.p, xm = (p.x0 + p.x1) / 2;
+      const ys = p.y0 + pt.lane * p.h0, ye = p.y1 + pt.lane * p.h1;
+      const x = bez(p.x0, xm, xm, p.x1, pt.t);
+      const y = bez(ys, ys, ye, ye, pt.t);
+      let a = 0.5 * Math.sin(Math.PI * Math.min(1, pt.t * 1.15));
+      if (dimPred) a *= dimPred(p) ? 1.25 : 0.06;
+      if (a <= 0.01) continue;
+      ctx.globalAlpha = Math.min(a, 0.85);
+      ctx.fillStyle = p.pc;
+      ctx.beginPath();
+      ctx.arc(x, y, pt.r, 0, 6.2832);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
   }
   window.__sankeyReveal = () => {
     revealed = true;
@@ -832,6 +932,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   };
   build();
   debounceResize(build);
+  if (!REDUCED) {
+    new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { rootMargin: "80px" }).observe(host);
+    requestAnimationFrame(tick);
+  }
 })();
 
 // ---------------- heatmap (Plate III) ----------------
@@ -1874,6 +1978,7 @@ function showDissect(kind, key) {
     sel("f-v", "Verdict", VAL_ORDER.map(v => [v, v])) +
     `<span class="count" id="f-count"></span>`;
   const esc = s => s == null ? "" : String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const expanded = new Set();
   const unitMatch = u => (!state.o || u.object_key === state.o) && (!state.r || u.reasoning_key === state.r) && (!state.v || u.valence === state.v);
   function unitHtml(u, hit) {
     const impr = u.suggested_improvement ? `<div class="improve"><b>Suggested fix</b> &nbsp;${esc(u.suggested_improvement)}</div>` : "";
@@ -1902,7 +2007,8 @@ function showDissect(kind, key) {
       return `<div class="review-card">
         <div class="review-head"><a class="title" href="${orForum}" target="_blank" rel="noopener" style="border:none;color:var(--ink)" title="Open the paper's forum on OpenReview">${esc(rv.paper_title || rv.paper_id)}</a>${dec}<a class="rid" href="${orReview}" target="_blank" rel="noopener" style="border:none" title="Open this exact review on OpenReview">REVIEW ${esc(rv.review_id)} · OPENREVIEW ↗</a></div>
         <div class="summary">${esc(rv.summary)}</div>
-        ${rv.units.map(u => unitHtml(u, !active || unitMatch(u))).join("")}
+        ${(active || expanded.has(rv.review_id) || rv.units.length <= 3 ? rv.units : rv.units.slice(0, 2)).map(u => unitHtml(u, !active || unitMatch(u))).join("")}
+        ${!active && rv.units.length > 3 ? `<button class="unit-toggle" data-rid="${esc(rv.review_id)}">${expanded.has(rv.review_id) ? "Fold the specimen \u25b4" : `Unfold ${rv.units.length - 2} more units \u25be`}</button>` : ""}
       </div>`;
     }).join("");
     document.getElementById("more").style.display = matches.length > state.shown ? "" : "none";
@@ -1910,6 +2016,13 @@ function showDissect(kind, key) {
   for (const [id, key] of [["f-o", "o"], ["f-r", "r"], ["f-v", "v"]])
     document.getElementById(id).addEventListener("change", e => { state[key] = e.target.value; state.shown = 10; render(); });
   document.getElementById("more").addEventListener("click", () => { state.shown += 10; render(); });
+  host.addEventListener("click", e => {
+    const b = e.target.closest(".unit-toggle");
+    if (!b) return;
+    const rid = b.dataset.rid;
+    if (expanded.has(rid)) expanded.delete(rid); else expanded.add(rid);
+    render();
+  });
   render();
 })();
 
