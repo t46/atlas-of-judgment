@@ -216,7 +216,8 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
         taxonomy induced, not imposed · coverage 98.1% · ICLR MMXXVI
       </div>
     </div>
-    <canvas id="planisphere" aria-label="circular star chart of all logic units"></canvas>
+    <div style="justify-self:center;max-width:520px;width:100%"><canvas id="planisphere" aria-label="circular star chart of all logic units" style="width:100%;aspect-ratio:1"></canvas>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each star: one of 40,000 units of reviewer logic · brass: a unit of praise</div></div>
   </div></div>
 </div>
 
@@ -245,7 +246,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div id="sankey"></div>
     <div class="legend" id="val-legend" style="margin-top:10px"></div>
     <div id="dissect" hidden></div>
-    <p class="caption"><b>Fig. 1a</b> — 71.8% of all units resolve negative. Merit recognition — the one standard that concentrates praise — collects just 13.7% of the flow.</p>
+    <p class="caption"><b>Fig. 1a</b> — 71.8% of all units resolve negative — a property of the memo layer as much as of reviewers (the instrument articulates criticism more readily than praise; see Appendix II). Merit recognition — the one standard that concentrates praise — collects just 13.7% of the flow.</p>
     <div class="fig-title" style="margin-top:34px">Fig. 1b — The mercy map: how each pairing resolves</div>
     <div class="hm-wrap"><div class="hm" id="mercy"></div></div>
     <p class="caption"><b>Fig. 1b</b> — Each cell is an object × standard pairing, colored by the share of its units that resolve <em>negative</em> (deep red = merciless, pale = lenient). The mercy in the grid lives almost entirely in one column — merit recognition; outside it, nearly every pairing condemns.</p>
@@ -268,7 +269,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="plate-head">
     <div class="plate-no">Plate III · The Rhetoric</div>
     <h2>Each standard has a voice</h2>
-    <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units</em> by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
+    <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units of the nine-year forum-level track</em> (introduced fully in Plate IX; neighboring plates use the 410,586-unit 2026 track) by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid" style="grid-template-columns:1.25fr .75fr">
@@ -279,7 +280,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       </div>
       <div class="stat-lines" id="rhet-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 3</b> — Method: 600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; a logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; weakest class ANCHOR at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth. The signatures hold: reproducibility is 69% pure norm; statistical identifiability leads with blocked verification (43%) — <em>without error bars, nothing can be known</em>; novelty leans hardest on precedent. And weighing is where all the mercy lives: it is the only form in which praise occurs at scale (42% positive; every other form runs ≥88% negative).</p>
+    <p class="caption"><b>Fig. 3</b> â <em>How to read:</em> each row is one reasoning standard; its bar splits that standard’s units by the inference form the classifier assigned, and the right column names the dominant form. Method: 600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; a logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; weakest class ANCHOR at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth. The signatures hold: reproducibility is 69% pure norm; statistical identifiability leads with blocked verification (43%) — <em>without error bars, nothing can be known</em>; novelty leans hardest on precedent. And weighing is where all the mercy lives: it is the only form in which praise occurs at scale (42% positive; every other form runs ≥88% negative).</p>
   </div></div>
 </section>
 
@@ -325,12 +326,12 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="plate-head">
     <div class="plate-no">Plate VI · The Minds</div>
     <h2>Five kinds of reviewer</h2>
-    <p class="lede">Cluster 98,513 reviewers by which standards they habitually invoke, and five archetypes emerge. Each rose has twelve petals — one per standard — sized by how far that reviewer-kind leans on it relative to the field. The names are editorial; the petals are not.</p>
+    <p class="lede">Cluster 98,513 reviewer-forum profiles — one reviewer on one paper — by which standards they habitually invoke, and five archetypes emerge. Each rose has twelve petals — one per standard — sized by how far that reviewer-kind leans on it relative to the field. The names are editorial; the petals are not.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="modes" id="minds-tabs" role="group" aria-label="archetype" style="flex-wrap:wrap;margin-bottom:18px"></div>
     <div id="minds" style="display:grid;grid-template-columns:360px 1fr;gap:26px;align-items:center;min-height:280px"></div>
-    <p class="caption"><b>Fig. 6</b> — k-means (k = 5, seed 7) over per-reviewer reasoning-standard profiles, official reviewers with ≥5 units, 2018–2026; a "reviewer" is one reviewer within one forum. The sparkline is the archetype's share of each year's reviewers. The nine-year story: <em>the Gatekeeper — novelty and polish — is fading (25% → 15%), and the Stress-Tester — robustness, confounds, cost — is inheriting the field (19% → 26%)</em>. The Advocate runs 23 points less negative than every other kind.</p>
+    <p class="caption"><b>Fig. 6</b> — k-means (k = 5, seed 7) over per-reviewer reasoning-standard profiles, official reviewers with ≥5 units, 2018–2026; a "reviewer" is one reviewer within one forum. The sparkline is the archetype's share of each year's reviewers. The nine-year story: <em>the Gatekeeper — novelty and polish — is fading (25% → 15%), and the Stress-Tester — robustness, confounds, cost — is inheriting the field (19% → 26%)</em>. The Advocate runs 18–23 points less negative than the other four kinds.</p>
   </div></div>
 </section>
 
@@ -375,7 +376,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
         <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">LOW SIDE</span><div class="modes" id="split-lo"></div>
         <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">HIGH SIDE</span><div class="modes" id="split-hi"></div>
       </div>
-      <div class="legend"><span class="chip"><span class="sw" style="background:#e66767"></span><span id="split-lo-lab">low</span> condemns</span><span class="chip"><span class="sw" style="background:#199e70"></span><span id="split-hi-lab">high</span> condemns</span></div>
+      <div class="legend"><span class="chip"><span class="sw" style="background:#b45036"></span><span id="split-lo-lab">low</span> condemns ← left wing</span><span class="chip"><span class="sw" style="background:#2fa383"></span>right wing → <span id="split-hi-lab">high</span> condemns</span></div>
     </div>
     <div id="split-vd" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="fig-title" style="margin-top:34px">Fig. 8e — The spread: how much co-reviewers of one paper disagree, and whether it matters</div>
@@ -383,7 +384,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       <div id="spread-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
       <div class="stat-lines" id="spread-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 8</b> — Ratings are joined at display time only; extraction never saw them. Four findings that are not the tautology (low score = more negative): <b>(1) Scrutiny relocates rather than shrinks</b> — an 8 largely stops checking novelty (touched in 20% of 2-reviews, 9% of 8-reviews) and baselines (42% → 29%), but inspects theory, method design, and compute <em>more</em> than a 2 does. <b>(2) A 2's praise is consolation praise</b> — its rare positive units go to clarity and framing ("well written, nice motivation"); an 8's praise goes to empirical scope and theory. <b>(3) There are many ways to fail</b> — within-rating diversity of what reviews discuss falls monotonically from 0 (most heterogeneous) to 10 (most scripted): unhappiness is diverse, excellence has one shape. <b>(4) In split verdicts on the very same paper</b>, both reviewers inspect theory and method at identical rates and merely disagree on the verdict — but novelty is a weapon only the low scorer draws (condemned by 22% of ≤2 reviewers vs 4% of their ≥8 co-reviewers). Quieter still: the reviewer's own confidence follows a U (4.2 at 0 · 3.4 at 6 · 3.9 at 10), and mid-scale criticism is the most actionable (78% of a 2–4's units carry a fix vs 56% at 10). <b>(5) The decision is a mean, not a variance</b> — 93% of multi-review papers carry disagreement (half of them by two full notches), and disagreement peaks for mid-scoring papers; yet holding the exact mean fixed, a unanimous 6-6-6 and a divided 4-6-8 are accepted at the identical rate (92% at mean 6.0). A naive banded version of this analysis suggests "consensus is fate" — that is a mean-composition confound, and the panel averages it away.</p>
+    <p class="caption"><b>Fig. 8</b> â <em>How to read 8a:</em> each row is one rating; the bar is the verdict mix of its units; the thin brass underbar is the relative number of reviews at that rating; the right column reads n reviews · units per review · mean reviewer confidence (1–5). Ratings are joined at display time only; extraction never saw them. Five findings that are not the tautology (low score = more negative): <b>(1) Scrutiny relocates rather than shrinks</b> — novelty largely disappears from an 8's review (a novelty unit appears in 20% of 2-reviews but only 9% of 8-reviews) and baselines (42% → 29%), but inspects theory, method design, and compute <em>more</em> than a 2 does. <b>(2) A 2's praise is consolation praise</b> — its rare positive units go to clarity and framing ("well written, nice motivation"); an 8's praise goes to empirical scope and theory. <b>(3) There are many ways to fail</b> — within-rating diversity of what reviews discuss falls monotonically from 0 (most heterogeneous) to 10 (most scripted): unhappiness is diverse, excellence has one shape. <b>(4) In split verdicts on the very same paper</b>, both reviewers inspect theory and method at identical rates and merely disagree on the verdict — but novelty is a weapon only the low scorer draws (condemned by 22% of ≤2 reviewers vs 4% of their ≥8 co-reviewers). Quieter still: the reviewer's own confidence follows a U (4.2 at 0 · 3.4 at 6 · 3.9 at 10), and mid-scale criticism is the most actionable (78% of a 2–4's units carry a fix vs 56% at 10). <b>(5) The decision is a mean, not a variance</b> — 93% of multi-review papers carry disagreement (half of them by two full notches), and disagreement peaks for mid-scoring papers; yet holding the exact mean fixed, a unanimous 6-6-6 and a divided 4-6-8 are accepted at the identical rate (92% at mean 6.0). A naive banded version of this analysis suggests "consensus is fate" — that is a mean-composition confound, and the panel averages it away.</p>
   </div></div>
 </section>
 
@@ -400,7 +401,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div id="drift-rea"></div>
     <div class="fig-title" style="margin-top:30px">Fig. 9c — The hardening: nine-year vitals</div>
     <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
-    <p class="caption"><b>Fig. 9</b> — The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity holds steady near 77% all nine years. Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that soften has halved, 7.7% in 2018 to 3.4% in 2026 — rebuttals buy half as much as they used to.</p>
+    <p class="caption"><b>Fig. 9</b> â <em>How to read 9c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
   </div></div>
 </section>
 
@@ -417,36 +418,38 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
         <div id="reb-fate" style="display:flex;flex-direction:column;gap:8px"></div>
         <div class="fig-title" style="margin-top:28px">Fig. 10b — What the response contained, and what happened</div>
         <div id="reb-trig" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div class="fig-title" style="margin-top:28px">Fig. 10c — Who yields? Post-rebuttal movement by position in a split verdict (ICLR 2026)</div>
+        <div id="reb-yield" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="reb-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 10</b> — 10a: shares of all post-response units. 10b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects).</p>
+    <p class="caption"><b>Fig. 10</b> — 10a: shares of all post-response units. 10b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects). <em>How to read 10c:</em> reviewers on 2026 forums whose ratings split by ≥4 notches, grouped by their own position; oxblood dot = share whose judgment weakened or reversed, brass dot = share that strengthened. The dissenting low scorer is the one who moves — 2.4× likelier to yield than the high co-reviewer — yet even for them reinforcement beats concession, and unanimous panels barely stir at all (9,329 split forums; ratings matched by reviewer signature, 95% coverage).</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XI · The Tribunal</div>
-    <h2>Which criticism actually kills</h2>
-    <p class="lede">13,704 ICLR 2026 papers with decisions. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
+    <h2>Which criticism travels with rejection</h2>
+    <p class="lede">13,704 of the 19,474 reviewed ICLR 2026 papers carry a non-withdrawn decision; the rest are excluded here. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 11 — Acceptance rate with (●) vs without (○) negative units, per object</div>
     <div id="tribunal" style="display:flex;flex-direction:column;gap:8px"></div>
-    <p class="caption"><b>Fig. 11</b> — Novelty criticism carries the largest penalty (−10.6pp); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism carry <em>no</em> penalty at all — reviewers complain about cost, but the tribunal does not convict on it. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
+    <p class="caption"><b>Fig. 11</b> — Novelty criticism shows the largest acceptance gap (−10.6pp, association only); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism show no acceptance gap at all — papers criticized there are accepted at the same rate as papers that are not. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XII · The Gauntlet</div>
-    <h2>Every new front of criticism costs survival</h2>
+    <h2>Acceptance falls with every new front of criticism</h2>
     <p class="lede">For each ICLR 2026 paper: on how many of the twelve objects did it draw at least one negative unit — and did it survive? Dot size is the number of papers standing at that breadth.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 12 — Acceptance rate by breadth of criticism</div>
     <div id="gauntlet"></div>
-    <p class="caption"><b>Fig. 12</b> — Survival falls almost linearly, roughly five points per additional front, from 57% at three fronts to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
+    <p class="caption"><b>Fig. 12</b> — Acceptance falls steeply, then almost linearly: 69% at two fronts, 57% at three, then roughly five points per additional front down to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
   </div></div>
 </section>
 
@@ -499,7 +502,10 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <details class="table-view"><summary>Full crosstab — object × reasoning standard</summary><div class="tv-wrap" id="tv"></div></details>
   <div class="fig-title" style="margin-top:30px">Fig. 15 — The instrument's own error: memo-inferred share, object × year</div>
   <div class="hm-wrap"><div class="hm" id="reliab"></div></div>
-  <p class="caption"><b>Fig. 15</b> — Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
+  <div class="fig-title" style="margin-top:30px">Fig. 16 â The instrument check: does each criticism dent the sub-score it should?</div>
+  <div class="hm-wrap"><div class="hm" id="construct-hm"></div></div>
+  <p class="caption"><b>Fig. 16</b> â <em>How to read:</em> each cell is the rating-adjusted change in one ICLR sub-score (soundness · presentation · contribution, 1–4 scale) when a review carries ≥1 negative unit on that object, versus reviews at the same overall rating without one; oxblood = the sub-score drops, verdigris = it rises. The taxonomy and the venue’s own decomposition largely agree — clarity criticism dents presentation specifically (−0.35), novelty dents contribution (−0.12) — with one telling leak: theory criticism dents presentation more than soundness, as if “I could not follow the theory” were filed under presentation.</p>
+  <p class="caption"><b>Fig. 15</b> â Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
   <dl class="method" id="method"></dl>
 </section>
 
@@ -518,6 +524,8 @@ const FIELD = {"years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024",
 const RHET = {"forms": ["NORM", "BLOCK", "DOUBT", "ANCHOR", "REACH", "WEIGH"], "validation": {"n_train": 600, "cv_accuracy": 0.685, "cv_macro_f1": 0.666, "per_class_f1": {"NORM": 0.681, "BLOCK": 0.717, "DOUBT": 0.646, "ANCHOR": 0.535, "REACH": 0.696, "WEIGH": 0.724}, "second_annotator_agreement": "42/100 merged (Haiku), kappa 0.29 \u2014 excluded from training"}, "overall": {"WEIGH": 371113, "BLOCK": 59048, "NORM": 301865, "DOUBT": 61827, "ANCHOR": 82514, "REACH": 133225}, "by_standard": {"merit_recognition": {"WEIGH": 112453, "NORM": 42827, "ANCHOR": 2455, "REACH": 830, "BLOCK": 88, "DOUBT": 478}, "claim_evidence_match": {"WEIGH": 15618, "NORM": 23807, "REACH": 27925, "DOUBT": 1624, "ANCHOR": 1163, "BLOCK": 1175}, "fair_comparison": {"BLOCK": 3142, "WEIGH": 28889, "REACH": 6631, "ANCHOR": 22514, "NORM": 24423, "DOUBT": 14271}, "design_justification": {"NORM": 48020, "WEIGH": 65048, "ANCHOR": 14065, "REACH": 37967, "BLOCK": 10429, "DOUBT": 17552}, "novelty_standard": {"DOUBT": 2814, "WEIGH": 42179, "ANCHOR": 34401, "NORM": 31663, "BLOCK": 2557, "REACH": 3504}, "cost_benefit": {"NORM": 21372, "BLOCK": 1755, "DOUBT": 1581, "REACH": 22949, "WEIGH": 10849, "ANCHOR": 880}, "confound_hypothesis": {"REACH": 9741, "WEIGH": 7854, "NORM": 9537, "ANCHOR": 1232, "DOUBT": 9098, "BLOCK": 1818}, "robustness_norm": {"ANCHOR": 1651, "WEIGH": 17144, "NORM": 30286, "REACH": 16689, "DOUBT": 8724, "BLOCK": 3345}, "presentation_trust": {"WEIGH": 48393, "REACH": 1814, "NORM": 20882, "BLOCK": 8958, "ANCHOR": 2444, "DOUBT": 1776}, "reproducibility_norm": {"NORM": 28349, "BLOCK": 6170, "WEIGH": 5539, "DOUBT": 146, "REACH": 556, "ANCHOR": 216}, "statistical_identifiability": {"WEIGH": 11168, "NORM": 7003, "ANCHOR": 1121, "BLOCK": 18367, "REACH": 3680, "DOUBT": 1047}, "construct_validity": {"WEIGH": 5979, "NORM": 13696, "BLOCK": 1244, "REACH": 939, "DOUBT": 2716, "ANCHOR": 372}}, "by_valence": {"WEIGH": {"positive": 156806, "negative": 196485, "uncertain": 1613, "mixed": 15539, "conditional": 670}, "BLOCK": {"negative": 57520, "positive": 695, "mixed": 656, "conditional": 54, "uncertain": 123}, "NORM": {"negative": 275524, "positive": 20906, "mixed": 4558, "uncertain": 419, "conditional": 458}, "DOUBT": {"negative": 57471, "positive": 3096, "conditional": 89, "mixed": 990, "uncertain": 181}, "ANCHOR": {"negative": 72564, "mixed": 1858, "positive": 7941, "uncertain": 76, "conditional": 75}, "REACH": {"negative": 120941, "positive": 9466, "mixed": 2301, "conditional": 142, "uncertain": 375}}, "by_year": {"WEIGH": {"2018": 4382, "2019": 8197, "2020": 10711, "2021": 15993, "2022": 16576, "2023": 24304, "2024": 53181, "2025": 87449, "2026": 150320}, "BLOCK": {"2018": 809, "2019": 1392, "2020": 1953, "2021": 2836, "2022": 2653, "2023": 4021, "2024": 7866, "2025": 12417, "2026": 25101}, "NORM": {"2018": 3953, "2019": 6912, "2020": 10052, "2021": 14517, "2022": 13691, "2023": 18476, "2024": 43328, "2025": 75383, "2026": 115553}, "DOUBT": {"2018": 892, "2019": 1351, "2020": 2138, "2021": 2878, "2022": 2593, "2023": 3493, "2024": 7710, "2025": 13456, "2026": 27316}, "ANCHOR": {"2018": 1214, "2019": 2143, "2020": 2947, "2021": 4238, "2022": 4406, "2023": 6261, "2024": 12206, "2025": 18963, "2026": 30136}, "REACH": {"2018": 1361, "2019": 2252, "2020": 3170, "2021": 5357, "2022": 5434, "2023": 7510, "2024": 17396, "2025": 30820, "2026": 59925}}};
 const SCORE = {"year": 2026, "matched_reviews": 74380, "by_rating": {"0": {"n_reviews": 1279, "units_per_review": 5.4, "valence": {"positive": 0.0362, "negative": 0.911, "conditional": 0.0352, "uncertain": 0.0135, "mixed": 0.0041}, "standards": {"merit_recognition": 0.0509, "presentation_trust": 0.1669, "novelty_standard": 0.2318, "claim_evidence_match": 0.0471, "fair_comparison": 0.0745, "design_justification": 0.1802, "robustness_norm": 0.0469, "statistical_identifiability": 0.0642, "cost_benefit": 0.023, "construct_validity": 0.0358, "confound_hypothesis": 0.0326, "reproducibility_norm": 0.0461}, "improve_rate": 0.6747, "mean_confidence": 4.23}, "2": {"n_reviews": 19430, "units_per_review": 5.63, "valence": {"negative": 0.8534, "uncertain": 0.0269, "positive": 0.0567, "conditional": 0.0584, "mixed": 0.0046}, "standards": {"reproducibility_norm": 0.0331, "robustness_norm": 0.0721, "novelty_standard": 0.1844, "fair_comparison": 0.1023, "presentation_trust": 0.092, "claim_evidence_match": 0.0602, "design_justification": 0.2035, "construct_validity": 0.036, "cost_benefit": 0.0423, "confound_hypothesis": 0.0448, "merit_recognition": 0.0722, "statistical_identifiability": 0.057}, "improve_rate": 0.7781, "mean_confidence": 3.87}, "4": {"n_reviews": 29204, "units_per_review": 5.43, "valence": {"negative": 0.747, "positive": 0.1112, "conditional": 0.0931, "uncertain": 0.0416, "mixed": 0.0071}, "standards": {"novelty_standard": 0.1512, "claim_evidence_match": 0.0696, "statistical_identifiability": 0.0471, "merit_recognition": 0.1168, "fair_comparison": 0.0931, "design_justification": 0.1963, "cost_benefit": 0.0589, "confound_hypothesis": 0.0452, "robustness_norm": 0.0953, "presentation_trust": 0.0654, "construct_validity": 0.0334, "reproducibility_norm": 0.0278}, "improve_rate": 0.7802, "mean_confidence": 3.59}, "6": {"n_reviews": 19372, "units_per_review": 5.51, "valence": {"positive": 0.2133, "negative": 0.5978, "conditional": 0.1227, "uncertain": 0.0569, "mixed": 0.0093}, "standards": {"merit_recognition": 0.196, "novelty_standard": 0.1232, "robustness_norm": 0.1066, "claim_evidence_match": 0.072, "fair_comparison": 0.0744, "design_justification": 0.1688, "cost_benefit": 0.0662, "presentation_trust": 0.0583, "confound_hypothesis": 0.0424, "construct_validity": 0.0318, "statistical_identifiability": 0.0356, "reproducibility_norm": 0.0246}, "improve_rate": 0.7144, "mean_confidence": 3.41}, "8": {"n_reviews": 4910, "units_per_review": 5.68, "valence": {"positive": 0.3237, "negative": 0.4548, "conditional": 0.1472, "uncertain": 0.0649, "mixed": 0.0094}, "standards": {"novelty_standard": 0.116, "merit_recognition": 0.289, "cost_benefit": 0.0604, "design_justification": 0.1437, "claim_evidence_match": 0.0662, "robustness_norm": 0.0904, "construct_validity": 0.0256, "reproducibility_norm": 0.023, "statistical_identifiability": 0.0232, "presentation_trust": 0.0676, "fair_comparison": 0.0575, "confound_hypothesis": 0.0374}, "improve_rate": 0.6286, "mean_confidence": 3.55}, "10": {"n_reviews": 185, "units_per_review": 6.01, "valence": {"negative": 0.348, "positive": 0.4011, "conditional": 0.1655, "uncertain": 0.0818, "mixed": 0.0036}, "standards": {"design_justification": 0.1412, "merit_recognition": 0.3345, "presentation_trust": 0.0836, "claim_evidence_match": 0.0486, "reproducibility_norm": 0.0207, "novelty_standard": 0.1358, "construct_validity": 0.0207, "fair_comparison": 0.0504, "robustness_norm": 0.0809, "cost_benefit": 0.045, "statistical_identifiability": 0.0144, "confound_hypothesis": 0.0243}, "improve_rate": 0.5647, "mean_confidence": 3.88}}};
 const DEPTH = {"dispersion": {"n_papers_multi": 19467, "range_hist": {"0": 1450, "2": 8168, "4": 7527, "6": 2156, "8": 161, "10": 5}, "spread_by_mean": {"1": {"mean_std": 1.012, "n": 110}, "2": {"mean_std": 0.819, "n": 1632}, "3": {"mean_std": 1.21, "n": 2820}, "4": {"mean_std": 1.355, "n": 8026}, "5": {"mean_std": 1.429, "n": 3609}, "6": {"mean_std": 1.378, "n": 2820}, "7": {"mean_std": 1.261, "n": 356}, "8": {"mean_std": 1.019, "n": 56}}, "accept_by_range_mid": {"0": {"accept": 0.9214, "n": 229}, "2": {"accept": 0.5136, "n": 3304}, "4": {"accept": 0.625, "n": 2688}, "6": {"accept": 0.5094, "n": 1333}}}, "coverage": {"0": {"empirical_scope": {"touch": 0.527, "neg_touch": 0.4941}, "baselines_ablations": {"touch": 0.3542, "neg_touch": 0.3331}, "theory": {"touch": 0.4011, "neg_touch": 0.3722}, "method_design": {"touch": 0.3987, "neg_touch": 0.3628}, "compute_cost": {"touch": 0.197, "neg_touch": 0.1767}, "clarity": {"touch": 0.5614, "neg_touch": 0.534}, "novelty": {"touch": 0.1939, "neg_touch": 0.1845}, "related_work": {"touch": 0.3401, "neg_touch": 0.3299}, "stats_metrics": {"touch": 0.4683, "neg_touch": 0.4378}, "robustness_sensitivity": {"touch": 0.1392, "neg_touch": 0.1235}, "reproducibility": {"touch": 0.1337, "neg_touch": 0.1251}, "problem_framing": {"touch": 0.1626, "neg_touch": 0.1407}}, "2": {"empirical_scope": {"touch": 0.6543, "neg_touch": 0.5947}, "baselines_ablations": {"touch": 0.4179, "neg_touch": 0.3887}, "theory": {"touch": 0.4515, "neg_touch": 0.3995}, "method_design": {"touch": 0.5031, "neg_touch": 0.4399}, "compute_cost": {"touch": 0.3122, "neg_touch": 0.2679}, "clarity": {"touch": 0.4011, "neg_touch": 0.3648}, "novelty": {"touch": 0.1992, "neg_touch": 0.1848}, "related_work": {"touch": 0.1648, "neg_touch": 0.1558}, "stats_metrics": {"touch": 0.4506, "neg_touch": 0.409}, "robustness_sensitivity": {"touch": 0.2093, "neg_touch": 0.176}, "reproducibility": {"touch": 0.1207, "neg_touch": 0.1058}, "problem_framing": {"touch": 0.1598, "neg_touch": 0.1273}}, "4": {"empirical_scope": {"touch": 0.6859, "neg_touch": 0.5757}, "baselines_ablations": {"touch": 0.3779, "neg_touch": 0.3256}, "theory": {"touch": 0.4489, "neg_touch": 0.3568}, "method_design": {"touch": 0.5348, "neg_touch": 0.4234}, "compute_cost": {"touch": 0.3684, "neg_touch": 0.2919}, "clarity": {"touch": 0.3173, "neg_touch": 0.2691}, "novelty": {"touch": 0.1499, "neg_touch": 0.1275}, "related_work": {"touch": 0.1124, "neg_touch": 0.1016}, "stats_metrics": {"touch": 0.4092, "neg_touch": 0.3388}, "robustness_sensitivity": {"touch": 0.2432, "neg_touch": 0.1902}, "reproducibility": {"touch": 0.1013, "neg_touch": 0.0807}, "problem_framing": {"touch": 0.1444, "neg_touch": 0.0916}}, "6": {"empirical_scope": {"touch": 0.7002, "neg_touch": 0.5172}, "baselines_ablations": {"touch": 0.323, "neg_touch": 0.2296}, "theory": {"touch": 0.483, "neg_touch": 0.3265}, "method_design": {"touch": 0.5458, "neg_touch": 0.3566}, "compute_cost": {"touch": 0.3916, "neg_touch": 0.2704}, "clarity": {"touch": 0.3069, "neg_touch": 0.2302}, "novelty": {"touch": 0.1078, "neg_touch": 0.073}, "related_work": {"touch": 0.1039, "neg_touch": 0.0835}, "stats_metrics": {"touch": 0.3909, "neg_touch": 0.2777}, "robustness_sensitivity": {"touch": 0.278, "neg_touch": 0.1922}, "reproducibility": {"touch": 0.097, "neg_touch": 0.0654}, "problem_framing": {"touch": 0.1452, "neg_touch": 0.0636}}, "8": {"empirical_scope": {"touch": 0.6821, "neg_touch": 0.402}, "baselines_ablations": {"touch": 0.2862, "neg_touch": 0.1475}, "theory": {"touch": 0.5151, "neg_touch": 0.2851}, "method_design": {"touch": 0.5491, "neg_touch": 0.2819}, "compute_cost": {"touch": 0.3743, "neg_touch": 0.2094}, "clarity": {"touch": 0.3813, "neg_touch": 0.2523}, "novelty": {"touch": 0.0882, "neg_touch": 0.0314}, "related_work": {"touch": 0.1159, "neg_touch": 0.0833}, "stats_metrics": {"touch": 0.3864, "neg_touch": 0.2108}, "robustness_sensitivity": {"touch": 0.2391, "neg_touch": 0.1356}, "reproducibility": {"touch": 0.1084, "neg_touch": 0.0593}, "problem_framing": {"touch": 0.1668, "neg_touch": 0.0505}}, "10": {"empirical_scope": {"touch": 0.6649, "neg_touch": 0.2595}, "baselines_ablations": {"touch": 0.2595, "neg_touch": 0.0811}, "theory": {"touch": 0.5243, "neg_touch": 0.2}, "method_design": {"touch": 0.5405, "neg_touch": 0.1892}, "compute_cost": {"touch": 0.3676, "neg_touch": 0.1351}, "clarity": {"touch": 0.5081, "neg_touch": 0.3243}, "novelty": {"touch": 0.0486, "neg_touch": 0.0054}, "related_work": {"touch": 0.1568, "neg_touch": 0.0811}, "stats_metrics": {"touch": 0.4432, "neg_touch": 0.2054}, "robustness_sensitivity": {"touch": 0.2054, "neg_touch": 0.0757}, "reproducibility": {"touch": 0.1405, "neg_touch": 0.0595}, "problem_framing": {"touch": 0.1892, "neg_touch": 0.0703}}}, "cond_neg": {"0": {"empirical_scope": 0.1576, "baselines_ablations": 0.0813, "theory": 0.1277, "method_design": 0.1016, "compute_cost": 0.045, "clarity": 0.1595, "novelty": 0.0385, "related_work": 0.0792, "stats_metrics": 0.1217, "robustness_sensitivity": 0.0283, "reproducibility": 0.0283, "problem_framing": 0.0313}, "2": {"empirical_scope": 0.1967, "baselines_ablations": 0.0972, "theory": 0.1312, "method_design": 0.1279, "compute_cost": 0.0663, "clarity": 0.0994, "novelty": 0.04, "related_work": 0.0353, "stats_metrics": 0.112, "robustness_sensitivity": 0.0414, "reproducibility": 0.0237, "problem_framing": 0.0289}, "4": {"empirical_scope": 0.2152, "baselines_ablations": 0.0922, "theory": 0.1257, "method_design": 0.1414, "compute_cost": 0.0845, "clarity": 0.0808, "novelty": 0.0323, "related_work": 0.0262, "stats_metrics": 0.1042, "robustness_sensitivity": 0.0524, "reproducibility": 0.0212, "problem_framing": 0.0239}, "6": {"empirical_scope": 0.2199, "baselines_ablations": 0.0768, "theory": 0.1352, "method_design": 0.137, "compute_cost": 0.0936, "clarity": 0.0827, "novelty": 0.0227, "related_work": 0.0264, "stats_metrics": 0.1009, "robustness_sensitivity": 0.0637, "reproducibility": 0.0209, "problem_framing": 0.0201}, "8": {"empirical_scope": 0.2062, "baselines_ablations": 0.0614, "theory": 0.1484, "method_design": 0.1328, "compute_cost": 0.0909, "clarity": 0.119, "novelty": 0.0122, "related_work": 0.0338, "stats_metrics": 0.0953, "robustness_sensitivity": 0.0562, "reproducibility": 0.0239, "problem_framing": 0.0199}, "10": {"empirical_scope": 0.1809, "baselines_ablations": 0.0439, "theory": 0.137, "method_design": 0.1085, "compute_cost": 0.0698, "clarity": 0.1912, "novelty": 0.0026, "related_work": 0.0465, "stats_metrics": 0.1111, "robustness_sensitivity": 0.0439, "reproducibility": 0.0284, "problem_framing": 0.0362}}, "cond_pos": {"0": {"empirical_scope": 0.196, "baselines_ablations": 0.06, "theory": 0.132, "method_design": 0.14, "compute_cost": 0.052, "clarity": 0.136, "novelty": 0.02, "related_work": 0.048, "stats_metrics": 0.092, "robustness_sensitivity": 0.028, "reproducibility": 0.016, "problem_framing": 0.08}, "2": {"empirical_scope": 0.1936, "baselines_ablations": 0.0617, "theory": 0.1264, "method_design": 0.158, "compute_cost": 0.0709, "clarity": 0.132, "novelty": 0.0227, "related_work": 0.0164, "stats_metrics": 0.0822, "robustness_sensitivity": 0.0266, "reproducibility": 0.0256, "problem_framing": 0.0837}, "4": {"empirical_scope": 0.2222, "baselines_ablations": 0.0658, "theory": 0.1464, "method_design": 0.1802, "compute_cost": 0.0806, "clarity": 0.0735, "novelty": 0.018, "related_work": 0.0082, "stats_metrics": 0.0831, "robustness_sensitivity": 0.0269, "reproducibility": 0.0208, "problem_framing": 0.0744}, "6": {"empirical_scope": 0.2325, "baselines_ablations": 0.0674, "theory": 0.1594, "method_design": 0.181, "compute_cost": 0.0799, "clarity": 0.0661, "novelty": 0.0168, "related_work": 0.0097, "stats_metrics": 0.079, "robustness_sensitivity": 0.0268, "reproducibility": 0.0186, "problem_framing": 0.0627}, "8": {"empirical_scope": 0.226, "baselines_ablations": 0.0702, "theory": 0.1618, "method_design": 0.169, "compute_cost": 0.0702, "clarity": 0.0787, "novelty": 0.0199, "related_work": 0.012, "stats_metrics": 0.0881, "robustness_sensitivity": 0.0259, "reproducibility": 0.0203, "problem_framing": 0.0578}, "10": {"empirical_scope": 0.2063, "baselines_ablations": 0.065, "theory": 0.1614, "method_design": 0.1659, "compute_cost": 0.0628, "clarity": 0.0987, "novelty": 0.0135, "related_work": 0.0247, "stats_metrics": 0.1031, "robustness_sensitivity": 0.0314, "reproducibility": 0.0224, "problem_framing": 0.0448}}, "heterogeneity": {"0": 0.601, "2": 0.5779, "4": 0.5652, "6": 0.5627, "8": 0.5582, "10": 0.5445}, "splits": {"extreme_2_vs_8": {"n_papers": 1900, "objects": {"empirical_scope": {"lo_touch": 0.6958, "hi_touch": 0.7053, "lo_neg": 0.6363, "hi_neg": 0.4168}, "baselines_ablations": {"lo_touch": 0.4532, "hi_touch": 0.3105, "lo_neg": 0.42, "hi_neg": 0.1653}, "theory": {"lo_touch": 0.5347, "hi_touch": 0.5253, "lo_neg": 0.4842, "hi_neg": 0.2979}, "method_design": {"lo_touch": 0.5721, "hi_touch": 0.5737, "lo_neg": 0.5068, "hi_neg": 0.3026}, "compute_cost": {"lo_touch": 0.3668, "hi_touch": 0.3968, "lo_neg": 0.3195, "hi_neg": 0.2226}, "clarity": {"lo_touch": 0.4389, "hi_touch": 0.4179, "lo_neg": 0.4068, "hi_neg": 0.2811}, "novelty": {"lo_touch": 0.2384, "hi_touch": 0.1011, "lo_neg": 0.2179, "hi_neg": 0.0363}, "related_work": {"lo_touch": 0.1932, "hi_touch": 0.1421, "lo_neg": 0.18, "hi_neg": 0.1011}, "stats_metrics": {"lo_touch": 0.5121, "hi_touch": 0.4137, "lo_neg": 0.4637, "hi_neg": 0.2284}, "robustness_sensitivity": {"lo_touch": 0.2411, "hi_touch": 0.2784, "lo_neg": 0.2026, "hi_neg": 0.1574}, "reproducibility": {"lo_touch": 0.1368, "hi_touch": 0.1253, "lo_neg": 0.1205, "hi_neg": 0.0711}, "problem_framing": {"lo_touch": 0.2095, "hi_touch": 0.1763, "lo_neg": 0.1726, "hi_neg": 0.0542}}}, "boundary_4_vs_6": {"n_papers": 13206, "objects": {"empirical_scope": {"lo_touch": 0.8512, "hi_touch": 0.7997, "lo_neg": 0.7845, "hi_neg": 0.6304}, "baselines_ablations": {"lo_touch": 0.6018, "hi_touch": 0.446, "lo_neg": 0.5509, "hi_neg": 0.3165}, "theory": {"lo_touch": 0.6515, "hi_touch": 0.5859, "lo_neg": 0.5773, "hi_neg": 0.4227}, "method_design": {"lo_touch": 0.7364, "hi_touch": 0.6652, "lo_neg": 0.65, "hi_neg": 0.4611}, "compute_cost": {"lo_touch": 0.554, "hi_touch": 0.5124, "lo_neg": 0.4724, "hi_neg": 0.365}, "clarity": {"lo_touch": 0.5665, "hi_touch": 0.4492, "lo_neg": 0.5073, "hi_neg": 0.3414}, "novelty": {"lo_touch": 0.3193, "hi_touch": 0.1621, "lo_neg": 0.2843, "hi_neg": 0.1028}, "related_work": {"lo_touch": 0.2576, "hi_touch": 0.1667, "lo_neg": 0.2398, "hi_neg": 0.1333}, "stats_metrics": {"lo_touch": 0.647, "hi_touch": 0.5257, "lo_neg": 0.5794, "hi_neg": 0.3813}, "robustness_sensitivity": {"lo_touch": 0.4085, "hi_touch": 0.3829, "lo_neg": 0.337, "hi_neg": 0.2692}, "reproducibility": {"lo_touch": 0.2042, "hi_touch": 0.1567, "lo_neg": 0.1721, "hi_neg": 0.1039}, "problem_framing": {"lo_touch": 0.2871, "hi_touch": 0.2238, "lo_neg": 0.2079, "hi_neg": 0.0969}}}, "pairwise": {"0_2": {"n_papers": 794, "objects": {"empirical_scope": {"lo_touch": 0.5705, "hi_touch": 0.7531, "lo_neg": 0.5403, "hi_neg": 0.7003}, "baselines_ablations": {"lo_touch": 0.4068, "hi_touch": 0.5529, "lo_neg": 0.3879, "hi_neg": 0.534}, "theory": {"lo_touch": 0.4232, "hi_touch": 0.5655, "lo_neg": 0.3955, "hi_neg": 0.5139}, "method_design": {"lo_touch": 0.4534, "hi_touch": 0.6272, "lo_neg": 0.4181, "hi_neg": 0.5705}, "compute_cost": {"lo_touch": 0.2141, "hi_touch": 0.4232, "lo_neg": 0.1914, "hi_neg": 0.3816}, "clarity": {"lo_touch": 0.5945, "hi_touch": 0.6045, "lo_neg": 0.5642, "hi_neg": 0.5655}, "novelty": {"lo_touch": 0.2166, "hi_touch": 0.2972, "lo_neg": 0.2015, "hi_neg": 0.2783}, "related_work": {"lo_touch": 0.3829, "hi_touch": 0.3035, "lo_neg": 0.3741, "hi_neg": 0.2909}, "stats_metrics": {"lo_touch": 0.5076, "hi_touch": 0.6008, "lo_neg": 0.4761, "hi_neg": 0.563}, "robustness_sensitivity": {"lo_touch": 0.1725, "hi_touch": 0.2708, "lo_neg": 0.1499, "hi_neg": 0.2317}, "reproducibility": {"lo_touch": 0.1524, "hi_touch": 0.2544, "lo_neg": 0.1411, "hi_neg": 0.2229}, "problem_framing": {"lo_touch": 0.1826, "hi_touch": 0.2632, "lo_neg": 0.165, "hi_neg": 0.2166}}}, "0_4": {"n_papers": 632, "objects": {"empirical_scope": {"lo_touch": 0.5918, "hi_touch": 0.7579, "lo_neg": 0.557, "hi_neg": 0.6614}, "baselines_ablations": {"lo_touch": 0.4003, "hi_touch": 0.4858, "lo_neg": 0.3766, "hi_neg": 0.4351}, "theory": {"lo_touch": 0.443, "hi_touch": 0.5396, "lo_neg": 0.4114, "hi_neg": 0.4241}, "method_design": {"lo_touch": 0.443, "hi_touch": 0.5744, "lo_neg": 0.4066, "hi_neg": 0.4794}, "compute_cost": {"lo_touch": 0.2215, "hi_touch": 0.4304, "lo_neg": 0.2025, "hi_neg": 0.3544}, "clarity": {"lo_touch": 0.568, "hi_touch": 0.4003, "lo_neg": 0.5332, "hi_neg": 0.3465}, "novelty": {"lo_touch": 0.2294, "hi_touch": 0.2136, "lo_neg": 0.2231, "hi_neg": 0.1804}, "related_work": {"lo_touch": 0.3418, "hi_touch": 0.1535, "lo_neg": 0.3323, "hi_neg": 0.1408}, "stats_metrics": {"lo_touch": 0.4905, "hi_touch": 0.4858, "lo_neg": 0.4541, "hi_neg": 0.4335}, "robustness_sensitivity": {"lo_touch": 0.1535, "hi_touch": 0.318, "lo_neg": 0.1345, "hi_neg": 0.2547}, "reproducibility": {"lo_touch": 0.1408, "hi_touch": 0.1566, "lo_neg": 0.1297, "hi_neg": 0.1171}, "problem_framing": {"lo_touch": 0.1756, "hi_touch": 0.2184, "lo_neg": 0.1472, "hi_neg": 0.1282}}}, "0_6": {"n_papers": 390, "objects": {"empirical_scope": {"lo_touch": 0.5872, "hi_touch": 0.741, "lo_neg": 0.5487, "hi_neg": 0.5667}, "baselines_ablations": {"lo_touch": 0.3846, "hi_touch": 0.4051, "lo_neg": 0.3641, "hi_neg": 0.3154}, "theory": {"lo_touch": 0.4821, "hi_touch": 0.5718, "lo_neg": 0.4513, "hi_neg": 0.3949}, "method_design": {"lo_touch": 0.4462, "hi_touch": 0.5821, "lo_neg": 0.4077, "hi_neg": 0.3821}, "compute_cost": {"lo_touch": 0.2436, "hi_touch": 0.441, "lo_neg": 0.2179, "hi_neg": 0.3154}, "clarity": {"lo_touch": 0.4923, "hi_touch": 0.3923, "lo_neg": 0.4538, "hi_neg": 0.3051}, "novelty": {"lo_touch": 0.2103, "hi_touch": 0.1205, "lo_neg": 0.2051, "hi_neg": 0.0744}, "related_work": {"lo_touch": 0.2949, "hi_touch": 0.1385, "lo_neg": 0.2846, "hi_neg": 0.1128}, "stats_metrics": {"lo_touch": 0.4436, "hi_touch": 0.4436, "lo_neg": 0.4077, "hi_neg": 0.3359}, "robustness_sensitivity": {"lo_touch": 0.1615, "hi_touch": 0.3359, "lo_neg": 0.1462, "hi_neg": 0.241}, "reproducibility": {"lo_touch": 0.1436, "hi_touch": 0.1, "lo_neg": 0.1282, "hi_neg": 0.0769}, "problem_framing": {"lo_touch": 0.1641, "hi_touch": 0.2026, "lo_neg": 0.1513, "hi_neg": 0.0897}}}, "2_4": {"n_papers": 9530, "objects": {"empirical_scope": {"lo_touch": 0.7389, "hi_touch": 0.7891, "lo_neg": 0.6842, "hi_neg": 0.6974}, "baselines_ablations": {"lo_touch": 0.5101, "hi_touch": 0.5108, "lo_neg": 0.4788, "hi_neg": 0.4556}, "theory": {"lo_touch": 0.5302, "hi_touch": 0.5509, "lo_neg": 0.4792, "hi_neg": 0.4625}, "method_design": {"lo_touch": 0.6018, "hi_touch": 0.6491, "lo_neg": 0.5389, "hi_neg": 0.539}, "compute_cost": {"lo_touch": 0.4037, "hi_touch": 0.4746, "lo_neg": 0.3539, "hi_neg": 0.3865}, "clarity": {"lo_touch": 0.4823, "hi_touch": 0.4455, "lo_neg": 0.4417, "hi_neg": 0.3881}, "novelty": {"lo_touch": 0.2678, "hi_touch": 0.2256, "lo_neg": 0.2495, "hi_neg": 0.1931}, "related_work": {"lo_touch": 0.2221, "hi_touch": 0.1768, "lo_neg": 0.2108, "hi_neg": 0.1611}, "stats_metrics": {"lo_touch": 0.5417, "hi_touch": 0.5447, "lo_neg": 0.4962, "hi_neg": 0.4658}, "robustness_sensitivity": {"lo_touch": 0.2741, "hi_touch": 0.3442, "lo_neg": 0.2342, "hi_neg": 0.2735}, "reproducibility": {"lo_touch": 0.162, "hi_touch": 0.1572, "lo_neg": 0.1425, "hi_neg": 0.1276}, "problem_framing": {"lo_touch": 0.2158, "hi_touch": 0.2173, "lo_neg": 0.1733, "hi_neg": 0.1441}}}, "2_6": {"n_papers": 6508, "objects": {"empirical_scope": {"lo_touch": 0.7217, "hi_touch": 0.7588, "lo_neg": 0.6613, "hi_neg": 0.5983}, "baselines_ablations": {"lo_touch": 0.4768, "hi_touch": 0.404, "lo_neg": 0.4441, "hi_neg": 0.2963}, "theory": {"lo_touch": 0.5184, "hi_touch": 0.5406, "lo_neg": 0.4696, "hi_neg": 0.3921}, "method_design": {"lo_touch": 0.5871, "hi_touch": 0.606, "lo_neg": 0.5234, "hi_neg": 0.4178}, "compute_cost": {"lo_touch": 0.3818, "hi_touch": 0.4624, "lo_neg": 0.3317, "hi_neg": 0.3296}, "clarity": {"lo_touch": 0.4511, "hi_touch": 0.3742, "lo_neg": 0.4115, "hi_neg": 0.2878}, "novelty": {"lo_touch": 0.2517, "hi_touch": 0.1389, "lo_neg": 0.2329, "hi_neg": 0.0957}, "related_work": {"lo_touch": 0.2047, "hi_touch": 0.1372, "lo_neg": 0.1927, "hi_neg": 0.1111}, "stats_metrics": {"lo_touch": 0.5171, "hi_touch": 0.4699, "lo_neg": 0.472, "hi_neg": 0.3516}, "robustness_sensitivity": {"lo_touch": 0.2657, "hi_touch": 0.3425, "lo_neg": 0.2254, "hi_neg": 0.2454}, "reproducibility": {"lo_touch": 0.1481, "hi_touch": 0.1329, "lo_neg": 0.1288, "hi_neg": 0.0913}, "problem_framing": {"lo_touch": 0.2021, "hi_touch": 0.1813, "lo_neg": 0.1647, "hi_neg": 0.083}}}, "2_8": {"n_papers": 1789, "objects": {"empirical_scope": {"lo_touch": 0.6965, "hi_touch": 0.7037, "lo_neg": 0.6378, "hi_neg": 0.4198}, "baselines_ablations": {"lo_touch": 0.4533, "hi_touch": 0.3063, "lo_neg": 0.4192, "hi_neg": 0.1655}, "theory": {"lo_touch": 0.5293, "hi_touch": 0.5226, "lo_neg": 0.4802, "hi_neg": 0.299}, "method_design": {"lo_touch": 0.5741, "hi_touch": 0.5729, "lo_neg": 0.5087, "hi_neg": 0.3046}, "compute_cost": {"lo_touch": 0.3667, "hi_touch": 0.3963, "lo_neg": 0.3197, "hi_neg": 0.2191}, "clarity": {"lo_touch": 0.4349, "hi_touch": 0.4148, "lo_neg": 0.4013, "hi_neg": 0.2806}, "novelty": {"lo_touch": 0.2353, "hi_touch": 0.1006, "lo_neg": 0.2124, "hi_neg": 0.038}, "related_work": {"lo_touch": 0.1895, "hi_touch": 0.1375, "lo_neg": 0.1766, "hi_neg": 0.1012}, "stats_metrics": {"lo_touch": 0.5081, "hi_touch": 0.4114, "lo_neg": 0.4595, "hi_neg": 0.2253}, "robustness_sensitivity": {"lo_touch": 0.2398, "hi_touch": 0.2778, "lo_neg": 0.1996, "hi_neg": 0.1599}, "reproducibility": {"lo_touch": 0.1381, "hi_touch": 0.123, "lo_neg": 0.1219, "hi_neg": 0.0693}, "problem_framing": {"lo_touch": 0.2091, "hi_touch": 0.171, "lo_neg": 0.1699, "hi_neg": 0.052}}}, "4_6": {"n_papers": 10084, "objects": {"empirical_scope": {"lo_touch": 0.7903, "hi_touch": 0.7736, "lo_neg": 0.6952, "hi_neg": 0.6158}, "baselines_ablations": {"lo_touch": 0.4943, "hi_touch": 0.4182, "lo_neg": 0.4356, "hi_neg": 0.3053}, "theory": {"lo_touch": 0.5647, "hi_touch": 0.5492, "lo_neg": 0.4757, "hi_neg": 0.396}, "method_design": {"lo_touch": 0.6561, "hi_touch": 0.6338, "lo_neg": 0.5473, "hi_neg": 0.4453}, "compute_cost": {"lo_touch": 0.4835, "hi_touch": 0.4779, "lo_neg": 0.3983, "hi_neg": 0.3495}, "clarity": {"lo_touch": 0.4447, "hi_touch": 0.3941, "lo_neg": 0.3841, "hi_neg": 0.3027}, "novelty": {"lo_touch": 0.2254, "hi_touch": 0.1484, "lo_neg": 0.1919, "hi_neg": 0.1022}, "related_work": {"lo_touch": 0.1713, "hi_touch": 0.1452, "lo_neg": 0.157, "hi_neg": 0.1201}, "stats_metrics": {"lo_touch": 0.5348, "hi_touch": 0.4865, "lo_neg": 0.4553, "hi_neg": 0.3604}, "robustness_sensitivity": {"lo_touch": 0.3458, "hi_touch": 0.3554, "lo_neg": 0.2733, "hi_neg": 0.2535}, "reproducibility": {"lo_touch": 0.1499, "hi_touch": 0.1348, "lo_neg": 0.1213, "hi_neg": 0.0946}, "problem_framing": {"lo_touch": 0.2154, "hi_touch": 0.1936, "lo_neg": 0.1386, "hi_neg": 0.0873}}}, "4_8": {"n_papers": 3113, "objects": {"empirical_scope": {"lo_touch": 0.7491, "hi_touch": 0.7058, "lo_neg": 0.6524, "hi_neg": 0.4285}, "baselines_ablations": {"lo_touch": 0.4533, "hi_touch": 0.3148, "lo_neg": 0.3964, "hi_neg": 0.1603}, "theory": {"lo_touch": 0.5763, "hi_touch": 0.5313, "lo_neg": 0.4806, "hi_neg": 0.2975}, "method_design": {"lo_touch": 0.6303, "hi_touch": 0.5718, "lo_neg": 0.5313, "hi_neg": 0.3023}, "compute_cost": {"lo_touch": 0.443, "hi_touch": 0.4015, "lo_neg": 0.3614, "hi_neg": 0.2345}, "clarity": {"lo_touch": 0.435, "hi_touch": 0.4086, "lo_neg": 0.3768, "hi_neg": 0.2721}, "novelty": {"lo_touch": 0.2098, "hi_touch": 0.1012, "lo_neg": 0.1764, "hi_neg": 0.0357}, "related_work": {"lo_touch": 0.1587, "hi_touch": 0.1282, "lo_neg": 0.1449, "hi_neg": 0.0919}, "stats_metrics": {"lo_touch": 0.522, "hi_touch": 0.4131, "lo_neg": 0.4407, "hi_neg": 0.2351}, "robustness_sensitivity": {"lo_touch": 0.3235, "hi_touch": 0.2628, "lo_neg": 0.2554, "hi_neg": 0.1494}, "reproducibility": {"lo_touch": 0.1262, "hi_touch": 0.1224, "lo_neg": 0.1005, "hi_neg": 0.0671}, "problem_framing": {"lo_touch": 0.2114, "hi_touch": 0.1834, "lo_neg": 0.1352, "hi_neg": 0.0569}}}, "4_10": {"n_papers": 119, "objects": {"empirical_scope": {"lo_touch": 0.7227, "hi_touch": 0.6723, "lo_neg": 0.6134, "hi_neg": 0.3361}, "baselines_ablations": {"lo_touch": 0.3277, "hi_touch": 0.2941, "lo_neg": 0.2857, "hi_neg": 0.1008}, "theory": {"lo_touch": 0.605, "hi_touch": 0.521, "lo_neg": 0.521, "hi_neg": 0.2017}, "method_design": {"lo_touch": 0.5042, "hi_touch": 0.5294, "lo_neg": 0.4118, "hi_neg": 0.2269}, "compute_cost": {"lo_touch": 0.3613, "hi_touch": 0.3782, "lo_neg": 0.2941, "hi_neg": 0.1597}, "clarity": {"lo_touch": 0.4538, "hi_touch": 0.4874, "lo_neg": 0.4118, "hi_neg": 0.3109}, "novelty": {"lo_touch": 0.2269, "hi_touch": 0.0504, "lo_neg": 0.1681, "hi_neg": 0.0}, "related_work": {"lo_touch": 0.2437, "hi_touch": 0.1429, "lo_neg": 0.2269, "hi_neg": 0.084}, "stats_metrics": {"lo_touch": 0.4958, "hi_touch": 0.5042, "lo_neg": 0.437, "hi_neg": 0.2689}, "robustness_sensitivity": {"lo_touch": 0.2857, "hi_touch": 0.2185, "lo_neg": 0.1933, "hi_neg": 0.0672}, "reproducibility": {"lo_touch": 0.1429, "hi_touch": 0.1597, "lo_neg": 0.1176, "hi_neg": 0.0672}, "problem_framing": {"lo_touch": 0.2101, "hi_touch": 0.2017, "lo_neg": 0.1176, "hi_neg": 0.0756}}}, "6_8": {"n_papers": 2838, "objects": {"empirical_scope": {"lo_touch": 0.7646, "hi_touch": 0.7135, "lo_neg": 0.5955, "hi_neg": 0.432}, "baselines_ablations": {"lo_touch": 0.3848, "hi_touch": 0.3147, "lo_neg": 0.2896, "hi_neg": 0.1646}, "theory": {"lo_touch": 0.5934, "hi_touch": 0.5398, "lo_neg": 0.4313, "hi_neg": 0.315}, "method_design": {"lo_touch": 0.6395, "hi_touch": 0.5743, "lo_neg": 0.4482, "hi_neg": 0.309}, "compute_cost": {"lo_touch": 0.4753, "hi_touch": 0.4059, "lo_neg": 0.3354, "hi_neg": 0.2283}, "clarity": {"lo_touch": 0.4119, "hi_touch": 0.4204, "lo_neg": 0.3111, "hi_neg": 0.2763}, "novelty": {"lo_touch": 0.1501, "hi_touch": 0.1022, "lo_neg": 0.1039, "hi_neg": 0.0359}, "related_work": {"lo_touch": 0.1603, "hi_touch": 0.1307, "lo_neg": 0.1251, "hi_neg": 0.0944}, "stats_metrics": {"lo_touch": 0.488, "hi_touch": 0.4126, "lo_neg": 0.3629, "hi_neg": 0.2329}, "robustness_sensitivity": {"lo_touch": 0.3404, "hi_touch": 0.2674, "lo_neg": 0.2512, "hi_neg": 0.1564}, "reproducibility": {"lo_touch": 0.136, "hi_touch": 0.1195, "lo_neg": 0.0937, "hi_neg": 0.0634}, "problem_framing": {"lo_touch": 0.2019, "hi_touch": 0.1871, "lo_neg": 0.0937, "hi_neg": 0.0553}}}, "6_10": {"n_papers": 137, "objects": {"empirical_scope": {"lo_touch": 0.7445, "hi_touch": 0.6934, "lo_neg": 0.5985, "hi_neg": 0.2555}, "baselines_ablations": {"lo_touch": 0.3869, "hi_touch": 0.2774, "lo_neg": 0.2847, "hi_neg": 0.0803}, "theory": {"lo_touch": 0.6642, "hi_touch": 0.5401, "lo_neg": 0.4891, "hi_neg": 0.2044}, "method_design": {"lo_touch": 0.5401, "hi_touch": 0.5328, "lo_neg": 0.3723, "hi_neg": 0.1971}, "compute_cost": {"lo_touch": 0.438, "hi_touch": 0.3796, "lo_neg": 0.2701, "hi_neg": 0.146}, "clarity": {"lo_touch": 0.4234, "hi_touch": 0.4964, "lo_neg": 0.3285, "hi_neg": 0.3358}, "novelty": {"lo_touch": 0.0949, "hi_touch": 0.0438, "lo_neg": 0.073, "hi_neg": 0.0073}, "related_work": {"lo_touch": 0.1752, "hi_touch": 0.1241, "lo_neg": 0.1241, "hi_neg": 0.073}, "stats_metrics": {"lo_touch": 0.4453, "hi_touch": 0.4526, "lo_neg": 0.3577, "hi_neg": 0.1898}, "robustness_sensitivity": {"lo_touch": 0.3577, "hi_touch": 0.2117, "lo_neg": 0.2701, "hi_neg": 0.073}, "reproducibility": {"lo_touch": 0.1387, "hi_touch": 0.1533, "lo_neg": 0.1022, "hi_neg": 0.073}, "problem_framing": {"lo_touch": 0.1971, "hi_touch": 0.1898, "lo_neg": 0.0949, "hi_neg": 0.0657}}}}}};
+const YIELD = {"n_split_forums": 9329, "groups": {"all_reviewers": {"n": 69169, "post_rate": 0.2958, "soften": 0.0152, "strengthen": 0.0391}, "split_low_scorer": {"n": 13138, "post_rate": 0.3529, "soften": 0.0281, "strengthen": 0.046}, "split_mid": {"n": 11676, "post_rate": 0.3237, "soften": 0.0161, "strengthen": 0.0425}, "split_high_scorer": {"n": 12073, "post_rate": 0.321, "soften": 0.0116, "strengthen": 0.0369}, "unanimous_forums": {"n": 4048, "post_rate": 0.2171, "soften": 0.0072, "strengthen": 0.0326}}};
+const CONSTRUCT = {"n_reviews": 74380, "matrix": {"empirical_scope": {"soundness": -0.0253, "presentation": 0.0294, "contribution": -0.0025}, "baselines_ablations": {"soundness": -0.0425, "presentation": -0.0168, "contribution": -0.0042}, "theory": {"soundness": -0.0217, "presentation": -0.0683, "contribution": -0.0066}, "method_design": {"soundness": -0.0301, "presentation": 0.0305, "contribution": -0.0198}, "compute_cost": {"soundness": 0.0038, "presentation": 0.022, "contribution": 0.0026}, "clarity": {"soundness": -0.0175, "presentation": -0.3465, "contribution": 0.037}, "novelty": {"soundness": 0.0147, "presentation": 0.0251, "contribution": -0.1219}, "related_work": {"soundness": -0.0233, "presentation": -0.117, "contribution": -0.0336}, "stats_metrics": {"soundness": -0.0457, "presentation": -0.0123, "contribution": 0.0047}, "robustness_sensitivity": {"soundness": -0.0202, "presentation": 0.0034, "contribution": 0.02}, "reproducibility": {"soundness": -0.0509, "presentation": -0.0851, "contribution": 0.0342}, "problem_framing": {"soundness": -0.0306, "presentation": -0.0825, "contribution": -0.0221}}};
 
 const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
 const VAL_COLOR = { negative: "#e66767", uncertain: "#9085e9", mixed: "#d55181", conditional: "#c98500", positive: "#199e70" };
@@ -600,9 +608,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     for (let i = 0; i < pts.length; i++) {
       const p = pts[i];
       const x = 10 + (p[0] / 4095) * (w - 20), y = 10 + (p[1] / 4095) * (w - 20);
-      const amber = i % 131 === 0;
-      ctx.fillStyle = amber ? "rgba(201,164,92,0.9)" : "rgba(220,225,240,0.20)";
-      ctx.fillRect(x, y, amber ? 1.7 : 1, amber ? 1.7 : 1);
+      const amber = p[4] === 4;
+      ctx.fillStyle = amber ? "rgba(201,164,92,0.55)" : "rgba(220,225,240,0.17)";
+      ctx.fillRect(x, y, amber ? 1.4 : 1, amber ? 1.4 : 1);
     }
     ctx.restore();
     if (!REDUCED) raf = requestAnimationFrame(draw);
@@ -643,12 +651,19 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     }
     const off1 = {}, off2in = {}, off2out = {}, off3 = {};
     paths = [];
+    const top3 = {};
+    for (const o of objOrder) {
+      top3[o] = new Set(reaOrder.map(r => [r, linkOR[o + "|" + r] || 0])
+        .sort((a, b) => b[1] - a[1]).slice(0, 3).map(([r]) => r));
+    }
     for (const o of objOrder) for (const r of reaOrder) {
       const n = linkOR[o + "|" + r]; if (!n) continue;
       const h0 = n * L1.scale, h1 = n * L2.scale;
       const y0 = L1.pos[o].y + (off1[o] = off1[o] || 0), y1 = L2.pos[r].y + (off2in[r] = off2in[r] || 0);
       off1[o] += h0; off2in[r] += h1;
-      paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1), fill: "#b3aa99", base: 0.10, hi: 0.4, o, r, n,
+      const major = top3[o].has(r);
+      paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1),
+        fill: major ? "#c9a45c" : "#b3aa99", base: major ? 0.20 : 0.05, hi: major ? 0.5 : 0.35, o, r, n,
         tipHtml: `<div class="t">${objLabel[o]} → ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
     }
     for (const r of reaOrder) for (const v of VAL_ORDER) {
@@ -737,7 +752,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const hm = document.getElementById("heatmap");
   hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
   hm.dataset.cols = reaOrder.length;
-  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${REA_SHORT[r]}</div>`).join(""));
   for (const o of objOrder) {
     hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
     for (const r of reaOrder) {
@@ -797,7 +812,28 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
       tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
     }
-    const series = [["negative", STRUCT.position.neg_rate, VAL_COLOR.negative], ["positive", STRUCT.position.pos_rate, VAL_COLOR.positive]];
+    // temperature band between the two curves
+    const negV = STRUCT.position.neg_rate, posV = STRUCT.position.pos_rate;
+    const defs = document.createElementNS(NS, "defs");
+    defs.innerHTML = `<linearGradient id="arcband" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b45036" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#2fa383" stop-opacity="0.30"/></linearGradient>`;
+    svg.appendChild(defs);
+    const band = document.createElementNS(NS, "path");
+    band.setAttribute("d",
+      negV.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" ") +
+      " " + [...posV.keys()].reverse().map(i => "L" + xs(i) + "," + ys(posV[i])).join(" ") + " Z");
+    band.setAttribute("fill", "url(#arcband)");
+    svg.appendChild(band);
+    // act rules
+    for (const i of [1, 3]) {
+      const rule = document.createElementNS(NS, "line");
+      rule.setAttribute("x1", xs(i)); rule.setAttribute("x2", xs(i));
+      rule.setAttribute("y1", padT); rule.setAttribute("y2", H - padB);
+      rule.setAttribute("stroke", "rgba(201,164,92,0.18)"); rule.setAttribute("stroke-dasharray", "2 5");
+      svg.appendChild(rule);
+    }
+    const series = [["negative", negV, VAL_COLOR.negative], ["positive", posV, VAL_COLOR.positive]];
     for (const [name, vals, color] of series) {
       const pth = document.createElementNS(NS, "path");
       pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
@@ -911,7 +947,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       svg.appendChild(seg);
       const [lx, ly] = P(mid, R + (narrow ? 12 : 18));
       const lb = document.createElementNS(NS, "text");
-      lb.setAttribute("x", lx); lb.setAttribute("y", ly);
+      lb.setAttribute("x", Math.max(6, Math.min(W - 6, lx))); lb.setAttribute("y", ly);
       lb.setAttribute("font-size", narrow ? 9.5 : 11.5); lb.setAttribute("fill", "#b3aa99");
       lb.setAttribute("dominant-baseline", "middle");
       lb.setAttribute("text-anchor", Math.cos(mid) > 0.3 ? "start" : Math.cos(mid) < -0.3 ? "end" : "middle");
@@ -1070,10 +1106,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     host.insertAdjacentHTML("beforeend",
       `<div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">${label}</div>${svg.outerHTML}</div>`);
   }
-  mini("Submissions", years.map(y => S[y].submissions), "#c9a45c", v => fmt(v), true);
-  mini("Reviews per paper", years.map(y => S[y].reviews_per_paper), "#3987e5", v => v.toFixed(1));
-  mini("Acceptance rate", years.map(y => S[y].accept_rate), "#199e70", v => pct(v));
-  mini("Median review length", years.map(y => S[y].median_review_words), "#e66767", v => v + " words");
+  mini("Submissions", years.map(y => S[y].submissions), "#bd8a35", v => fmt(v), true);
+  mini("Reviews per paper", years.map(y => S[y].reviews_per_paper), "#ece7dc", v => v.toFixed(1));
+  mini("Acceptance rate", years.map(y => S[y].accept_rate), "#b3aa99", v => pct(v));
+  mini("Median review length — the one falling line", years.map(y => S[y].median_review_words), "#b45036", v => v + " words");
   let html = `<table><tr><th>year</th><th>submissions</th><th>withdrawn</th><th>decided</th><th>accept rate</th><th>reviews</th><th>reviews / paper</th><th>median words</th></tr>`;
   for (const y of years) {
     const st = S[y];
@@ -1086,12 +1122,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 // ---------------- the rhetoric (Plate III) ----------------
 (function rhetoric() {
   const FORMS = [
-    ["NORM", "#c98500", "the norm invoked — should, must, the bar to meet"],
-    ["BLOCK", "#3987e5", "verification blocked — without X, nothing can be known"],
-    ["ANCHOR", "#d95926", "precedent cited — prior art, baselines, the field"],
-    ["REACH", "#199e70", "reach questioned — beyond this setting? at what cost?"],
-    ["DOUBT", "#9085e9", "rival explanation — confound, artifact, luck"],
-    ["WEIGH", "#d55181", "evidence weighed — sufficient? convincing? on balance?"],
+    ["NORM", "#bd8a35", "the norm invoked — should, must, the bar to meet"],
+    ["BLOCK", "#6d95d4", "verification blocked — without X, nothing can be known"],
+    ["ANCHOR", "#b45036", "precedent cited — prior art, baselines, the field"],
+    ["REACH", "#2fa383", "reach questioned — beyond this setting? at what cost?"],
+    ["DOUBT", "#9182dd", "rival explanation — confound, artifact, luck"],
+    ["WEIGH", "#c05577", "evidence weighed — sufficient? convincing? on balance?"],
   ];
   const FORM_COLOR = Object.fromEntries(FORMS.map(([f, c]) => [f, c]));
   const rows = reaOrder.map(k => {
@@ -1110,9 +1146,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const total = Object.values(RHET.overall).reduce((a, b) => a + b, 0);
   const wv = RHET.by_valence.WEIGH, wt = Object.values(wv).reduce((a, b) => a + b, 0);
   document.getElementById("rhet-stats").innerHTML = [
-    [pct(RHET.overall.WEIGH / total), "of all reasoning is weighing evidence — the modal move of peer review"],
+    [pct(RHET.overall.WEIGH / total), "of all reasoning is weighing evidence — the modal move of ICLR review reasoning"],
     [pct(wv.positive / wt), "of weighing resolves positive — the only form where praise lives; every other form runs ≥88% negative"],
-    ["10%→7%", "precedent-citing is fading across nine years while reach-questioning rises 11%→15%"],
+    ["10%→7%", "precedent-citing is fading across nine years while reach-questioning rises 11%→15% (ANCHOR is the classifier’s weakest class — indicative, not precise)"],
   ].map(([v, l]) => `<div><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 })();
 
@@ -1235,9 +1271,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const years = Object.keys(V);
   const NS = "http://www.w3.org/2000/svg";
   const series = [
-    ["Softening rate", years.map(y => V[y].soften_rate), "#e66767", pct],
-    ["Post-response share", years.map(y => V[y].post_share), "#3987e5", pct],
-    ["Units per reviewer", years.map(y => V[y].units_per_reviewer), "#c9a45c", v => v.toFixed(2)],
+    ["Weaken-or-reverse rate after rebuttal", years.map(y => V[y].soften_rate), "#ece7dc", pct],
+    ["Share of units written post-rebuttal", years.map(y => V[y].post_share), "#ece7dc", pct],
+    ["Units per reviewer", years.map(y => V[y].units_per_reviewer), "#ece7dc", v => v.toFixed(2)],
   ];
   const host = document.getElementById("vitals");
   for (const [label, vals, color, fmtV] of series) {
@@ -1259,7 +1295,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     });
     const end = document.createElementNS(NS, "text");
     end.setAttribute("x", xs(vals.length - 1) + 8); end.setAttribute("y", ys(vals[vals.length - 1]));
-    end.setAttribute("dominant-baseline", "middle"); end.setAttribute("font-size", "11"); end.setAttribute("fill", color);
+    end.setAttribute("dominant-baseline", "middle"); end.setAttribute("font-size", "11"); end.setAttribute("fill", "#c9a45c");
     end.textContent = fmtV(vals[vals.length - 1]); svg.appendChild(end);
     for (const [i, anchor] of [[0, "start"], [vals.length - 1, "end"]]) {
       const tx = document.createElementNS(NS, "text");
@@ -1346,7 +1382,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const hm = document.getElementById("cov-hm");
   hm.style.gridTemplateColumns = `230px repeat(${objOrder.length}, 1fr)`;
   hm.dataset.cols = objOrder.length;
-  hm.insertAdjacentHTML("beforeend", `<div></div>` + objOrder.map(o => `<div class="cl">${objLabel[o]}</div>`).join(""));
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + objOrder.map(o => `<div class="cl">${OBJ_SHORT[o]}</div>`).join(""));
   for (const r of covRatings) {
     hm.insertAdjacentHTML("beforeend", `<div class="rl">rating ${r} · ${fmt(SCORE.by_rating[r].n_reviews)} rev</div>`);
     for (const o of objOrder) {
@@ -1379,14 +1415,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     document.getElementById("split-lo-lab").textContent = `the ${selLo}-giver`;
     document.getElementById("split-hi-lab").textContent = `the ${selHi}-giver`;
     const rows = objOrder.map(o => ({ o, ...d.objects[o] })).sort((a, b) => (b.lo_neg - b.hi_neg) - (a.lo_neg - a.hi_neg));
+    const K = 100 / 0.72; // wing scale
     document.getElementById("split-vd").innerHTML = rows.map(({ o, lo_neg, hi_neg, lo_touch, hi_touch }) => `
-      <div class="vp-row" style="grid-template-columns:190px 1fr 120px">
+      <div class="vp-row" style="grid-template-columns:170px 1fr 110px">
         <div class="vp-l">${objLabel[o]}</div>
-        <div title="${objLabel[o]}: inspected by ${pct(lo_touch)} of ${selLo}-givers / ${pct(hi_touch)} of ${selHi}-givers; condemned by ${pct(lo_neg)} vs ${pct(hi_neg)}">
-          <div class="rx-track" style="background:none;margin-bottom:3px"><div class="d-fill" style="width:${100 * lo_neg}%;height:8px;background:#e66767"></div></div>
-          <div class="rx-track" style="background:none"><div class="d-fill" style="width:${100 * hi_neg}%;height:8px;background:#199e70"></div></div>
+        <div style="position:relative;height:13px" title="${objLabel[o]}: inspected by ${pct(lo_touch)} of ${selLo}-givers / ${pct(hi_touch)} of ${selHi}-givers; condemned by ${pct(lo_neg)} vs ${pct(hi_neg)}">
+          <div style="position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--brass-line)"></div>
+          <div style="position:absolute;right:50%;top:1px;height:11px;width:${Math.min(50, lo_neg * K / 2)}%;background:#b45036;opacity:.9"></div>
+          <div style="position:absolute;left:50%;top:1px;height:11px;width:${Math.min(50, hi_neg * K / 2)}%;background:#2fa383;opacity:.9"></div>
         </div>
-        <div class="vp-n">${pct(lo_neg)} vs ${pct(hi_neg)}</div>
+        <div class="vp-n">${pct(lo_neg)} ← → ${pct(hi_neg)}</div>
       </div>`).join("");
     renderSplitTabs();
   }
@@ -1394,35 +1432,55 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   hiHost.addEventListener("click", e => { const b = e.target.closest("button"); if (b && !b.disabled) { selHi = +b.dataset.v; renderSplit(); } });
   renderSplit();
 
-  // Fig 8e: the spread
+  // Fig 8e: the spread â one orbital arc of dispersion over the score meridian
   const D = DEPTH.dispersion;
   const sc = document.getElementById("spread-charts");
-  const NSd = "http://www.w3.org/2000/svg";
-  function miniBars(title, entries, color, fmtX, fmtY) {
-    const W = 300, H = 140, padL = 10, padB = 22, padT = 16;
-    const maxV = Math.max(...entries.map(e => e[1]));
+  sc.style.gridTemplateColumns = "1fr";
+  (function orbital() {
+    const entries = Object.entries(D.spread_by_mean).map(([k, v]) => [+k, v.mean_std, v.n]);
+    const W = Math.max(300, sc.clientWidth || 640), H = 230, padL = 46, padR = 20, padT = 26, padB = 40;
+    const NSd = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(NSd, "svg");
-    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%";
-    entries.forEach(([k, v], i) => {
-      const bw = (W - padL * 2) / entries.length * 0.6;
-      const x = padL + (i + 0.5) / entries.length * (W - padL * 2);
-      const h = (H - padT - padB) * v / maxV;
-      const r = document.createElementNS(NSd, "rect");
-      r.setAttribute("x", x - bw / 2); r.setAttribute("y", H - padB - h);
-      r.setAttribute("width", bw); r.setAttribute("height", Math.max(h, 1));
-      r.setAttribute("fill", color); r.setAttribute("fill-opacity", "0.8");
-      const t = document.createElementNSd = document.createElementNS(NSd, "title");
-      t.textContent = `${fmtX(k)}: ${fmtY(v)}`; r.appendChild(t); svg.appendChild(r);
-      const xl = document.createElementNS(NSd, "text");
-      xl.setAttribute("x", x); xl.setAttribute("y", H - 7); xl.setAttribute("text-anchor", "middle");
-      xl.setAttribute("font-size", "9.5"); xl.setAttribute("fill", "#6f6758"); xl.setAttribute("font-family", "IBM Plex Mono, monospace");
-      xl.textContent = fmtX(k); svg.appendChild(xl);
-    });
-    sc.insertAdjacentHTML("beforeend",
-      `<div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">${title}</div>${svg.outerHTML}</div>`);
-  }
-  miniBars("Score range within a paper (papers)", Object.entries(D.range_hist), "#c9a45c", k => k, v => fmt(v) + " papers");
-  miniBars("Score σ by paper mean — mid papers split most", Object.entries(D.spread_by_mean).map(([k, v]) => [k, v.mean_std]), "#9085e9", k => "μ" + k, v => "σ " + v.toFixed(2));
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const mus = entries.map(e => e[0]);
+    const xs = m => padL + (m - Math.min(...mus)) / (Math.max(...mus) - Math.min(...mus)) * (W - padL - padR);
+    const vMax = Math.max(...entries.map(e => e[1])) * 1.12;
+    const ys = v => padT + (1 - v / vMax) * (H - padT - padB);
+    for (const g of [0.8, 1.0, 1.2, 1.4]) {
+      const ln = document.createElementNSd = document.createElementNS(NSd, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.10)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NSd, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "9.5");
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "σ" + g.toFixed(1); svg.appendChild(tx);
+    }
+    const pth = document.createElementNS(NSd, "path");
+    pth.setAttribute("d", entries.map(([m, v], i) => (i ? "L" : "M") + xs(m) + "," + ys(v)).join(" "));
+    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", "#c9a45c"); pth.setAttribute("stroke-width", "2");
+    pth.setAttribute("data-draw", "1"); svg.appendChild(pth);
+    for (const [m, v, n] of entries) {
+      const c = document.createElementNS(NSd, "circle");
+      c.setAttribute("cx", xs(m)); c.setAttribute("cy", ys(v)); c.setAttribute("r", m === 5 ? 5 : 3);
+      c.setAttribute("fill", m === 5 ? "#ece7dc" : "#c9a45c");
+      const t = document.createElementNS(NSd, "title");
+      t.textContent = `paper mean ${m}: σ = ${v.toFixed(2)} across ${fmt(n)} papers`;
+      c.appendChild(t); svg.appendChild(c);
+      const tx = document.createElementNS(NSd, "text");
+      tx.setAttribute("x", xs(m)); tx.setAttribute("y", H - 14); tx.setAttribute("text-anchor", "middle");
+      tx.setAttribute("font-size", "10"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "μ" + m; svg.appendChild(tx);
+    }
+    const apex = document.createElementNS(NSd, "text");
+    apex.setAttribute("x", xs(5)); apex.setAttribute("y", ys(entries.find(e => e[0] === 5)[1]) - 12);
+    apex.setAttribute("text-anchor", "middle"); apex.setAttribute("font-size", "11"); apex.setAttribute("fill", "#ece7dc");
+    apex.textContent = "the contested middle"; svg.appendChild(apex);
+    sc.innerHTML = `<div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">Within-paper score σ across the paper's mean rating — each dot: one mean level; large ivory dot: the apex</div>`;
+    sc.appendChild(svg);
+  })();
   document.getElementById("spread-stats").innerHTML = [
     ["92.6%", "of multi-review papers carry disagreement; half by two full notches or more"],
     ["σ peaks at μ5", "the contested middle: dispersion is an inverted U over the paper's mean score"],
@@ -1432,7 +1490,6 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
 // ---------------- the drift (Plate VI) ----------------
 (function drift() {
-  const HL = ["#3987e5", "#d95926", "#199e70", "#9085e9"];
   function chart(hostId, shares, labelOf) {
     const host = document.getElementById(hostId);
     host.innerHTML = "";
@@ -1475,7 +1532,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     for (const key of ordered) {
       const vals = shares[key];
       const hl = movers.indexOf(key);
-      const color = hl >= 0 ? HL[hl] : "rgba(179,170,153,0.28)";
+      const delta = shares[key][shares[key].length - 1] - shares[key][0];
+      const color = hl >= 0 ? (delta > 0 ? "#c9a45c" : "#b45036") : "rgba(179,170,153,0.22)";
       const pth = document.createElementNS(NS, "path");
       pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
       pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color);
@@ -1500,9 +1558,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       const legend = document.createElement("div");
       legend.className = "legend";
       legend.style.marginTop = "10px";
-      legend.innerHTML = movers.map((k, i) => {
+      legend.innerHTML = movers.map(k => {
         const vals = shares[k], d = (vals[vals.length - 1] - vals[0]) * 100;
-        return `<span class="chip"><span class="sw" style="background:${HL[i]}"></span>${labelOf(k)} ${d > 0 ? "+" : ""}${d.toFixed(1)}pp</span>`;
+        return `<span class="chip"><span class="sw" style="background:${d > 0 ? "#c9a45c" : "#b45036"}"></span>${labelOf(k)} ${d > 0 ? "+" : ""}${d.toFixed(1)}pp</span>`;
       }).join("");
       host.appendChild(legend);
     }
@@ -1571,7 +1629,7 @@ function showDissect(kind, key) {
   const hm = document.getElementById("mercy");
   hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
   hm.dataset.cols = reaOrder.length;
-  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${REA_SHORT[r]}</div>`).join(""));
   const negOf = {};
   for (const t of DATA.triples) if (t.v === "negative") negOf[t.o + "|" + t.r] = (negOf[t.o + "|" + t.r] || 0) + t.n;
   for (const o of objOrder) {
@@ -1596,17 +1654,48 @@ function showDissect(kind, key) {
   const R = PANEL.rebuttal;
   const N = R.post_units;
   const fate = [
-    ["held (no visible change)", (R.overall.not_observed + (R.overall.unknown || 0)) / N, "#7f8ca3"],
+    ["held (no visible change)", (R.overall.not_observed + (R.overall.unknown || 0)) / N, "#b3aa99"],
     ["strengthened", R.overall.strengthened / N, "#c9a45c"],
+    ["clarified only", R.overall.clarified / N, "#9182dd"],
     ["weakened", R.overall.weakened / N, "#e66767"],
     ["reversed", R.overall.reversed / N, "#d55181"],
-    ["clarified only", R.overall.clarified / N, "#9085e9"],
   ];
-  const maxF = fate[0][1];
-  document.getElementById("reb-fate").innerHTML = fate.map(([l, v, c]) =>
-    `<div class="vp-row"><div class="vp-l">${l}</div>
-     <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * v / maxF}%;background:${c};height:11px"></div></div>
-     <div class="rx-n" style="color:${c}">${pct(v)}</div></div>`).join("");
+  (function fateFlow() {
+    const host = document.getElementById("reb-fate");
+    host.innerHTML = "";
+    const W = Math.max(300, host.clientWidth || 640), H = 240, BX = 158, RX = W - 190;
+    const NSf = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NSf, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const bandH = H - 40, top = 20;
+    const src = document.createElementNS(NSf, "rect");
+    src.setAttribute("x", BX - 10); src.setAttribute("y", top); src.setAttribute("width", 10); src.setAttribute("height", bandH);
+    src.setAttribute("fill", "#ece7dc"); src.setAttribute("fill-opacity", "0.85"); svg.appendChild(src);
+    const sl = document.createElementNS(NSf, "text");
+    sl.setAttribute("x", BX - 18); sl.setAttribute("y", top + bandH / 2); sl.setAttribute("text-anchor", "end");
+    sl.setAttribute("dominant-baseline", "middle"); sl.setAttribute("font-size", "11.5"); sl.setAttribute("fill", "#b3aa99");
+    sl.textContent = `${fmt(N)} judgments`; svg.appendChild(sl);
+    const GAPF = 8;
+    const usable = bandH - GAPF * (fate.length - 1);
+    let ySrc = top, yDst = top;
+    fate.forEach(([label, share, color]) => {
+      const h0 = share * bandH;
+      const h1 = Math.max(3, share * usable);
+      const xm = (BX + RX) / 2;
+      const path = document.createElementNS(NSf, "path");
+      path.setAttribute("d", `M${BX},${ySrc} C${xm},${ySrc} ${xm},${yDst} ${RX},${yDst} L${RX},${yDst + h1} C${xm},${yDst + h1} ${xm},${ySrc + h0} ${BX},${ySrc + h0} Z`);
+      path.setAttribute("fill", color); path.setAttribute("opacity", "0.55");
+      const t = document.createElementNS(NSf, "title");
+      t.textContent = `${label}: ${pct(share)} of post-response judgments`;
+      path.appendChild(t); svg.appendChild(path);
+      const lb = document.createElementNS(NSf, "text");
+      lb.setAttribute("x", RX + 8); lb.setAttribute("y", yDst + h1 / 2);
+      lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "11.5"); lb.setAttribute("fill", color);
+      lb.textContent = `${label} ${pct(share)}`; svg.appendChild(lb);
+      ySrc += h0; yDst += h1 + GAPF;
+    });
+    host.appendChild(svg);
+  })();
   const trigOrder = ["new_evidence", "clarification", "revision", "other"];
   const trigLabel = { new_evidence: "new experiments / data", clarification: "clarification / argument", revision: "manuscript revision", other: "other / unclassified" };
   document.getElementById("reb-trig").innerHTML = trigOrder.map(k => {
@@ -1617,6 +1706,24 @@ function showDissect(kind, key) {
     const soft = ((t.weakened || 0) + (t.reversed || 0)) / n;
     return `<div class="vp-row"><div class="vp-l">${trigLabel[k]}</div><div class="vp-bar grow">${segs}</div><div class="vp-n">softens ${pct(soft)}</div></div>`;
   }).join("");
+  const YG = [
+    ["the low scorer (dissenting)", YIELD.groups.split_low_scorer],
+    ["the middle scorer", YIELD.groups.split_mid],
+    ["the high scorer", YIELD.groups.split_high_scorer],
+    ["any reviewer (all forums)", YIELD.groups.all_reviewers],
+    ["unanimous panels", YIELD.groups.unanimous_forums],
+  ];
+  const XM = 100 / 0.06;
+  document.getElementById("reb-yield").innerHTML = YG.map(([label, g]) => `
+    <div class="lift-row" style="grid-template-columns:190px 1fr 150px">
+      <div class="vp-l">${label}</div>
+      <div class="lift-track" title="${label}: ${pct(g.soften)} weaken or reverse, ${pct(g.strengthen)} strengthen; ${pct(g.post_rate)} write any post-response unit (n=${fmt(g.n)})">
+        <div class="lift-line grow" style="left:${Math.min(g.soften, g.strengthen) * XM}%;width:${Math.abs(g.strengthen - g.soften) * XM}%"></div>
+        <div class="lift-dot dotfade" style="left:${g.soften * XM}%;border-radius:50%;background:#b45036"></div>
+        <div class="lift-dot dotfade" style="left:${g.strengthen * XM}%;border-radius:50%;background:#c9a45c"></div>
+      </div>
+      <div class="lift-n">yields ${pct(g.soften)} · hardens ${pct(g.strengthen)}</div>
+    </div>`).join("");
   document.getElementById("reb-stats").innerHTML = [
     [pct((R.overall.weakened + R.overall.reversed) / N), "of post-response judgments soften at all"],
     [pct(R.overall.reversed / N), "are outright reversed"],
@@ -1636,9 +1743,9 @@ function showDissect(kind, key) {
     return `<div class="lift-row"><div class="vp-l">${objLabel[k]}</div>
       <div class="lift-track" title="${objLabel[k]}: accepted ${pct(v.accept_with)} with negative units (n=${fmt(v.n_with)}), ${pct(v.accept_without)} without">
         <div class="lift-axis" style="left:${X(T.base_accept)}%"></div>
-        <div class="lift-line grow" style="left:${Math.min(X(v.accept_with), X(v.accept_without))}%;width:${Math.abs(X(v.accept_with) - X(v.accept_without))}%"></div>
-        <div class="lift-dot dotfade" style="left:${X(v.accept_without)}%;border:1.5px solid #b3aa99;border-radius:50%;background:none"></div>
-        <div class="lift-dot dotfade" style="left:${X(v.accept_with)}%;border-radius:50%;background:${d < -5 ? "#e66767" : d < -1 ? "#c98500" : "#7f8ca3"}"></div>
+        <div class="lift-line grow" style="left:${Math.min(X(v.accept_with), X(v.accept_without))}%;width:${Math.abs(X(v.accept_with) - X(v.accept_without))}%;height:${Math.max(1, Math.abs(d) / 2.6)}px;background:${d < -5 ? "rgba(230,103,103,.55)" : "rgba(179,170,153,.65)"}"></div>
+        <div class="lift-dot dotfade" style="left:${X(v.accept_without)}%;width:${7 + Math.abs(d) * .55}px;height:${7 + Math.abs(d) * .55}px;border:1.5px solid #b3aa99;border-radius:50%;background:none"></div>
+        <div class="lift-dot dotfade" style="left:${X(v.accept_with)}%;width:${7 + Math.abs(d) * .55}px;height:${7 + Math.abs(d) * .55}px;border-radius:50%;background:${d < -5 ? "#e66767" : d < -1 ? "#c98500" : "#7f8ca3"}"></div>
       </div>
       <div class="lift-n">${d >= 0 ? "+" : ""}${d.toFixed(1)}pp</div></div>`;
   }).join("");
@@ -1767,6 +1874,30 @@ function showDissect(kind, key) {
       cell.addEventListener("mouseleave", hideTip);
       hm.appendChild(cell);
     });
+  }
+})();
+
+// ---------------- construct validity (Fig 16) ----------------
+(function constructCheck() {
+  const M = CONSTRUCT.matrix;
+  const SUBS = ["soundness", "presentation", "contribution"];
+  const hm = document.getElementById("construct-hm");
+  hm.style.gridTemplateColumns = `230px repeat(${SUBS.length}, 1fr)`;
+  hm.dataset.cols = SUBS.length;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + SUBS.map(x => `<div class="cl" style="writing-mode:horizontal-tb;transform:none;align-self:center">${x}</div>`).join(""));
+  for (const o of objOrder) {
+    hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    for (const sub of SUBS) {
+      const v = (M[o] || {})[sub] || 0;
+      const mag = Math.min(92, Math.round(Math.abs(v) / 0.35 * 100));
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.style.height = "26px";
+      cell.style.background = `color-mix(in oklab, ${v < 0 ? "#b45036" : "#2fa383"} ${mag}%, #161324)`;
+      cell.addEventListener("mousemove", e => showTip(e, `<div class="t">negative ${objLabel[o]} unit × ${sub}</div><div class="n">Δ mean ${sub} = ${v > 0 ? "+" : ""}${v.toFixed(3)} (rating-adjusted)</div>`));
+      cell.addEventListener("mouseleave", hideTip);
+      hm.appendChild(cell);
+    }
   }
 })();
 
