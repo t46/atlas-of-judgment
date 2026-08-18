@@ -16,14 +16,14 @@
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.7;
   background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
 a { color: var(--brass); text-decoration: none; }
-.shell { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+.shell { max-width: 1400px; margin: 0 auto; padding: 0 clamp(20px, 3vw, 44px); }
 h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
 .plate-no { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); }
 .rule { display: flex; align-items: center; gap: 12px; color: var(--brass-dim); margin: 6px 0; }
 .rule::before, .rule::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--brass-line)); }
 .rule::after { background: linear-gradient(90deg, var(--brass-line), transparent); }
 .rule span { font-size: 10px; letter-spacing: 0.3em; }
-.lede { color: var(--ink-2); max-width: 64ch; margin: 0; font-size: 15px; }
+.lede { color: var(--ink-2); max-width: 82ch; margin: 0; font-size: 15.5px; }
 .lede em, .caption em { color: var(--ink); font-style: italic; }
 section { padding: 84px 0 6px; }
 .plate-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
@@ -37,7 +37,7 @@ section { padding: 84px 0 6px; }
 .plate::after   { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
 .plate-inner::before { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
 .plate-inner::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
-.caption { font-size: 13px; color: var(--ink-2); margin-top: 14px; max-width: 78ch; }
+.caption { font-size: 13.5px; color: var(--ink-2); margin-top: 14px; max-width: 96ch; }
 .caption b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
 /* title page */
 .titlepage { padding: 42px 0 64px; }
@@ -73,7 +73,7 @@ section { padding: 84px 0 6px; }
 svg text { font-family: var(--serif); }
 /* heatmap */
 .hm-wrap { overflow-x: auto; }
-.hm { display: grid; gap: 2px; min-width: 900px; }
+.hm { display: grid; gap: 2px; }
 .hm .rl { font-size: 13.5px; color: var(--ink-2); display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; white-space: nowrap; }
 .hm .cl { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; color: var(--ink-2); writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; align-self: end; padding: 4px 0; white-space: nowrap; }
 .hm .cell { height: 32px; }
@@ -101,7 +101,7 @@ svg text { font-family: var(--serif); }
 .lift-close { background: var(--ink-2); transform: translate(-50%, -50%) rotate(45deg); }
 .lift-n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); white-space: nowrap; }
 .arc-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 34px; align-items: center; }
-@media (max-width: 900px) { .arc-grid { grid-template-columns: 1fr; } .vp-row, .lift-row { grid-template-columns: 130px 1fr 84px; } }
+@media (max-width: 900px) { .arc-grid { grid-template-columns: 1fr; } .vp-row, .lift-row { grid-template-columns: 110px 1fr 84px !important; } }
 .stat-lines { display: flex; flex-direction: column; gap: 16px; }
 .stat-lines .v { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--brass); }
 .stat-lines .l { font-size: 13px; color: var(--ink-2); margin-top: 4px; max-width: 30ch; }
@@ -180,6 +180,36 @@ svg text.deft { cursor: help; }
 .lex-grid dt { font-family: var(--display); font-size: 16.5px; font-weight: 600; }
 .lex-grid dt .sh { font-family: var(--mono); font-size: 9.5px; color: var(--muted); letter-spacing: 0.08em; margin-left: 7px; }
 .lex-grid dd { margin: 1px 0 6px; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+
+/* charts render in pixel space at container width and rebuild on resize */
+@media (max-width: 700px) {
+  .plate { padding: 5px; }
+  .plate-inner { padding: 14px 10px; }
+  .hm { min-width: 0; }
+  .hm .rl { font-size: 8.5px; white-space: normal; line-height: 1.15; padding-right: 6px; }
+  .hm .cl { font-size: 8px; }
+  .hm .cell { height: 22px; }
+  .hm-wrap { overflow-x: visible; }
+}
+@media (max-width: 880px) {
+  body { overflow-x: hidden; }
+  .tv-wrap { overflow-x: visible; }
+  .tv-wrap table, .tv-wrap tbody { display: block; }
+  .tv-wrap tr:first-child { display: none; }
+  .tv-wrap tr { display: block; border: 1px solid var(--brass-faint); margin-top: 10px; padding: 3px 0; }
+  .tv-wrap td { display: flex; justify-content: space-between; gap: 12px; border: none; border-bottom: 1px solid rgba(201,164,92,0.07); white-space: normal; }
+  .tv-wrap td:last-child { border-bottom: none; }
+  .tv-wrap td:first-child { color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--brass-faint); }
+  .tv-wrap td::before { content: attr(data-label); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 1px; }
+  .tv-wrap td:first-child::before { content: none; }
+  .lift-n, .vp-n, .rx-n { white-space: normal; font-size: 10px; }
+  .arc-grid { grid-template-columns: 1fr !important; }
+  .arc-grid > * { min-width: 0; }
+  .stat-lines { min-width: 0; }
+  .stat-lines .v { font-size: 30px; overflow-wrap: anywhere; }
+  .stat-lines .l { max-width: none; }
+  #minds-tabs button { padding: 7px 10px; }
+}
 footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28px 0 64px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; text-transform: uppercase; }
 </style>
 
@@ -187,7 +217,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="tp-frame"><div class="tp-frame-inner">
     <div>
       <div class="tp-eyebrow">Atlas of Judgment</div>
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:12px"><a href="https://claude.ai/code/artifact/6f0ed75c-f899-47ce-870e-6c3d5c45cc48" style="color:var(--ink-2);text-decoration:none">About ↗</a><span style="color:var(--muted)"> · </span><a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa" style="color:var(--ink-2);text-decoration:none">Method ↗</a><span style="color:var(--muted)"> · </span><a href="https://github.com/t46/atlas-of-judgment" style="color:var(--ink-2);text-decoration:none">GitHub ↗</a></div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:12px"><a href="https://claude.ai/code/artifact/6f0ed75c-f899-47ce-870e-6c3d5c45cc48" style="color:var(--ink-2);text-decoration:none">About ↗</a><span style="color:var(--muted)"> · </span><a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa" style="color:var(--ink-2);text-decoration:none">Method ↗</a><span style="color:var(--muted)"> · </span><a href="https://github.com/t46/atlas-of-judgment" style="color:var(--ink-2);text-decoration:none">GitHub ↗</a><span style="color:var(--muted)"> · </span><a href="https://atlas-of-judgment.pages.dev" style="color:var(--brass);text-decoration:none">Live ↗</a></div>
       <h1 class="tp-title">How a Paper<br>is <em>Judged</em></h1>
       <p class="tp-sub">Every public review of ICLR 2026, decomposed into atomic units of evaluative logic — what was inspected, what was observed, which standard was invoked, what was concluded — and charted like a sky.</p>
       <div class="tp-spec">
@@ -195,7 +225,8 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
         taxonomy induced, not imposed · coverage 98.1% · ICLR MMXXVI
       </div>
     </div>
-    <canvas id="planisphere" aria-label="circular star chart of all logic units"></canvas>
+    <div style="justify-self:center;max-width:520px;width:100%"><canvas id="planisphere" aria-label="circular star chart of all logic units" style="width:100%;aspect-ratio:1"></canvas>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each star: one of 40,000 units of reviewer logic · brass: a unit of praise</div></div>
   </div></div>
 </div>
 
@@ -224,7 +255,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div id="sankey"></div>
     <div class="legend" id="val-legend" style="margin-top:10px"></div>
     <div id="dissect" hidden></div>
-    <p class="caption"><b>Fig. 1a</b> — 71.8% of all units resolve negative. Merit recognition — the one standard that concentrates praise — collects just 13.7% of the flow.</p>
+    <p class="caption"><b>Fig. 1a</b> — 71.8% of all units resolve negative — a property of the memo layer as much as of reviewers (the instrument articulates criticism more readily than praise; see Appendix II). Merit recognition — the one standard that concentrates praise — collects just 13.7% of the flow.</p>
     <div class="fig-title" style="margin-top:34px">Fig. 1b — The mercy map: how each pairing resolves</div>
     <div class="hm-wrap"><div class="hm" id="mercy"></div></div>
     <p class="caption"><b>Fig. 1b</b> — Each cell is an object × standard pairing, colored by the share of its units that resolve <em>negative</em> (deep red = merciless, pale = lenient). The mercy in the grid lives almost entirely in one column — merit recognition; outside it, nearly every pairing condemns.</p>
@@ -247,7 +278,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="plate-head">
     <div class="plate-no">Plate III · The Rhetoric</div>
     <h2>Each standard has a voice</h2>
-    <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units</em> by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
+    <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units of the nine-year forum-level track</em> (introduced fully in Plate IX; neighboring plates use the 410,586-unit 2026 track) by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid" style="grid-template-columns:1.25fr .75fr">
@@ -258,7 +289,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       </div>
       <div class="stat-lines" id="rhet-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 3</b> — Method: 600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; a logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; weakest class ANCHOR at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth. The signatures hold: reproducibility is 69% pure norm; statistical identifiability leads with blocked verification (43%) — <em>without error bars, nothing can be known</em>; novelty leans hardest on precedent. And weighing is where all the mercy lives: it is the only form in which praise occurs at scale (42% positive; every other form runs ≥88% negative).</p>
+    <p class="caption"><b>Fig. 3</b> â <em>How to read:</em> each row is one reasoning standard; its bar splits that standard’s units by the inference form the classifier assigned, and the right column names the dominant form. Method: 600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; a logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; weakest class ANCHOR at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth. The signatures hold: reproducibility is 69% pure norm; statistical identifiability leads with blocked verification (43%) — <em>without error bars, nothing can be known</em>; novelty leans hardest on precedent. And weighing is where all the mercy lives: it is the only form in which praise occurs at scale (42% positive; every other form runs ≥88% negative).</p>
   </div></div>
 </section>
 
@@ -304,12 +335,12 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="plate-head">
     <div class="plate-no">Plate VI · The Minds</div>
     <h2>Five kinds of reviewer</h2>
-    <p class="lede">Cluster 98,513 reviewers by which standards they habitually invoke, and five archetypes emerge. Each rose has twelve petals — one per standard — sized by how far that reviewer-kind leans on it relative to the field. The names are editorial; the petals are not.</p>
+    <p class="lede">Cluster 98,513 reviewer-forum profiles — one reviewer on one paper — by which standards they habitually invoke, and five archetypes emerge. Each rose has twelve petals — one per standard — sized by how far that reviewer-kind leans on it relative to the field. The names are editorial; the petals are not.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="modes" id="minds-tabs" role="group" aria-label="archetype" style="flex-wrap:wrap;margin-bottom:18px"></div>
     <div id="minds" style="display:grid;grid-template-columns:360px 1fr;gap:26px;align-items:center;min-height:280px"></div>
-    <p class="caption"><b>Fig. 6</b> — k-means (k = 5, seed 7) over per-reviewer reasoning-standard profiles, official reviewers with ≥5 units, 2018–2026; a "reviewer" is one reviewer within one forum. The sparkline is the archetype's share of each year's reviewers. The nine-year story: <em>the Gatekeeper — novelty and polish — is fading (25% → 15%), and the Stress-Tester — robustness, confounds, cost — is inheriting the field (19% → 26%)</em>. The Advocate runs 23 points less negative than every other kind.</p>
+    <p class="caption"><b>Fig. 6</b> — k-means (k = 5, seed 7) over per-reviewer reasoning-standard profiles, official reviewers with ≥5 units, 2018–2026; a "reviewer" is one reviewer within one forum. The sparkline is the archetype's share of each year's reviewers. The nine-year story: <em>the Gatekeeper — novelty and polish — is fading (25% → 15%), and the Stress-Tester — robustness, confounds, cost — is inheriting the field (19% → 26%)</em>. The Advocate runs 18–23 points less negative than the other four kinds.</p>
   </div></div>
 </section>
 
@@ -330,88 +361,128 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate VIII · The Drift</div>
-    <h2>Nine years of shifting scrutiny</h2>
-    <p class="lede">The same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em> (the forum-level Direct track). Share of reviewer attention per year; the four biggest movers are named, the rest recede.</p>
+    <div class="plate-no">Plate VIII · The Ladder</div>
+    <h2>What each score sounds like</h2>
+    <p class="lede">Join every 2026 review's official rating — never shown to the extraction pipeline — to its logic units, and the scale becomes audible: what a 2 argues about, what an 8 still checks, and where on the ladder the reviewer's own confidence lives.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 8a — What reviewers inspect, 2018 → 2026</div>
-    <div id="drift-obj"></div>
-    <div class="fig-title" style="margin-top:30px">Fig. 8b — The standards they invoke, 2018 → 2026</div>
-    <div id="drift-rea"></div>
-    <div class="fig-title" style="margin-top:30px">Fig. 8c — The hardening: nine-year vitals</div>
-    <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
-    <p class="caption"><b>Fig. 8</b> — The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity holds steady near 77% all nine years. Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that soften has halved, 7.7% in 2018 to 3.4% in 2026 — rebuttals buy half as much as they used to.</p>
+    <div class="fig-title">Fig. 8a — The ladder: verdict mix per rating (ICLR 2026, even scale)</div>
+    <div id="ladder" style="display:flex;flex-direction:column;gap:9px"></div>
+    <div class="legend" id="val-legend-3" style="margin-top:12px"></div>
+    <div class="arc-grid" style="margin-top:34px">
+      <div>
+        <div class="fig-title">Fig. 8b — What a 2 argues vs what an 8 argues (share of units per standard)</div>
+        <div class="legend" style="margin-bottom:10px"><span class="chip"><span class="sw" style="background:#e66767"></span>rating 2</span><span class="chip"><span class="sw" style="background:#199e70"></span>rating 8</span></div>
+        <div id="ladder-cmp" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="stat-lines" id="ladder-stats"></div>
+    </div>
+    <div class="fig-title" style="margin-top:34px">Fig. 8c — The relocation of scrutiny: share of reviews that inspect each object, per rating</div>
+    <div class="hm-wrap"><div class="hm" id="cov-hm"></div></div>
+    <div class="fig-title" style="margin-top:34px">Fig. 8d — Same paper, split verdict: share of papers where each side condemns the object <span id="split-n" style="color:var(--ink-2)"></span></div>
+    <div class="bar" style="margin-bottom:6px">
+      <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+        <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">LOW SIDE</span><div class="modes" id="split-lo"></div>
+        <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">HIGH SIDE</span><div class="modes" id="split-hi"></div>
+      </div>
+      <div class="legend"><span class="chip"><span class="sw" style="background:#b45036"></span><span id="split-lo-lab">low</span> condemns ← left wing</span><span class="chip"><span class="sw" style="background:#2fa383"></span>right wing → <span id="split-hi-lab">high</span> condemns</span></div>
+    </div>
+    <div id="split-vd" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div class="fig-title" style="margin-top:34px">Fig. 8e — The spread: how much co-reviewers of one paper disagree, and whether it matters</div>
+    <div class="arc-grid">
+      <div id="spread-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
+      <div class="stat-lines" id="spread-stats"></div>
+    </div>
+    <p class="caption"><b>Fig. 8</b> â <em>How to read 8a:</em> each row is one rating; the bar is the verdict mix of its units; the thin brass underbar is the relative number of reviews at that rating; the right column reads n reviews · units per review · mean reviewer confidence (1–5). Ratings are joined at display time only; extraction never saw them. Five findings that are not the tautology (low score = more negative): <b>(1) Scrutiny relocates rather than shrinks</b> — novelty largely disappears from an 8's review (a novelty unit appears in 20% of 2-reviews but only 9% of 8-reviews) and baselines (42% → 29%), but inspects theory, method design, and compute <em>more</em> than a 2 does. <b>(2) A 2's praise is consolation praise</b> — its rare positive units go to clarity and framing ("well written, nice motivation"); an 8's praise goes to empirical scope and theory. <b>(3) There are many ways to fail</b> — within-rating diversity of what reviews discuss falls monotonically from 0 (most heterogeneous) to 10 (most scripted): unhappiness is diverse, excellence has one shape. <b>(4) In split verdicts on the very same paper</b>, both reviewers inspect theory and method at identical rates and merely disagree on the verdict — but novelty is a weapon only the low scorer draws (condemned by 22% of ≤2 reviewers vs 4% of their ≥8 co-reviewers). Quieter still: the reviewer's own confidence follows a U (4.2 at 0 · 3.4 at 6 · 3.9 at 10), and mid-scale criticism is the most actionable (78% of a 2–4's units carry a fix vs 56% at 10). <b>(5) The decision is a mean, not a variance</b> — 93% of multi-review papers carry disagreement (half of them by two full notches), and disagreement peaks for mid-scoring papers; yet holding the exact mean fixed, a unanimous 6-6-6 and a divided 4-6-8 are accepted at the identical rate (92% at mean 6.0). A naive banded version of this analysis suggests "consensus is fate" — that is a mean-composition confound, and the panel averages it away.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate IX · The Rebuttal</div>
+    <div class="plate-no">Plate IX · The Drift</div>
+    <h2>Nine years of shifting scrutiny</h2>
+    <p class="lede">The same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em> (the forum-level Direct track). Share of reviewer attention per year; the four biggest movers are named, the rest recede.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 9a — What reviewers inspect, 2018 → 2026</div>
+    <div id="drift-obj"></div>
+    <div class="fig-title" style="margin-top:30px">Fig. 9b — The standards they invoke, 2018 → 2026</div>
+    <div id="drift-rea"></div>
+    <div class="fig-title" style="margin-top:30px">Fig. 9c — The hardening: nine-year vitals</div>
+    <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
+    <p class="caption"><b>Fig. 9</b> â <em>How to read 9c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate X · The Rebuttal</div>
     <h2>Author responses barely move the needle</h2>
     <p class="lede">130,650 units sit after the author response (2018–2026). When the reviewer's judgment moves at all, it moves toward <em>reinforcement</em> two and a half times more often than concession — and no kind of response escapes that ratio.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid">
       <div>
-        <div class="fig-title">Fig. 9a — Fate of a judgment after the author responds</div>
+        <div class="fig-title">Fig. 10a — Fate of a judgment after the author responds</div>
         <div id="reb-fate" style="display:flex;flex-direction:column;gap:8px"></div>
-        <div class="fig-title" style="margin-top:28px">Fig. 9b — What the response contained, and what happened</div>
+        <div class="fig-title" style="margin-top:28px">Fig. 10b — What the response contained, and what happened</div>
         <div id="reb-trig" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div class="fig-title" style="margin-top:28px">Fig. 10c — Who yields? Post-rebuttal movement by position in a split verdict (ICLR 2026)</div>
+        <div id="reb-yield" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="reb-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 9</b> — 9a: shares of all post-response units. 9b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects).</p>
+    <p class="caption"><b>Fig. 10</b> — 10a: shares of all post-response units. 10b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects). <em>How to read 10c:</em> reviewers on 2026 forums whose ratings split by ≥4 notches, grouped by their own position; oxblood dot = share whose judgment weakened or reversed, brass dot = share that strengthened. The dissenting low scorer is the one who moves — 2.4× likelier to yield than the high co-reviewer — yet even for them reinforcement beats concession, and unanimous panels barely stir at all (9,329 split forums; ratings matched by reviewer signature, 95% coverage).</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate X · The Tribunal</div>
-    <h2>Which criticism actually kills</h2>
-    <p class="lede">13,704 ICLR 2026 papers with decisions. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
+    <div class="plate-no">Plate XI · The Tribunal</div>
+    <h2>Which criticism travels with rejection</h2>
+    <p class="lede">13,704 of the 19,474 reviewed ICLR 2026 papers carry a non-withdrawn decision; the rest are excluded here. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 10 — Acceptance rate with (●) vs without (○) negative units, per object</div>
+    <div class="fig-title">Fig. 11 — Acceptance rate with (●) vs without (○) negative units, per object</div>
     <div id="tribunal" style="display:flex;flex-direction:column;gap:8px"></div>
-    <p class="caption"><b>Fig. 10</b> — Novelty criticism carries the largest penalty (−10.6pp); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism carry <em>no</em> penalty at all — reviewers complain about cost, but the tribunal does not convict on it. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
+    <p class="caption"><b>Fig. 11</b> — Novelty criticism shows the largest acceptance gap (−10.6pp, association only); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism show no acceptance gap at all — papers criticized there are accepted at the same rate as papers that are not. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XI · The Gauntlet</div>
-    <h2>Every new front of criticism costs survival</h2>
+    <div class="plate-no">Plate XII · The Gauntlet</div>
+    <h2>Acceptance falls with every new front of criticism</h2>
     <p class="lede">For each ICLR 2026 paper: on how many of the twelve objects did it draw at least one negative unit — and did it survive? Dot size is the number of papers standing at that breadth.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 11 — Acceptance rate by breadth of criticism</div>
+    <div class="fig-title">Fig. 12 — Acceptance rate by breadth of criticism</div>
     <div id="gauntlet"></div>
-    <p class="caption"><b>Fig. 11</b> — Survival falls almost linearly, roughly five points per additional front, from 57% at three fronts to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
+    <p class="caption"><b>Fig. 12</b> — Acceptance falls steeply, then almost linearly: 69% at two fronts, 57% at three, then roughly five points per additional front down to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XII · The Panel</div>
+    <div class="plate-no">Plate XIII · The Panel</div>
     <h2>Dissent, and the kinder judge</h2>
     <p class="lede">Where do reviewers of the same paper split — and how does the meta-reviewer differ from the panel they oversee?</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid">
       <div>
-        <div class="fig-title">Fig. 12 — Contested ground: share of forums where reviewers took opposite stances</div>
+        <div class="fig-title">Fig. 13 — Contested ground: share of forums where reviewers took opposite stances</div>
         <div id="dissent" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="panel-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 12</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
+    <p class="caption"><b>Fig. 13</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XIII · The Specimens</div>
+    <div class="plate-no">Plate XIV · The Specimens</div>
     <h2>Raw reasoning, unretouched</h2>
     <p class="lede">232 reviews sampled across every category, shown as their structured logic flows. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview forum, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</p>
   </div>
@@ -438,9 +509,12 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div>
   <div id="prov"></div>
   <details class="table-view"><summary>Full crosstab — object × reasoning standard</summary><div class="tv-wrap" id="tv"></div></details>
-  <div class="fig-title" style="margin-top:30px">Fig. 14 — The instrument's own error: memo-inferred share, object × year</div>
+  <div class="fig-title" style="margin-top:30px">Fig. 15 — The instrument's own error: memo-inferred share, object × year</div>
   <div class="hm-wrap"><div class="hm" id="reliab"></div></div>
-  <p class="caption"><b>Fig. 14</b> — Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
+  <div class="fig-title" style="margin-top:30px">Fig. 16 â The instrument check: does each criticism dent the sub-score it should?</div>
+  <div class="hm-wrap"><div class="hm" id="construct-hm"></div></div>
+  <p class="caption"><b>Fig. 16</b> â <em>How to read:</em> each cell is the rating-adjusted change in one ICLR sub-score (soundness · presentation · contribution, 1–4 scale) when a review carries ≥1 negative unit on that object, versus reviews at the same overall rating without one; oxblood = the sub-score drops, verdigris = it rises. The taxonomy and the venue’s own decomposition largely agree — clarity criticism dents presentation specifically (−0.35), novelty dents contribution (−0.12) — with one telling leak: theory criticism dents presentation more than soundness, as if “I could not follow the theory” were filed under presentation.</p>
+  <p class="caption"><b>Fig. 15</b> â Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
   <dl class="method" id="method"></dl>
 </section>
 
@@ -457,6 +531,10 @@ const DRIFT = __DRIFT_JSON__;
 const MINDS = __MINDS_JSON__;
 const FIELD = __FIELD_JSON__;
 const RHET = __RHET_JSON__;
+const SCORE = __SCORE_JSON__;
+const DEPTH = __DEPTH_JSON__;
+const YIELD = __YIELD_JSON__;
+const CONSTRUCT = __CONSTRUCT_JSON__;
 
 const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
 const VAL_COLOR = { negative: "#e66767", uncertain: "#9085e9", mixed: "#d55181", conditional: "#c98500", positive: "#199e70" };
@@ -467,6 +545,9 @@ const objCats = DATA.taxonomy.inspected_object, reaCats = DATA.taxonomy.reasonin
 const objLabel = Object.fromEntries(objCats.map(c => [c.key, c.label_en]));
 const reaLabel = Object.fromEntries(reaCats.map(c => [c.key, c.label_en]));
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const REA_SHORT = { novelty_standard: "novelty", claim_evidence_match: "claim\u2194evidence", fair_comparison: "fair comp.", design_justification: "design", cost_benefit: "cost-benefit", confound_hypothesis: "confound", robustness_norm: "robustness", presentation_trust: "presentation", reproducibility_norm: "reproducib.", statistical_identifiability: "statistics", construct_validity: "validity", merit_recognition: "merit" };
+const OBJ_SHORT = { empirical_scope: "empirical scope", baselines_ablations: "baselines", theory: "theory", method_design: "method design", compute_cost: "compute cost", clarity: "clarity", novelty: "novelty", related_work: "related work", stats_metrics: "stats & metrics", robustness_sensitivity: "robustness", reproducibility: "reproducib.", problem_framing: "framing" };
+function debounceResize(fn) { let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(fn, 220); }); }
 
 const objTot = {}, reaTot = {}, valTot = {}, linkOR = {}, linkRV = {}, matrix = {}, objVal = {};
 let TOTAL = 0;
@@ -495,22 +576,39 @@ const valLegendHtml = VAL_ORDER.map(v => `<span class="chip" tabindex="0"><span 
 document.getElementById("val-legend").innerHTML = valLegendHtml;
 document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
-// ---------------- planisphere (title page) ----------------
+// ---------------- planisphere (title page) — living star chart ----------------
 (function planisphere() {
   const cv = document.getElementById("planisphere");
   const ctx = cv.getContext("2d");
-  const pts = GALAXY.points.filter((_, i) => i % 2 === 0);
-  let w, dpr, raf;
+  const raw = GALAXY.points.filter((_, i) => i % 2 === 0);
+  // three depth layers with differential rotation
+  const pts = raw.map((p, i) => ({ x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3 }));
+  const SPEED = [1.0, 0.72, 0.5];
+  let w, dpr, mouse = null;
+  let constellations = [];
+  let lastConst = 0;
   function size() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     w = cv.clientWidth;
     cv.width = w * dpr; cv.height = w * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
+  function spawnConstellation(t) {
+    const seedIdx = Math.floor((t * 7.13) % pts.length);
+    const seed = pts[seedIdx];
+    const members = [seed];
+    for (let i = 0; i < pts.length && members.length < 6; i += 17) {
+      const q = pts[i];
+      if (q === seed || q.layer !== seed.layer) continue;
+      const d = (q.x - seed.x) ** 2 + (q.y - seed.y) ** 2;
+      if (d < 0.012 && d > 0.0004) members.push(q);
+    }
+    if (members.length >= 3) constellations.push({ members, layer: seed.layer, born: t });
+    if (constellations.length > 3) constellations.shift();
+  }
   function draw(t) {
     ctx.clearRect(0, 0, w, w);
     const c = w / 2, R = w / 2 - 4;
-    const rot = REDUCED ? 0 : (t || 0) / 260000;
     // graticule
     ctx.strokeStyle = "rgba(201,164,92,0.22)"; ctx.lineWidth = 1;
     for (const f of [1, 0.72, 0.44]) { ctx.beginPath(); ctx.arc(c, c, R * f, 0, 6.284); ctx.stroke(); }
@@ -521,7 +619,6 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       ctx.lineTo(c + Math.cos(a / 24 * 6.284) * R, c + Math.sin(a / 24 * 6.284) * R);
       ctx.stroke();
     }
-    // tick ring
     ctx.strokeStyle = "rgba(201,164,92,0.5)";
     for (let a = 0; a < 72; a++) {
       const th = a / 72 * 6.284;
@@ -532,126 +629,214 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     }
     ctx.save();
     ctx.beginPath(); ctx.arc(c, c, R - 7, 0, 6.284); ctx.clip();
-    ctx.translate(c, c); ctx.rotate(rot); ctx.translate(-c, -c);
-    for (let i = 0; i < pts.length; i++) {
-      const p = pts[i];
-      const x = 10 + (p[0] / 4095) * (w - 20), y = 10 + (p[1] / 4095) * (w - 20);
-      const amber = i % 131 === 0;
-      ctx.fillStyle = amber ? "rgba(201,164,92,0.9)" : "rgba(220,225,240,0.20)";
-      ctx.fillRect(x, y, amber ? 1.7 : 1, amber ? 1.7 : 1);
+    const rots = SPEED.map(sp => REDUCED ? 0 : (t || 0) / 52000 * sp);
+    const cos = rots.map(Math.cos), sin = rots.map(Math.sin);
+    const proj = p => {
+      const px = (p.x - 0.5) * (w - 20), py = (p.y - 0.5) * (w - 20);
+      const l = p.layer;
+      return [c + px * cos[l] - py * sin[l], c + px * sin[l] + py * cos[l]];
+    };
+    // lens: the pointer, or an autonomous observer's eye that sweeps the sphere
+    let lens = mouse;
+    if (!lens && !REDUCED) {
+      const la = (t || 0) / 9000;
+      lens = [c + Math.cos(la) * R * 0.45, c + Math.sin(la * 0.83) * R * 0.45];
+    }
+    // stars
+    let ti = 0;
+    for (const p of pts) {
+      const [x, y] = proj(p);
+      let sizeBoost = 0, alphaBoost = 0;
+      if (lens) {
+        const d2 = (x - lens[0]) ** 2 + (y - lens[1]) ** 2;
+        if (d2 < 8100) { const k = 1 - Math.sqrt(d2) / 90; sizeBoost = k * 1.6; alphaBoost = k * 0.55; }
+      }
+      if (p.praise) {
+        const tw = REDUCED ? 0 : 0.16 * Math.sin((t || 0) / 700 + (ti++) * 1.7);
+        ctx.fillStyle = `rgba(201,164,92,${0.5 + tw + alphaBoost})`;
+        ctx.fillRect(x, y, 1.4 + sizeBoost, 1.4 + sizeBoost);
+      } else {
+        ctx.fillStyle = `rgba(220,225,240,${0.17 + alphaBoost})`;
+        ctx.fillRect(x, y, 1 + sizeBoost, 1 + sizeBoost);
+      }
+    }
+    // self-drawing constellations
+    if (!REDUCED) {
+      if (t - lastConst > 2600) { spawnConstellation(t); lastConst = t; }
+      constellations = constellations.filter(k => t - k.born < 5200);
+      for (const k of constellations) {
+        const age = (t - k.born) / 5200;
+        const alpha = age < 0.25 ? age / 0.25 : age > 0.65 ? (1 - age) / 0.35 : 1;
+        const drawn = Math.min(1, age / 0.35);
+        ctx.strokeStyle = `rgba(201,164,92,${0.75 * alpha})`;
+        ctx.lineWidth = 1;
+        const segs = k.members.length - 1;
+        for (let i = 0; i < segs; i++) {
+          const segProgress = Math.max(0, Math.min(1, drawn * segs - i));
+          if (segProgress <= 0) break;
+          const [x1, y1] = proj(k.members[i]);
+          const [x2, y2] = proj(k.members[i + 1]);
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x1 + (x2 - x1) * segProgress, y1 + (y2 - y1) * segProgress);
+          ctx.stroke();
+        }
+        for (const m of k.members) {
+          const [x, y] = proj(m);
+          ctx.fillStyle = `rgba(236,231,220,${0.9 * alpha})`;
+          ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 6.284); ctx.fill();
+        }
+      }
     }
     ctx.restore();
-    if (!REDUCED) raf = requestAnimationFrame(draw);
+    if (!REDUCED) requestAnimationFrame(draw);
   }
+  function setLens(cx2, cy2) {
+    const r = cv.getBoundingClientRect();
+    mouse = [(cx2 - r.left) * (w / r.width), (cy2 - r.top) * (w / r.height)];
+  }
+  cv.addEventListener("mousemove", e => setLens(e.clientX, e.clientY));
+  cv.addEventListener("mouseleave", () => { mouse = null; });
+  cv.addEventListener("touchmove", e => { const tt = e.touches[0]; if (tt) setLens(tt.clientX, tt.clientY); }, { passive: true });
+  cv.addEventListener("touchend", () => { mouse = null; });
   size(); addEventListener("resize", () => { size(); if (REDUCED) draw(0); });
-  if (REDUCED) draw(0); else raf = requestAnimationFrame(draw);
+  if (REDUCED) draw(0); else requestAnimationFrame(draw);
 })();
 
 // ---------------- sankey (Plate II) ----------------
 (function sankey() {
-  const W = 1180, H = 780, NW = 9, PAD_L = 250, PAD_R = 190, TOP = 26;
-  const colX = [PAD_L, PAD_L + (W - PAD_L - PAD_R) / 2 - NW / 2, W - PAD_R - NW];
-  const GAP = 7, innerH = H - TOP - 16;
-  function layout(keys, totals) {
-    const sum = keys.reduce((s, k) => s + totals[k], 0);
-    const scale = (innerH - GAP * (keys.length - 1)) / sum;
-    let y = TOP; const pos = {};
-    for (const k of keys) { const h = totals[k] * scale; pos[k] = { y, h }; y += h + GAP; }
-    return { pos, scale };
-  }
-  const L1 = layout(objOrder, objTot), L2 = layout(reaOrder, reaTot), L3 = layout(VAL_ORDER, valTot);
+  const host = document.getElementById("sankey");
   const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  function ribbon(x0, y0, h0, x1, y1, h1) {
-    const xm = (x0 + x1) / 2;
-    return `M${x0},${y0} C${xm},${y0} ${xm},${y1} ${x1},${y1} L${x1},${y1 + h1} C${xm},${y1 + h1} ${xm},${y0 + h0} ${x0},${y0 + h0} Z`;
+  let revealed = REDUCED;
+  let paths = [];
+  function build() {
+    host.innerHTML = "";
+    const W = Math.max(260, host.clientWidth || 1100);
+    const narrow = W < 760;
+    const H = narrow ? 620 : 780;
+    const NW = narrow ? 7 : 9;
+    const PAD_L = narrow ? 114 : 266, PAD_R = narrow ? 60 : 190, TOP = 26;
+    const colX = [PAD_L, PAD_L + (W - PAD_L - PAD_R) / 2 - NW / 2, W - PAD_R - NW];
+    const GAP = narrow ? 5 : 7, innerH = H - TOP - 16;
+    function layout(keys, totals) {
+      const sum = keys.reduce((a, k) => a + totals[k], 0);
+      const scale = (innerH - GAP * (keys.length - 1)) / sum;
+      let y = TOP; const pos = {};
+      for (const k of keys) { const h = totals[k] * scale; pos[k] = { y, h }; y += h + GAP; }
+      return { pos, scale };
+    }
+    const L1 = layout(objOrder, objTot), L2 = layout(reaOrder, reaTot), L3 = layout(VAL_ORDER, valTot);
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H);
+    svg.style.display = "block";
+    function ribbon(x0, y0, h0, x1, y1, h1) {
+      const xm = (x0 + x1) / 2;
+      return `M${x0},${y0} C${xm},${y0} ${xm},${y1} ${x1},${y1} L${x1},${y1 + h1} C${xm},${y1 + h1} ${xm},${y0 + h0} ${x0},${y0 + h0} Z`;
+    }
+    const off1 = {}, off2in = {}, off2out = {}, off3 = {};
+    paths = [];
+    const top3 = {};
+    for (const o of objOrder) {
+      top3[o] = new Set(reaOrder.map(r => [r, linkOR[o + "|" + r] || 0])
+        .sort((a, b) => b[1] - a[1]).slice(0, 3).map(([r]) => r));
+    }
+    for (const o of objOrder) for (const r of reaOrder) {
+      const n = linkOR[o + "|" + r]; if (!n) continue;
+      const h0 = n * L1.scale, h1 = n * L2.scale;
+      const y0 = L1.pos[o].y + (off1[o] = off1[o] || 0), y1 = L2.pos[r].y + (off2in[r] = off2in[r] || 0);
+      off1[o] += h0; off2in[r] += h1;
+      const major = top3[o].has(r);
+      paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1),
+        fill: major ? "#c9a45c" : "#b3aa99", base: major ? 0.20 : 0.05, hi: major ? 0.5 : 0.35, o, r, n,
+        tipHtml: `<div class="t">${objLabel[o]} → ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
+    }
+    for (const r of reaOrder) for (const v of VAL_ORDER) {
+      const n = linkRV[r + "|" + v]; if (!n) continue;
+      const h0 = n * L2.scale, h1 = n * L3.scale;
+      const y0 = L2.pos[r].y + (off2out[r] = off2out[r] || 0), y1 = L3.pos[v].y + (off3[v] = off3[v] || 0);
+      off2out[r] += h0; off3[v] += h1;
+      paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1), fill: VAL_COLOR[v], base: 0.42, hi: 0.8, r, v, n,
+        tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
+    }
+    for (const p of paths) {
+      const el = document.createElementNS(NS, "path");
+      el.setAttribute("d", p.d); el.setAttribute("fill", p.fill);
+      el.style.opacity = revealed ? p.base : 0;
+      el.addEventListener("mousemove", e => showTip(e, p.tipHtml));
+      el.addEventListener("mouseleave", hideTip);
+      p.el = el; svg.appendChild(el);
+    }
+    function highlight(pred) { for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
+    function reset() { for (const p of paths) p.el.style.opacity = p.base; }
+    function node(x, y, h, fill) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("width", NW);
+      el.setAttribute("height", Math.max(h, 1.5)); el.setAttribute("fill", fill);
+      svg.appendChild(el); return el;
+    }
+    function label(x, y, text, anchorPos, size, color) {
+      const el = document.createElementNS(NS, "text");
+      el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("text-anchor", anchorPos);
+      el.setAttribute("dominant-baseline", "middle"); el.setAttribute("font-size", size);
+      el.setAttribute("fill", color || "#b3aa99"); el.textContent = text; svg.appendChild(el); return el;
+    }
+    for (const o of objOrder) {
+      const { y, h } = L1.pos[o];
+      const nEl = node(colX[0], y, h, "#b3aa99");
+      const txt = narrow ? `${OBJ_SHORT[o]} ${(100 * objTot[o] / TOTAL).toFixed(0)}%`
+                         : `${objLabel[o]}  ${(100 * objTot[o] / TOTAL).toFixed(1)}%`;
+      label(colX[0] - 7, y + h / 2, txt, "end", narrow ? 9.5 : 12.5);
+      nEl.style.cursor = "pointer";
+      nEl.addEventListener("mouseenter", () => highlight(p => p.o === o));
+      nEl.addEventListener("mouseleave", reset);
+      nEl.addEventListener("click", () => showDissect("obj", o));
+    }
+    for (const r of reaOrder) {
+      const { y, h } = L2.pos[r];
+      const nEl = node(colX[1], y, h, "#c9a45c");
+      const txt = narrow ? `${REA_SHORT[r]} ${(100 * reaTot[r] / TOTAL).toFixed(0)}%`
+                         : `${reaLabel[r]}  ${(100 * reaTot[r] / TOTAL).toFixed(1)}%`;
+      const t = label(colX[1] + NW + 7, y + h / 2, txt, "start", narrow ? 10 : 11.5);
+      t.setAttribute("paint-order", "stroke"); t.setAttribute("stroke", "#161324"); t.setAttribute("stroke-width", "3");
+      nEl.style.cursor = "pointer";
+      nEl.addEventListener("mouseenter", () => highlight(p => p.r === r));
+      nEl.addEventListener("mouseleave", reset);
+      nEl.addEventListener("click", () => showDissect("rea", r));
+    }
+    for (const v of VAL_ORDER) {
+      const { y, h } = L3.pos[v];
+      const nEl = node(colX[2], y, h, VAL_COLOR[v]);
+      const txt = narrow ? `${v.slice(0, 3)} ${(100 * valTot[v] / TOTAL).toFixed(0)}%`
+                         : `${v}  ${(100 * valTot[v] / TOTAL).toFixed(1)}%`;
+      label(colX[2] + NW + 7, y + h / 2, txt, "start", narrow ? 10.5 : 12.5);
+      nEl.addEventListener("mouseenter", () => highlight(p => p.v === v));
+      nEl.addEventListener("mouseleave", reset);
+    }
+    const heads = [["THE OBJECT", colX[0] + NW / 2], ["THE STANDARD", colX[1] + NW / 2], ["THE VERDICT", colX[2] + NW / 2]];
+    for (const [t, x] of heads) {
+      const el = label(x, 11, t, "middle", narrow ? 8.5 : 10, "#c9a45c");
+      el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", narrow ? "1.5" : "3");
+    }
+    host.appendChild(svg);
   }
-  const off1 = {}, off2in = {}, off2out = {}, off3 = {}, paths = [];
-  for (const o of objOrder) for (const r of reaOrder) {
-    const n = linkOR[o + "|" + r]; if (!n) continue;
-    const h0 = n * L1.scale, h1 = n * L2.scale;
-    const y0 = L1.pos[o].y + (off1[o] = off1[o] || 0), y1 = L2.pos[r].y + (off2in[r] = off2in[r] || 0);
-    off1[o] += h0; off2in[r] += h1;
-    paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1), fill: "#b3aa99", base: 0.10, hi: 0.4, o, r, n,
-      tipHtml: `<div class="t">${objLabel[o]} → ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
-  }
-  for (const r of reaOrder) for (const v of VAL_ORDER) {
-    const n = linkRV[r + "|" + v]; if (!n) continue;
-    const h0 = n * L2.scale, h1 = n * L3.scale;
-    const y0 = L2.pos[r].y + (off2out[r] = off2out[r] || 0), y1 = L3.pos[v].y + (off3[v] = off3[v] || 0);
-    off2out[r] += h0; off3[v] += h1;
-    paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1), fill: VAL_COLOR[v], base: 0.42, hi: 0.8, r, v, n,
-      tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
-  }
-  for (const p of paths) {
-    const el = document.createElementNS(NS, "path");
-    el.setAttribute("d", p.d); el.setAttribute("fill", p.fill);
-    el.style.opacity = REDUCED ? p.base : 0;
-    el.addEventListener("mousemove", e => showTip(e, p.tipHtml));
-    el.addEventListener("mouseleave", hideTip);
-    p.el = el; svg.appendChild(el);
-  }
-  function highlight(pred) { for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
-  function reset() { for (const p of paths) p.el.style.opacity = p.base; }
   window.__sankeyReveal = () => {
+    revealed = true;
     paths.forEach((p, i) => {
       if (!REDUCED) p.el.style.transition = `opacity .7s ease ${Math.min(i * 4, 900)}ms`;
       p.el.style.opacity = p.base;
       if (!REDUCED) setTimeout(() => { p.el.style.transition = "opacity .15s ease"; }, 1800 + Math.min(i * 4, 900));
     });
   };
-  function node(x, y, h, fill) {
-    const el = document.createElementNS(NS, "rect");
-    el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("width", NW);
-    el.setAttribute("height", Math.max(h, 1.5)); el.setAttribute("fill", fill);
-    svg.appendChild(el); return el;
-  }
-  function label(x, y, text, anchor, size, color) {
-    const el = document.createElementNS(NS, "text");
-    el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("text-anchor", anchor);
-    el.setAttribute("dominant-baseline", "middle"); el.setAttribute("font-size", size);
-    el.setAttribute("fill", color || "#b3aa99"); el.textContent = text; svg.appendChild(el); return el;
-  }
-  for (const o of objOrder) {
-    const { y, h } = L1.pos[o];
-    const nEl = node(colX[0], y, h, "#b3aa99");
-    label(colX[0] - 9, y + h / 2, `${objLabel[o]}  ${(100 * objTot[o] / TOTAL).toFixed(1)}%`, "end", 12.5);
-    nEl.addEventListener("mouseenter", () => highlight(p => p.o === o));
-    nEl.addEventListener("mouseleave", reset);
-    nEl.style.cursor = "pointer";
-    nEl.addEventListener("click", () => showDissect("obj", o));
-  }
-  for (const r of reaOrder) {
-    const { y, h } = L2.pos[r];
-    const nEl = node(colX[1], y, h, "#c9a45c");
-    const t = label(colX[1] + NW + 8, y + h / 2, `${reaLabel[r]}  ${(100 * reaTot[r] / TOTAL).toFixed(1)}%`, "start", 11.5);
-    t.setAttribute("paint-order", "stroke"); t.setAttribute("stroke", "#161324"); t.setAttribute("stroke-width", "3");
-    nEl.addEventListener("mouseenter", () => highlight(p => p.r === r));
-    nEl.addEventListener("mouseleave", reset);
-    nEl.style.cursor = "pointer";
-    nEl.addEventListener("click", () => showDissect("rea", r));
-  }
-  for (const v of VAL_ORDER) {
-    const { y, h } = L3.pos[v];
-    const nEl = node(colX[2], y, h, VAL_COLOR[v]);
-    label(colX[2] + NW + 8, y + h / 2, `${v}  ${(100 * valTot[v] / TOTAL).toFixed(1)}%`, "start", 12.5);
-    nEl.addEventListener("mouseenter", () => highlight(p => p.v === v));
-    nEl.addEventListener("mouseleave", reset);
-  }
-  const heads = [["THE OBJECT", colX[0] + NW / 2], ["THE STANDARD", colX[1] + NW / 2], ["THE VERDICT", colX[2] + NW / 2]];
-  for (const [t, x] of heads) {
-    const el = label(x, 11, t, "middle", 10, "#c9a45c");
-    el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", "3");
-  }
-  document.getElementById("sankey").appendChild(svg);
+  build();
+  debounceResize(build);
 })();
 
 // ---------------- heatmap (Plate III) ----------------
 (function heatmap() {
   const hm = document.getElementById("heatmap");
   hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
-  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
+  hm.dataset.cols = reaOrder.length;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${REA_SHORT[r]}</div>`).join(""));
   for (const o of objOrder) {
     hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
     for (const r of reaOrder) {
@@ -688,53 +873,82 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
        </div>
        <div class="lift-n">opens ${r.open_lift}× · closes ${r.close_lift}×</div></div>`);
   }
-  // Fig 4b: the arc
-  const W = 640, H = 300, padL = 44, padR = 96, padT = 22, padB = 34;
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  const xs = i => padL + i / (STRUCT.position.bins - 1) * (W - padL - padR);
-  const ys = v => padT + (1 - v) * (H - padT - padB);
-  for (const g of [0, 0.25, 0.5, 0.75, 1]) {
-    const ln = document.createElementNS(NS, "line");
-    ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
-    ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
-    ln.setAttribute("stroke", "rgba(201,164,92,0.13)"); svg.appendChild(ln);
-    const tx = document.createElementNS(NS, "text");
-    tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
-    tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
-    tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
-    tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
-  }
-  const series = [["negative", STRUCT.position.neg_rate, VAL_COLOR.negative], ["positive", STRUCT.position.pos_rate, VAL_COLOR.positive]];
-  for (const [name, vals, color] of series) {
-    const pth = document.createElementNS(NS, "path");
-    pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
-    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color); pth.setAttribute("stroke-width", "2");
-    pth.setAttribute("data-draw", "1");
-    svg.appendChild(pth);
-    vals.forEach((v, i) => {
-      const c = document.createElementNS(NS, "circle");
-      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(v)); c.setAttribute("r", 3.5); c.setAttribute("fill", color);
-      const title = document.createElementNS(NS, "title");
-      title.textContent = `${name}, fifth ${i + 1}: ${pct(v)}`;
-      c.appendChild(title); svg.appendChild(c);
+  // Fig 4b: the arc (responsive)
+  function buildArc() {
+    const hostA = document.getElementById("arc");
+    hostA.innerHTML = "";
+    const W = Math.max(260, hostA.clientWidth || 640);
+    const narrow = W < 520;
+    const H = narrow ? 240 : 300, padL = narrow ? 36 : 44, padR = narrow ? 78 : 96, padT = 20, padB = 34;
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const xs = i => padL + i / (STRUCT.position.bins - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - v) * (H - padT - padB);
+    for (const g of [0, 0.25, 0.5, 0.75, 1]) {
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.13)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", narrow ? 9 : 10);
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+    }
+    // temperature band between the two curves
+    const negV = STRUCT.position.neg_rate, posV = STRUCT.position.pos_rate;
+    const defs = document.createElementNS(NS, "defs");
+    defs.innerHTML = `<linearGradient id="arcband" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b45036" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#2fa383" stop-opacity="0.30"/></linearGradient>`;
+    svg.appendChild(defs);
+    const band = document.createElementNS(NS, "path");
+    band.setAttribute("d",
+      negV.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" ") +
+      " " + [...posV.keys()].reverse().map(i => "L" + xs(i) + "," + ys(posV[i])).join(" ") + " Z");
+    band.setAttribute("fill", "url(#arcband)");
+    svg.appendChild(band);
+    // act rules
+    for (const i of [1, 3]) {
+      const rule = document.createElementNS(NS, "line");
+      rule.setAttribute("x1", xs(i)); rule.setAttribute("x2", xs(i));
+      rule.setAttribute("y1", padT); rule.setAttribute("y2", H - padB);
+      rule.setAttribute("stroke", "rgba(201,164,92,0.18)"); rule.setAttribute("stroke-dasharray", "2 5");
+      svg.appendChild(rule);
+    }
+    const series = [["negative", negV, VAL_COLOR.negative], ["positive", posV, VAL_COLOR.positive]];
+    for (const [name, vals, color] of series) {
+      const pth = document.createElementNS(NS, "path");
+      pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
+      pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color); pth.setAttribute("stroke-width", "2");
+      svg.appendChild(pth);
+      vals.forEach((v, i) => {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(v)); c.setAttribute("r", 3.5); c.setAttribute("fill", color);
+        const title = document.createElementNS(NS, "title");
+        title.textContent = `${name}, fifth ${i + 1}: ${pct(v)}`;
+        c.appendChild(title); svg.appendChild(c);
+      });
+      const lb = document.createElementNS(NS, "text");
+      lb.setAttribute("x", xs(vals.length - 1) + 9); lb.setAttribute("y", ys(vals[vals.length - 1]));
+      lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", narrow ? 10.5 : 12); lb.setAttribute("fill", color);
+      lb.textContent = narrow ? `${name.slice(0, 3)} ${Math.round(vals[vals.length - 1] * 100)}%` : `${name} ${pct(vals[vals.length - 1])}`;
+      svg.appendChild(lb);
+    }
+    const axis = ["opening", "", "middle", "", "close"];
+    axis.forEach((t, i) => {
+      if (!t) return;
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 10); tx.setAttribute("text-anchor", "middle");
+      tx.setAttribute("font-size", narrow ? 8.5 : 10); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace"); tx.setAttribute("letter-spacing", "2");
+      tx.textContent = t.toUpperCase(); svg.appendChild(tx);
     });
-    const lb = document.createElementNS(NS, "text");
-    lb.setAttribute("x", xs(vals.length - 1) + 10); lb.setAttribute("y", ys(vals[vals.length - 1]));
-    lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "12"); lb.setAttribute("fill", color);
-    lb.textContent = `${name} ${pct(vals[vals.length - 1])}`; svg.appendChild(lb);
+    hostA.appendChild(svg);
   }
-  const axis = ["opening", "", "middle", "", "close"];
-  axis.forEach((t, i) => {
-    if (!t) return;
-    const tx = document.createElementNS(NS, "text");
-    tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 10); tx.setAttribute("text-anchor", "middle");
-    tx.setAttribute("font-size", "10"); tx.setAttribute("fill", "#6f6758");
-    tx.setAttribute("font-family", "IBM Plex Mono, monospace"); tx.setAttribute("letter-spacing", "2");
-    tx.textContent = t.toUpperCase(); svg.appendChild(tx);
-  });
-  document.getElementById("arc").appendChild(svg);
+  buildArc();
+  debounceResize(buildArc);
   const arcMap = Object.fromEntries(STRUCT.arcs.map(a => [a.first + "|" + a.last, a.share]));
   document.getElementById("arc-stats").innerHTML = [
     [pct(arcMap["negative|negative"] || 0), "of reviews open and close on a negative unit"],
@@ -745,11 +959,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
 // ---------------- the wheel (Plate IV) ----------------
 (function wheel() {
+  const host = document.getElementById("wheel");
+  const NS = "http://www.w3.org/2000/svg";
   const trans = STRUCT.transitions;
-  const vol = {};
-  let volMax = 0;
-  const pair = {};
-  const selfLift = {};
+  const vol = {}, pair = {}, selfLift = {};
   for (const t of trans) {
     vol[t.a] = (vol[t.a] || 0) + t.n;
     vol[t.b] = (vol[t.b] || 0) + t.n;
@@ -760,73 +973,78 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   }
   const keys = objOrder.filter(k => vol[k]);
   const totalVol = keys.reduce((sum, k) => sum + vol[k], 0);
-  const W = 720, H = 660, cx = W / 2, cy = H / 2, R = 244, GAPA = 0.03;
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  // layout arcs
-  let a0 = -Math.PI / 2;
-  const arc = {};
-  for (const k of keys) {
-    const span = (vol[k] / totalVol) * (2 * Math.PI - GAPA * keys.length);
-    arc[k] = { a0, a1: a0 + span, mid: a0 + span / 2 };
-    a0 += span + GAPA;
+  function build() {
+    host.innerHTML = "";
+    const CW = Math.max(260, host.clientWidth || 640);
+    const narrow = CW < 520;
+    const S = Math.min(CW, 720);
+    const W = S, H = Math.round(S * 0.92), cx = W / 2, cy = H / 2;
+    const R = Math.min(cx, cy) - (narrow ? 44 : 58);
+    const GAPA = 0.03;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block"; svg.style.margin = "0 auto";
+    let a0 = -Math.PI / 2;
+    const arc = {};
+    for (const k of keys) {
+      const span = (vol[k] / totalVol) * (2 * Math.PI - GAPA * keys.length);
+      arc[k] = { a0, a1: a0 + span, mid: a0 + span / 2 };
+      a0 += span + GAPA;
+    }
+    const P = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+    const chords = [];
+    const maxN = Math.max(...Object.values(pair).map(v => v.n));
+    const entries = Object.entries(pair).filter(([, v]) => v.n >= 500).sort((x, y) => x[1].n - y[1].n);
+    for (const [key, v] of entries) {
+      const [ka, kb] = key.split("|");
+      if (!arc[ka] || !arc[kb]) continue;
+      const lift = v.liftSum / v.m;
+      const [x1, y1] = P(arc[ka].mid, R - 8), [x2, y2] = P(arc[kb].mid, R - 8);
+      const el = document.createElementNS(NS, "path");
+      el.setAttribute("d", `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
+      el.setAttribute("fill", "none");
+      el.setAttribute("stroke", lift >= 1.25 ? "#c9a45c" : "#b3aa99");
+      el.setAttribute("stroke-width", Math.max(1, (narrow ? 11 : 16) * v.n / maxN));
+      el.setAttribute("stroke-linecap", "round");
+      el.style.opacity = lift >= 1.25 ? 0.75 : 0.14;
+      el.dataset.base = el.style.opacity;
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${objLabel[ka]} ↔ ${objLabel[kb]} · ${fmt(v.n)} transitions · ${lift.toFixed(2)}× chance`;
+      el.appendChild(title);
+      chords.push({ el, ka, kb });
+      svg.appendChild(el);
+    }
+    for (const k of keys) {
+      const { a0: s0, a1: s1, mid } = arc[k];
+      const seg = document.createElementNS(NS, "path");
+      const [sx, sy] = P(s0, R), [ex, ey] = P(s1, R);
+      seg.setAttribute("d", `M${sx},${sy} A${R},${R} 0 ${s1 - s0 > Math.PI ? 1 : 0} 1 ${ex},${ey}`);
+      seg.setAttribute("fill", "none"); seg.setAttribute("stroke", "#c9a45c");
+      seg.setAttribute("stroke-width", narrow ? 5 : 7);
+      seg.style.cursor = "pointer";
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${objLabel[k]} · ${fmt(vol[k])} transition endpoints`;
+      seg.appendChild(title);
+      seg.addEventListener("mouseenter", () => {
+        for (const c of chords) c.el.style.opacity = (c.ka === k || c.kb === k) ? 0.85 : 0.04;
+      });
+      seg.addEventListener("mouseleave", () => { for (const c of chords) c.el.style.opacity = c.el.dataset.base; });
+      svg.appendChild(seg);
+      const [lx, ly] = P(mid, R + (narrow ? 12 : 18));
+      const lb = document.createElementNS(NS, "text");
+      lb.setAttribute("x", Math.max(6, Math.min(W - 6, lx))); lb.setAttribute("y", ly);
+      lb.setAttribute("font-size", narrow ? 9.5 : 11.5); lb.setAttribute("fill", "#b3aa99");
+      lb.setAttribute("dominant-baseline", "middle");
+      lb.setAttribute("text-anchor", Math.cos(mid) > 0.3 ? "start" : Math.cos(mid) < -0.3 ? "end" : "middle");
+      let short = objLabel[k].split(" & ")[0].split(", ")[0];
+      if (short.length > 17 || narrow) short = OBJ_SHORT[k];
+      lb.textContent = short;
+      svg.appendChild(lb);
+    }
+    host.appendChild(svg);
   }
-  const P = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
-  // chords first (under the ring)
-  const chords = [];
-  const maxN = Math.max(...Object.values(pair).map(v => v.n));
-  const entries = Object.entries(pair).filter(([, v]) => v.n >= 500).sort((x, y) => x[1].n - y[1].n);
-  for (const [key, v] of entries) {
-    const [ka, kb] = key.split("|");
-    if (!arc[ka] || !arc[kb]) continue;
-    const lift = v.liftSum / v.m;
-    const [x1, y1] = P(arc[ka].mid, R - 10), [x2, y2] = P(arc[kb].mid, R - 10);
-    const el = document.createElementNS(NS, "path");
-    el.setAttribute("d", `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
-    el.setAttribute("fill", "none");
-    el.setAttribute("stroke", lift >= 1.25 ? "#c9a45c" : "#b3aa99");
-    el.setAttribute("stroke-width", Math.max(1, 16 * v.n / maxN));
-    el.setAttribute("stroke-linecap", "round");
-    el.setAttribute("data-draw", "1");
-    el.style.opacity = lift >= 1.25 ? 0.75 : 0.14;
-    el.dataset.base = el.style.opacity;
-    const title = document.createElementNS(NS, "title");
-    title.textContent = `${objLabel[ka]} ↔ ${objLabel[kb]} · ${fmt(v.n)} transitions · ${lift.toFixed(2)}× chance`;
-    el.appendChild(title);
-    chords.push({ el, ka, kb });
-    svg.appendChild(el);
-  }
-  // ring arcs + labels
-  for (const k of keys) {
-    const { a0: s0, a1: s1, mid } = arc[k];
-    const seg = document.createElementNS(NS, "path");
-    const [sx, sy] = P(s0, R), [ex, ey] = P(s1, R);
-    seg.setAttribute("d", `M${sx},${sy} A${R},${R} 0 ${s1 - s0 > Math.PI ? 1 : 0} 1 ${ex},${ey}`);
-    seg.setAttribute("fill", "none"); seg.setAttribute("stroke", "#c9a45c");
-    seg.setAttribute("stroke-width", 7); seg.setAttribute("stroke-linecap", "butt");
-    seg.style.cursor = "pointer";
-    const title = document.createElementNS(NS, "title");
-    title.textContent = `${objLabel[k]} · ${fmt(vol[k])} transition endpoints`;
-    seg.appendChild(title);
-    seg.addEventListener("mouseenter", () => {
-      for (const c of chords) c.el.style.opacity = (c.ka === k || c.kb === k) ? 0.85 : 0.04;
-    });
-    seg.addEventListener("mouseleave", () => { for (const c of chords) c.el.style.opacity = c.el.dataset.base; });
-    svg.appendChild(seg);
-    const [lx, ly] = P(mid, R + 18);
-    const lb = document.createElementNS(NS, "text");
-    lb.setAttribute("x", lx); lb.setAttribute("y", ly);
-    lb.setAttribute("font-size", "11.5"); lb.setAttribute("fill", "#b3aa99");
-    lb.setAttribute("dominant-baseline", "middle");
-    lb.setAttribute("text-anchor", Math.cos(mid) > 0.25 ? "start" : Math.cos(mid) < -0.25 ? "end" : "middle");
-    let short = objLabel[k].split(" & ")[0].split(", ")[0];
-    if (short.length > 17) short = short.split(" ").slice(0, 2).join(" ");
-    lb.textContent = short;
-    svg.appendChild(lb);
-  }
-  document.getElementById("wheel").appendChild(svg);
-  // side lists
+  build();
+  debounceResize(build);
+  // side lists (static)
   const chains = Object.values(selfLift).sort((a, b) => b.lift - a.lift).slice(0, 6);
   const maxL = chains[0].lift;
   document.getElementById("wheel-chains").innerHTML = chains.map(t =>
@@ -847,67 +1065,77 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 // ---------------- the gauntlet (Plate IX) ----------------
 (function gauntlet() {
   const G = PANEL.gauntlet.filter(g => g.n >= 30);
-  const W = 1120, H = 430, padL = 56, padT = 26, padB = 96, padR = 40;
+  const host = document.getElementById("gauntlet");
   const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  const xs = i => padL + (i + 0.5) / G.length * (W - padL - padR);
-  const yMax = 0.75;
-  const ys = v => padT + (1 - v / yMax) * (H - padT - padB - 70);
-  for (const g of [0, 0.25, 0.5, 0.75]) {
-    const ln = document.createElementNS(NS, "line");
-    ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
-    ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
-    ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
-    const tx = document.createElementNS(NS, "text");
-    tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
-    tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
-    tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
-    tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+  function build() {
+    host.innerHTML = "";
+    const W = Math.max(260, host.clientWidth || 1100);
+    const narrow = W < 700;
+    const H = narrow ? 330 : 430, padL = narrow ? 40 : 56, padT = 26, padB = narrow ? 84 : 96, padR = narrow ? 16 : 40;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const xs = i => padL + (i + 0.5) / G.length * (W - padL - padR);
+    const yMax = 0.75;
+    const ys = v => padT + (1 - v / yMax) * (H - padT - padB - (narrow ? 52 : 70));
+    for (const g of [0, 0.25, 0.5, 0.75]) {
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", narrow ? 9 : 10);
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+    }
+    const line = document.createElementNS(NS, "path");
+    line.setAttribute("d", G.map((g, i) => (i ? "L" : "M") + xs(i) + "," + ys(g.accept)).join(" "));
+    line.setAttribute("fill", "none"); line.setAttribute("stroke", "#c9a45c"); line.setAttribute("stroke-width", "2");
+    svg.appendChild(line);
+    const maxN = Math.max(...G.map(g => g.n));
+    G.forEach((g, i) => {
+      const r = (narrow ? 3 : 4) + (narrow ? 9 : 14) * Math.sqrt(g.n / maxN);
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(g.accept)); c.setAttribute("r", r);
+      c.setAttribute("fill", "#c9a45c"); c.setAttribute("fill-opacity", "0.85");
+      c.setAttribute("stroke", "#12101f"); c.setAttribute("stroke-width", "2");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${g.breadth}${g.breadth === 9 ? "+" : ""} fronts: ${fmt(g.n)} papers, ${pct(g.accept)} accepted`;
+      c.appendChild(title); svg.appendChild(c);
+      if (!narrow || i === 0 || i === G.length - 1 || i % 2 === 0) {
+        const val = document.createElementNS(NS, "text");
+        val.setAttribute("x", xs(i)); val.setAttribute("y", ys(g.accept) - r - 8);
+        val.setAttribute("text-anchor", "middle"); val.setAttribute("font-size", narrow ? 9.5 : 12);
+        val.setAttribute("fill", "#ece7dc");
+        val.textContent = narrow ? Math.round(g.accept * 100) + "%" : pct(g.accept);
+        svg.appendChild(val);
+      }
+      const bar = document.createElementNS(NS, "rect");
+      const bh = (narrow ? 32 : 46) * g.n / maxN;
+      const bw = narrow ? 16 : 26;
+      bar.setAttribute("x", xs(i) - bw / 2); bar.setAttribute("y", H - padB + (narrow ? 28 : 40) - bh);
+      bar.setAttribute("width", bw); bar.setAttribute("height", Math.max(bh, 1));
+      bar.setAttribute("fill", "#b3aa99"); bar.setAttribute("fill-opacity", "0.3");
+      const bt = document.createElementNS(NS, "title");
+      bt.textContent = `${fmt(g.n)} papers`; bar.appendChild(bt);
+      svg.appendChild(bar);
+      const xl = document.createElementNS(NS, "text");
+      xl.setAttribute("x", xs(i)); xl.setAttribute("y", H - padB + (narrow ? 44 : 58));
+      xl.setAttribute("text-anchor", "middle"); xl.setAttribute("font-size", narrow ? 10 : 11);
+      xl.setAttribute("fill", "#6f6758"); xl.setAttribute("font-family", "IBM Plex Mono, monospace");
+      xl.textContent = g.breadth === 9 ? "9+" : g.breadth; svg.appendChild(xl);
+    });
+    const ax = document.createElementNS(NS, "text");
+    ax.setAttribute("x", (padL + W - padR) / 2); ax.setAttribute("y", H - padB + (narrow ? 62 : 82));
+    ax.setAttribute("text-anchor", "middle"); ax.setAttribute("font-size", narrow ? 8 : 10);
+    ax.setAttribute("fill", "#6f6758"); ax.setAttribute("font-family", "IBM Plex Mono, monospace");
+    ax.setAttribute("letter-spacing", narrow ? "1" : "2");
+    ax.textContent = narrow ? "OBJECTS CRITICIZED (OF 12) · BARS = PAPERS" : "DISTINCT OBJECTS CRITICIZED (OF 12) · GREY BARS = PAPER COUNT";
+    svg.appendChild(ax);
+    host.appendChild(svg);
   }
-  const line = document.createElementNS(NS, "path");
-  line.setAttribute("d", G.map((g, i) => (i ? "L" : "M") + xs(i) + "," + ys(g.accept)).join(" "));
-  line.setAttribute("fill", "none"); line.setAttribute("stroke", "#c9a45c"); line.setAttribute("stroke-width", "2");
-  line.setAttribute("data-draw", "1");
-  svg.appendChild(line);
-  const maxN = Math.max(...G.map(g => g.n));
-  G.forEach((g, i) => {
-    const r = 4 + 14 * Math.sqrt(g.n / maxN);
-    const c = document.createElementNS(NS, "circle");
-    c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(g.accept)); c.setAttribute("r", r);
-    c.setAttribute("fill", "#c9a45c"); c.setAttribute("fill-opacity", "0.85");
-    c.setAttribute("stroke", "#12101f"); c.setAttribute("stroke-width", "2");
-    c.classList.add("dotfade");
-    const title = document.createElementNS(NS, "title");
-    title.textContent = `${g.breadth}${g.breadth === 9 ? "+" : ""} fronts: ${fmt(g.n)} papers, ${pct(g.accept)} accepted`;
-    c.appendChild(title); svg.appendChild(c);
-    const val = document.createElementNS(NS, "text");
-    val.setAttribute("x", xs(i)); val.setAttribute("y", ys(g.accept) - r - 9);
-    val.setAttribute("text-anchor", "middle"); val.setAttribute("font-size", "12");
-    val.setAttribute("fill", "#ece7dc"); val.classList.add("dotfade");
-    val.textContent = pct(g.accept); svg.appendChild(val);
-    const bar = document.createElementNS(NS, "rect");
-    const bh = 46 * g.n / maxN;
-    bar.setAttribute("x", xs(i) - 13); bar.setAttribute("y", H - padB + 40 - bh);
-    bar.setAttribute("width", 26); bar.setAttribute("height", Math.max(bh, 1));
-    bar.setAttribute("fill", "#b3aa99"); bar.setAttribute("fill-opacity", "0.3");
-    const bt = document.createElementNS(NS, "title");
-    bt.textContent = `${fmt(g.n)} papers`; bar.appendChild(bt);
-    svg.appendChild(bar);
-    const xl = document.createElementNS(NS, "text");
-    xl.setAttribute("x", xs(i)); xl.setAttribute("y", H - padB + 58);
-    xl.setAttribute("text-anchor", "middle"); xl.setAttribute("font-size", "11");
-    xl.setAttribute("fill", "#6f6758"); xl.setAttribute("font-family", "IBM Plex Mono, monospace");
-    xl.textContent = g.breadth === 9 ? "9+" : g.breadth; svg.appendChild(xl);
-  });
-  const ax = document.createElementNS(NS, "text");
-  ax.setAttribute("x", (padL + W - padR) / 2); ax.setAttribute("y", H - padB + 82);
-  ax.setAttribute("text-anchor", "middle"); ax.setAttribute("font-size", "10");
-  ax.setAttribute("fill", "#6f6758"); ax.setAttribute("font-family", "IBM Plex Mono, monospace");
-  ax.setAttribute("letter-spacing", "2");
-  ax.textContent = "DISTINCT OBJECTS CRITICIZED (OF 12) · GREY BARS = PAPER COUNT";
-  svg.appendChild(ax);
-  document.getElementById("gauntlet").appendChild(svg);
+  build();
+  debounceResize(build);
 })();
 
 // ---------------- the field (prolegomenon) ----------------
@@ -962,14 +1190,14 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     host.insertAdjacentHTML("beforeend",
       `<div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">${label}</div>${svg.outerHTML}</div>`);
   }
-  mini("Submissions", years.map(y => S[y].submissions), "#c9a45c", v => fmt(v), true);
-  mini("Reviews per paper", years.map(y => S[y].reviews_per_paper), "#3987e5", v => v.toFixed(1));
-  mini("Acceptance rate", years.map(y => S[y].accept_rate), "#199e70", v => pct(v));
-  mini("Median review length", years.map(y => S[y].median_review_words), "#e66767", v => v + " words");
+  mini("Submissions", years.map(y => S[y].submissions), "#bd8a35", v => fmt(v), true);
+  mini("Reviews per paper", years.map(y => S[y].reviews_per_paper), "#ece7dc", v => v.toFixed(1));
+  mini("Acceptance rate", years.map(y => S[y].accept_rate), "#b3aa99", v => pct(v));
+  mini("Median review length — the one falling line", years.map(y => S[y].median_review_words), "#b45036", v => v + " words");
   let html = `<table><tr><th>year</th><th>submissions</th><th>withdrawn</th><th>decided</th><th>accept rate</th><th>reviews</th><th>reviews / paper</th><th>median words</th></tr>`;
   for (const y of years) {
     const st = S[y];
-    html += `<tr><td>${y}</td><td>${fmt(st.submissions)}</td><td>${st.withdrawn ? fmt(st.withdrawn) : "—"}</td><td>${st.decided ? fmt(st.decided) : "—"}</td><td>${st.accept_rate != null ? pct(st.accept_rate) : "—"}</td><td>${fmt(st.reviews)}</td><td>${st.reviews_per_paper ?? "—"}</td><td>${st.median_review_words ?? "—"}</td></tr>`;
+    html += `<tr><td>${y}</td><td data-label="submissions">${fmt(st.submissions)}</td><td data-label="withdrawn">${st.withdrawn ? fmt(st.withdrawn) : "—"}</td><td data-label="decided">${st.decided ? fmt(st.decided) : "—"}</td><td data-label="accept rate">${st.accept_rate != null ? pct(st.accept_rate) : "—"}</td><td data-label="reviews">${fmt(st.reviews)}</td><td data-label="reviews / paper">${st.reviews_per_paper ?? "—"}</td><td data-label="median words">${st.median_review_words ?? "—"}</td></tr>`;
   }
   html += `</table>`;
   document.getElementById("field-table").innerHTML = html;
@@ -978,12 +1206,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 // ---------------- the rhetoric (Plate III) ----------------
 (function rhetoric() {
   const FORMS = [
-    ["NORM", "#c98500", "the norm invoked — should, must, the bar to meet"],
-    ["BLOCK", "#3987e5", "verification blocked — without X, nothing can be known"],
-    ["ANCHOR", "#d95926", "precedent cited — prior art, baselines, the field"],
-    ["REACH", "#199e70", "reach questioned — beyond this setting? at what cost?"],
-    ["DOUBT", "#9085e9", "rival explanation — confound, artifact, luck"],
-    ["WEIGH", "#d55181", "evidence weighed — sufficient? convincing? on balance?"],
+    ["NORM", "#bd8a35", "the norm invoked — should, must, the bar to meet"],
+    ["BLOCK", "#6d95d4", "verification blocked — without X, nothing can be known"],
+    ["ANCHOR", "#b45036", "precedent cited — prior art, baselines, the field"],
+    ["REACH", "#2fa383", "reach questioned — beyond this setting? at what cost?"],
+    ["DOUBT", "#9182dd", "rival explanation — confound, artifact, luck"],
+    ["WEIGH", "#c05577", "evidence weighed — sufficient? convincing? on balance?"],
   ];
   const FORM_COLOR = Object.fromEntries(FORMS.map(([f, c]) => [f, c]));
   const rows = reaOrder.map(k => {
@@ -1002,9 +1230,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const total = Object.values(RHET.overall).reduce((a, b) => a + b, 0);
   const wv = RHET.by_valence.WEIGH, wt = Object.values(wv).reduce((a, b) => a + b, 0);
   document.getElementById("rhet-stats").innerHTML = [
-    [pct(RHET.overall.WEIGH / total), "of all reasoning is weighing evidence — the modal move of peer review"],
+    [pct(RHET.overall.WEIGH / total), "of all reasoning is weighing evidence — the modal move of ICLR review reasoning"],
     [pct(wv.positive / wt), "of weighing resolves positive — the only form where praise lives; every other form runs ≥88% negative"],
-    ["10%→7%", "precedent-citing is fading across nine years while reach-questioning rises 11%→15%"],
+    ["10%→7%", "precedent-citing is fading across nine years while reach-questioning rises 11%→15% (ANCHOR is the classifier’s weakest class — indicative, not precise)"],
   ].map(([v, l]) => `<div><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 })();
 
@@ -1030,11 +1258,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   let current = 0, timer = null;
   tabs.innerHTML = clusters.map((c, i) =>
     `<button data-i="${i}" class="${i === 0 ? "on" : ""}">${NAMES[c.cluster][0].replace("The ", "")}</button>`).join("");
-  const SHORT = { novelty_standard: "novelty", claim_evidence_match: "claim\u2194evidence", fair_comparison: "fair comp.", design_justification: "design", cost_benefit: "cost-benefit", confound_hypothesis: "confound", robustness_norm: "robustness", presentation_trust: "presentation", reproducibility_norm: "reproducib.", statistical_identifiability: "statistics", construct_validity: "validity", merit_recognition: "merit" };
   function rose(c) {
     const G = 360, H = 290, cx = G / 2, cy = H / 2, R = 78;
     const svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", `0 0 ${G} ${H}`); svg.style.width = "100%";
+    svg.setAttribute("viewBox", `0 0 ${G} ${H}`); svg.style.width = "100%"; svg.style.maxWidth = "100%"; svg.style.height = "auto";
     const ratios = reaOrder.map(k => c.ratio[k] || 0);
     const topIdx = [...ratios.keys()].sort((a, b) => ratios[b] - ratios[a]).slice(0, 3);
     for (const rr of [0.33, 0.66, 1]) {
@@ -1053,7 +1280,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       lb.setAttribute("fill", hot0 ? "#c9a45c" : "#6f6758");
       lb.setAttribute("dominant-baseline", "middle");
       lb.setAttribute("text-anchor", Math.cos(a0) > 0.3 ? "start" : Math.cos(a0) < -0.3 ? "end" : "middle");
-      lb.textContent = SHORT[k];
+      lb.textContent = REA_SHORT[k];
       lb.classList.add("deft");
       const def = reaCats.find(x => x.key === k);
       lb.addEventListener("mousemove", e => showTip(e,
@@ -1106,7 +1333,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
           <span>NEG <b style="color:${c.neg_rate < 0.7 ? "#199e70" : "var(--ink)"};font-weight:500">${pct(c.neg_rate)}</b></span>
         </div>
         <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em">${tops.map(([k, r]) => `${reaLabel[k]} <span style="color:var(--brass)">${r.toFixed(1)}×</span>`).join(" &nbsp;·&nbsp; ")}</div>
-        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--brass-faint);padding-top:10px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--brass-faint);padding-top:10px">
           <span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.14em">SHARE OF EACH YEAR'S REVIEWERS '18–'26</span>${spark}
           <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-2)">${pct(mix[0])}→${pct(mix[mix.length - 1])}</span>
         </div>
@@ -1128,9 +1355,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const years = Object.keys(V);
   const NS = "http://www.w3.org/2000/svg";
   const series = [
-    ["Softening rate", years.map(y => V[y].soften_rate), "#e66767", pct],
-    ["Post-response share", years.map(y => V[y].post_share), "#3987e5", pct],
-    ["Units per reviewer", years.map(y => V[y].units_per_reviewer), "#c9a45c", v => v.toFixed(2)],
+    ["Weaken-or-reverse rate after rebuttal", years.map(y => V[y].soften_rate), "#ece7dc", pct],
+    ["Share of units written post-rebuttal", years.map(y => V[y].post_share), "#ece7dc", pct],
+    ["Units per reviewer", years.map(y => V[y].units_per_reviewer), "#ece7dc", v => v.toFixed(2)],
   ];
   const host = document.getElementById("vitals");
   for (const [label, vals, color, fmtV] of series) {
@@ -1152,7 +1379,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     });
     const end = document.createElementNS(NS, "text");
     end.setAttribute("x", xs(vals.length - 1) + 8); end.setAttribute("y", ys(vals[vals.length - 1]));
-    end.setAttribute("dominant-baseline", "middle"); end.setAttribute("font-size", "11"); end.setAttribute("fill", color);
+    end.setAttribute("dominant-baseline", "middle"); end.setAttribute("font-size", "11"); end.setAttribute("fill", "#c9a45c");
     end.textContent = fmtV(vals[vals.length - 1]); svg.appendChild(end);
     for (const [i, anchor] of [[0, "start"], [vals.length - 1, "end"]]) {
       const tx = document.createElementNS(NS, "text");
@@ -1191,19 +1418,179 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   }
 })();
 
+// ---------------- the ladder (Plate VIII) ----------------
+(function ladder() {
+  const R = SCORE.by_rating;
+  const ratings = Object.keys(R).map(Number).sort((a, b) => b - a);
+  document.getElementById("val-legend-3").innerHTML = valLegendHtml;
+  const host = document.getElementById("ladder");
+  const maxN = Math.max(...ratings.map(r => R[r].n_reviews));
+  host.innerHTML = ratings.map(r => {
+    const d = R[r];
+    const segs = VAL_ORDER.map(v => {
+      const share = d.valence[v] || 0;
+      return `<span style="width:${100 * share}%;background:${VAL_COLOR[v]}" title="${v} ${pct(share)}"></span>`;
+    }).join("");
+    return `<div class="vp-row" style="grid-template-columns:56px 1fr 170px">
+      <div style="font-family:var(--display);font-size:27px;color:var(--brass);text-align:right;line-height:1">${r}</div>
+      <div>
+        <div class="vp-bar grow" style="height:15px">${segs}</div>
+        <div style="height:3px;background:var(--brass);opacity:.45;width:${100 * d.n_reviews / maxN}%;margin-top:3px" title="${fmt(d.n_reviews)} reviews"></div>
+      </div>
+      <div class="vp-n">${fmt(d.n_reviews)} rev · ${d.units_per_review} u · conf ${d.mean_confidence ?? "—"}</div>
+    </div>`;
+  }).join("");
+  // Fig 8b: 2 vs 8 dumbbells
+  const lo = R["2"].standards, hi = R["8"].standards;
+  const rows = reaOrder.map(k => ({ k, lo: lo[k] || 0, hi: hi[k] || 0 }))
+    .sort((a, b) => (b.lo - b.hi) - (a.lo - a.hi));
+  const X = v => Math.min(100, v / 0.30 * 100);
+  document.getElementById("ladder-cmp").innerHTML = rows.map(({ k, lo: l, hi: h }) => `
+    <div class="lift-row" style="grid-template-columns:190px 1fr 96px">
+      <div class="vp-l">${reaLabel[k]}</div>
+      <div class="lift-track" title="${reaLabel[k]}: ${pct(l)} of a 2's units, ${pct(h)} of an 8's">
+        <div class="lift-line grow" style="left:${Math.min(X(l), X(h))}%;width:${Math.abs(X(l) - X(h))}%"></div>
+        <div class="lift-dot dotfade" style="left:${X(l)}%;border-radius:50%;background:#e66767"></div>
+        <div class="lift-dot dotfade" style="left:${X(h)}%;border-radius:50%;background:#199e70"></div>
+      </div>
+      <div class="lift-n">${pct(l)} → ${pct(h)}</div>
+    </div>`).join("");
+  document.getElementById("ladder-stats").innerHTML = [
+    ["0.60 → 0.54", "within-rating diversity of review content, rating 0 → 10 — many ways to fail, one shape of excellence"],
+    ["4.2 · 3.4 · 3.9", "reviewer confidence at 0 · 6 · 10 — certainty lives at the extremes, doubt in the middle"],
+    ["78% vs 56%", "share of units carrying a concrete fix at rating 2–4 vs rating 10 — mid-scale criticism is the most actionable"],
+  ].map(([v, l]) => `<div><div class="v" style="font-size:30px">${v}</div><div class="l">${l}</div></div>`).join("");
+
+  // Fig 8c: coverage heatmap (rating x object touch rate)
+  const covRatings = Object.keys(DEPTH.coverage).map(Number).sort((a, b) => b - a);
+  const hm = document.getElementById("cov-hm");
+  hm.style.gridTemplateColumns = `230px repeat(${objOrder.length}, 1fr)`;
+  hm.dataset.cols = objOrder.length;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + objOrder.map(o => `<div class="cl">${OBJ_SHORT[o]}</div>`).join(""));
+  for (const r of covRatings) {
+    hm.insertAdjacentHTML("beforeend", `<div class="rl">rating ${r} · ${fmt(SCORE.by_rating[r].n_reviews)} rev</div>`);
+    for (const o of objOrder) {
+      const t = DEPTH.coverage[r][o].touch;
+      const cell = document.createElement("div");
+      cell.className = "cell cellfade";
+      cell.style.transitionDelay = Math.min(hm.childElementCount * 4, 900) + "ms";
+      cell.style.background = `color-mix(in oklab, #c9a45c ${Math.min(92, Math.round(t * 120))}%, #161324)`;
+      cell.addEventListener("mousemove", e => showTip(e, `<div class="t">rating ${r} × ${objLabel[o]}</div><div class="n">inspected in ${pct(t)} of reviews · condemned in ${pct(DEPTH.coverage[r][o].neg_touch)}</div>`));
+      cell.addEventListener("mouseleave", hideTip);
+      hm.appendChild(cell);
+    }
+  }
+
+  // Fig 8d: interactive same-paper pair comparison
+  const PW = DEPTH.splits.pairwise;
+  const pairKeys = Object.keys(PW);
+  const los = [...new Set(pairKeys.map(k => +k.split("_")[0]))].sort((a, b) => a - b);
+  const his = [...new Set(pairKeys.map(k => +k.split("_")[1]))].sort((a, b) => a - b);
+  let selLo = 2, selHi = 8;
+  const loHost = document.getElementById("split-lo"), hiHost = document.getElementById("split-hi");
+  function renderSplitTabs() {
+    loHost.innerHTML = los.map(v => `<button data-v="${v}" class="${v === selLo ? "on" : ""}" ${PW[`${v}_${selHi}`] ? "" : "disabled style='opacity:.3'"}>${v}</button>`).join("");
+    hiHost.innerHTML = his.map(v => `<button data-v="${v}" class="${v === selHi ? "on" : ""}" ${PW[`${selLo}_${v}`] ? "" : "disabled style='opacity:.3'"}>${v}</button>`).join("");
+  }
+  function renderSplit() {
+    const key = `${selLo}_${selHi}`;
+    const d = PW[key]; if (!d) return;
+    document.getElementById("split-n").textContent = `— rated both ${selLo} and ${selHi} · ${fmt(d.n_papers)} papers`;
+    document.getElementById("split-lo-lab").textContent = `the ${selLo}-giver`;
+    document.getElementById("split-hi-lab").textContent = `the ${selHi}-giver`;
+    const rows = objOrder.map(o => ({ o, ...d.objects[o] })).sort((a, b) => (b.lo_neg - b.hi_neg) - (a.lo_neg - a.hi_neg));
+    const K = 100 / 0.72; // wing scale
+    document.getElementById("split-vd").innerHTML = rows.map(({ o, lo_neg, hi_neg, lo_touch, hi_touch }) => `
+      <div class="vp-row" style="grid-template-columns:170px 1fr 110px">
+        <div class="vp-l">${objLabel[o]}</div>
+        <div style="position:relative;height:13px" title="${objLabel[o]}: inspected by ${pct(lo_touch)} of ${selLo}-givers / ${pct(hi_touch)} of ${selHi}-givers; condemned by ${pct(lo_neg)} vs ${pct(hi_neg)}">
+          <div style="position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--brass-line)"></div>
+          <div style="position:absolute;right:50%;top:1px;height:11px;width:${Math.min(50, lo_neg * K / 2)}%;background:#b45036;opacity:.9"></div>
+          <div style="position:absolute;left:50%;top:1px;height:11px;width:${Math.min(50, hi_neg * K / 2)}%;background:#2fa383;opacity:.9"></div>
+        </div>
+        <div class="vp-n">${pct(lo_neg)} ← → ${pct(hi_neg)}</div>
+      </div>`).join("");
+    renderSplitTabs();
+  }
+  loHost.addEventListener("click", e => { const b = e.target.closest("button"); if (b && !b.disabled) { selLo = +b.dataset.v; renderSplit(); } });
+  hiHost.addEventListener("click", e => { const b = e.target.closest("button"); if (b && !b.disabled) { selHi = +b.dataset.v; renderSplit(); } });
+  renderSplit();
+
+  // Fig 8e: the spread â one orbital arc of dispersion over the score meridian
+  const D = DEPTH.dispersion;
+  const sc = document.getElementById("spread-charts");
+  sc.style.gridTemplateColumns = "1fr";
+  function orbital() {
+    const entries = Object.entries(D.spread_by_mean).map(([k, v]) => [+k, v.mean_std, v.n]);
+    const W = Math.max(300, sc.clientWidth || 640), H = 230, padL = 46, padR = 20, padT = 26, padB = 40;
+    const NSd = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NSd, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const mus = entries.map(e => e[0]);
+    const xs = m => padL + (m - Math.min(...mus)) / (Math.max(...mus) - Math.min(...mus)) * (W - padL - padR);
+    const vMax = Math.max(...entries.map(e => e[1])) * 1.12;
+    const ys = v => padT + (1 - v / vMax) * (H - padT - padB);
+    for (const g of [0.8, 1.0, 1.2, 1.4]) {
+      const ln = document.createElementNSd = document.createElementNS(NSd, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.10)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NSd, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "9.5");
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "σ" + g.toFixed(1); svg.appendChild(tx);
+    }
+    const pth = document.createElementNS(NSd, "path");
+    pth.setAttribute("d", entries.map(([m, v], i) => (i ? "L" : "M") + xs(m) + "," + ys(v)).join(" "));
+    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", "#c9a45c"); pth.setAttribute("stroke-width", "2");
+    pth.setAttribute("data-draw", "1"); svg.appendChild(pth);
+    for (const [m, v, n] of entries) {
+      const c = document.createElementNS(NSd, "circle");
+      c.setAttribute("cx", xs(m)); c.setAttribute("cy", ys(v)); c.setAttribute("r", m === 5 ? 5 : 3);
+      c.setAttribute("fill", m === 5 ? "#ece7dc" : "#c9a45c");
+      const t = document.createElementNS(NSd, "title");
+      t.textContent = `paper mean ${m}: σ = ${v.toFixed(2)} across ${fmt(n)} papers`;
+      c.appendChild(t); svg.appendChild(c);
+      const tx = document.createElementNS(NSd, "text");
+      tx.setAttribute("x", xs(m)); tx.setAttribute("y", H - 14); tx.setAttribute("text-anchor", "middle");
+      tx.setAttribute("font-size", "10"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "μ" + m; svg.appendChild(tx);
+    }
+    const apex = document.createElementNS(NSd, "text");
+    apex.setAttribute("x", xs(5)); apex.setAttribute("y", ys(entries.find(e => e[0] === 5)[1]) - 12);
+    apex.setAttribute("text-anchor", "middle"); apex.setAttribute("font-size", "11"); apex.setAttribute("fill", "#ece7dc");
+    apex.textContent = "the contested middle"; svg.appendChild(apex);
+    sc.innerHTML = `<div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">Within-paper score σ across the paper's mean rating — each dot: one mean level; large ivory dot: the apex</div>`;
+    sc.appendChild(svg);
+  }
+  orbital();
+  debounceResize(orbital);
+  document.getElementById("spread-stats").innerHTML = [
+    ["92.6%", "of multi-review papers carry disagreement; half by two full notches or more"],
+    ["σ peaks at μ5", "the contested middle: dispersion is an inverted U over the paper's mean score"],
+    ["92% = 92%", "at exact mean 6.0, unanimous and divided papers are accepted at the same rate — the decision is a mean, not a variance"],
+  ].map(([v, l]) => `<div><div class="v" style="font-size:29px">${v}</div><div class="l">${l}</div></div>`).join("");
+})();
+
 // ---------------- the drift (Plate VI) ----------------
 (function drift() {
-  const HL = ["#3987e5", "#d95926", "#199e70", "#9085e9"];
   function chart(hostId, shares, labelOf) {
+    const host = document.getElementById(hostId);
+    host.innerHTML = "";
     const years = DRIFT.years;
     const movers = Object.entries(shares)
       .sort((a, b) => Math.abs(b[1][b[1].length - 1] - b[1][0]) - Math.abs(a[1][a[1].length - 1] - a[1][0]))
       .slice(0, 4).map(([k]) => k);
     const yMax = Math.max(...Object.values(shares).flat()) * 1.12;
-    const W = 1160, H = 330, padL = 46, padR = 345, padT = 16, padB = 30;
+    const W = Math.max(260, host.clientWidth || 1100);
+    const narrow = W < 700;
+    const H = narrow ? 250 : 330;
+    const padL = narrow ? 38 : 46, padR = narrow ? 14 : 345, padT = 16, padB = 30;
     const NS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
     const xs = i => padL + i / (years.length - 1) * (W - padL - padR);
     const ys = v => padT + (1 - v / yMax) * (H - padT - padB);
     for (const g of [0, 0.05, 0.1, 0.15, 0.2]) {
@@ -1213,15 +1600,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
       ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
       const tx = document.createElementNS(NS, "text");
-      tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
-      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", narrow ? 9.5 : 11);
       tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
       tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
     }
     years.forEach((yr, i) => {
+      if (narrow && i % 2 === 1) return;
       const tx = document.createElementNS(NS, "text");
       tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 8); tx.setAttribute("text-anchor", "middle");
-      tx.setAttribute("font-size", "11.5"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-size", narrow ? 9.5 : 11.5); tx.setAttribute("fill", "#6f6758");
       tx.setAttribute("font-family", "IBM Plex Mono, monospace");
       tx.textContent = "'" + String(yr).slice(2); svg.appendChild(tx);
     });
@@ -1230,16 +1618,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     for (const key of ordered) {
       const vals = shares[key];
       const hl = movers.indexOf(key);
-      const color = hl >= 0 ? HL[hl] : "rgba(179,170,153,0.28)";
+      const delta = shares[key][shares[key].length - 1] - shares[key][0];
+      const color = hl >= 0 ? (delta > 0 ? "#c9a45c" : "#b45036") : "rgba(179,170,153,0.22)";
       const pth = document.createElementNS(NS, "path");
       pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
       pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color);
       pth.setAttribute("stroke-width", hl >= 0 ? 2.2 : 1.2);
-      if (hl >= 0) pth.setAttribute("data-draw", "1");
       const title = document.createElementNS(NS, "title");
       title.textContent = `${labelOf(key)}: ${(vals[0] * 100).toFixed(1)}% (2018) → ${(vals[vals.length - 1] * 100).toFixed(1)}% (2026)`;
       pth.appendChild(title); svg.appendChild(pth);
-      if (hl >= 0) {
+      if (hl >= 0 && !narrow) {
         const vEnd = vals[vals.length - 1], d = (vEnd - vals[0]) * 100;
         let y = ys(vEnd);
         for (const u of used) if (Math.abs(u - y) < 19) y = u - 19;
@@ -1251,12 +1639,25 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         svg.appendChild(lb);
       }
     }
-    document.getElementById(hostId).appendChild(svg);
+    host.appendChild(svg);
+    if (narrow) {
+      const legend = document.createElement("div");
+      legend.className = "legend";
+      legend.style.marginTop = "10px";
+      legend.innerHTML = movers.map(k => {
+        const vals = shares[k], d = (vals[vals.length - 1] - vals[0]) * 100;
+        return `<span class="chip"><span class="sw" style="background:${d > 0 ? "#c9a45c" : "#b45036"}"></span>${labelOf(k)} ${d > 0 ? "+" : ""}${d.toFixed(1)}pp</span>`;
+      }).join("");
+      host.appendChild(legend);
+    }
   }
-  chart("drift-obj", DRIFT.object_share, k => objLabel[k]);
-  chart("drift-rea", DRIFT.reasoning_share, k => reaLabel[k]);
+  function build() {
+    chart("drift-obj", DRIFT.object_share, k => objLabel[k]);
+    chart("drift-rea", DRIFT.reasoning_share, k => reaLabel[k]);
+  }
+  build();
+  debounceResize(build);
 })();
-
 
 // ---------------- dissect + mercy map (Plate I) ----------------
 function showDissect(kind, key) {
@@ -1313,7 +1714,8 @@ function showDissect(kind, key) {
 (function mercy() {
   const hm = document.getElementById("mercy");
   hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
-  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
+  hm.dataset.cols = reaOrder.length;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${REA_SHORT[r]}</div>`).join(""));
   const negOf = {};
   for (const t of DATA.triples) if (t.v === "negative") negOf[t.o + "|" + t.r] = (negOf[t.o + "|" + t.r] || 0) + t.n;
   for (const o of objOrder) {
@@ -1338,17 +1740,50 @@ function showDissect(kind, key) {
   const R = PANEL.rebuttal;
   const N = R.post_units;
   const fate = [
-    ["held (no visible change)", (R.overall.not_observed + (R.overall.unknown || 0)) / N, "#7f8ca3"],
+    ["held (no visible change)", (R.overall.not_observed + (R.overall.unknown || 0)) / N, "#b3aa99"],
     ["strengthened", R.overall.strengthened / N, "#c9a45c"],
+    ["clarified only", R.overall.clarified / N, "#9182dd"],
     ["weakened", R.overall.weakened / N, "#e66767"],
     ["reversed", R.overall.reversed / N, "#d55181"],
-    ["clarified only", R.overall.clarified / N, "#9085e9"],
   ];
-  const maxF = fate[0][1];
-  document.getElementById("reb-fate").innerHTML = fate.map(([l, v, c]) =>
-    `<div class="vp-row"><div class="vp-l">${l}</div>
-     <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * v / maxF}%;background:${c};height:11px"></div></div>
-     <div class="rx-n" style="color:${c}">${pct(v)}</div></div>`).join("");
+  function fateFlow() {
+    const host = document.getElementById("reb-fate");
+    host.innerHTML = "";
+    const W = Math.max(300, host.clientWidth || 640), H = 240, BX = Math.max(120, W * 0.22), RX = W - 215;
+    const NSf = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NSf, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const bandH = H - 40, top = 20;
+    const src = document.createElementNS(NSf, "rect");
+    src.setAttribute("x", BX - 10); src.setAttribute("y", top); src.setAttribute("width", 10); src.setAttribute("height", bandH);
+    src.setAttribute("fill", "#ece7dc"); src.setAttribute("fill-opacity", "0.85"); svg.appendChild(src);
+    const sl = document.createElementNS(NSf, "text");
+    sl.setAttribute("x", BX - 18); sl.setAttribute("y", top + bandH / 2); sl.setAttribute("text-anchor", "end");
+    sl.setAttribute("dominant-baseline", "middle"); sl.setAttribute("font-size", "11.5"); sl.setAttribute("fill", "#b3aa99");
+    sl.textContent = `${fmt(N)} judgments`; svg.appendChild(sl);
+    const GAPF = 8;
+    const usable = bandH - GAPF * (fate.length - 1);
+    let ySrc = top, yDst = top;
+    fate.forEach(([label, share, color]) => {
+      const h0 = share * bandH;
+      const h1 = Math.max(3, share * usable);
+      const xm = (BX + RX) / 2;
+      const path = document.createElementNS(NSf, "path");
+      path.setAttribute("d", `M${BX},${ySrc} C${xm},${ySrc} ${xm},${yDst} ${RX},${yDst} L${RX},${yDst + h1} C${xm},${yDst + h1} ${xm},${ySrc + h0} ${BX},${ySrc + h0} Z`);
+      path.setAttribute("fill", color); path.setAttribute("opacity", "0.55");
+      const t = document.createElementNS(NSf, "title");
+      t.textContent = `${label}: ${pct(share)} of post-response judgments`;
+      path.appendChild(t); svg.appendChild(path);
+      const lb = document.createElementNS(NSf, "text");
+      lb.setAttribute("x", RX + 8); lb.setAttribute("y", yDst + h1 / 2);
+      lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "11.5"); lb.setAttribute("fill", color);
+      lb.textContent = `${label} ${pct(share)}`; svg.appendChild(lb);
+      ySrc += h0; yDst += h1 + GAPF;
+    });
+    host.appendChild(svg);
+  }
+  fateFlow();
+  debounceResize(fateFlow);
   const trigOrder = ["new_evidence", "clarification", "revision", "other"];
   const trigLabel = { new_evidence: "new experiments / data", clarification: "clarification / argument", revision: "manuscript revision", other: "other / unclassified" };
   document.getElementById("reb-trig").innerHTML = trigOrder.map(k => {
@@ -1359,6 +1794,24 @@ function showDissect(kind, key) {
     const soft = ((t.weakened || 0) + (t.reversed || 0)) / n;
     return `<div class="vp-row"><div class="vp-l">${trigLabel[k]}</div><div class="vp-bar grow">${segs}</div><div class="vp-n">softens ${pct(soft)}</div></div>`;
   }).join("");
+  const YG = [
+    ["the low scorer (dissenting)", YIELD.groups.split_low_scorer],
+    ["the middle scorer", YIELD.groups.split_mid],
+    ["the high scorer", YIELD.groups.split_high_scorer],
+    ["any reviewer (all forums)", YIELD.groups.all_reviewers],
+    ["unanimous panels", YIELD.groups.unanimous_forums],
+  ];
+  const XM = 100 / 0.06;
+  document.getElementById("reb-yield").innerHTML = YG.map(([label, g]) => `
+    <div class="lift-row" style="grid-template-columns:190px 1fr 150px">
+      <div class="vp-l">${label}</div>
+      <div class="lift-track" title="${label}: ${pct(g.soften)} weaken or reverse, ${pct(g.strengthen)} strengthen; ${pct(g.post_rate)} write any post-response unit (n=${fmt(g.n)})">
+        <div class="lift-line grow" style="left:${Math.min(g.soften, g.strengthen) * XM}%;width:${Math.abs(g.strengthen - g.soften) * XM}%"></div>
+        <div class="lift-dot dotfade" style="left:${g.soften * XM}%;border-radius:50%;background:#b45036"></div>
+        <div class="lift-dot dotfade" style="left:${g.strengthen * XM}%;border-radius:50%;background:#c9a45c"></div>
+      </div>
+      <div class="lift-n">yields ${pct(g.soften)} · hardens ${pct(g.strengthen)}</div>
+    </div>`).join("");
   document.getElementById("reb-stats").innerHTML = [
     [pct((R.overall.weakened + R.overall.reversed) / N), "of post-response judgments soften at all"],
     [pct(R.overall.reversed / N), "are outright reversed"],
@@ -1378,9 +1831,9 @@ function showDissect(kind, key) {
     return `<div class="lift-row"><div class="vp-l">${objLabel[k]}</div>
       <div class="lift-track" title="${objLabel[k]}: accepted ${pct(v.accept_with)} with negative units (n=${fmt(v.n_with)}), ${pct(v.accept_without)} without">
         <div class="lift-axis" style="left:${X(T.base_accept)}%"></div>
-        <div class="lift-line grow" style="left:${Math.min(X(v.accept_with), X(v.accept_without))}%;width:${Math.abs(X(v.accept_with) - X(v.accept_without))}%"></div>
-        <div class="lift-dot dotfade" style="left:${X(v.accept_without)}%;border:1.5px solid #b3aa99;border-radius:50%;background:none"></div>
-        <div class="lift-dot dotfade" style="left:${X(v.accept_with)}%;border-radius:50%;background:${d < -5 ? "#e66767" : d < -1 ? "#c98500" : "#7f8ca3"}"></div>
+        <div class="lift-line grow" style="left:${Math.min(X(v.accept_with), X(v.accept_without))}%;width:${Math.abs(X(v.accept_with) - X(v.accept_without))}%;height:${Math.max(1, Math.abs(d) / 2.6)}px;background:${d < -5 ? "rgba(230,103,103,.55)" : "rgba(179,170,153,.65)"}"></div>
+        <div class="lift-dot dotfade" style="left:${X(v.accept_without)}%;width:${7 + Math.abs(d) * .55}px;height:${7 + Math.abs(d) * .55}px;border:1.5px solid #b3aa99;border-radius:50%;background:none"></div>
+        <div class="lift-dot dotfade" style="left:${X(v.accept_with)}%;width:${7 + Math.abs(d) * .55}px;height:${7 + Math.abs(d) * .55}px;border-radius:50%;background:${d < -5 ? "#e66767" : d < -1 ? "#c98500" : "#7f8ca3"}"></div>
       </div>
       <div class="lift-n">${d >= 0 ? "+" : ""}${d.toFixed(1)}pp</div></div>`;
   }).join("");
@@ -1477,8 +1930,8 @@ function showDissect(kind, key) {
 
   let html = `<table><tr><th>object \\ standard</th>${reaOrder.map(r => `<th>${reaLabel[r]}</th>`).join("")}<th>total</th></tr>`;
   for (const o of objOrder)
-    html += `<tr><td>${objLabel[o]}</td>${reaOrder.map(r => `<td>${fmt((matrix[o] || {})[r] || 0)}</td>`).join("")}<td><b>${fmt(objTot[o])}</b></td></tr>`;
-  html += `<tr><td><b>total</b></td>${reaOrder.map(r => `<td><b>${fmt(reaTot[r])}</b></td>`).join("")}<td><b>${fmt(TOTAL)}</b></td></tr></table>`;
+    html += `<tr><td>${objLabel[o]}</td>${reaOrder.map(r => `<td data-label="${reaLabel[r]}">${fmt((matrix[o] || {})[r] || 0)}</td>`).join("")}<td data-label="total"><b>${fmt(objTot[o])}</b></td></tr>`;
+  html += `<tr><td><b>total</b></td>${reaOrder.map(r => `<td data-label="${reaLabel[r]}"><b>${fmt(reaTot[r])}</b></td>`).join("")}<td data-label="total"><b>${fmt(TOTAL)}</b></td></tr></table>`;
   document.getElementById("tv").innerHTML = html;
 
   document.getElementById("method").innerHTML = `
@@ -1495,6 +1948,7 @@ function showDissect(kind, key) {
   const R = PANEL.reliability;
   const hm = document.getElementById("reliab");
   hm.style.gridTemplateColumns = `230px repeat(${R.years.length}, 1fr)`;
+  hm.dataset.cols = R.years.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + R.years.map(y => `<div class="cl" style="writing-mode:horizontal-tb;transform:none;align-self:center">'${String(y).slice(2)}</div>`).join(""));
   for (const o of objOrder) {
     const vals = R.memo_inferred_share[o]; if (!vals) continue;
@@ -1508,6 +1962,30 @@ function showDissect(kind, key) {
       cell.addEventListener("mouseleave", hideTip);
       hm.appendChild(cell);
     });
+  }
+})();
+
+// ---------------- construct validity (Fig 16) ----------------
+(function constructCheck() {
+  const M = CONSTRUCT.matrix;
+  const SUBS = ["soundness", "presentation", "contribution"];
+  const hm = document.getElementById("construct-hm");
+  hm.style.gridTemplateColumns = `230px repeat(${SUBS.length}, 1fr)`;
+  hm.dataset.cols = SUBS.length;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + SUBS.map(x => `<div class="cl" style="writing-mode:horizontal-tb;transform:none;align-self:center">${x}</div>`).join(""));
+  for (const o of objOrder) {
+    hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    for (const sub of SUBS) {
+      const v = (M[o] || {})[sub] || 0;
+      const mag = Math.min(92, Math.round(Math.abs(v) / 0.35 * 100));
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.style.height = "26px";
+      cell.style.background = `color-mix(in oklab, ${v < 0 ? "#b45036" : "#2fa383"} ${mag}%, #161324)`;
+      cell.addEventListener("mousemove", e => showTip(e, `<div class="t">negative ${objLabel[o]} unit × ${sub}</div><div class="n">Δ mean ${sub} = ${v > 0 ? "+" : ""}${v.toFixed(3)} (rating-adjusted)</div>`));
+      cell.addEventListener("mouseleave", hideTip);
+      hm.appendChild(cell);
+    }
   }
 })();
 
@@ -1561,6 +2039,18 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const d = findDef(el.textContent);
     if (d) attach(el, d);
   }
+})();
+
+// ---------------- responsive heatmaps ----------------
+(function hmResponsive() {
+  function relayout() {
+    const narrow = innerWidth < 700;
+    for (const h of document.querySelectorAll(".hm")) {
+      if (h.dataset.cols) h.style.gridTemplateColumns = (narrow ? "86px" : "230px") + ` repeat(${h.dataset.cols}, 1fr)`;
+    }
+  }
+  relayout();
+  debounceResize(relayout);
 })();
 
 // ---------------- dynamics ----------------

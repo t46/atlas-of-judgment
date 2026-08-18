@@ -20,6 +20,9 @@ def main() -> None:
     html = template.replace("__DATA_JSON__", load_json_island("viz-data.json"))
     html = html.replace("__GALAXY_JSON__", load_json_island("galaxy.json"))
     html = html.replace("__FIELD_JSON__", load_json_island("field-stats.json"))
+    html = html.replace("__SCORE_JSON__", load_json_island("score-data.json"))
+    html = html.replace("__DEPTH_JSON__", load_json_island("score-depth.json"))
+    html = html.replace("__CONSTRUCT_JSON__", load_json_island("construct-data.json"))
     html = html.replace("__STRUCTURE_JSON__", load_json_island("structure-data.json"))
     direct_dir = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-direct-v1"
     for placeholder, name in (
@@ -27,6 +30,7 @@ def main() -> None:
         ("__PANEL_JSON__", "panel-data.json"),
         ("__MINDS_JSON__", "minds-data.json"),
         ("__RHET_JSON__", "rhetoric-v2.json"),
+        ("__YIELD_JSON__", "yield-data.json"),
     ):
         html = html.replace(
             placeholder, (direct_dir / name).read_text().strip().replace("</", "<\\/")

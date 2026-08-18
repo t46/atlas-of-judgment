@@ -104,7 +104,7 @@ svg text { font-family: var(--serif); }
 .lift-close { background: var(--ink-2); transform: translate(-50%, -50%) rotate(45deg); }
 .lift-n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); white-space: nowrap; }
 .arc-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 34px; align-items: center; }
-@media (max-width: 900px) { .arc-grid { grid-template-columns: 1fr; } .vp-row, .lift-row { grid-template-columns: 130px 1fr 84px; } }
+@media (max-width: 900px) { .arc-grid { grid-template-columns: 1fr; } .vp-row, .lift-row { grid-template-columns: 110px 1fr 84px !important; } }
 .stat-lines { display: flex; flex-direction: column; gap: 16px; }
 .stat-lines .v { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--brass); }
 .stat-lines .l { font-size: 13px; color: var(--ink-2); margin-top: 4px; max-width: 30ch; }
@@ -196,9 +196,21 @@ svg text.deft { cursor: help; }
 }
 @media (max-width: 880px) {
   body { overflow-x: hidden; }
+  .tv-wrap { overflow-x: visible; }
+  .tv-wrap table, .tv-wrap tbody { display: block; }
+  .tv-wrap tr:first-child { display: none; }
+  .tv-wrap tr { display: block; border: 1px solid var(--brass-faint); margin-top: 10px; padding: 3px 0; }
+  .tv-wrap td { display: flex; justify-content: space-between; gap: 12px; border: none; border-bottom: 1px solid rgba(201,164,92,0.07); white-space: normal; }
+  .tv-wrap td:last-child { border-bottom: none; }
+  .tv-wrap td:first-child { color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--brass-faint); }
+  .tv-wrap td::before { content: attr(data-label); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 1px; }
+  .tv-wrap td:first-child::before { content: none; }
   .lift-n, .vp-n, .rx-n { white-space: normal; font-size: 10px; }
   .arc-grid { grid-template-columns: 1fr !important; }
-  .stat-lines .v { font-size: 30px; }
+  .arc-grid > * { min-width: 0; }
+  .stat-lines { min-width: 0; }
+  .stat-lines .v { font-size: 30px; overflow-wrap: anywhere; }
+  .stat-lines .l { max-width: none; }
   #minds-tabs button { padding: 7px 10px; }
 }
 footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28px 0 64px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; text-transform: uppercase; }
@@ -620,23 +632,31 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     }
     ctx.save();
     ctx.beginPath(); ctx.arc(c, c, R - 7, 0, 6.284); ctx.clip();
-    const rots = SPEED.map(sp => REDUCED ? 0 : (t || 0) / 200000 * sp);
+    const rots = SPEED.map(sp => REDUCED ? 0 : (t || 0) / 52000 * sp);
     const cos = rots.map(Math.cos), sin = rots.map(Math.sin);
     const proj = p => {
       const px = (p.x - 0.5) * (w - 20), py = (p.y - 0.5) * (w - 20);
       const l = p.layer;
       return [c + px * cos[l] - py * sin[l], c + px * sin[l] + py * cos[l]];
     };
+    // lens: the pointer, or an autonomous observer's eye that sweeps the sphere
+    let lens = mouse;
+    if (!lens && !REDUCED) {
+      const la = (t || 0) / 9000;
+      lens = [c + Math.cos(la) * R * 0.45, c + Math.sin(la * 0.83) * R * 0.45];
+    }
     // stars
+    let ti = 0;
     for (const p of pts) {
       const [x, y] = proj(p);
       let sizeBoost = 0, alphaBoost = 0;
-      if (mouse) {
-        const d2 = (x - mouse[0]) ** 2 + (y - mouse[1]) ** 2;
-        if (d2 < 8100) { const k = 1 - Math.sqrt(d2) / 90; sizeBoost = k * 1.6; alphaBoost = k * 0.5; }
+      if (lens) {
+        const d2 = (x - lens[0]) ** 2 + (y - lens[1]) ** 2;
+        if (d2 < 8100) { const k = 1 - Math.sqrt(d2) / 90; sizeBoost = k * 1.6; alphaBoost = k * 0.55; }
       }
       if (p.praise) {
-        ctx.fillStyle = `rgba(201,164,92,${0.55 + alphaBoost})`;
+        const tw = REDUCED ? 0 : 0.16 * Math.sin((t || 0) / 700 + (ti++) * 1.7);
+        ctx.fillStyle = `rgba(201,164,92,${0.5 + tw + alphaBoost})`;
         ctx.fillRect(x, y, 1.4 + sizeBoost, 1.4 + sizeBoost);
       } else {
         ctx.fillStyle = `rgba(220,225,240,${0.17 + alphaBoost})`;
@@ -645,14 +665,14 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     }
     // self-drawing constellations
     if (!REDUCED) {
-      if (t - lastConst > 3600) { spawnConstellation(t); lastConst = t; }
+      if (t - lastConst > 2600) { spawnConstellation(t); lastConst = t; }
       constellations = constellations.filter(k => t - k.born < 5200);
       for (const k of constellations) {
         const age = (t - k.born) / 5200;
         const alpha = age < 0.25 ? age / 0.25 : age > 0.65 ? (1 - age) / 0.35 : 1;
         const drawn = Math.min(1, age / 0.35);
-        ctx.strokeStyle = `rgba(201,164,92,${0.55 * alpha})`;
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = `rgba(201,164,92,${0.75 * alpha})`;
+        ctx.lineWidth = 1;
         const segs = k.members.length - 1;
         for (let i = 0; i < segs; i++) {
           const segProgress = Math.max(0, Math.min(1, drawn * segs - i));
@@ -674,11 +694,14 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     ctx.restore();
     if (!REDUCED) requestAnimationFrame(draw);
   }
-  cv.addEventListener("mousemove", e => {
+  function setLens(cx2, cy2) {
     const r = cv.getBoundingClientRect();
-    mouse = [(e.clientX - r.left) * (w / r.width), (e.clientY - r.top) * (w / r.height)];
-  });
+    mouse = [(cx2 - r.left) * (w / r.width), (cy2 - r.top) * (w / r.height)];
+  }
+  cv.addEventListener("mousemove", e => setLens(e.clientX, e.clientY));
   cv.addEventListener("mouseleave", () => { mouse = null; });
+  cv.addEventListener("touchmove", e => { const tt = e.touches[0]; if (tt) setLens(tt.clientX, tt.clientY); }, { passive: true });
+  cv.addEventListener("touchend", () => { mouse = null; });
   size(); addEventListener("resize", () => { size(); if (REDUCED) draw(0); });
   if (REDUCED) draw(0); else requestAnimationFrame(draw);
 })();
@@ -1177,7 +1200,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   let html = `<table><tr><th>year</th><th>submissions</th><th>withdrawn</th><th>decided</th><th>accept rate</th><th>reviews</th><th>reviews / paper</th><th>median words</th></tr>`;
   for (const y of years) {
     const st = S[y];
-    html += `<tr><td>${y}</td><td>${fmt(st.submissions)}</td><td>${st.withdrawn ? fmt(st.withdrawn) : "—"}</td><td>${st.decided ? fmt(st.decided) : "—"}</td><td>${st.accept_rate != null ? pct(st.accept_rate) : "—"}</td><td>${fmt(st.reviews)}</td><td>${st.reviews_per_paper ?? "—"}</td><td>${st.median_review_words ?? "—"}</td></tr>`;
+    html += `<tr><td>${y}</td><td data-label="submissions">${fmt(st.submissions)}</td><td data-label="withdrawn">${st.withdrawn ? fmt(st.withdrawn) : "—"}</td><td data-label="decided">${st.decided ? fmt(st.decided) : "—"}</td><td data-label="accept rate">${st.accept_rate != null ? pct(st.accept_rate) : "—"}</td><td data-label="reviews">${fmt(st.reviews)}</td><td data-label="reviews / paper">${st.reviews_per_paper ?? "—"}</td><td data-label="median words">${st.median_review_words ?? "—"}</td></tr>`;
   }
   html += `</table>`;
   document.getElementById("field-table").innerHTML = html;
@@ -1910,8 +1933,8 @@ function showDissect(kind, key) {
 
   let html = `<table><tr><th>object \\ standard</th>${reaOrder.map(r => `<th>${reaLabel[r]}</th>`).join("")}<th>total</th></tr>`;
   for (const o of objOrder)
-    html += `<tr><td>${objLabel[o]}</td>${reaOrder.map(r => `<td>${fmt((matrix[o] || {})[r] || 0)}</td>`).join("")}<td><b>${fmt(objTot[o])}</b></td></tr>`;
-  html += `<tr><td><b>total</b></td>${reaOrder.map(r => `<td><b>${fmt(reaTot[r])}</b></td>`).join("")}<td><b>${fmt(TOTAL)}</b></td></tr></table>`;
+    html += `<tr><td>${objLabel[o]}</td>${reaOrder.map(r => `<td data-label="${reaLabel[r]}">${fmt((matrix[o] || {})[r] || 0)}</td>`).join("")}<td data-label="total"><b>${fmt(objTot[o])}</b></td></tr>`;
+  html += `<tr><td><b>total</b></td>${reaOrder.map(r => `<td data-label="${reaLabel[r]}"><b>${fmt(reaTot[r])}</b></td>`).join("")}<td data-label="total"><b>${fmt(TOTAL)}</b></td></tr></table>`;
   document.getElementById("tv").innerHTML = html;
 
   document.getElementById("method").innerHTML = `

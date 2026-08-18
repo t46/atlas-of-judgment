@@ -54,6 +54,17 @@ table { border-collapse: collapse; margin-top: 18px; font-size: 12.5px; font-var
 th, td { border: 1px solid var(--brass-faint); padding: 7px 12px; text-align: left; color: var(--ink-2); }
 th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 td:last-child { text-align: right; font-family: var(--mono); font-size: 11.5px; }
+
+.nav { flex-wrap: wrap; row-gap: 6px; }
+@media (max-width: 700px) { body { overflow-x: hidden; } }
+@media (max-width: 640px) {
+  table, tbody { display: block; }
+  thead { display: none; }
+  tr { display: block; border: 1px solid var(--brass-faint); margin-top: 10px; padding: 4px 0; }
+  td { display: flex; justify-content: space-between; gap: 14px; border: none; border-bottom: 1px solid rgba(201,164,92,0.07); text-align: right; }
+  td:last-child { border-bottom: none; }
+  td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
+}
 footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top: 26px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 26px; text-transform: uppercase; }
 </style>
 
@@ -139,3 +150,15 @@ footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top:
 
 <footer><span>Atlas of Judgment · Companion</span><span>Verified 2026-08-18</span><span>ICLR 2018–2026 · OpenReview</span></footer>
 </div>
+
+<script>
+for (const table of document.querySelectorAll("table")) {
+  const heads = [...table.querySelectorAll("tr:first-child th, tr:first-child td")].map(h => h.textContent.trim());
+  const rows = table.querySelectorAll("tr");
+  for (let i = 1; i < rows.length; i++) {
+    rows[i].querySelectorAll("td").forEach((td, j) => { if (heads[j]) td.setAttribute("data-label", heads[j]); });
+  }
+  const first = table.querySelector("tr");
+  if (first && first.querySelector("th")) { const thead = document.createElement("thead"); thead.appendChild(first); table.prepend(thead); }
+}
+</script>
