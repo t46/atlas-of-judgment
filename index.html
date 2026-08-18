@@ -76,7 +76,7 @@ section { padding: 84px 0 6px; }
 svg text { font-family: var(--serif); }
 /* heatmap */
 .hm-wrap { overflow-x: auto; }
-.hm { display: grid; gap: 2px; min-width: 900px; }
+.hm { display: grid; gap: 2px; }
 .hm .rl { font-size: 13.5px; color: var(--ink-2); display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; white-space: nowrap; }
 .hm .cl { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; color: var(--ink-2); writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; align-self: end; padding: 4px 0; white-space: nowrap; }
 .hm .cell { height: 32px; }
@@ -184,13 +184,16 @@ svg text.deft { cursor: help; }
 .lex-grid dt .sh { font-family: var(--mono); font-size: 9.5px; color: var(--muted); letter-spacing: 0.08em; margin-left: 7px; }
 .lex-grid dd { margin: 1px 0 6px; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
 
-/* mobile: wide charts scroll at readable scale instead of shrinking */
-#sankey, #drift-obj, #drift-rea, #gauntlet, #wheel, #arc { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-#sankey svg { min-width: 980px; }
-#drift-obj svg, #drift-rea svg { min-width: 900px; }
-#gauntlet svg { min-width: 760px; }
-#wheel svg { min-width: 560px; }
-#arc svg { min-width: 520px; }
+/* charts render in pixel space at container width and rebuild on resize */
+@media (max-width: 700px) {
+  .plate { padding: 5px; }
+  .plate-inner { padding: 14px 10px; }
+  .hm { min-width: 0; }
+  .hm .rl { font-size: 8.5px; white-space: normal; line-height: 1.15; padding-right: 6px; }
+  .hm .cl { font-size: 8px; }
+  .hm .cell { height: 22px; }
+  .hm-wrap { overflow-x: visible; }
+}
 @media (max-width: 880px) {
   body { overflow-x: hidden; }
   .lift-n, .vp-n, .rx-n { white-space: normal; font-size: 10px; }
@@ -485,6 +488,9 @@ const objCats = DATA.taxonomy.inspected_object, reaCats = DATA.taxonomy.reasonin
 const objLabel = Object.fromEntries(objCats.map(c => [c.key, c.label_en]));
 const reaLabel = Object.fromEntries(reaCats.map(c => [c.key, c.label_en]));
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const REA_SHORT = { novelty_standard: "novelty", claim_evidence_match: "claim\u2194evidence", fair_comparison: "fair comp.", design_justification: "design", cost_benefit: "cost-benefit", confound_hypothesis: "confound", robustness_norm: "robustness", presentation_trust: "presentation", reproducibility_norm: "reproducib.", statistical_identifiability: "statistics", construct_validity: "validity", merit_recognition: "merit" };
+const OBJ_SHORT = { empirical_scope: "empirical scope", baselines_ablations: "baselines", theory: "theory", method_design: "method design", compute_cost: "compute cost", clarity: "clarity", novelty: "novelty", related_work: "related work", stats_metrics: "stats & metrics", robustness_sensitivity: "robustness", reproducibility: "reproducib.", problem_framing: "framing" };
+function debounceResize(fn) { let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(fn, 220); }); }
 
 const objTot = {}, reaTot = {}, valTot = {}, linkOR = {}, linkRV = {}, matrix = {}, objVal = {};
 let TOTAL = 0;
@@ -567,108 +573,130 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
 // ---------------- sankey (Plate II) ----------------
 (function sankey() {
-  const W = 1180, H = 780, NW = 9, PAD_L = 250, PAD_R = 190, TOP = 26;
-  const colX = [PAD_L, PAD_L + (W - PAD_L - PAD_R) / 2 - NW / 2, W - PAD_R - NW];
-  const GAP = 7, innerH = H - TOP - 16;
-  function layout(keys, totals) {
-    const sum = keys.reduce((s, k) => s + totals[k], 0);
-    const scale = (innerH - GAP * (keys.length - 1)) / sum;
-    let y = TOP; const pos = {};
-    for (const k of keys) { const h = totals[k] * scale; pos[k] = { y, h }; y += h + GAP; }
-    return { pos, scale };
-  }
-  const L1 = layout(objOrder, objTot), L2 = layout(reaOrder, reaTot), L3 = layout(VAL_ORDER, valTot);
+  const host = document.getElementById("sankey");
   const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  function ribbon(x0, y0, h0, x1, y1, h1) {
-    const xm = (x0 + x1) / 2;
-    return `M${x0},${y0} C${xm},${y0} ${xm},${y1} ${x1},${y1} L${x1},${y1 + h1} C${xm},${y1 + h1} ${xm},${y0 + h0} ${x0},${y0 + h0} Z`;
+  let revealed = REDUCED;
+  let paths = [];
+  function build() {
+    host.innerHTML = "";
+    const W = Math.max(260, host.clientWidth || 1100);
+    const narrow = W < 760;
+    const H = narrow ? 620 : 780;
+    const NW = narrow ? 7 : 9;
+    const PAD_L = narrow ? 114 : 266, PAD_R = narrow ? 60 : 190, TOP = 26;
+    const colX = [PAD_L, PAD_L + (W - PAD_L - PAD_R) / 2 - NW / 2, W - PAD_R - NW];
+    const GAP = narrow ? 5 : 7, innerH = H - TOP - 16;
+    function layout(keys, totals) {
+      const sum = keys.reduce((a, k) => a + totals[k], 0);
+      const scale = (innerH - GAP * (keys.length - 1)) / sum;
+      let y = TOP; const pos = {};
+      for (const k of keys) { const h = totals[k] * scale; pos[k] = { y, h }; y += h + GAP; }
+      return { pos, scale };
+    }
+    const L1 = layout(objOrder, objTot), L2 = layout(reaOrder, reaTot), L3 = layout(VAL_ORDER, valTot);
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H);
+    svg.style.display = "block";
+    function ribbon(x0, y0, h0, x1, y1, h1) {
+      const xm = (x0 + x1) / 2;
+      return `M${x0},${y0} C${xm},${y0} ${xm},${y1} ${x1},${y1} L${x1},${y1 + h1} C${xm},${y1 + h1} ${xm},${y0 + h0} ${x0},${y0 + h0} Z`;
+    }
+    const off1 = {}, off2in = {}, off2out = {}, off3 = {};
+    paths = [];
+    for (const o of objOrder) for (const r of reaOrder) {
+      const n = linkOR[o + "|" + r]; if (!n) continue;
+      const h0 = n * L1.scale, h1 = n * L2.scale;
+      const y0 = L1.pos[o].y + (off1[o] = off1[o] || 0), y1 = L2.pos[r].y + (off2in[r] = off2in[r] || 0);
+      off1[o] += h0; off2in[r] += h1;
+      paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1), fill: "#b3aa99", base: 0.10, hi: 0.4, o, r, n,
+        tipHtml: `<div class="t">${objLabel[o]} → ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
+    }
+    for (const r of reaOrder) for (const v of VAL_ORDER) {
+      const n = linkRV[r + "|" + v]; if (!n) continue;
+      const h0 = n * L2.scale, h1 = n * L3.scale;
+      const y0 = L2.pos[r].y + (off2out[r] = off2out[r] || 0), y1 = L3.pos[v].y + (off3[v] = off3[v] || 0);
+      off2out[r] += h0; off3[v] += h1;
+      paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1), fill: VAL_COLOR[v], base: 0.42, hi: 0.8, r, v, n,
+        tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
+    }
+    for (const p of paths) {
+      const el = document.createElementNS(NS, "path");
+      el.setAttribute("d", p.d); el.setAttribute("fill", p.fill);
+      el.style.opacity = revealed ? p.base : 0;
+      el.addEventListener("mousemove", e => showTip(e, p.tipHtml));
+      el.addEventListener("mouseleave", hideTip);
+      p.el = el; svg.appendChild(el);
+    }
+    function highlight(pred) { for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
+    function reset() { for (const p of paths) p.el.style.opacity = p.base; }
+    function node(x, y, h, fill) {
+      const el = document.createElementNS(NS, "rect");
+      el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("width", NW);
+      el.setAttribute("height", Math.max(h, 1.5)); el.setAttribute("fill", fill);
+      svg.appendChild(el); return el;
+    }
+    function label(x, y, text, anchorPos, size, color) {
+      const el = document.createElementNS(NS, "text");
+      el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("text-anchor", anchorPos);
+      el.setAttribute("dominant-baseline", "middle"); el.setAttribute("font-size", size);
+      el.setAttribute("fill", color || "#b3aa99"); el.textContent = text; svg.appendChild(el); return el;
+    }
+    for (const o of objOrder) {
+      const { y, h } = L1.pos[o];
+      const nEl = node(colX[0], y, h, "#b3aa99");
+      const txt = narrow ? `${OBJ_SHORT[o]} ${(100 * objTot[o] / TOTAL).toFixed(0)}%`
+                         : `${objLabel[o]}  ${(100 * objTot[o] / TOTAL).toFixed(1)}%`;
+      label(colX[0] - 7, y + h / 2, txt, "end", narrow ? 9.5 : 12.5);
+      nEl.style.cursor = "pointer";
+      nEl.addEventListener("mouseenter", () => highlight(p => p.o === o));
+      nEl.addEventListener("mouseleave", reset);
+      nEl.addEventListener("click", () => showDissect("obj", o));
+    }
+    for (const r of reaOrder) {
+      const { y, h } = L2.pos[r];
+      const nEl = node(colX[1], y, h, "#c9a45c");
+      const txt = narrow ? `${REA_SHORT[r]} ${(100 * reaTot[r] / TOTAL).toFixed(0)}%`
+                         : `${reaLabel[r]}  ${(100 * reaTot[r] / TOTAL).toFixed(1)}%`;
+      const t = label(colX[1] + NW + 7, y + h / 2, txt, "start", narrow ? 10 : 11.5);
+      t.setAttribute("paint-order", "stroke"); t.setAttribute("stroke", "#161324"); t.setAttribute("stroke-width", "3");
+      nEl.style.cursor = "pointer";
+      nEl.addEventListener("mouseenter", () => highlight(p => p.r === r));
+      nEl.addEventListener("mouseleave", reset);
+      nEl.addEventListener("click", () => showDissect("rea", r));
+    }
+    for (const v of VAL_ORDER) {
+      const { y, h } = L3.pos[v];
+      const nEl = node(colX[2], y, h, VAL_COLOR[v]);
+      const txt = narrow ? `${v.slice(0, 3)} ${(100 * valTot[v] / TOTAL).toFixed(0)}%`
+                         : `${v}  ${(100 * valTot[v] / TOTAL).toFixed(1)}%`;
+      label(colX[2] + NW + 7, y + h / 2, txt, "start", narrow ? 10.5 : 12.5);
+      nEl.addEventListener("mouseenter", () => highlight(p => p.v === v));
+      nEl.addEventListener("mouseleave", reset);
+    }
+    const heads = [["THE OBJECT", colX[0] + NW / 2], ["THE STANDARD", colX[1] + NW / 2], ["THE VERDICT", colX[2] + NW / 2]];
+    for (const [t, x] of heads) {
+      const el = label(x, 11, t, "middle", narrow ? 8.5 : 10, "#c9a45c");
+      el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", narrow ? "1.5" : "3");
+    }
+    host.appendChild(svg);
   }
-  const off1 = {}, off2in = {}, off2out = {}, off3 = {}, paths = [];
-  for (const o of objOrder) for (const r of reaOrder) {
-    const n = linkOR[o + "|" + r]; if (!n) continue;
-    const h0 = n * L1.scale, h1 = n * L2.scale;
-    const y0 = L1.pos[o].y + (off1[o] = off1[o] || 0), y1 = L2.pos[r].y + (off2in[r] = off2in[r] || 0);
-    off1[o] += h0; off2in[r] += h1;
-    paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1), fill: "#b3aa99", base: 0.10, hi: 0.4, o, r, n,
-      tipHtml: `<div class="t">${objLabel[o]} → ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
-  }
-  for (const r of reaOrder) for (const v of VAL_ORDER) {
-    const n = linkRV[r + "|" + v]; if (!n) continue;
-    const h0 = n * L2.scale, h1 = n * L3.scale;
-    const y0 = L2.pos[r].y + (off2out[r] = off2out[r] || 0), y1 = L3.pos[v].y + (off3[v] = off3[v] || 0);
-    off2out[r] += h0; off3[v] += h1;
-    paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1), fill: VAL_COLOR[v], base: 0.42, hi: 0.8, r, v, n,
-      tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
-  }
-  for (const p of paths) {
-    const el = document.createElementNS(NS, "path");
-    el.setAttribute("d", p.d); el.setAttribute("fill", p.fill);
-    el.style.opacity = REDUCED ? p.base : 0;
-    el.addEventListener("mousemove", e => showTip(e, p.tipHtml));
-    el.addEventListener("mouseleave", hideTip);
-    p.el = el; svg.appendChild(el);
-  }
-  function highlight(pred) { for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
-  function reset() { for (const p of paths) p.el.style.opacity = p.base; }
   window.__sankeyReveal = () => {
+    revealed = true;
     paths.forEach((p, i) => {
       if (!REDUCED) p.el.style.transition = `opacity .7s ease ${Math.min(i * 4, 900)}ms`;
       p.el.style.opacity = p.base;
       if (!REDUCED) setTimeout(() => { p.el.style.transition = "opacity .15s ease"; }, 1800 + Math.min(i * 4, 900));
     });
   };
-  function node(x, y, h, fill) {
-    const el = document.createElementNS(NS, "rect");
-    el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("width", NW);
-    el.setAttribute("height", Math.max(h, 1.5)); el.setAttribute("fill", fill);
-    svg.appendChild(el); return el;
-  }
-  function label(x, y, text, anchor, size, color) {
-    const el = document.createElementNS(NS, "text");
-    el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("text-anchor", anchor);
-    el.setAttribute("dominant-baseline", "middle"); el.setAttribute("font-size", size);
-    el.setAttribute("fill", color || "#b3aa99"); el.textContent = text; svg.appendChild(el); return el;
-  }
-  for (const o of objOrder) {
-    const { y, h } = L1.pos[o];
-    const nEl = node(colX[0], y, h, "#b3aa99");
-    label(colX[0] - 9, y + h / 2, `${objLabel[o]}  ${(100 * objTot[o] / TOTAL).toFixed(1)}%`, "end", 12.5);
-    nEl.addEventListener("mouseenter", () => highlight(p => p.o === o));
-    nEl.addEventListener("mouseleave", reset);
-    nEl.style.cursor = "pointer";
-    nEl.addEventListener("click", () => showDissect("obj", o));
-  }
-  for (const r of reaOrder) {
-    const { y, h } = L2.pos[r];
-    const nEl = node(colX[1], y, h, "#c9a45c");
-    const t = label(colX[1] + NW + 8, y + h / 2, `${reaLabel[r]}  ${(100 * reaTot[r] / TOTAL).toFixed(1)}%`, "start", 11.5);
-    t.setAttribute("paint-order", "stroke"); t.setAttribute("stroke", "#161324"); t.setAttribute("stroke-width", "3");
-    nEl.addEventListener("mouseenter", () => highlight(p => p.r === r));
-    nEl.addEventListener("mouseleave", reset);
-    nEl.style.cursor = "pointer";
-    nEl.addEventListener("click", () => showDissect("rea", r));
-  }
-  for (const v of VAL_ORDER) {
-    const { y, h } = L3.pos[v];
-    const nEl = node(colX[2], y, h, VAL_COLOR[v]);
-    label(colX[2] + NW + 8, y + h / 2, `${v}  ${(100 * valTot[v] / TOTAL).toFixed(1)}%`, "start", 12.5);
-    nEl.addEventListener("mouseenter", () => highlight(p => p.v === v));
-    nEl.addEventListener("mouseleave", reset);
-  }
-  const heads = [["THE OBJECT", colX[0] + NW / 2], ["THE STANDARD", colX[1] + NW / 2], ["THE VERDICT", colX[2] + NW / 2]];
-  for (const [t, x] of heads) {
-    const el = label(x, 11, t, "middle", 10, "#c9a45c");
-    el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", "3");
-  }
-  document.getElementById("sankey").appendChild(svg);
+  build();
+  debounceResize(build);
 })();
 
 // ---------------- heatmap (Plate III) ----------------
 (function heatmap() {
   const hm = document.getElementById("heatmap");
   hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
+  hm.dataset.cols = reaOrder.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
   for (const o of objOrder) {
     hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
@@ -706,53 +734,61 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
        </div>
        <div class="lift-n">opens ${r.open_lift}× · closes ${r.close_lift}×</div></div>`);
   }
-  // Fig 4b: the arc
-  const W = 640, H = 300, padL = 44, padR = 96, padT = 22, padB = 34;
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  const xs = i => padL + i / (STRUCT.position.bins - 1) * (W - padL - padR);
-  const ys = v => padT + (1 - v) * (H - padT - padB);
-  for (const g of [0, 0.25, 0.5, 0.75, 1]) {
-    const ln = document.createElementNS(NS, "line");
-    ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
-    ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
-    ln.setAttribute("stroke", "rgba(201,164,92,0.13)"); svg.appendChild(ln);
-    const tx = document.createElementNS(NS, "text");
-    tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
-    tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
-    tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
-    tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
-  }
-  const series = [["negative", STRUCT.position.neg_rate, VAL_COLOR.negative], ["positive", STRUCT.position.pos_rate, VAL_COLOR.positive]];
-  for (const [name, vals, color] of series) {
-    const pth = document.createElementNS(NS, "path");
-    pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
-    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color); pth.setAttribute("stroke-width", "2");
-    pth.setAttribute("data-draw", "1");
-    svg.appendChild(pth);
-    vals.forEach((v, i) => {
-      const c = document.createElementNS(NS, "circle");
-      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(v)); c.setAttribute("r", 3.5); c.setAttribute("fill", color);
-      const title = document.createElementNS(NS, "title");
-      title.textContent = `${name}, fifth ${i + 1}: ${pct(v)}`;
-      c.appendChild(title); svg.appendChild(c);
+  // Fig 4b: the arc (responsive)
+  function buildArc() {
+    const hostA = document.getElementById("arc");
+    hostA.innerHTML = "";
+    const W = Math.max(260, hostA.clientWidth || 640);
+    const narrow = W < 520;
+    const H = narrow ? 240 : 300, padL = narrow ? 36 : 44, padR = narrow ? 78 : 96, padT = 20, padB = 34;
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const xs = i => padL + i / (STRUCT.position.bins - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - v) * (H - padT - padB);
+    for (const g of [0, 0.25, 0.5, 0.75, 1]) {
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.13)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", narrow ? 9 : 10);
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+    }
+    const series = [["negative", STRUCT.position.neg_rate, VAL_COLOR.negative], ["positive", STRUCT.position.pos_rate, VAL_COLOR.positive]];
+    for (const [name, vals, color] of series) {
+      const pth = document.createElementNS(NS, "path");
+      pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
+      pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color); pth.setAttribute("stroke-width", "2");
+      svg.appendChild(pth);
+      vals.forEach((v, i) => {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(v)); c.setAttribute("r", 3.5); c.setAttribute("fill", color);
+        const title = document.createElementNS(NS, "title");
+        title.textContent = `${name}, fifth ${i + 1}: ${pct(v)}`;
+        c.appendChild(title); svg.appendChild(c);
+      });
+      const lb = document.createElementNS(NS, "text");
+      lb.setAttribute("x", xs(vals.length - 1) + 9); lb.setAttribute("y", ys(vals[vals.length - 1]));
+      lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", narrow ? 10.5 : 12); lb.setAttribute("fill", color);
+      lb.textContent = narrow ? `${name.slice(0, 3)} ${Math.round(vals[vals.length - 1] * 100)}%` : `${name} ${pct(vals[vals.length - 1])}`;
+      svg.appendChild(lb);
+    }
+    const axis = ["opening", "", "middle", "", "close"];
+    axis.forEach((t, i) => {
+      if (!t) return;
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 10); tx.setAttribute("text-anchor", "middle");
+      tx.setAttribute("font-size", narrow ? 8.5 : 10); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace"); tx.setAttribute("letter-spacing", "2");
+      tx.textContent = t.toUpperCase(); svg.appendChild(tx);
     });
-    const lb = document.createElementNS(NS, "text");
-    lb.setAttribute("x", xs(vals.length - 1) + 10); lb.setAttribute("y", ys(vals[vals.length - 1]));
-    lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "12"); lb.setAttribute("fill", color);
-    lb.textContent = `${name} ${pct(vals[vals.length - 1])}`; svg.appendChild(lb);
+    hostA.appendChild(svg);
   }
-  const axis = ["opening", "", "middle", "", "close"];
-  axis.forEach((t, i) => {
-    if (!t) return;
-    const tx = document.createElementNS(NS, "text");
-    tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 10); tx.setAttribute("text-anchor", "middle");
-    tx.setAttribute("font-size", "10"); tx.setAttribute("fill", "#6f6758");
-    tx.setAttribute("font-family", "IBM Plex Mono, monospace"); tx.setAttribute("letter-spacing", "2");
-    tx.textContent = t.toUpperCase(); svg.appendChild(tx);
-  });
-  document.getElementById("arc").appendChild(svg);
+  buildArc();
+  debounceResize(buildArc);
   const arcMap = Object.fromEntries(STRUCT.arcs.map(a => [a.first + "|" + a.last, a.share]));
   document.getElementById("arc-stats").innerHTML = [
     [pct(arcMap["negative|negative"] || 0), "of reviews open and close on a negative unit"],
@@ -763,11 +799,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
 // ---------------- the wheel (Plate IV) ----------------
 (function wheel() {
+  const host = document.getElementById("wheel");
+  const NS = "http://www.w3.org/2000/svg";
   const trans = STRUCT.transitions;
-  const vol = {};
-  let volMax = 0;
-  const pair = {};
-  const selfLift = {};
+  const vol = {}, pair = {}, selfLift = {};
   for (const t of trans) {
     vol[t.a] = (vol[t.a] || 0) + t.n;
     vol[t.b] = (vol[t.b] || 0) + t.n;
@@ -778,73 +813,78 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   }
   const keys = objOrder.filter(k => vol[k]);
   const totalVol = keys.reduce((sum, k) => sum + vol[k], 0);
-  const W = 720, H = 660, cx = W / 2, cy = H / 2, R = 244, GAPA = 0.03;
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  // layout arcs
-  let a0 = -Math.PI / 2;
-  const arc = {};
-  for (const k of keys) {
-    const span = (vol[k] / totalVol) * (2 * Math.PI - GAPA * keys.length);
-    arc[k] = { a0, a1: a0 + span, mid: a0 + span / 2 };
-    a0 += span + GAPA;
+  function build() {
+    host.innerHTML = "";
+    const CW = Math.max(260, host.clientWidth || 640);
+    const narrow = CW < 520;
+    const S = Math.min(CW, 720);
+    const W = S, H = Math.round(S * 0.92), cx = W / 2, cy = H / 2;
+    const R = Math.min(cx, cy) - (narrow ? 44 : 58);
+    const GAPA = 0.03;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block"; svg.style.margin = "0 auto";
+    let a0 = -Math.PI / 2;
+    const arc = {};
+    for (const k of keys) {
+      const span = (vol[k] / totalVol) * (2 * Math.PI - GAPA * keys.length);
+      arc[k] = { a0, a1: a0 + span, mid: a0 + span / 2 };
+      a0 += span + GAPA;
+    }
+    const P = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+    const chords = [];
+    const maxN = Math.max(...Object.values(pair).map(v => v.n));
+    const entries = Object.entries(pair).filter(([, v]) => v.n >= 500).sort((x, y) => x[1].n - y[1].n);
+    for (const [key, v] of entries) {
+      const [ka, kb] = key.split("|");
+      if (!arc[ka] || !arc[kb]) continue;
+      const lift = v.liftSum / v.m;
+      const [x1, y1] = P(arc[ka].mid, R - 8), [x2, y2] = P(arc[kb].mid, R - 8);
+      const el = document.createElementNS(NS, "path");
+      el.setAttribute("d", `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
+      el.setAttribute("fill", "none");
+      el.setAttribute("stroke", lift >= 1.25 ? "#c9a45c" : "#b3aa99");
+      el.setAttribute("stroke-width", Math.max(1, (narrow ? 11 : 16) * v.n / maxN));
+      el.setAttribute("stroke-linecap", "round");
+      el.style.opacity = lift >= 1.25 ? 0.75 : 0.14;
+      el.dataset.base = el.style.opacity;
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${objLabel[ka]} ↔ ${objLabel[kb]} · ${fmt(v.n)} transitions · ${lift.toFixed(2)}× chance`;
+      el.appendChild(title);
+      chords.push({ el, ka, kb });
+      svg.appendChild(el);
+    }
+    for (const k of keys) {
+      const { a0: s0, a1: s1, mid } = arc[k];
+      const seg = document.createElementNS(NS, "path");
+      const [sx, sy] = P(s0, R), [ex, ey] = P(s1, R);
+      seg.setAttribute("d", `M${sx},${sy} A${R},${R} 0 ${s1 - s0 > Math.PI ? 1 : 0} 1 ${ex},${ey}`);
+      seg.setAttribute("fill", "none"); seg.setAttribute("stroke", "#c9a45c");
+      seg.setAttribute("stroke-width", narrow ? 5 : 7);
+      seg.style.cursor = "pointer";
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${objLabel[k]} · ${fmt(vol[k])} transition endpoints`;
+      seg.appendChild(title);
+      seg.addEventListener("mouseenter", () => {
+        for (const c of chords) c.el.style.opacity = (c.ka === k || c.kb === k) ? 0.85 : 0.04;
+      });
+      seg.addEventListener("mouseleave", () => { for (const c of chords) c.el.style.opacity = c.el.dataset.base; });
+      svg.appendChild(seg);
+      const [lx, ly] = P(mid, R + (narrow ? 12 : 18));
+      const lb = document.createElementNS(NS, "text");
+      lb.setAttribute("x", lx); lb.setAttribute("y", ly);
+      lb.setAttribute("font-size", narrow ? 9.5 : 11.5); lb.setAttribute("fill", "#b3aa99");
+      lb.setAttribute("dominant-baseline", "middle");
+      lb.setAttribute("text-anchor", Math.cos(mid) > 0.3 ? "start" : Math.cos(mid) < -0.3 ? "end" : "middle");
+      let short = objLabel[k].split(" & ")[0].split(", ")[0];
+      if (short.length > 17 || narrow) short = OBJ_SHORT[k];
+      lb.textContent = short;
+      svg.appendChild(lb);
+    }
+    host.appendChild(svg);
   }
-  const P = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
-  // chords first (under the ring)
-  const chords = [];
-  const maxN = Math.max(...Object.values(pair).map(v => v.n));
-  const entries = Object.entries(pair).filter(([, v]) => v.n >= 500).sort((x, y) => x[1].n - y[1].n);
-  for (const [key, v] of entries) {
-    const [ka, kb] = key.split("|");
-    if (!arc[ka] || !arc[kb]) continue;
-    const lift = v.liftSum / v.m;
-    const [x1, y1] = P(arc[ka].mid, R - 10), [x2, y2] = P(arc[kb].mid, R - 10);
-    const el = document.createElementNS(NS, "path");
-    el.setAttribute("d", `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
-    el.setAttribute("fill", "none");
-    el.setAttribute("stroke", lift >= 1.25 ? "#c9a45c" : "#b3aa99");
-    el.setAttribute("stroke-width", Math.max(1, 16 * v.n / maxN));
-    el.setAttribute("stroke-linecap", "round");
-    el.setAttribute("data-draw", "1");
-    el.style.opacity = lift >= 1.25 ? 0.75 : 0.14;
-    el.dataset.base = el.style.opacity;
-    const title = document.createElementNS(NS, "title");
-    title.textContent = `${objLabel[ka]} ↔ ${objLabel[kb]} · ${fmt(v.n)} transitions · ${lift.toFixed(2)}× chance`;
-    el.appendChild(title);
-    chords.push({ el, ka, kb });
-    svg.appendChild(el);
-  }
-  // ring arcs + labels
-  for (const k of keys) {
-    const { a0: s0, a1: s1, mid } = arc[k];
-    const seg = document.createElementNS(NS, "path");
-    const [sx, sy] = P(s0, R), [ex, ey] = P(s1, R);
-    seg.setAttribute("d", `M${sx},${sy} A${R},${R} 0 ${s1 - s0 > Math.PI ? 1 : 0} 1 ${ex},${ey}`);
-    seg.setAttribute("fill", "none"); seg.setAttribute("stroke", "#c9a45c");
-    seg.setAttribute("stroke-width", 7); seg.setAttribute("stroke-linecap", "butt");
-    seg.style.cursor = "pointer";
-    const title = document.createElementNS(NS, "title");
-    title.textContent = `${objLabel[k]} · ${fmt(vol[k])} transition endpoints`;
-    seg.appendChild(title);
-    seg.addEventListener("mouseenter", () => {
-      for (const c of chords) c.el.style.opacity = (c.ka === k || c.kb === k) ? 0.85 : 0.04;
-    });
-    seg.addEventListener("mouseleave", () => { for (const c of chords) c.el.style.opacity = c.el.dataset.base; });
-    svg.appendChild(seg);
-    const [lx, ly] = P(mid, R + 18);
-    const lb = document.createElementNS(NS, "text");
-    lb.setAttribute("x", lx); lb.setAttribute("y", ly);
-    lb.setAttribute("font-size", "11.5"); lb.setAttribute("fill", "#b3aa99");
-    lb.setAttribute("dominant-baseline", "middle");
-    lb.setAttribute("text-anchor", Math.cos(mid) > 0.25 ? "start" : Math.cos(mid) < -0.25 ? "end" : "middle");
-    let short = objLabel[k].split(" & ")[0].split(", ")[0];
-    if (short.length > 17) short = short.split(" ").slice(0, 2).join(" ");
-    lb.textContent = short;
-    svg.appendChild(lb);
-  }
-  document.getElementById("wheel").appendChild(svg);
-  // side lists
+  build();
+  debounceResize(build);
+  // side lists (static)
   const chains = Object.values(selfLift).sort((a, b) => b.lift - a.lift).slice(0, 6);
   const maxL = chains[0].lift;
   document.getElementById("wheel-chains").innerHTML = chains.map(t =>
@@ -865,67 +905,77 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 // ---------------- the gauntlet (Plate IX) ----------------
 (function gauntlet() {
   const G = PANEL.gauntlet.filter(g => g.n >= 30);
-  const W = 1120, H = 430, padL = 56, padT = 26, padB = 96, padR = 40;
+  const host = document.getElementById("gauntlet");
   const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
-  const xs = i => padL + (i + 0.5) / G.length * (W - padL - padR);
-  const yMax = 0.75;
-  const ys = v => padT + (1 - v / yMax) * (H - padT - padB - 70);
-  for (const g of [0, 0.25, 0.5, 0.75]) {
-    const ln = document.createElementNS(NS, "line");
-    ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
-    ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
-    ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
-    const tx = document.createElementNS(NS, "text");
-    tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
-    tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
-    tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
-    tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+  function build() {
+    host.innerHTML = "";
+    const W = Math.max(260, host.clientWidth || 1100);
+    const narrow = W < 700;
+    const H = narrow ? 330 : 430, padL = narrow ? 40 : 56, padT = 26, padB = narrow ? 84 : 96, padR = narrow ? 16 : 40;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const xs = i => padL + (i + 0.5) / G.length * (W - padL - padR);
+    const yMax = 0.75;
+    const ys = v => padT + (1 - v / yMax) * (H - padT - padB - (narrow ? 52 : 70));
+    for (const g of [0, 0.25, 0.5, 0.75]) {
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", narrow ? 9 : 10);
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+    }
+    const line = document.createElementNS(NS, "path");
+    line.setAttribute("d", G.map((g, i) => (i ? "L" : "M") + xs(i) + "," + ys(g.accept)).join(" "));
+    line.setAttribute("fill", "none"); line.setAttribute("stroke", "#c9a45c"); line.setAttribute("stroke-width", "2");
+    svg.appendChild(line);
+    const maxN = Math.max(...G.map(g => g.n));
+    G.forEach((g, i) => {
+      const r = (narrow ? 3 : 4) + (narrow ? 9 : 14) * Math.sqrt(g.n / maxN);
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(g.accept)); c.setAttribute("r", r);
+      c.setAttribute("fill", "#c9a45c"); c.setAttribute("fill-opacity", "0.85");
+      c.setAttribute("stroke", "#12101f"); c.setAttribute("stroke-width", "2");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${g.breadth}${g.breadth === 9 ? "+" : ""} fronts: ${fmt(g.n)} papers, ${pct(g.accept)} accepted`;
+      c.appendChild(title); svg.appendChild(c);
+      if (!narrow || i === 0 || i === G.length - 1 || i % 2 === 0) {
+        const val = document.createElementNS(NS, "text");
+        val.setAttribute("x", xs(i)); val.setAttribute("y", ys(g.accept) - r - 8);
+        val.setAttribute("text-anchor", "middle"); val.setAttribute("font-size", narrow ? 9.5 : 12);
+        val.setAttribute("fill", "#ece7dc");
+        val.textContent = narrow ? Math.round(g.accept * 100) + "%" : pct(g.accept);
+        svg.appendChild(val);
+      }
+      const bar = document.createElementNS(NS, "rect");
+      const bh = (narrow ? 32 : 46) * g.n / maxN;
+      const bw = narrow ? 16 : 26;
+      bar.setAttribute("x", xs(i) - bw / 2); bar.setAttribute("y", H - padB + (narrow ? 28 : 40) - bh);
+      bar.setAttribute("width", bw); bar.setAttribute("height", Math.max(bh, 1));
+      bar.setAttribute("fill", "#b3aa99"); bar.setAttribute("fill-opacity", "0.3");
+      const bt = document.createElementNS(NS, "title");
+      bt.textContent = `${fmt(g.n)} papers`; bar.appendChild(bt);
+      svg.appendChild(bar);
+      const xl = document.createElementNS(NS, "text");
+      xl.setAttribute("x", xs(i)); xl.setAttribute("y", H - padB + (narrow ? 44 : 58));
+      xl.setAttribute("text-anchor", "middle"); xl.setAttribute("font-size", narrow ? 10 : 11);
+      xl.setAttribute("fill", "#6f6758"); xl.setAttribute("font-family", "IBM Plex Mono, monospace");
+      xl.textContent = g.breadth === 9 ? "9+" : g.breadth; svg.appendChild(xl);
+    });
+    const ax = document.createElementNS(NS, "text");
+    ax.setAttribute("x", (padL + W - padR) / 2); ax.setAttribute("y", H - padB + (narrow ? 62 : 82));
+    ax.setAttribute("text-anchor", "middle"); ax.setAttribute("font-size", narrow ? 8 : 10);
+    ax.setAttribute("fill", "#6f6758"); ax.setAttribute("font-family", "IBM Plex Mono, monospace");
+    ax.setAttribute("letter-spacing", narrow ? "1" : "2");
+    ax.textContent = narrow ? "OBJECTS CRITICIZED (OF 12) · BARS = PAPERS" : "DISTINCT OBJECTS CRITICIZED (OF 12) · GREY BARS = PAPER COUNT";
+    svg.appendChild(ax);
+    host.appendChild(svg);
   }
-  const line = document.createElementNS(NS, "path");
-  line.setAttribute("d", G.map((g, i) => (i ? "L" : "M") + xs(i) + "," + ys(g.accept)).join(" "));
-  line.setAttribute("fill", "none"); line.setAttribute("stroke", "#c9a45c"); line.setAttribute("stroke-width", "2");
-  line.setAttribute("data-draw", "1");
-  svg.appendChild(line);
-  const maxN = Math.max(...G.map(g => g.n));
-  G.forEach((g, i) => {
-    const r = 4 + 14 * Math.sqrt(g.n / maxN);
-    const c = document.createElementNS(NS, "circle");
-    c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(g.accept)); c.setAttribute("r", r);
-    c.setAttribute("fill", "#c9a45c"); c.setAttribute("fill-opacity", "0.85");
-    c.setAttribute("stroke", "#12101f"); c.setAttribute("stroke-width", "2");
-    c.classList.add("dotfade");
-    const title = document.createElementNS(NS, "title");
-    title.textContent = `${g.breadth}${g.breadth === 9 ? "+" : ""} fronts: ${fmt(g.n)} papers, ${pct(g.accept)} accepted`;
-    c.appendChild(title); svg.appendChild(c);
-    const val = document.createElementNS(NS, "text");
-    val.setAttribute("x", xs(i)); val.setAttribute("y", ys(g.accept) - r - 9);
-    val.setAttribute("text-anchor", "middle"); val.setAttribute("font-size", "12");
-    val.setAttribute("fill", "#ece7dc"); val.classList.add("dotfade");
-    val.textContent = pct(g.accept); svg.appendChild(val);
-    const bar = document.createElementNS(NS, "rect");
-    const bh = 46 * g.n / maxN;
-    bar.setAttribute("x", xs(i) - 13); bar.setAttribute("y", H - padB + 40 - bh);
-    bar.setAttribute("width", 26); bar.setAttribute("height", Math.max(bh, 1));
-    bar.setAttribute("fill", "#b3aa99"); bar.setAttribute("fill-opacity", "0.3");
-    const bt = document.createElementNS(NS, "title");
-    bt.textContent = `${fmt(g.n)} papers`; bar.appendChild(bt);
-    svg.appendChild(bar);
-    const xl = document.createElementNS(NS, "text");
-    xl.setAttribute("x", xs(i)); xl.setAttribute("y", H - padB + 58);
-    xl.setAttribute("text-anchor", "middle"); xl.setAttribute("font-size", "11");
-    xl.setAttribute("fill", "#6f6758"); xl.setAttribute("font-family", "IBM Plex Mono, monospace");
-    xl.textContent = g.breadth === 9 ? "9+" : g.breadth; svg.appendChild(xl);
-  });
-  const ax = document.createElementNS(NS, "text");
-  ax.setAttribute("x", (padL + W - padR) / 2); ax.setAttribute("y", H - padB + 82);
-  ax.setAttribute("text-anchor", "middle"); ax.setAttribute("font-size", "10");
-  ax.setAttribute("fill", "#6f6758"); ax.setAttribute("font-family", "IBM Plex Mono, monospace");
-  ax.setAttribute("letter-spacing", "2");
-  ax.textContent = "DISTINCT OBJECTS CRITICIZED (OF 12) · GREY BARS = PAPER COUNT";
-  svg.appendChild(ax);
-  document.getElementById("gauntlet").appendChild(svg);
+  build();
+  debounceResize(build);
 })();
 
 // ---------------- the field (prolegomenon) ----------------
@@ -1048,7 +1098,6 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   let current = 0, timer = null;
   tabs.innerHTML = clusters.map((c, i) =>
     `<button data-i="${i}" class="${i === 0 ? "on" : ""}">${NAMES[c.cluster][0].replace("The ", "")}</button>`).join("");
-  const SHORT = { novelty_standard: "novelty", claim_evidence_match: "claim\u2194evidence", fair_comparison: "fair comp.", design_justification: "design", cost_benefit: "cost-benefit", confound_hypothesis: "confound", robustness_norm: "robustness", presentation_trust: "presentation", reproducibility_norm: "reproducib.", statistical_identifiability: "statistics", construct_validity: "validity", merit_recognition: "merit" };
   function rose(c) {
     const G = 360, H = 290, cx = G / 2, cy = H / 2, R = 78;
     const svg = document.createElementNS(NS, "svg");
@@ -1071,7 +1120,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       lb.setAttribute("fill", hot0 ? "#c9a45c" : "#6f6758");
       lb.setAttribute("dominant-baseline", "middle");
       lb.setAttribute("text-anchor", Math.cos(a0) > 0.3 ? "start" : Math.cos(a0) < -0.3 ? "end" : "middle");
-      lb.textContent = SHORT[k];
+      lb.textContent = REA_SHORT[k];
       lb.classList.add("deft");
       const def = reaCats.find(x => x.key === k);
       lb.addEventListener("mousemove", e => showTip(e,
@@ -1213,15 +1262,20 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 (function drift() {
   const HL = ["#3987e5", "#d95926", "#199e70", "#9085e9"];
   function chart(hostId, shares, labelOf) {
+    const host = document.getElementById(hostId);
+    host.innerHTML = "";
     const years = DRIFT.years;
     const movers = Object.entries(shares)
       .sort((a, b) => Math.abs(b[1][b[1].length - 1] - b[1][0]) - Math.abs(a[1][a[1].length - 1] - a[1][0]))
       .slice(0, 4).map(([k]) => k);
     const yMax = Math.max(...Object.values(shares).flat()) * 1.12;
-    const W = 1160, H = 330, padL = 46, padR = 345, padT = 16, padB = 30;
+    const W = Math.max(260, host.clientWidth || 1100);
+    const narrow = W < 700;
+    const H = narrow ? 250 : 330;
+    const padL = narrow ? 38 : 46, padR = narrow ? 14 : 345, padT = 16, padB = 30;
     const NS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
     const xs = i => padL + i / (years.length - 1) * (W - padL - padR);
     const ys = v => padT + (1 - v / yMax) * (H - padT - padB);
     for (const g of [0, 0.05, 0.1, 0.15, 0.2]) {
@@ -1231,15 +1285,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
       ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
       const tx = document.createElementNS(NS, "text");
-      tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
-      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", narrow ? 9.5 : 11);
       tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
       tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
     }
     years.forEach((yr, i) => {
+      if (narrow && i % 2 === 1) return;
       const tx = document.createElementNS(NS, "text");
       tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 8); tx.setAttribute("text-anchor", "middle");
-      tx.setAttribute("font-size", "11.5"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-size", narrow ? 9.5 : 11.5); tx.setAttribute("fill", "#6f6758");
       tx.setAttribute("font-family", "IBM Plex Mono, monospace");
       tx.textContent = "'" + String(yr).slice(2); svg.appendChild(tx);
     });
@@ -1253,11 +1308,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
       pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color);
       pth.setAttribute("stroke-width", hl >= 0 ? 2.2 : 1.2);
-      if (hl >= 0) pth.setAttribute("data-draw", "1");
       const title = document.createElementNS(NS, "title");
       title.textContent = `${labelOf(key)}: ${(vals[0] * 100).toFixed(1)}% (2018) → ${(vals[vals.length - 1] * 100).toFixed(1)}% (2026)`;
       pth.appendChild(title); svg.appendChild(pth);
-      if (hl >= 0) {
+      if (hl >= 0 && !narrow) {
         const vEnd = vals[vals.length - 1], d = (vEnd - vals[0]) * 100;
         let y = ys(vEnd);
         for (const u of used) if (Math.abs(u - y) < 19) y = u - 19;
@@ -1269,12 +1323,25 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         svg.appendChild(lb);
       }
     }
-    document.getElementById(hostId).appendChild(svg);
+    host.appendChild(svg);
+    if (narrow) {
+      const legend = document.createElement("div");
+      legend.className = "legend";
+      legend.style.marginTop = "10px";
+      legend.innerHTML = movers.map((k, i) => {
+        const vals = shares[k], d = (vals[vals.length - 1] - vals[0]) * 100;
+        return `<span class="chip"><span class="sw" style="background:${HL[i]}"></span>${labelOf(k)} ${d > 0 ? "+" : ""}${d.toFixed(1)}pp</span>`;
+      }).join("");
+      host.appendChild(legend);
+    }
   }
-  chart("drift-obj", DRIFT.object_share, k => objLabel[k]);
-  chart("drift-rea", DRIFT.reasoning_share, k => reaLabel[k]);
+  function build() {
+    chart("drift-obj", DRIFT.object_share, k => objLabel[k]);
+    chart("drift-rea", DRIFT.reasoning_share, k => reaLabel[k]);
+  }
+  build();
+  debounceResize(build);
 })();
-
 
 // ---------------- dissect + mercy map (Plate I) ----------------
 function showDissect(kind, key) {
@@ -1331,6 +1398,7 @@ function showDissect(kind, key) {
 (function mercy() {
   const hm = document.getElementById("mercy");
   hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
+  hm.dataset.cols = reaOrder.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
   const negOf = {};
   for (const t of DATA.triples) if (t.v === "negative") negOf[t.o + "|" + t.r] = (negOf[t.o + "|" + t.r] || 0) + t.n;
@@ -1513,6 +1581,7 @@ function showDissect(kind, key) {
   const R = PANEL.reliability;
   const hm = document.getElementById("reliab");
   hm.style.gridTemplateColumns = `230px repeat(${R.years.length}, 1fr)`;
+  hm.dataset.cols = R.years.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + R.years.map(y => `<div class="cl" style="writing-mode:horizontal-tb;transform:none;align-self:center">'${String(y).slice(2)}</div>`).join(""));
   for (const o of objOrder) {
     const vals = R.memo_inferred_share[o]; if (!vals) continue;
@@ -1579,6 +1648,18 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const d = findDef(el.textContent);
     if (d) attach(el, d);
   }
+})();
+
+// ---------------- responsive heatmaps ----------------
+(function hmResponsive() {
+  function relayout() {
+    const narrow = innerWidth < 700;
+    for (const h of document.querySelectorAll(".hm")) {
+      if (h.dataset.cols) h.style.gridTemplateColumns = (narrow ? "86px" : "230px") + ` repeat(${h.dataset.cols}, 1fr)`;
+    }
+  }
+  relayout();
+  debounceResize(relayout);
 })();
 
 // ---------------- dynamics ----------------
