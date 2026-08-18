@@ -1,10 +1,12 @@
 # Atlas of Judgment
 
+**Live: [atlas-of-judgment.pages.dev](https://atlas-of-judgment.pages.dev)**
+
 **How a paper is judged.** Every public peer review of ICLR (2018–2026), decomposed into
 atomic units of evaluative logic — *what was inspected, what was observed, which standard
 was invoked, what was concluded* — and charted like a sky.
 
-- **The Atlas** — `index.html` (interactive; open via GitHub Pages or locally)
+- **The Atlas** — `index.html` (interactive; live at [atlas-of-judgment.pages.dev](https://atlas-of-judgment.pages.dev))
 - **About** — `about.html`: the question, the three-layer pipeline, the findings digest
 - **The Method** — `method.html`: full reproduction record of the data layer, including
   the chronicle of pilots, failures, and mid-course decisions
