@@ -565,7 +565,7 @@ const objCats = DATA.taxonomy.inspected_object, reaCats = DATA.taxonomy.reasonin
 const objLabel = Object.fromEntries(objCats.map(c => [c.key, c.label_en]));
 const reaLabel = Object.fromEntries(reaCats.map(c => [c.key, c.label_en]));
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const REA_SHORT = { novelty_standard: "novelty", claim_evidence_match: "claim\u2194evidence", fair_comparison: "fair comp.", design_justification: "design", cost_benefit: "cost-benefit", confound_hypothesis: "confound", robustness_norm: "robustness", presentation_trust: "presentation", reproducibility_norm: "reproducib.", statistical_identifiability: "statistics", construct_validity: "validity", merit_recognition: "merit" };
+const REA_SHORT = { novelty_standard: "novelty", claim_evidence_match: "claim\u2194evid.", fair_comparison: "fair comp.", design_justification: "design", cost_benefit: "cost-benefit", confound_hypothesis: "confound", robustness_norm: "robustness", presentation_trust: "presentation", reproducibility_norm: "repro.", statistical_identifiability: "statistics", construct_validity: "validity", merit_recognition: "merit" };
 const OBJ_SHORT = { empirical_scope: "empirical scope", baselines_ablations: "baselines", theory: "theory", method_design: "method design", compute_cost: "compute cost", clarity: "clarity", novelty: "novelty", related_work: "related work", stats_metrics: "stats & metrics", robustness_sensitivity: "robustness", reproducibility: "reproducib.", problem_framing: "framing" };
 function debounceResize(fn) { let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(fn, 220); }); }
 
@@ -739,7 +739,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const narrow = W < 760;
     const H = narrow ? 620 : 780;
     const NW = narrow ? 7 : 9;
-    const PAD_L = narrow ? 114 : 266, PAD_R = narrow ? 60 : 190, TOP = 26;
+    const PAD_L = narrow ? 88 : 266, PAD_R = narrow ? 60 : 190, TOP = 26;
     const colX = [PAD_L, PAD_L + (W - PAD_L - PAD_R) / 2 - NW / 2, W - PAD_R - NW];
     const GAP = narrow ? 5 : 7, innerH = H - TOP - 16;
     function layout(keys, totals) {
@@ -826,12 +826,31 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       el.setAttribute("dominant-baseline", "middle"); el.setAttribute("font-size", size);
       el.setAttribute("fill", color || "#b3aa99"); el.textContent = text; svg.appendChild(el); return el;
     }
+    function label2(x, y, lines, anchorPos, size, color) {
+      const el = document.createElementNS(NS, "text");
+      el.setAttribute("x", x); el.setAttribute("text-anchor", anchorPos);
+      el.setAttribute("font-size", size); el.setAttribute("fill", color || "#b3aa99");
+      const lh = size + 2.5, y0 = y - (lines.length - 1) * lh / 2;
+      lines.forEach((ln, i) => {
+        const ts = document.createElementNS(NS, "tspan");
+        ts.setAttribute("x", x); ts.setAttribute("y", y0 + i * lh);
+        ts.setAttribute("dominant-baseline", "middle"); ts.textContent = ln;
+        el.appendChild(ts);
+      });
+      svg.appendChild(el); return el;
+    }
     for (const o of objOrder) {
       const { y, h } = L1.pos[o];
       const nEl = node(colX[0], y, h, "#b3aa99");
-      const txt = narrow ? `${OBJ_SHORT[o]} ${(100 * objTot[o] / TOTAL).toFixed(0)}%`
-                         : `${objLabel[o]}  ${(100 * objTot[o] / TOTAL).toFixed(1)}%`;
-      label(colX[0] - 7, y + h / 2, txt, "end", narrow ? 9.5 : 12.5);
+      const pctTxt = `${(100 * objTot[o] / TOTAL).toFixed(narrow ? 0 : 1)}%`;
+      if (narrow && h >= 21 && OBJ_SHORT[o].includes(" ")) {
+        const words = OBJ_SHORT[o].split(" ");
+        label2(colX[0] - 7, y + h / 2, [words[0], `${words.slice(1).join(" ")} ${pctTxt}`], "end", 9.5);
+      } else if (narrow) {
+        label(colX[0] - 7, y + h / 2, `${OBJ_SHORT[o]} ${pctTxt}`, "end", 9.5);
+      } else {
+        label(colX[0] - 7, y + h / 2, `${objLabel[o]}  ${pctTxt}`, "end", 12.5);
+      }
       nEl.style.cursor = "pointer";
       nEl.addEventListener("mouseenter", () => highlight(p => p.o === o));
       nEl.addEventListener("mouseleave", reset);
@@ -840,9 +859,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     for (const r of reaOrder) {
       const { y, h } = L2.pos[r];
       const nEl = node(colX[1], y, h, "#c9a45c");
-      const txt = narrow ? `${REA_SHORT[r]} ${(100 * reaTot[r] / TOTAL).toFixed(0)}%`
-                         : `${reaLabel[r]}  ${(100 * reaTot[r] / TOTAL).toFixed(1)}%`;
-      const t = label(colX[1] + NW + 7, y + h / 2, txt, "start", narrow ? 10 : 11.5);
+      const rp = `${(100 * reaTot[r] / TOTAL).toFixed(narrow ? 0 : 1)}%`;
+      const t = narrow && h >= 22
+        ? label2(colX[1] + NW + 7, y + h / 2, [REA_SHORT[r], rp], "start", 10)
+        : label(colX[1] + NW + 7, y + h / 2, narrow ? `${REA_SHORT[r]} ${rp}` : `${reaLabel[r]}  ${rp}`, "start", narrow ? 10 : 11.5);
       t.setAttribute("paint-order", "stroke"); t.setAttribute("stroke", "#161324"); t.setAttribute("stroke-width", "3");
       nEl.style.cursor = "pointer";
       nEl.addEventListener("mouseenter", () => highlight(p => p.r === r));
@@ -858,13 +878,15 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       nEl.addEventListener("mouseenter", () => highlight(p => p.v === v));
       nEl.addEventListener("mouseleave", reset);
     }
-    const heads = [["THE OBJECT", colX[0] + NW / 2], ["THE STANDARD", colX[1] + NW / 2], ["THE VERDICT", colX[2] + NW / 2]];
-    for (const [t, x] of heads) {
-      const el = label(x, 11, t, "middle", narrow ? 8.5 : 10, "#c9a45c");
-      el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", narrow ? "1.5" : "3");
+    const heads = narrow
+      ? [["OBJECT", colX[0] + NW / 2, "middle"], ["STANDARD", colX[1] + NW / 2, "middle"], ["VERDICT", W - 4, "end"]]
+      : [["THE OBJECT", colX[0] + NW / 2, "middle"], ["THE STANDARD", colX[1] + NW / 2, "middle"], ["THE VERDICT", colX[2] + NW / 2, "middle"]];
+    for (const [t, x, anc] of heads) {
+      const el = label(x, 11, t, anc, narrow ? 7.5 : 10, "#c9a45c");
+      el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", narrow ? "1" : "3");
     }
-    for (const x of [(colX[0] + colX[1]) / 2, (colX[1] + colX[2]) / 2]) {
-      const el = label(x, 11, "→", "middle", narrow ? 9 : 11, "#6f6758");
+    if (!narrow) for (const x of [(colX[0] + colX[1]) / 2, (colX[1] + colX[2]) / 2]) {
+      const el = label(x, 11, "→", "middle", 11, "#6f6758");
       el.setAttribute("font-family", "IBM Plex Mono, monospace");
     }
     host.appendChild(svg);
