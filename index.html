@@ -567,22 +567,39 @@ const valLegendHtml = VAL_ORDER.map(v => `<span class="chip" tabindex="0"><span 
 document.getElementById("val-legend").innerHTML = valLegendHtml;
 document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
-// ---------------- planisphere (title page) ----------------
+// ---------------- planisphere (title page) — living star chart ----------------
 (function planisphere() {
   const cv = document.getElementById("planisphere");
   const ctx = cv.getContext("2d");
-  const pts = GALAXY.points.filter((_, i) => i % 2 === 0);
-  let w, dpr, raf;
+  const raw = GALAXY.points.filter((_, i) => i % 2 === 0);
+  // three depth layers with differential rotation
+  const pts = raw.map((p, i) => ({ x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3 }));
+  const SPEED = [1.0, 0.72, 0.5];
+  let w, dpr, mouse = null;
+  let constellations = [];
+  let lastConst = 0;
   function size() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     w = cv.clientWidth;
     cv.width = w * dpr; cv.height = w * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
+  function spawnConstellation(t) {
+    const seedIdx = Math.floor((t * 7.13) % pts.length);
+    const seed = pts[seedIdx];
+    const members = [seed];
+    for (let i = 0; i < pts.length && members.length < 6; i += 17) {
+      const q = pts[i];
+      if (q === seed || q.layer !== seed.layer) continue;
+      const d = (q.x - seed.x) ** 2 + (q.y - seed.y) ** 2;
+      if (d < 0.012 && d > 0.0004) members.push(q);
+    }
+    if (members.length >= 3) constellations.push({ members, layer: seed.layer, born: t });
+    if (constellations.length > 3) constellations.shift();
+  }
   function draw(t) {
     ctx.clearRect(0, 0, w, w);
     const c = w / 2, R = w / 2 - 4;
-    const rot = REDUCED ? 0 : (t || 0) / 260000;
     // graticule
     ctx.strokeStyle = "rgba(201,164,92,0.22)"; ctx.lineWidth = 1;
     for (const f of [1, 0.72, 0.44]) { ctx.beginPath(); ctx.arc(c, c, R * f, 0, 6.284); ctx.stroke(); }
@@ -593,7 +610,6 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       ctx.lineTo(c + Math.cos(a / 24 * 6.284) * R, c + Math.sin(a / 24 * 6.284) * R);
       ctx.stroke();
     }
-    // tick ring
     ctx.strokeStyle = "rgba(201,164,92,0.5)";
     for (let a = 0; a < 72; a++) {
       const th = a / 72 * 6.284;
@@ -604,19 +620,67 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     }
     ctx.save();
     ctx.beginPath(); ctx.arc(c, c, R - 7, 0, 6.284); ctx.clip();
-    ctx.translate(c, c); ctx.rotate(rot); ctx.translate(-c, -c);
-    for (let i = 0; i < pts.length; i++) {
-      const p = pts[i];
-      const x = 10 + (p[0] / 4095) * (w - 20), y = 10 + (p[1] / 4095) * (w - 20);
-      const amber = p[4] === 4;
-      ctx.fillStyle = amber ? "rgba(201,164,92,0.55)" : "rgba(220,225,240,0.17)";
-      ctx.fillRect(x, y, amber ? 1.4 : 1, amber ? 1.4 : 1);
+    const rots = SPEED.map(sp => REDUCED ? 0 : (t || 0) / 200000 * sp);
+    const cos = rots.map(Math.cos), sin = rots.map(Math.sin);
+    const proj = p => {
+      const px = (p.x - 0.5) * (w - 20), py = (p.y - 0.5) * (w - 20);
+      const l = p.layer;
+      return [c + px * cos[l] - py * sin[l], c + px * sin[l] + py * cos[l]];
+    };
+    // stars
+    for (const p of pts) {
+      const [x, y] = proj(p);
+      let sizeBoost = 0, alphaBoost = 0;
+      if (mouse) {
+        const d2 = (x - mouse[0]) ** 2 + (y - mouse[1]) ** 2;
+        if (d2 < 8100) { const k = 1 - Math.sqrt(d2) / 90; sizeBoost = k * 1.6; alphaBoost = k * 0.5; }
+      }
+      if (p.praise) {
+        ctx.fillStyle = `rgba(201,164,92,${0.55 + alphaBoost})`;
+        ctx.fillRect(x, y, 1.4 + sizeBoost, 1.4 + sizeBoost);
+      } else {
+        ctx.fillStyle = `rgba(220,225,240,${0.17 + alphaBoost})`;
+        ctx.fillRect(x, y, 1 + sizeBoost, 1 + sizeBoost);
+      }
+    }
+    // self-drawing constellations
+    if (!REDUCED) {
+      if (t - lastConst > 3600) { spawnConstellation(t); lastConst = t; }
+      constellations = constellations.filter(k => t - k.born < 5200);
+      for (const k of constellations) {
+        const age = (t - k.born) / 5200;
+        const alpha = age < 0.25 ? age / 0.25 : age > 0.65 ? (1 - age) / 0.35 : 1;
+        const drawn = Math.min(1, age / 0.35);
+        ctx.strokeStyle = `rgba(201,164,92,${0.55 * alpha})`;
+        ctx.lineWidth = 0.8;
+        const segs = k.members.length - 1;
+        for (let i = 0; i < segs; i++) {
+          const segProgress = Math.max(0, Math.min(1, drawn * segs - i));
+          if (segProgress <= 0) break;
+          const [x1, y1] = proj(k.members[i]);
+          const [x2, y2] = proj(k.members[i + 1]);
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x1 + (x2 - x1) * segProgress, y1 + (y2 - y1) * segProgress);
+          ctx.stroke();
+        }
+        for (const m of k.members) {
+          const [x, y] = proj(m);
+          ctx.fillStyle = `rgba(236,231,220,${0.9 * alpha})`;
+          ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 6.284); ctx.fill();
+        }
+      }
     }
     ctx.restore();
-    if (!REDUCED) raf = requestAnimationFrame(draw);
+    if (!REDUCED) requestAnimationFrame(draw);
   }
+  cv.addEventListener("mousemove", e => {
+    const r = cv.getBoundingClientRect();
+    mouse = [(e.clientX - r.left) * (w / r.width), (e.clientY - r.top) * (w / r.height)];
+  });
+  cv.addEventListener("mouseleave", () => { mouse = null; });
   size(); addEventListener("resize", () => { size(); if (REDUCED) draw(0); });
-  if (REDUCED) draw(0); else raf = requestAnimationFrame(draw);
+  if (REDUCED) draw(0); else requestAnimationFrame(draw);
 })();
 
 // ---------------- sankey (Plate II) ----------------
@@ -1436,7 +1500,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const D = DEPTH.dispersion;
   const sc = document.getElementById("spread-charts");
   sc.style.gridTemplateColumns = "1fr";
-  (function orbital() {
+  function orbital() {
     const entries = Object.entries(D.spread_by_mean).map(([k, v]) => [+k, v.mean_std, v.n]);
     const W = Math.max(300, sc.clientWidth || 640), H = 230, padL = 46, padR = 20, padT = 26, padB = 40;
     const NSd = "http://www.w3.org/2000/svg";
@@ -1480,7 +1544,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     apex.textContent = "the contested middle"; svg.appendChild(apex);
     sc.innerHTML = `<div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">Within-paper score σ across the paper's mean rating — each dot: one mean level; large ivory dot: the apex</div>`;
     sc.appendChild(svg);
-  })();
+  }
+  orbital();
+  debounceResize(orbital);
   document.getElementById("spread-stats").innerHTML = [
     ["92.6%", "of multi-review papers carry disagreement; half by two full notches or more"],
     ["σ peaks at μ5", "the contested middle: dispersion is an inverted U over the paper's mean score"],
@@ -1660,10 +1726,10 @@ function showDissect(kind, key) {
     ["weakened", R.overall.weakened / N, "#e66767"],
     ["reversed", R.overall.reversed / N, "#d55181"],
   ];
-  (function fateFlow() {
+  function fateFlow() {
     const host = document.getElementById("reb-fate");
     host.innerHTML = "";
-    const W = Math.max(300, host.clientWidth || 640), H = 240, BX = 158, RX = W - 190;
+    const W = Math.max(300, host.clientWidth || 640), H = 240, BX = Math.max(120, W * 0.22), RX = W - 215;
     const NSf = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(NSf, "svg");
     svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
@@ -1695,7 +1761,9 @@ function showDissect(kind, key) {
       ySrc += h0; yDst += h1 + GAPF;
     });
     host.appendChild(svg);
-  })();
+  }
+  fateFlow();
+  debounceResize(fateFlow);
   const trigOrder = ["new_evidence", "clarification", "revision", "other"];
   const trigLabel = { new_evidence: "new experiments / data", clarification: "clarification / argument", revision: "manuscript revision", other: "other / unclassified" };
   document.getElementById("reb-trig").innerHTML = trigOrder.map(k => {
