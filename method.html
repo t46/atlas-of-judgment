@@ -49,7 +49,7 @@ footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top:
 </style>
 
 <div class="shell">
-<nav class="nav"><a href="about.html">About</a><a href="index.html">The Atlas</a><a class="here" href="#">The Method</a></nav>
+<nav class="nav"><a href="about.html">About</a><a href="index.html">The Atlas</a><a class="here" href="#">The Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a></nav>
 
 <div class="eyebrow">Atlas of Judgment · Reproduction Record</div>
 <h1>How the data <em style="font-style:italic">was made</em></h1>
@@ -183,7 +183,7 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 
 <div class="no" id="s7">07</div>
 <h2>The actual path — pilots, failures, decisions</h2>
-<p>The sections above describe the pipeline as it finally ran. This section records how it actually got there — the small trials, dead ends, and mid-course corrections, in order. Nothing here is retrospective varnish; each item is backed by an artifact directory or manifest still on disk.</p>
+<p>The raw, sanitized session history behind this chronicle — every command and decision as it happened, 21,386 events — is published in <a href="https://github.com/t46/atlas-of-judgment">the project repository</a> (<code>codex-history/</code>), alongside the full pipeline code and these pages. The sections above describe the pipeline as it finally ran. This section records how it actually got there — the small trials, dead ends, and mid-course corrections, in order. Nothing here is retrospective varnish; each item is backed by an artifact directory or manifest still on disk.</p>
 <h3>Every production stage was piloted first</h3>
 <ul>
   <li>Nothing ran at full scale untried. Pilot ledgers (all read-only verifiable): initial_blind <b>395 pilot jobs</b> ($0.33), trajectory 327 ($0.51), paper_synthesis 100 ($0.52), forum_direct 100 ($0.32), and a dedicated 100-forum method-comparison run ($0.40).</li>
