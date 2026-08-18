@@ -1,0 +1,138 @@
+<meta charset="utf-8">
+<title>About the Atlas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #12101f; --raise: #1a1729;
+  --ink: #ece7dc; --ink-2: #b3aa99; --muted: #6f6758;
+  --brass: #c9a45c; --brass-line: rgba(201,164,92,0.28); --brass-faint: rgba(201,164,92,0.13);
+  --v-negative: #e66767; --v-positive: #199e70; --v-conditional: #c98500;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Cormorant Garamond", Georgia, serif;
+  --serif: "Source Serif 4", Georgia, serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15.5px; line-height: 1.75;
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(201,164,92,0.45); }
+.shell { max-width: 880px; margin: 0 auto; padding: 0 28px 90px; }
+h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(46px, 6.5vw, 76px); line-height: 1.02; }
+h2 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15; margin-top: 70px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); margin-bottom: 16px; }
+.no { font-family: var(--mono); font-size: 10px; letter-spacing: 0.26em; color: var(--muted); margin: 66px 0 -58px; text-transform: uppercase; }
+p { margin: 14px 0 0; color: var(--ink-2); max-width: 68ch; }
+p b, p strong { color: var(--ink); font-weight: 600; }
+em { color: var(--ink); }
+.nav { display: flex; gap: 22px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; padding: 26px 0 60px; }
+.nav a { border: none; color: var(--ink-2); } .nav a:hover { color: var(--brass); }
+.nav .here { color: var(--brass); }
+.frame { position: relative; border: 1px solid var(--brass-line); padding: 8px; margin-top: 26px; background: rgba(22,19,36,0.5); }
+.frame-inner { border: 1px solid var(--brass-faint); padding: 24px 26px; }
+.frame::before, .frame-inner::after { content: ""; position: absolute; width: 9px; height: 9px; border-color: var(--brass); border-style: solid; }
+.frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.frame-inner::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; line-height: 2.1; margin-top: 26px; }
+.spec b { color: var(--brass); font-weight: 500; }
+.layers { display: flex; flex-direction: column; gap: 0; margin-top: 10px; }
+.layer { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 15px 0; border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; color: var(--ink-2); }
+.layer .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--brass); padding-top: 3px; }
+.layer b { color: var(--ink); font-weight: 600; }
+.unit-demo { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 6px; }
+.step { padding: 4px 16px 0; border-left: 1px solid var(--brass-faint); font-size: 12.5px; line-height: 1.6; color: var(--ink); }
+.step:first-child { border-left: none; padding-left: 0; }
+.step .sl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+@media (max-width: 760px) { .unit-demo { grid-template-columns: 1fr; gap: 12px; } .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 0 0; } .step:first-child { border-top: none; } }
+ul.findings { margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 13px; }
+ul.findings li { display: grid; grid-template-columns: 120px 1fr; gap: 16px; font-size: 14px; color: var(--ink-2); }
+ul.findings .v { font-family: var(--display); font-size: 25px; line-height: 1.1; color: var(--brass); text-align: right; }
+ul.findings b { color: var(--ink); font-weight: 600; }
+table { border-collapse: collapse; margin-top: 18px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+th, td { border: 1px solid var(--brass-faint); padding: 7px 12px; text-align: left; color: var(--ink-2); }
+th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+td:last-child { text-align: right; font-family: var(--mono); font-size: 11.5px; }
+footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top: 26px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 26px; text-transform: uppercase; }
+</style>
+
+<div class="shell">
+<nav class="nav"><a class="here" href="#">About</a><a href="index.html">The Atlas</a><a href="method.html">The Method</a></nav>
+
+<div class="eyebrow">Atlas of Judgment · Companion</div>
+<h1>What this <em style="font-style:italic">is</em></h1>
+<p style="font-size:17px;margin-top:22px">The <a href="index.html">Atlas of Judgment</a> is a metascience instrument: every public peer review of ICLR — the International Conference on Learning Representations — decomposed into atomic units of evaluative logic and mapped at scale. Not <em>what did reviewers decide</em>, but <em>how did they think</em>.</p>
+<div class="spec"><b>410,586</b> units (ICLR 2026, review-level) · <b>1,009,592</b> units (2018–2026, forum-level) · <b>52,460</b> submissions collected · verified 2026-08-18</div>
+
+<div class="no">01</div>
+<h2>The question</h2>
+<p>The project's research question, fixed early and verbatim in its design documents: not whether a paper was accepted, nor whether a review was favorable, but — <em>what do reviewers inspect, and through which criteria, comparisons, assumptions, and inferences does that observation become a judgment?</em></p>
+<p>Peer review is the quality-control mechanism of science, yet the reasoning inside it is rarely studied as an object in its own right. Reviews are usually reduced to scores, sentiment, or accept/reject outcomes. This project treats the <b>reasoning itself</b> as the data.</p>
+
+<div class="no">02</div>
+<h2>Why ICLR</h2>
+<p>One property makes ICLR nearly unique among top machine-learning venues: it publishes the reviews of <b>rejected papers</b>. ICML and NeurIPS mostly expose reviews only for accepted work, which biases any study of judgment toward papers that survived it. ICLR's OpenReview forums carry the full distribution — every submission, every review, every rebuttal, every verdict — for nine consecutive years, 2018 through 2026. That is 52,460 submissions and 792,703 forum messages, all from a single source with a single collection path.</p>
+
+<div class="no">03</div>
+<h2>The atom: a logic unit</h2>
+<p>The unit of analysis is one complete movement of a reviewer's mind — from a thing inspected, through an observation, through the standard invoked, to a judgment. A real unit from the corpus:</p>
+<div class="frame"><div class="frame-inner">
+  <div class="unit-demo">
+    <div class="step"><div class="sl">Inspected</div>The paper's notation system and formatting consistency.</div>
+    <div class="step"><div class="sl">→ Observed</div>The reviewer finds the notation "difficult to follow" due to inconsistencies in subscript/superscript usage.</div>
+    <div class="step"><div class="sl">→ Reasoned</div>Clear notation is a prerequisite for verifying correctness; ambiguity here creates a barrier to evaluating technical soundness.</div>
+    <div class="step"><div class="sl">→ Judged</div>The presentation quality is insufficiently rigorous — a formal weakness that hinders scrutiny.</div>
+  </div>
+</div></div>
+<p>Each unit also carries a verdict polarity (negative / positive / conditional / uncertain / mixed), a suggested fix when the reviewer offered one, line-level citations back to the source review, and a flag recording whether it is grounded in the reviewer's explicit words or inferred by the analysis layer.</p>
+
+<div class="no">04</div>
+<h2>The three layers</h2>
+<p>The atlas does not read raw reviews directly. It stands on a three-layer pipeline, and honesty about the layers is part of the design:</p>
+<div class="layers">
+  <div class="layer"><span class="k">Layer I</span><span><b>Human reviews</b> — the raw OpenReview record, collected once and kept immutable. No anonymization is applied; the data is already public.</span></div>
+  <div class="layer"><span class="k">Layer II</span><span><b>Analytic memos</b> — a DeepSeek model reads each review (or forum) and writes a free-text metascientific analysis, under prompts that forbid re-reviewing the paper, require line-ID citations, and deliberately hide outcomes and other reviews at the initial stage.</span></div>
+  <div class="layer"><span class="k">Layer III</span><span><b>Structured logic units</b> — a Qwen model normalizes each memo into schema-constrained JSON. It never sees the raw review; it is a normalization layer over Layer II, not a second opinion.</span></div>
+</div>
+<p><b>What this is not:</b> a direct measurement of human reviewers. Every unit is a two-stage machine reading. The <code style="font-family:var(--mono);font-size:12px">support_status</code> flag (explicit vs. inferred) and a per-category reliability grid in the atlas appendix exist so that every claim can be read against the instrument's own error.</p>
+
+<div class="no">05</div>
+<h2>Two tracks, one taxonomy</h2>
+<p>Two independent extraction tracks cover complementary views. The <b>2026 track</b> works review-by-review at high resolution: 74,380 reviews → 410,586 units. The <b>2018–2026 track</b> works forum-by-forum across nine years: 50,861 forums → 1,009,592 units, with temporal fields (before/after rebuttal, judgment change) that power the drift and rebuttal analyses.</p>
+<p>Both tracks share one taxonomy — <b>12 objects of scrutiny × 12 reasoning standards</b> — induced from the data itself: a 12,000-unit sample was embedded and clustered with no seeding from prior schemes, the clusters were read and named by hand, and every unit in both tracks was then assigned to its nearest category. Definitions for every term are in the atlas <a href="index.html">lexicon</a>, and on hover throughout.</p>
+
+<div class="no">06</div>
+<h2>What the atlas found</h2>
+<ul class="findings">
+  <li><span class="v">71.8%</span><span>of all units resolve <b>negative</b> — the memo layer articulates the logic of criticism far more often than praise (a property of the instrument as much as of reviewers).</span></li>
+  <li><span class="v">1.9×</span><span><b>the grammar</b>: each object of scrutiny has a canonical standard — novelty is judged by the novelty standard, cost by cost-benefit; theory chains into theory at 1.9× chance.</span></li>
+  <li><span class="v">26→6→13%</span><span><b>the script</b>: reviews open conceptually (framing 1.9× base rate) and close with hygiene (reproducibility 1.4×); praise collapses mid-review and returns at the close.</span></li>
+  <li><span class="v">4.6%</span><span><b>the rebuttal</b>: of 130,650 post-response units, only 4.6% soften and 1.0% reverse; even fresh experiments strengthen the original judgment ~3× more often than they soften it.</span></li>
+  <li><span class="v">−10.6pp</span><span><b>the tribunal</b>: novelty criticism carries the largest acceptance penalty; compute-cost and robustness criticism carry none at all.</span></li>
+  <li><span class="v">69→27%</span><span><b>the gauntlet</b>: acceptance falls almost linearly with each additional front of criticism, from two fronts to nine or more.</span></li>
+  <li><span class="v">38.6%</span><span><b>dissent</b>: reviewers of the same paper split most on problem framing — whether the question matters — and least on robustness, where evidence speaks.</span></li>
+  <li><span class="v">−13.7pp</span><span><b>the kinder judge</b>: meta-reviewers run 13.7 points less negative and 10.5 points more positive than the panels they summarize.</span></li>
+  <li><span class="v">+3.2pp</span><span><b>the drift</b>: 2018→2026, scrutiny moved from theory and clarity toward compute cost, statistical rigor, and reproducibility — from <em>what is this idea</em> toward <em>what does the evidence cost</em>.</span></li>
+</ul>
+<p>Every figure above is interactive in the <a href="index.html">atlas</a>, with counts, definitions, and raw specimen units behind it.</p>
+
+<div class="no">07</div>
+<h2>How much to trust it</h2>
+<p>Read the atlas with four caveats. <b>(1)</b> It measures a machine reading of reviews, not reviewers directly; the reliability grid shows where inference substitutes for quotation. <b>(2)</b> The negative share reflects the memo prompts' bias toward articulating criticism — it is not a sentiment ratio. <b>(3)</b> Coverage is 98.1–98.2% on both tracks; the missing tail (parse failures, provider content-policy refusals) is documented and its topic correlation unverified. <b>(4)</b> Decision-linked plates (tribunal, gauntlet) are associations: outcomes were never shown to the extraction pipeline, but criticism breadth and paper quality are entangled by design.</p>
+
+<div class="no">08</div>
+<h2>The ledger</h2>
+<table>
+  <tr><th>Stage</th><th>Scale</th><th>Cost (USD)</th></tr>
+  <tr><td>Collection + normalization (OpenReview)</td><td>52,460 forums · 792,703 messages</td><td>0</td></tr>
+  <tr><td>DeepSeek memos — Full Layered (2026)</td><td>151,193 memos</td><td>314.42</td></tr>
+  <tr><td>DeepSeek memos — Direct (2018–2026)</td><td>51,813 memos</td><td>194.75</td></tr>
+  <tr><td>Qwen structuring — both tracks, incl. retries</td><td>~1.42M units emitted</td><td>103.59</td></tr>
+  <tr><td>Taxonomy, embeddings, aggregation, atlas</td><td>local compute only</td><td>0</td></tr>
+</table>
+<p style="font-size:13px">Pilot-phase exploration (episode schemas, atlas cards, calibration runs) is additional and itemized in the project's provenance ledger; the figures above are the production spine.</p>
+
+<div class="no">09</div>
+<h2>Reproduce it</h2>
+<p>The companion page, <a href="method.html">The Atlas Method</a>, records the full pipeline — every script, model, parameter, seed, cost, failure mode, and the exact commands — at the level of detail needed to rerun it, along with an honest account of what cannot be reproduced (LLM sampling nondeterminism, a handful of one-off manual repairs, and upstream drift in OpenReview itself).</p>
+
+<footer><span>Atlas of Judgment · Companion</span><span>Verified 2026-08-18</span><span>ICLR 2018–2026 · OpenReview</span></footer>
+</div>

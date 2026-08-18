@@ -1,0 +1,931 @@
+{
+ "field": "inspected_object",
+ "model": "BAAI/bge-small-en-v1.5",
+ "sample_size": 12000,
+ "min_cluster_size": 60,
+ "n_clusters": 36,
+ "noise_points": 4516,
+ "noise_share": 0.3763,
+ "clusters": [
+  {
+   "cluster": 22,
+   "size": 667,
+   "share": 0.0556,
+   "valence_counts": {
+    "conditional": 80,
+    "mixed": 3,
+    "negative": 438,
+    "positive": 115,
+    "uncertain": 31
+   },
+   "exemplars": [
+    "Generality of theoretical assumptions (single-head, post-norm, shared minimizer)",
+    "The presence of theoretical guarantees (approximation and exact recovery).",
+    "Robustness of theoretical results under relaxed assumptions",
+    "Theoretical assumptions (Smoothness/Bounded Shift)",
+    "Theoretical framework covering first-order and zero-order methods under (L0,L1)-smoothness",
+    "Relaxation of orthogonality assumption.",
+    "Theoretical derivations (VBOS gradient and concavity proof)",
+    "Theoretical apparatus and proofs (lossless property, branch divergence, capped ratios, unique capping indices)",
+    "Smoothness assumptions in theoretical guarantees",
+    "Theoretical grounding (Theorem 5.1)",
+    "Proof structure and technical assumptions (SPSA estimator, two-timescale mechanism)",
+    "Theoretical framework (EISS and policy Lipschitzness yielding polynomial bounds on compounding error)"
+   ]
+  },
+  {
+   "cluster": 20,
+   "size": 609,
+   "share": 0.0508,
+   "valence_counts": {
+    "conditional": 84,
+    "mixed": 5,
+    "negative": 418,
+    "positive": 83,
+    "uncertain": 19
+   },
+   "exemplars": [
+    "Performance dependence on encoder quality",
+    "The visual-input experiment results",
+    "Experimental scope of the ImageNet experiment (fine-tuning vs. training from scratch)",
+    "Breadth and depth of empirical evaluation (two benchmarks, modest gains on ImageNet-C)",
+    "Empirical validation on ImageNet (visual outputs)",
+    "Methodological novelties (layer-wise masking strategy and progressive layer-wise loss)",
+    "Visual encoder comparisons",
+    "Generalizable findings from layer partition experiments",
+    "Training procedure of the image encoder",
+    "Layerwise Compression-Expression claim novelty",
+    "The computational cost of the EDL layer relative to standard convolution blocks.",
+    "Architectural scope of tested models (CLIP-style fixed-resolution encoders) versus newer architectures (Qwen-VL, GLM-VL)"
+   ]
+  },
+  {
+   "cluster": 17,
+   "size": 513,
+   "share": 0.0428,
+   "valence_counts": {
+    "conditional": 53,
+    "mixed": 1,
+    "negative": 386,
+    "positive": 50,
+    "uncertain": 23
+   },
+   "exemplars": [
+    "Computational cost and scalability analysis",
+    "Scalability and computational costs",
+    "Computational cost analysis relative to scalability claims",
+    "Computational cost and scalability claims",
+    "The paper's reporting of computational costs and latency metrics",
+    "Computational cost and scalability",
+    "Computational cost and scalability",
+    "Computational overhead claims.",
+    "Computational overhead and cost-benefit profile",
+    "Scalability and efficiency claims relative to Figure 11",
+    "Computational cost and efficiency metrics",
+    "Computational cost and efficiency relative to baselines"
+   ]
+  },
+  {
+   "cluster": 24,
+   "size": 444,
+   "share": 0.037,
+   "valence_counts": {
+    "conditional": 28,
+    "negative": 389,
+    "positive": 19,
+    "uncertain": 8
+   },
+   "exemplars": [
+    "Selection of baseline comparisons",
+    "The selection of baselines in the experimental comparison.",
+    "Baseline comparisons in experiments",
+    "Baseline comparisons in empirical results",
+    "Baseline selection in experimental comparison",
+    "Baseline selection in experimental comparison",
+    "Experimental comparison baselines",
+    "Experimental comparison baselines",
+    "Comparative performance against baselines",
+    "Experimental results against baselines",
+    "Experimental comparison design (baselines)",
+    "Experimental baseline comparison"
+   ]
+  },
+  {
+   "cluster": 12,
+   "size": 432,
+   "share": 0.036,
+   "valence_counts": {
+    "conditional": 25,
+    "mixed": 3,
+    "negative": 305,
+    "positive": 77,
+    "uncertain": 22
+   },
+   "exemplars": [
+    "Empirical Evaluation: Dataset Scope",
+    "The benchmark dataset construction (scale and resource contribution)",
+    "Empirical validation on synthetic and real datasets.",
+    "Empirical validation on real-world datasets",
+    "Datasets and experimental scope",
+    "Evaluation on large datasets.",
+    "Clarity of experimental setup regarding dataset handling",
+    "Reproducibility details of dataset generation",
+    "Dataset construction pipeline and evaluation consistency",
+    "Dataset construction: novelty, verification, and diversity",
+    "Benchmark dataset simplicity and external validity",
+    "Experimental results in Table 3 and 5-Datasets benchmark"
+   ]
+  },
+  {
+   "cluster": 18,
+   "size": 300,
+   "share": 0.025,
+   "valence_counts": {
+    "conditional": 43,
+    "mixed": 2,
+    "negative": 198,
+    "positive": 35,
+    "uncertain": 22
+   },
+   "exemplars": [
+    "Training procedure specification (alternating scheme stability and rationale)",
+    "The computational efficiency of the training run relative to input resolution.",
+    "Error analysis and boundary conditions of the training effect",
+    "Temporal horizon of the training objective",
+    "Mechanistic interpretation of the loss function's impact on training dynamics",
+    "Attribution of training efficiency gains (2–30× speedup)",
+    "The coarse-to-fine training strategy.",
+    "Training curves in experimental results",
+    "Operational viability and computational cost of the 'training-free' method",
+    "Clarity of training details and reproducibility",
+    "Two-phase training design (L-BC and S-AA)",
+    "Training dynamics involving a frozen pre-trained LLM (Figure 1)"
+   ]
+  },
+  {
+   "cluster": 33,
+   "size": 280,
+   "share": 0.0233,
+   "valence_counts": {
+    "conditional": 49,
+    "mixed": 1,
+    "negative": 193,
+    "positive": 14,
+    "uncertain": 23
+   },
+   "exemplars": [
+    "Experimental scope and benchmark generalization",
+    "Generalizability across base models",
+    "Generalizability to more capable models",
+    "Experimental scale and generalizability",
+    "The generalization experiments scope",
+    "Generalizability across new tasks",
+    "The generalizability of the framework across different base models",
+    "Generalization experiments (cross-task and cross-model)",
+    "Model scale generalizability (<3B models).",
+    "Domain generality and experimental scope",
+    "Experimental scope and generalizability",
+    "Experimental scope and generalizability"
+   ]
+  },
+  {
+   "cluster": 6,
+   "size": 270,
+   "share": 0.0225,
+   "valence_counts": {
+    "conditional": 33,
+    "mixed": 2,
+    "negative": 208,
+    "positive": 7,
+    "uncertain": 20
+   },
+   "exemplars": [
+    "Hyperparameter sensitivity.",
+    "Hyperparameter sensitivity and tuning requirements",
+    "Sensitivity analysis of hyperparameters",
+    "Hyperparameter sensitivity and stability",
+    "Hyperparameter sensitivity and tuning feasibility",
+    "Hyperparameter sensitivity analysis",
+    "Hyperparameter sensitivity analysis",
+    "Hyperparameter sensitivity analysis",
+    "Hyperparameter sensitivity analysis",
+    "Hyperparameter sensitivity analysis",
+    "Hyperparameter configuration and sensitivity analysis.",
+    "Threshold sensitivity and hyperparameter choices"
+   ]
+  },
+  {
+   "cluster": 23,
+   "size": 253,
+   "share": 0.0211,
+   "valence_counts": {
+    "conditional": 24,
+    "mixed": 3,
+    "negative": 154,
+    "positive": 64,
+    "uncertain": 8
+   },
+   "exemplars": [
+    "Empirical evaluation and benchmark comparisons",
+    "Empirical evaluation scope and claim of 'diverse benchmarks'",
+    "Empirical performance across benchmarks",
+    "Empirical performance across benchmarks",
+    "Empirical results across benchmarks",
+    "Empirical results across benchmarks",
+    "Experimental results across benchmarks",
+    "Empirical validation on standard benchmarks",
+    "Selection of benchmarks used for evaluation",
+    "Empirical evaluation breadth across benchmarks",
+    "Empirical evaluation breadth across multiple benchmarks",
+    "Evaluation setup and benchmarks"
+   ]
+  },
+  {
+   "cluster": 29,
+   "size": 234,
+   "share": 0.0195,
+   "valence_counts": {
+    "conditional": 16,
+    "mixed": 3,
+    "negative": 195,
+    "positive": 18,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "Novelty and analytical contribution",
+    "Overall contribution and justification of novelty",
+    "Novelty articulation relative to existing methods",
+    "Novelty and conceptual contribution",
+    "Novelty and contribution relative to prior work",
+    "Novelty and differentiation from prior work",
+    "Novelty and technical contribution",
+    "The novelty claim relative to existing benchmarks",
+    "Theoretical contribution and novelty",
+    "Novelty claim and methodological reformulation",
+    "Novelty attribution and comparison with Wang et al. (ICML 2025)",
+    "Conceptual novelty and contribution"
+   ]
+  },
+  {
+   "cluster": 0,
+   "size": 227,
+   "share": 0.0189,
+   "valence_counts": {
+    "conditional": 15,
+    "mixed": 2,
+    "negative": 156,
+    "positive": 48,
+    "uncertain": 6
+   },
+   "exemplars": [
+    "The experimental ablation study coverage and completeness.",
+    "Baseline completeness in ablation study (single-fidelity variants)",
+    "Ablation studies for proposed innovations",
+    "Ablation studies and effectiveness demonstration",
+    "Ablation studies and component justification",
+    "Ablation study results (Section 5.4) and mechanistic interpretability",
+    "Ablation study completeness and parameter interdependence",
+    "Ablation studies for method components",
+    "Experimental design and ablation studies",
+    "The ablation methodology",
+    "Experimental design (ablation study)",
+    "Ablation study design"
+   ]
+  },
+  {
+   "cluster": 16,
+   "size": 213,
+   "share": 0.0177,
+   "valence_counts": {
+    "conditional": 11,
+    "mixed": 1,
+    "negative": 192,
+    "positive": 8,
+    "uncertain": 1
+   },
+   "exemplars": [
+    "Prior work citations and comparative positioning",
+    "Citation coverage relative to prior work",
+    "Related work coverage and citation accuracy",
+    "Related work and literature positioning",
+    "Related work and literature positioning",
+    "Literature coverage and comparison with related work",
+    "Literature positioning and related work coverage.",
+    "Empirical comparisons with cited prior work",
+    "Related work section length and citation accuracy",
+    "Related work and scholarly positioning",
+    "Related work and scholarly positioning",
+    "Related work section and scholarly positioning."
+   ]
+  },
+  {
+   "cluster": 34,
+   "size": 199,
+   "share": 0.0166,
+   "valence_counts": {
+    "conditional": 7,
+    "mixed": 1,
+    "negative": 166,
+    "positive": 21,
+    "uncertain": 4
+   },
+   "exemplars": [
+    "Figures and visual presentation",
+    "Figure 2 visualization",
+    "Figure clarity and presentation",
+    "Figure 1 visualization",
+    "Figure 1 visual presentation",
+    "Overview figure and presentation clarity",
+    "Visualization clarity (Figure 2)",
+    "Visualization clarity (Figure 2)",
+    "Presentation and figure clarity",
+    "Visual evidence in Figures 2 and 3",
+    "Figure presentation and axis descriptions",
+    "Visualizations in Figures 3, 8–9, and 11"
+   ]
+  },
+  {
+   "cluster": 9,
+   "size": 190,
+   "share": 0.0158,
+   "valence_counts": {
+    "conditional": 17,
+    "mixed": 1,
+    "negative": 143,
+    "positive": 24,
+    "uncertain": 5
+   },
+   "exemplars": [
+    "Empirical performance of the proposed metric",
+    "Experimental evaluation metrics (MMD on single-valued metrics)",
+    "Evaluation completeness and metric reporting",
+    "Analysis quality and metric support",
+    "The combination of metrics into a single evaluation framework",
+    "The evaluation protocol and metric selection",
+    "Empirical validation and metrics",
+    "The experimental evaluation's metric normalization",
+    "Evaluation metrics in Tables 2 and 3",
+    "Evaluation framework and metrics",
+    "Selection of metrics (fidelity and logit distance beyond accuracy)",
+    "Evaluation metrics"
+   ]
+  },
+  {
+   "cluster": 1,
+   "size": 170,
+   "share": 0.0142,
+   "valence_counts": {
+    "conditional": 15,
+    "negative": 124,
+    "positive": 22,
+    "uncertain": 9
+   },
+   "exemplars": [
+    "The choice of adversarial attacks (only PGD-based).",
+    "Adaptive attacker robustness",
+    "Practicality of the threat model (adversary with fine-tuning access)",
+    "The framing and positioning of the work within VLA and adversarial attack literature (Section 1)",
+    "Attack surface and adversarial robustness",
+    "Threat model assumptions regarding adversary capabilities (decoder weights and latent vector access)",
+    "The paper's formalization of unlearning attacks via constraints, specifically the definitions of 'stealth' and 'attack activation'",
+    "Robustness against adaptive attacks",
+    "Attack robustness (adversarial paraphrasing and decoherence attacks)",
+    "The generalizability of the attack method (STEBA) across different samplers and sampling configurations.",
+    "Empirical evaluation of adaptive attacks and low-magnitude attacks",
+    "The generalization of the attack beyond vision prompt tuning."
+   ]
+  },
+  {
+   "cluster": 19,
+   "size": 168,
+   "share": 0.014,
+   "valence_counts": {
+    "conditional": 25,
+    "mixed": 1,
+    "negative": 117,
+    "positive": 14,
+    "uncertain": 11
+   },
+   "exemplars": [
+    "The generalization of robustness claims to Gaussian noise.",
+    "Experimental noise robustness",
+    "Empirical results: Statistical robustness",
+    "Robustness to noisy data",
+    "Robustness to noisy data",
+    "Statistical robustness of experimental results",
+    "Statistical robustness of experimental results",
+    "Statistical robustness of experimental results",
+    "Statistical robustness of results",
+    "Theoretical claims of 'adaptability' and 'robustness to noise'",
+    "Robustness under data variations",
+    "Reproducibility and statistical robustness"
+   ]
+  },
+  {
+   "cluster": 26,
+   "size": 165,
+   "share": 0.0138,
+   "valence_counts": {
+    "conditional": 8,
+    "mixed": 3,
+    "negative": 84,
+    "positive": 69,
+    "uncertain": 1
+   },
+   "exemplars": [
+    "Problem framing and motivation",
+    "Problem framing and motivation",
+    "Problem framing and motivation",
+    "Problem framing and motivation (lack of fine-grained diagnostic signals)",
+    "Motivation and problem framing",
+    "Motivation and problem framing",
+    "Problem framing, theoretical novelty, and interpretability.",
+    "Introduction motivation and problem framing",
+    "Problem framing and modeling choices",
+    "Conceptual framing and problem formulation.",
+    "Problem framing and research direction",
+    "Engagement with theoretical framing"
+   ]
+  },
+  {
+   "cluster": 2,
+   "size": 163,
+   "share": 0.0136,
+   "valence_counts": {
+    "conditional": 22,
+    "mixed": 2,
+    "negative": 111,
+    "positive": 20,
+    "uncertain": 8
+   },
+   "exemplars": [
+    "Reward design: Hypervolume level vs. improvement",
+    "Reward function design and parameterization",
+    "Reward design (PBRS mechanism) and parameter selection",
+    "The reward function design",
+    "Reward function design (normalized information gain)",
+    "Theoretical grounding of the heuristic reward",
+    "TAR-TVG's reward function design, specifically the progressive-refinement constraint",
+    "Theoretical foundation linking next-token probability weighting to reward consistency.",
+    "Novelty of the two-stage reward parameter tuning approach",
+    "Utility of the Process-Based Reward Shaping (PBRS) term",
+    "Hyperparameter sensitivity analysis for reward function",
+    "The intrinsic reward formulation (Equation 9)"
+   ]
+  },
+  {
+   "cluster": 35,
+   "size": 162,
+   "share": 0.0135,
+   "valence_counts": {
+    "conditional": 1,
+    "mixed": 5,
+    "negative": 119,
+    "positive": 37
+   },
+   "exemplars": [
+    "Writing quality and presentation clarity",
+    "Presentation quality and writing clarity.",
+    "Writing and presentation quality",
+    "Presentation and writing quality",
+    "Writing quality and presentation",
+    "Presentation quality and formatting",
+    "Presentation quality and formatting",
+    "Presentation quality (text legibility and formatting)",
+    "Clarity of presentation and writing quality",
+    "Presentation quality and typos",
+    "Presentation quality and typos",
+    "Presentation quality including typos and table references"
+   ]
+  },
+  {
+   "cluster": 31,
+   "size": 161,
+   "share": 0.0134,
+   "valence_counts": {
+    "conditional": 3,
+    "mixed": 1,
+    "negative": 124,
+    "positive": 33
+   },
+   "exemplars": [
+    "The structure and exposition of the paper",
+    "Clarity and narrative structure of the paper",
+    "Experimental depth and coverage of the paper's claims",
+    "Title and abstract framing of the paper's scope",
+    "The paper title and framing relative to its scope",
+    "Clarity and formalism of the paper",
+    "Abstract and introduction framing of the paper's scope",
+    "Exposition and readability of the paper",
+    "The paper's introduction and framing order",
+    "The structural clarity and argumentative scaffolding of the paper.",
+    "The clarity and presentation of the paper.",
+    "Paper structure (Conclusion and Limitations sections)"
+   ]
+  },
+  {
+   "cluster": 28,
+   "size": 158,
+   "share": 0.0132,
+   "valence_counts": {
+    "conditional": 11,
+    "mixed": 2,
+    "negative": 126,
+    "positive": 17,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "Empirical results reporting and statistical rigor",
+    "Statistical reporting of empirical improvements",
+    "statistical reporting of experimental results",
+    "Statistical reporting in experimental results",
+    "Empirical results presented in Table 2",
+    "Empirical results",
+    "Empirical results comparison",
+    "Empirical results tables",
+    "Reporting of experimental results as single-run point estimates",
+    "Statistical reporting of main results (Table 1 and Figure 3)",
+    "Overall empirical results",
+    "Completeness of experimental reporting in Tables 3, 4, and 5."
+   ]
+  },
+  {
+   "cluster": 13,
+   "size": 152,
+   "share": 0.0127,
+   "valence_counts": {
+    "conditional": 18,
+    "negative": 109,
+    "positive": 16,
+    "uncertain": 9
+   },
+   "exemplars": [
+    "Qualitative validation of semantic alignment",
+    "The practical relevance of the low-data regime (n < 100) in language modeling.",
+    "Experimental setup for 'curse of multilinguality' (token sampling)",
+    "Theoretical framing of multi-language alignment",
+    "Implementation details of the Semantic Entropy baseline",
+    "Experimental scope and generalizability to large language models",
+    "The claim that natural monologues improve language modeling capacity compared to word-level alignment.",
+    "Language modeling experiments (model size)",
+    "Semantic-aligned condition interpolation at the alpha=1 extreme.",
+    "The claim of 'semantic' modeling versus token co-occurrence statistics",
+    "Comparative baselines against other multi-modality-inducing methods",
+    "Novelty of the language-prior bias finding"
+   ]
+  },
+  {
+   "cluster": 30,
+   "size": 135,
+   "share": 0.0112,
+   "valence_counts": {
+    "conditional": 11,
+    "mixed": 4,
+    "negative": 87,
+    "positive": 30,
+    "uncertain": 3
+   },
+   "exemplars": [
+    "Architectural novelty of the proposed framework",
+    "Modular Architecture (TIP, AFS, AIDD) and theoretical analysis",
+    "Framework's architectural rationale and novelty",
+    "Architectural footprint and efficiency of the proposed method",
+    "The theoretical justification for the hybrid architecture",
+    "Architectural design and component novelty",
+    "The modular architecture (DFD, ARG, HSF)",
+    "Generalizability of architectural modifications",
+    "Method's architectural novelty and composition of components",
+    "Method's architectural choices and component contributions",
+    "Architecture complexity and component attribution",
+    "Generality across architectures"
+   ]
+  },
+  {
+   "cluster": 3,
+   "size": 131,
+   "share": 0.0109,
+   "valence_counts": {
+    "conditional": 10,
+    "mixed": 1,
+    "negative": 101,
+    "positive": 13,
+    "uncertain": 6
+   },
+   "exemplars": [
+    "Evaluation Setup: LLM-as-a-Judge",
+    "Applicability to LLM fine-tuning",
+    "LLM-as-a-Judge validation methodology",
+    "Evaluation metrics relying on LLM Judge",
+    "The justification for using LLM-as-judge metrics for each capability",
+    "Experimental setup: LLMs and baselines",
+    "LLM-as-a-judge evaluation methodology",
+    "Validity of synthetic benchmarks regarding LLM biases",
+    "The validity of the LLM-as-a-judge evaluation metric",
+    "Dataset quality and utility for LLM evaluation",
+    "LLM-as-Judge evaluation methodology",
+    "Theoretical treatment of LLM contribution via additive bias term"
+   ]
+  },
+  {
+   "cluster": 25,
+   "size": 127,
+   "share": 0.0106,
+   "valence_counts": {
+    "conditional": 5,
+    "negative": 118,
+    "positive": 2,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "Notation and mathematical formulations",
+    "Notational consistency in Equations 1 and 4",
+    "Notation consistency and equation definitions",
+    "Notation semantics in Equation (3)",
+    "Mathematical notation consistency",
+    "Mathematical notation in equations under line 283",
+    "Technical notation in equations.",
+    "Notation consistency and clarity",
+    "Mathematical notation",
+    "Mathematical notation and formatting",
+    "Notational consistency in Algorithm 1 and related equations",
+    "Notation Consistency"
+   ]
+  },
+  {
+   "cluster": 10,
+   "size": 114,
+   "share": 0.0095,
+   "valence_counts": {
+    "conditional": 5,
+    "mixed": 1,
+    "negative": 91,
+    "positive": 15,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "Reproducibility and code availability.",
+    "Reproducibility and code availability",
+    "Reproducibility and code availability",
+    "Reproducibility and code availability",
+    "Reproducibility and implementation details.",
+    "Code availability and reproducibility.",
+    "Code availability and reproducibility",
+    "Code availability and reproducibility",
+    "Code availability and reproducibility",
+    "Implementation details and reproducibility",
+    "Reproducibility details and implementation specification",
+    "Implementation transparency and reproducibility details"
+   ]
+  },
+  {
+   "cluster": 11,
+   "size": 108,
+   "share": 0.009,
+   "valence_counts": {
+    "conditional": 12,
+    "negative": 68,
+    "positive": 26,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "The selection of layers for attention distillation.",
+    "Compatibility with sparse/efficient attention variants.",
+    "Formal coverage of attention and LayerNorm mechanisms.",
+    "Claim of aligning intrinsic attention",
+    "Rescaling of attention without re-normalization.",
+    "The provenance of the 'Visual Attention Drift' mechanism claimed in the abstract",
+    "The proposed Gaussian attention bias mechanism",
+    "Attention-alignment empirical results",
+    "Claimed novelty of the adaptive attention masking strategy",
+    "Cross-resolution attention mechanism",
+    "The identification of a sparse set of attention heads as an 'addition circuit' via state-vector interventions.",
+    "Mask construction for attention mechanisms"
+   ]
+  },
+  {
+   "cluster": 8,
+   "size": 106,
+   "share": 0.0088,
+   "valence_counts": {
+    "conditional": 9,
+    "negative": 75,
+    "positive": 13,
+    "uncertain": 9
+   },
+   "exemplars": [
+    "Presentation of failure cases and robustness",
+    "Analysis of observed failure modes",
+    "Failure modes and robustness analysis",
+    "Characterization of failure modes",
+    "Analysis of failure modes in Table 1",
+    "Acknowledgment of failure modes",
+    "Analysis of model failure cases",
+    "Empirical validation scope and failure mode analysis",
+    "Error patterns and failure modes",
+    "Failure analysis and boundaries",
+    "Empirical failure analysis granularity",
+    "Limitations and failure case analysis"
+   ]
+  },
+  {
+   "cluster": 32,
+   "size": 94,
+   "share": 0.0078,
+   "valence_counts": {
+    "conditional": 6,
+    "negative": 61,
+    "positive": 27
+   },
+   "exemplars": [
+    "Empirical scope and model coverage of experiments",
+    "Experimental scope (model coverage and data scale)",
+    "Breadth of experimental validation",
+    "Breadth of experimental validation",
+    "The scale and specification of experimental results",
+    "Experimental scope and model scale",
+    "Experimental scope and scale",
+    "Breadth of experimental validation.",
+    "Empirical scope and experimental breadth",
+    "Experimental scope and evaluation breadth",
+    "Scale and diversity of experimental validation",
+    "Experimental design and coverage"
+   ]
+  },
+  {
+   "cluster": 5,
+   "size": 93,
+   "share": 0.0077,
+   "valence_counts": {
+    "conditional": 16,
+    "negative": 68,
+    "positive": 3,
+    "uncertain": 6
+   },
+   "exemplars": [
+    "Experimental comparison set and baseline fairness",
+    "Fairness of comparison with baselines",
+    "Fairness of comparison to baselines",
+    "Baseline comparison fairness",
+    "Baseline comparison fairness",
+    "Fairness and completeness of baseline comparisons",
+    "Baseline fairness and comparative validity",
+    "Fairness of baseline comparisons relative to computational cost",
+    "Fairness of baseline comparisons regarding input modalities",
+    "Fairness of baseline comparisons in experimental design (Figure 1)",
+    "Compute fairness in experimental comparisons",
+    "Baseline selection and experimental fairness"
+   ]
+  },
+  {
+   "cluster": 15,
+   "size": 92,
+   "share": 0.0077,
+   "valence_counts": {
+    "conditional": 10,
+    "negative": 64,
+    "positive": 11,
+    "uncertain": 7
+   },
+   "exemplars": [
+    "Methodological choice: perturbed prompts for generating misaligned agents",
+    "The paper's architectural classification (multi-agent framework vs. prompt chain)",
+    "Experimental control regarding agent instructions",
+    "Prompt Design and Problem Formulation",
+    "Prompt engineering and selection mechanism",
+    "Experimental design robustness regarding agent ordering variations.",
+    "Agentic evaluation results",
+    "Experimental design choices (message-passing steps and attention heads)",
+    "Methodological architecture and reliance on prompt engineering",
+    "Generalization of manually crafted prompts",
+    "Empirical efficiency of AgenticMath samples compared to baselines",
+    "Construct validity of the AgentVQA benchmark regarding 'agentic capabilities'"
+   ]
+  },
+  {
+   "cluster": 7,
+   "size": 89,
+   "share": 0.0074,
+   "valence_counts": {
+    "conditional": 10,
+    "negative": 58,
+    "positive": 15,
+    "uncertain": 6
+   },
+   "exemplars": [
+    "Inference-time cost and latency overhead.",
+    "Inference cost and latency",
+    "Inference time and computational cost",
+    "Computational cost and scalability at inference",
+    "Inference costs and reasoning speed",
+    "Computational cost and inference latency",
+    "Inference latency and computational cost of the multi-step process",
+    "Efficiency and inference-time performance",
+    "Practical constraints regarding inference overhead and training cost",
+    "Experimental conclusions on cost and inference time",
+    "Comparison of inference efficiency.",
+    "Computational pipeline and inference-time cost"
+   ]
+  },
+  {
+   "cluster": 14,
+   "size": 73,
+   "share": 0.0061,
+   "valence_counts": {
+    "conditional": 3,
+    "negative": 61,
+    "positive": 6,
+    "uncertain": 3
+   },
+   "exemplars": [
+    "The operational definitions of 'reasoning-enhanced', 'multi-step', and 'plug-and-play'",
+    "Mechanistic claims about reasoning processes",
+    "Novelty of the slow/fast reasoning mechanism compared to prior art.",
+    "Experimental setup to separate reasoning difficulty from world knowledge conflict",
+    "The empirical scope of the evaluation regarding reasoning and generative benchmarks",
+    "Claim of discovering 'novel' reasoning primitives",
+    "Output-length confound in reasoning enhancement experiments.",
+    "Construct validity of the benchmark regarding natural reasoning vs. deterministic program-based tasks.",
+    "The paper's motivation regarding the scarcity of annotations and verifiable rewards for long-context reasoning.",
+    "The conceptual framework of 'reasoning complexity' (logical depth, linguistic ambiguity, task overhead)",
+    "The benchmark's use of artificially obfuscated problems as a test for reasoning.",
+    "The 'answering-before-judging' behavior of RM-R1 on reasoning tasks."
+   ]
+  },
+  {
+   "cluster": 21,
+   "size": 69,
+   "share": 0.0057,
+   "valence_counts": {
+    "conditional": 7,
+    "negative": 55,
+    "positive": 5,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "Theoretical tractability of the resulting loss function",
+    "The proposed loss function (four terms, three lambda hyperparameters)",
+    "Formal clarity of the loss function specification",
+    "Equation (3) loss function and its optimization scope.",
+    "The optimization procedure involving multiple loss terms.",
+    "Isolation of the differentiable loss contribution",
+    "Theoretical analysis of loss bounds (Section 5.2)",
+    "Comparison with prior loss-modification methods",
+    "Contrastive loss formula structure",
+    "Loss function justification and metric selection",
+    "Technical specification of Equation (4) point-wise loss",
+    "The theoretical specification of the confidence-weighted loss function."
+   ]
+  },
+  {
+   "cluster": 27,
+   "size": 62,
+   "share": 0.0052,
+   "valence_counts": {
+    "conditional": 5,
+    "negative": 29,
+    "positive": 27,
+    "uncertain": 1
+   },
+   "exemplars": [
+    "Experimental design and result presentation",
+    "Experimental results and validation",
+    "Experimental results",
+    "Experimental results",
+    "Experimental results",
+    "Experimental results quality",
+    "Experimental results quality",
+    "Experimental results analysis",
+    "Experimental results and performance claims",
+    "Overall experimental execution and presentation",
+    "The experimental results and empirical performance.",
+    "The experimental results and workload"
+   ]
+  },
+  {
+   "cluster": 4,
+   "size": 61,
+   "share": 0.0051,
+   "valence_counts": {
+    "conditional": 10,
+    "mixed": 1,
+    "negative": 39,
+    "positive": 8,
+    "uncertain": 3
+   },
+   "exemplars": [
+    "First-task accuracy trajectories (Figure 1(c))",
+    "Theoretical framework and formal definitions of trajectory consistency",
+    "Bidirectional effectiveness of activation steering (Figure 2)",
+    "The role of norm dynamics in the three-phase trajectory decomposition.",
+    "Figure 6 trajectory quality metrics (L2 distance and dynamic error)",
+    "The trajectory-matching mechanism design",
+    "Sensitivity analysis regarding noisy/inconsistent motion trajectories",
+    "Generalizability of latent trajectory signals across model architectures and scales",
+    "Experimental evidence for handling large, complex motions",
+    "Benchmarking against AXBench and broader steering literature",
+    "Steering input modality (2D end-effector trajectories)",
+    "Trajectory scoring granularity in Section 3.3"
+   ]
+  }
+ ]
+}

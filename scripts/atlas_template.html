@@ -1,0 +1,1602 @@
+<meta charset="utf-8">
+<title>Atlas of Judgment</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #12101f; --plate: #16132400; --raise: #1a1729;
+  --ink: #ece7dc; --ink-2: #b3aa99; --muted: #6f6758;
+  --brass: #c9a45c; --brass-dim: #8a713e; --brass-line: rgba(201,164,92,0.28); --brass-faint: rgba(201,164,92,0.13);
+  --v-negative: #e66767; --v-uncertain: #9085e9; --v-mixed: #d55181;
+  --v-conditional: #c98500; --v-positive: #199e70;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Cormorant Garamond", Georgia, serif;
+  --serif: "Source Serif 4", Georgia, serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.7;
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
+a { color: var(--brass); text-decoration: none; }
+.shell { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
+.plate-no { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); }
+.rule { display: flex; align-items: center; gap: 12px; color: var(--brass-dim); margin: 6px 0; }
+.rule::before, .rule::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--brass-line)); }
+.rule::after { background: linear-gradient(90deg, var(--brass-line), transparent); }
+.rule span { font-size: 10px; letter-spacing: 0.3em; }
+.lede { color: var(--ink-2); max-width: 64ch; margin: 0; font-size: 15px; }
+.lede em, .caption em { color: var(--ink); font-style: italic; }
+section { padding: 84px 0 6px; }
+.plate-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.plate-head h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12; }
+/* engraved frame */
+.plate { position: relative; border: 1px solid var(--brass-line); padding: 8px; background: rgba(22,19,36,0.5); }
+.plate-inner { border: 1px solid var(--brass-faint); padding: 22px; }
+.plate::before, .plate::after, .plate-inner::before, .plate-inner::after {
+  content: ""; position: absolute; width: 9px; height: 9px; border-color: var(--brass); border-style: solid; }
+.plate::before  { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.plate::after   { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+.plate-inner::before { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+.plate-inner::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.caption { font-size: 13px; color: var(--ink-2); margin-top: 14px; max-width: 78ch; }
+.caption b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
+/* title page */
+.titlepage { padding: 42px 0 64px; }
+.tp-frame { position: relative; border: 1px solid var(--brass-line); padding: 10px; }
+.tp-frame-inner { border: 1px solid var(--brass-faint); padding: clamp(28px, 5vw, 64px); display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; }
+.tp-frame::before, .tp-frame::after { content: ""; position: absolute; width: 11px; height: 11px; border-color: var(--brass); border-style: solid; }
+.tp-frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.tp-frame::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.tp-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--brass); }
+.tp-title { font-size: clamp(52px, 7.6vw, 104px); line-height: 0.98; letter-spacing: 0.01em; margin: 18px 0 6px; }
+.tp-title em { font-style: italic; }
+.tp-sub { font-size: 16.5px; color: var(--ink-2); max-width: 46ch; margin-top: 16px; }
+.tp-spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; color: var(--muted); margin-top: 30px; line-height: 2.1; text-transform: uppercase; }
+.tp-spec b { color: var(--brass); font-weight: 500; }
+#planisphere { width: 100%; max-width: 520px; aspect-ratio: 1; justify-self: center; }
+@media (max-width: 900px) { .tp-frame-inner { grid-template-columns: 1fr; } }
+/* controls */
+.bar { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.modes { display: flex; }
+.modes button, .toggle { background: none; color: var(--ink-2); border: 1px solid var(--brass-line); padding: 7px 16px; cursor: pointer;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+.modes button + button { border-left: none; }
+.modes button.on, .toggle.on { color: var(--ground); background: var(--brass); border-color: var(--brass); }
+.modes button:focus-visible, .toggle:focus-visible, .legend .chip:focus-visible, #more:focus-visible, .filters select:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 8px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); }
+.legend .chip { display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; border: 1px solid var(--brass-faint); cursor: pointer; user-select: none; white-space: nowrap; letter-spacing: 0.04em; }
+.legend .chip:hover, .legend .chip.pin { border-color: var(--brass); color: var(--ink); }
+.legend .sw { width: 8px; height: 8px; border-radius: 50%; }
+#galaxy { display: block; width: 100%; height: 680px; cursor: crosshair; }
+#tooltip { position: fixed; z-index: 40; pointer-events: none; display: none; background: var(--raise); border: 1px solid var(--brass-line); padding: 10px 13px; font-size: 12.5px; max-width: 330px; box-shadow: 0 10px 34px rgba(0,0,0,0.55); }
+#tooltip .t { font-weight: 600; color: var(--ink); font-family: var(--serif); }
+#tooltip .n { font-family: var(--mono); color: var(--ink-2); font-size: 10.5px; margin-top: 4px; letter-spacing: 0.04em; }
+svg text { font-family: var(--serif); }
+/* heatmap */
+.hm-wrap { overflow-x: auto; }
+.hm { display: grid; gap: 2px; min-width: 900px; }
+.hm .rl { font-size: 13.5px; color: var(--ink-2); display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; white-space: nowrap; }
+.hm .cl { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; color: var(--ink-2); writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; align-self: end; padding: 4px 0; white-space: nowrap; }
+.hm .cell { height: 32px; }
+.hm .cell:hover { outline: 1px solid var(--brass); outline-offset: -1px; }
+/* verdict + rx rows */
+.vp-row { display: grid; grid-template-columns: 250px 1fr 130px; gap: 14px; align-items: center; }
+.vp-l { font-size: 13px; color: var(--ink-2); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vp-bar { display: flex; height: 15px; background: var(--ground); }
+.vp-bar span { display: block; height: 100%; border-right: 2px solid #161324; }
+.vp-bar span:last-child { border-right: none; }
+.vp-n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); white-space: nowrap; }
+.rx-track { position: relative; height: 11px; background: var(--ground); }
+.rx-fill { position: absolute; inset: 0 auto 0 0; background: var(--brass); }
+.rx-tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink-2); }
+.rx-n { font-family: var(--mono); font-size: 10.5px; color: var(--brass); text-align: right; }
+.fig-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); margin: 26px 0 14px; }
+.fig-title:first-child { margin-top: 0; }
+/* the script */
+.lift-row { display: grid; grid-template-columns: 250px 1fr 168px; gap: 14px; align-items: center; }
+.lift-track { position: relative; height: 26px; }
+.lift-axis { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--brass-line); }
+.lift-line { position: absolute; top: 50%; height: 1px; background: var(--ink-2); opacity: 0.65; }
+.lift-dot { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 9px; height: 9px; }
+.lift-open { border-radius: 50%; background: var(--brass); }
+.lift-close { background: var(--ink-2); transform: translate(-50%, -50%) rotate(45deg); }
+.lift-n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); white-space: nowrap; }
+.arc-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 34px; align-items: center; }
+@media (max-width: 900px) { .arc-grid { grid-template-columns: 1fr; } .vp-row, .lift-row { grid-template-columns: 130px 1fr 84px; } }
+.stat-lines { display: flex; flex-direction: column; gap: 16px; }
+.stat-lines .v { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--brass); }
+.stat-lines .l { font-size: 13px; color: var(--ink-2); margin-top: 4px; max-width: 30ch; }
+/* explorer */
+.filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+.filters select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 8px 12px; font-size: 11.5px; font-family: var(--mono); }
+.filters .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.1em; }
+.review-card { border: 1px solid var(--brass-faint); background: rgba(22,19,36,0.5); padding: 24px 26px; display: flex; flex-direction: column; gap: 14px; }
+.review-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; border-bottom: 1px solid var(--brass-faint); padding-bottom: 12px; }
+.review-head .title { font-family: var(--display); font-size: 20px; font-weight: 600; }
+.review-head a.title:hover { color: var(--brass); }
+.review-head a.rid:hover { color: var(--brass); }
+.review-head .rid { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+.chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; padding: 2px 9px; border: 1px solid var(--brass-faint); color: var(--ink-2); white-space: nowrap; }
+.chip.acc { border-color: var(--v-positive); color: var(--v-positive); }
+.chip.rej { border-color: var(--v-negative); color: var(--v-negative); }
+.summary { color: var(--ink-2); font-style: italic; font-size: 14.5px; }
+.unit { display: grid; grid-template-columns: 3px 1fr; background: rgba(26,23,41,0.75); border: 1px solid var(--brass-faint); }
+.unit .stripe { height: 100%; }
+.unit .flow { display: grid; grid-template-columns: repeat(4, 1fr); padding: 12px 14px 14px 0; }
+.step { padding: 2px 16px 0; border-left: 1px solid var(--brass-faint); }
+.step:first-child { border-left: none; }
+.step .sl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.step p { margin: 0; font-size: 12.5px; line-height: 1.6; }
+.unit .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 0; }
+.improve { grid-column: 1 / -1; margin: 12px 16px 0; padding: 9px 13px; border-left: 2px solid var(--brass); background: rgba(201,164,92,0.06); font-size: 12.5px; color: var(--ink-2); }
+.improve b { color: var(--brass); font-weight: 500; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+#more { align-self: center; background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 10px 32px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+#more:hover { background: rgba(201,164,92,0.08); }
+@media (max-width: 880px) { #minds { grid-template-columns: 1fr !important; } .unit .flow { grid-template-columns: 1fr; gap: 10px; } .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 16px 0; } .step:first-child { border-top: none; } }
+/* appendix */
+.prov-row { display: flex; gap: 18px; align-items: baseline; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; }
+.prov-row .k { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.14em; white-space: nowrap; }
+.prov-row .s { font-family: var(--mono); font-size: 10px; color: var(--brass); white-space: nowrap; letter-spacing: 0.1em; }
+.prov-row .d { color: var(--ink-2); flex: 1; }
+details.table-view { border: 1px solid var(--brass-faint); margin-top: 24px; }
+details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); }
+.tv-wrap { overflow-x: auto; padding: 0 20px 18px; }
+.tv-wrap table { border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; font-family: var(--mono); }
+.tv-wrap th, .tv-wrap td { border: 1px solid var(--brass-faint); padding: 5px 9px; text-align: right; white-space: nowrap; color: var(--ink-2); }
+.tv-wrap td:first-child, .tv-wrap th:first-child { text-align: left; }
+.method { font-size: 13.5px; color: var(--ink-2); max-width: 76ch; }
+.method dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); margin-top: 18px; }
+.method dd { margin: 4px 0 0; }
+
+/* dissect panel */
+#dissect { margin-top: 18px; border: 1px solid var(--brass-line); background: var(--raise); padding: 18px 20px; }
+#dissect .d-head { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+#dissect .d-title { font-family: var(--display); font-size: 22px; }
+#dissect .d-close { background: none; border: 1px solid var(--brass-line); color: var(--ink-2); font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; padding: 5px 12px; cursor: pointer; text-transform: uppercase; }
+#dissect .d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+@media (max-width: 880px) { #dissect .d-grid { grid-template-columns: 1fr; } }
+#dissect .d-row { display: grid; grid-template-columns: 190px 1fr 56px; gap: 10px; align-items: center; font-size: 12px; color: var(--ink-2); }
+#dissect .d-fill { height: 9px; background: var(--brass); }
+#dissect .d-track { background: var(--ground); }
+#dissect .d-n { font-family: var(--mono); font-size: 10px; text-align: right; }
+#dissect .d-facts { font-size: 12.5px; color: var(--ink-2); display: flex; flex-direction: column; gap: 8px; }
+#dissect .d-facts b { color: var(--brass); font-weight: 500; }
+/* dynamics */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in { opacity: 1; transform: none; }
+.grow { transform-origin: left center; transform: scaleX(0); transition: transform 1s cubic-bezier(.2,.7,.15,1) .15s; }
+.in-view .grow { transform: scaleX(1); }
+.cellfade { opacity: 0; transition: opacity .5s ease; }
+.in-view .cellfade { opacity: 1; }
+.dotfade { opacity: 0; transition: opacity .6s ease .75s; }
+.in-view .dotfade { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .reveal, .grow, .cellfade, .dotfade { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+/* lexicon + hoverable terms */
+.deft { cursor: help; border-bottom: 1px dotted rgba(201,164,92,0.45); }
+svg text.deft { cursor: help; }
+.lex-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.lex-grid h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--brass); font-weight: 500; margin: 0 0 12px; }
+.lex-grid dl { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.lex-grid dt { font-family: var(--display); font-size: 16.5px; font-weight: 600; }
+.lex-grid dt .sh { font-family: var(--mono); font-size: 9.5px; color: var(--muted); letter-spacing: 0.08em; margin-left: 7px; }
+.lex-grid dd { margin: 1px 0 6px; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28px 0 64px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; text-transform: uppercase; }
+</style>
+
+<div class="shell titlepage">
+  <div class="tp-frame"><div class="tp-frame-inner">
+    <div>
+      <div class="tp-eyebrow">Atlas of Judgment</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:12px"><a href="https://claude.ai/code/artifact/6f0ed75c-f899-47ce-870e-6c3d5c45cc48" style="color:var(--ink-2);text-decoration:none">About ↗</a><span style="color:var(--muted)"> · </span><a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa" style="color:var(--ink-2);text-decoration:none">Method ↗</a></div>
+      <h1 class="tp-title">How a Paper<br>is <em>Judged</em></h1>
+      <p class="tp-sub">Every public review of ICLR 2026, decomposed into atomic units of evaluative logic — what was inspected, what was observed, which standard was invoked, what was concluded — and charted like a sky.</p>
+      <div class="tp-spec">
+        <b class="cnt" data-n="410586">410,586</b> logic units · <b class="cnt" data-n="74380">74,380</b> reviews · <b class="cnt" data-n="19474">19,474</b> papers<br>
+        taxonomy induced, not imposed · coverage 98.1% · ICLR MMXXVI
+      </div>
+    </div>
+    <canvas id="planisphere" aria-label="circular star chart of all logic units"></canvas>
+  </div></div>
+</div>
+
+<main class="shell">
+
+<section id="field" style="padding-top:56px">
+  <div class="plate-head">
+    <div class="plate-no">Prolegomenon · The Field</div>
+    <h2>ICLR itself, 2018 → 2026</h2>
+    <p class="lede">Before the atlas: the ground it stands on. Submissions have grown twenty-one-fold in nine years; the numbers below are the raw census of the venue whose judgment this atlas dissects.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div id="field-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
+    <details class="table-view" style="margin-top:20px"><summary>Full census table</summary><div class="tv-wrap" id="field-table"></div></details>
+    <p class="caption"><b>Census</b> — From the normalized OpenReview record (Layer I). Acceptance among decided, non-withdrawn papers; 2019 decisions are not recoverable from the public record and are shown as —. Withdrawn counts are only meaningful from 2025 (earlier years delisted withdrawals). The quiet story: review length peaked in 2022 at a median 532 words and has fallen every year since, even as each paper now receives four reviews instead of three.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate I · The Anatomy</div>
+    <h2>Object → standard → verdict</h2>
+    <p class="lede">Ribbon width is unit count. Twelve objects of scrutiny; twelve epistemic standards that convert observation into judgment; five verdict polarities. Hover a node to trace its paths — <em>click one to dissect it</em>. Every term on this page reveals its definition on hover; the full lexicon lives in <a href="#lexicon">the appendix</a>.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div id="sankey"></div>
+    <div class="legend" id="val-legend" style="margin-top:10px"></div>
+    <div id="dissect" hidden></div>
+    <p class="caption"><b>Fig. 1a</b> — 71.8% of all units resolve negative. Merit recognition — the one standard that concentrates praise — collects just 13.7% of the flow.</p>
+    <div class="fig-title" style="margin-top:34px">Fig. 1b — The mercy map: how each pairing resolves</div>
+    <div class="hm-wrap"><div class="hm" id="mercy"></div></div>
+    <p class="caption"><b>Fig. 1b</b> — Each cell is an object × standard pairing, colored by the share of its units that resolve <em>negative</em> (deep red = merciless, pale = lenient). The mercy in the grid lives almost entirely in one column — merit recognition; outside it, nearly every pairing condemns.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate II · The Grammar</div>
+    <h2>Each object has its canonical standard</h2>
+    <p class="lede">Row-normalized: when a reviewer inspects <em>x</em>, how often do they reason via <em>y</em>? The bright diagonal is the discipline's grammar — novelty is judged by the novelty standard, cost by cost-benefit, notation by the trust it signals.</p>
+  </div>
+  <div class="plate"><div class="plate-inner hm-wrap">
+    <div class="hm" id="heatmap"></div>
+    <p class="caption"><b>Fig. 2</b> — Off-diagonal mass is where the grammar bends: statistical rigor is judged as much by identifiability as by fairness; empirical scope answers to the claim-evidence matching norm.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate III · The Rhetoric</div>
+    <h2>Each standard has a voice</h2>
+    <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units</em> by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="arc-grid" style="grid-template-columns:1.25fr .75fr">
+      <div>
+        <div class="fig-title">Fig. 3 — The voice of each standard — six inference forms, all 1,009,592 units</div>
+        <div id="rhetoric" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div class="legend" id="rhet-legend" style="margin-top:14px"></div>
+      </div>
+      <div class="stat-lines" id="rhet-stats"></div>
+    </div>
+    <p class="caption"><b>Fig. 3</b> — Method: 600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; a logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; weakest class ANCHOR at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth. The signatures hold: reproducibility is 69% pure norm; statistical identifiability leads with blocked verification (43%) — <em>without error bars, nothing can be known</em>; novelty leans hardest on precedent. And weighing is where all the mercy lives: it is the only form in which praise occurs at scale (42% positive; every other form runs ≥88% negative).</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate IV · The Script</div>
+    <h2>Reviews follow a script</h2>
+    <p class="lede">Position within the review is not random. Reviews <em>open</em> with the conceptual — framing, novelty, design — and <em>close</em> with hygiene: reproducibility, statistics. And the temperature follows an arc.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 4a — Opening move vs closing move, by object (lift vs base rate)</div>
+    <div id="lifts" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div class="fig-title" style="margin-top:34px">Fig. 4b — The arc of a review</div>
+    <div class="arc-grid">
+      <div id="arc"></div>
+      <div class="stat-lines" id="arc-stats"></div>
+    </div>
+    <p class="caption"><b>Reading 4a</b> — ● brass = tendency to appear as the review's <em>first</em> unit; ◆ grey = tendency to appear as the <em>last</em>; the vertical rule is 1.0× (no preference), log scale. <b>Reading 4b</b> — share of units that are negative / positive at each fifth of the review (reviews with ≥3 units, n = <span id="ge3"></span>).</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate V · The Wheel</div>
+    <h2>How attention orbits within a review</h2>
+    <p class="lede">From each logic unit to the next: which topic follows which. The ring carries the twelve objects of scrutiny; each chord is a pair of topics that follow one another in consecutive units — bright brass where the pairing runs far above chance. Hover the ring.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="arc-grid" style="grid-template-columns:1.2fr .8fr">
+      <div id="wheel"></div>
+      <div>
+        <div class="fig-title">The chaining habit — odds a topic follows itself</div>
+        <div id="wheel-chains" style="display:flex;flex-direction:column;gap:7px"></div>
+        <div class="fig-title" style="margin-top:26px">Strangest companions — cross-topic pairs above chance</div>
+        <div id="wheel-pairs" style="display:flex;flex-direction:column;gap:7px"></div>
+      </div>
+    </div>
+    <p class="caption"><b>Fig. 5</b> — Chord thickness is transition volume (both directions pooled); brass marks pairings running ≥1.25× above chance, faint ink the rest. Reviewers chain: theory begets theory (1.9×), and clarity walks hand in hand with related work — the copy-editing pass and the citation pass are one motion.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate VI · The Minds</div>
+    <h2>Five kinds of reviewer</h2>
+    <p class="lede">Cluster 98,513 reviewers by which standards they habitually invoke, and five archetypes emerge. Each rose has twelve petals — one per standard — sized by how far that reviewer-kind leans on it relative to the field. The names are editorial; the petals are not.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="modes" id="minds-tabs" role="group" aria-label="archetype" style="flex-wrap:wrap;margin-bottom:18px"></div>
+    <div id="minds" style="display:grid;grid-template-columns:360px 1fr;gap:26px;align-items:center;min-height:280px"></div>
+    <p class="caption"><b>Fig. 6</b> — k-means (k = 5, seed 7) over per-reviewer reasoning-standard profiles, official reviewers with ≥5 units, 2018–2026; a "reviewer" is one reviewer within one forum. The sparkline is the archetype's share of each year's reviewers. The nine-year story: <em>the Gatekeeper — novelty and polish — is fading (25% → 15%), and the Stress-Tester — robustness, confounds, cost — is inheriting the field (19% → 26%)</em>. The Advocate runs 23 points less negative than every other kind.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate VII · The Verdicts</div>
+    <h2>Where scrutiny turns hostile — and when it helps</h2>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 7a — Verdict mix per object, sorted by negativity</div>
+    <div id="vprofile" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div class="legend" id="val-legend-2" style="margin-top:12px"></div>
+    <div class="fig-title" style="margin-top:34px">Fig. 7b — Criticism that comes with a fix (brass), and grounding in the reviewer's own words (grey tick)</div>
+    <div id="rx" style="display:flex;flex-direction:column;gap:8px"></div>
+    <p class="caption"><b>Fig. 7</b> — Positioning work (related work, novelty) is judged almost exclusively in the negative, and novelty criticism is also the least actionable: barely half of it comes with a concrete fix, against 85% for robustness complaints.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate VIII · The Drift</div>
+    <h2>Nine years of shifting scrutiny</h2>
+    <p class="lede">The same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em> (the forum-level Direct track). Share of reviewer attention per year; the four biggest movers are named, the rest recede.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 8a — What reviewers inspect, 2018 → 2026</div>
+    <div id="drift-obj"></div>
+    <div class="fig-title" style="margin-top:30px">Fig. 8b — The standards they invoke, 2018 → 2026</div>
+    <div id="drift-rea"></div>
+    <div class="fig-title" style="margin-top:30px">Fig. 8c — The hardening: nine-year vitals</div>
+    <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
+    <p class="caption"><b>Fig. 8</b> — The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity holds steady near 77% all nine years. Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that soften has halved, 7.7% in 2018 to 3.4% in 2026 — rebuttals buy half as much as they used to.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate IX · The Rebuttal</div>
+    <h2>Author responses barely move the needle</h2>
+    <p class="lede">130,650 units sit after the author response (2018–2026). When the reviewer's judgment moves at all, it moves toward <em>reinforcement</em> two and a half times more often than concession — and no kind of response escapes that ratio.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="arc-grid">
+      <div>
+        <div class="fig-title">Fig. 9a — Fate of a judgment after the author responds</div>
+        <div id="reb-fate" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div class="fig-title" style="margin-top:28px">Fig. 9b — What the response contained, and what happened</div>
+        <div id="reb-trig" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="stat-lines" id="reb-stats"></div>
+    </div>
+    <p class="caption"><b>Fig. 9</b> — 9a: shares of all post-response units. 9b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects).</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate X · The Tribunal</div>
+    <h2>Which criticism actually kills</h2>
+    <p class="lede">13,704 ICLR 2026 papers with decisions. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 10 — Acceptance rate with (●) vs without (○) negative units, per object</div>
+    <div id="tribunal" style="display:flex;flex-direction:column;gap:8px"></div>
+    <p class="caption"><b>Fig. 10</b> — Novelty criticism carries the largest penalty (−10.6pp); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism carry <em>no</em> penalty at all — reviewers complain about cost, but the tribunal does not convict on it. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XI · The Gauntlet</div>
+    <h2>Every new front of criticism costs survival</h2>
+    <p class="lede">For each ICLR 2026 paper: on how many of the twelve objects did it draw at least one negative unit — and did it survive? Dot size is the number of papers standing at that breadth.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 11 — Acceptance rate by breadth of criticism</div>
+    <div id="gauntlet"></div>
+    <p class="caption"><b>Fig. 11</b> — Survival falls almost linearly, roughly five points per additional front, from 57% at three fronts to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XII · The Panel</div>
+    <h2>Dissent, and the kinder judge</h2>
+    <p class="lede">Where do reviewers of the same paper split — and how does the meta-reviewer differ from the panel they oversee?</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="arc-grid">
+      <div>
+        <div class="fig-title">Fig. 12 — Contested ground: share of forums where reviewers took opposite stances</div>
+        <div id="dissent" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="stat-lines" id="panel-stats"></div>
+    </div>
+    <p class="caption"><b>Fig. 12</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XIII · The Specimens</div>
+    <h2>Raw reasoning, unretouched</h2>
+    <p class="lede">232 reviews sampled across every category, shown as their structured logic flows. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview forum, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</p>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div id="reviews" style="display:flex;flex-direction:column;gap:16px"></div>
+  <button id="more">Turn the page</button>
+</section>
+
+<section id="lexicon">
+  <div class="plate-head">
+    <div class="plate-no">Appendix I · The Lexicon</div>
+    <h2>What every term means</h2>
+    <p class="lede">The taxonomy was induced from the data, then named by hand. These are the working definitions behind every label on this page — also available anywhere by hovering the term itself.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="lex-grid" id="lexicon-body"></div>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Appendix II · Provenance &amp; Method</div>
+    <h2>Where this atlas comes from</h2>
+  </div>
+  <div id="prov"></div>
+  <details class="table-view"><summary>Full crosstab — object × reasoning standard</summary><div class="tv-wrap" id="tv"></div></details>
+  <div class="fig-title" style="margin-top:30px">Fig. 14 — The instrument's own error: memo-inferred share, object × year</div>
+  <div class="hm-wrap"><div class="hm" id="reliab"></div></div>
+  <p class="caption"><b>Fig. 14</b> — Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
+  <dl class="method" id="method"></dl>
+</section>
+
+</main>
+<footer class="shell"><span>Atlas of Judgment</span><span><a href="https://claude.ai/code/artifact/6f0ed75c-f899-47ce-870e-6c3d5c45cc48" style="color:var(--brass);text-decoration:none">ABOUT</a> · <a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa" style="color:var(--brass);text-decoration:none">METHOD</a></span><span>unit-taxonomy-2026-v1</span><span>Engraved 2026-08-18</span><span>Local embeddings · no outcome leakage in extraction</span></footer>
+<div id="tooltip" role="status"></div>
+
+<script>
+const DATA = __DATA_JSON__;
+const GALAXY = __GALAXY_JSON__;
+const STRUCT = __STRUCTURE_JSON__;
+const PANEL = __PANEL_JSON__;
+const DRIFT = __DRIFT_JSON__;
+const MINDS = __MINDS_JSON__;
+const FIELD = __FIELD_JSON__;
+const RHET = __RHET_JSON__;
+
+const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
+const VAL_COLOR = { negative: "#e66767", uncertain: "#9085e9", mixed: "#d55181", conditional: "#c98500", positive: "#199e70" };
+const CAT12 = ["#3987e5","#d95926","#199e70","#c98500","#d55181","#3fae3f","#9085e9","#e66767","#2ab5c9","#a3c94a","#b06fd4","#7f8ca3"];
+const fmt = n => n.toLocaleString("en-US");
+const pct = x => (100 * x).toFixed(1) + "%";
+const objCats = DATA.taxonomy.inspected_object, reaCats = DATA.taxonomy.reasoning;
+const objLabel = Object.fromEntries(objCats.map(c => [c.key, c.label_en]));
+const reaLabel = Object.fromEntries(reaCats.map(c => [c.key, c.label_en]));
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const objTot = {}, reaTot = {}, valTot = {}, linkOR = {}, linkRV = {}, matrix = {}, objVal = {};
+let TOTAL = 0;
+for (const t of DATA.triples) {
+  TOTAL += t.n;
+  objTot[t.o] = (objTot[t.o] || 0) + t.n;
+  reaTot[t.r] = (reaTot[t.r] || 0) + t.n;
+  valTot[t.v] = (valTot[t.v] || 0) + t.n;
+  linkOR[t.o + "|" + t.r] = (linkOR[t.o + "|" + t.r] || 0) + t.n;
+  linkRV[t.r + "|" + t.v] = (linkRV[t.r + "|" + t.v] || 0) + t.n;
+  (matrix[t.o] = matrix[t.o] || {})[t.r] = (matrix[t.o][t.r] || 0) + t.n;
+  (objVal[t.o] = objVal[t.o] || {})[t.v] = (objVal[t.o][t.v] || 0) + t.n;
+}
+const objOrder = objCats.map(c => c.key).sort((a, b) => objTot[b] - objTot[a]);
+const reaOrder = reaCats.map(c => c.key).sort((a, b) => reaTot[b] - reaTot[a]);
+
+const tip = document.getElementById("tooltip");
+function showTip(e, html) {
+  tip.innerHTML = html; tip.style.display = "block";
+  tip.style.left = Math.min(e.clientX + 14, innerWidth - 350) + "px";
+  tip.style.top = Math.min(e.clientY + 14, innerHeight - 120) + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+
+const valLegendHtml = VAL_ORDER.map(v => `<span class="chip" tabindex="0"><span class="sw" style="background:${VAL_COLOR[v]}"></span>${v} ${pct(valTot[v] / TOTAL)}</span>`).join("");
+document.getElementById("val-legend").innerHTML = valLegendHtml;
+document.getElementById("val-legend-2").innerHTML = valLegendHtml;
+
+// ---------------- planisphere (title page) ----------------
+(function planisphere() {
+  const cv = document.getElementById("planisphere");
+  const ctx = cv.getContext("2d");
+  const pts = GALAXY.points.filter((_, i) => i % 2 === 0);
+  let w, dpr, raf;
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = cv.clientWidth;
+    cv.width = w * dpr; cv.height = w * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, w, w);
+    const c = w / 2, R = w / 2 - 4;
+    const rot = REDUCED ? 0 : (t || 0) / 260000;
+    // graticule
+    ctx.strokeStyle = "rgba(201,164,92,0.22)"; ctx.lineWidth = 1;
+    for (const f of [1, 0.72, 0.44]) { ctx.beginPath(); ctx.arc(c, c, R * f, 0, 6.284); ctx.stroke(); }
+    ctx.strokeStyle = "rgba(201,164,92,0.10)";
+    for (let a = 0; a < 24; a++) {
+      ctx.beginPath();
+      ctx.moveTo(c + Math.cos(a / 24 * 6.284) * R * 0.44, c + Math.sin(a / 24 * 6.284) * R * 0.44);
+      ctx.lineTo(c + Math.cos(a / 24 * 6.284) * R, c + Math.sin(a / 24 * 6.284) * R);
+      ctx.stroke();
+    }
+    // tick ring
+    ctx.strokeStyle = "rgba(201,164,92,0.5)";
+    for (let a = 0; a < 72; a++) {
+      const th = a / 72 * 6.284;
+      ctx.beginPath();
+      ctx.moveTo(c + Math.cos(th) * (R - 4), c + Math.sin(th) * (R - 4));
+      ctx.lineTo(c + Math.cos(th) * R, c + Math.sin(th) * R);
+      ctx.stroke();
+    }
+    ctx.save();
+    ctx.beginPath(); ctx.arc(c, c, R - 7, 0, 6.284); ctx.clip();
+    ctx.translate(c, c); ctx.rotate(rot); ctx.translate(-c, -c);
+    for (let i = 0; i < pts.length; i++) {
+      const p = pts[i];
+      const x = 10 + (p[0] / 4095) * (w - 20), y = 10 + (p[1] / 4095) * (w - 20);
+      const amber = i % 131 === 0;
+      ctx.fillStyle = amber ? "rgba(201,164,92,0.9)" : "rgba(220,225,240,0.20)";
+      ctx.fillRect(x, y, amber ? 1.7 : 1, amber ? 1.7 : 1);
+    }
+    ctx.restore();
+    if (!REDUCED) raf = requestAnimationFrame(draw);
+  }
+  size(); addEventListener("resize", () => { size(); if (REDUCED) draw(0); });
+  if (REDUCED) draw(0); else raf = requestAnimationFrame(draw);
+})();
+
+// ---------------- sankey (Plate II) ----------------
+(function sankey() {
+  const W = 1180, H = 780, NW = 9, PAD_L = 250, PAD_R = 190, TOP = 26;
+  const colX = [PAD_L, PAD_L + (W - PAD_L - PAD_R) / 2 - NW / 2, W - PAD_R - NW];
+  const GAP = 7, innerH = H - TOP - 16;
+  function layout(keys, totals) {
+    const sum = keys.reduce((s, k) => s + totals[k], 0);
+    const scale = (innerH - GAP * (keys.length - 1)) / sum;
+    let y = TOP; const pos = {};
+    for (const k of keys) { const h = totals[k] * scale; pos[k] = { y, h }; y += h + GAP; }
+    return { pos, scale };
+  }
+  const L1 = layout(objOrder, objTot), L2 = layout(reaOrder, reaTot), L3 = layout(VAL_ORDER, valTot);
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
+  function ribbon(x0, y0, h0, x1, y1, h1) {
+    const xm = (x0 + x1) / 2;
+    return `M${x0},${y0} C${xm},${y0} ${xm},${y1} ${x1},${y1} L${x1},${y1 + h1} C${xm},${y1 + h1} ${xm},${y0 + h0} ${x0},${y0 + h0} Z`;
+  }
+  const off1 = {}, off2in = {}, off2out = {}, off3 = {}, paths = [];
+  for (const o of objOrder) for (const r of reaOrder) {
+    const n = linkOR[o + "|" + r]; if (!n) continue;
+    const h0 = n * L1.scale, h1 = n * L2.scale;
+    const y0 = L1.pos[o].y + (off1[o] = off1[o] || 0), y1 = L2.pos[r].y + (off2in[r] = off2in[r] || 0);
+    off1[o] += h0; off2in[r] += h1;
+    paths.push({ d: ribbon(colX[0] + NW, y0, h0, colX[1], y1, h1), fill: "#b3aa99", base: 0.10, hi: 0.4, o, r, n,
+      tipHtml: `<div class="t">${objLabel[o]} → ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
+  }
+  for (const r of reaOrder) for (const v of VAL_ORDER) {
+    const n = linkRV[r + "|" + v]; if (!n) continue;
+    const h0 = n * L2.scale, h1 = n * L3.scale;
+    const y0 = L2.pos[r].y + (off2out[r] = off2out[r] || 0), y1 = L3.pos[v].y + (off3[v] = off3[v] || 0);
+    off2out[r] += h0; off3[v] += h1;
+    paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1), fill: VAL_COLOR[v], base: 0.42, hi: 0.8, r, v, n,
+      tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
+  }
+  for (const p of paths) {
+    const el = document.createElementNS(NS, "path");
+    el.setAttribute("d", p.d); el.setAttribute("fill", p.fill);
+    el.style.opacity = REDUCED ? p.base : 0;
+    el.addEventListener("mousemove", e => showTip(e, p.tipHtml));
+    el.addEventListener("mouseleave", hideTip);
+    p.el = el; svg.appendChild(el);
+  }
+  function highlight(pred) { for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
+  function reset() { for (const p of paths) p.el.style.opacity = p.base; }
+  window.__sankeyReveal = () => {
+    paths.forEach((p, i) => {
+      if (!REDUCED) p.el.style.transition = `opacity .7s ease ${Math.min(i * 4, 900)}ms`;
+      p.el.style.opacity = p.base;
+      if (!REDUCED) setTimeout(() => { p.el.style.transition = "opacity .15s ease"; }, 1800 + Math.min(i * 4, 900));
+    });
+  };
+  function node(x, y, h, fill) {
+    const el = document.createElementNS(NS, "rect");
+    el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("width", NW);
+    el.setAttribute("height", Math.max(h, 1.5)); el.setAttribute("fill", fill);
+    svg.appendChild(el); return el;
+  }
+  function label(x, y, text, anchor, size, color) {
+    const el = document.createElementNS(NS, "text");
+    el.setAttribute("x", x); el.setAttribute("y", y); el.setAttribute("text-anchor", anchor);
+    el.setAttribute("dominant-baseline", "middle"); el.setAttribute("font-size", size);
+    el.setAttribute("fill", color || "#b3aa99"); el.textContent = text; svg.appendChild(el); return el;
+  }
+  for (const o of objOrder) {
+    const { y, h } = L1.pos[o];
+    const nEl = node(colX[0], y, h, "#b3aa99");
+    label(colX[0] - 9, y + h / 2, `${objLabel[o]}  ${(100 * objTot[o] / TOTAL).toFixed(1)}%`, "end", 12.5);
+    nEl.addEventListener("mouseenter", () => highlight(p => p.o === o));
+    nEl.addEventListener("mouseleave", reset);
+    nEl.style.cursor = "pointer";
+    nEl.addEventListener("click", () => showDissect("obj", o));
+  }
+  for (const r of reaOrder) {
+    const { y, h } = L2.pos[r];
+    const nEl = node(colX[1], y, h, "#c9a45c");
+    const t = label(colX[1] + NW + 8, y + h / 2, `${reaLabel[r]}  ${(100 * reaTot[r] / TOTAL).toFixed(1)}%`, "start", 11.5);
+    t.setAttribute("paint-order", "stroke"); t.setAttribute("stroke", "#161324"); t.setAttribute("stroke-width", "3");
+    nEl.addEventListener("mouseenter", () => highlight(p => p.r === r));
+    nEl.addEventListener("mouseleave", reset);
+    nEl.style.cursor = "pointer";
+    nEl.addEventListener("click", () => showDissect("rea", r));
+  }
+  for (const v of VAL_ORDER) {
+    const { y, h } = L3.pos[v];
+    const nEl = node(colX[2], y, h, VAL_COLOR[v]);
+    label(colX[2] + NW + 8, y + h / 2, `${v}  ${(100 * valTot[v] / TOTAL).toFixed(1)}%`, "start", 12.5);
+    nEl.addEventListener("mouseenter", () => highlight(p => p.v === v));
+    nEl.addEventListener("mouseleave", reset);
+  }
+  const heads = [["THE OBJECT", colX[0] + NW / 2], ["THE STANDARD", colX[1] + NW / 2], ["THE VERDICT", colX[2] + NW / 2]];
+  for (const [t, x] of heads) {
+    const el = label(x, 11, t, "middle", 10, "#c9a45c");
+    el.setAttribute("font-family", "IBM Plex Mono, monospace"); el.setAttribute("letter-spacing", "3");
+  }
+  document.getElementById("sankey").appendChild(svg);
+})();
+
+// ---------------- heatmap (Plate III) ----------------
+(function heatmap() {
+  const hm = document.getElementById("heatmap");
+  hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
+  for (const o of objOrder) {
+    hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    for (const r of reaOrder) {
+      const n = (matrix[o] || {})[r] || 0, share = n / objTot[o];
+      const mix = Math.min(92, Math.round(share * 250));
+      const cell = document.createElement("div");
+      cell.className = "cell cellfade";
+      cell.style.transitionDelay = Math.min(hm.childElementCount * 4, 900) + "ms";
+      cell.style.background = `color-mix(in oklab, #c9a45c ${mix}%, #161324)`;
+      cell.addEventListener("mousemove", e => showTip(e, `<div class="t">${objLabel[o]} × ${reaLabel[r]}</div><div class="n">${fmt(n)} units · ${pct(share)} of row</div>`));
+      cell.addEventListener("mouseleave", hideTip);
+      hm.appendChild(cell);
+    }
+  }
+})();
+
+// ---------------- the script (Plate IV) ----------------
+(function script() {
+  document.getElementById("ge3").textContent = fmt(STRUCT.n_reviews_ge3);
+  // Fig 4a: open/close lift
+  const host = document.getElementById("lifts");
+  const rows = [...STRUCT.opening].sort((a, b) => b.open_lift - a.open_lift);
+  const LO = Math.log(0.4), HI = Math.log(2.1);
+  const X = lift => Math.max(0, Math.min(100, 100 * (Math.log(lift) - LO) / (HI - LO)));
+  for (const r of rows) {
+    const xo = X(r.open_lift), xc = X(r.close_lift);
+    host.insertAdjacentHTML("beforeend",
+      `<div class="lift-row"><div class="vp-l">${objLabel[r.key]}</div>
+       <div class="lift-track" title="${objLabel[r.key]}: opens ${r.open_lift}×, closes ${r.close_lift}× its base rate">
+         <div class="lift-axis" style="left:${X(1)}%"></div>
+         <div class="lift-line grow" style="left:${Math.min(xo, xc)}%;width:${Math.abs(xo - xc)}%"></div>
+         <div class="lift-dot lift-open dotfade" style="left:${xo}%"></div>
+         <div class="lift-dot lift-close dotfade" style="left:${xc}%"></div>
+       </div>
+       <div class="lift-n">opens ${r.open_lift}× · closes ${r.close_lift}×</div></div>`);
+  }
+  // Fig 4b: the arc
+  const W = 640, H = 300, padL = 44, padR = 96, padT = 22, padB = 34;
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
+  const xs = i => padL + i / (STRUCT.position.bins - 1) * (W - padL - padR);
+  const ys = v => padT + (1 - v) * (H - padT - padB);
+  for (const g of [0, 0.25, 0.5, 0.75, 1]) {
+    const ln = document.createElementNS(NS, "line");
+    ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+    ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+    ln.setAttribute("stroke", "rgba(201,164,92,0.13)"); svg.appendChild(ln);
+    const tx = document.createElementNS(NS, "text");
+    tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+    tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
+    tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+    tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+  }
+  const series = [["negative", STRUCT.position.neg_rate, VAL_COLOR.negative], ["positive", STRUCT.position.pos_rate, VAL_COLOR.positive]];
+  for (const [name, vals, color] of series) {
+    const pth = document.createElementNS(NS, "path");
+    pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
+    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color); pth.setAttribute("stroke-width", "2");
+    pth.setAttribute("data-draw", "1");
+    svg.appendChild(pth);
+    vals.forEach((v, i) => {
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(v)); c.setAttribute("r", 3.5); c.setAttribute("fill", color);
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${name}, fifth ${i + 1}: ${pct(v)}`;
+      c.appendChild(title); svg.appendChild(c);
+    });
+    const lb = document.createElementNS(NS, "text");
+    lb.setAttribute("x", xs(vals.length - 1) + 10); lb.setAttribute("y", ys(vals[vals.length - 1]));
+    lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "12"); lb.setAttribute("fill", color);
+    lb.textContent = `${name} ${pct(vals[vals.length - 1])}`; svg.appendChild(lb);
+  }
+  const axis = ["opening", "", "middle", "", "close"];
+  axis.forEach((t, i) => {
+    if (!t) return;
+    const tx = document.createElementNS(NS, "text");
+    tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 10); tx.setAttribute("text-anchor", "middle");
+    tx.setAttribute("font-size", "10"); tx.setAttribute("fill", "#6f6758");
+    tx.setAttribute("font-family", "IBM Plex Mono, monospace"); tx.setAttribute("letter-spacing", "2");
+    tx.textContent = t.toUpperCase(); svg.appendChild(tx);
+  });
+  document.getElementById("arc").appendChild(svg);
+  const arcMap = Object.fromEntries(STRUCT.arcs.map(a => [a.first + "|" + a.last, a.share]));
+  document.getElementById("arc-stats").innerHTML = [
+    [pct(arcMap["negative|negative"] || 0), "of reviews open and close on a negative unit"],
+    [pct(arcMap["positive|positive"] || 0), "open and close positive — the rarest arc"],
+    [pct(STRUCT.position.pos_rate[0]) + " → " + pct(STRUCT.position.pos_rate[2]) + " → " + pct(STRUCT.position.pos_rate[4]), "praise collapses mid-review, then returns at the close"],
+  ].map(([v, l]) => `<div><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+})();
+
+// ---------------- the wheel (Plate IV) ----------------
+(function wheel() {
+  const trans = STRUCT.transitions;
+  const vol = {};
+  let volMax = 0;
+  const pair = {};
+  const selfLift = {};
+  for (const t of trans) {
+    vol[t.a] = (vol[t.a] || 0) + t.n;
+    vol[t.b] = (vol[t.b] || 0) + t.n;
+    if (t.a === t.b) { selfLift[t.a] = t; continue; }
+    const key = [t.a, t.b].sort().join("|");
+    pair[key] = pair[key] || { n: 0, liftSum: 0, m: 0 };
+    pair[key].n += t.n; pair[key].liftSum += t.lift * t.n; pair[key].m += t.n;
+  }
+  const keys = objOrder.filter(k => vol[k]);
+  const totalVol = keys.reduce((sum, k) => sum + vol[k], 0);
+  const W = 720, H = 660, cx = W / 2, cy = H / 2, R = 244, GAPA = 0.03;
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
+  // layout arcs
+  let a0 = -Math.PI / 2;
+  const arc = {};
+  for (const k of keys) {
+    const span = (vol[k] / totalVol) * (2 * Math.PI - GAPA * keys.length);
+    arc[k] = { a0, a1: a0 + span, mid: a0 + span / 2 };
+    a0 += span + GAPA;
+  }
+  const P = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+  // chords first (under the ring)
+  const chords = [];
+  const maxN = Math.max(...Object.values(pair).map(v => v.n));
+  const entries = Object.entries(pair).filter(([, v]) => v.n >= 500).sort((x, y) => x[1].n - y[1].n);
+  for (const [key, v] of entries) {
+    const [ka, kb] = key.split("|");
+    if (!arc[ka] || !arc[kb]) continue;
+    const lift = v.liftSum / v.m;
+    const [x1, y1] = P(arc[ka].mid, R - 10), [x2, y2] = P(arc[kb].mid, R - 10);
+    const el = document.createElementNS(NS, "path");
+    el.setAttribute("d", `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
+    el.setAttribute("fill", "none");
+    el.setAttribute("stroke", lift >= 1.25 ? "#c9a45c" : "#b3aa99");
+    el.setAttribute("stroke-width", Math.max(1, 16 * v.n / maxN));
+    el.setAttribute("stroke-linecap", "round");
+    el.setAttribute("data-draw", "1");
+    el.style.opacity = lift >= 1.25 ? 0.75 : 0.14;
+    el.dataset.base = el.style.opacity;
+    const title = document.createElementNS(NS, "title");
+    title.textContent = `${objLabel[ka]} ↔ ${objLabel[kb]} · ${fmt(v.n)} transitions · ${lift.toFixed(2)}× chance`;
+    el.appendChild(title);
+    chords.push({ el, ka, kb });
+    svg.appendChild(el);
+  }
+  // ring arcs + labels
+  for (const k of keys) {
+    const { a0: s0, a1: s1, mid } = arc[k];
+    const seg = document.createElementNS(NS, "path");
+    const [sx, sy] = P(s0, R), [ex, ey] = P(s1, R);
+    seg.setAttribute("d", `M${sx},${sy} A${R},${R} 0 ${s1 - s0 > Math.PI ? 1 : 0} 1 ${ex},${ey}`);
+    seg.setAttribute("fill", "none"); seg.setAttribute("stroke", "#c9a45c");
+    seg.setAttribute("stroke-width", 7); seg.setAttribute("stroke-linecap", "butt");
+    seg.style.cursor = "pointer";
+    const title = document.createElementNS(NS, "title");
+    title.textContent = `${objLabel[k]} · ${fmt(vol[k])} transition endpoints`;
+    seg.appendChild(title);
+    seg.addEventListener("mouseenter", () => {
+      for (const c of chords) c.el.style.opacity = (c.ka === k || c.kb === k) ? 0.85 : 0.04;
+    });
+    seg.addEventListener("mouseleave", () => { for (const c of chords) c.el.style.opacity = c.el.dataset.base; });
+    svg.appendChild(seg);
+    const [lx, ly] = P(mid, R + 18);
+    const lb = document.createElementNS(NS, "text");
+    lb.setAttribute("x", lx); lb.setAttribute("y", ly);
+    lb.setAttribute("font-size", "11.5"); lb.setAttribute("fill", "#b3aa99");
+    lb.setAttribute("dominant-baseline", "middle");
+    lb.setAttribute("text-anchor", Math.cos(mid) > 0.25 ? "start" : Math.cos(mid) < -0.25 ? "end" : "middle");
+    let short = objLabel[k].split(" & ")[0].split(", ")[0];
+    if (short.length > 17) short = short.split(" ").slice(0, 2).join(" ");
+    lb.textContent = short;
+    svg.appendChild(lb);
+  }
+  document.getElementById("wheel").appendChild(svg);
+  // side lists
+  const chains = Object.values(selfLift).sort((a, b) => b.lift - a.lift).slice(0, 6);
+  const maxL = chains[0].lift;
+  document.getElementById("wheel-chains").innerHTML = chains.map(t =>
+    `<div class="vp-row" style="grid-template-columns:190px 1fr 60px"><div class="vp-l">${objLabel[t.a]}</div>
+     <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * t.lift / maxL}%;height:9px;background:#c9a45c"></div></div>
+     <div class="vp-n">${t.lift.toFixed(2)}×</div></div>`).join("");
+  const cross = Object.entries(pair).map(([key, v]) => ({ key, n: v.n, lift: v.liftSum / v.m }))
+    .filter(d => d.n >= 800).sort((a, b) => b.lift - a.lift).slice(0, 6);
+  const maxCL = cross[0].lift;
+  document.getElementById("wheel-pairs").innerHTML = cross.map(d => {
+    const [a, b] = d.key.split("|");
+    return `<div class="vp-row" style="grid-template-columns:190px 1fr 60px"><div class="vp-l" title="${objLabel[a]} ↔ ${objLabel[b]}">${objLabel[a].split(" & ")[0]} ↔ ${objLabel[b].split(" & ")[0]}</div>
+     <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * d.lift / maxCL}%;height:9px;background:#9085e9"></div></div>
+     <div class="vp-n">${d.lift.toFixed(2)}×</div></div>`;
+  }).join("");
+})();
+
+// ---------------- the gauntlet (Plate IX) ----------------
+(function gauntlet() {
+  const G = PANEL.gauntlet.filter(g => g.n >= 30);
+  const W = 1120, H = 430, padL = 56, padT = 26, padB = 96, padR = 40;
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
+  const xs = i => padL + (i + 0.5) / G.length * (W - padL - padR);
+  const yMax = 0.75;
+  const ys = v => padT + (1 - v / yMax) * (H - padT - padB - 70);
+  for (const g of [0, 0.25, 0.5, 0.75]) {
+    const ln = document.createElementNS(NS, "line");
+    ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+    ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+    ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
+    const tx = document.createElementNS(NS, "text");
+    tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+    tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
+    tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+    tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+  }
+  const line = document.createElementNS(NS, "path");
+  line.setAttribute("d", G.map((g, i) => (i ? "L" : "M") + xs(i) + "," + ys(g.accept)).join(" "));
+  line.setAttribute("fill", "none"); line.setAttribute("stroke", "#c9a45c"); line.setAttribute("stroke-width", "2");
+  line.setAttribute("data-draw", "1");
+  svg.appendChild(line);
+  const maxN = Math.max(...G.map(g => g.n));
+  G.forEach((g, i) => {
+    const r = 4 + 14 * Math.sqrt(g.n / maxN);
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(g.accept)); c.setAttribute("r", r);
+    c.setAttribute("fill", "#c9a45c"); c.setAttribute("fill-opacity", "0.85");
+    c.setAttribute("stroke", "#12101f"); c.setAttribute("stroke-width", "2");
+    c.classList.add("dotfade");
+    const title = document.createElementNS(NS, "title");
+    title.textContent = `${g.breadth}${g.breadth === 9 ? "+" : ""} fronts: ${fmt(g.n)} papers, ${pct(g.accept)} accepted`;
+    c.appendChild(title); svg.appendChild(c);
+    const val = document.createElementNS(NS, "text");
+    val.setAttribute("x", xs(i)); val.setAttribute("y", ys(g.accept) - r - 9);
+    val.setAttribute("text-anchor", "middle"); val.setAttribute("font-size", "12");
+    val.setAttribute("fill", "#ece7dc"); val.classList.add("dotfade");
+    val.textContent = pct(g.accept); svg.appendChild(val);
+    const bar = document.createElementNS(NS, "rect");
+    const bh = 46 * g.n / maxN;
+    bar.setAttribute("x", xs(i) - 13); bar.setAttribute("y", H - padB + 40 - bh);
+    bar.setAttribute("width", 26); bar.setAttribute("height", Math.max(bh, 1));
+    bar.setAttribute("fill", "#b3aa99"); bar.setAttribute("fill-opacity", "0.3");
+    const bt = document.createElementNS(NS, "title");
+    bt.textContent = `${fmt(g.n)} papers`; bar.appendChild(bt);
+    svg.appendChild(bar);
+    const xl = document.createElementNS(NS, "text");
+    xl.setAttribute("x", xs(i)); xl.setAttribute("y", H - padB + 58);
+    xl.setAttribute("text-anchor", "middle"); xl.setAttribute("font-size", "11");
+    xl.setAttribute("fill", "#6f6758"); xl.setAttribute("font-family", "IBM Plex Mono, monospace");
+    xl.textContent = g.breadth === 9 ? "9+" : g.breadth; svg.appendChild(xl);
+  });
+  const ax = document.createElementNS(NS, "text");
+  ax.setAttribute("x", (padL + W - padR) / 2); ax.setAttribute("y", H - padB + 82);
+  ax.setAttribute("text-anchor", "middle"); ax.setAttribute("font-size", "10");
+  ax.setAttribute("fill", "#6f6758"); ax.setAttribute("font-family", "IBM Plex Mono, monospace");
+  ax.setAttribute("letter-spacing", "2");
+  ax.textContent = "DISTINCT OBJECTS CRITICIZED (OF 12) · GREY BARS = PAPER COUNT";
+  svg.appendChild(ax);
+  document.getElementById("gauntlet").appendChild(svg);
+})();
+
+// ---------------- the field (prolegomenon) ----------------
+(function field() {
+  const years = FIELD.years, S = FIELD.stats;
+  const NS = "http://www.w3.org/2000/svg";
+  const host = document.getElementById("field-charts");
+  function mini(label, vals, color, fmtV, asBars) {
+    const W = 300, H = 130, padL = 8, padR = 62, padT = 16, padB = 20;
+    const clean = vals.filter(v => v != null);
+    const vMax = Math.max(...clean) * 1.12, vMin = asBars ? 0 : Math.min(...clean) * 0.85;
+    const xs = i => padL + i / (vals.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - (v - vMin) / (vMax - vMin)) * (H - padT - padB);
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%";
+    if (asBars) {
+      vals.forEach((v, i) => {
+        if (v == null) return;
+        const r = document.createElementNS(NS, "rect");
+        const bw = (W - padL - padR) / vals.length * 0.55;
+        r.setAttribute("x", xs(i) - bw / 2); r.setAttribute("y", ys(v));
+        r.setAttribute("width", bw); r.setAttribute("height", H - padB - ys(v));
+        r.setAttribute("fill", color); r.setAttribute("fill-opacity", "0.75");
+        const t = document.createElementNS(NS, "title"); t.textContent = `${years[i]}: ${fmtV(v)}`; r.appendChild(t);
+        svg.appendChild(r);
+      });
+    } else {
+      const pts = vals.map((v, i) => v == null ? null : [xs(i), ys(v)]).filter(Boolean);
+      const pth = document.createElementNS(NS, "path");
+      pth.setAttribute("d", pts.map((pt, i) => (i ? "L" : "M") + pt[0] + "," + pt[1]).join(" "));
+      pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color); pth.setAttribute("stroke-width", "2");
+      pth.setAttribute("data-draw", "1"); svg.appendChild(pth);
+      vals.forEach((v, i) => {
+        if (v == null) return;
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(v)); c.setAttribute("r", 2.6); c.setAttribute("fill", color);
+        const t = document.createElementNS(NS, "title"); t.textContent = `${years[i]}: ${fmtV(v)}`; c.appendChild(t);
+        svg.appendChild(c);
+      });
+    }
+    const last = [...vals].reverse().find(v => v != null);
+    const end = document.createElementNS(NS, "text");
+    end.setAttribute("x", W - padR + 8); end.setAttribute("y", asBars ? padT + 8 : ys(last));
+    end.setAttribute("dominant-baseline", "middle"); end.setAttribute("font-size", "11.5"); end.setAttribute("fill", color);
+    end.textContent = fmtV(last); svg.appendChild(end);
+    for (const [i, anchor] of [[0, "start"], [vals.length - 1, "end"]]) {
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 5); tx.setAttribute("text-anchor", anchor);
+      tx.setAttribute("font-size", "9"); tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "'" + years[i].slice(2); svg.appendChild(tx);
+    }
+    host.insertAdjacentHTML("beforeend",
+      `<div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">${label}</div>${svg.outerHTML}</div>`);
+  }
+  mini("Submissions", years.map(y => S[y].submissions), "#c9a45c", v => fmt(v), true);
+  mini("Reviews per paper", years.map(y => S[y].reviews_per_paper), "#3987e5", v => v.toFixed(1));
+  mini("Acceptance rate", years.map(y => S[y].accept_rate), "#199e70", v => pct(v));
+  mini("Median review length", years.map(y => S[y].median_review_words), "#e66767", v => v + " words");
+  let html = `<table><tr><th>year</th><th>submissions</th><th>withdrawn</th><th>decided</th><th>accept rate</th><th>reviews</th><th>reviews / paper</th><th>median words</th></tr>`;
+  for (const y of years) {
+    const st = S[y];
+    html += `<tr><td>${y}</td><td>${fmt(st.submissions)}</td><td>${st.withdrawn ? fmt(st.withdrawn) : "—"}</td><td>${st.decided ? fmt(st.decided) : "—"}</td><td>${st.accept_rate != null ? pct(st.accept_rate) : "—"}</td><td>${fmt(st.reviews)}</td><td>${st.reviews_per_paper ?? "—"}</td><td>${st.median_review_words ?? "—"}</td></tr>`;
+  }
+  html += `</table>`;
+  document.getElementById("field-table").innerHTML = html;
+})();
+
+// ---------------- the rhetoric (Plate III) ----------------
+(function rhetoric() {
+  const FORMS = [
+    ["NORM", "#c98500", "the norm invoked — should, must, the bar to meet"],
+    ["BLOCK", "#3987e5", "verification blocked — without X, nothing can be known"],
+    ["ANCHOR", "#d95926", "precedent cited — prior art, baselines, the field"],
+    ["REACH", "#199e70", "reach questioned — beyond this setting? at what cost?"],
+    ["DOUBT", "#9085e9", "rival explanation — confound, artifact, luck"],
+    ["WEIGH", "#d55181", "evidence weighed — sufficient? convincing? on balance?"],
+  ];
+  const FORM_COLOR = Object.fromEntries(FORMS.map(([f, c]) => [f, c]));
+  const rows = reaOrder.map(k => {
+    const v = RHET.by_standard[k] || {};
+    const total = Object.values(v).reduce((a, b) => a + b, 0);
+    return { k, v, total };
+  }).sort((a, b) => ((b.v.WEIGH || 0) / b.total) - ((a.v.WEIGH || 0) / a.total));
+  document.getElementById("rhetoric").innerHTML = rows.map(({ k, v, total }) => {
+    const segs = FORMS.map(([f, c]) =>
+      `<span style="width:${100 * (v[f] || 0) / total}%;background:${c}" title="${f} ${pct((v[f] || 0) / total)}"></span>`).join("");
+    const top = FORMS.map(([f]) => [f, (v[f] || 0) / total]).sort((a, b) => b[1] - a[1])[0];
+    return `<div class="vp-row"><div class="vp-l">${reaLabel[k]}</div><div class="vp-bar grow">${segs}</div><div class="vp-n" style="color:${FORM_COLOR[top[0]]}">${top[0]} ${pct(top[1])}</div></div>`;
+  }).join("");
+  document.getElementById("rhet-legend").innerHTML = FORMS.map(([f, c, hint]) =>
+    `<span class="chip" tabindex="0" title="${hint}"><span class="sw" style="background:${c}"></span>${f.toLowerCase()}</span>`).join("");
+  const total = Object.values(RHET.overall).reduce((a, b) => a + b, 0);
+  const wv = RHET.by_valence.WEIGH, wt = Object.values(wv).reduce((a, b) => a + b, 0);
+  document.getElementById("rhet-stats").innerHTML = [
+    [pct(RHET.overall.WEIGH / total), "of all reasoning is weighing evidence — the modal move of peer review"],
+    [pct(wv.positive / wt), "of weighing resolves positive — the only form where praise lives; every other form runs ≥88% negative"],
+    ["10%→7%", "precedent-citing is fading across nine years while reach-questioning rises 11%→15%"],
+  ].map(([v, l]) => `<div><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+})();
+
+// ---------------- the minds (Plate VI) ----------------
+(function minds() {
+  const NAMES = {
+    1: ["The Architect", "interrogates design choices — why this, not that",
+        "This reviewer wants to know why the method is built the way it is. Their reasoning interrogates architectures, objectives, and training procedures, demanding mechanistic grounding or a comparison against the alternatives the authors didn't try — invoking the design-justification standard at 2.4 times the field's rate. Verdicts land near the field average: skeptical, but about the blueprint rather than the evidence."],
+    0: ["The Stress-Tester", "hunts fragility: robustness, confounds, hidden costs",
+        "This reviewer reads a paper looking for where it breaks. Hyperparameter fragility, hidden confounds, compute costs that were never weighed — the robustness norm fires at 2.4\u00d7 and rival explanations at 1.9\u00d7 the field's rate. It is the ascendant kind: from 19% of reviewers in 2018 to 26% in 2026, this is who reviews increasingly sound like."],
+    2: ["The Advocate", "leads with merit — the one kind that praises",
+        "The only kind whose reasoning leads with what deserves recognition: merit recognition fires at 2.6\u00d7 the field's rate, and only 62% of their units resolve negative against roughly 80\u201385% for every other kind. Not uncritical — but this reviewer weighs what the paper achieved before listing what it lacks."],
+    4: ["The Gatekeeper", "guards novelty and polish at the door",
+        "Two questions guard this reviewer's door: is it new, and is it careful? The novelty standard fires at 2.6\u00d7 and presentation-as-trust at 2.1\u00d7 — ideas are checked against prior art, and sloppy notation is read as a warning about everything else. The harshest kind (85% negative), and the fading one: from a quarter of all reviewers in 2018 to 15% in 2026."],
+    3: ["The Auditor", "demands fair comparisons and honest statistics",
+        "This reviewer audits the experiments ledger-first: were the comparisons fair (3.1\u00d7 the field's rate — the strongest specialization of any kind), were the statistics honest, do the metrics measure what they claim? Tied with the Gatekeeper for harshest at 85% negative, but the objection is procedural, not conceptual — rerun it fairly and the Auditor can be won."],
+  };
+  const clusters = MINDS.minds.clusters;
+  const yt = MINDS.minds.year_totals;
+  const tabs = document.getElementById("minds-tabs");
+  const host = document.getElementById("minds");
+  const NS = "http://www.w3.org/2000/svg";
+  let current = 0, timer = null;
+  tabs.innerHTML = clusters.map((c, i) =>
+    `<button data-i="${i}" class="${i === 0 ? "on" : ""}">${NAMES[c.cluster][0].replace("The ", "")}</button>`).join("");
+  const SHORT = { novelty_standard: "novelty", claim_evidence_match: "claim\u2194evidence", fair_comparison: "fair comp.", design_justification: "design", cost_benefit: "cost-benefit", confound_hypothesis: "confound", robustness_norm: "robustness", presentation_trust: "presentation", reproducibility_norm: "reproducib.", statistical_identifiability: "statistics", construct_validity: "validity", merit_recognition: "merit" };
+  function rose(c) {
+    const G = 360, H = 290, cx = G / 2, cy = H / 2, R = 78;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", `0 0 ${G} ${H}`); svg.style.width = "100%";
+    const ratios = reaOrder.map(k => c.ratio[k] || 0);
+    const topIdx = [...ratios.keys()].sort((a, b) => ratios[b] - ratios[a]).slice(0, 3);
+    for (const rr of [0.33, 0.66, 1]) {
+      const ring = document.createElementNS(NS, "circle");
+      ring.setAttribute("cx", cx); ring.setAttribute("cy", cy); ring.setAttribute("r", R * rr);
+      ring.setAttribute("fill", "none"); ring.setAttribute("stroke", "rgba(201,164,92,0.14)");
+      svg.appendChild(ring);
+    }
+    reaOrder.forEach((k, i) => {
+      const a0 = -Math.PI / 2 + (i / reaOrder.length) * 2 * Math.PI;
+      const hot0 = topIdx.includes(i);
+      const lx = cx + Math.cos(a0) * (R + 14), ly = cy + Math.sin(a0) * (R + 14);
+      const lb = document.createElementNS(NS, "text");
+      lb.setAttribute("x", lx); lb.setAttribute("y", ly);
+      lb.setAttribute("font-size", "10.5"); lb.setAttribute("font-family", "IBM Plex Mono, monospace");
+      lb.setAttribute("fill", hot0 ? "#c9a45c" : "#6f6758");
+      lb.setAttribute("dominant-baseline", "middle");
+      lb.setAttribute("text-anchor", Math.cos(a0) > 0.3 ? "start" : Math.cos(a0) < -0.3 ? "end" : "middle");
+      lb.textContent = SHORT[k];
+      lb.classList.add("deft");
+      const def = reaCats.find(x => x.key === k);
+      lb.addEventListener("mousemove", e => showTip(e,
+        `<div class="t">${reaLabel[k]}</div><div class="n">REASONING STANDARD \u00b7 ${(c.ratio[k] || 0).toFixed(2)}\u00d7 the field for this archetype</div><div style="margin-top:5px;font-size:12px;color:var(--ink-2)">${def ? def.definition : ""}</div>`));
+      lb.addEventListener("mouseleave", hideTip);
+      svg.appendChild(lb);
+    });
+    reaOrder.forEach((k, i) => {
+      const a0 = -Math.PI / 2 + (i / reaOrder.length) * 2 * Math.PI;
+      const half = Math.PI / reaOrder.length * 0.72;
+      const len = R * Math.min(1, Math.sqrt((c.ratio[k] || 0) / 2.8));
+      const tip = [cx + Math.cos(a0) * len, cy + Math.sin(a0) * len];
+      const b1 = [cx + Math.cos(a0 - half) * len * 0.42, cy + Math.sin(a0 - half) * len * 0.42];
+      const b2 = [cx + Math.cos(a0 + half) * len * 0.42, cy + Math.sin(a0 + half) * len * 0.42];
+      const petal = document.createElementNS(NS, "path");
+      petal.setAttribute("d", `M${cx},${cy} Q${b1[0]},${b1[1]} ${tip[0]},${tip[1]} Q${b2[0]},${b2[1]} ${cx},${cy} Z`);
+      const hot = topIdx.includes(i);
+      petal.setAttribute("fill", hot ? "#c9a45c" : "#b3aa99");
+      petal.setAttribute("opacity", hot ? 0.85 : 0.28);
+      if (!REDUCED) { petal.style.transformOrigin = `${cx}px ${cy}px`; petal.style.transition = "d .5s ease"; }
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${reaLabel[k]}: ${(c.ratio[k] || 0).toFixed(2)}× the field`;
+      petal.appendChild(title);
+      svg.appendChild(petal);
+    });
+    return svg;
+  }
+  function render(i) {
+    current = i;
+    hideTip();
+    for (const b of tabs.querySelectorAll("button")) b.classList.toggle("on", +b.dataset.i === i);
+    const c = clusters[i];
+    const [name, epithet, desc] = NAMES[c.cluster];
+    const tops = reaOrder.map(k => [k, c.ratio[k] || 0]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    const years = Object.keys(yt);
+    const mix = years.map(y => (c.year_counts[y] || 0) / Math.max(1, yt[y]));
+    const mMax = Math.max(...mix) * 1.15;
+    const spark = `<svg viewBox="0 0 220 40" style="width:220px;height:40px"><path d="${mix.map((v, j) => (j ? "L" : "M") + (j / (mix.length - 1) * 214 + 3) + "," + (35 - v / mMax * 28)).join(" ")}" fill="none" stroke="#c9a45c" stroke-width="1.8"/></svg>`;
+    host.innerHTML = "";
+    const glyphWrap = document.createElement("div");
+    glyphWrap.appendChild(rose(c));
+    host.appendChild(glyphWrap);
+    host.insertAdjacentHTML("beforeend", `
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div><span style="font-family:var(--display);font-size:30px">${name}</span>
+          <span style="font-size:13px;color:var(--ink-2);font-style:italic;margin-left:10px">${epithet}</span></div>
+        <div style="font-size:13.5px;color:var(--ink-2);line-height:1.65;max-width:60ch">${desc}</div>
+        <div style="display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-2)">
+          <span><b style="color:var(--brass);font-weight:500">${pct(c.share)}</b> OF REVIEWERS</span>
+          <span>NEG <b style="color:${c.neg_rate < 0.7 ? "#199e70" : "var(--ink)"};font-weight:500">${pct(c.neg_rate)}</b></span>
+        </div>
+        <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em">${tops.map(([k, r]) => `${reaLabel[k]} <span style="color:var(--brass)">${r.toFixed(1)}×</span>`).join(" &nbsp;·&nbsp; ")}</div>
+        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--brass-faint);padding-top:10px">
+          <span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.14em">SHARE OF EACH YEAR'S REVIEWERS '18–'26</span>${spark}
+          <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-2)">${pct(mix[0])}→${pct(mix[mix.length - 1])}</span>
+        </div>
+      </div>`);
+  }
+  function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+  tabs.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    stopAuto(); render(+b.dataset.i);
+  });
+  host.addEventListener("mouseenter", stopAuto);
+  render(0);
+  if (!REDUCED) timer = setInterval(() => render((current + 1) % clusters.length), 4200);
+})();
+
+// ---------------- the hardening (Fig 8c) ----------------
+(function vitals() {
+  const V = MINDS.vitals;
+  const years = Object.keys(V);
+  const NS = "http://www.w3.org/2000/svg";
+  const series = [
+    ["Softening rate", years.map(y => V[y].soften_rate), "#e66767", pct],
+    ["Post-response share", years.map(y => V[y].post_share), "#3987e5", pct],
+    ["Units per reviewer", years.map(y => V[y].units_per_reviewer), "#c9a45c", v => v.toFixed(2)],
+  ];
+  const host = document.getElementById("vitals");
+  for (const [label, vals, color, fmtV] of series) {
+    const W = 300, H = 120, padL = 8, padR = 60, padT = 14, padB = 20;
+    const vMax = Math.max(...vals) * 1.15, vMin = Math.min(...vals) * 0.85;
+    const xs = i => padL + i / (vals.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - (v - vMin) / (vMax - vMin)) * (H - padT - padB);
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%";
+    const pth = document.createElementNS(NS, "path");
+    pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
+    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color); pth.setAttribute("stroke-width", "2");
+    pth.setAttribute("data-draw", "1"); svg.appendChild(pth);
+    vals.forEach((v, i) => {
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(v)); c.setAttribute("r", 2.6); c.setAttribute("fill", color);
+      const t = document.createElementNS(NS, "title"); t.textContent = `${years[i]}: ${fmtV(v)}`; c.appendChild(t);
+      svg.appendChild(c);
+    });
+    const end = document.createElementNS(NS, "text");
+    end.setAttribute("x", xs(vals.length - 1) + 8); end.setAttribute("y", ys(vals[vals.length - 1]));
+    end.setAttribute("dominant-baseline", "middle"); end.setAttribute("font-size", "11"); end.setAttribute("fill", color);
+    end.textContent = fmtV(vals[vals.length - 1]); svg.appendChild(end);
+    for (const [i, anchor] of [[0, "start"], [vals.length - 1, "end"]]) {
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 5); tx.setAttribute("text-anchor", anchor);
+      tx.setAttribute("font-size", "9"); tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "'" + years[i].slice(2); svg.appendChild(tx);
+    }
+    host.insertAdjacentHTML("beforeend",
+      `<div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px">${label}</div>${svg.outerHTML}</div>`);
+  }
+})();
+
+// ---------------- verdicts (Plate V) ----------------
+(function vprofile() {
+  const host = document.getElementById("vprofile");
+  const rows = [...objOrder].sort((a, b) => ((objVal[b].negative || 0) / objTot[b]) - ((objVal[a].negative || 0) / objTot[a]));
+  for (const o of rows) {
+    const segs = VAL_ORDER.map(v => {
+      const n = objVal[o][v] || 0, wd = 100 * n / objTot[o];
+      return `<span style="width:${wd}%;background:${VAL_COLOR[v]}" title="${v} ${pct(n / objTot[o])} (${fmt(n)})"></span>`;
+    }).join("");
+    const neg = pct((objVal[o].negative || 0) / objTot[o]), pos = pct((objVal[o].positive || 0) / objTot[o]);
+    host.insertAdjacentHTML("beforeend",
+      `<div class="vp-row"><div class="vp-l">${objLabel[o]}</div><div class="vp-bar grow">${segs}</div><div class="vp-n">−${neg} · +${pos}</div></div>`);
+  }
+  const rx = document.getElementById("rx");
+  const rxRows = [...objOrder].sort((a, b) =>
+    (DATA.obj_extras[b].with_improvement / DATA.obj_extras[b].n) - (DATA.obj_extras[a].with_improvement / DATA.obj_extras[a].n));
+  for (const o of rxRows) {
+    const e = DATA.obj_extras[o];
+    const imp = e.with_improvement / e.n, expl = e.reviewer_explicit / e.n;
+    rx.insertAdjacentHTML("beforeend",
+      `<div class="vp-row"><div class="vp-l">${objLabel[o]}</div>
+       <div class="rx-track" title="${objLabel[o]}: fix attached ${pct(imp)}, explicit grounding ${pct(expl)}"><div class="rx-fill grow" style="width:${100 * imp}%"></div><div class="rx-tick" style="left:${100 * expl}%"></div></div>
+       <div class="rx-n">${pct(imp)}</div></div>`);
+  }
+})();
+
+// ---------------- the drift (Plate VI) ----------------
+(function drift() {
+  const HL = ["#3987e5", "#d95926", "#199e70", "#9085e9"];
+  function chart(hostId, shares, labelOf) {
+    const years = DRIFT.years;
+    const movers = Object.entries(shares)
+      .sort((a, b) => Math.abs(b[1][b[1].length - 1] - b[1][0]) - Math.abs(a[1][a[1].length - 1] - a[1][0]))
+      .slice(0, 4).map(([k]) => k);
+    const yMax = Math.max(...Object.values(shares).flat()) * 1.12;
+    const W = 1160, H = 330, padL = 46, padR = 345, padT = 16, padB = 30;
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.width = "100%"; svg.style.height = "auto";
+    const xs = i => padL + i / (years.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - v / yMax) * (H - padT - padB);
+    for (const g of [0, 0.05, 0.1, 0.15, 0.2]) {
+      if (g > yMax) continue;
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 8); tx.setAttribute("y", ys(g)); tx.setAttribute("text-anchor", "end");
+      tx.setAttribute("dominant-baseline", "middle"); tx.setAttribute("font-size", "10");
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+    }
+    years.forEach((yr, i) => {
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 8); tx.setAttribute("text-anchor", "middle");
+      tx.setAttribute("font-size", "11.5"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "'" + String(yr).slice(2); svg.appendChild(tx);
+    });
+    const ordered = [...Object.keys(shares)].sort((a, b) => (movers.includes(a) ? 1 : 0) - (movers.includes(b) ? 1 : 0));
+    const used = [];
+    for (const key of ordered) {
+      const vals = shares[key];
+      const hl = movers.indexOf(key);
+      const color = hl >= 0 ? HL[hl] : "rgba(179,170,153,0.28)";
+      const pth = document.createElementNS(NS, "path");
+      pth.setAttribute("d", vals.map((v, i) => (i ? "L" : "M") + xs(i) + "," + ys(v)).join(" "));
+      pth.setAttribute("fill", "none"); pth.setAttribute("stroke", color);
+      pth.setAttribute("stroke-width", hl >= 0 ? 2.2 : 1.2);
+      if (hl >= 0) pth.setAttribute("data-draw", "1");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${labelOf(key)}: ${(vals[0] * 100).toFixed(1)}% (2018) → ${(vals[vals.length - 1] * 100).toFixed(1)}% (2026)`;
+      pth.appendChild(title); svg.appendChild(pth);
+      if (hl >= 0) {
+        const vEnd = vals[vals.length - 1], d = (vEnd - vals[0]) * 100;
+        let y = ys(vEnd);
+        for (const u of used) if (Math.abs(u - y) < 19) y = u - 19;
+        used.push(y);
+        const lb = document.createElementNS(NS, "text");
+        lb.setAttribute("x", xs(years.length - 1) + 10); lb.setAttribute("y", y);
+        lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "15.5"); lb.setAttribute("fill", color);
+        lb.textContent = `${labelOf(key)}  ${d > 0 ? "+" : ""}${d.toFixed(1)}pp`;
+        svg.appendChild(lb);
+      }
+    }
+    document.getElementById(hostId).appendChild(svg);
+  }
+  chart("drift-obj", DRIFT.object_share, k => objLabel[k]);
+  chart("drift-rea", DRIFT.reasoning_share, k => reaLabel[k]);
+})();
+
+
+// ---------------- dissect + mercy map (Plate I) ----------------
+function showDissect(kind, key) {
+  const host = document.getElementById("dissect");
+  const isObj = kind === "obj";
+  const label = isObj ? objLabel[key] : reaLabel[key];
+  const total = isObj ? objTot[key] : reaTot[key];
+  const partners = isObj
+    ? reaOrder.map(r => [reaLabel[r], (matrix[key] || {})[r] || 0]).sort((a, b) => b[1] - a[1]).slice(0, 6)
+    : objOrder.map(o => [objLabel[o], (matrix[o] || {})[key] || 0]).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const maxP = partners[0][1] || 1;
+  const vals = isObj ? objVal[key]
+    : Object.fromEntries(VAL_ORDER.map(v => [v, linkRV[key + "|" + v] || 0]));
+  const exemplar = (() => {
+    for (const rv of DATA.sample_reviews)
+      for (const u of rv.units)
+        if ((isObj ? u.object_key : u.reasoning_key) === key && (isObj ? u.object_sim : u.reasoning_sim) >= 0.8)
+          return u;
+    return null;
+  })();
+  const facts = [];
+  facts.push(`<div><b>${fmt(total)}</b> units · ${pct(total / TOTAL)} of the corpus · ${pct((vals.negative || 0) / total)} negative</div>`);
+  if (isObj && PANEL.rebuttal.per_category[key]) {
+    const rb = PANEL.rebuttal.per_category[key];
+    facts.push(`<div>After rebuttal, judgments here soften in <b>${pct(rb.softened / rb.n)}</b> of post-response units.</div>`);
+  }
+  if (isObj && PANEL.tribunal.per_category[key]) {
+    const tb = PANEL.tribunal.per_category[key];
+    const d = (tb.accept_with - tb.accept_without) * 100;
+    facts.push(`<div>Papers criticized here are accepted at <b>${pct(tb.accept_with)}</b> vs ${pct(tb.accept_without)} without (${d >= 0 ? "+" : "−"}${Math.abs(d).toFixed(1)}pp).</div>`);
+  }
+  if (isObj && PANEL.dissent[key]) {
+    const dd = PANEL.dissent[key];
+    facts.push(`<div>Reviewers of the same paper take opposite stances here in <b>${pct(dd.contested / dd.base)}</b> of forums.</div>`);
+  }
+  if (exemplar) facts.push(`<div style="border-left:2px solid var(--brass);padding-left:10px;font-style:italic">“${exemplar.observation}” → “${exemplar.judgment}”</div>`);
+  host.innerHTML = `
+    <div class="d-head"><span class="d-title">${label} <span style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.14em">· ${isObj ? "OBJECT" : "STANDARD"} DISSECTED</span></span>
+    <button class="d-close" id="d-close">Close</button></div>
+    <div class="d-grid">
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase">${isObj ? "Standards invoked here" : "Objects it judges"}</div>
+        ${partners.map(([l, n]) => `<div class="d-row"><span style="text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l}</span><div class="d-track"><div class="d-fill" style="width:${100 * n / maxP}%"></div></div><span class="d-n">${pct(n / total)}</span></div>`).join("")}
+        <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:8px">Verdicts</div>
+        <div class="vp-bar" style="height:12px">${VAL_ORDER.map(v => `<span style="width:${100 * (vals[v] || 0) / total}%;background:${VAL_COLOR[v]}" title="${v} ${pct((vals[v] || 0) / total)}"></span>`).join("")}</div>
+      </div>
+      <div class="d-facts">${facts.join("")}</div>
+    </div>`;
+  host.hidden = false;
+  document.getElementById("d-close").addEventListener("click", () => { host.hidden = true; });
+  host.scrollIntoView({ block: "nearest", behavior: REDUCED ? "auto" : "smooth" });
+}
+
+(function mercy() {
+  const hm = document.getElementById("mercy");
+  hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, 1fr)`;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${reaLabel[r]}</div>`).join(""));
+  const negOf = {};
+  for (const t of DATA.triples) if (t.v === "negative") negOf[t.o + "|" + t.r] = (negOf[t.o + "|" + t.r] || 0) + t.n;
+  for (const o of objOrder) {
+    hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    for (const r of reaOrder) {
+      const n = (matrix[o] || {})[r] || 0;
+      const negRate = n ? (negOf[o + "|" + r] || 0) / n : 0;
+      const cell = document.createElement("div");
+      cell.className = "cell cellfade";
+      cell.style.transitionDelay = Math.min(hm.childElementCount * 4, 900) + "ms";
+      cell.style.background = n < 40 ? "#161324"
+        : `color-mix(in oklab, #e66767 ${Math.round(negRate * 88)}%, #161324)`;
+      cell.addEventListener("mousemove", e => showTip(e, `<div class="t">${objLabel[o]} × ${reaLabel[r]}</div><div class="n">${n < 40 ? "too few units" : pct(negRate) + " negative · " + fmt(n) + " units"}</div>`));
+      cell.addEventListener("mouseleave", hideTip);
+      hm.appendChild(cell);
+    }
+  }
+})();
+
+// ---------------- the rebuttal (Plate VI) ----------------
+(function rebuttal() {
+  const R = PANEL.rebuttal;
+  const N = R.post_units;
+  const fate = [
+    ["held (no visible change)", (R.overall.not_observed + (R.overall.unknown || 0)) / N, "#7f8ca3"],
+    ["strengthened", R.overall.strengthened / N, "#c9a45c"],
+    ["weakened", R.overall.weakened / N, "#e66767"],
+    ["reversed", R.overall.reversed / N, "#d55181"],
+    ["clarified only", R.overall.clarified / N, "#9085e9"],
+  ];
+  const maxF = fate[0][1];
+  document.getElementById("reb-fate").innerHTML = fate.map(([l, v, c]) =>
+    `<div class="vp-row"><div class="vp-l">${l}</div>
+     <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * v / maxF}%;background:${c};height:11px"></div></div>
+     <div class="rx-n" style="color:${c}">${pct(v)}</div></div>`).join("");
+  const trigOrder = ["new_evidence", "clarification", "revision", "other"];
+  const trigLabel = { new_evidence: "new experiments / data", clarification: "clarification / argument", revision: "manuscript revision", other: "other / unclassified" };
+  document.getElementById("reb-trig").innerHTML = trigOrder.map(k => {
+    const t = PANEL.rebuttal.triggers[k]; if (!t) return "";
+    const n = (t.strengthened || 0) + (t.weakened || 0) + (t.reversed || 0) + (t.clarified || 0);
+    const segs = [["strengthened", "#c9a45c"], ["clarified", "#7f8ca3"], ["weakened", "#e66767"], ["reversed", "#d55181"]]
+      .map(([kk, c]) => `<span style="width:${100 * (t[kk] || 0) / n}%;background:${c}" title="${kk} ${pct((t[kk] || 0) / n)}"></span>`).join("");
+    const soft = ((t.weakened || 0) + (t.reversed || 0)) / n;
+    return `<div class="vp-row"><div class="vp-l">${trigLabel[k]}</div><div class="vp-bar grow">${segs}</div><div class="vp-n">softens ${pct(soft)}</div></div>`;
+  }).join("");
+  document.getElementById("reb-stats").innerHTML = [
+    [pct((R.overall.weakened + R.overall.reversed) / N), "of post-response judgments soften at all"],
+    [pct(R.overall.reversed / N), "are outright reversed"],
+    ["2.5×", "judgments strengthen rather than soften, whatever the response contains"],
+  ].map(([v, l]) => `<div><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+})();
+
+// ---------------- the tribunal (Plate VII) ----------------
+(function tribunal() {
+  const T = PANEL.tribunal;
+  const rows = Object.entries(T.per_category)
+    .sort((a, b) => (a[1].accept_with - a[1].accept_without) - (b[1].accept_with - b[1].accept_without));
+  const LO = 0.28, HI = 0.5;
+  const X = v => Math.max(0, Math.min(100, 100 * (v - LO) / (HI - LO)));
+  document.getElementById("tribunal").innerHTML = rows.map(([k, v]) => {
+    const d = (v.accept_with - v.accept_without) * 100;
+    return `<div class="lift-row"><div class="vp-l">${objLabel[k]}</div>
+      <div class="lift-track" title="${objLabel[k]}: accepted ${pct(v.accept_with)} with negative units (n=${fmt(v.n_with)}), ${pct(v.accept_without)} without">
+        <div class="lift-axis" style="left:${X(T.base_accept)}%"></div>
+        <div class="lift-line grow" style="left:${Math.min(X(v.accept_with), X(v.accept_without))}%;width:${Math.abs(X(v.accept_with) - X(v.accept_without))}%"></div>
+        <div class="lift-dot dotfade" style="left:${X(v.accept_without)}%;border:1.5px solid #b3aa99;border-radius:50%;background:none"></div>
+        <div class="lift-dot dotfade" style="left:${X(v.accept_with)}%;border-radius:50%;background:${d < -5 ? "#e66767" : d < -1 ? "#c98500" : "#7f8ca3"}"></div>
+      </div>
+      <div class="lift-n">${d >= 0 ? "+" : ""}${d.toFixed(1)}pp</div></div>`;
+  }).join("");
+})();
+
+// ---------------- the panel (Plate VIII) ----------------
+(function panel() {
+  const rows = Object.entries(PANEL.dissent).sort((a, b) => (b[1].contested / b[1].base) - (a[1].contested / a[1].base));
+  const maxR = rows[0][1].contested / rows[0][1].base;
+  document.getElementById("dissent").innerHTML = rows.map(([k, v]) => {
+    const r = v.contested / v.base;
+    return `<div class="vp-row"><div class="vp-l">${objLabel[k]}</div>
+      <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * r / maxR}%;background:#9085e9;height:11px"></div></div>
+      <div class="vp-n">${pct(r)}</div></div>`;
+  }).join("");
+  const mv = PANEL.meta.meta_reviewer.val_share, ov = PANEL.meta.official_reviewer.val_share;
+  document.getElementById("panel-stats").innerHTML = [
+    [pct(ov.negative) + " → " + pct(mv.negative), "negativity: official panel → meta-reviewer"],
+    [pct(ov.positive) + " → " + pct(mv.positive), "positivity: the judge is kinder than the prosecution"],
+    [fmt(PANEL.meta.meta_reviewer.n), "meta-reviewer units across nine years"],
+  ].map(([v, l]) => `<div><div class="v" style="font-size:30px">${v}</div><div class="l">${l}</div></div>`).join("");
+})();
+
+// ---------------- specimens (Plate IX) ----------------
+(function explorer() {
+  const host = document.getElementById("reviews");
+  const filters = document.getElementById("filters");
+  const state = { o: "", r: "", v: "", shown: 10 };
+  function sel(id, label, opts) {
+    return `<select id="${id}" aria-label="${label}"><option value="">${label}: all</option>${opts.map(([k, l]) => `<option value="${k}">${l}</option>`).join("")}</select>`;
+  }
+  filters.innerHTML =
+    sel("f-o", "Object", objOrder.map(k => [k, objLabel[k]])) +
+    sel("f-r", "Standard", reaOrder.map(k => [k, reaLabel[k]])) +
+    sel("f-v", "Verdict", VAL_ORDER.map(v => [v, v])) +
+    `<span class="count" id="f-count"></span>`;
+  const esc = s => s == null ? "" : String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const unitMatch = u => (!state.o || u.object_key === state.o) && (!state.r || u.reasoning_key === state.r) && (!state.v || u.valence === state.v);
+  function unitHtml(u, hit) {
+    const impr = u.suggested_improvement ? `<div class="improve"><b>Suggested fix</b> &nbsp;${esc(u.suggested_improvement)}</div>` : "";
+    return `<div class="unit" style="${hit ? "" : "opacity:.35"}"><div class="stripe" style="background:${VAL_COLOR[u.valence]}"></div>
+      <div><div class="tags">
+        <span class="chip">${objLabel[u.object_key]}</span>
+        <span class="chip">${reaLabel[u.reasoning_key]}</span>
+        <span class="chip" style="border-color:${VAL_COLOR[u.valence]};color:${VAL_COLOR[u.valence]}">${u.valence}</span>
+        <span class="chip">${u.support_status}</span>
+      </div>
+      <div class="flow">
+        <div class="step"><div class="sl">Inspected</div><p>${esc(u.inspected_object)}</p></div>
+        <div class="step"><div class="sl">→ Observed</div><p>${esc(u.observation)}</p></div>
+        <div class="step"><div class="sl">→ Reasoned</div><p>${esc(u.reasoning)}</p></div>
+        <div class="step"><div class="sl">→ Judged</div><p>${esc(u.judgment)}</p></div>
+      </div>${impr}</div></div>`;
+  }
+  function render() {
+    const active = state.o || state.r || state.v;
+    const matches = DATA.sample_reviews.filter(rv => !active || rv.units.some(unitMatch));
+    document.getElementById("f-count").textContent = `${matches.length} / ${DATA.sample_reviews.length} REVIEWS`;
+    host.innerHTML = matches.slice(0, state.shown).map(rv => {
+      const dec = rv.decision ? `<span class="chip ${/accept|oral|poster|spotlight/i.test(rv.decision) ? "acc" : /reject/i.test(rv.decision) ? "rej" : ""}">${esc(rv.decision)}</span>` : "";
+      const orForum = `https://openreview.net/forum?id=${encodeURIComponent(rv.paper_id)}`;
+      const orReview = `${orForum}&noteId=${encodeURIComponent(rv.review_id)}`;
+      return `<div class="review-card">
+        <div class="review-head"><a class="title" href="${orForum}" target="_blank" rel="noopener" style="border:none;color:var(--ink)" title="Open the paper's forum on OpenReview">${esc(rv.paper_title || rv.paper_id)}</a>${dec}<a class="rid" href="${orReview}" target="_blank" rel="noopener" style="border:none" title="Open this exact review on OpenReview">REVIEW ${esc(rv.review_id)} · OPENREVIEW ↗</a></div>
+        <div class="summary">${esc(rv.summary)}</div>
+        ${rv.units.map(u => unitHtml(u, !active || unitMatch(u))).join("")}
+      </div>`;
+    }).join("");
+    document.getElementById("more").style.display = matches.length > state.shown ? "" : "none";
+  }
+  for (const [id, key] of [["f-o", "o"], ["f-r", "r"], ["f-v", "v"]])
+    document.getElementById(id).addEventListener("change", e => { state[key] = e.target.value; state.shown = 10; render(); });
+  document.getElementById("more").addEventListener("click", () => { state.shown += 10; render(); });
+  render();
+})();
+
+// ---------------- appendix ----------------
+(function prov() {
+  const rows = [
+    ["LAYER I", "Human reviews — every public ICLR 2026 review and comment, collected from OpenReview (raw, immutable)", "SOURCE"],
+    ["LAYER II", "DeepSeek analytic memos — free-text metascientific analysis per review (Full Layered pipeline, 151,193 memos)", "VERIFIED"],
+    ["LAYER III", "Qwen structured logic units — schema-constrained normalization of memos (review-logic-qwen-2026-full, 74,380 / 75,859 reviews)", "VERIFIED"],
+    ["TAXONOMY", "Induced from a 12,000-unit sample: bge-small embeddings → UMAP + HDBSCAN → human reading of cluster exemplars → 12 objects × 12 standards", "v1"],
+    ["ASSIGNMENT", `Nearest category centroid, cosine. High-confidence (≥0.75): objects ${pct(DATA.confidence.object_share_ge_075)}, standards ${pct(DATA.confidence.reasoning_share_ge_075)}`, "COMPLETE"],
+    ["CONSTELLATIONS", `${fmt(GALAXY.sample_size)} units embedded as "object — reasoning", seeded UMAP 2D; regions clustered (k-means) and named by their own c-TF-IDF terms`, "SEED 11"],
+    ["SCRIPT", `Within-review order over ${fmt(STRUCT.n_reviews)} reviews; arcs computed on the ${fmt(STRUCT.n_reviews_ge3)} with ≥3 units`, "COMPUTED"],
+    ["REBUTTAL", `${fmt(PANEL.rebuttal.post_units)} post-author-response units (Direct) with judgment_change and a keyword reading of update_trigger`, "COMPUTED"],
+    ["TRIBUNAL", `${fmt(PANEL.tribunal.n_papers)} ICLR 2026 papers with decisions (withdrawn excluded), joined to negative-unit presence per category at display time only`, "ASSOCIATION"],
+    ["PANEL", "Meta vs official profiles and per-forum stance conflicts computed on the Direct track (official reviewers, ≥2 touching a category)", "COMPUTED"],
+    ["DRIFT", "1,009,592 units from the Direct track (forum-level memos, all ICLR 2018–2026, 50,861 forums at 98.16% strict coverage), labeled with the same centroids; per-year mean assignment similarity is flat at 0.81, so cross-year comparisons are not a transfer artifact", "2018–2026"],
+  ];
+  document.getElementById("prov").innerHTML = rows.map(([k, d, s]) =>
+    `<div class="prov-row"><span class="k">${k}</span><span class="d">${d}</span><span class="s">${s}</span></div>`).join("");
+
+  let html = `<table><tr><th>object \\ standard</th>${reaOrder.map(r => `<th>${reaLabel[r]}</th>`).join("")}<th>total</th></tr>`;
+  for (const o of objOrder)
+    html += `<tr><td>${objLabel[o]}</td>${reaOrder.map(r => `<td>${fmt((matrix[o] || {})[r] || 0)}</td>`).join("")}<td><b>${fmt(objTot[o])}</b></td></tr>`;
+  html += `<tr><td><b>total</b></td>${reaOrder.map(r => `<td><b>${fmt(reaTot[r])}</b></td>`).join("")}<td><b>${fmt(TOTAL)}</b></td></tr></table>`;
+  document.getElementById("tv").innerHTML = html;
+
+  document.getElementById("method").innerHTML = `
+    <dt>What this is not</dt>
+    <dd>Not a direct analysis of raw reviews. Each unit is a two-stage LLM reading (DeepSeek memo → Qwen normalization); the <code>support_status</code> tag records whether a unit is grounded in the reviewer's explicit words or inferred by the memo. The ${pct(valTot.negative / TOTAL)} negative share reflects the memos' bias toward articulating the logic of criticism — it is not the sentiment ratio of human reviews.</dd>
+    <dt>Known limits</dt>
+    <dd>Reasoning-side clustering had 61.5% noise, so the standard taxonomy is a skeleton induced from ~40% of the sample; assignment confidence is reported per unit. The structuring model's phrasing conventions may influence embeddings. 1,479 reviews (1.9%) failed extraction and are excluded; topic correlation of that missingness is unverified. Constellation names are automatic; they describe, not define, their regions.</dd>
+    <dt>Leakage control</dt>
+    <dd>Outcome metadata (decisions, scores) was never shown to the extraction pipeline; decisions are joined only at display time, in the specimen cards.</dd>`;
+})();
+
+// ---------------- reliability (Appendix) ----------------
+(function reliability() {
+  const R = PANEL.reliability;
+  const hm = document.getElementById("reliab");
+  hm.style.gridTemplateColumns = `230px repeat(${R.years.length}, 1fr)`;
+  hm.insertAdjacentHTML("beforeend", `<div></div>` + R.years.map(y => `<div class="cl" style="writing-mode:horizontal-tb;transform:none;align-self:center">'${String(y).slice(2)}</div>`).join(""));
+  for (const o of objOrder) {
+    const vals = R.memo_inferred_share[o]; if (!vals) continue;
+    hm.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    vals.forEach((v, i) => {
+      const cell = document.createElement("div");
+      cell.className = "cell cellfade";
+      cell.style.transitionDelay = Math.min(hm.childElementCount * 4, 900) + "ms";
+      cell.style.background = `color-mix(in oklab, #9085e9 ${Math.round(v * 130)}%, #161324)`;
+      cell.addEventListener("mousemove", e => showTip(e, `<div class="t">${objLabel[o]} · ${R.years[i]}</div><div class="n">${pct(v)} memo-inferred</div>`));
+      cell.addEventListener("mouseleave", hideTip);
+      hm.appendChild(cell);
+    });
+  }
+})();
+
+// ---------------- lexicon + term definitions ----------------
+const VAL_DEFS = {
+  negative: "The unit concludes against the paper on this point.",
+  positive: "The unit concludes in the paper's favor on this point.",
+  conditional: "Approval contingent on a stated fix, experiment, or condition being met.",
+  uncertain: "The reviewer explicitly withholds judgment — unsure either way.",
+  mixed: "Praise and criticism inseparably combined in one judgment.",
+};
+const DEFS = [];
+for (const c of objCats) DEFS.push({ label: c.label_en, kind: "OBJECT OF SCRUTINY", def: c.definition, share: objTot[c.key] / TOTAL });
+for (const c of reaCats) DEFS.push({ label: c.label_en, kind: "REASONING STANDARD", def: c.definition, share: reaTot[c.key] / TOTAL });
+for (const v of VAL_ORDER) DEFS.push({ label: v, kind: "VERDICT", def: VAL_DEFS[v], share: valTot[v] / TOTAL });
+DEFS.sort((a, b) => b.label.length - a.label.length);
+
+(function lexicon() {
+  const groups = [
+    ["The twelve objects of scrutiny", objCats.map(c => [c.label_en, c.definition, objTot[c.key] / TOTAL])],
+    ["The twelve reasoning standards", reaCats.map(c => [c.label_en, c.definition, reaTot[c.key] / TOTAL])],
+    ["The five verdicts", VAL_ORDER.map(v => [v, VAL_DEFS[v], valTot[v] / TOTAL])],
+  ];
+  document.getElementById("lexicon-body").innerHTML = groups.map(([title, rows]) =>
+    `<div><h3>${title}</h3><dl>${rows.map(([l, d, sh]) =>
+      `<dt>${l}<span class="sh">${pct(sh)}</span></dt><dd>${d}</dd>`).join("")}</dl></div>`).join("");
+})();
+
+(function termHovers() {
+  function findDef(text) {
+    const t = text.trim().toLowerCase();
+    if (!t || t.length < 4) return null;
+    for (const d of DEFS) {
+      const l = d.label.toLowerCase();
+      if (t.startsWith(l) || l.startsWith(t.replace(/[·↔→].*$/, "").trim())) return d;
+    }
+    return null;
+  }
+  function attach(el, d) {
+    el.classList.add("deft");
+    el.addEventListener("mousemove", e => showTip(e,
+      `<div class="t">${d.label}</div><div class="n">${d.kind} · ${pct(d.share)} of units</div><div style="margin-top:5px;font-size:12px;color:var(--ink-2)">${d.def}</div>`));
+    el.addEventListener("mouseleave", hideTip);
+  }
+  const sels = [".vp-l", ".hm .rl", ".hm .cl", ".legend .chip", ".lex-grid dt", "#dissect .d-row span:first-child"];
+  for (const el of document.querySelectorAll(sels.join(","))) {
+    const d = findDef(el.textContent);
+    if (d) attach(el, d);
+  }
+  for (const el of document.querySelectorAll("svg text")) {
+    const d = findDef(el.textContent);
+    if (d) attach(el, d);
+  }
+})();
+
+// ---------------- dynamics ----------------
+(function dynamics() {
+  if (REDUCED || !("IntersectionObserver" in window)) return;
+  const sankeyPlate = document.getElementById("sankey").closest(".plate");
+  let sankeyDone = false;
+  const io = new IntersectionObserver(entries => {
+    for (const en of entries) {
+      if (!en.isIntersecting) continue;
+      en.target.classList.add("in", "in-view");
+      if (en.target === sankeyPlate && !sankeyDone && window.__sankeyReveal) { sankeyDone = true; window.__sankeyReveal(); }
+      for (const path of en.target.querySelectorAll("path[data-draw]")) {
+        const len = path.getTotalLength();
+        path.style.strokeDasharray = len;
+        path.style.strokeDashoffset = len;
+        path.getBoundingClientRect();
+        path.style.transition = "stroke-dashoffset 1.6s cubic-bezier(.3,.6,.2,1) .2s";
+        path.style.strokeDashoffset = "0";
+        setTimeout(() => { path.style.strokeDasharray = "none"; path.style.transition = ""; }, 2100);
+      }
+      io.unobserve(en.target);
+    }
+  }, { threshold: 0.12 });
+  for (const el of document.querySelectorAll(".plate, .plate-head")) {
+    el.classList.add("reveal");
+    io.observe(el);
+  }
+  // count-up on title-page spec
+  for (const el of document.querySelectorAll(".cnt")) {
+    const target = +el.dataset.n, t0 = performance.now(), dur = 1500;
+    (function tick(t) {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString("en-US");
+      if (k < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+})();
+</script>

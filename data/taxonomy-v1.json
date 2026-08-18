@@ -1,0 +1,37 @@
+{
+  "version": "v1",
+  "created_from": "clusters-inspected_object.json / clusters-reasoning.json (12k sample, seed 7)",
+  "notes": [
+    "Categories were induced by human reading of HDBSCAN cluster exemplars.",
+    "Excluded from centroids: inspected_object cluster 13 (heterogeneous), reasoning cluster 10 (meta/mixed norm phrasing).",
+    "Assignment = nearest category centroid (mean of member-cluster embeddings), cosine similarity stored per unit."
+  ],
+  "inspected_object": [
+    {"key": "empirical_scope", "label_ja": "実験の範囲・一般化可能性", "label_en": "Empirical scope & generalizability", "clusters": [20, 12, 23, 33, 32, 27, 19, 1], "definition": "Breadth and representativeness of empirical evaluation: dataset scale, benchmark coverage, generalization to other models/settings, robustness scope, attack/threat coverage."},
+    {"key": "baselines_ablations", "label_ja": "ベースライン比較・アブレーション", "label_en": "Baselines & ablations", "clusters": [24, 5, 0], "definition": "Choice, fairness, and completeness of baseline comparisons and ablation studies."},
+    {"key": "theory", "label_ja": "理論・仮定・形式的保証", "label_en": "Theory, assumptions & guarantees", "clusters": [22, 21, 4], "definition": "Theoretical assumptions, formal guarantees, proofs, and the loss/objective's formal properties."},
+    {"key": "method_design", "label_ja": "手法設計の正当性", "label_en": "Method design rationale", "clusters": [2, 15, 11, 30, 14, 18], "definition": "Justification of design choices: architecture, reward/objective design, training procedure, mechanism claims."},
+    {"key": "compute_cost", "label_ja": "計算コスト・スケーラビリティ", "label_en": "Compute cost & scalability", "clusters": [17, 7], "definition": "Training/inference computational cost, latency, scalability analysis."},
+    {"key": "clarity", "label_ja": "明瞭性・記述品質", "label_en": "Clarity & presentation", "clusters": [35, 31, 25, 34], "definition": "Writing quality, figures, notation, exposition and structure."},
+    {"key": "novelty", "label_ja": "新規性・貢献の位置づけ", "label_en": "Novelty & contribution", "clusters": [29], "definition": "Novelty of the contribution and its articulation relative to existing methods."},
+    {"key": "related_work", "label_ja": "関連研究・引用", "label_en": "Related work & citations", "clusters": [16], "definition": "Coverage and accuracy of citations and positioning within prior literature."},
+    {"key": "stats_metrics", "label_ja": "統計的厳密性・評価指標", "label_en": "Statistical rigor & metrics", "clusters": [28, 9, 3], "definition": "Statistical reporting, significance, choice and validity of evaluation metrics including LLM-as-judge setups."},
+    {"key": "robustness_sensitivity", "label_ja": "頑健性・感度", "label_en": "Robustness & sensitivity", "clusters": [6, 8], "definition": "Hyperparameter sensitivity, noise robustness, failure-mode analysis."},
+    {"key": "reproducibility", "label_ja": "再現性・コード公開", "label_en": "Reproducibility & code", "clusters": [10], "definition": "Code availability and sufficiency of detail for independent replication."},
+    {"key": "problem_framing", "label_ja": "問題設定・動機", "label_en": "Problem framing & motivation", "clusters": [26], "definition": "Framing, motivation, and significance of the problem being addressed."}
+  ],
+  "reasoning": [
+    {"key": "novelty_standard", "label_ja": "新規性規範", "label_en": "Novelty standard", "clusters": [13], "definition": "Contribution must show conceptual/epistemic difference from prior art, not mere recombination."},
+    {"key": "claim_evidence_match", "label_ja": "主張-証拠スコープ照合", "label_en": "Claim-evidence scope matching", "clusters": [2], "definition": "Generality of claims must be matched by breadth of empirical demonstration."},
+    {"key": "fair_comparison", "label_ja": "公平比較規範", "label_en": "Fair comparison norm", "clusters": [3], "definition": "Baselines must be comparable in tuning, compute, and recency for the comparison to be meaningful."},
+    {"key": "statistical_identifiability", "label_ja": "統計的識別可能性", "label_en": "Statistical identifiability", "clusters": [14], "definition": "Without variance/significance reporting, signal cannot be distinguished from noise."},
+    {"key": "confound_hypothesis", "label_ja": "交絡・別因仮説の構成", "label_en": "Confound / alternative explanation", "clusters": [6, 0], "definition": "Results could be explained by leakage, memorization, weak protocols, or other artifacts."},
+    {"key": "design_justification", "label_ja": "設計正当化要求", "label_en": "Design justification demand", "clusters": [1, 7], "definition": "Design choices need mechanistic grounding or comparison against plausible alternatives."},
+    {"key": "robustness_norm", "label_ja": "頑健性規範", "label_en": "Robustness norm", "clusters": [5], "definition": "A practical method should be stable across hyperparameters and settings."},
+    {"key": "cost_benefit", "label_ja": "実用性のコスト便益", "label_en": "Practical cost-benefit", "clusters": [8, 9], "definition": "Gains must be weighed against computational/engineering cost for practical utility."},
+    {"key": "construct_validity", "label_ja": "測定の構成概念妥当性", "label_en": "Measurement construct validity", "clusters": [4], "definition": "Metrics must actually measure what they claim to measure."},
+    {"key": "reproducibility_norm", "label_ja": "再現可能性規範", "label_en": "Reproducibility norm", "clusters": [16], "definition": "Enough detail must be disclosed for independent re-implementation and verification."},
+    {"key": "presentation_trust", "label_ja": "提示品質=信頼シグナル", "label_en": "Presentation as trust signal", "clusters": [15], "definition": "Polish signals care; presentation flaws undermine trust in the work's rigor."},
+    {"key": "merit_recognition", "label_ja": "長所の承認", "label_en": "Merit recognition", "clusters": [12, 11], "definition": "Positive appraisal: breadth/soundness of evidence or contribution acknowledged as convincing."}
+  ]
+}

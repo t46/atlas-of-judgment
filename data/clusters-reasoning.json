@@ -1,0 +1,443 @@
+{
+ "field": "reasoning",
+ "model": "BAAI/bge-small-en-v1.5",
+ "sample_size": 12000,
+ "min_cluster_size": 60,
+ "n_clusters": 17,
+ "noise_points": 7382,
+ "noise_share": 0.6152,
+ "clusters": [
+  {
+   "cluster": 13,
+   "size": 836,
+   "share": 0.0697,
+   "valence_counts": {
+    "conditional": 63,
+    "mixed": 13,
+    "negative": 707,
+    "positive": 40,
+    "uncertain": 13
+   },
+   "exemplars": [
+    "The reviewer applies a standard where contribution is measured by epistemic novelty rather than engineering quality or breadth. The existence of prior methods addressing similar limitations negates the perceived value of independent demonstration in a new setting.",
+    "The reviewer applies a novelty standard requiring conceptual differentiation rather than mere technical recombination. By subsuming the paper's core innovation under an existing framework with known taxonomies, the reviewer infers that the contribution reduces to a score formulation insufficient to establish new insight.",
+    "Methodological papers are expected to demonstrate novelty by contrasting with relevant prior art; the absence of this discussion leaves the contribution unclear and potentially redundant.",
+    "The reviewer applies a standard of distinctiveness requiring explicit technical differentiation from cited prior art. The absence of such differentiation, combined with the shared reliance on forward-pass values, leads to the inference that the core contribution lacks sufficient novelty.",
+    "The reviewer holds the expectation that papers proposing techniques with clear antecedents should proactively delineate their novelty. The absence of an explicit argument leaves the contribution unclear, even if the underlying mechanism is similar.",
+    "The reviewer applies a standard that novelty requires more than applying existing techniques without insightful modifications; since these prior forms of consistency enforcement exist, the paper's instantiation (cosine similarity on output logits) is viewed as merely an application rather than a novel contribution.",
+    "While acknowledging novelty, the reviewer applies a standard that novelty of setting is necessary but not sufficient for contribution; it must enable novel technical insights or methods to count as a significant contribution. The reviewer distinguishes between a new problem being valuable versus merely being a benchmarking exercise.",
+    "A contribution must be positioned against prior work not just in performance but in technique; the absence of explicit comparison to existing methods creates a gap in the argumentative structure regarding novelty.",
+    "The reviewer distinguishes between the novelty of the specific mechanism and the foundational nature of the contribution, applying a standard where combining known components in a new way is novel but may not constitute a groundbreaking advance.",
+    "The reviewer applies a normative standard where 'research contributions' require novelty in method or theory, whereas empirical synthesis of existing knowledge is deemed insufficient unless it yields new principles or mechanisms. The paper is evaluated against this genre expectation rather than its internal experimental validity.",
+    "A paper claiming systematic solutions must demonstrate awareness of and differentiation from the existing solution space to establish novelty; limited discussion of this context obscures the contribution's distinctiveness.",
+    "The reviewer applies a standard of novelty requiring distinct technical contributions; because the mechanism is deemed identical to prior art, the paper fails to establish a unique contribution in this core component."
+   ]
+  },
+  {
+   "cluster": 7,
+   "size": 634,
+   "share": 0.0528,
+   "valence_counts": {
+    "conditional": 71,
+    "mixed": 2,
+    "negative": 509,
+    "positive": 23,
+    "uncertain": 29
+   },
+   "exemplars": [
+    "The reviewer holds a standard that theoretical results must explicitly state their domain of applicability. They identify a mismatch between the paper's general-sounding title/abstract ('Distributionally Robust Optimization via Generative Ambiguity Modeling') and the formal scope revealed by Lemma 1, judging this lack of clarity regarding scope to be a soundness issue.",
+    "The reviewer applies an implicit norm that a scientific contribution must be non-obvious relative to the field's existing toolkit. Since the combination of augmentation and domain generalization algorithms is viewed as a straightforward engineering exercise rather than a novel method, it fails to meet the threshold for novelty.",
+    "The reviewer assumes that modifying pretrained models requires principled justification. The counterfactual is that if the base UMM is powerful enough for generation/segmentation/inpainting, fine-tuning might be unnecessary or ad hoc. The absence of this narrative is viewed as a gap in scientific reporting.",
+    "The reviewer infers that this phenomenon is a special case of known issues regarding sparse cost signals rather than a fundamentally new discovery, noting existing works like FCSRL that address similar challenges via representation learning. This leads to a judgment that the paper's contribution may be less novel than claimed if it does not distinguish itself from these alternative paradigms.",
+    "The reviewer assumes that optimizing in latent space under constraints is not automatically safe and risks breaking manifold integrity unless proven otherwise. The paper's claim of 'lightweight gradient optimisation' is treated with suspicion due to this default-skeptical stance toward optimization-based perturbations.",
+    "The concern is about interpretability and confounds: if pre-trained knowledge allows easy guessing, results are not attributable to the optimization algorithm. This suspicion is heightened by the strong performance of the 'global LLM' baseline compared to numeric methods.",
+    "The reviewer applies a standard that papers should position themselves against historical antecedents in their field. The reviewer argues that prior decomposition-based work has documented limitations in complex tasks, and the current paper should address how it overcomes these, despite the domain gap between discriminative classification (Chen et al.) and generative models.",
+    "The reviewer posits that the model might be exploiting sequence-position information provided by positional encodings to solve the task associatively, rather than learning inherent graph positions. If true, the 'geometric memory' could be an artifact of the setup, undermining the central claim.",
+    "The paper claims superiority over state-of-the-art low-rank methods. A single model-task pair is insufficient to establish generalizability or robustness. Experimental breadth serves as a proxy for robustness; without testing across diverse settings, the performance claims cannot be trusted to extend beyond the specific experimental setup.",
+    "If the target representations themselves are unreliable or heterogeneous, aligning degraded deep features to them may propagate noise. The reviewer identifies a hole in the theoretical narrative where the explanation for the method's success cannot simply rely on 'mid-layers are better' if some mid-layers are demonstrably poor.",
+    "The implicit standard is differential contribution: if multiple distortions can destroy BAGs, the paper must demonstrate why PRC is uniquely effective or theoretically interesting. The reviewer suspects PRC's effect might be attributable to generic recompression artifacts rather than specific grid-shifting properties, requiring causal isolation of the degradation variable.",
+    "The marginal utility of the positional embedding is modest relative to other contributions. Additionally, there is ambiguity about whether the baseline uses standard uv PE or no PE, making the claimed benefit difficult to interpret without precise baseline specification."
+   ]
+  },
+  {
+   "cluster": 12,
+   "size": 502,
+   "share": 0.0418,
+   "valence_counts": {
+    "conditional": 5,
+    "mixed": 1,
+    "negative": 11,
+    "positive": 484,
+    "uncertain": 1
+   },
+   "exemplars": [
+    "The reviewer acknowledges specific technical contributions that offer potential practical utility despite overall quality concerns.",
+    "The reviewer values formal mathematical contributions and has engaged sufficiently with the content to assess its originality against existing work.",
+    "The reviewer values the structural completeness and systematic nature of the experimental design.",
+    "The reviewer acknowledges the empirical success of the method despite presentation issues.",
+    "The reviewer accepts the technical execution and experimental rigor as high quality, distinguishing the 'how' (method) from the 'what' (paradigm). This establishes that the paper is technically sound and well-presented, even if the reviewer disagrees with its direction.",
+    "The reviewer acknowledges the substantive nature of the theoretical work provided in the paper.",
+    "The reviewer applies an evaluative standard of intellectual novelty and practical clarity. The explicit recognition of 'novel and efficient' solutions and 'detailed implementation' indicates that the method's core design and procedural transparency are viewed positively, satisfying the expectation for a clear, innovative technical contribution.",
+    "The reviewer acknowledges this coverage as evidence of the method's potential and thoroughness.",
+    "Formal clarity in mathematical presentation is valued by the reviewer.",
+    "The reviewer acknowledges substantive positive performance and versatility as evidence of capability, even if interpretability is questioned elsewhere.",
+    "The reviewer acknowledges the intellectual value of the finding but distinguishes between interesting observations and substantial methodological contributions.",
+    "The reviewer values interpretability of design; because the method's components map transparently onto the stated problem (background distraction), the solution 'makes sense' conceptually before experimental verification, serving as a strong positive evaluation based on conceptual alignment."
+   ]
+  },
+  {
+   "cluster": 15,
+   "size": 454,
+   "share": 0.0378,
+   "valence_counts": {
+    "conditional": 6,
+    "mixed": 8,
+    "negative": 432,
+    "positive": 7,
+    "uncertain": 1
+   },
+   "exemplars": [
+    "Presentation issues signal insufficient polish and undermine trust in the careful reading of results required for an interpretive analysis contribution.",
+    "Minor presentation errors detract from professionalism and clarity.",
+    "Presentation issues contribute to an impression of insufficient polish and may hinder reader understanding.",
+    "Surface-level ambiguities can confuse readers and signal inadequate presentation quality, which matters for communicating complex ideas.",
+    "These issues contribute to an impression of sloppiness and carelessness, impeding the reader's ability to interpret results and reproduce the work. Presentation deficiencies affect the overall evaluation of the paper's professionalism.",
+    "Presentation issues hamper readability and assessment; opacity prevents full evaluation of the work.",
+    "Inconsistent notation and poor readability create barriers to understanding, signaling a lack of rigor in presentation.",
+    "Specific errors in typography and representational failures in figures indicate a lack of careful presentation, which hinders the reader's ability to understand the method and creates confusion about the actual process.",
+    "Inconsistent presentation impedes the reader's ability to interpret visual evidence accurately and compare results directly.",
+    "Surface-level errors and poor formatting undermine professionalism and hinder readability/comparison.",
+    "Presentation errors act as impediments to comprehension, making it difficult for readers to follow the technical details and verify the method's logic.",
+    "Notation inconsistency can signal carelessness in writing; these minor editorial issues contribute to a perception that the presentation needs work."
+   ]
+  },
+  {
+   "cluster": 3,
+   "size": 290,
+   "share": 0.0242,
+   "valence_counts": {
+    "conditional": 22,
+    "mixed": 1,
+    "negative": 255,
+    "positive": 2,
+    "uncertain": 10
+   },
+   "exemplars": [
+    "Comparing against weaker baselines may overstate the proposed method's advantage. The reviewer requests a comparison against the combined model and parameter counts to ensure fairness.",
+    "The absence of newer baselines creates doubt about whether the model can outperform or match results with similar computational cost against the true state of the art; the lack of evidence for superiority over recent methods undermines the performance claim.",
+    "Experimental fairness requires that both baselines and the proposed method are optimally tuned or fairly transferred; lack of clarity suggests potential unfairness or lack of reproducibility.",
+    "Without these baselines, it is unclear if the proposed method achieves a superior cost-quality tradeoff or merely offers a simpler alternative; distinguishing between 'better' and 'simpler' requires different evidentiary burdens.",
+    "Strong claims about outperforming prior methods require engagement with a broader set of baselines to demonstrate robustness across multiple comparison points rather than a single one.",
+    "Without demonstrating that the proposed method outperforms or matches existing variants on standard benchmarks, it is unclear whether the contribution is meaningful or merely incremental; comprehensive baseline comparison is a norm for positioning within the crowded literature.",
+    "Without confirming equal resource allocation, reported improvements could be artifacts of unequal comparison conditions rather than genuine methodological superiority.",
+    "Unusually poor baseline performance raises questions about experimental credibility; it could indicate weak baseline implementation or methodological issues in comparison rather than true superiority of the proposed method.",
+    "A baseline performance collapse under specific experimental conditions suggests either an unfair setup disadvantageous to that baseline or a lack of understanding by the authors regarding why their evaluation conditions cause such dramatic shifts, making comparisons difficult to interpret.",
+    "If baselines are artificially low or depressed due to an unreported evaluation setup, the observed rollout reductions and accuracy improvements may be artifacts of a weak comparison frame rather than genuine method superiority. This creates uncertainty about the robustness of the central empirical claims.",
+    "Fair comparison requires per-method tuning rather than per-task tuning; without clarification, it is uncertain whether the reported performance advantages are due to the method itself or tuning disparities.",
+    "A single baseline is insufficient to establish relative merit or distinguish whether the method is truly better or merely different from existing state-of-the-art approaches."
+   ]
+  },
+  {
+   "cluster": 2,
+   "size": 269,
+   "share": 0.0224,
+   "valence_counts": {
+    "conditional": 35,
+    "negative": 210,
+    "positive": 13,
+    "uncertain": 11
+   },
+   "exemplars": [
+    "Claims about scalability and generality require demonstration across broader datasets, tasks, and model scales; limited scope reduces confidence in generalizability.",
+    "Experimental claims of generalizability require support from diverse and recent datasets; reliance on a single older dataset limits the credibility of broad performance claims.",
+    "A general method should demonstrate robustness across dimensions affecting performance (functional form, noise, size); limited scope weakens claims of generalizability and diagnostic utility.",
+    "Architectural generality claims require breadth of empirical demonstration; inferring general applicability from a single dataset per dimensionality is underdetermined and structurally insufficient.",
+    "A paper claiming a method for a task domain should demonstrate generalizability across multiple datasets within that domain; relying on a single dataset limits evidence of robustness.",
+    "A framework claiming to be generalizable should demonstrate performance across heterogeneous domains; the current evidence does not yet support such broad generalization claims (inductive gap).",
+    "Claims of transferable reasoning ability require demonstration across multiple domains; relying on a single benchmark provides an insufficient empirical basis for broad generalization claims.",
+    "Testing limited to smaller models does not provide sufficient evidence for generalizability claims regarding larger architectures or scales.",
+    "Generalization claims require explicit boundary conditions and robustness characterization rather than demonstration only on favorable test sets.",
+    "A method claiming generality should be tested across task families that stress different capabilities; omission limits the demonstration of generalizability.",
+    "Claims about the method's general applicability require validation across different model families, scales, and training distributions; single-model/dataset results are insufficient to rule out artifacts specific to that distribution.",
+    "Generality must be demonstrated empirically rather than asserted; a narrow set of favorable results cannot support broad claims about the method's applicability to other architectures or settings."
+   ]
+  },
+  {
+   "cluster": 5,
+   "size": 252,
+   "share": 0.021,
+   "valence_counts": {
+    "conditional": 39,
+    "negative": 178,
+    "positive": 10,
+    "uncertain": 25
+   },
+   "exemplars": [
+    "If performance depends on precise hyperparameter choices, the method's robustness and out-of-the-box utility are questionable; current point estimates are insufficient to establish robustness.",
+    "A robust method should not be overly sensitive to hyperparameters; understanding performance across different heterogeneity levels is necessary to establish reliability.",
+    "A robust method should exhibit stable performance across reasonable hyperparameter ranges or provide principled guidance for selection; current sensitivity undermines the claim of meta-level robustness and practical usability.",
+    "Robustness evidence is needed to determine if the method's performance is fragile to hyperparameter choices, which would undermine practical utility.",
+    "A robustness norm dictates that results should not be artifacts of specific hyperparameter choices; demonstrating stability is expected.",
+    "If results are sensitive to this parameter, the robustness of the findings is questionable.",
+    "If hyperparameters are tuned on the test set or chosen arbitrarily, the method may be fragile and its success an artifact of parameter selection rather than architectural property.",
+    "A proposed method should be robust to its own design choices; sensitivity to outliers suggests potential fragility in the contrastive learning objective.",
+    "Heuristic settings without robustness checks suggest the results may be fragile or dependent on specific parameter choices rather than being principled.",
+    "Data-selection methods must be robust to their own tuning knobs; without sensitivity analysis, it is unclear if results are contingent on these specific arbitrary choices rather than principled decisions.",
+    "Without sensitivity analysis, it is unclear if the method's success is contingent on careful hyperparameter tuning or if the results are robust; the current presentation leaves open the possibility that results are cherry-picked or fragile.",
+    "If the method is sensitive to hyperparameters or lacks a principled basis for choosing kernels, its practical usability and reliability may be compromised; clarification is needed to assess whether the design is brittle or robust."
+   ]
+  },
+  {
+   "cluster": 10,
+   "size": 226,
+   "share": 0.0188,
+   "valence_counts": {
+    "conditional": 29,
+    "mixed": 3,
+    "negative": 155,
+    "positive": 28,
+    "uncertain": 11
+   },
+   "exemplars": [
+    "The reviewer applies a norm that empirical claims should be robust across orthogonal evaluation approaches; the concentration of gains in a single metric raises concerns about metric dependence and detector sensitivity, suggesting results may not reflect general progress.",
+    "The reviewer applies a norm that proofs should be commensurate with their assumptions; strong premises may be disproportionate to the conclusions or limit the theorem's robustness.",
+    "The reviewer applies a norm that hyperparameter choices should be justified by the shape of the performance landscape (sensitivity analysis) rather than point performance; suspicion exists that the method might be robust to less rectification, which would weaken the essentiality claim.",
+    "The reviewer holds a norm that reported hyperparameters should be accompanied by robustness analysis to demonstrate stability around the chosen value, probing practical reliability rather than optimality.",
+    "The reviewer applies a generalizability norm expecting conclusions to be tested across different datasets and scenarios to ensure they are not over-stated relative to evidence.",
+    "The reviewer enforces a norm of quantitative rigor where metrics must be internally consistent and derivable from the stated protocol; the discrepancy suggests potential error or undisclosed computation methods.",
+    "The reviewer holds a norm that claims should be supported by a more developed empirical base; preliminary results are deemed insufficient to validate the paper's assertions or the dataset's utility.",
+    "The reviewer applies a norm of meaningful effect sizes, arguing that genuine methodological improvements should be clearly distinguishable from noise; thus, small gaps raise validity concerns.",
+    "The reviewer applies a norm of mechanistic transparency, requiring that claimed contributions be explained at a level permitting replication or falsification. The lack of detail on how arbitrary constraints are handled undermines the robustness claim.",
+    "The reviewer applies a standard of theoretical rigor, though they prioritize empirical evidence over theoretical guarantees.",
+    "The reviewer holds a norm that methods should be validated on current benchmarks to be credible, worrying that learned weighting functions may not transfer to distributionally different newer data.",
+    "The reviewer seeks to ensure generalization and robustness by verifying that findings are not idiosyncratic to a specific dataset choice; consistency across diverse training conditions is treated as an implicit standard for meaningful results."
+   ]
+  },
+  {
+   "cluster": 8,
+   "size": 221,
+   "share": 0.0184,
+   "valence_counts": {
+    "conditional": 20,
+    "mixed": 2,
+    "negative": 170,
+    "positive": 11,
+    "uncertain": 18
+   },
+   "exemplars": [
+    "Practical feasibility requires transparency about aggregate computational costs; a method achieving better regret at prohibitive compute costs may lack genuine practical utility.",
+    "Practical deployability requires understanding if computational overhead negates accuracy gains, especially for large-batch or streaming use cases; without cost-benefit analysis, adoption decisions are hindered.",
+    "Practical viability requires computational cost measurements relative to standard methods.",
+    "Real-world applications require demonstration of practicality; a method's usefulness is not separable from its computational cost.",
+    "A training algorithm's practical viability depends on its overhead; performance gains must be weighed against scalability constraints.",
+    "High compute burden limits practical utility and accessibility; if cost is not intrinsic, the method's scalability is questionable.",
+    "Practical viability depends on the trade-off between accuracy gains and resource consumption; without transparent cost metrics, it is impossible to assess if the performance benefits justify the computational burden, especially at scale.",
+    "For test-time scaling methods, computational cost is a critical factor in assessing practical utility; without efficiency data, the trade-off between performance gain and compute cost cannot be evaluated.",
+    "Practical deployability depends on efficiency; if the added complexity of magnitude matching and interference compensation is not justified by performance gains relative to cost, the method's utility is questionable.",
+    "High computational cost is a practical limitation that may hinder usability, but the argument is underdeveloped without benchmarks or complexity analysis.",
+    "Practical utility claims require cost-benefit transparency. Without data on inference cost or latency, it is impossible to assess whether the higher success rate justifies the significant computational expense.",
+    "Under the norm of practical deployability, the reviewer assesses whether the deployment costs (training overhead) undermine the method's advantage for real-time edge devices. If significant calibration is needed, the practical benefit is diminished."
+   ]
+  },
+  {
+   "cluster": 14,
+   "size": 158,
+   "share": 0.0132,
+   "valence_counts": {
+    "conditional": 8,
+    "mixed": 1,
+    "negative": 147,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "Without statistical tests, it is impossible to determine if observed performance differences are meaningful signals or random noise.",
+    "Without these specifics, it is impossible to verify the robustness of results, interpret the significance of metrics, or understand what variable 'quality' actually manipulated; ambiguity here prevents independent assessment of the empirical findings.",
+    "Without standard errors or confidence intervals, it is impossible to determine if observed improvements are statistically significant or merely due to experimental randomness; small differences might not be meaningful.",
+    "Without variance reporting, it is impossible to rule out that observed improvements are artifacts of specific seeds or datasets rather than robust properties of the method.",
+    "Without testing stability across reasonable parameter ranges, it is impossible to distinguish whether reported phenomena are robust features or artifacts of specific cutoffs.",
+    "Without chance baselines, it is impossible to determine if reported accuracies (e.g., 60%) are impressive or trivial, hindering the assessment of the Chain-of-Embedding application's validity.",
+    "Without measures of variability, it is impossible to determine if the observed degradation across levels is statistically meaningful or within the expected margin of error/noise.",
+    "Empirical performance claims cannot be evaluated without uncertainty quantification; absence makes it impossible to judge significance.",
+    "Without uncertainty estimates, the robustness of performance gaps (e.g., model vs. human) cannot be assessed; without contamination checks, scores may be inflated by training data overlap; without difficulty distribution, diagnostic power is unclear.",
+    "Without knowing the data and activation sources, it is impossible to assess whether the experimental results generalize to real-world settings or meet the required assumptions.",
+    "Without matched conditions, it is impossible to determine if performance differences are due to the method's efficiency or simply the amount of data used, undermining the comparative validity.",
+    "Without exploration of hyperparameter sensitivity, it is impossible to assess whether the method's performance is robust or merely tuned to specific datasets, raising generalizability concerns."
+   ]
+  },
+  {
+   "cluster": 16,
+   "size": 156,
+   "share": 0.013,
+   "valence_counts": {
+    "conditional": 11,
+    "mixed": 1,
+    "negative": 137,
+    "positive": 5,
+    "uncertain": 2
+   },
+   "exemplars": [
+    "Reproducibility requires full transparency; missing details prevent independent replication and verification of the method.",
+    "Completeness and feasibility concerns: without these details, reproducibility cannot be assessed, and claims of manual verification may be superficial.",
+    "Reproducibility requires sufficient detail to re-implement the method. The missing parameters are critical for robustness and quality.",
+    "Reproducibility requires implementation transparency; without clear details, it is difficult to assess computational efficiency, scalability, and practical behavior.",
+    "Reproducibility is a norm for scientific validity; missing details prevent independent verification and building upon the work.",
+    "Reproducibility requires code or detailed implementation specifics; without them, it is difficult to verify results or understand the consequentiality of implementation choices like OT solver parameters.",
+    "Sufficient detail is necessary for others to replicate the results. The absence of these specifics hinders reproducibility.",
+    "Precise specification of data construction is required for reproducibility; vagueness prevents assessment of training set adequacy.",
+    "Adhering to a standard of methodological transparency required for reproducibility, the absence of explicit equations prevents independent replication of the training process.",
+    "Reproducibility and methodological transparency require that published results be independently verifiable; listing parameters without justification prevents understanding the empirical basis for the configuration.",
+    "Reproducibility requires a practitioner to know these specific choices; without them, the method cannot be reliably reproduced or trusted.",
+    "Reproducibility is a precondition for assessing technical novelty; without these specific implementation details, it is impossible to verify if the contribution is distinct from existing prompt-based methods or merely a standard reimplementation."
+   ]
+  },
+  {
+   "cluster": 0,
+   "size": 149,
+   "share": 0.0124,
+   "valence_counts": {
+    "conditional": 16,
+    "negative": 118,
+    "positive": 8,
+    "uncertain": 7
+   },
+   "exemplars": [
+    "Robustness claims should hold against adaptive defenses that would likely emerge in response to a novel attack. Testing only simple defenses provides a lower bound that may not reflect the true resilience of the method against sophisticated countermeasures.",
+    "Attack choices should be justified against alternatives. If the conclusions about robustness are based on a limited set of attacks, they might be attack-specific rather than general. The reviewer expects either a broader set of attacks or a justification for why the chosen subset is sufficient.",
+    "Weak attacks may conflate robust and non-robust models, producing trends that are artifacts of the protocol rather than model properties. Without validation against strongest known attacks, the tools cannot reliably distinguish robustness.",
+    "The reviewer assumes the experimental setup provides more feedback than a real attacker would have. The method's success may hinge on careful tuning that is feasible in controlled experiments but difficult in practice due to epistemic constraints on the attacker.",
+    "The reviewer contrasts this with realistic scenarios where users fine-tune on customer or proprietary data, limiting attacker access. The critique invokes an ecological validity norm: security research should prioritize attacks achievable by realistic adversaries rather than those requiring omnipotent control.",
+    "Real-world validation would provide more evidence of efficacy in realistic settings where unknown implementation details (speculative decoding, streaming logic) could either weaken or strengthen the attack. The current controlled setting cannot capture this uncertainty.",
+    "Design choices may create new attack surfaces exploitable by adaptive attackers; robustness claims need second-order validation",
+    "A robust defense should function regardless of variations in the attacker's behavior or evaluation mechanism. The lack of testing across such variations suggests the current results may not generalize to attackers with different or more sophisticated analyzers.",
+    "Robustness claims require evaluation under multiple attack paradigms to establish generalization; relying on one benchmark with limited perturbation space is insufficient to prove broad-spectrum robustness.",
+    "Sound evaluation of empirical defenses requires adaptive attacks (e.g., backpropagating through the model) as established in robustness literature; using static attacks fails to test if the defense survives adversarial scrutiny from a motivated attacker who knows the architecture.",
+    "In adversarial robustness, a defense must be tested against an attacker specifically targeting it; failure under adaptive attack indicates the core value proposition is unproven.",
+    "Applying the standard adversarial-thinking framework, the defense is not robust against a knowledgeable attacker who can preprocess inputs; therefore, the threat model must be explicitly defined to make the security claim credible."
+   ]
+  },
+  {
+   "cluster": 1,
+   "size": 129,
+   "share": 0.0107,
+   "valence_counts": {
+    "conditional": 14,
+    "negative": 98,
+    "positive": 10,
+    "uncertain": 7
+   },
+   "exemplars": [
+    "Architectural choices should be justified by mechanistic connections to the problem domain and the iterative optimization processes of t-SNE/UMAP, rather than being reported solely based on empirical performance; the lack of justification leaves the model's inductive biases unclear.",
+    "A novel method should justify its specific design choices relative to plausible alternatives within the broader design space; the absence of such comparative analysis leaves the necessity of the gradient-based choice unverified.",
+    "Empirical papers should connect architectural choices to plausible mechanisms. The absence of theoretical rationale makes the design choices appear arbitrary rather than grounded in a coherent theory of operation.",
+    "A new architecture proposal should either dominate on a primary metric or clearly articulate why its specific tradeoff is preferable for a use case; merely adding a point to the Pareto frontier without justification is insufficient contribution.",
+    "The reviewer applies the standard that theoretical proposals for new architectural mechanisms must include evidence of practical viability (e.g., optimization properties), not just mathematical coherence. The reviewer infers that replacing a well-understood mechanism with a more complex one without viability evidence is unjustified speculation driven by theoretical elegance rather than utility.",
+    "Design choices require theoretical or empirical justification to distinguish principled engineering from ad-hoc selection.",
+    "Design choices should be motivated by first principles rather than merely observed performance gains; the absence of a principled explanation for why fusing trajectories with visual features is necessary constitutes a substantive weakness in conceptual justification.",
+    "Design choices require mechanistic justification regarding consistency and optimization landscape impact, not just empirical stability improvements.",
+    "Architectural choices should be motivated by principled considerations such as model scale or computational constraints; without this rationale, it is unclear if the design is optimal for the operating regime.",
+    "Architectural choices require an evidence-based explanation or plausible mechanism connecting the choice to the task. Without this, the method appears arbitrary ('why min, and not some other function?'), leaving the contribution feeling unmotivated.",
+    "An architecture with high complexity must demonstrate necessity by proving superiority over simpler alternatives, not just vanilla baselines. Without this, the engineering tradeoffs are unjustified.",
+    "The mode-collapse narrative appears to be a post-hoc justification for architectural choices rather than a problem empirically demonstrated in the baselines. Without evidence that the premise exists, the motivation is weak."
+   ]
+  },
+  {
+   "cluster": 11,
+   "size": 104,
+   "share": 0.0087,
+   "valence_counts": {
+    "negative": 2,
+    "positive": 101,
+    "uncertain": 1
+   },
+   "exemplars": [
+    "The breadth of empirical validation demonstrates the method's robustness and applicability across different modalities.",
+    "The method demonstrates competence and effective performance through robust empirical evidence.",
+    "Broad validation strengthens the credibility of the findings across different architectures and tasks.",
+    "Despite methodological concerns, the empirical result demonstrates effectiveness in the tested setting.",
+    "The totality of evidence supports the claim of robustness, satisfying the standard for empirical validation.",
+    "Positive empirical outcomes indicate that the method performs effectively on the tested benchmarks.",
+    "Comprehensive evaluation across diverse domains and clear visualization of results demonstrate the robustness and extendability of the method.",
+    "Broad dataset coverage and strong results indicate robustness and effectiveness of the proposed method's integrative approach, serving as a genuine strength despite novelty concerns.",
+    "Empirical results demonstrate the validity and effectiveness of the proposed approach, supporting the core contribution.",
+    "Systematic validation signals thoroughness and reliability of the proposed method's components.",
+    "Strong performance on diverse, relevant benchmarks validates the utility and effectiveness of the proposed method.",
+    "Scale and breadth demonstrate robustness and practical relevance, serving as positive indicators of the method's effectiveness, though they are weighed alongside theory and practicality."
+   ]
+  },
+  {
+   "cluster": 9,
+   "size": 88,
+   "share": 0.0073,
+   "valence_counts": {
+    "conditional": 10,
+    "negative": 67,
+    "positive": 4,
+    "uncertain": 7
+   },
+   "exemplars": [
+    "The reviewer performs a cost-benefit calculation, weighing the gain against the engineering burden. They apply an epistemic standard requiring stronger evidence (error bars, broader coverage) to justify the overhead, questioning if the gain is statistically or practically significant enough to warrant the complexity.",
+    "The reviewer applies a deployment-oriented standard, requiring justification of computational cost against benefits for practical adoption.",
+    "The reviewer applies the norm of scalability, inferring a limitation from the nature of the method (smoothing + integration) rather than from demonstrated failure, assuming computational cost is a legitimate basis for criticism.",
+    "The reviewer employs a cost-benefit standard: if a simpler baseline outperforms the complex framework, the added complexity is unjustified, especially when computational costs are unquantified.",
+    "The reviewer performs an implicit cost-benefit analysis: while these components are theoretically necessary, their complexity hinders deployment and tuning in practice, creating a tension between theoretical validity and practical utility.",
+    "The reviewer challenges the practical viability of the method, questioning whether the engineering complexity is justified by the gains, particularly given the high computational cost.",
+    "The reviewer objects to the framing that downplays the actual computational overhead. While acknowledging the method may be lightweight in practice, the reviewer expects transparency about trade-offs rather than minimization of costs through simplified notation.",
+    "To assess the practical utility of the proposed method, the reviewer requires a comparison against the standard algorithm to understand the cost of approximation in terms of accuracy versus speed.",
+    "Efficiency standard: The reviewer weighs the computational cost of CHARM's fine-tuning approach against cheaper, simpler alternatives, questioning if the pipeline is over-engineered.",
+    "The reviewer reflects a field-wide concern with computational cost, valuing efficiency as a standalone positive attribute without probing potential trade-offs with reasoning quality in edge cases.",
+    "The reviewer applies a deployment-oriented norm where practical utility depends on the cost profile; measuring unmeasured costs prevents a full assessment of the method's practicality.",
+    "The reviewer distinguishes between sample efficiency and compute efficiency, testing whether the central value proposition survives the trade-off of higher computational cost; a practitioner needs to know at what performance level the method becomes preferable despite the cost."
+   ]
+  },
+  {
+   "cluster": 6,
+   "size": 79,
+   "share": 0.0066,
+   "valence_counts": {
+    "conditional": 7,
+    "negative": 68,
+    "uncertain": 4
+   },
+   "exemplars": [
+    "LLM-based evaluation carries inherent risks of bias dependent on vendor/architecture; without validation against human experts or cross-model consistency, results may be artifacts of the specific judge model rather than robust findings.",
+    "If test samples were included in pretraining, reported performance could be an artifact of memorization rather than genuine representation learning; the absence of explicit documentation creates structural ambiguity that undermines the validity of state-of-the-art claims.",
+    "Discrepancy between training objectives (selective enhancement) and inference behavior (universal enhancement with missing semantic guidance) may introduce unnecessary noise for easy samples, violating norms of train-test consistency.",
+    "If scales are derived from training distribution structure, performance on unseen distributions may reflect engineered priors rather than genuine adaptation, threatening generalization validity.",
+    "If test items are drawn from training distributions or repurposed contexts, performance may reflect memorization or dataset-specific heuristics rather than intended reasoning capabilities, undermining measurement validity.",
+    "If there is training data overlap, model performance may reflect memorization or distribution matching rather than genuine generalization, confounding the 'zero-shot' interpretation and undermining the benchmark's core validity claim.",
+    "Using an LLM to judge quality raises concerns about construct separation (potential conflation with novelty measures) and reliability/validity (lack of evidence that the LLM judge is calibrated against ground truth rather than relying on memorized outputs).",
+    "If the preference data is generated by an unvalidated model, the training signal for DPO/GRPO may be suspect, compromising evaluation validity.",
+    "Data contamination threatens the validity of empirical claims; observed performance gains may reflect memorization rather than the method's effectiveness, limiting evidence of generalization.",
+    "LLM-based judgment may introduce bias and circularity; the lack of human verification undermines the social epistemology of the field by making results less persuasive regarding their objectivity, even if internally calibrated.",
+    "If models have memorized evaluation data, performance metrics may reflect recall rather than generalizable capability, violating the norm of proactive validation and contamination awareness.",
+    "If the same models generate the reasoning data and evaluate the outputs, the evaluation chain may be biased or circular, undermining trust in the scores."
+   ]
+  },
+  {
+   "cluster": 4,
+   "size": 71,
+   "share": 0.0059,
+   "valence_counts": {
+    "conditional": 9,
+    "mixed": 1,
+    "negative": 56,
+    "positive": 1,
+    "uncertain": 4
+   },
+   "exemplars": [
+    "The reviewer expects metrics central to claims of improvement to be interpretable in the context of the method's design. Without explanation, readers cannot assess alignment between the method's topic-decomposition goals and the metric's measurement.",
+    "Metrics require clear construct validity and should not conflate distinct phenomena; a counterfactual scenario (correct answer on first attempt with multiple verification rounds) suggests the metric might reflect critic-quality problems rather than reasoning-efficiency problems.",
+    "The reviewer requires theoretical evidence to support central claims about metric validity. The current justification is deemed insufficient to establish the metric's advantage.",
+    "The reviewer questions measurement validity, implying current metrics may not meaningfully capture annotation quality or interpretability despite being quantifiable.",
+    "Automatic metrics designed for factual content may not adequately reflect caption quality or emotional appropriateness; subjective tasks require human judgment to validate utility.",
+    "The reviewer applies a standard of measurement validity, asserting that a metric must withstand scrutiny as a valid operationalization of its construct. Author self-awareness of this confound is not treated as sufficient mitigation.",
+    "Metrics must be interpretable and actually capture what the authors claim they capture; without clarification on padding/masking effects or broader generative metrics, the validity of the reported numbers is uncertain.",
+    "Generative tasks involving aesthetic or perceptual outcomes require user studies or subjective validation because objective metrics do not fully correlate with perceived quality or utility.",
+    "The reviewer applies a construct validity standard: a metric must measure the intended target (difficulty) rather than confounds (noise/OOD). If low-confidence examples are noisy, the signal may be spurious or sensitive to distributional artifacts rather than robust task properties.",
+    "Operational completeness and validity evidence (human correlation) are required to trust that automated metrics track actual judgment quality; formal definitions alone do not guarantee practical reproducibility or validity.",
+    "Metrics must be valid proxies for the constructs they measure; without a precise definition and correlation to human judgments (Composition Quality), the metric's utility is questionable.",
+    "Automatic metrics capture surface-level similarity but can miss conversational quality, personalization nuance, and pragmatic appropriateness; therefore, they cannot directly validate that the outputs are genuinely personalized for the specific user rather than just lexically similar."
+   ]
+  }
+ ]
+}

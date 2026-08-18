@@ -1,0 +1,243 @@
+<meta charset="utf-8">
+<title>The Atlas Method</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #12101f; --raise: #1a1729;
+  --ink: #ece7dc; --ink-2: #b3aa99; --muted: #6f6758;
+  --brass: #c9a45c; --brass-line: rgba(201,164,92,0.28); --brass-faint: rgba(201,164,92,0.13);
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Cormorant Garamond", Georgia, serif;
+  --serif: "Source Serif 4", Georgia, serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.75;
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(201,164,92,0.45); }
+.shell { max-width: 920px; margin: 0 auto; padding: 0 28px 90px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(44px, 6vw, 72px); line-height: 1.02; }
+h2 { font-size: clamp(25px, 3vw, 34px); margin-top: 74px; }
+h3 { font-size: 20px; margin-top: 34px; color: var(--ink); }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); margin-bottom: 16px; }
+.no { font-family: var(--mono); font-size: 10px; letter-spacing: 0.26em; color: var(--muted); margin: 70px 0 -62px; text-transform: uppercase; }
+p, li { color: var(--ink-2); }
+p { margin: 13px 0 0; max-width: 72ch; }
+p b, li b { color: var(--ink); font-weight: 600; }
+em { color: var(--ink); }
+ul { margin: 10px 0 0; padding-left: 20px; }
+li { margin-top: 6px; }
+.nav { display: flex; gap: 22px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; padding: 26px 0 60px; }
+.nav a { border: none; color: var(--ink-2); } .nav a:hover { color: var(--brass); }
+.nav .here { color: var(--brass); }
+code, .path { font-family: var(--mono); font-size: 12px; color: var(--ink); background: rgba(201,164,92,0.07); padding: 1px 5px; border-radius: 2px; }
+pre { background: var(--raise); border: 1px solid var(--brass-faint); border-left: 2px solid var(--brass); padding: 14px 18px; overflow-x: auto; font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--ink); margin: 16px 0 0; }
+pre .c { color: var(--muted); }
+table { border-collapse: collapse; margin-top: 16px; font-size: 12.5px; font-variant-numeric: tabular-nums; max-width: 100%; }
+.tw { overflow-x: auto; }
+th, td { border: 1px solid var(--brass-faint); padding: 6px 11px; text-align: left; color: var(--ink-2); white-space: nowrap; }
+th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
+.callout { border: 1px solid var(--brass-line); background: rgba(22,19,36,0.6); padding: 16px 20px; margin-top: 18px; font-size: 13.5px; color: var(--ink-2); }
+.callout b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); display: block; margin-bottom: 6px; }
+.toc { columns: 2; gap: 40px; margin-top: 20px; font-size: 13.5px; }
+.toc a { display: block; border: none; color: var(--ink-2); padding: 3px 0; }
+.toc a:hover { color: var(--brass); }
+.toc .tno { font-family: var(--mono); font-size: 10px; color: var(--brass); margin-right: 8px; }
+@media (max-width: 700px) { .toc { columns: 1; } }
+footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top: 26px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 26px; text-transform: uppercase; }
+</style>
+
+<div class="shell">
+<nav class="nav"><a href="about.html">About</a><a href="index.html">The Atlas</a><a class="here" href="#">The Method</a></nav>
+
+<div class="eyebrow">Atlas of Judgment · Reproduction Record</div>
+<h1>How the data <em style="font-style:italic">was made</em></h1>
+<p style="font-size:16.5px;margin-top:22px">Every stage from raw collection to the labeled unit databases that all atlas figures are computed from — scripts, models, parameters, seeds, counts, costs, failure modes, and the exact commands. Scope ends at the data layer; the visualizations downstream evolve continuously and are documented in the atlas itself. All counts verified 2026-08-18 by read-only queries.</p>
+
+<div class="toc">
+  <a href="#s0"><span class="tno">00</span>Prerequisites &amp; environment</a>
+  <a href="#s1"><span class="tno">01</span>Collection — OpenReview → raw SQLite</a>
+  <a href="#s2"><span class="tno">02</span>Normalization — provenance only</a>
+  <a href="#s3"><span class="tno">03</span>Layer II — DeepSeek analytic memos</a>
+  <a href="#s4"><span class="tno">04</span>Layer III — Qwen structured units</a>
+  <a href="#s5"><span class="tno">05</span>Retries, merging, and the failure tail</a>
+  <a href="#s6"><span class="tno">06</span>Unit extraction &amp; the induced taxonomy</a>
+  <a href="#s7"><span class="tno">07</span>The actual path — pilots, failures, decisions</a>
+  <a href="#s8"><span class="tno">08</span>What cannot be reproduced</a>
+  <a href="#s9"><span class="tno">09</span>Cost ledger</a>
+</div>
+
+<div class="no" id="s0">00</div>
+<h2>Prerequisites &amp; environment</h2>
+<ul>
+  <li><b>Language &amp; tooling</b>: Python ≥ 3.12 managed with <code>uv</code>; all commands below are <code>uv run python …</code> from the project root. Tests use <code>unittest</code> (<code>uv run python -m unittest discover -s tests</code>; 69 tests, all synthetic fixtures — they never touch production data).</li>
+  <li><b>Key dependencies</b>: <code>openreview-py ≥ 2.4.1</code> (collection), <code>openai ≥ 2.53</code> (OpenAI-compatible clients for DeepSeek/DashScope), <code>jsonschema</code>, and for the taxonomy stage <code>sentence-transformers</code>, <code>umap-learn</code>, <code>hdbscan</code>.</li>
+  <li><b>Credentials</b> (environment variables; never printed or committed): <code>OPENREVIEW_USERNAME</code>/<code>OPENREVIEW_PASSWORD</code> for collection; <code>DEEPSEEK_API_KEY</code> for Layer II; <code>DASHSCOPE_API_KEY</code> for Layer III (in production resolved once per run from 1Password CLI by a supervisor wrapper and exported to the child process).</li>
+  <li><b>Directory contract</b>: <code>data/raw/</code> is written once by collection and thereafter opened read-only by everything else (verified by grep over all scripts: only the normalizer references it, with <code>mode=ro</code>). Every analysis run lives in its own directory under <code>data/analysis/iclr/</code> with a <code>manifest.json</code>, a <code>state.sqlite3</code> request ledger, and per-request <code>outputs/</code>, <code>provider/</code>, <code>validations/</code> evidence files.</li>
+</ul>
+
+<div class="no" id="s1">01</div>
+<h2>Collection — OpenReview → raw SQLite</h2>
+<p><b>Script</b>: <code>scripts/collect_iclr_forums.py</code> (380 lines). One command per year:</p>
+<pre><span class="c"># default --years covers all nine (2018..2026); resumable per year</span>
+uv run python scripts/collect_iclr_forums.py --years 2018 2019 2020 2021 2022 2023 2024 2025 2026</pre>
+<ul>
+  <li><b>Scope decision</b>: ICLR only, 2018–2026, OpenReview as the single source. ICLR was chosen because it publishes reviews of <em>rejected</em> papers; ICML/NeurIPS expose mostly accepted-paper reviews. 2017 was deliberately excluded (not verifiable as an official OpenReview venue). The year range was fixed at the very start of the project; only extraction methods evolved later.</li>
+  <li><b>API version handling</b>: runtime detection, not a hardcoded table. <code>venue_config()</code> first queries OpenReview API v2 for the <code>ICLR.cc/{year}/Conference</code> group; if <code>content.submission_id</code> exists it stays on v2, otherwise falls back to v1 (<code>{venue_id}/-/Blind_Submission</code>). Empirically: 2018–2023 resolved to v1, 2024–2026 to v2.</li>
+  <li><b>Pagination &amp; resilience</b>: cursor pagination (<code>after=&lt;last note id&gt;</code>, <code>sort="id"</code>, page size 100) with <code>details="replies"</code> to fetch the reply graph in the same call; up to 7 retries with exponential backoff (1s→30s cap); a <code>RuntimeError</code> guard if a page makes no progress. Resumable via the <code>after_id</code> cursor persisted per year in <code>collection_status</code>; <code>forums</code> upserts on <code>(year, forum_id)</code> so reruns cannot duplicate.</li>
+  <li><b>No anonymization</b>: notes are serialized as-is (<code>.to_json()</code>), signatures included. The data is public; no PII masking exists anywhere in the pipeline.</li>
+  <li><b>Output</b>: <code>data/raw/iclr/openreview.sqlite3</code> — <code>forums</code> 52,460 rows (2018:935 · 2019:1,419 · 2020:2,213 · 2021:2,594 · 2022:2,617 · 2023:3,792 · 2024:7,404 · 2025:11,672 · 2026:19,814); <code>collection_status</code> 9 rows, all <code>completed=1</code> with stored == expected.</li>
+</ul>
+<div class="callout"><b>Known limitation</b>Completeness is self-reported: the expected count comes from page one of the same run that then satisfies it. No post-hoc reconciliation against live OpenReview exists (<code>inventory_iclr.py</code> fetches live counts but writes only to <code>data/inventory/</code>, never cross-checks the raw DB). If OpenReview content changed after collection, the raw snapshot would not notice.</div>
+
+<div class="no" id="s2">02</div>
+<h2>Normalization — provenance only</h2>
+<p><b>Script</b>: <code>scripts/normalize_iclr.py</code> (334 lines). Deterministic and idempotent — per year it deletes and rebuilds inside one transaction; no wall-clock timestamps or randomness (times come from the raw <code>cdate</code>/<code>mdate</code>).</p>
+<pre>uv run python scripts/normalize_iclr.py</pre>
+<ul>
+  <li><b>What it adds</b> — provenance only, no interpretation: <code>classify_kind()</code> strips the API-v2 "edit" wrapper then matches an ordered pattern list (official_review → meta_review → desk_rejection → withdrawal → decision → official_comment → public_comment → comment → unknown); <code>classify_role()</code> reads signature strings (<code>/authors</code>, <code>/reviewer_</code>, <code>/area_chair_</code>, <code>/program_chair</code>, public <code>~</code> profiles) with kind-based fallback.</li>
+  <li><b>Output</b>: <code>data/processed/iclr/analysis.sqlite3</code> — <code>papers</code> 52,460 · <code>messages</code> 792,703. Kind breakdown: official_comment 507,543 · official_review 199,031 · decision 40,821 · meta_review 30,108 · withdrawal 8,235 · public_comment 5,563 · desk_rejection 980 · comment 422 · unknown 0.</li>
+</ul>
+
+<div class="no" id="s3">03</div>
+<h2>Layer II — DeepSeek analytic memos</h2>
+<p><b>Engine</b>: <code>scripts/run_deepseek_pilot.py</code>, model <code>deepseek-v4-flash</code>, thinking disabled, <code>temperature=0.4</code>, no seed. A persistent SQLite budget ledger (<code>budget_state</code>, <code>api_call_attempts</code>) with an <code>fcntl</code> lock keeps spend consistent across interruptions; every run declares a cost cap up front.</p>
+<p>Two production runs share this engine:</p>
+<div class="tw"><table>
+  <tr><th>Run</th><th>Driver</th><th>Stages (max output tokens)</th><th>Output DB</th><th>Memos</th><th>Cost</th></tr>
+  <tr><td>Full Layered (ICLR 2026)</td><td><code>run_iclr_2026_full_layered.py</code></td><td>initial_blind (4k→8k) · trajectory (6k→12k) · paper_synthesis (8k→12k)</td><td><code>production-2026.sqlite3</code></td><td class="n">151,193</td><td class="n">$314.42</td></tr>
+  <tr><td>Direct (2018–2026)</td><td><code>prepare_iclr_direct_production.py</code> + <code>supervise_iclr_direct.py</code></td><td>forum_direct — the whole forum in one call</td><td><code>direct-2018-2026.sqlite3</code></td><td class="n">51,813</td><td class="n">$194.75</td></tr>
+</table></div>
+<ul>
+  <li><b>Prompt contract</b> (canonical text in <code>docs/prompts.md</code>; the rendered prompt of every job is stored verbatim in each DB's <code>jobs</code> table): frame the task as qualitative metascience; <em>never re-review the paper or invent taxonomies</em>; cite evidence by line ID (<code>R-&lt;note_id&gt;:L###</code>); at the initial stage, deliberately hide outcomes and the other reviews.</li>
+  <li><b>Leakage control</b>: decisions, scores, and other outcome metadata are never given to any extraction stage; they are joined only at display time, downstream.</li>
+  <li><b>Method choice</b>: a blind same-model judge preferred Layered over Direct 69–31 in the pilot, but Direct was retained for the nine-year track on cost and error-propagation grounds; Layered feeds the high-resolution 2026 track. This trade-off is recorded, not hidden.</li>
+</ul>
+
+<div class="no" id="s4">04</div>
+<h2>Layer III — Qwen structured units</h2>
+<p><b>Model</b> (both tracks): <code>qwen3.7-flash</code> via DashScope's OpenAI-compatible endpoint <code>https://dashscope-intl.aliyuncs.com/compatible-mode/v1</code>, realtime API, <code>enable_thinking=false</code>, strict JSON-schema output. <b>No temperature or seed is set</b> — provider defaults apply (a documented reproducibility gap; see §08). Each request reads only the Layer II memo — never the raw review. Manifests pin <code>protocol_sha256</code> and schema hashes.</p>
+<h3>Track A — Compact (ICLR 2026, review-level)</h3>
+<pre><span class="c"># input: episode-lite-2026-full-single (one review per shard, 75,859 shards)</span>
+uv run python scripts/qwen_review_logic_batch.py prepare --billing-mode realtime \
+  --output data/analysis/iclr/review-logic-qwen-2026-full …
+uv run python scripts/qwen_review_logic_batch.py run-realtime \
+  --output data/analysis/iclr/review-logic-qwen-2026-full</pre>
+<p>Schema <code>review-logic-compact-v0.1.json</code>: per review, <code>logic_units[]</code> of {inspected_object, observation, reasoning, judgment, valence, suggested_improvement, evidence_refs, support_status, confidence, missing_links} plus a summary and unresolved tensions. Result: <b>74,380 / 75,859 complete (98.1%)</b>, 1,479 failed, $28.79 against a declared $40 cap. The prompt was frozen at pilot v3 after ~10 gated pilot/control runs (batch-API attempts failed with <code>model_not_found</code>; realtime succeeded).</p>
+<h3>Track B — Direct (2018–2026, forum-level)</h3>
+<pre><span class="c"># prepare declares model, schema hashes and a required --cost-cap-usd; run executes with resume</span>
+uv run python scripts/qwen_reviewer_logic_direct.py prepare \
+  --output data/analysis/iclr/reviewer-logic-direct-qwen-full-v1 --cost-cap-usd … 
+uv run python scripts/qwen_reviewer_logic_direct.py run \
+  --output data/analysis/iclr/reviewer-logic-direct-qwen-full-v1
+<span class="c"># subcommands: prepare · run · status · reprocess (local re-validation, no API spend)</span></pre>
+<p>Schema <code>reviewer-logic-direct-v0.1.json</code>: per forum, <code>reviewer_records[]</code> each with logic units carrying <code>temporal_position</code> (initial / post_author_response / meta_assessment / cross_reviewer), <code>update_trigger</code>, and <code>judgment_change</code> (strengthened / weakened / reversed / clarified / not_observed) — the fields behind the rebuttal and drift analyses. Validation is local and strict: JSON-schema plus evidence-reference checking against the memo's line IDs; a response can be HTTP-200 and still be recorded as failed.</p>
+
+<div class="no" id="s5">05</div>
+<h2>Retries, merging, and the failure tail</h2>
+<p>The Direct track's first pass left truncation failures. Two retry rounds re-ran <em>only</em> rows with no parseable provider JSON, at raised output budgets:</p>
+<div class="tw"><table>
+  <tr><th>Round</th><th>Selection</th><th>max_output_tokens</th><th>Result</th></tr>
+  <tr><td><code>retry-24k-v1</code></td><td>7,270 rows</td><td class="n">24,000</td><td>6,223 complete · 1,047 failed</td></tr>
+  <tr><td><code>retry-32k-v1</code></td><td>959 rows</td><td class="n">32,000</td><td>812 complete · 147 failed · $1.36</td></tr>
+</table></div>
+<pre><span class="c"># each round: prepare → run → dry-run merge → apply merge</span>
+uv run python scripts/prepare_qwen_direct_retry.py …
+uv run python -m scripts.merge_qwen_direct_retry \
+  --source-run data/analysis/iclr/reviewer-logic-direct-qwen-full-v1 \
+  --retry-run  data/analysis/iclr/reviewer-logic-direct-qwen-retry-32k-v1 [--apply]</pre>
+<p>The merge tool verifies the retry's ancestry chain through nested manifests (up to 32 levels), refuses to merge unfinished runs, snapshots the target DB via SQLite's online-backup API before applying (<code>state-pre-retry-merge-&lt;utc&gt;.sqlite3</code>), and never overwrites first-attempt provider evidence. Semantic-validation failures (HTTP-200 rows) are deliberately excluded from API retries — enforced by test.</p>
+<p><b>Final coverage</b> (frozen 2026-08-18): <b>strict-complete 50,861 / 51,813 = 98.16%</b>. A weaker "JSON-available" definition (99.73%) exists but is used only with explicit flags. The 952-row tail, exactly classified:</p>
+<div class="tw"><table>
+  <tr><th>Class</th><th>Rows</th><th>Output JSON</th><th>Nature</th></tr>
+  <tr><td>Invalid evidence reference</td><td class="n">709</td><td>yes</td><td>HTTP 200, JSON valid; local reference check failed</td></tr>
+  <tr><td>Schema validation error</td><td class="n">65</td><td>yes</td><td>HTTP 200; local schema check failed</td></tr>
+  <tr><td>Other strict/local validation</td><td class="n">39</td><td>yes</td><td>same family</td></tr>
+  <tr><td>Parse / truncation</td><td class="n">107</td><td>no</td><td>provider response never completed as JSON, even at 32k</td></tr>
+  <tr><td>Provider content-policy refusal</td><td class="n">32</td><td>no</td><td>HTTP 400 <code>DataInspectionFailed</code>; unchanged across 16k→24k→32k — not a token-budget problem</td></tr>
+</table></div>
+
+<div class="no" id="s6">06</div>
+<h2>Unit extraction &amp; the induced taxonomy</h2>
+<p>The final data layer flattens both tracks into per-unit SQLite tables and assigns every unit to an induced taxonomy. Everything here is local compute — zero API cost — and fully scripted:</p>
+<pre><span class="c"># 1) flatten complete records into unit tables</span>
+uv run python scripts/extract_logic_units_2026.py     <span class="c"># → unit-taxonomy-2026-v1/units.sqlite3 · 410,586 units</span>
+uv run python scripts/extract_logic_units_direct.py   <span class="c"># → unit-taxonomy-direct-v1/units.sqlite3 · 1,009,592 units</span>
+
+<span class="c"># 2) induce the taxonomy from a 12,000-unit sample (seed 7)</span>
+uv run python scripts/induce_unit_taxonomy.py --sample-size 12000 --min-cluster-size 60 --seed 7
+
+<span class="c"># 3) hand-write taxonomy-v1.json from the cluster digests, then assign all units</span>
+uv run python scripts/assign_unit_taxonomy.py          <span class="c"># 2026 track</span>
+uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct track, reusing the same centroids</span></pre>
+<ul>
+  <li><b>Selection rule</b>: only <code>status='complete'</code> rows of each source run are extracted (outputs also exist for some failed rows; those are excluded).</li>
+  <li><b>Embedding</b>: <code>BAAI/bge-small-en-v1.5</code>, normalized, batch 256, local. Fields <code>inspected_object</code> and <code>reasoning</code> embedded separately.</li>
+  <li><b>Clustering</b>: UMAP (15 components, 30 neighbors, min_dist 0, cosine, random_state 7) → HDBSCAN (min_cluster_size 60, min_samples 10, EOM). Yield: 36 object clusters (37.6% noise) and 17 reasoning clusters (61.5% noise).</li>
+  <li><b>Human step</b>: cluster exemplars were read and merged by hand into <b>12 objects × 12 standards</b>, with definitions, recorded in <code>taxonomy-v1.json</code>. Two heterogeneous clusters were excluded from centroid construction. No prior scheme (including the project's own Atlas cards) was used as seed.</li>
+  <li><b>Assignment</b>: category centroid = normalized mean of member-cluster sample embeddings (the seeded pipeline re-run reproduces cluster membership exactly — verified); every unit gets its nearest centroid by cosine, with the similarity stored as per-unit confidence. High-confidence (≥0.75) share: objects 94.5%, standards 87.9% (2026 track); per-year mean similarity on the direct track is flat at ~0.81, so cross-year comparisons are not a transfer artifact.</li>
+  <li><b>Caveat</b>: the taxonomy was induced on 2026 compact memos and transferred to the direct track; identical centroids, different memo style. The flat similarity profile is the evidence this transfer holds.</li>
+</ul>
+<p>Everything downstream of these two labeled databases — aggregation files and the atlas's plates — is a separate, continuously evolving layer, documented in the <a href="index.html">atlas</a> appendix itself.</p>
+
+<div class="no" id="s7">07</div>
+<h2>The actual path — pilots, failures, decisions</h2>
+<p>The sections above describe the pipeline as it finally ran. This section records how it actually got there — the small trials, dead ends, and mid-course corrections, in order. Nothing here is retrospective varnish; each item is backed by an artifact directory or manifest still on disk.</p>
+<h3>Every production stage was piloted first</h3>
+<ul>
+  <li>Nothing ran at full scale untried. Pilot ledgers (all read-only verifiable): initial_blind <b>395 pilot jobs</b> ($0.33), trajectory 327 ($0.51), paper_synthesis 100 ($0.52), forum_direct 100 ($0.32), and a dedicated 100-forum method-comparison run ($0.40).</li>
+  <li><b>The method fork</b>: Layered (3 DeepSeek calls per review chain) vs Direct (whole forum in one call) were compared head-to-head on 100 forums, judged blind by the same model — <b>Layered won 69–31</b>. Direct was chosen anyway for the nine-year corpus, on cost and because layered errors propagate downstream. The quality trade was accepted knowingly and recorded, not hidden; Layered still powers the high-resolution 2026 track.</li>
+</ul>
+<h3>The episode detour (a productive failure)</h3>
+<ul>
+  <li>An intermediate "evaluation episode" schema (v0.1, then a leaner v0.2 Lite/Deep) was designed and validated on curated sets: 1,000 stratified reviews (selection seed 20260816) plus 63 deep extractions — both kept as calibration assets.</li>
+  <li>Scaling it to all 75,859 reviews failed three ways in sequence: a first full run was rejected for shallow extraction; a v2 was rejected for templated, copy-paste fields; three calibration configs were then run head-to-head (r5-low, r15-medium, r8-medium-v3) and <b>r8-medium-v3 adopted</b> — but the projected wall-clock for the full corpus was roughly a week, and the run was deliberately stopped mid-flight (~9,774 shards planned).</li>
+  <li>The agentic Luna engine itself was then retired for this job: it had completed 876 of 75,859 with 186 failures when it was stopped "safely" and the whole extraction was re-designed around a lighter compact schema on Qwen. The 876 Luna outputs were kept as a comparison baseline, not merged.</li>
+</ul>
+<h3>The Qwen gauntlet (compact track)</h3>
+<ul>
+  <li>Batch API first: <b>0 of 27 pilot requests succeeded</b> (<code>model_not_found</code> on the batch endpoint). Switched to the realtime endpoint: 22/27. Two single-review control runs followed (46/54, then 53/54), a two-reviews-per-request packing was tried and <b>rejected for coverage loss</b>, and a 206-request load test (203 ok) served as the final go/no-go gate before the 75,859-request production run.</li>
+</ul>
+<h3>Direct-track fits and starts</h3>
+<ul>
+  <li>Pilot v1: <b>0/90</b> — a dead end. v2 stalled with most requests stuck in <code>prepared</code>. v3 completed exactly one forum. v4 reached 79/90 and froze the method; only then did the 51,813-forum production run launch.</li>
+</ul>
+<h3>The truncation ladder</h3>
+<ul>
+  <li>The first full pass (16k output tokens) left <b>7,166 truncated responses</b>. A retry round at 24k re-ran 7,270 eligible rows and recovered 6,223. The 959 still failing were retried at 32k, recovering 812 more. <b>107 rows never parsed at any budget</b> and remain excluded.</li>
+  <li>A separate cluster of <b>32 rows failed identically at 16k, 24k, and 32k</b> with the provider's content-policy refusal (<code>DataInspectionFailed</code>, HTTP 400) — proof this failure mode has nothing to do with token budgets. They were not retried further; only successes were merged, each merge preceded by an automatic online-backup snapshot of the target database.</li>
+  <li>Semantic-validation failures (813 rows with valid JSON that failed local evidence/schema checks) were deliberately <em>excluded</em> from every retry round — re-billing the API cannot fix a local validation rule; that exclusion is enforced by a unit test.</li>
+</ul>
+<h3>Small scars, recorded</h3>
+<ul>
+  <li>The 32k retry's supervisor shell script crashed <em>after</em> all 959 rows were committed — it used <code>status</code>, a reserved zsh variable, as a local. Renamed to <code>exit_status</code>; zero data impact, but the lesson is written down.</li>
+  <li>Two one-off manual repairs patched earlier pilot artifacts (28 malformed episode IDs migrated via a hardcoded table; 7 placeholder chain-templates restored by hand). Both are irreproducible-by-construction and flagged in §08.</li>
+  <li>The taxonomy stage had its own iteration: reasoning-side clustering came back with 61.5% noise (vs 37.6% for objects), so the standard taxonomy was accepted as a skeleton induced from the clusterable ~40% — reported as a limitation rather than silently smoothed over.</li>
+</ul>
+
+<div class="no" id="s8">08</div>
+<h2>What cannot be reproduced</h2>
+<ul>
+  <li><b>LLM sampling</b>: DeepSeek runs at temperature 0.4 without a seed; Qwen sets neither temperature nor seed. Re-running regenerates structurally similar but textually different memos and units. Every <code>seed</code> in the project governs <em>input selection</em>, not model output.</li>
+  <li><b>One-off manual repairs</b>: two hardcoded fix scripts (28 episode IDs; 7 chain templates) patched earlier pilot artifacts and would need conscious re-application after any from-scratch rerun.</li>
+  <li><b>Human judgment points</b>: prompt-freeze timing, calibration-config adoption, and stop decisions are documented but not mechanically reproducible.</li>
+  <li><b>Upstream drift</b>: OpenReview does not expose full edit history; the raw snapshot cannot detect post-collection changes on the platform.</li>
+  <li><b>Hash coverage</b>: protocol/schema SHA-256 pinning covers the Qwen-era runs (16 manifests); older pilot artifacts rely on documentary cross-reference only.</li>
+</ul>
+
+<div class="no" id="s9">09</div>
+<h2>Cost ledger</h2>
+<div class="tw"><table>
+  <tr><th>Stage</th><th>Cost (USD)</th></tr>
+  <tr><td>Collection + normalization</td><td class="n">0 (API-free)</td></tr>
+  <tr><td>DeepSeek Full Layered memos (151,193)</td><td class="n">314.416569</td></tr>
+  <tr><td>DeepSeek Direct memos (51,813)</td><td class="n">194.753528</td></tr>
+  <tr><td>Qwen Direct track incl. both retries</td><td class="n">74.795158</td></tr>
+  <tr><td>Qwen Compact 2026 track</td><td class="n">28.793265</td></tr>
+  <tr><td>Unit extraction, taxonomy, assignment (local)</td><td class="n">0</td></tr>
+</table></div>
+<p style="font-size:13px">Pilot-phase spend (episode schemas, calibrations, judge comparisons) is additional and itemized in the project's internal provenance ledger; there is deliberately no single "grand total" field — sums must be composed explicitly from the stages used.</p>
+
+<footer><span>Atlas of Judgment · Method</span><span>Verified 2026-08-18</span><span>Scope: data creation only</span></footer>
+</div>
