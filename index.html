@@ -351,88 +351,110 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate VIII · The Drift</div>
-    <h2>Nine years of shifting scrutiny</h2>
-    <p class="lede">The same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em> (the forum-level Direct track). Share of reviewer attention per year; the four biggest movers are named, the rest recede.</p>
+    <div class="plate-no">Plate VIII · The Ladder</div>
+    <h2>What each score sounds like</h2>
+    <p class="lede">Join every 2026 review's official rating — never shown to the extraction pipeline — to its logic units, and the scale becomes audible: what a 2 argues about, what an 8 still checks, and where on the ladder the reviewer's own confidence lives.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 8a — What reviewers inspect, 2018 → 2026</div>
-    <div id="drift-obj"></div>
-    <div class="fig-title" style="margin-top:30px">Fig. 8b — The standards they invoke, 2018 → 2026</div>
-    <div id="drift-rea"></div>
-    <div class="fig-title" style="margin-top:30px">Fig. 8c — The hardening: nine-year vitals</div>
-    <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
-    <p class="caption"><b>Fig. 8</b> — The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity holds steady near 77% all nine years. Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that soften has halved, 7.7% in 2018 to 3.4% in 2026 — rebuttals buy half as much as they used to.</p>
+    <div class="fig-title">Fig. 8a — The ladder: verdict mix per rating (ICLR 2026, even scale)</div>
+    <div id="ladder" style="display:flex;flex-direction:column;gap:9px"></div>
+    <div class="legend" id="val-legend-3" style="margin-top:12px"></div>
+    <div class="arc-grid" style="margin-top:34px">
+      <div>
+        <div class="fig-title">Fig. 8b — What a 2 argues vs what an 8 argues (share of units per standard)</div>
+        <div class="legend" style="margin-bottom:10px"><span class="chip"><span class="sw" style="background:#e66767"></span>rating 2</span><span class="chip"><span class="sw" style="background:#199e70"></span>rating 8</span></div>
+        <div id="ladder-cmp" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="stat-lines" id="ladder-stats"></div>
+    </div>
+    <p class="caption"><b>Fig. 8</b> — Ratings are joined at display time only; extraction never saw them. The 2 condemns on novelty and design; the 8 praises (merit 28.9%) yet keeps stress-testing robustness and cost. Two quieter findings: the reviewer's own <em>confidence follows a U</em> — highest at the annihilating 0 (4.2/5) and the rare 10 (3.9), lowest at the hesitant 6 (3.4) — and criticism is most actionable mid-scale: 78% of a 2's or 4's units carry a concrete fix, against 56% at 10 and 67% at 0. The 0 condemns; the 2 prescribes.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate IX · The Rebuttal</div>
+    <div class="plate-no">Plate IX · The Drift</div>
+    <h2>Nine years of shifting scrutiny</h2>
+    <p class="lede">The same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em> (the forum-level Direct track). Share of reviewer attention per year; the four biggest movers are named, the rest recede.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 9a — What reviewers inspect, 2018 → 2026</div>
+    <div id="drift-obj"></div>
+    <div class="fig-title" style="margin-top:30px">Fig. 9b — The standards they invoke, 2018 → 2026</div>
+    <div id="drift-rea"></div>
+    <div class="fig-title" style="margin-top:30px">Fig. 9c — The hardening: nine-year vitals</div>
+    <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
+    <p class="caption"><b>Fig. 9</b> — The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity holds steady near 77% all nine years. Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that soften has halved, 7.7% in 2018 to 3.4% in 2026 — rebuttals buy half as much as they used to.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate X · The Rebuttal</div>
     <h2>Author responses barely move the needle</h2>
     <p class="lede">130,650 units sit after the author response (2018–2026). When the reviewer's judgment moves at all, it moves toward <em>reinforcement</em> two and a half times more often than concession — and no kind of response escapes that ratio.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid">
       <div>
-        <div class="fig-title">Fig. 9a — Fate of a judgment after the author responds</div>
+        <div class="fig-title">Fig. 10a — Fate of a judgment after the author responds</div>
         <div id="reb-fate" style="display:flex;flex-direction:column;gap:8px"></div>
-        <div class="fig-title" style="margin-top:28px">Fig. 9b — What the response contained, and what happened</div>
+        <div class="fig-title" style="margin-top:28px">Fig. 10b — What the response contained, and what happened</div>
         <div id="reb-trig" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="reb-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 9</b> — 9a: shares of all post-response units. 9b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects).</p>
+    <p class="caption"><b>Fig. 10</b> — 10a: shares of all post-response units. 10b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects).</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate X · The Tribunal</div>
+    <div class="plate-no">Plate XI · The Tribunal</div>
     <h2>Which criticism actually kills</h2>
     <p class="lede">13,704 ICLR 2026 papers with decisions. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 10 — Acceptance rate with (●) vs without (○) negative units, per object</div>
+    <div class="fig-title">Fig. 11 — Acceptance rate with (●) vs without (○) negative units, per object</div>
     <div id="tribunal" style="display:flex;flex-direction:column;gap:8px"></div>
-    <p class="caption"><b>Fig. 10</b> — Novelty criticism carries the largest penalty (−10.6pp); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism carry <em>no</em> penalty at all — reviewers complain about cost, but the tribunal does not convict on it. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
+    <p class="caption"><b>Fig. 11</b> — Novelty criticism carries the largest penalty (−10.6pp); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism carry <em>no</em> penalty at all — reviewers complain about cost, but the tribunal does not convict on it. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XI · The Gauntlet</div>
+    <div class="plate-no">Plate XII · The Gauntlet</div>
     <h2>Every new front of criticism costs survival</h2>
     <p class="lede">For each ICLR 2026 paper: on how many of the twelve objects did it draw at least one negative unit — and did it survive? Dot size is the number of papers standing at that breadth.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 11 — Acceptance rate by breadth of criticism</div>
+    <div class="fig-title">Fig. 12 — Acceptance rate by breadth of criticism</div>
     <div id="gauntlet"></div>
-    <p class="caption"><b>Fig. 11</b> — Survival falls almost linearly, roughly five points per additional front, from 57% at three fronts to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
+    <p class="caption"><b>Fig. 12</b> — Survival falls almost linearly, roughly five points per additional front, from 57% at three fronts to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XII · The Panel</div>
+    <div class="plate-no">Plate XIII · The Panel</div>
     <h2>Dissent, and the kinder judge</h2>
     <p class="lede">Where do reviewers of the same paper split — and how does the meta-reviewer differ from the panel they oversee?</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid">
       <div>
-        <div class="fig-title">Fig. 12 — Contested ground: share of forums where reviewers took opposite stances</div>
+        <div class="fig-title">Fig. 13 — Contested ground: share of forums where reviewers took opposite stances</div>
         <div id="dissent" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="panel-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 12</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
+    <p class="caption"><b>Fig. 13</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XIII · The Specimens</div>
+    <div class="plate-no">Plate XIV · The Specimens</div>
     <h2>Raw reasoning, unretouched</h2>
     <p class="lede">232 reviews sampled across every category, shown as their structured logic flows. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview forum, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</p>
   </div>
@@ -459,9 +481,9 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div>
   <div id="prov"></div>
   <details class="table-view"><summary>Full crosstab — object × reasoning standard</summary><div class="tv-wrap" id="tv"></div></details>
-  <div class="fig-title" style="margin-top:30px">Fig. 14 — The instrument's own error: memo-inferred share, object × year</div>
+  <div class="fig-title" style="margin-top:30px">Fig. 15 — The instrument's own error: memo-inferred share, object × year</div>
   <div class="hm-wrap"><div class="hm" id="reliab"></div></div>
-  <p class="caption"><b>Fig. 14</b> — Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
+  <p class="caption"><b>Fig. 15</b> — Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
   <dl class="method" id="method"></dl>
 </section>
 
@@ -478,6 +500,7 @@ const DRIFT = {"years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026], 
 const MINDS = {"minds": {"k": 5, "min_units": 5, "n_reviewers": 98513, "baseline": {"novelty_standard": 0.1017, "claim_evidence_match": 0.0694, "fair_comparison": 0.0967, "statistical_identifiability": 0.0397, "confound_hypothesis": 0.0402, "design_justification": 0.2072, "robustness_norm": 0.0794, "cost_benefit": 0.061, "construct_validity": 0.0265, "reproducibility_norm": 0.0448, "presentation_trust": 0.0816, "merit_recognition": 0.1519}, "year_totals": {"2018": 1168, "2019": 1977, "2020": 2939, "2021": 4437, "2022": 4368, "2023": 5864, "2024": 13256, "2025": 23580, "2026": 40924}, "clusters": [{"cluster": 1, "reviewers": 22632, "share": 0.2297, "neg_rate": 0.7867, "profile": {"novelty_standard": 0.0636, "claim_evidence_match": 0.0445, "fair_comparison": 0.0544, "statistical_identifiability": 0.0249, "confound_hypothesis": 0.0272, "design_justification": 0.5034, "robustness_norm": 0.0473, "cost_benefit": 0.0436, "construct_validity": 0.0205, "reproducibility_norm": 0.0328, "presentation_trust": 0.0571, "merit_recognition": 0.0805}, "ratio": {"novelty_standard": 0.625, "claim_evidence_match": 0.642, "fair_comparison": 0.562, "statistical_identifiability": 0.628, "confound_hypothesis": 0.677, "design_justification": 2.43, "robustness_norm": 0.596, "cost_benefit": 0.714, "construct_validity": 0.775, "reproducibility_norm": 0.733, "presentation_trust": 0.7, "merit_recognition": 0.53}, "year_counts": {"2018": 269, "2019": 443, "2020": 620, "2021": 1049, "2022": 1022, "2023": 1306, "2024": 2802, "2025": 5429, "2026": 9692}}, {"cluster": 0, "reviewers": 21974, "share": 0.2231, "neg_rate": 0.7966, "profile": {"novelty_standard": 0.0554, "claim_evidence_match": 0.1086, "fair_comparison": 0.0572, "statistical_identifiability": 0.0523, "confound_hypothesis": 0.0754, "design_justification": 0.1222, "robustness_norm": 0.1865, "cost_benefit": 0.0963, "construct_validity": 0.0326, "reproducibility_norm": 0.0533, "presentation_trust": 0.0586, "merit_recognition": 0.1014}, "ratio": {"novelty_standard": 0.545, "claim_evidence_match": 1.566, "fair_comparison": 0.592, "statistical_identifiability": 1.316, "confound_hypothesis": 1.876, "design_justification": 0.59, "robustness_norm": 2.35, "cost_benefit": 1.579, "construct_validity": 1.231, "reproducibility_norm": 1.191, "presentation_trust": 0.719, "merit_recognition": 0.667}, "year_counts": {"2018": 218, "2019": 372, "2020": 576, "2021": 940, "2022": 795, "2023": 1100, "2024": 2582, "2025": 4908, "2026": 10483}}, {"cluster": 2, "reviewers": 19194, "share": 0.1948, "neg_rate": 0.6217, "profile": {"novelty_standard": 0.0737, "claim_evidence_match": 0.0612, "fair_comparison": 0.0548, "statistical_identifiability": 0.0241, "confound_hypothesis": 0.0264, "design_justification": 0.1185, "robustness_norm": 0.059, "cost_benefit": 0.0557, "construct_validity": 0.0207, "reproducibility_norm": 0.0415, "presentation_trust": 0.0624, "merit_recognition": 0.4021}, "ratio": {"novelty_standard": 0.725, "claim_evidence_match": 0.882, "fair_comparison": 0.566, "statistical_identifiability": 0.606, "confound_hypothesis": 0.656, "design_justification": 0.572, "robustness_norm": 0.743, "cost_benefit": 0.913, "construct_validity": 0.781, "reproducibility_norm": 0.927, "presentation_trust": 0.765, "merit_recognition": 2.647}, "year_counts": {"2018": 188, "2019": 315, "2020": 514, "2021": 841, "2022": 840, "2023": 1216, "2024": 2822, "2025": 4576, "2026": 7882}}, {"cluster": 4, "reviewers": 18272, "share": 0.1855, "neg_rate": 0.8471, "profile": {"novelty_standard": 0.2692, "claim_evidence_match": 0.0632, "fair_comparison": 0.0654, "statistical_identifiability": 0.0501, "confound_hypothesis": 0.0315, "design_justification": 0.1004, "robustness_norm": 0.0455, "cost_benefit": 0.0437, "construct_validity": 0.0273, "reproducibility_norm": 0.0461, "presentation_trust": 0.1705, "merit_recognition": 0.087}, "ratio": {"novelty_standard": 2.648, "claim_evidence_match": 0.911, "fair_comparison": 0.676, "statistical_identifiability": 1.262, "confound_hypothesis": 0.784, "design_justification": 0.485, "robustness_norm": 0.573, "cost_benefit": 0.717, "construct_validity": 1.028, "reproducibility_norm": 1.029, "presentation_trust": 2.09, "merit_recognition": 0.573}, "year_counts": {"2018": 295, "2019": 493, "2020": 669, "2021": 864, "2022": 960, "2023": 1269, "2024": 2833, "2025": 4550, "2026": 6339}}, {"cluster": 3, "reviewers": 16441, "share": 0.1669, "neg_rate": 0.8476, "profile": {"novelty_standard": 0.0789, "claim_evidence_match": 0.0724, "fair_comparison": 0.2998, "statistical_identifiability": 0.0557, "confound_hypothesis": 0.0377, "design_justification": 0.1124, "robustness_norm": 0.0441, "cost_benefit": 0.0632, "construct_validity": 0.0304, "reproducibility_norm": 0.0469, "presentation_trust": 0.065, "merit_recognition": 0.0936}, "ratio": {"novelty_standard": 0.776, "claim_evidence_match": 1.044, "fair_comparison": 3.1, "statistical_identifiability": 1.402, "confound_hypothesis": 0.937, "design_justification": 0.542, "robustness_norm": 0.555, "cost_benefit": 1.036, "construct_validity": 1.147, "reproducibility_norm": 1.047, "presentation_trust": 0.797, "merit_recognition": 0.616}, "year_counts": {"2018": 198, "2019": 354, "2020": 560, "2021": 743, "2022": 751, "2023": 973, "2024": 2217, "2025": 4117, "2026": 6528}}]}, "rhetoric": {"overall": {"other": 564239, "generalization": 44499, "counterfactual": 66446, "obligation": 250158, "precedent_comparison": 59685, "alternative_explanation": 24565}, "by_standard": {"merit_recognition": {"other": 117661, "precedent_comparison": 7369, "obligation": 28206, "generalization": 3296, "counterfactual": 2042, "alternative_explanation": 557}, "claim_evidence_match": {"generalization": 21008, "obligation": 21717, "counterfactual": 2321, "other": 22927, "alternative_explanation": 1538, "precedent_comparison": 1801}, "fair_comparison": {"counterfactual": 5851, "other": 39512, "precedent_comparison": 18764, "obligation": 29179, "alternative_explanation": 5139, "generalization": 1425}, "design_justification": {"obligation": 38016, "other": 119868, "precedent_comparison": 7780, "counterfactual": 10850, "alternative_explanation": 6180, "generalization": 10387}, "novelty_standard": {"other": 57785, "obligation": 29836, "precedent_comparison": 15339, "alternative_explanation": 1809, "counterfactual": 10429, "generalization": 1920}, "cost_benefit": {"obligation": 18915, "counterfactual": 3282, "other": 33364, "generalization": 997, "precedent_comparison": 1557, "alternative_explanation": 1271}, "confound_hypothesis": {"generalization": 1039, "other": 23889, "obligation": 8682, "counterfactual": 1971, "precedent_comparison": 925, "alternative_explanation": 2774}, "robustness_norm": {"obligation": 25027, "other": 42004, "counterfactual": 3583, "precedent_comparison": 1572, "generalization": 2508, "alternative_explanation": 3145}, "presentation_trust": {"other": 61859, "generalization": 682, "obligation": 15549, "counterfactual": 2119, "precedent_comparison": 3138, "alternative_explanation": 920}, "reproducibility_norm": {"obligation": 21587, "other": 16759, "counterfactual": 1975, "precedent_comparison": 362, "alternative_explanation": 117, "generalization": 176}, "statistical_identifiability": {"other": 16487, "counterfactual": 20818, "precedent_comparison": 623, "generalization": 680, "obligation": 3354, "alternative_explanation": 424}, "construct_validity": {"other": 12124, "obligation": 10090, "generalization": 381, "alternative_explanation": 691, "counterfactual": 1205, "precedent_comparison": 455}}, "by_valence": {"other": {"positive": 170984, "negative": 371755, "uncertain": 2181, "mixed": 18423, "conditional": 896}, "generalization": {"positive": 7159, "negative": 36039, "mixed": 1121, "uncertain": 120, "conditional": 60}, "counterfactual": {"negative": 62382, "positive": 2974, "mixed": 957, "conditional": 55, "uncertain": 78}, "obligation": {"negative": 240356, "positive": 5761, "mixed": 3404, "conditional": 378, "uncertain": 259}, "precedent_comparison": {"negative": 47397, "positive": 10634, "uncertain": 73, "mixed": 1518, "conditional": 63}, "alternative_explanation": {"negative": 22576, "positive": 1398, "mixed": 479, "uncertain": 76, "conditional": 36}}, "by_year": {"other": {"2018": 6472, "2019": 11801, "2020": 15933, "2021": 24324, "2022": 24823, "2023": 35868, "2024": 79637, "2025": 132379, "2026": 233002}, "generalization": {"2018": 468, "2019": 852, "2020": 1163, "2021": 1766, "2022": 1808, "2023": 2477, "2024": 6039, "2025": 10251, "2026": 19675}, "counterfactual": {"2018": 997, "2019": 1647, "2020": 2282, "2021": 3210, "2022": 3086, "2023": 4408, "2024": 8652, "2025": 14109, "2026": 28055}, "obligation": {"2018": 3430, "2019": 5952, "2020": 8692, "2021": 12334, "2022": 11501, "2023": 15444, "2024": 35348, "2025": 62710, "2026": 94747}, "precedent_comparison": {"2018": 905, "2019": 1509, "2020": 2135, "2021": 3110, "2022": 3157, "2023": 4410, "2024": 8825, "2025": 13535, "2026": 22099}, "alternative_explanation": {"2018": 339, "2019": 486, "2020": 766, "2021": 1075, "2022": 978, "2023": 1458, "2024": 3186, "2025": 5504, "2026": 10773}}}, "vitals": {"2018": {"units_per_reviewer": 4.408, "post_share": 0.0982, "soften_rate": 0.0767, "soften_rate_observed": 0.3815}, "2019": {"units_per_reviewer": 3.988, "post_share": 0.1437, "soften_rate": 0.0645, "soften_rate_observed": 0.3184}, "2020": {"units_per_reviewer": 4.523, "post_share": 0.1166, "soften_rate": 0.0823, "soften_rate_observed": 0.3783}, "2021": {"units_per_reviewer": 4.568, "post_share": 0.1425, "soften_rate": 0.0781, "soften_rate_observed": 0.3659}, "2022": {"units_per_reviewer": 4.527, "post_share": 0.1698, "soften_rate": 0.0591, "soften_rate_observed": 0.284}, "2023": {"units_per_reviewer": 4.358, "post_share": 0.1472, "soften_rate": 0.065, "soften_rate_observed": 0.3093}, "2024": {"units_per_reviewer": 4.43, "post_share": 0.1303, "soften_rate": 0.0462, "soften_rate_observed": 0.2819}, "2025": {"units_per_reviewer": 4.602, "post_share": 0.1561, "soften_rate": 0.0409, "soften_rate_observed": 0.2529}, "2026": {"units_per_reviewer": 4.789, "post_share": 0.106, "soften_rate": 0.0337, "soften_rate_observed": 0.2621}}};
 const FIELD = {"years": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"], "stats": {"2018": {"submissions": 935, "withdrawn": 0, "desk_rejected": 0, "decided": 923, "accept_rate": 0.3651, "reviews": 2784, "reviews_per_paper": 3.02, "median_review_words": 360}, "2019": {"submissions": 1419, "withdrawn": 1, "desk_rejected": 0, "decided": 0, "accept_rate": null, "reviews": 4332, "reviews_per_paper": 3.05, "median_review_words": 379}, "2020": {"submissions": 2213, "withdrawn": 2, "desk_rejected": 0, "decided": 2211, "accept_rate": 0.3107, "reviews": 6721, "reviews_per_paper": 3.04, "median_review_words": 393}, "2021": {"submissions": 2594, "withdrawn": 0, "desk_rejected": 0, "decided": 2594, "accept_rate": 0.3311, "reviews": 10022, "reviews_per_paper": 3.86, "median_review_words": 434}, "2022": {"submissions": 2617, "withdrawn": 4, "desk_rejected": 0, "decided": 2613, "accept_rate": 0.4187, "reviews": 10202, "reviews_per_paper": 3.9, "median_review_words": 532}, "2023": {"submissions": 3792, "withdrawn": 0, "desk_rejected": 0, "decided": 3792, "accept_rate": 0.4148, "reviews": 14335, "reviews_per_paper": 3.78, "median_review_words": 516}, "2024": {"submissions": 7404, "withdrawn": 1, "desk_rejected": 0, "decided": 5779, "accept_rate": 0.3911, "reviews": 28028, "reviews_per_paper": 3.86, "median_review_words": 436}, "2025": {"submissions": 11672, "withdrawn": 2997, "desk_rejected": 71, "decided": 8605, "accept_rate": 0.4302, "reviews": 46748, "reviews_per_paper": 4.06, "median_review_words": 410}, "2026": {"submissions": 19814, "withdrawn": 5204, "desk_rejected": 908, "decided": 13704, "accept_rate": 0.3904, "reviews": 75859, "reviews_per_paper": 3.9, "median_review_words": 412}}};
 const RHET = {"forms": ["NORM", "BLOCK", "DOUBT", "ANCHOR", "REACH", "WEIGH"], "validation": {"n_train": 600, "cv_accuracy": 0.685, "cv_macro_f1": 0.666, "per_class_f1": {"NORM": 0.681, "BLOCK": 0.717, "DOUBT": 0.646, "ANCHOR": 0.535, "REACH": 0.696, "WEIGH": 0.724}, "second_annotator_agreement": "42/100 merged (Haiku), kappa 0.29 \u2014 excluded from training"}, "overall": {"WEIGH": 371113, "BLOCK": 59048, "NORM": 301865, "DOUBT": 61827, "ANCHOR": 82514, "REACH": 133225}, "by_standard": {"merit_recognition": {"WEIGH": 112453, "NORM": 42827, "ANCHOR": 2455, "REACH": 830, "BLOCK": 88, "DOUBT": 478}, "claim_evidence_match": {"WEIGH": 15618, "NORM": 23807, "REACH": 27925, "DOUBT": 1624, "ANCHOR": 1163, "BLOCK": 1175}, "fair_comparison": {"BLOCK": 3142, "WEIGH": 28889, "REACH": 6631, "ANCHOR": 22514, "NORM": 24423, "DOUBT": 14271}, "design_justification": {"NORM": 48020, "WEIGH": 65048, "ANCHOR": 14065, "REACH": 37967, "BLOCK": 10429, "DOUBT": 17552}, "novelty_standard": {"DOUBT": 2814, "WEIGH": 42179, "ANCHOR": 34401, "NORM": 31663, "BLOCK": 2557, "REACH": 3504}, "cost_benefit": {"NORM": 21372, "BLOCK": 1755, "DOUBT": 1581, "REACH": 22949, "WEIGH": 10849, "ANCHOR": 880}, "confound_hypothesis": {"REACH": 9741, "WEIGH": 7854, "NORM": 9537, "ANCHOR": 1232, "DOUBT": 9098, "BLOCK": 1818}, "robustness_norm": {"ANCHOR": 1651, "WEIGH": 17144, "NORM": 30286, "REACH": 16689, "DOUBT": 8724, "BLOCK": 3345}, "presentation_trust": {"WEIGH": 48393, "REACH": 1814, "NORM": 20882, "BLOCK": 8958, "ANCHOR": 2444, "DOUBT": 1776}, "reproducibility_norm": {"NORM": 28349, "BLOCK": 6170, "WEIGH": 5539, "DOUBT": 146, "REACH": 556, "ANCHOR": 216}, "statistical_identifiability": {"WEIGH": 11168, "NORM": 7003, "ANCHOR": 1121, "BLOCK": 18367, "REACH": 3680, "DOUBT": 1047}, "construct_validity": {"WEIGH": 5979, "NORM": 13696, "BLOCK": 1244, "REACH": 939, "DOUBT": 2716, "ANCHOR": 372}}, "by_valence": {"WEIGH": {"positive": 156806, "negative": 196485, "uncertain": 1613, "mixed": 15539, "conditional": 670}, "BLOCK": {"negative": 57520, "positive": 695, "mixed": 656, "conditional": 54, "uncertain": 123}, "NORM": {"negative": 275524, "positive": 20906, "mixed": 4558, "uncertain": 419, "conditional": 458}, "DOUBT": {"negative": 57471, "positive": 3096, "conditional": 89, "mixed": 990, "uncertain": 181}, "ANCHOR": {"negative": 72564, "mixed": 1858, "positive": 7941, "uncertain": 76, "conditional": 75}, "REACH": {"negative": 120941, "positive": 9466, "mixed": 2301, "conditional": 142, "uncertain": 375}}, "by_year": {"WEIGH": {"2018": 4382, "2019": 8197, "2020": 10711, "2021": 15993, "2022": 16576, "2023": 24304, "2024": 53181, "2025": 87449, "2026": 150320}, "BLOCK": {"2018": 809, "2019": 1392, "2020": 1953, "2021": 2836, "2022": 2653, "2023": 4021, "2024": 7866, "2025": 12417, "2026": 25101}, "NORM": {"2018": 3953, "2019": 6912, "2020": 10052, "2021": 14517, "2022": 13691, "2023": 18476, "2024": 43328, "2025": 75383, "2026": 115553}, "DOUBT": {"2018": 892, "2019": 1351, "2020": 2138, "2021": 2878, "2022": 2593, "2023": 3493, "2024": 7710, "2025": 13456, "2026": 27316}, "ANCHOR": {"2018": 1214, "2019": 2143, "2020": 2947, "2021": 4238, "2022": 4406, "2023": 6261, "2024": 12206, "2025": 18963, "2026": 30136}, "REACH": {"2018": 1361, "2019": 2252, "2020": 3170, "2021": 5357, "2022": 5434, "2023": 7510, "2024": 17396, "2025": 30820, "2026": 59925}}};
+const SCORE = {"year": 2026, "matched_reviews": 74380, "by_rating": {"0": {"n_reviews": 1279, "units_per_review": 5.4, "valence": {"positive": 0.0362, "negative": 0.911, "conditional": 0.0352, "uncertain": 0.0135, "mixed": 0.0041}, "standards": {"merit_recognition": 0.0509, "presentation_trust": 0.1669, "novelty_standard": 0.2318, "claim_evidence_match": 0.0471, "fair_comparison": 0.0745, "design_justification": 0.1802, "robustness_norm": 0.0469, "statistical_identifiability": 0.0642, "cost_benefit": 0.023, "construct_validity": 0.0358, "confound_hypothesis": 0.0326, "reproducibility_norm": 0.0461}, "improve_rate": 0.6747, "mean_confidence": 4.23}, "2": {"n_reviews": 19430, "units_per_review": 5.63, "valence": {"negative": 0.8534, "uncertain": 0.0269, "positive": 0.0567, "conditional": 0.0584, "mixed": 0.0046}, "standards": {"reproducibility_norm": 0.0331, "robustness_norm": 0.0721, "novelty_standard": 0.1844, "fair_comparison": 0.1023, "presentation_trust": 0.092, "claim_evidence_match": 0.0602, "design_justification": 0.2035, "construct_validity": 0.036, "cost_benefit": 0.0423, "confound_hypothesis": 0.0448, "merit_recognition": 0.0722, "statistical_identifiability": 0.057}, "improve_rate": 0.7781, "mean_confidence": 3.87}, "4": {"n_reviews": 29204, "units_per_review": 5.43, "valence": {"negative": 0.747, "positive": 0.1112, "conditional": 0.0931, "uncertain": 0.0416, "mixed": 0.0071}, "standards": {"novelty_standard": 0.1512, "claim_evidence_match": 0.0696, "statistical_identifiability": 0.0471, "merit_recognition": 0.1168, "fair_comparison": 0.0931, "design_justification": 0.1963, "cost_benefit": 0.0589, "confound_hypothesis": 0.0452, "robustness_norm": 0.0953, "presentation_trust": 0.0654, "construct_validity": 0.0334, "reproducibility_norm": 0.0278}, "improve_rate": 0.7802, "mean_confidence": 3.59}, "6": {"n_reviews": 19372, "units_per_review": 5.51, "valence": {"positive": 0.2133, "negative": 0.5978, "conditional": 0.1227, "uncertain": 0.0569, "mixed": 0.0093}, "standards": {"merit_recognition": 0.196, "novelty_standard": 0.1232, "robustness_norm": 0.1066, "claim_evidence_match": 0.072, "fair_comparison": 0.0744, "design_justification": 0.1688, "cost_benefit": 0.0662, "presentation_trust": 0.0583, "confound_hypothesis": 0.0424, "construct_validity": 0.0318, "statistical_identifiability": 0.0356, "reproducibility_norm": 0.0246}, "improve_rate": 0.7144, "mean_confidence": 3.41}, "8": {"n_reviews": 4910, "units_per_review": 5.68, "valence": {"positive": 0.3237, "negative": 0.4548, "conditional": 0.1472, "uncertain": 0.0649, "mixed": 0.0094}, "standards": {"novelty_standard": 0.116, "merit_recognition": 0.289, "cost_benefit": 0.0604, "design_justification": 0.1437, "claim_evidence_match": 0.0662, "robustness_norm": 0.0904, "construct_validity": 0.0256, "reproducibility_norm": 0.023, "statistical_identifiability": 0.0232, "presentation_trust": 0.0676, "fair_comparison": 0.0575, "confound_hypothesis": 0.0374}, "improve_rate": 0.6286, "mean_confidence": 3.55}, "10": {"n_reviews": 185, "units_per_review": 6.01, "valence": {"negative": 0.348, "positive": 0.4011, "conditional": 0.1655, "uncertain": 0.0818, "mixed": 0.0036}, "standards": {"design_justification": 0.1412, "merit_recognition": 0.3345, "presentation_trust": 0.0836, "claim_evidence_match": 0.0486, "reproducibility_norm": 0.0207, "novelty_standard": 0.1358, "construct_validity": 0.0207, "fair_comparison": 0.0504, "robustness_norm": 0.0809, "cost_benefit": 0.045, "statistical_identifiability": 0.0144, "confound_hypothesis": 0.0243}, "improve_rate": 0.5647, "mean_confidence": 3.88}}};
 
 const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
 const VAL_COLOR = { negative: "#e66767", uncertain: "#9085e9", mixed: "#d55181", conditional: "#c98500", positive: "#199e70" };
@@ -1256,6 +1279,50 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
        <div class="rx-track" title="${objLabel[o]}: fix attached ${pct(imp)}, explicit grounding ${pct(expl)}"><div class="rx-fill grow" style="width:${100 * imp}%"></div><div class="rx-tick" style="left:${100 * expl}%"></div></div>
        <div class="rx-n">${pct(imp)}</div></div>`);
   }
+})();
+
+// ---------------- the ladder (Plate VIII) ----------------
+(function ladder() {
+  const R = SCORE.by_rating;
+  const ratings = Object.keys(R).map(Number).sort((a, b) => b - a);
+  document.getElementById("val-legend-3").innerHTML = valLegendHtml;
+  const host = document.getElementById("ladder");
+  const maxN = Math.max(...ratings.map(r => R[r].n_reviews));
+  host.innerHTML = ratings.map(r => {
+    const d = R[r];
+    const segs = VAL_ORDER.map(v => {
+      const share = d.valence[v] || 0;
+      return `<span style="width:${100 * share}%;background:${VAL_COLOR[v]}" title="${v} ${pct(share)}"></span>`;
+    }).join("");
+    return `<div class="vp-row" style="grid-template-columns:56px 1fr 170px">
+      <div style="font-family:var(--display);font-size:27px;color:var(--brass);text-align:right;line-height:1">${r}</div>
+      <div>
+        <div class="vp-bar grow" style="height:15px">${segs}</div>
+        <div style="height:3px;background:var(--brass);opacity:.45;width:${100 * d.n_reviews / maxN}%;margin-top:3px" title="${fmt(d.n_reviews)} reviews"></div>
+      </div>
+      <div class="vp-n">${fmt(d.n_reviews)} rev · ${d.units_per_review} u · conf ${d.mean_confidence ?? "—"}</div>
+    </div>`;
+  }).join("");
+  // Fig 8b: 2 vs 8 dumbbells
+  const lo = R["2"].standards, hi = R["8"].standards;
+  const rows = reaOrder.map(k => ({ k, lo: lo[k] || 0, hi: hi[k] || 0 }))
+    .sort((a, b) => (b.lo - b.hi) - (a.lo - a.hi));
+  const X = v => Math.min(100, v / 0.30 * 100);
+  document.getElementById("ladder-cmp").innerHTML = rows.map(({ k, lo: l, hi: h }) => `
+    <div class="lift-row" style="grid-template-columns:190px 1fr 96px">
+      <div class="vp-l">${reaLabel[k]}</div>
+      <div class="lift-track" title="${reaLabel[k]}: ${pct(l)} of a 2's units, ${pct(h)} of an 8's">
+        <div class="lift-line grow" style="left:${Math.min(X(l), X(h))}%;width:${Math.abs(X(l) - X(h))}%"></div>
+        <div class="lift-dot dotfade" style="left:${X(l)}%;border-radius:50%;background:#e66767"></div>
+        <div class="lift-dot dotfade" style="left:${X(h)}%;border-radius:50%;background:#199e70"></div>
+      </div>
+      <div class="lift-n">${pct(l)} → ${pct(h)}</div>
+    </div>`).join("");
+  document.getElementById("ladder-stats").innerHTML = [
+    ["91% → 35%", "negativity, rating 0 → rating 10 — the scale is a negativity dial"],
+    ["4.2 · 3.4 · 3.9", "reviewer confidence at 0 · 6 · 10 — certainty lives at the extremes, doubt in the middle"],
+    ["78% vs 56%", "share of units carrying a concrete fix at rating 2–4 vs rating 10 — mid-scale criticism is the most actionable"],
+  ].map(([v, l]) => `<div><div class="v" style="font-size:30px">${v}</div><div class="l">${l}</div></div>`).join("");
 })();
 
 // ---------------- the drift (Plate VI) ----------------
