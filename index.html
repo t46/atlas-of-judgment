@@ -1,3 +1,6 @@
+<!doctype html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
 <title>Atlas of Judgment</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -16,14 +19,14 @@
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.7;
   background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
 a { color: var(--brass); text-decoration: none; }
-.shell { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+.shell { max-width: 1400px; margin: 0 auto; padding: 0 clamp(20px, 3vw, 44px); }
 h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
 .plate-no { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); }
 .rule { display: flex; align-items: center; gap: 12px; color: var(--brass-dim); margin: 6px 0; }
 .rule::before, .rule::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--brass-line)); }
 .rule::after { background: linear-gradient(90deg, var(--brass-line), transparent); }
 .rule span { font-size: 10px; letter-spacing: 0.3em; }
-.lede { color: var(--ink-2); max-width: 64ch; margin: 0; font-size: 15px; }
+.lede { color: var(--ink-2); max-width: 82ch; margin: 0; font-size: 15.5px; }
 .lede em, .caption em { color: var(--ink); font-style: italic; }
 section { padding: 84px 0 6px; }
 .plate-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
@@ -37,7 +40,7 @@ section { padding: 84px 0 6px; }
 .plate::after   { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
 .plate-inner::before { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
 .plate-inner::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
-.caption { font-size: 13px; color: var(--ink-2); margin-top: 14px; max-width: 78ch; }
+.caption { font-size: 13.5px; color: var(--ink-2); margin-top: 14px; max-width: 96ch; }
 .caption b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
 /* title page */
 .titlepage { padding: 42px 0 64px; }
@@ -180,6 +183,21 @@ svg text.deft { cursor: help; }
 .lex-grid dt { font-family: var(--display); font-size: 16.5px; font-weight: 600; }
 .lex-grid dt .sh { font-family: var(--mono); font-size: 9.5px; color: var(--muted); letter-spacing: 0.08em; margin-left: 7px; }
 .lex-grid dd { margin: 1px 0 6px; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+
+/* mobile: wide charts scroll at readable scale instead of shrinking */
+#sankey, #drift-obj, #drift-rea, #gauntlet, #wheel, #arc { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+#sankey svg { min-width: 980px; }
+#drift-obj svg, #drift-rea svg { min-width: 900px; }
+#gauntlet svg { min-width: 760px; }
+#wheel svg { min-width: 560px; }
+#arc svg { min-width: 520px; }
+@media (max-width: 880px) {
+  body { overflow-x: hidden; }
+  .lift-n, .vp-n, .rx-n { white-space: normal; font-size: 10px; }
+  .arc-grid { grid-template-columns: 1fr !important; }
+  .stat-lines .v { font-size: 30px; }
+  #minds-tabs button { padding: 7px 10px; }
+}
 footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28px 0 64px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; text-transform: uppercase; }
 </style>
 
@@ -1034,7 +1052,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   function rose(c) {
     const G = 360, H = 290, cx = G / 2, cy = H / 2, R = 78;
     const svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", `0 0 ${G} ${H}`); svg.style.width = "100%";
+    svg.setAttribute("viewBox", `0 0 ${G} ${H}`); svg.style.width = "100%"; svg.style.maxWidth = "100%"; svg.style.height = "auto";
     const ratios = reaOrder.map(k => c.ratio[k] || 0);
     const topIdx = [...ratios.keys()].sort((a, b) => ratios[b] - ratios[a]).slice(0, 3);
     for (const rr of [0.33, 0.66, 1]) {
@@ -1106,7 +1124,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
           <span>NEG <b style="color:${c.neg_rate < 0.7 ? "#199e70" : "var(--ink)"};font-weight:500">${pct(c.neg_rate)}</b></span>
         </div>
         <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em">${tops.map(([k, r]) => `${reaLabel[k]} <span style="color:var(--brass)">${r.toFixed(1)}×</span>`).join(" &nbsp;·&nbsp; ")}</div>
-        <div style="display:flex;align-items:center;gap:12px;border-top:1px solid var(--brass-faint);padding-top:10px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--brass-faint);padding-top:10px">
           <span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.14em">SHARE OF EACH YEAR'S REVIEWERS '18–'26</span>${spark}
           <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-2)">${pct(mix[0])}→${pct(mix[mix.length - 1])}</span>
         </div>
