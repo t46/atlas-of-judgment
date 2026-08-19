@@ -54,7 +54,12 @@ section { padding: 84px 0 6px; }
 .tp-sub { font-size: 16.5px; color: var(--ink-2); max-width: 46ch; margin-top: 16px; }
 .tp-spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; color: var(--muted); margin-top: 30px; line-height: 2.1; text-transform: uppercase; }
 .tp-spec b { color: var(--brass); font-weight: 500; }
-#planisphere { width: 100%; max-width: 520px; aspect-ratio: 1; justify-self: center; }
+#planisphere { width: 100%; max-width: 520px; aspect-ratio: 1; justify-self: center; cursor: crosshair; }
+#star-card { position: absolute; left: 6px; right: 6px; bottom: 6px; background: rgba(18,16,31,0.94); backdrop-filter: blur(6px); border: 1px solid var(--brass-line); padding: 12px 34px 12px 14px; animation: specIn 0.35s ease both; }
+#star-card .sc-q { font-size: 12.5px; line-height: 1.55; color: var(--ink); font-style: italic; }
+#star-card .sc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+#star-card .sc-x { position: absolute; top: 4px; right: 6px; background: none; border: none; color: var(--muted); font-size: 15px; cursor: pointer; }
+#star-card .sc-x:hover { color: var(--brass); }
 @media (max-width: 900px) { .tp-frame-inner { grid-template-columns: 1fr; } }
 /* controls */
 .bar { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
@@ -108,7 +113,19 @@ svg text { font-family: var(--serif); }
 .stat-lines .v { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--brass); }
 .stat-lines .l { font-size: 13px; color: var(--ink-2); margin-top: 4px; max-width: 30ch; }
 /* explorer */
-.filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+.filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; margin-bottom: 18px; }
+.fpanel { flex: 1 1 230px; min-width: 210px; border: 1px solid var(--brass-faint); padding: 10px 12px 12px; background: rgba(22,19,36,0.5); }
+.fp-t { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); margin-bottom: 8px; }
+.fp-hint { font-family: var(--mono); font-size: 8px; letter-spacing: 0.05em; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+.fbar { display: grid; grid-template-columns: 86px 1fr 30px; gap: 7px; align-items: center; width: 100%; background: none; border: none; padding: 1.5px 0; cursor: pointer; }
+.fbar .fb-l { font-family: var(--mono); font-size: 8.5px; color: var(--ink-2); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fbar .fb-t { height: 7px; background: rgba(201,164,92,0.08); position: relative; }
+.fbar .fb-f { position: absolute; left: 0; top: 0; bottom: 0; transition: width 0.35s ease; }
+.fbar .fb-n { font-family: var(--mono); font-size: 8.5px; color: var(--muted); text-align: left; }
+.fbar:hover .fb-l, .fbar.on .fb-l { color: var(--brass); }
+.fbar.on .fb-t { outline: 1px solid var(--brass-line); outline-offset: 1px; }
+.fbar.off { opacity: 0.4; }
+.fbar.off:hover { opacity: 0.85; }
 .filters select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 8px 12px; font-size: 11.5px; font-family: var(--mono); }
 .filters .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.1em; }
 .unit-toggle { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 1px dashed var(--brass-line); color: var(--brass); padding: 6px 14px; cursor: pointer; margin-top: 10px; align-self: flex-start; transition: background .25s ease, border-color .25s ease; }
@@ -256,8 +273,9 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
         + <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI
       </div>
     </div>
-    <div style="justify-self:center;max-width:520px;width:100%"><canvas id="planisphere" aria-label="circular star chart of all logic units" style="width:100%;aspect-ratio:1"></canvas>
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each star: one of 40,000 units of reviewer logic · brass: a unit of praise</div></div>
+    <div style="justify-self:center;max-width:520px;width:100%;position:relative"><canvas id="planisphere" aria-label="circular star chart of all logic units; click a star to read its unit" style="width:100%;aspect-ratio:1"></canvas>
+    <div id="star-card" hidden></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each star: one of 40,000 real units of reviewer logic · brass: praise · click any star to read it</div></div>
   </div></div>
 </div>
 
@@ -689,9 +707,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const ctx = cv.getContext("2d");
   const raw = GALAXY.points.filter((_, i) => i % 2 === 0);
   // three depth layers with differential rotation
-  const pts = raw.map((p, i) => ({ x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3 }));
+  const pts = raw.map((p, i) => ({ x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3, o: p[2], r: p[3], v: p[4], s: p[5] }));
   const SPEED = [1.0, 0.72, 0.5];
   let w, dpr, mouse = null;
+  let picked = null, lastT = 0, lastProj = null;
   let constellations = [];
   let lastConst = 0;
   function size() {
@@ -799,7 +818,15 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         }
       }
     }
+    if (picked) {
+      const [px, py] = proj(picked);
+      ctx.strokeStyle = "rgba(201,164,92,0.95)"; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.arc(px, py, 6, 0, 6.284); ctx.stroke();
+      ctx.strokeStyle = "rgba(201,164,92,0.4)";
+      ctx.beginPath(); ctx.arc(px, py, 11, 0, 6.284); ctx.stroke();
+    }
     ctx.restore();
+    lastT = t || 0; lastProj = proj;
     if (!REDUCED) requestAnimationFrame(draw);
   }
   function setLens(cx2, cy2) {
@@ -810,6 +837,33 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   cv.addEventListener("mouseleave", () => { mouse = null; });
   cv.addEventListener("touchmove", e => { const tt = e.touches[0]; if (tt) setLens(tt.clientX, tt.clientY); }, { passive: true });
   cv.addEventListener("touchend", () => { mouse = null; });
+  const card = document.getElementById("star-card");
+  function hideCard() { picked = null; card.hidden = true; if (REDUCED) draw(0); }
+  cv.addEventListener("click", e => {
+    if (!lastProj) return;
+    const rct = cv.getBoundingClientRect();
+    const mx = (e.clientX - rct.left) * (w / rct.width), my = (e.clientY - rct.top) * (w / rct.height);
+    let best = null, bestD = 144;
+    for (const p of pts) {
+      const [x, y] = lastProj(p);
+      const d = (x - mx) ** 2 + (y - my) ** 2;
+      if (d < bestD) { bestD = d; best = p; }
+    }
+    if (!best) { hideCard(); return; }
+    picked = best;
+    const vKey = GALAXY.val_order[best.v];
+    card.innerHTML = `<button class="sc-x" aria-label="close">\u00d7</button>
+      <div class="sc-q">\u201c${best.s.replace(/&/g, "&amp;").replace(/</g, "&lt;")}\u201d</div>
+      <div class="sc-tags">
+        <span class="chip">${objLabel[GALAXY.obj_keys[best.o]]}</span>
+        <span class="chip">${reaLabel[GALAXY.rea_keys[best.r]]}</span>
+        <span class="chip" style="border-color:${VAL_COLOR[vKey]};color:${VAL_COLOR[vKey]}">${vKey}</span>
+      </div>`;
+    card.hidden = false;
+    card.querySelector(".sc-x").addEventListener("click", ev => { ev.stopPropagation(); hideCard(); });
+    if (REDUCED) draw(0);
+  });
+  addEventListener("keydown", e => { if (e.key === "Escape") hideCard(); });
   size(); addEventListener("resize", () => { size(); if (REDUCED) draw(0); });
   if (REDUCED) draw(0); else requestAnimationFrame(draw);
 })();
@@ -2130,14 +2184,47 @@ function showDissect(kind, key) {
   const INITIAL = NARROW ? 1 : 3;
   const HEAD = NARROW ? 1 : 2;
   const state = { o: "", r: "", v: "", shown: INITIAL };
-  function sel(id, label, opts) {
-    return `<select id="${id}" aria-label="${label}"><option value="">${label}: all</option>${opts.map(([k, l]) => `<option value="${k}">${l}</option>`).join("")}</select>`;
+  const allUnits = DATA.sample_reviews.flatMap(rv => rv.units);
+  filters.innerHTML = `
+    <div class="fpanel"><div class="fp-t">Object of scrutiny</div><div id="fp-o"></div></div>
+    <div class="fpanel"><div class="fp-t">Standard applied</div><div id="fp-r"></div></div>
+    <div class="fpanel"><div class="fp-t">Verdict</div><div id="fp-v"></div><div class="fp-hint">each bar: units in the 232 specimens.<br>click to filter \u00b7 click again to clear.<br>bars re-count under the other filters.</div></div>
+    <span class="count" id="f-count"></span>`;
+  const DIMS = [
+    ["o", "object_key", objOrder, k => OBJ_SHORT[k] || k, "fp-o"],
+    ["r", "reasoning_key", reaOrder, k => REA_SHORT[k] || k, "fp-r"],
+    ["v", "valence", VAL_ORDER, k => k, "fp-v"],
+  ];
+  function renderFilters() {
+    for (const [dim, field, order, shortOf, hostId] of DIMS) {
+      const counts = {};
+      for (const u of allUnits) {
+        let ok = true;
+        for (const [d2, f2] of DIMS) if (d2 !== dim && state[d2] && u[f2] !== state[d2]) { ok = false; break; }
+        if (ok) counts[u[field]] = (counts[u[field]] || 0) + 1;
+      }
+      const max = Math.max(1, ...order.map(k => counts[k] || 0));
+      document.getElementById(hostId).innerHTML = order.map(k => {
+        const c = counts[k] || 0;
+        const cls = state[dim] === k ? " on" : state[dim] ? " off" : "";
+        const col = dim === "v" ? VAL_COLOR[k] : "#c9a45c";
+        const full = dim === "v" ? k : (dim === "o" ? objLabel[k] : reaLabel[k]);
+        return `<button class="fbar${cls}" data-dim="${dim}" data-k="${k}" title="${full}: ${c} units">`
+          + `<span class="fb-l">${shortOf(k)}</span>`
+          + `<span class="fb-t"><span class="fb-f" style="width:${100 * c / max}%;background:${col}"></span></span>`
+          + `<span class="fb-n">${c}</span></button>`;
+      }).join("");
+    }
   }
-  filters.innerHTML =
-    sel("f-o", "Object", objOrder.map(k => [k, objLabel[k]])) +
-    sel("f-r", "Standard", reaOrder.map(k => [k, reaLabel[k]])) +
-    sel("f-v", "Verdict", VAL_ORDER.map(v => [v, v])) +
-    `<span class="count" id="f-count"></span>`;
+  filters.addEventListener("click", e => {
+    const b = e.target.closest(".fbar");
+    if (!b) return;
+    const d = b.dataset.dim, k = b.dataset.k;
+    state[d] = state[d] === k ? "" : k;
+    state.shown = INITIAL;
+    renderFilters(); render();
+  });
+  renderFilters();
   const esc = s => s == null ? "" : String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   const expanded = new Set();
   let justPaged = null;
@@ -2185,8 +2272,6 @@ function showDissect(kind, key) {
       justPaged = null;
     }
   }
-  for (const [id, key] of [["f-o", "o"], ["f-r", "r"], ["f-v", "v"]])
-    document.getElementById(id).addEventListener("change", e => { state[key] = e.target.value; state.shown = INITIAL; render(); });
   function turnPage() { justPaged = state.shown; state.shown += 10; render(); }
   function closeBook() {
     state.shown = INITIAL; expanded.clear(); render();
