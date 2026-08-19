@@ -255,9 +255,8 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
         + <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI
       </div>
     </div>
-    <div style="justify-self:center;max-width:520px;width:100%;position:relative"><canvas id="planisphere" aria-label="a murmuration of particles performing the four steps of judgment" style="width:100%;aspect-ratio:1"></canvas>
-    <div id="murm-label" style="position:absolute;left:10px;bottom:34px;font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);opacity:0;transition:opacity .5s ease;pointer-events:none"></div>
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each mote: one unit of reviewer logic · brass: praise · when the sky sorts into rings, the bands are the true verdict shares</div></div>
+    <div style="justify-self:center;max-width:520px;width:100%"><canvas id="planisphere" aria-label="circular star chart of all logic units" style="width:100%;aspect-ratio:1"></canvas>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each star: one of 40,000 units of reviewer logic · brass: a unit of praise</div></div>
   </div></div>
 </div>
 
@@ -619,194 +618,135 @@ const valLegendHtml = VAL_ORDER.map(v => `<span class="chip" tabindex="0"><span 
 document.getElementById("val-legend").innerHTML = valLegendHtml;
 document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
-// ---------------- the murmuration (title page) — a sky with weather ----------------
-(function murmuration() {
+// ---------------- planisphere (title page) — living star chart ----------------
+(function planisphere() {
   const cv = document.getElementById("planisphere");
   const ctx = cv.getContext("2d");
-  const label = document.getElementById("murm-label");
-  const INK = [236, 231, 220], BRASS = [201, 164, 92];
-  const VERDICTS = [                       // outer band -> inner band, widths = true shares
-    [0.718, [230, 103, 103]],              // negative
-    [0.094, [201, 133, 0]],                // conditional
-    [0.043, [144, 133, 233]],              // uncertain
-    [0.008, [213, 81, 129]],               // mixed
-    [0.137, [25, 158, 112]],               // positive — the innermost, brightest ring
-  ];
-  const REGIMES = [
-    { key: "orbit", dur: 6500 },
-    { key: "vortex", dur: 5200 },
-    { key: "orbit", dur: 3600 },
-    { key: "rings", dur: 8000 },
-    { key: "orbit", dur: 3600 },
-    { key: "streams", dur: 6200 },
-  ];
-  let S = 520, N = 1400, parts = [], reg = 0, clock = 0, running = false;
-  const mouse = { x: -9e9, y: -9e9 };
-
-  function initParts() {
-    parts = [];
-    // stable verdict assignment in true shares
-    const pool = [];
-    VERDICTS.forEach(([share, col], vi) => { const n = Math.round(N * share); for (let k = 0; k < n; k++) pool.push(vi); });
-    while (pool.length < N) pool.push(0);
-    for (let i = pool.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [pool[i], pool[j]] = [pool[j], pool[i]]; }
-    for (let i = 0; i < N; i++) {
-      const a = Math.random() * 6.2832, r = S * (0.10 + 0.37 * Math.sqrt(Math.random()));
-      const vi = pool[i];
-      const home = r;
-      parts.push({
-        x: S / 2 + Math.cos(a) * r, y: S / 2 + Math.sin(a) * r,
-        vx: -Math.sin(a) * 0.4, vy: Math.cos(a) * 0.4,
-        vi, vcol: VERDICTS[vi][1], pos: vi === 4, home,
-        band: Math.random(),                     // stable position within a verdict band
-        c: INK.slice(), tw: Math.random() * 6.283, sz: 0.7 + Math.random() * 0.9,
-      });
-    }
+  const raw = GALAXY.points.filter((_, i) => i % 2 === 0);
+  // three depth layers with differential rotation
+  const pts = raw.map((p, i) => ({ x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3 }));
+  const SPEED = [1.0, 0.72, 0.5];
+  let w, dpr, mouse = null;
+  let constellations = [];
+  let lastConst = 0;
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = cv.clientWidth;
+    cv.width = w * dpr; cv.height = w * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
-
-  // verdict band radii: annulus [0.15, 0.45]·S, widths proportional to share
-  function bandRadius(p) {
-    const R1 = S * 0.45, R0 = S * 0.15, T = R1 - R0;
-    let outer = R1;
-    for (let vi = 0; vi < VERDICTS.length; vi++) {
-      const w = T * VERDICTS[vi][0];
-      if (vi === p.vi) return outer - w * (0.12 + 0.76 * p.band);
-      outer -= w;
+  function spawnConstellation(t) {
+    const seedIdx = Math.floor((t * 7.13) % pts.length);
+    const seed = pts[seedIdx];
+    const members = [seed];
+    for (let i = 0; i < pts.length && members.length < 6; i += 17) {
+      const q = pts[i];
+      if (q === seed || q.layer !== seed.layer) continue;
+      const d = (q.x - seed.x) ** 2 + (q.y - seed.y) ** 2;
+      if (d < 0.012 && d > 0.0004) members.push(q);
     }
-    return R0;
+    if (members.length >= 3) constellations.push({ members, layer: seed.layer, born: t });
+    if (constellations.length > 3) constellations.shift();
   }
-
-  function ring() {
-    const c = S / 2, R = S * 0.485;
-    ctx.strokeStyle = "rgba(201,164,92,0.30)"; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.arc(c, c, R, 0, 6.2832); ctx.stroke();
-    ctx.strokeStyle = "rgba(201,164,92,0.45)";
-    for (let d = 0; d < 360; d += 6) {
-      const a = d * Math.PI / 180, long = d % 30 === 0;
-      const r1 = R - (long ? 9 : 4);
+  function draw(t) {
+    ctx.clearRect(0, 0, w, w);
+    const c = w / 2, R = w / 2 - 4;
+    // graticule
+    ctx.strokeStyle = "rgba(201,164,92,0.22)"; ctx.lineWidth = 1;
+    for (const f of [1, 0.72, 0.44]) { ctx.beginPath(); ctx.arc(c, c, R * f, 0, 6.284); ctx.stroke(); }
+    ctx.strokeStyle = "rgba(201,164,92,0.10)";
+    for (let a = 0; a < 24; a++) {
       ctx.beginPath();
-      ctx.moveTo(c + Math.cos(a) * r1, c + Math.sin(a) * r1);
-      ctx.lineTo(c + Math.cos(a) * R, c + Math.sin(a) * R);
+      ctx.moveTo(c + Math.cos(a / 24 * 6.284) * R * 0.44, c + Math.sin(a / 24 * 6.284) * R * 0.44);
+      ctx.lineTo(c + Math.cos(a / 24 * 6.284) * R, c + Math.sin(a / 24 * 6.284) * R);
       ctx.stroke();
     }
-  }
-
-  let last = performance.now();
-  let labelShown = false;
-  function tick(now) {
-    requestAnimationFrame(tick);
-    if (!running || document.hidden) { last = now; return; }
-    const dt = Math.min(now - last, 50); last = now;
-    clock += dt;
-    const R = REGIMES[reg];
-    if (clock >= R.dur) { clock = 0; reg = (reg + 1) % REGIMES.length; }
-    const key = REGIMES[reg].key;
-    // regime weight: eases in and out inside its own window
-    const w = key === "orbit" ? 0 : Math.min(1, clock / 1300, (REGIMES[reg].dur - clock) / 1300);
-    if (label) {
-      const want = key === "rings" && w > 0.5;
-      if (want !== labelShown) {
-        labelShown = want;
-        if (want) label.textContent = "the verdicts, to scale — 71.8% negative";
-        label.style.opacity = want ? 0.9 : 0;
+    ctx.strokeStyle = "rgba(201,164,92,0.5)";
+    for (let a = 0; a < 72; a++) {
+      const th = a / 72 * 6.284;
+      ctx.beginPath();
+      ctx.moveTo(c + Math.cos(th) * (R - 4), c + Math.sin(th) * (R - 4));
+      ctx.lineTo(c + Math.cos(th) * R, c + Math.sin(th) * R);
+      ctx.stroke();
+    }
+    ctx.save();
+    ctx.beginPath(); ctx.arc(c, c, R - 7, 0, 6.284); ctx.clip();
+    const rots = SPEED.map(sp => REDUCED ? 0 : (t || 0) / 52000 * sp);
+    const cos = rots.map(Math.cos), sin = rots.map(Math.sin);
+    const wobA = REDUCED ? 0 : w * 0.0048;   // light murmuration shimmer
+    const proj = p => {
+      const px = (p.x - 0.5) * (w - 20), py = (p.y - 0.5) * (w - 20);
+      const l = p.layer;
+      const rx = c + px * cos[l] - py * sin[l], ry = c + px * sin[l] + py * cos[l];
+      const wx = wobA * (Math.sin(ry * 0.045 + (t || 0) * 0.00055 + p.x * 37) + 0.5 * Math.sin(rx * 0.02 - (t || 0) * 0.00034));
+      const wy = wobA * (Math.cos(rx * 0.041 - (t || 0) * 0.00047 + p.y * 41) + 0.5 * Math.cos(ry * 0.018 + (t || 0) * 0.00031));
+      return [rx + wx, ry + wy];
+    };
+    // lens: the pointer, or an autonomous observer's eye that sweeps the sphere
+    let lens = mouse;
+    if (!lens && !REDUCED) {
+      const la = (t || 0) / 9000;
+      lens = [c + Math.cos(la) * R * 0.45, c + Math.sin(la * 0.83) * R * 0.45];
+    }
+    // stars
+    let ti = 0;
+    for (const p of pts) {
+      const [x, y] = proj(p);
+      let sizeBoost = 0, alphaBoost = 0;
+      if (lens) {
+        const d2 = (x - lens[0]) ** 2 + (y - lens[1]) ** 2;
+        if (d2 < 8100) { const k = 1 - Math.sqrt(d2) / 90; sizeBoost = k * 1.6; alphaBoost = k * 0.55; }
+      }
+      if (p.praise) {
+        const tw = REDUCED ? 0 : 0.16 * Math.sin((t || 0) / 700 + (ti++) * 1.7);
+        ctx.fillStyle = `rgba(201,164,92,${0.5 + tw + alphaBoost})`;
+        ctx.fillRect(x, y, 1.4 + sizeBoost, 1.4 + sizeBoost);
+      } else {
+        ctx.fillStyle = `rgba(220,225,240,${0.17 + alphaBoost})`;
+        ctx.fillRect(x, y, 1 + sizeBoost, 1 + sizeBoost);
       }
     }
-    const t = now, dts = dt / 16.7, c = S / 2;
-    ctx.clearRect(0, 0, S, S);
-    ring();
-    for (let i = 0; i < N; i++) {
-      const p = parts[i];
-      const dx = p.x - c, dy = p.y - c;
-      const r = Math.hypot(dx, dy) || 1;
-      const ux = dx / r, uy = dy / r;          // radial unit
-      const tx = -uy, ty = ux;                 // tangential unit
-      // --- base orbit: slow differential rotation + murmuration wander ---
-      const spd = 0.5 * (0.35 + 0.65 * Math.sqrt(S * 0.28 / Math.max(r, 24)));
-      let ax = (tx * spd - p.vx) * 0.028, ay = (ty * spd - p.vy) * 0.028;
-      const nx = Math.sin(p.y * 0.027 + t * 0.00042 + i * 0.83) + 0.5 * Math.sin(p.x * 0.011 - t * 0.00026);
-      const ny = Math.cos(p.x * 0.024 - t * 0.00035 + i * 0.71) + 0.5 * Math.cos(p.y * 0.010 + t * 0.00029);
-      const wob = 0.05 + 0.045 * (1 - w);
-      ax += nx * wob; ay += ny * wob;
-      const wHome = key === "orbit" ? 1 : 1 - w;
-      ax += ux * (p.home - r) * 0.0022 * wHome;
-      ay += uy * (p.home - r) * 0.0022 * wHome;
-      // --- regime forces, crossfaded ---
-      if (key === "vortex" && w > 0) {
-        const pull = (S * 0.11 - r) * 0.0021 * w;
-        ax += ux * pull * 16.7 * 0.06 + tx * spd * 1.6 * w * 0.05;
-        ay += uy * pull * 16.7 * 0.06 + ty * spd * 1.6 * w * 0.05;
-      } else if (key === "rings" && w > 0) {
-        const rt = bandRadius(p);
-        ax += ux * (rt - r) * 0.012 * w;
-        ay += uy * (rt - r) * 0.012 * w;
-        ax += (tx * 0.35 - p.vx) * 0.05 * w;
-        ay += (ty * 0.35 - p.vy) * 0.05 * w;
-      } else if (key === "streams" && w > 0) {
-        const th = Math.atan2(dy, dx);
-        const rw = S * (0.30 + 0.105 * Math.sin(3 * th + t * 0.00045));
-        ax += ux * (rw - r) * 0.0045 * w;
-        ay += uy * (rw - r) * 0.0045 * w;
-        ax += (tx * 1.5 - p.vx) * 0.05 * w;
-        ay += (ty * 1.5 - p.vy) * 0.05 * w;
+    // self-drawing constellations
+    if (!REDUCED) {
+      if (t - lastConst > 2600) { spawnConstellation(t); lastConst = t; }
+      constellations = constellations.filter(k => t - k.born < 5200);
+      for (const k of constellations) {
+        const age = (t - k.born) / 5200;
+        const alpha = age < 0.25 ? age / 0.25 : age > 0.65 ? (1 - age) / 0.35 : 1;
+        const drawn = Math.min(1, age / 0.35);
+        ctx.strokeStyle = `rgba(201,164,92,${0.75 * alpha})`;
+        ctx.lineWidth = 1;
+        const segs = k.members.length - 1;
+        for (let i = 0; i < segs; i++) {
+          const segProgress = Math.max(0, Math.min(1, drawn * segs - i));
+          if (segProgress <= 0) break;
+          const [x1, y1] = proj(k.members[i]);
+          const [x2, y2] = proj(k.members[i + 1]);
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x1 + (x2 - x1) * segProgress, y1 + (y2 - y1) * segProgress);
+          ctx.stroke();
+        }
+        for (const m of k.members) {
+          const [x, y] = proj(m);
+          ctx.fillStyle = `rgba(236,231,220,${0.9 * alpha})`;
+          ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 6.284); ctx.fill();
+        }
       }
-      // pointer stirs the sky
-      const mdx = p.x - mouse.x, mdy = p.y - mouse.y, md2 = mdx * mdx + mdy * mdy;
-      if (md2 < 5200) { const md = Math.sqrt(md2) || 1, f = (1 - md2 / 5200) * 1.5; ax += mdx / md * f; ay += mdy / md * f; }
-      p.vx = (p.vx + ax * dts) * 0.94; p.vy = (p.vy + ay * dts) * 0.94;
-      p.x += p.vx * dts * 2.1; p.y += p.vy * dts * 2.1;
-      // soft containment
-      if (r > S * 0.47) { p.vx -= ux * 0.5 * dts; p.vy -= uy * 0.5 * dts; }
-      // --- color: ink (praise faintly brass), stained by regime ---
-      let tc = p.pos ? BRASS : INK;
-      let mixw = 0;
-      if (key === "rings") { tc = p.vcol; mixw = w; }
-      else if (key === "streams") { tc = BRASS; mixw = w * (p.pos ? 0.9 : 0.45); }
-      const base = p.pos ? BRASS : INK;
-      const cr = base[0] + (tc[0] - base[0]) * mixw;
-      const cg = base[1] + (tc[1] - base[1]) * mixw;
-      const cb = base[2] + (tc[2] - base[2]) * mixw;
-      p.c[0] += (cr - p.c[0]) * 0.06 * dts;
-      p.c[1] += (cg - p.c[1]) * 0.06 * dts;
-      p.c[2] += (cb - p.c[2]) * 0.06 * dts;
-      const al = (p.pos ? 0.5 : 0.6) + 0.28 * Math.sin(t / 620 + p.tw) + (key === "rings" ? 0.12 * w : 0);
-      ctx.fillStyle = `rgba(${p.c[0] | 0},${p.c[1] | 0},${p.c[2] | 0},${Math.min(0.95, al).toFixed(2)})`;
-      ctx.fillRect(p.x - p.sz / 2, p.y - p.sz / 2, p.sz, p.sz);
     }
+    ctx.restore();
+    if (!REDUCED) requestAnimationFrame(draw);
   }
-
-  function resize() {
-    const wpx = Math.max(240, cv.clientWidth || 520);
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    S = wpx; N = wpx < 480 ? 900 : 1450;
-    cv.width = wpx * dpr; cv.height = wpx * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (parts.length !== N) initParts();
+  function setLens(cx2, cy2) {
+    const r = cv.getBoundingClientRect();
+    mouse = [(cx2 - r.left) * (w / r.width), (cy2 - r.top) * (w / r.height)];
   }
-
-  function staticFrame() {         // reduced motion: the stratified verdict sky, settled
-    resize();
-    ctx.clearRect(0, 0, S, S); ring();
-    for (const p of parts) {
-      const rt = bandRadius(p), a = Math.random() * 6.2832;
-      const col = p.vcol;
-      ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},0.7)`;
-      ctx.fillRect(S / 2 + Math.cos(a) * rt, S / 2 + Math.sin(a) * rt, p.sz, p.sz);
-    }
-    if (label) { label.textContent = "the verdicts, to scale — 71.8% negative"; label.style.opacity = 0.9; }
-  }
-
-  cv.addEventListener("pointermove", e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; }, { passive: true });
-  cv.addEventListener("pointerleave", () => { mouse.x = -9e9; mouse.y = -9e9; });
-  cv.addEventListener("pointerdown", e => {
-    const r = cv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
-    for (const p of parts) { const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy) || 1; if (d < 130) { p.vx += dx / d * 8; p.vy += dy / d * 8; } }
-  });
-
-  if (REDUCED) { staticFrame(); return; }
-  resize();
-  new IntersectionObserver(en => { running = en[0].isIntersecting; }, { rootMargin: "60px" }).observe(cv);
-  debounceResize(resize);
-  requestAnimationFrame(tick);
+  cv.addEventListener("mousemove", e => setLens(e.clientX, e.clientY));
+  cv.addEventListener("mouseleave", () => { mouse = null; });
+  cv.addEventListener("touchmove", e => { const tt = e.touches[0]; if (tt) setLens(tt.clientX, tt.clientY); }, { passive: true });
+  cv.addEventListener("touchend", () => { mouse = null; });
+  size(); addEventListener("resize", () => { size(); if (REDUCED) draw(0); });
+  if (REDUCED) draw(0); else requestAnimationFrame(draw);
 })();
 
 // ---------------- sankey (Plate II) ----------------
