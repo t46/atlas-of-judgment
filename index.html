@@ -236,8 +236,11 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 #split-in { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 8px 12px; font-family: var(--mono); font-size: 12px; width: 130px; }
 #split-go { background: none; border: 1px solid var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; }
 #split-go:hover { background: rgba(201,164,92,0.08); }
-#split-out .so-big { font-family: var(--display); font-size: 24px; color: var(--ink); }
 #split-out .so-line { font-size: 13.5px; color: var(--ink-2); margin-top: 4px; }
+#split-out .so-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+#split-out .so-chip { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); border: 1px solid var(--brass-line); padding: 5px 10px; }
+#split-out .so-chip b { color: var(--brass); font-weight: 500; }
+#split-fig svg { display: block; }
 #split-out b { color: var(--brass); font-weight: 500; }
 @media (max-width: 880px) { .rs-row { grid-template-columns: 86px 1fr 90px; } .rs-l { font-size: 8.5px; } .rs-n { white-space: normal; } .arc-grid { grid-template-columns: 1fr !important; } }
 /* ---- the deliberation ---- */
@@ -718,8 +721,9 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
       <input id="split-in" type="text" inputmode="numeric" placeholder="8, 8, 3" aria-label="comma-separated scores">
       <button id="split-go">Place it</button>
     </div>
-    <div id="split-out" style="margin-top:14px"></div>
-    <p class="caption"><b>Fig. 10c</b> — Type any panel's scores and they are placed against every real ICLR 2026 panel with three or more rated reviews: how common that spread is, and how papers with that spread actually fared. One quiet regularity worth knowing: a wide split is not a death sentence — panels split by eight points were accepted 47% of the time, while perfect unanimity was accepted 30% of the time, because unanimity is most often unanimity about rejection. The spread of scores has also not collapsed over the decade — the entropy of each year's score distribution, normalized to that year's own scale so that changes of scoring form do not masquerade as changes of behavior, holds between 0.74 and 0.81 in every year but one (2020's four-point form reads 0.91) — so "everyone scores a six now" is not what the record shows. <a class="ruler-ref" href="method.html#ruler">&#9878; the scale itself changed four times over these years &#8212; method &#167; 10 &#183; the moving ruler</a></p>
+    <div id="split-fig" style="margin-top:10px"></div>
+    <div id="split-out"></div>
+    <p class="caption"><b>Fig. 10c</b> — <em>How to read:</em> type any panel's scores and they land on the upper rule; a pair of dividers measures the spread (max − min), then transfers that measurement onto the lower axis, where every real ICLR 2026 panel with three or more rated reviews is stacked by its spread. Bar heights are √-scaled so the rare wide splits stay visible; the green fraction of each bar, and the percentage above it, is the share of those panels accepted. One quiet regularity worth knowing: a wide split is not a death sentence — panels split by eight points were accepted 47% of the time, while perfect unanimity was accepted 30% of the time, because unanimity is most often unanimity about rejection. The spread of scores has also not collapsed over the decade — the entropy of each year's score distribution, normalized to that year's own scale so that changes of scoring form do not masquerade as changes of behavior, holds between 0.74 and 0.81 in every year but one (2020's four-point form reads 0.91) — so "everyone scores a six now" is not what the record shows. <a class="ruler-ref" href="method.html#ruler">&#9878; the scale itself changed four times over these years &#8212; method &#167; 10 &#183; the moving ruler</a></p>
   </div></div>
 </section>
 
@@ -3845,28 +3849,147 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     <div><span class="v">${pct(REP.dissonance.contested_revisit)}</span><div class="l">of dissonant objects are revisited after the response — against ${pct(REP.dissonance.agreed_revisit)} of the objects the panel agreed on. the chords do not resolve.</div></div>`;
 })();
 
-// ---------------- your split, in context (Fig 10c) ----------------
+// ---------------- your split, in context (Fig 10c): the dividers ----------------
 (function splitCheck() {
   const input = document.getElementById("split-in");
   if (!input) return;
+  const fig = document.getElementById("split-fig");
   const out = document.getElementById("split-out");
+  const NS = "http://www.w3.org/2000/svg";
   const G = LOTTERY.gaps2026;
-  const totPanels = Object.values(G).reduce((a, g) => a + g.n, 0);
-  function place() {
+  const BINS = Object.keys(G).map(Number).sort((a, b) => a - b);
+  const totPanels = BINS.reduce((a, g) => a + G[g].n, 0);
+  const maxSqrt = Math.max(...BINS.map(g => Math.sqrt(G[g].n)));
+  let cur = null; // current parsed scores
+
+  function build(animate) {
+    fig.innerHTML = "";
+    const W = Math.max(300, fig.clientWidth || 900);
+    const narrow = W < 640;
+    const R1 = 96;                       // the rule (where scores land); room above for the divider apex
+    const BARMAX = narrow ? 64 : 88;
+    const R2 = R1 + (narrow ? 118 : 148) + BARMAX; // population baseline
+    const H = R2 + 44;
+    const padL = narrow ? 20 : 34, padR = narrow ? 20 : 34;
+    const xr = v => padL + v / 10 * (W - padL - padR);
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H);
+    const el = (tag, at, txt) => {
+      const e = document.createElementNS(NS, tag);
+      for (const k in at) e.setAttribute(k, at[k]);
+      if (txt != null) e.textContent = txt;
+      return e;
+    };
+    const mono = { "font-family": "IBM Plex Mono, monospace" };
+
+    // ---- the rule ----
+    svg.appendChild(el("line", { x1: xr(0), x2: xr(10), y1: R1, y2: R1, stroke: "rgba(201,164,92,0.5)", "stroke-width": 1.2 }));
+    for (let v = 0; v <= 10; v++) {
+      const even = v % 2 === 0;
+      svg.appendChild(el("line", { x1: xr(v), x2: xr(v), y1: R1, y2: R1 + (even ? 9 : 5), stroke: `rgba(201,164,92,${even ? 0.55 : 0.3})`, "stroke-width": even ? 1.2 : 0.8 }));
+      if (even) svg.appendChild(el("text", { x: xr(v), y: R1 + 22, "text-anchor": "middle", "font-size": 9.5, fill: "#6f6758", ...mono }, String(v)));
+    }
+    svg.appendChild(el("text", { x: xr(0), y: 14, "font-size": 9, fill: "#6f6758", "letter-spacing": "2", ...mono }, narrow ? "THE PANEL" : "THE PANEL · scores on the 2026 rule"));
+
+    // ---- the population (always present) ----
+    const ghostLayer = el("g", {});   // the transferred dividers land behind the bars
+    svg.appendChild(ghostLayer);
+    const bw = Math.min(30, (xr(2) - xr(0)) * 0.42);
+    const yourBin = cur ? Math.min(10, Math.round((Math.max(...cur) - Math.min(...cur)) / 2) * 2) : null;
+    for (const g of BINS) {
+      const d = G[g];
+      const h = Math.max(2, Math.sqrt(d.n) / maxSqrt * BARMAX);
+      const x0 = xr(g) - bw / 2;
+      const mine = g === yourBin;
+      const bar = el("rect", { x: x0, y: R2 - h, width: bw, height: h, fill: mine ? "rgba(201,164,92,0.3)" : "rgba(201,164,92,0.13)", stroke: `rgba(201,164,92,${mine ? 0.95 : 0.4})`, "stroke-width": mine ? 1.4 : 0.8 });
+      bar.appendChild(el("title", {}, `spread ${g}: ${fmt(d.n)} panels` + (d.accept != null ? ` · ${pct(d.accept)} accepted` : "")));
+      svg.appendChild(bar);
+      if (d.accept != null) {
+        const ha = h * d.accept;
+        svg.appendChild(el("rect", { x: x0, y: R2 - ha, width: bw, height: ha, fill: "rgba(59,161,131,0.42)", stroke: "rgba(59,161,131,0.7)", "stroke-width": 0.7, "pointer-events": "none" }));
+      }
+      svg.appendChild(el("text", { x: xr(g), y: R2 - h - 6, "text-anchor": "middle", "font-size": 9, fill: d.accept != null ? (mine ? "#3ba183" : "#6f6758") : "#4d4740", ...mono }, d.accept != null ? Math.round(d.accept * 100) + "%" : "n=" + d.n));
+      svg.appendChild(el("text", { x: xr(g), y: R2 + 16, "text-anchor": "middle", "font-size": 9.5, fill: mine ? "#c9a45c" : "#6f6758", ...mono }, String(g)));
+    }
+    svg.appendChild(el("line", { x1: xr(0) - 8, x2: xr(10) + 8, y1: R2, y2: R2, stroke: "rgba(201,164,92,0.5)", "stroke-width": 1.2 }));
+    svg.appendChild(el("text", { x: xr(0), y: R2 - BARMAX - 26, "font-size": 9, fill: "#6f6758", "letter-spacing": "2", ...mono },
+      narrow ? "ALL 2026 PANELS, BY SPREAD" : `ALL ${fmt(totPanels)} RATED 2026 PANELS, BY SPREAD · green = share accepted`));
+    svg.appendChild(el("text", { x: (xr(0) + xr(10)) / 2, y: R2 + 32, "text-anchor": "middle", "font-size": 9.5, fill: "#6f6758", ...mono }, "spread of the panel (max − min)"));
+
+    // ---- the typed panel + the dividers ----
+    if (cur && cur.length >= 2) {
+      const lo = Math.min(...cur), hi = Math.max(...cur), gap = hi - lo;
+      // stack duplicate scores
+      const seen = {};
+      cur.forEach((v, i) => {
+        const k = Math.round(v * 2) / 2;
+        const lvl = seen[k] || 0; seen[k] = lvl + 1;
+        const c = el("circle", { cx: xr(v), cy: R1 - 7 - lvl * 12, r: 4.4, fill: "#c9a45c", stroke: "#12101f", "stroke-width": 1.4 });
+        if (animate && !REDUCED) { c.style.opacity = 0; c.style.animation = `dlIn 0.35s ease ${i * 80}ms both`; }
+        svg.appendChild(c);
+      });
+      // the dividers: two legs from a hinge above the midpoint
+      const apexH = Math.max(26, Math.min(56, (xr(hi) - xr(lo)) * 0.42));
+      const legs = (cls) => {
+        const grp = el("g", {});
+        const mx = (xr(lo) + xr(hi)) / 2, ay = R1 - 16 - apexH;
+        for (const tip of [lo, hi]) grp.appendChild(el("line", { x1: mx, y1: ay, x2: xr(tip), y2: R1 - 3, stroke: "#c9a45c", "stroke-width": cls === "ghost" ? 1 : 1.6, opacity: cls === "ghost" ? 0.55 : 0.95 }));
+        grp.appendChild(el("circle", { cx: mx, cy: ay, r: 3.2, fill: "none", stroke: "#c9a45c", "stroke-width": 1.4, opacity: cls === "ghost" ? 0.55 : 1 }));
+        for (const tip of [lo, hi]) grp.appendChild(el("circle", { cx: xr(tip), cy: R1 - 3, r: 1.6, fill: "#c9a45c", opacity: cls === "ghost" ? 0.55 : 1 }));
+        return grp;
+      };
+      const main = legs("main");
+      if (animate && !REDUCED) { main.style.opacity = 0; main.style.animation = "dlIn 0.4s ease 200ms both"; }
+      svg.appendChild(main);
+      svg.appendChild(el("text", { x: (xr(lo) + xr(hi)) / 2, y: R1 - 24 - apexH, "text-anchor": "middle", "font-size": 10.5, fill: "#e8e2d6", ...mono },
+        `spread: ${gap} pt${gap === 1 ? "" : "s"}`)).style.cssText = animate && !REDUCED ? "opacity:0;animation:dlIn .4s ease 250ms both" : "";
+      // the transfer: a ghost of the dividers slides down onto the population axis,
+      // left tip to 0, right tip to the gap — same 0-10 scale, pure translation
+      const ghost = legs("ghost");
+      const dx = xr(0) - xr(lo), dy = (R2 + 3) - R1;
+      if (animate && !REDUCED) {
+        ghost.style.transition = "transform 0.7s cubic-bezier(.4,0,.2,1) 0.55s, opacity .3s ease .55s";
+        ghost.style.transform = "translate(0,0)";
+        ghostLayer.appendChild(ghost);
+        requestAnimationFrame(() => requestAnimationFrame(() => { ghost.style.transform = `translate(${dx}px,${dy}px)`; }));
+      } else {
+        ghost.setAttribute("transform", `translate(${dx},${dy})`);
+        ghostLayer.appendChild(ghost);
+      }
+    }
+    fig.appendChild(svg);
+  }
+
+  function place(animate) {
     const scores = (input.value || "").split(/[\s,;\/]+/).map(Number).filter(x => !isNaN(x) && x >= 0 && x <= 10);
-    if (scores.length < 2) { out.innerHTML = `<div class="so-line">Enter at least two scores, 0–10 (ICLR 2026 uses even numbers).</div>`; return; }
+    if (scores.length < 2) {
+      out.innerHTML = `<div class="so-line">Enter at least two scores, 0–10 (ICLR 2026 uses even numbers).</div>`;
+      cur = null; build(false); return;
+    }
+    cur = scores;
+    build(animate);
     const gap = Math.max(...scores) - Math.min(...scores);
-    const gapEven = Math.round(gap / 2) * 2;
+    const gapEven = Math.min(10, Math.round(gap / 2) * 2);
     const g = G[String(gapEven)];
-    const wider = Object.entries(G).filter(([k]) => +k > gapEven).reduce((a, [, v]) => a + v.n, 0);
+    const wider = BINS.filter(k => k > gapEven).reduce((a, k) => a + G[k].n, 0);
     const mean = scores.reduce((a, b) => a + b, 0) / scores.length;
     out.innerHTML = `
-      <div class="so-big">a spread of ${gap} point${gap === 1 ? "" : "s"}</div>
-      <div class="so-line">Among ${fmt(totPanels)} real 2026 panels, <b>${pct(wider / totPanels)}</b> were split wider than this${g ? `; panels with exactly this spread: <b>${fmt(g.n)}</b>${g.accept != null ? `, accepted <b>${pct(g.accept)}</b> of the time` : ""}` : ""}.</div>
-      <div class="so-line">A panel mean of ${mean.toFixed(1)} sits ${mean >= 5 ? "at or above" : "below"} the venue's empirical accept threshold (mean ≈ 5.0); near that line, the decision layer agrees with the panel's lean only 58.6% of the time — the margin is where judgment, not arithmetic, decides.</div>`;
+      <div class="so-chips">
+        <span class="so-chip">split wider than yours · <b>${pct(wider / totPanels)}</b> of panels</span>
+        ${g ? `<span class="so-chip">exactly this spread · <b>${fmt(g.n)}</b> panels${g.accept != null ? ` · accepted <b>${pct(g.accept)}</b>` : ""}</span>` : ""}
+        <span class="so-chip">panel mean <b>${mean.toFixed(1)}</b> · ${mean >= 5 ? "at or above" : "below"} the empirical accept line (≈5)</span>
+      </div>
+      <div class="so-line" style="margin-top:8px">Near that line the decision layer agrees with the panel's lean only 58.6% of the time — the margin is where judgment, not arithmetic, decides.</div>`;
   }
-  document.getElementById("split-go").addEventListener("click", place);
-  input.addEventListener("keydown", e => { if (e.key === "Enter") place(); });
+  document.getElementById("split-go").addEventListener("click", () => place(true));
+  input.addEventListener("keydown", e => { if (e.key === "Enter") place(true); });
+  input.value = "8, 8, 3";
+  place(false);
+  let seen = false;
+  new IntersectionObserver(en => {
+    if (en[0].isIntersecting && !seen) { seen = true; build(true); }
+  }, { threshold: 0.3 }).observe(fig);
+  debounceResize(() => build(false));
 })();
 
 
