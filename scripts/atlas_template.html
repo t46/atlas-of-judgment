@@ -6,8 +6,8 @@
   --ground: #12101f; --plate: #16132400; --raise: #1a1729;
   --ink: #ece7dc; --ink-2: #b3aa99; --muted: #6f6758;
   --brass: #c9a45c; --brass-dim: #8a713e; --brass-line: rgba(201,164,92,0.28); --brass-faint: rgba(201,164,92,0.13);
-  --v-negative: #e66767; --v-uncertain: #9085e9; --v-mixed: #d55181;
-  --v-conditional: #c98500; --v-positive: #199e70;
+  --v-negative: #d0685c; --v-uncertain: #8b84cf; --v-mixed: #bd5878;
+  --v-conditional: #bf8a30; --v-positive: #3ba183;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
   --display: "Cormorant Garamond", Georgia, serif;
   --serif: "Source Serif 4", Georgia, serif;
@@ -39,7 +39,7 @@ section { padding: 84px 0 6px; }
 .plate::after   { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
 .plate-inner::before { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
 .plate-inner::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
-.caption { font-size: 13.5px; color: var(--ink-2); margin: 14px auto 0; max-width: 96ch; text-wrap: pretty; }
+.caption { font-size: 13.5px; color: var(--ink-2); margin: 16px 0 0; columns: 2 46ch; column-gap: 56px; text-wrap: pretty; }
 .caption b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
 /* title page */
 .titlepage { padding: 42px 0 64px; }
@@ -410,7 +410,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div class="arc-grid" style="margin-top:34px">
       <div>
         <div class="fig-title">Fig. 8b — What a 2 argues vs what an 8 argues (share of units per standard)</div>
-        <div class="legend" style="margin-bottom:10px"><span class="chip"><span class="sw" style="background:#e66767"></span>rating 2</span><span class="chip"><span class="sw" style="background:#199e70"></span>rating 8</span></div>
+        <div class="legend" style="margin-bottom:10px"><span class="chip"><span class="sw" style="background:#d0685c"></span>rating 2</span><span class="chip"><span class="sw" style="background:#3ba183"></span>rating 8</span></div>
         <div id="ladder-cmp" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="ladder-stats"></div>
@@ -578,8 +578,8 @@ const YIELD = __YIELD_JSON__;
 const CONSTRUCT = __CONSTRUCT_JSON__;
 
 const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
-const VAL_COLOR = { negative: "#e66767", uncertain: "#9085e9", mixed: "#d55181", conditional: "#c98500", positive: "#199e70" };
-const CAT12 = ["#3987e5","#d95926","#199e70","#c98500","#d55181","#3fae3f","#9085e9","#e66767","#2ab5c9","#a3c94a","#b06fd4","#7f8ca3"];
+const VAL_COLOR = { negative: "#d0685c", uncertain: "#8b84cf", mixed: "#bd5878", conditional: "#bf8a30", positive: "#3ba183" };
+const CAT12 = ["#3987e5","#d95926","#3ba183","#bf8a30","#bd5878","#3fae3f","#8b84cf","#d0685c","#2ab5c9","#a3c94a","#b06fd4","#7f8ca3"];
 const fmt = n => n.toLocaleString("en-US");
 const pct = x => (100 * x).toFixed(1) + "%";
 const objCats = DATA.taxonomy.inspected_object, reaCats = DATA.taxonomy.reasoning;
@@ -1276,7 +1276,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   document.getElementById("wheel-pairs").innerHTML = cross.map(d => {
     const [a, b] = d.key.split("|");
     return `<div class="vp-row" style="grid-template-columns:190px 1fr 60px"><div class="vp-l" title="${objLabel[a]} ↔ ${objLabel[b]}">${objLabel[a].split(" & ")[0]} ↔ ${objLabel[b].split(" & ")[0]}</div>
-     <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * d.lift / maxCL}%;height:9px;background:#9085e9"></div></div>
+     <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * d.lift / maxCL}%;height:9px;background:#8b84cf"></div></div>
      <div class="vp-n">${d.lift.toFixed(2)}×</div></div>`;
   }).join("");
 })();
@@ -1551,7 +1551,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         <div style="font-size:13.5px;color:var(--ink-2);line-height:1.65;max-width:60ch">${desc}</div>
         <div style="display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-2)">
           <span><b style="color:var(--brass);font-weight:500">${pct(c.share)}</b> OF REVIEWERS</span>
-          <span>NEG <b style="color:${c.neg_rate < 0.7 ? "#199e70" : "var(--ink)"};font-weight:500">${pct(c.neg_rate)}</b></span>
+          <span>NEG <b style="color:${c.neg_rate < 0.7 ? "#3ba183" : "var(--ink)"};font-weight:500">${pct(c.neg_rate)}</b></span>
         </div>
         <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em">${tops.map(([k, r]) => `${reaLabel[k]} <span style="color:var(--brass)">${r.toFixed(1)}×</span>`).join(" &nbsp;·&nbsp; ")}</div>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--brass-faint);padding-top:10px">
@@ -1671,8 +1671,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       <div class="vp-l">${reaLabel[k]}</div>
       <div class="lift-track" title="${reaLabel[k]}: ${pct(l)} of a 2's units, ${pct(h)} of an 8's">
         <div class="lift-line grow" style="left:${Math.min(X(l), X(h))}%;width:${Math.abs(X(l) - X(h))}%"></div>
-        <div class="lift-dot dotfade" style="left:${X(l)}%;border-radius:50%;background:#e66767"></div>
-        <div class="lift-dot dotfade" style="left:${X(h)}%;border-radius:50%;background:#199e70"></div>
+        <div class="lift-dot dotfade" style="left:${X(l)}%;border-radius:50%;background:#d0685c"></div>
+        <div class="lift-dot dotfade" style="left:${X(h)}%;border-radius:50%;background:#3ba183"></div>
       </div>
       <div class="lift-n">${pct(l)} → ${pct(h)}</div>
     </div>`).join("");
@@ -1949,7 +1949,7 @@ function showDissect(kind, key) {
       cell.className = "cell cellfade";
       cell.style.transitionDelay = Math.min(hm.childElementCount * 4, 900) + "ms";
       cell.style.background = n < 40 ? "#161324"
-        : `color-mix(in oklab, #e66767 ${Math.round(negRate * 88)}%, #161324)`;
+        : `color-mix(in oklab, #d0685c ${Math.round(negRate * 88)}%, #161324)`;
       cell.addEventListener("mousemove", e => showTip(e, `<div class="t">${objLabel[o]} × ${reaLabel[r]}</div><div class="n">${n < 40 ? "too few units" : pct(negRate) + " negative · " + fmt(n) + " units"}</div>`));
       cell.addEventListener("mouseleave", hideTip);
       hm.appendChild(cell);
@@ -1965,8 +1965,8 @@ function showDissect(kind, key) {
     ["held (no visible change)", (R.overall.not_observed + (R.overall.unknown || 0)) / N, "#b3aa99"],
     ["strengthened", R.overall.strengthened / N, "#c9a45c"],
     ["clarified only", R.overall.clarified / N, "#9182dd"],
-    ["weakened", R.overall.weakened / N, "#e66767"],
-    ["reversed", R.overall.reversed / N, "#d55181"],
+    ["weakened", R.overall.weakened / N, "#d0685c"],
+    ["reversed", R.overall.reversed / N, "#bd5878"],
   ];
   function fateFlow() {
     const host = document.getElementById("reb-fate");
@@ -2018,7 +2018,7 @@ function showDissect(kind, key) {
   document.getElementById("reb-trig").innerHTML = trigOrder.map(k => {
     const t = PANEL.rebuttal.triggers[k]; if (!t) return "";
     const n = (t.strengthened || 0) + (t.weakened || 0) + (t.reversed || 0) + (t.clarified || 0);
-    const segs = [["strengthened", "#c9a45c"], ["clarified", "#7f8ca3"], ["weakened", "#e66767"], ["reversed", "#d55181"]]
+    const segs = [["strengthened", "#c9a45c"], ["clarified", "#7f8ca3"], ["weakened", "#d0685c"], ["reversed", "#bd5878"]]
       .map(([kk, c]) => `<span style="width:${100 * (t[kk] || 0) / n}%;background:${c}" title="${kk} ${pct((t[kk] || 0) / n)}"></span>`).join("");
     const soft = ((t.weakened || 0) + (t.reversed || 0)) / n;
     return `<div class="vp-row"><div class="vp-l">${trigLabel[k]}</div><div class="vp-bar grow">${segs}</div><div class="vp-n">softens ${pct(soft)}</div></div>`;
@@ -2062,7 +2062,7 @@ function showDissect(kind, key) {
         <div class="lift-axis" style="left:${X(T.base_accept)}%"></div>
         <div class="lift-line grow" style="left:${Math.min(X(v.accept_with), X(v.accept_without))}%;width:${Math.abs(X(v.accept_with) - X(v.accept_without))}%;height:${Math.max(1, Math.abs(d) / 2.6)}px;background:${d < -5 ? "rgba(230,103,103,.55)" : "rgba(179,170,153,.65)"}"></div>
         <div class="lift-dot dotfade" style="left:${X(v.accept_without)}%;width:${7 + Math.abs(d) * .55}px;height:${7 + Math.abs(d) * .55}px;border:1.5px solid #b3aa99;border-radius:50%;background:none"></div>
-        <div class="lift-dot dotfade" style="left:${X(v.accept_with)}%;width:${7 + Math.abs(d) * .55}px;height:${7 + Math.abs(d) * .55}px;border-radius:50%;background:${d < -5 ? "#e66767" : d < -1 ? "#c98500" : "#7f8ca3"}"></div>
+        <div class="lift-dot dotfade" style="left:${X(v.accept_with)}%;width:${7 + Math.abs(d) * .55}px;height:${7 + Math.abs(d) * .55}px;border-radius:50%;background:${d < -5 ? "#d0685c" : d < -1 ? "#bf8a30" : "#7f8ca3"}"></div>
       </div>
       <div class="lift-n">${d >= 0 ? "+" : ""}${d.toFixed(1)}pp</div></div>`;
   }).join("");
@@ -2075,7 +2075,7 @@ function showDissect(kind, key) {
   document.getElementById("dissent").innerHTML = rows.map(([k, v]) => {
     const r = v.contested / v.base;
     return `<div class="vp-row"><div class="vp-l">${objLabel[k]}</div>
-      <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * r / maxR}%;background:#9085e9;height:11px"></div></div>
+      <div class="rx-track" style="background:none"><div class="d-fill grow" style="width:${100 * r / maxR}%;background:#8b84cf;height:11px"></div></div>
       <div class="vp-n">${pct(r)}</div></div>`;
   }).join("");
   const mv = PANEL.meta.meta_reviewer.val_share, ov = PANEL.meta.official_reviewer.val_share;

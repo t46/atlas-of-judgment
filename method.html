@@ -346,8 +346,8 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 .review-head a.title:hover, .review-head a.rid:hover { color: var(--brass); }
 .review-head .rid { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; border: none; }
 .chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; padding: 2px 9px; border: 1px solid var(--brass-faint); color: var(--ink-2); white-space: nowrap; }
-.chip.acc { border-color: #199e70; color: #199e70; }
-.chip.rej { border-color: #e66767; color: #e66767; }
+.chip.acc { border-color: #3ba183; color: #3ba183; }
+.chip.rej { border-color: #d0685c; color: #d0685c; }
 .summary { color: var(--ink-2); font-style: italic; font-size: 14px; }
 .unit { display: grid; grid-template-columns: 3px 1fr; background: rgba(26,23,41,0.75); border: 1px solid var(--brass-faint); margin-top: 10px; }
 .unit .stripe { height: 100%; }
@@ -396,7 +396,7 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
   const fmt = n => n.toLocaleString("en-US");
   const pct = x => (100 * x).toFixed(1) + "%";
   const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
-  const VAL_COLOR = { negative: "#e66767", uncertain: "#9085e9", mixed: "#d55181", conditional: "#c98500", positive: "#199e70" };
+  const VAL_COLOR = { negative: "#d0685c", uncertain: "#8b84cf", mixed: "#bd5878", conditional: "#bf8a30", positive: "#3ba183" };
   const objLabel = MX.objLabel, reaLabel = MX.reaLabel, objOrder = MX.objOrder, reaOrder = MX.reaOrder;
 
   // ---- reliability heatmap ----
@@ -410,7 +410,7 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
     vals.forEach((v, i) => {
       const cell = document.createElement("div");
       cell.className = "cell";
-      cell.style.background = `color-mix(in oklab, #9085e9 ${Math.round(v * 130)}%, #161324)`;
+      cell.style.background = `color-mix(in oklab, #8b84cf ${Math.round(v * 130)}%, #161324)`;
       cell.title = `${objLabel[o]} · ${R.years[i]}: ${pct(v)} memo-inferred`;
       rel.appendChild(cell);
     });
