@@ -3620,6 +3620,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     head.innerHTML = `<a class="dh-t" href="https://openreview.net/forum?id=${F.forum}" target="_blank" rel="noopener" title="open the forum on OpenReview">${F.title} ↗</a>
       ${F.decision ? `<span class="chip ${acc ? "acc" : "rej"}">${F.decision}</span>` : ""}
       <span class="dh-m">${F.comments} discussion comments</span>
+      <span class="dh-m">panel mean <b style="color:${(F.reviewers.reduce((a, r) => a + r.rating, 0) / F.reviewers.length) >= 5 ? "#3ba183" : "#d0685c"};font-weight:500">${(F.reviewers.reduce((a, r) => a + r.rating, 0) / F.reviewers.length).toFixed(1)}</b> (accept line \u2248 5.0) \u00b7 spread <b style="color:var(--ink);font-weight:500">${Math.max(...F.reviewers.map(r => r.rating)) - Math.min(...F.reviewers.map(r => r.rating))}</b></span>
       <span class="dh-def">${F.scenario.toUpperCase()} \u2014 ${SCEN_DEF[F.scenario] || ""}</span>`;
     host.innerHTML = "";
     const W = Math.max(300, host.clientWidth || 1100);
