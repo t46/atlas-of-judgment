@@ -32,6 +32,7 @@ def main() -> None:
     html = html.replace("__SEASON_JSON__", load_json_island("season-data.json"))
     html = html.replace("__DELIB_JSON__", load_json_island("deliberation-data.json"))
     html = html.replace("__REPERTOIRE_JSON__", load_json_island("repertoire-data.json"))
+    html = html.replace("__CURRENTS_JSON__", load_json_island("currents-data.json"))
     direct_dir = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-direct-v1"
     for placeholder, name in (
         ("__DRIFT_JSON__", "drift-data.json"),

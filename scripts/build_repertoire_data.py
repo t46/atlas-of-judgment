@@ -80,6 +80,8 @@ def main() -> None:
 
     # ---- 1. signatures ----
     sig_counts = defaultdict(int)
+    sig_year = defaultdict(int)
+    year_tot = defaultdict(int)
     sig_acc = defaultdict(lambda: [0, 0])   # accepted, decided
     n_panels = 0
     for cid, revs in init_objs.items():
@@ -98,6 +100,8 @@ def main() -> None:
         else:
             sig = "softening"
         sig_counts[sig] += 1
+        sig_year[(year_of[cid], sig)] += 1
+        year_tot[year_of[cid]] += 1
         if year_of[cid] == 2026 and forum_of[cid] in accepted:
             sig_acc[sig][1] += 1
             sig_acc[sig][0] += accepted[forum_of[cid]]
@@ -171,7 +175,14 @@ def main() -> None:
     }
     print(f"dissonant objects revisited {dis_rev/dis_tot:.1%} (n={dis_tot}) vs agreed {con_rev/con_tot:.1%} (n={con_tot})")
 
-    payload = {"n_panels": n_panels, "signatures": signatures, "overlap": overlap, "dissonance": dissonance}
+    by_year = {}
+    for y in sorted(year_tot):
+        if year_tot[y] < 300:
+            continue
+        by_year[y] = {sig: round(sig_year[(y, sig)] / year_tot[y], 4)
+                      for sig in ("silence", "procedural", "entrenchment", "softening", "contested")}
+        print(y, by_year[y])
+    payload = {"n_panels": n_panels, "signatures": signatures, "overlap": overlap, "dissonance": dissonance, "by_year": by_year}
     (V / "repertoire-data.json").write_text(json.dumps(payload) + "\n")
 
 

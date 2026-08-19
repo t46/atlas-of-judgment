@@ -206,6 +206,19 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 #topbar .tb-links a.tb-live { color: var(--brass); }
 @media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.16em; } #topbar .tb-links { gap: 10px; } #topbar .tb-links a { font-size: 8.5px; letter-spacing: 0.1em; } }
 @media (prefers-reduced-motion: reduce) { #topbar { transition: none; } }
+#delib-head .dh-def { flex-basis: 100%; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; color: var(--muted); }
+#delib-head .dh-def::first-letter { color: var(--brass); }
+/* ---- the currents ---- */
+#cur-ctl button { background: none; border: 1px dashed var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; }
+#cur-ctl button:hover { border-style: solid; background: rgba(201,164,92,0.08); }
+#cur-ctl input[type=range] { flex: 1; max-width: 300px; accent-color: #c9a45c; }
+#cur-ctl #cur-year { font-family: var(--display); font-size: 22px; color: var(--brass); min-width: 58px; }
+.cur-hist { display: flex; align-items: flex-end; gap: 3px; height: 130px; margin-top: 10px; }
+.cur-hist .ch-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.cur-hist .ch-bar { background: rgba(201,164,92,0.6); transition: height 0.45s cubic-bezier(0.2, 0.7, 0.15, 1), opacity 0.45s ease; min-height: 1px; }
+.cur-hist .ch-l { font-family: var(--mono); font-size: 8px; color: var(--muted); text-align: center; margin-top: 4px; }
+@media (max-width: 1100px) { #cur-grid { grid-template-columns: 1fr 1fr !important; } }
+@media (max-width: 620px) { #cur-grid { grid-template-columns: 1fr !important; gap: 18px; } .cur-hist { height: 100px; } }
 /* ---- repertoire + split checker ---- */
 .rep-cap { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; color: var(--brass); }
 .rs-row { display: grid; grid-template-columns: 118px 1fr 118px; gap: 10px; align-items: center; }
@@ -709,6 +722,20 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div class="fig-title" style="margin-top:30px">Fig. 11c — The hardening: nine-year vitals</div>
     <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
     <p class="caption"><b>Fig. 11</b> — <em>How to read 11c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
+
+    <div class="fig-title" style="margin-top:38px">Fig. 11d — The currents: three distributions, moving through the years</div>
+    <div id="cur-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:10px">
+      <button id="cur-play">▶&#8202; flow through the years</button>
+      <input id="cur-scrub" type="range" min="0" max="1000" value="0" aria-label="year">
+      <span id="cur-year">2018</span>
+    </div>
+    <div class="arc-grid" style="display:grid;grid-template-columns:repeat(4, 1fr);gap:22px;align-items:end" id="cur-grid">
+      <div><div class="rep-cap">SCORES GIVEN</div><div id="cur-scores" class="cur-hist"></div></div>
+      <div><div class="rep-cap">REVIEW LENGTH · WORDS</div><div id="cur-words" class="cur-hist"></div></div>
+      <div><div class="rep-cap">UNITS PER REVIEWER</div><div id="cur-units" class="cur-hist"></div></div>
+      <div><div class="rep-cap">THE SHAPE OF INFERENCE</div><div id="cur-forms" class="cur-hist"></div></div>
+    </div>
+    <p class="caption"><b>Fig. 11d</b> — <em>How to read:</em> three distributions redrawn continuously as the year dial moves — the shape of the scores given (the venue changed its scale three times: ten levels to 2021, a six-level ladder 2022–25, even numbers only in 2026), the length of reviews (the slow migration from the 300-word mode toward shorter tails after 2022), and how many units of logic one reviewer produces. The fourth silhouette is the reasoning itself: the mix of the six inference forms (Plate III), with weighing slowly displacing precedent-citing as the decade advances. Press play and watch nine years of institutional change pass through four silhouettes.</p>
   </div></div>
 </section>
 
@@ -786,6 +813,10 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       </div>
     </div>
     <p class="caption"><b>Fig. 14b</b> — <em>How to read (left):</em> every panel with three or more reviewers, classified by what its discussion phase did — in four panels out of five, no judgment moves at all (silence: no post-response units; procedural: units but no recorded movement). The acceptance rates are association only: entrenchment accepts most because reinforcement includes reviewers reinforcing praise, and unanimity of silence often means unanimity about rejection. <em>(right)</em> The two curves compare the overlap of inspected objects for reviewers of the <em>same</em> paper against reviewers of <em>different</em> papers: 0.27 versus 0.21 — reviewers of one paper attend to only marginally more of the same things than strangers do. The disagreement measured by the consistency experiments begins before any verdict, at the choice of what to look at. And the dissonant objects — where co-reviewers reached opposite verdicts — are revisited after the response slightly <em>less</em> often than the agreed ones: the chords do not resolve.</p>
+
+    <div class="fig-title" style="margin-top:38px">Fig. 14c — The great quieting: the repertoire, year by year</div>
+    <div id="rep-years"></div>
+    <p class="caption"><b>Fig. 14c</b> — Share of panels per signature, 2018–2026. The discussion culture traces an arc: silence falls from 51% of panels in 2018 to 20% in 2022 — the most conversational year the venue has had — and then climbs all the way back to 52% in 2026, as submissions grew past nineteen thousand. Judgment movement of any kind (softening, entrenchment, contested) has been shrinking since 2022. Read descriptively: the format, the volume, and the culture all changed together, and this figure cannot separate them.</p>
   </div></div>
 </section>
 
@@ -923,6 +954,7 @@ const OVERRULE = __OVERRULE_JSON__;
 const SEASON = __SEASON_JSON__;
 const DELIB = __DELIB_JSON__;
 const REP = __REPERTOIRE_JSON__;
+const CURRENTS = __CURRENTS_JSON__;
 const STRUCT = __STRUCTURE_JSON__;
 const PANEL = __PANEL_JSON__;
 const DRIFT = __DRIFT_JSON__;
@@ -3563,6 +3595,13 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     return `<button data-i="${i}" class="${i === 0 ? "on" : ""}" title="${f.title.replace(/"/g, "&quot;")}">${short} ${ROMAN[nth]}</button>`;
   }).join("");
 
+  const SCEN_DEF = {
+    "a softening": "a panel where judgments visibly weakened or reversed after the authors responded",
+    "an entrenchment": "a panel whose post-response units only reinforced the original judgments",
+    "a reversal": "a panel containing at least one outright reversed judgment \u2014 the rarest fate",
+    "a split verdict": "a panel whose ratings ended far apart \u2014 the widest here span ten points",
+    "unanimity": "a panel whose ratings ended identical",
+  };
   function render(i, animate) {
     cur = i;
     for (const b of tabs.querySelectorAll("button")) b.classList.toggle("on", +b.dataset.i === i);
@@ -3570,7 +3609,8 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const acc = F.decision && /accept|oral|poster|spotlight/i.test(F.decision);
     head.innerHTML = `<a class="dh-t" href="https://openreview.net/forum?id=${F.forum}" target="_blank" rel="noopener" title="open the forum on OpenReview">${F.title} ↗</a>
       ${F.decision ? `<span class="chip ${acc ? "acc" : "rej"}">${F.decision}</span>` : ""}
-      <span class="dh-m">${F.comments} discussion comments</span>`;
+      <span class="dh-m">${F.comments} discussion comments</span>
+      <span class="dh-def">${F.scenario.toUpperCase()} \u2014 ${SCEN_DEF[F.scenario] || ""}</span>`;
     host.innerHTML = "";
     const W = Math.max(300, host.clientWidth || 1100);
     const narrow = W < 700;
@@ -3783,6 +3823,161 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   }
   document.getElementById("split-go").addEventListener("click", place);
   input.addEventListener("keydown", e => { if (e.key === "Enter") place(); });
+})();
+
+
+// ---------------- the great quieting (Fig 14c) ----------------
+(function repYears() {
+  const host = document.getElementById("rep-years");
+  if (!host) return;
+  const NS = "http://www.w3.org/2000/svg";
+  const SIGCOL = { silence: "#8a8172", procedural: "#b3aa99", entrenchment: "#d0685c", softening: "#3ba183", contested: "#8b84cf" };
+  function build() {
+    host.innerHTML = "";
+    const years = Object.keys(REP.by_year).map(Number);
+    const W = Math.max(300, host.clientWidth || 1100), H = 230;
+    const narrow = W < 640;
+    const padL = 44, padR = narrow ? 14 : 150, padT = 14, padB = 28;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const xs = i => padL + i / (years.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - v / 0.6) * (H - padT - padB);
+    for (const g of [0, 0.2, 0.4, 0.6]) {
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g));
+      tx.setAttribute("text-anchor", "end"); tx.setAttribute("dominant-baseline", "middle");
+      tx.setAttribute("font-size", "9.5"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+    }
+    years.forEach((y, i) => {
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 8);
+      tx.setAttribute("text-anchor", "middle"); tx.setAttribute("font-size", "10");
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "'" + String(y).slice(2); svg.appendChild(tx);
+    });
+    const used = [];
+    for (const sig of ["silence", "procedural", "entrenchment", "softening", "contested"]) {
+      const p = document.createElementNS(NS, "path");
+      p.setAttribute("d", years.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(REP.by_year[y][sig])).join(" "));
+      p.setAttribute("fill", "none"); p.setAttribute("stroke", SIGCOL[sig]);
+      p.setAttribute("stroke-width", sig === "silence" ? 2.4 : 1.5);
+      p.setAttribute("data-draw", "1");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = sig;
+      p.appendChild(title);
+      svg.appendChild(p);
+      if (!narrow) {
+        let y0 = ys(REP.by_year[years[years.length - 1]][sig]);
+        for (const u of used) if (Math.abs(u - y0) < 14) y0 = u - 14;
+        used.push(y0);
+        const lb = document.createElementNS(NS, "text");
+        lb.setAttribute("x", xs(years.length - 1) + 10); lb.setAttribute("y", y0);
+        lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "11");
+        lb.setAttribute("fill", SIGCOL[sig]);
+        lb.textContent = sig + " " + pct(REP.by_year[years[years.length - 1]][sig]);
+        svg.appendChild(lb);
+      }
+    }
+    host.appendChild(svg);
+    if (narrow) {
+      const legend = document.createElement("div");
+      legend.className = "legend"; legend.style.marginTop = "8px";
+      legend.innerHTML = Object.entries(SIGCOL).map(([k, c]) => `<span class="chip"><span class="sw" style="background:${c}"></span>${k}</span>`).join("");
+      host.appendChild(legend);
+    }
+  }
+  build(); debounceResize(build);
+})();
+
+// ---------------- the currents (Fig 11d) ----------------
+(function currents() {
+  const play = document.getElementById("cur-play");
+  if (!play) return;
+  const scrub = document.getElementById("cur-scrub");
+  const yearEl = document.getElementById("cur-year");
+  const YEARS = CURRENTS.years;
+  const hosts = {
+    scores: document.getElementById("cur-scores"),
+    words: document.getElementById("cur-words"),
+    units: document.getElementById("cur-units"),
+  };
+  const FORMS6 = ["NORM", "BLOCK", "ANCHOR", "REACH", "DOUBT", "WEIGH"];
+  const FORMCOL6 = { NORM: "#bd8a35", BLOCK: "#6d95d4", ANCHOR: "#b45036", REACH: "#2fa383", DOUBT: "#9182dd", WEIGH: "#c05577" };
+  const formShares = {};
+  for (const y of CURRENTS.years) {
+    const tot = FORMS6.reduce((a, f) => a + (RHET.by_year[f] ? RHET.by_year[f][String(y)] || 0 : 0), 0);
+    formShares[y] = FORMS6.map(f => (RHET.by_year[f] ? RHET.by_year[f][String(y)] || 0 : 0) / Math.max(1, tot));
+  }
+  hosts.forms = document.getElementById("cur-forms");
+  hosts.forms.innerHTML = FORMS6.map((f, i) => `<div class="ch-col"><div class="ch-bar" data-i="${i}" style="height:0%;background:${FORMCOL6[f]};opacity:.75"></div><div class="ch-l">${f.toLowerCase()}</div></div>`).join("");
+  // scores rendered on the fixed 0-10 grid
+  const LEVELS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  hosts.scores.innerHTML = LEVELS.map(l => `<div class="ch-col"><div class="ch-bar" data-l="${l}" style="height:0%"></div><div class="ch-l">${l}</div></div>`).join("");
+  for (const k of ["words", "units"]) {
+    hosts[k].innerHTML = CURRENTS[k].labels.map((l, i) => `<div class="ch-col"><div class="ch-bar" data-i="${i}" style="height:0%"></div><div class="ch-l">${l}</div></div>`).join("");
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function show(p) {
+    const f = Math.max(0, Math.min(YEARS.length - 1, p * (YEARS.length - 1)));
+    const i0 = Math.floor(f), i1 = Math.min(YEARS.length - 1, i0 + 1), ft = f - i0;
+    const y0 = YEARS[i0], y1 = YEARS[i1];
+    yearEl.textContent = YEARS[Math.round(f)];
+    scrub.value = Math.round(p * 1000);
+    // scores: build level->share maps for both years, interpolate
+    function smap(y) {
+      const d = CURRENTS.scores[String(y)], m = {};
+      d.levels.forEach((l, i) => m[l] = d.shares[i]);
+      return m;
+    }
+    const m0 = smap(y0), m1 = smap(y1);
+    const mx = Math.max(...LEVELS.map(l => Math.max(m0[l] || 0, m1[l] || 0)), 0.01);
+    hosts.scores.querySelectorAll(".ch-bar").forEach(bar => {
+      const l = +bar.dataset.l;
+      const v = lerp(m0[l] || 0, m1[l] || 0, ft);
+      bar.style.height = (100 * v / mx) + "%";
+      bar.style.opacity = v < 0.003 ? 0.15 : 1;
+    });
+    for (const k of ["words", "units"]) {
+      const a = CURRENTS[k].by_year[String(y0)], b2 = CURRENTS[k].by_year[String(y1)];
+      const mx2 = Math.max(...a, ...b2);
+      hosts[k].querySelectorAll(".ch-bar").forEach(bar => {
+        const i = +bar.dataset.i;
+        bar.style.height = (100 * lerp(a[i], b2[i], ft) / mx2) + "%";
+      });
+    }
+    const fa = formShares[y0], fb = formShares[y1];
+    const fmx = Math.max(...fa, ...fb);
+    hosts.forms.querySelectorAll(".ch-bar").forEach(bar => {
+      const i = +bar.dataset.i;
+      bar.style.height = (100 * lerp(fa[i], fb[i], ft) / fmx) + "%";
+    });
+  }
+  let raf = null;
+  play.addEventListener("click", () => {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (REDUCED) { show(1); return; }
+    const T = 12000, t0 = performance.now();
+    raf = requestAnimationFrame(function step(t) {
+      const k = Math.min(1, (t - t0) / T);
+      show(k);
+      raf = k < 1 ? requestAnimationFrame(step) : null;
+    });
+  });
+  scrub.addEventListener("input", () => {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    show(scrub.value / 1000);
+  });
+  show(0);
+  let seen = false;
+  new IntersectionObserver(en => {
+    if (en[0].isIntersecting && !seen) { seen = true; if (!REDUCED) play.click(); }
+  }, { threshold: 0.3 }).observe(hosts.scores);
 })();
 
 </script>
