@@ -90,11 +90,14 @@ footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top:
 </style>
 
 <div class="shell">
-<nav class="nav"><a href="about.html">About</a><a href="index.html">The Atlas</a><a class="here" href="#">The Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://atlas-of-judgment.pages.dev" style="color:var(--brass)">Live</a></nav>
+<nav class="nav"><a href="about.html">About</a><a href="index.html">The Atlas</a><a class="here" href="#">The Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a><a href="https://atlas-of-judgment.pages.dev" style="color:var(--brass)">Live</a></nav>
 
 <div class="eyebrow">Atlas of Judgment · Reproduction Record</div>
 <h1>How the data <em style="font-style:italic">was made</em></h1>
 <p style="font-size:16.5px;margin-top:22px">Every stage from raw collection to the labeled unit databases that all atlas figures are computed from — scripts, models, parameters, seeds, counts, costs, failure modes, and the exact commands. Scope ends at the data layer; the visualizations downstream evolve continuously and are documented in the atlas itself. All counts verified 2026-08-18 by read-only queries.</p>
+
+<div class="callout"><b>The finished data is public</b>
+Both labeled unit databases (410,586 review-level units, ICLR 2026 · 1,009,592 forum-level units, 2018–2026), the taxonomy definitions, and the 600 analyst-labeled rhetoric units are published as parquet on HuggingFace under CC BY 4.0: <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">huggingface.co/datasets/t46/atlas-of-judgment</a>. Everything below documents how that data was made.</div>
 
 <div class="toc">
   <a href="#s0"><span class="tno">00</span>Prerequisites &amp; environment</a>
