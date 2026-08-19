@@ -66,7 +66,17 @@ td:last-child { text-align: right; font-family: var(--mono); font-size: 11.5px; 
   td:last-child { border-bottom: none; }
   td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
 }
-footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top: 26px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 26px; text-transform: uppercase; }
+footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display: flex; flex-direction: column; align-items: center; gap: 11px; text-align: center; }
+.col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
+.col-rule::before, .col-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-line); }
+.col-rule svg { display: block; }
+.col-mark { font-family: var(--display); font-size: 27px; color: var(--ink); letter-spacing: 0.03em; margin-top: 4px; }
+.col-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--ink-2); }
+.col-stats { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-top: 6px; line-height: 2; }
+.col-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 8px; }
+.col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; }
+.col-links a:hover { color: var(--ink); }
+.col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
 </style>
 
 <div class="shell" id="top">
@@ -149,7 +159,14 @@ footer { border-top: 1px solid var(--brass-line); margin-top: 90px; padding-top:
 <h2>Reproduce it</h2>
 <p>The companion page, <a href="method.html">The Atlas Method</a>, records the full pipeline — every script, model, parameter, seed, cost, failure mode, and the exact commands — at the level of detail needed to rerun it, along with an honest account of what cannot be reproduced (LLM sampling nondeterminism, a handful of one-off manual repairs, and upstream drift in OpenReview itself).</p>
 
-<footer><span>Atlas of Judgment · Companion</span><span>Verified 2026-08-18</span><span>ICLR 2018–2026 · OpenReview</span></footer>
+<footer class="colophon">
+  <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(201,164,92,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#c9a45c"/><circle cx="11" cy="9" r="1.7" fill="#c9a45c"/><circle cx="16" cy="14" r="1.2" fill="#c9a45c"/><circle cx="21" cy="6" r="1.5" fill="#c9a45c"/></svg></div>
+  <div class="col-mark">Atlas of Judgment</div>
+  <div class="col-sub">the companion — what this is, and why ICLR</div>
+  <div class="col-stats">1,420,178 units of reviewer logic · 52,460 forums · nine years of ICLR · engraved MMXXVI</div>
+  <div class="col-links"><a href="index.html">The Atlas</a><a href="method.html">Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a></div>
+  <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
+</footer>
 </div>
 
 <script>
