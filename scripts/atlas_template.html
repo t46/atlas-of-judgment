@@ -196,6 +196,58 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 #drift-ctl button:hover { border-style: solid; background: rgba(201,164,92,0.08); }
 #drift-ctl input[type=range] { flex: 1; max-width: 320px; accent-color: #c9a45c; }
 #drift-ctl #dr-year { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-2); min-width: 44px; }
+/* ---- top bar ---- */
+#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(18,16,31,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.15, 1); }
+#topbar.show { transform: translateY(0); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; gap: clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+#topbar .tb-links a:hover { color: var(--brass); }
+#topbar .tb-links a.tb-live { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.16em; } #topbar .tb-links { gap: 10px; } #topbar .tb-links a { font-size: 8.5px; letter-spacing: 0.1em; } }
+@media (prefers-reduced-motion: reduce) { #topbar { transition: none; } }
+/* ---- the season ---- */
+#season-ctl button { background: none; border: 1px dashed var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; }
+#season-ctl button:hover { border-style: solid; background: rgba(201,164,92,0.08); }
+#season-ctl input[type=range] { flex: 1; max-width: 340px; accent-color: #c9a45c; }
+#season-ctl #se-date { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-2); min-width: 64px; }
+.se-counters { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 12px; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.se-counters b { color: var(--ink-2); font-weight: 500; font-variant-numeric: tabular-nums; }
+.se-counters .sw { display: inline-block; width: 8px; height: 8px; margin-right: 5px; vertical-align: -1px; }
+/* ---- measurement / fate / repair / bench / era ---- */
+#draw-ctl .draw-lab { font-size: 13px; color: var(--ink-2); }
+#draw-ctl select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 7px 11px; font-family: var(--mono); font-size: 11.5px; }
+#draw-btn { background: none; border: 1px solid var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; }
+#draw-btn:hover { background: rgba(201,164,92,0.08); }
+#draw-out { font-family: var(--display); font-size: 30px; color: var(--brass); min-width: 46px; }
+.dd-row { display: grid; grid-template-columns: 84px 1fr 52px; gap: 10px; align-items: center; }
+.dd-l { font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); text-align: right; }
+.dd-t { height: 15px; background: rgba(201,164,92,0.06); position: relative; }
+.dd-f { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(201,164,92,0.55); transition: width 0.6s cubic-bezier(0.2,0.7,0.15,1); }
+.dd-t.hit .dd-f { background: var(--brass); }
+.dd-n { font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
+.fate-row { display: grid; grid-template-columns: 190px 1fr 150px; gap: 12px; align-items: center; }
+.fate-l { font-size: 13px; color: var(--ink-2); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fate-t { position: relative; height: 14px; background: rgba(201,164,92,0.05); }
+.fate-rev { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(179,170,153,0.35); }
+.fate-soft { position: absolute; top: 0; bottom: 0; background: #3ba183; }
+.fate-hard { position: absolute; top: 0; bottom: 0; background: #d0685c; }
+.fate-n { font-family: var(--mono); font-size: 9.5px; color: var(--muted); white-space: nowrap; }
+.rep-row { display: grid; grid-template-columns: minmax(150px, 320px) 1fr 56px; gap: 12px; align-items: center; cursor: default; }
+.rep-l { font-size: 13px; color: var(--ink); text-align: right; }
+.rep-t { height: 13px; background: rgba(201,164,92,0.06); position: relative; }
+.rep-f { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(201,164,92,0.6); }
+.rep-n { font-family: var(--mono); font-size: 10px; color: var(--ink-2); }
+.rep-chips { grid-column: 2 / 4; display: flex; gap: 6px; flex-wrap: wrap; margin: -3px 0 3px; }
+#era-words { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 8px; }
+.era-col { border: 1px solid var(--brass-faint); padding: 12px 14px; font-family: var(--mono); font-size: 10px; color: var(--ink-2); line-height: 2; }
+.era-col b { display: block; color: var(--brass); letter-spacing: 0.16em; font-weight: 500; margin-bottom: 5px; }
+@media (max-width: 880px) {
+  .fate-row { grid-template-columns: 104px 1fr 84px; } .fate-l { font-size: 10.5px; white-space: normal; }
+  .fate-n { white-space: normal; font-size: 8.5px; }
+  .rep-row { grid-template-columns: 128px 1fr 44px; } .rep-l { font-size: 10.5px; }
+  #draw-ctl .draw-lab { font-size: 11px; }
+}
 /* ---- the oracle ---- */
 .oracle-bar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
 .oracle-bar select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 9px 13px; font-size: 12px; font-family: var(--mono); max-width: 100%; }
@@ -341,12 +393,23 @@ svg text.deft { cursor: help; }
 footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28px 0 64px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; text-transform: uppercase; }
 </style>
 
+<nav id="topbar" aria-label="site">
+  <a class="tb-mark" href="#top">Atlas of Judgment</a>
+  <div class="tb-links">
+    <a href="https://claude.ai/code/artifact/6f0ed75c-f899-47ce-870e-6c3d5c45cc48">About</a>
+    <a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa">Method</a>
+    <a href="https://github.com/t46/atlas-of-judgment">GitHub</a>
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Data</a>
+    <a href="https://atlas-of-judgment.pages.dev" class="tb-live">Live</a>
+  </div>
+</nav>
+
 <nav id="meridian" aria-label="navigate the plates"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
 <div id="reticle" aria-hidden="true"></div>
 
 <canvas id="ether" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none"></canvas>
 
-<div class="shell titlepage">
+<div class="shell titlepage" id="top">
   <div class="tp-frame"><div class="tp-frame-inner">
     <div>
       <div class="tp-eyebrow">Atlas of Judgment</div>
@@ -361,7 +424,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     </div>
     <div style="justify-self:center;max-width:520px;width:100%;position:relative"><canvas id="planisphere" aria-label="circular star chart of all logic units; click a star to read its unit" style="width:100%;aspect-ratio:1"></canvas>
     <div id="star-card" hidden></div>
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each star: one of 40,000 real units of reviewer logic · brass: praise · click any star to read it</div></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each star: one of 40,000 real units of reviewer logic · brass: praise · the comet walks the typical review\u2019s path · click any star to read it</div></div>
   </div></div>
 </div>
 
@@ -378,6 +441,25 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div id="field-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
     <details class="table-view" style="margin-top:20px"><summary>Full census table</summary><div class="tv-wrap" id="field-table"></div></details>
     <p class="caption"><b>Census</b> — From the normalized OpenReview record (Layer I). Acceptance among decided, non-withdrawn papers; 2019 decisions are not recoverable from the public record and are shown as —. Withdrawn counts are only meaningful from 2025 (earlier years delisted withdrawals). The quiet story: review length peaked in 2022 at a median 532 words and has fallen every year since, even as each paper now receives four reviews instead of three.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Prolegomenon II · The Season</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · every public event, timestamped to the day · Sep 2025 – Mar 2026</div>
+    <h2>One review season, replayed</h2>
+    <p class="lede">Every public act of the ICLR 2026 cycle, on its real calendar day: 19,814 submissions crest at the deadline, 75,859 reviews land in a two-day burst, 180,146 discussion comments answer them, 5,216 papers withdraw — most in the week after the reviews arrive — and on a single day in January, 14,175 decisions fall at once.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div id="season-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:8px">
+      <button id="se-play">▶&#8202; replay the season</button>
+      <input id="se-scrub" type="range" min="0" max="1000" value="1000" aria-label="scrub through the season">
+      <span id="se-date">Mar 08</span>
+    </div>
+    <div id="season"></div>
+    <div id="season-count" class="se-counters"></div>
+    <p class="caption"><b>The Season</b> — <em>How to read:</em> each ribbon is one kind of public event, day by day (square-root vertical scale, so the deadline spike does not flatten everything else); press replay and the season unfolds — the playhead carries the date, sparks mark days with over a thousand events, and the counters accumulate the running totals. The shape worth noticing: the withdrawal ribbon rises within days of the review burst, not after the decisions — most papers that leave, leave on reading their reviews, not their verdict.</p>
   </div></div>
 </section>
 
@@ -626,6 +708,12 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       </div>
       <div class="stat-lines" id="panel-stats"></div>
     </div>
+    <div class="fig-title" style="margin-top:34px">Fig. 13b — The bench: when the decision disagrees with the panel's lean</div>
+    <div class="arc-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center">
+      <div id="bench-curve"></div>
+      <div class="stat-lines" id="bench-stats"></div>
+    </div>
+    <details class="table-view" style="margin-top:14px"><summary>The overruled — public exemplars</summary><div id="bench-ex" style="padding:14px 6px;font-size:12.5px;color:var(--ink-2)"></div></details>
     <p class="caption"><b>Fig. 13</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
   </div></div>
 </section>
@@ -670,6 +758,62 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div></div>
 </section>
 
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XVI · The Measurement</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · all rated official reviews · a property of the system, not of any reviewer</div>
+    <h2>How repeatable is a score?</h2>
+    <p class="lede">Treat a paper's rating as a measurement and ask what any instrument must answer: if the measurement were repeated — same paper, another qualified reviewer — how much would it move? The NeurIPS experiments answered by actually re-running committees; this is the observational shadow of that experiment, computed from every co-review of the same paper across nine years of ICLR.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 14a — The paper's share of the score (intraclass correlation, by year)</div>
+    <div id="icc-chart"></div>
+    <div class="fig-title" style="margin-top:34px">Fig. 14b — Same paper, another reviewer: the score is a distribution</div>
+    <div class="arc-grid" style="display:grid;grid-template-columns:1.35fr 1fr;gap:26px;align-items:center">
+      <div>
+        <div id="draw-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px">
+          <span class="draw-lab">The other reviewers of a paper average</span>
+          <select id="draw-bin" aria-label="mean of the other reviewers"></select>
+          <button id="draw-btn">Draw a reviewer</button>
+          <span id="draw-out"></span>
+        </div>
+        <div id="draw-dist"></div>
+      </div>
+      <div class="stat-lines" id="draw-stats"></div>
+    </div>
+    <p class="caption"><b>Fig. 14</b> — <em>How to read 14a:</em> the intraclass correlation is the share of rating variance attributable to the paper rather than to the reviewer draw; across 2018–2025 it sits between 0.34 and 0.45 — in every year, the majority of score variance is not the paper. 2026 reads lower still (0.18), but its coarser even-numbered scale mechanically deflates the estimate, so the cross-year drop should not be over-read. <em>14b:</em> each bar is the real ICLR 2026 distribution of one reviewer's score conditioned on what the paper's other reviewers averaged; the draw button samples from exactly that distribution. Framed deliberately as measurement noise: this is a property of the system under its constraints — anonymous volunteers, four reviews, deadline pressure — not a verdict on any reviewer.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XVII · The Fate of an Objection</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 551,595 objections raised by official reviewers</div>
+    <h2>Most objections are never spoken of again</h2>
+    <p class="lede">Follow every objection — a reviewer's initial negative unit on one object — through the discussion phase: did the same reviewer return to that object after the authors responded, and if so, did the judgment soften or harden? The dominant fate, for every kind of objection, is silence.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 15a — Raised → revisited → softened / hardened, per object</div>
+    <div id="fate-rows" style="display:flex;flex-direction:column;gap:9px"></div>
+    <div class="legend" style="margin-top:14px"><span class="chip"><span class="sw" style="background:rgba(179,170,153,0.35)"></span>revisited after the response</span><span class="chip"><span class="sw" style="background:#3ba183"></span>of revisited: softened</span><span class="chip"><span class="sw" style="background:#d0685c"></span>of revisited: hardened</span></div>
+    <p class="caption"><b>Fig. 15</b> — <em>How to read:</em> each row is one object of scrutiny; the grey bar is the share of objections the same reviewer explicitly revisited after the author response (4–12%, everything else goes unmentioned); within that sliver, verdigris marks objections that softened and sienna those that hardened — hardening outruns softening two-to-three-fold for every object. The exceptions are instructive: related-work objections are the most revisited (11.7% — a citation fix is checkable), and novelty objections harden the least (8.0%) — precedent, once cited, is simply restated.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XVIII · The Repair Manual</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · 307,388 units carrying a suggested fix · clustered locally, named by hand</div>
+    <h2>What reviewers actually ask for</h2>
+    <p class="lede">Three quarters of all criticism arrives with a repair attached. Embedding and clustering 80,000 of those suggested fixes yields a working taxonomy of the discipline's demands — and one request towers over the rest: extend the evidence.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 16a — The sixteen repairs, by share of all suggested fixes</div>
+    <div id="repair-rows" style="display:flex;flex-direction:column;gap:8px"></div>
+    <p class="caption"><b>Fig. 16</b> — <em>How to read:</em> each bar is one repair type's share of the 80,000 sampled fixes (hover a row for a verbatim exemplar; the small chips name the objects the repair most often attaches to). Method: bge-small embeddings, k-means (k=22, seed 7), merged to sixteen types and named by hand from c-TF-IDF terms and central exemplars. The asks are overwhelmingly constructive and concrete — a fifth of everything reviewers request is simply <em>more evidence, broader</em>.</p>
+  </div></div>
+</section>
+
 <div class="appendix-rule"><span>Appendices</span></div>
 
 <section id="lexicon" class="appendix">
@@ -690,6 +834,9 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div>
   <div id="prov"></div>
   <details class="table-view"><summary>Full crosstab — object × reasoning standard</summary><div class="tv-wrap" id="tv"></div></details>
+  <div class="fig-title" style="margin-top:30px">The changing words of criticism, 2018–20 vs 2024–26</div>
+  <div id="era-words"></div>
+  <p class="caption">Centroid drift of criticism language is 7–14× the year-to-year noise floor for novelty, empirical-scope, and clarity units — but read it gently: part of the shift is the review form itself (structured "weakness" fields arrived mid-decade), and the units are one pipeline's paraphrase. The direction that survives the caveat: early-era criticism speaks in verdicts (<em>fails, weak, insufficient</em>), late-era criticism in assessments (<em>limited, concerns, quality, generalizability</em>).</p>
   <dl class="method" id="method"></dl>
 </section>
 
@@ -701,6 +848,11 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 const DATA = __DATA_JSON__;
 const GALAXY = __GALAXY_JSON__;
 const ORACLE = __ORACLE_JSON__;
+const LOTTERY = __LOTTERY_JSON__;
+const LIFECYCLE = __LIFECYCLE_JSON__;
+const REPAIR = __REPAIR_JSON__;
+const OVERRULE = __OVERRULE_JSON__;
+const SEASON = __SEASON_JSON__;
 const STRUCT = __STRUCTURE_JSON__;
 const PANEL = __PANEL_JSON__;
 const DRIFT = __DRIFT_JSON__;
@@ -823,6 +975,19 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const raw = GALAXY.points.filter((_, i) => i % 2 === 0);
   // three depth layers with differential rotation
   const pts = raw.map((p, i) => ({ x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3, o: p[2], r: p[3], v: p[4], s: p[5] }));
+  // the script's journey: waypoints = centroids of the objects a typical review visits, in order
+  const SCRIPT_ORDER = ["problem_framing", "novelty", "method_design", "empirical_scope", "baselines_ablations", "stats_metrics", "reproducibility"];
+  const objCent = {};
+  {
+    const acc = {};
+    raw.forEach(p => {
+      const k = GALAXY.obj_keys[p[2]];
+      (acc[k] = acc[k] || [0, 0, 0])[0] += p[0] / 4095;
+      acc[k][1] += p[1] / 4095; acc[k][2]++;
+    });
+    for (const k in acc) objCent[k] = [acc[k][0] / acc[k][2], acc[k][1] / acc[k][2]];
+  }
+  const WAY = SCRIPT_ORDER.filter(k => objCent[k]).map(k => objCent[k]);
   const SPEED = [1.0, 0.72, 0.5];
   let w, dpr, mouse = null;
   let picked = null, lastT = 0, lastProj = null;
@@ -904,6 +1069,33 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         ctx.fillStyle = `rgba(220,225,240,${0.17 + alphaBoost})`;
         ctx.fillRect(x, y, 1 + sizeBoost, 1 + sizeBoost);
       }
+    }
+    // the comet: a typical review's walk across the objects of scrutiny
+    if (!REDUCED && WAY.length > 2) {
+      const P = ((t || 0) / 30000) % 1;              // one journey every 30s
+      const seg = P * WAY.length;
+      const catmull = u => {
+        const n = WAY.length;
+        const i1 = Math.floor(u) % n, i0 = (i1 + n - 1) % n, i2 = (i1 + 1) % n, i3 = (i1 + 2) % n;
+        const tt = u - Math.floor(u);
+        const q = (a, b, c2, d) => 0.5 * ((2 * b) + (-a + c2) * tt + (2 * a - 5 * b + 4 * c2 - d) * tt * tt + (-a + 3 * b - 3 * c2 + d) * tt * tt * tt);
+        return [q(WAY[i0][0], WAY[i1][0], WAY[i2][0], WAY[i3][0]), q(WAY[i0][1], WAY[i1][1], WAY[i2][1], WAY[i3][1])];
+      };
+      const projXY = (u) => {
+        const [ux, uy] = catmull(u);
+        return proj({ x: ux, y: uy, layer: 0 });
+      };
+      for (let k = 24; k >= 1; k--) {
+        const [x, y] = projXY(((seg - k * 0.045) % WAY.length + WAY.length) % WAY.length);
+        const a = 0.30 * (1 - k / 25);
+        ctx.fillStyle = `rgba(236,231,220,${a.toFixed(3)})`;
+        ctx.fillRect(x, y, 1.3, 1.3);
+      }
+      const [hx, hy] = projXY(seg % WAY.length);
+      ctx.fillStyle = "rgba(236,231,220,0.9)";
+      ctx.beginPath(); ctx.arc(hx, hy, 1.8, 0, 6.284); ctx.fill();
+      ctx.strokeStyle = "rgba(201,164,92,0.35)";
+      ctx.beginPath(); ctx.arc(hx, hy, 4.5, 0, 6.284); ctx.stroke();
     }
     // self-drawing constellations
     if (!REDUCED) {
@@ -2670,6 +2862,11 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       entries.forEach((en, i) => en.btn.classList.toggle("cur", i === best));
     }
   }
+  const topbar = document.getElementById("topbar");
+  addEventListener("scroll", () => {
+    onScroll();
+    topbar.classList.toggle("show", scrollY > innerHeight * 0.6);
+  }, { passive: true });
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
@@ -2895,6 +3092,382 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     n.className = "margin-note"; n.style.top = top; n.textContent = text;
     plate.appendChild(n);
   }
+})();
+
+
+// ---------------- the measurement (Plate XVI) ----------------
+(function measurement() {
+  // 14a: ICC by year
+  const host = document.getElementById("icc-chart");
+  const years = Object.keys(LOTTERY.years).map(Number);
+  const NS = "http://www.w3.org/2000/svg";
+  function build() {
+    host.innerHTML = "";
+    const W = Math.max(280, host.clientWidth || 900), H = 210;
+    const narrow = W < 640;
+    const padL = 44, padR = 20, padT = 18, padB = 30;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const xs = i => padL + i / (years.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - v / 0.6) * (H - padT - padB);
+    for (const g of [0, 0.2, 0.4, 0.6]) {
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 7); tx.setAttribute("y", ys(g));
+      tx.setAttribute("text-anchor", "end"); tx.setAttribute("dominant-baseline", "middle");
+      tx.setAttribute("font-size", "10"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = g.toFixed(1); svg.appendChild(tx);
+    }
+    years.forEach((y, i) => {
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 8);
+      tx.setAttribute("text-anchor", "middle"); tx.setAttribute("font-size", "10.5");
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = "'" + String(y).slice(2); svg.appendChild(tx);
+    });
+    const solid = years.filter(y => y < 2026);
+    const pth = document.createElementNS(NS, "path");
+    pth.setAttribute("d", solid.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(LOTTERY.years[y].icc)).join(" "));
+    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", "#c9a45c"); pth.setAttribute("stroke-width", "2");
+    pth.setAttribute("data-draw", "1"); svg.appendChild(pth);
+    const dash = document.createElementNS(NS, "path");
+    const i25 = years.indexOf(2025), i26 = years.indexOf(2026);
+    dash.setAttribute("d", `M${xs(i25)},${ys(LOTTERY.years[2025].icc)} L${xs(i26)},${ys(LOTTERY.years[2026].icc)}`);
+    dash.setAttribute("fill", "none"); dash.setAttribute("stroke", "#8a8172"); dash.setAttribute("stroke-width", "1.6");
+    dash.setAttribute("stroke-dasharray", "3 5"); svg.appendChild(dash);
+    years.forEach((y, i) => {
+      const st = LOTTERY.years[y];
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(st.icc)); c.setAttribute("r", 3.4);
+      c.setAttribute("fill", y === 2026 ? "#8a8172" : "#c9a45c");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${y}: ICC ${st.icc.toFixed(2)} \u00b7 ${st.n_forums.toLocaleString()} papers \u00b7 expected gap between two reviewers ${st.expected_gap}`;
+      c.appendChild(title); svg.appendChild(c);
+    });
+    const note = document.createElementNS(NS, "text");
+    note.setAttribute("x", xs(i26) - 6); note.setAttribute("y", ys(LOTTERY.years[2026].icc) - 12);
+    note.setAttribute("text-anchor", "end"); note.setAttribute("font-size", "10");
+    note.setAttribute("fill", "#8a8172"); note.setAttribute("font-family", "IBM Plex Mono, monospace");
+    note.textContent = narrow ? "'26: coarser scale" : "2026: coarser even scale deflates the estimate";
+    svg.appendChild(note);
+    const bandLab = document.createElementNS(NS, "text");
+    bandLab.setAttribute("x", padL + 6); bandLab.setAttribute("y", ys(0.52));
+    bandLab.setAttribute("font-size", "11"); bandLab.setAttribute("fill", "#b3aa99");
+    bandLab.textContent = "share of score variance that is the paper";
+    svg.appendChild(bandLab);
+    host.appendChild(svg);
+  }
+  build();
+  debounceResize(build);
+
+  // 14b: conditional draw
+  const bins = Object.keys(LOTTERY.cond2026).map(Number).sort((a, b) => a - b);
+  const sel = document.getElementById("draw-bin");
+  sel.innerHTML = bins.map(b => `<option value="${b}"${b === 5 ? " selected" : ""}>${b}</option>`).join("");
+  const distHost = document.getElementById("draw-dist");
+  const out = document.getElementById("draw-out");
+  const stats = document.getElementById("draw-stats");
+  const SCORES = [0, 2, 4, 6, 8, 10];
+  function dist() {
+    const d = LOTTERY.cond2026[String(sel.value)];
+    const tot = Object.values(d).reduce((a, b) => a + b, 0);
+    return { d, tot };
+  }
+  function show() {
+    const { d, tot } = dist();
+    const mx = Math.max(...SCORES.map(x => d[String(x)] || 0)) / tot;
+    distHost.innerHTML = SCORES.map(x => {
+      const p = (d[String(x)] || 0) / tot;
+      return `<div class="dd-row" data-s="${x}"><div class="dd-l">scores ${x}</div><div class="dd-t"><div class="dd-f" style="width:${100 * p / mx}%"></div></div><div class="dd-n">${(100 * p).toFixed(1)}%</div></div>`;
+    }).join("");
+    const mean = SCORES.reduce((a, x) => a + x * (d[String(x)] || 0), 0) / tot;
+    const spread = Math.sqrt(SCORES.reduce((a, x) => a + (d[String(x)] || 0) * (x - mean) ** 2, 0) / tot);
+    stats.innerHTML = `
+      <div><span class="v">\u00b1${spread.toFixed(1)}</span><div class="l">one standard deviation of the next reviewer's score, given the panel mean</div></div>
+      <div><span class="v">${LOTTERY.years[2026].expected_gap}</span><div class="l">expected gap between two reviewers of the same 2026 paper (even scale)</div></div>
+      <div><span class="v">${fmt(tot)}</span><div class="l">real reviews behind this bin \u2014 nothing here is simulated</div></div>`;
+  }
+  sel.addEventListener("change", show);
+  let spinning = false;
+  document.getElementById("draw-btn").addEventListener("click", () => {
+    if (spinning) return;
+    const { d, tot } = dist();
+    let r = Math.random() * tot, picked = SCORES[0];
+    for (const x of SCORES) { r -= (d[String(x)] || 0); if (r <= 0) { picked = x; break; } }
+    distHost.querySelectorAll(".dd-t").forEach(el => el.classList.remove("hit"));
+    if (REDUCED) { out.textContent = picked; distHost.querySelector(`[data-s="${picked}"] .dd-t`).classList.add("hit"); return; }
+    spinning = true;
+    let ticks = 0;
+    const iv = setInterval(() => {
+      out.textContent = SCORES[(Math.random() * SCORES.length) | 0];
+      if (++ticks > 11) {
+        clearInterval(iv); out.textContent = picked; spinning = false;
+        const row = distHost.querySelector(`[data-s="${picked}"] .dd-t`);
+        if (row) row.classList.add("hit");
+      }
+    }, 70);
+  });
+  show();
+})();
+
+// ---------------- the fate of an objection (Plate XVII) ----------------
+(function fate() {
+  const host = document.getElementById("fate-rows");
+  const entries = Object.entries(LIFECYCLE.objects).sort((a, b) => b[1].revisit_rate - a[1].revisit_rate);
+  const XM = 100 / 0.14;   // axis: 0..14% revisit
+  host.innerHTML = entries.map(([o, st]) => {
+    const rev = st.revisit_rate, soft = rev * st.soften_given_revisit, hard = rev * st.harden_given_revisit;
+    return `<div class="fate-row" title="${objLabel[o]}: ${fmt(st.raised)} objections raised \u00b7 ${pct(rev)} revisited \u00b7 of those ${pct(st.soften_given_revisit)} softened, ${pct(st.harden_given_revisit)} hardened">
+      <div class="fate-l">${objLabel[o]}</div>
+      <div class="fate-t">
+        <div class="fate-rev grow" style="width:${Math.min(100, rev * XM)}%"></div>
+        <div class="fate-soft" style="left:0;width:${Math.min(100, soft * XM)}%"></div>
+        <div class="fate-hard" style="left:${Math.min(100, soft * XM)}%;width:${Math.min(100, hard * XM)}%"></div>
+      </div>
+      <div class="fate-n">${pct(rev)} revisited \u00b7 ${fmt(st.raised)} raised</div>
+    </div>`;
+  }).join("");
+})();
+
+// ---------------- the repair manual (Plate XVIII) ----------------
+(function repair() {
+  const host = document.getElementById("repair-rows");
+  const mx = REPAIR.groups[0].share;
+  host.innerHTML = REPAIR.groups.map(g => `
+    <div class="rep-row" title="\u201c${g.exemplar.replace(/"/g, "&quot;")}\u201d">
+      <div class="rep-l">${g.name}</div>
+      <div class="rep-t"><div class="rep-f grow" style="width:${100 * g.share / mx}%"></div></div>
+      <div class="rep-n">${pct(g.share)}</div>
+    </div>`).join("");
+  // exemplar tooltips via showTip for touch-less clarity
+  host.querySelectorAll(".rep-row").forEach((row, i) => {
+    const g = REPAIR.groups[i];
+    row.addEventListener("mousemove", e => showTip(e,
+      `<div class="t">${g.name}</div><div class="n">${pct(g.share)} of suggested fixes \u00b7 attaches most to ${g.top_objects.map(([o]) => objLabel[o]).join(", ")}</div><div style="margin-top:5px;font-size:12px;color:var(--ink-2);font-style:italic">\u201c${g.exemplar}\u201d</div>`));
+    row.addEventListener("mouseleave", hideTip);
+  });
+})();
+
+// ---------------- the bench (Fig 13b) ----------------
+(function bench() {
+  const host = document.getElementById("bench-curve");
+  const NS = "http://www.w3.org/2000/svg";
+  function build() {
+    host.innerHTML = "";
+    const W = Math.max(240, host.clientWidth || 600), H = 200;
+    const padL = 40, padR = 14, padT = 14, padB = 34;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const pts = OVERRULE.curve;
+    const xs = i => padL + i / (pts.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - (v - 0.5) / 0.5) * (H - padT - padB);
+    for (const g of [0.5, 0.75, 1]) {
+      const ln = document.createElementNS(NS, "line");
+      ln.setAttribute("x1", padL); ln.setAttribute("x2", W - padR);
+      ln.setAttribute("y1", ys(g)); ln.setAttribute("y2", ys(g));
+      ln.setAttribute("stroke", "rgba(201,164,92,0.12)"); svg.appendChild(ln);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", padL - 6); tx.setAttribute("y", ys(g));
+      tx.setAttribute("text-anchor", "end"); tx.setAttribute("dominant-baseline", "middle");
+      tx.setAttribute("font-size", "9.5"); tx.setAttribute("fill", "#6f6758");
+      tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = Math.round(g * 100) + "%"; svg.appendChild(tx);
+    }
+    const pth = document.createElementNS(NS, "path");
+    pth.setAttribute("d", pts.map((p, i) => (i ? "L" : "M") + xs(i) + "," + ys(p.agree)).join(" "));
+    pth.setAttribute("fill", "none"); pth.setAttribute("stroke", "#c9a45c"); pth.setAttribute("stroke-width", "2");
+    pth.setAttribute("data-draw", "1"); svg.appendChild(pth);
+    pts.forEach((p, i) => {
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", xs(i)); c.setAttribute("cy", ys(p.agree)); c.setAttribute("r", 3.2);
+      c.setAttribute("fill", "#c9a45c");
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${p.band} points from the threshold: decision matches the panel lean ${pct(p.agree)} (${fmt(p.n)} papers)`;
+      c.appendChild(title); svg.appendChild(c);
+      const tx = document.createElementNS(NS, "text");
+      tx.setAttribute("x", xs(i)); tx.setAttribute("y", H - 8);
+      tx.setAttribute("text-anchor", "middle"); tx.setAttribute("font-size", "9");
+      tx.setAttribute("fill", "#6f6758"); tx.setAttribute("font-family", "IBM Plex Mono, monospace");
+      tx.textContent = p.band; svg.appendChild(tx);
+    });
+    const lab = document.createElementNS(NS, "text");
+    lab.setAttribute("x", padL + 4); lab.setAttribute("y", ys(0.55));
+    lab.setAttribute("font-size", "10.5"); lab.setAttribute("fill", "#b3aa99");
+    lab.textContent = "decision agrees with panel lean, by distance from the accept threshold";
+    svg.appendChild(lab);
+    host.appendChild(svg);
+  }
+  build(); debounceResize(build);
+  document.getElementById("bench-stats").innerHTML = `
+    <div><span class="v">58.6%</span><div class="l">agreement within half a point of the threshold \u2014 at the margin, the decision layer is genuinely deciding</div></div>
+    <div><span class="v">${fmt(OVERRULE.n_overruled_accepted)}</span><div class="l">papers accepted from below the panel's lean \u2014 against ${fmt(OVERRULE.n_overruled_rejected)} rejected from above it: the bench overrules toward mercy 2.7\u00d7 more often</div></div>`;
+  document.getElementById("bench-ex").innerHTML =
+    `<div style="font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--muted);margin-bottom:8px">ACCEPTED FROM FURTHEST BELOW THE LEAN</div>` +
+    OVERRULE.ex_accepted_low.map(e => `<div style="margin-bottom:5px"><a href="https://openreview.net/forum?id=${e.forum}" target="_blank" rel="noopener">${e.title}</a> <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">mean ${e.mean} \u00b7 ${e.decision}</span></div>`).join("") +
+    `<div style="font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--muted);margin:12px 0 8px">REJECTED FROM FURTHEST ABOVE THE LEAN</div>` +
+    OVERRULE.ex_rejected_high.map(e => `<div style="margin-bottom:5px"><a href="https://openreview.net/forum?id=${e.forum}" target="_blank" rel="noopener">${e.title}</a> <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">mean ${e.mean} \u00b7 rejected</span></div>`).join("");
+})();
+
+// ---------------- the changing words (appendix) ----------------
+(function eraWords() {
+  const host = document.getElementById("era-words");
+  const DL = { novelty: "novelty criticism", empirical_scope: "empirical-scope criticism", clarity: "clarity criticism" };
+  const DRIFTW = {
+    novelty: { early: ["fails", "weak", "sufficient", "unclear", "literature"], late: ["limited", "conceptual", "innovation", "methodological", "concerns"] },
+    empirical_scope: { early: ["fails", "baselines", "because", "does", "results"], late: ["narrow", "unverified", "limited", "generalizability", "scalability"] },
+    clarity: { early: ["exposition", "writing", "error", "correction", "minor"], late: ["poor", "quality", "scope", "claims", "concern"] },
+  };
+  host.innerHTML = Object.entries(DRIFTW).map(([k, w]) => `
+    <div class="era-col"><b>${DL[k]}</b>
+      <span style="color:var(--muted)">2018\u201320 \u00b7</span> ${w.early.join(" \u00b7 ")}<br>
+      <span style="color:var(--brass)">2024\u201326 \u00b7</span> ${w.late.join(" \u00b7 ")}</div>`).join("");
+})();
+
+
+// ---------------- the season (Prolegomenon II) ----------------
+(function season() {
+  const host = document.getElementById("season");
+  if (!host) return;
+  const DAYS = SEASON.days, SER = SEASON.series;
+  const KINDS = [
+    ["submissions", "#b3aa99", "submissions"],
+    ["reviews", "#c9a45c", "reviews"],
+    ["discussion", "#8a84c0", "discussion comments"],
+    ["withdrawals", "#d0685c", "withdrawals"],
+    ["decisions", "#3ba183", "decisions"],
+  ];
+  const cv = document.createElement("canvas");
+  const ctx = cv.getContext("2d");
+  host.appendChild(cv);
+  let W = 0, H = 300, p = 1;   // progress 0..1
+  const sparks = [];
+  function size() {
+    W = Math.max(280, host.clientWidth || 1100);
+    H = W < 640 ? 240 : 320;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = W * dpr; cv.height = H * dpr;
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+  const padL = 8, padR = 8, padT = 26, padB = 30;
+  const MAXS = {};
+  for (const [k] of KINDS) MAXS[k] = Math.max(...SER[k]);
+  const bandH = () => (H - padT - padB) / KINDS.length;
+  const xs = i => padL + i / (DAYS.length - 1) * (W - padL - padR);
+  function monthTicks() {
+    const out = [];
+    for (let i = 0; i < DAYS.length; i++) if (DAYS[i].endsWith("-01")) out.push(i);
+    return out;
+  }
+  function fmtDay(i) {
+    const [y, mo, d] = DAYS[i].split("-");
+    return ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][+mo] + " " + d;
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const upto = Math.max(1, Math.floor(p * (DAYS.length - 1)));
+    const bh = bandH();
+    // month grid
+    ctx.font = "9px IBM Plex Mono, monospace";
+    for (const mi of monthTicks()) {
+      const x = xs(mi);
+      ctx.strokeStyle = "rgba(201,164,92,0.10)";
+      ctx.beginPath(); ctx.moveTo(x, padT - 8); ctx.lineTo(x, H - padB + 6); ctx.stroke();
+      ctx.fillStyle = "#6f6758";
+      ctx.fillText(fmtDay(mi).slice(0, 3).toUpperCase(), x + 4, H - padB + 18);
+    }
+    KINDS.forEach(([k, col, lab], bi) => {
+      const y0 = padT + bi * bh + bh - 3;
+      ctx.strokeStyle = "rgba(201,164,92,0.10)";
+      ctx.beginPath(); ctx.moveTo(padL, y0); ctx.lineTo(W - padR, y0); ctx.stroke();
+      // ribbon up to playhead, sqrt scale
+      ctx.beginPath();
+      ctx.moveTo(xs(0), y0);
+      for (let i = 0; i <= upto; i++) {
+        const v = Math.sqrt(SER[k][i] / MAXS[k]);
+        ctx.lineTo(xs(i), y0 - v * (bh - 12));
+      }
+      ctx.lineTo(xs(upto), y0);
+      ctx.closePath();
+      ctx.fillStyle = col + "3d";
+      ctx.fill();
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      for (let i = 0; i <= upto; i++) {
+        const v = Math.sqrt(SER[k][i] / MAXS[k]);
+        const x = xs(i), y = y0 - v * (bh - 12);
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.stroke();
+      ctx.fillStyle = "#6f6758";
+      ctx.font = "8.5px IBM Plex Mono, monospace";
+      ctx.fillText(lab.toUpperCase(), padL + 2, y0 - bh + 12);
+    });
+    // playhead
+    const px = xs(upto);
+    ctx.strokeStyle = "rgba(236,231,220,0.55)";
+    ctx.beginPath(); ctx.moveTo(px, padT - 12); ctx.lineTo(px, H - padB); ctx.stroke();
+    // sparks on heavy days
+    for (const sp of sparks) {
+      sp.y += sp.vy; sp.vy += 0.05; sp.a *= 0.94;
+      if (sp.a < 0.03) continue;
+      ctx.fillStyle = `rgba(${sp.c},${sp.a.toFixed(2)})`;
+      ctx.fillRect(sp.x, sp.y, 1.5, 1.5);
+    }
+    for (let i = sparks.length - 1; i >= 0; i--) if (sparks[i].a < 0.03) sparks.splice(i, 1);
+    // counters + date
+    document.getElementById("se-date").textContent = fmtDay(upto);
+    document.getElementById("se-scrub").value = Math.round(p * 1000);
+    document.getElementById("season-count").innerHTML = KINDS.map(([k, col, lab]) => {
+      let tot = 0;
+      for (let i = 0; i <= upto; i++) tot += SER[k][i];
+      return `<span><span class="sw" style="background:${col}"></span>${lab} <b>${tot.toLocaleString("en-US")}</b></span>`;
+    }).join("");
+  }
+  let raf = null, lastUpto = -1;
+  function setP(np, emit) {
+    p = Math.max(0, Math.min(1, np));
+    const upto = Math.floor(p * (DAYS.length - 1));
+    if (emit && !REDUCED && upto !== lastUpto) {
+      const bh = bandH();
+      KINDS.forEach(([k, col], bi) => {
+        const n = SER[k][upto] || 0;
+        if (n > 900) {
+          const rgb = col === "#c9a45c" ? "201,164,92" : col === "#d0685c" ? "208,104,92" : col === "#3ba183" ? "59,161,131" : col === "#8a84c0" ? "138,132,192" : "179,170,153";
+          const y0 = padT + bi * bh + bh - 3;
+          const burst = Math.min(26, Math.round(n / 900) * 5);
+          for (let j = 0; j < burst; j++)
+            sparks.push({ x: xs(upto) + (Math.random() - 0.5) * 6, y: y0 - Math.random() * (bh - 12), vy: -0.6 - Math.random(), a: 0.8, c: rgb });
+        }
+      });
+    }
+    lastUpto = upto;
+    draw();
+  }
+  document.getElementById("se-play").addEventListener("click", () => {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (REDUCED) { setP(1); return; }
+    const T = 26000, t0 = performance.now();
+    setP(0);
+    raf = requestAnimationFrame(function step(t) {
+      const k = Math.min(1, (t - t0) / T);
+      setP(k, true);
+      raf = k < 1 ? requestAnimationFrame(step) : null;
+    });
+  });
+  document.getElementById("se-scrub").addEventListener("input", e => {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    setP(e.target.value / 1000);
+  });
+  size();
+  debounceResize(size);
+  // sparks need a light loop while playing; draw() is called by step already
 })();
 
 </script>

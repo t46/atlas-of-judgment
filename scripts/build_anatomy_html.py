@@ -25,6 +25,11 @@ def main() -> None:
     html = html.replace("__CONSTRUCT_JSON__", load_json_island("construct-data.json"))
     html = html.replace("__STRUCTURE_JSON__", load_json_island("structure-data.json"))
     html = html.replace("__ORACLE_JSON__", load_json_island("oracle-data.json"))
+    html = html.replace("__LOTTERY_JSON__", load_json_island("lottery-data.json"))
+    html = html.replace("__LIFECYCLE_JSON__", load_json_island("lifecycle-data.json"))
+    html = html.replace("__REPAIR_JSON__", load_json_island("repair-manual.json"))
+    html = html.replace("__OVERRULE_JSON__", load_json_island("overrule-data.json"))
+    html = html.replace("__SEASON_JSON__", load_json_island("season-data.json"))
     direct_dir = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-direct-v1"
     for placeholder, name in (
         ("__DRIFT_JSON__", "drift-data.json"),
