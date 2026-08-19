@@ -1652,72 +1652,112 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   let current = 0, timer = null;
   tabs.innerHTML = clusters.map((c, i) =>
     `<button data-i="${i}" class="${i === 0 ? "on" : ""}">${NAMES[c.cluster][0].replace("The ", "")}</button>`).join("");
-  function rose(c) {
-    const G = 360, H = 290, cx = G / 2, cy = H / 2, R = 78;
-    const svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", `0 0 ${G} ${H}`); svg.style.width = "100%"; svg.style.maxWidth = "100%"; svg.style.height = "auto";
-    const ratios = reaOrder.map(k => c.ratio[k] || 0);
-    const topIdx = [...ratios.keys()].sort((a, b) => ratios[b] - ratios[a]).slice(0, 3);
-    for (const rr of [0.33, 0.66, 1]) {
-      const ring = document.createElementNS(NS, "circle");
-      ring.setAttribute("cx", cx); ring.setAttribute("cy", cy); ring.setAttribute("r", R * rr);
-      ring.setAttribute("fill", "none"); ring.setAttribute("stroke", "rgba(201,164,92,0.14)");
-      svg.appendChild(ring);
-    }
-    reaOrder.forEach((k, i) => {
-      const a0 = -Math.PI / 2 + (i / reaOrder.length) * 2 * Math.PI;
-      const hot0 = topIdx.includes(i);
-      const lx = cx + Math.cos(a0) * (R + 14), ly = cy + Math.sin(a0) * (R + 14);
-      const lb = document.createElementNS(NS, "text");
-      lb.setAttribute("x", lx); lb.setAttribute("y", ly);
-      lb.setAttribute("font-size", "10.5"); lb.setAttribute("font-family", "IBM Plex Mono, monospace");
-      lb.setAttribute("fill", hot0 ? "#c9a45c" : "#6f6758");
-      lb.setAttribute("dominant-baseline", "middle");
-      lb.setAttribute("text-anchor", Math.cos(a0) > 0.3 ? "start" : Math.cos(a0) < -0.3 ? "end" : "middle");
-      lb.textContent = REA_SHORT[k];
-      lb.classList.add("deft");
-      const def = reaCats.find(x => x.key === k);
-      lb.addEventListener("mousemove", e => showTip(e,
-        `<div class="t">${reaLabel[k]}</div><div class="n">REASONING STANDARD \u00b7 ${(c.ratio[k] || 0).toFixed(2)}\u00d7 the field for this archetype</div><div style="margin-top:5px;font-size:12px;color:var(--ink-2)">${def ? def.definition : ""}</div>`));
-      lb.addEventListener("mouseleave", hideTip);
-      svg.appendChild(lb);
-    });
-    reaOrder.forEach((k, i) => {
-      const a0 = -Math.PI / 2 + (i / reaOrder.length) * 2 * Math.PI;
-      const half = Math.PI / reaOrder.length * 0.72;
-      const len = R * Math.min(1, Math.sqrt((c.ratio[k] || 0) / 2.8));
-      const tip = [cx + Math.cos(a0) * len, cy + Math.sin(a0) * len];
-      const b1 = [cx + Math.cos(a0 - half) * len * 0.42, cy + Math.sin(a0 - half) * len * 0.42];
-      const b2 = [cx + Math.cos(a0 + half) * len * 0.42, cy + Math.sin(a0 + half) * len * 0.42];
-      const petal = document.createElementNS(NS, "path");
-      petal.setAttribute("d", `M${cx},${cy} Q${b1[0]},${b1[1]} ${tip[0]},${tip[1]} Q${b2[0]},${b2[1]} ${cx},${cy} Z`);
-      const hot = topIdx.includes(i);
-      petal.setAttribute("fill", hot ? "#c9a45c" : "#b3aa99");
-      petal.setAttribute("opacity", hot ? 0.85 : 0.28);
-      if (!REDUCED) { petal.style.transformOrigin = `${cx}px ${cy}px`; petal.style.transition = "d .5s ease"; }
-      const title = document.createElementNS(NS, "title");
-      title.textContent = `${reaLabel[k]}: ${(c.ratio[k] || 0).toFixed(2)}× the field`;
-      petal.appendChild(title);
-      svg.appendChild(petal);
-    });
-    return svg;
+
+  // ---- persistent rose: the same twelve petals morph between archetypes ----
+  const G = 360, H = 290, cx = G / 2, cy = H / 2, R = 78;
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${G} ${H}`); svg.style.width = "100%"; svg.style.maxWidth = "100%"; svg.style.height = "auto";
+  for (const rr of [0.33, 0.66, 1]) {
+    const ring = document.createElementNS(NS, "circle");
+    ring.setAttribute("cx", cx); ring.setAttribute("cy", cy); ring.setAttribute("r", R * rr);
+    ring.setAttribute("fill", "none"); ring.setAttribute("stroke", "rgba(201,164,92,0.14)");
+    svg.appendChild(ring);
   }
-  function render(i) {
+  let curC = clusters[0];
+  const labels = [], petals = [], petalTitles = [];
+  reaOrder.forEach((k, i) => {
+    const a0 = -Math.PI / 2 + (i / reaOrder.length) * 2 * Math.PI;
+    const lx = cx + Math.cos(a0) * (R + 14), ly = cy + Math.sin(a0) * (R + 14);
+    const lb = document.createElementNS(NS, "text");
+    lb.setAttribute("x", lx); lb.setAttribute("y", ly);
+    lb.setAttribute("font-size", "10.5"); lb.setAttribute("font-family", "IBM Plex Mono, monospace");
+    lb.setAttribute("fill", "#6f6758");
+    lb.setAttribute("dominant-baseline", "middle");
+    lb.setAttribute("text-anchor", Math.cos(a0) > 0.3 ? "start" : Math.cos(a0) < -0.3 ? "end" : "middle");
+    lb.textContent = REA_SHORT[k];
+    lb.classList.add("deft");
+    lb.style.transition = "fill 0.45s ease";
+    const def = reaCats.find(x => x.key === k);
+    lb.addEventListener("mousemove", e => showTip(e,
+      `<div class="t">${reaLabel[k]}</div><div class="n">REASONING STANDARD \u00b7 ${(curC.ratio[k] || 0).toFixed(2)}\u00d7 the field for this archetype</div><div style="margin-top:5px;font-size:12px;color:var(--ink-2)">${def ? def.definition : ""}</div>`));
+    lb.addEventListener("mouseleave", hideTip);
+    svg.appendChild(lb);
+    labels.push(lb);
+  });
+  function petalD(i, len) {
+    const a0 = -Math.PI / 2 + (i / reaOrder.length) * 2 * Math.PI;
+    const half = Math.PI / reaOrder.length * 0.72;
+    const tip = [cx + Math.cos(a0) * len, cy + Math.sin(a0) * len];
+    const b1 = [cx + Math.cos(a0 - half) * len * 0.42, cy + Math.sin(a0 - half) * len * 0.42];
+    const b2 = [cx + Math.cos(a0 + half) * len * 0.42, cy + Math.sin(a0 + half) * len * 0.42];
+    return `M${cx},${cy} Q${b1[0]},${b1[1]} ${tip[0]},${tip[1]} Q${b2[0]},${b2[1]} ${cx},${cy} Z`;
+  }
+  reaOrder.forEach((k, i) => {
+    const petal = document.createElementNS(NS, "path");
+    petal.setAttribute("d", petalD(i, 0));
+    petal.setAttribute("fill", "#b3aa99");
+    petal.setAttribute("opacity", 0.28);
+    petal.style.transition = "fill 0.45s ease, opacity 0.45s ease";
+    const title = document.createElementNS(NS, "title");
+    petal.appendChild(title);
+    svg.appendChild(petal);
+    petals.push(petal); petalTitles.push(title);
+  });
+  const glyphWrap = document.createElement("div");
+  glyphWrap.appendChild(svg);
+  const prose = document.createElement("div");
+  host.appendChild(glyphWrap);
+  host.appendChild(prose);
+
+  // rAF morph: petals grow/shrink to the next archetype, blooming with a stagger
+  let animLens = reaOrder.map(() => 0), raf = null;
+  function animateTo(target, stagger) {
+    if (REDUCED) {
+      animLens = target.slice();
+      petals.forEach((p, i) => p.setAttribute("d", petalD(i, target[i])));
+      return;
+    }
+    if (raf) cancelAnimationFrame(raf);
+    const from = animLens.slice(), t0 = performance.now(), DUR = 680, ST = stagger ? 46 : 0;
+    const c1 = 1.4;
+    raf = requestAnimationFrame(function step(t) {
+      let done = true;
+      for (let i = 0; i < petals.length; i++) {
+        const k = Math.max(0, Math.min(1, (t - t0 - i * ST) / DUR));
+        if (k < 1) done = false;
+        const e = 1 + (c1 + 1) * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2);   // easeOutBack
+        const v = from[i] + (target[i] - from[i]) * e;
+        animLens[i] = v;
+        petals[i].setAttribute("d", petalD(i, Math.max(0, v)));
+      }
+      raf = done ? null : requestAnimationFrame(step);
+    });
+  }
+
+  function render(i, bloom) {
     current = i;
     hideTip();
     for (const b of tabs.querySelectorAll("button")) b.classList.toggle("on", +b.dataset.i === i);
     const c = clusters[i];
+    curC = c;
+    const ratios = reaOrder.map(k => c.ratio[k] || 0);
+    const topIdx = [...ratios.keys()].sort((a, b) => ratios[b] - ratios[a]).slice(0, 3);
+    petals.forEach((p, idx) => {
+      const hot = topIdx.includes(idx);
+      p.setAttribute("fill", hot ? "#c9a45c" : "#b3aa99");
+      p.setAttribute("opacity", hot ? 0.85 : 0.28);
+      petalTitles[idx].textContent = `${reaLabel[reaOrder[idx]]}: ${ratios[idx].toFixed(2)}\u00d7 the field`;
+      labels[idx].setAttribute("fill", hot ? "#c9a45c" : "#6f6758");
+    });
+    if (bloom) animLens = reaOrder.map(() => 0);
+    animateTo(ratios.map(r => R * Math.min(1, Math.sqrt(r / 2.8))), !!bloom);
     const [name, epithet, desc] = NAMES[c.cluster];
     const tops = reaOrder.map(k => [k, c.ratio[k] || 0]).sort((a, b) => b[1] - a[1]).slice(0, 3);
     const years = Object.keys(yt);
     const mix = years.map(y => (c.year_counts[y] || 0) / Math.max(1, yt[y]));
     const mMax = Math.max(...mix) * 1.15;
     const spark = `<svg viewBox="0 0 220 40" style="width:220px;height:40px"><path d="${mix.map((v, j) => (j ? "L" : "M") + (j / (mix.length - 1) * 214 + 3) + "," + (35 - v / mMax * 28)).join(" ")}" fill="none" stroke="#c9a45c" stroke-width="1.8"/></svg>`;
-    host.innerHTML = "";
-    const glyphWrap = document.createElement("div");
-    glyphWrap.appendChild(rose(c));
-    host.appendChild(glyphWrap);
-    host.insertAdjacentHTML("beforeend", `
+    prose.innerHTML = `
       <div style="display:flex;flex-direction:column;gap:10px">
         <div><span style="font-family:var(--display);font-size:30px">${name}</span>
           <span style="font-size:13px;color:var(--ink-2);font-style:italic;margin-left:10px">${epithet}</span></div>
@@ -1726,12 +1766,13 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
           <span><b style="color:var(--brass);font-weight:500">${pct(c.share)}</b> OF REVIEWERS</span>
           <span>NEG <b style="color:${c.neg_rate < 0.7 ? "#3ba183" : "var(--ink)"};font-weight:500">${pct(c.neg_rate)}</b></span>
         </div>
-        <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em">${tops.map(([k, r]) => `${reaLabel[k]} <span style="color:var(--brass)">${r.toFixed(1)}×</span>`).join(" &nbsp;·&nbsp; ")}</div>
+        <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em">${tops.map(([k, r]) => `${reaLabel[k]} <span style="color:var(--brass)">${r.toFixed(1)}\u00d7</span>`).join(" &nbsp;\u00b7&nbsp; ")}</div>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--brass-faint);padding-top:10px">
-          <span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.14em">SHARE OF EACH YEAR'S REVIEWERS '18–'26</span>${spark}
-          <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-2)">${pct(mix[0])}→${pct(mix[mix.length - 1])}</span>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.14em">SHARE OF EACH YEAR'S REVIEWERS '18\u2013'26</span>${spark}
+          <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-2)">${pct(mix[0])}\u2192${pct(mix[mix.length - 1])}</span>
         </div>
-      </div>`);
+      </div>`;
+    if (!REDUCED) { prose.classList.remove("spec-in"); void prose.offsetWidth; prose.classList.add("spec-in"); }
   }
   function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
   tabs.addEventListener("click", e => {
@@ -1740,7 +1781,14 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   });
   host.addEventListener("mouseenter", stopAuto);
   render(0);
-  if (!REDUCED) timer = setInterval(() => render((current + 1) % clusters.length), 4200);
+  // bloom the rose the first time the plate is actually seen, then start the cycle
+  let seen = false;
+  new IntersectionObserver(en => {
+    if (!en[0].isIntersecting || seen) return;
+    seen = true;
+    render(current, true);
+    if (!REDUCED && !timer) timer = setInterval(() => render((current + 1) % clusters.length), 4600);
+  }, { threshold: 0.25 }).observe(host);
 })();
 
 // ---------------- the hardening (Fig 8c) ----------------
