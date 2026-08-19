@@ -213,6 +213,8 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 @media (prefers-reduced-motion: reduce) { #topbar { transition: none; } }
 #delib-head .dh-def { flex-basis: 100%; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; color: var(--muted); }
 #delib-head .dh-def::first-letter { color: var(--brass); }
+/* ---- figure decks ---- */
+.fig-deck { font-size: 13px; font-style: italic; color: var(--ink-2); margin: 4px 0 12px; max-width: 88ch; }
 /* ---- the counterfactual conference ---- */
 #cfx-curve svg, #cfx-program canvas { display: block; width: 100%; }
 #cfx-go { background: none; border: 1px solid var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; }
@@ -594,6 +596,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>The Season</b> — <em>How to read:</em> each ribbon is one kind of public event, day by day (square-root vertical scale, so the deadline spike does not flatten everything else); press replay and the season unfolds — the playhead carries the date, sparks mark days with over a thousand events, and the counters accumulate the running totals. The shape worth noticing: the withdrawal ribbon rises within days of the review burst, not after the decisions — most papers that leave, leave on reading their reviews, not their verdict.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. S2 — The tide: the early review is a different document</div>
+    <div class="fig-deck">Reviews filed weeks early run harsher and longer than deadline-day reviews — in both years.</div>
     <div class="arc-grid" style="grid-template-columns:1.1fr .9fr">
       <div><div id="tide-rating"></div></div>
       <div><div id="tide-words"></div></div>
@@ -615,6 +618,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div id="dissect" hidden></div>
     <p class="caption"><b>Fig. 1a</b> — 71.8% of all units resolve negative — a property of the memo layer as much as of reviewers (the instrument articulates criticism more readily than praise; see Appendix II). Merit recognition — the one standard that concentrates praise — collects just 13.7% of the flow.</p>
     <div class="fig-title" style="margin-top:34px">Fig. 1b — The mercy map: how each pairing resolves</div>
+    <div class="fig-deck">Mercy lives in one column — merit recognition; everywhere else, scrutiny condemns.</div>
     <div class="hm-wrap"><div class="hm" id="mercy"></div></div>
     <p class="caption"><b>Fig. 1b</b> — Each cell is an object × standard pairing, colored by the share of its units that resolve <em>negative</em> (deep red = merciless, pale = lenient). The mercy in the grid lives almost entirely in one column — merit recognition; outside it, nearly every pairing condemns.</p>
   </div></div>
@@ -632,6 +636,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>Fig. 2</b> — <em>How to read:</em> each row is one object of scrutiny; cells are the share of that object's units argued under each standard, row-normalized, deeper brass for more. One honesty note before reading the diagonal: several standards are name-twins of their objects — novelty and the novelty standard, robustness and the robustness norm — and for those cells a bright diagonal is partly analytic, since both labels can be responses to the same sentence. In practice the coupling is loose: only 56% of novelty objections are argued under the novelty standard, 27% of robustness under the robustness norm, and 7% of statistics under identifiability — the standard label carries information the object's name does not. Still, treat diagonal brightness as bookkeeping; the evidence lives in the off-diagonal mass — statistical rigor judged by identifiability, empirical scope answering to the claim-evidence matching norm — and in how the whole grammar moved (Fig.&nbsp;2b).</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 2b — The grammar's nine years: where P(standard | object) itself moved</div>
+    <div class="fig-deck">The grammar specialized: objects moved onto their own standards, and novelty lost jurisdiction.</div>
     <div class="hm" id="hm-drift"></div>
     <p class="caption"><b>Fig. 2b</b> — <em>How to read:</em> the same matrix as Fig.&nbsp;2, but each cell is the <em>change</em> in P(standard&nbsp;|&nbsp;object) from the early era (2018–19, 32,257 units) to the current one (2025–26, 606,120 units): brass where a standard gained jurisdiction over an object, violet where it lost it; cells inside the shuffle floor (±4.1pp, the 95th percentile of the largest change produced by permuting era labels) are dimmed to near-invisibility. The residue is a story of specialization: cost questions moved onto the cost-benefit standard (+8.7pp) and reproducibility onto its own norm (+4.9pp), while the novelty standard lost jurisdiction over problem framing (−6.3pp) and related work (−6.1pp) — the diagonal of the grammar sharpened. Nine years ago an object was more often judged by a borrowed law; today each is more likely to be judged by its own.</p>
   </div></div>
@@ -648,6 +653,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="arc-grid" style="grid-template-columns:1.25fr .75fr">
       <div>
         <div class="fig-title">Fig. 3 — The voice of each standard — six inference forms, all 1,009,592 units</div>
+    <div class="fig-deck">Six shapes an inference can take — and praise at scale exists only in weighing.</div>
         <div id="rhetoric" style="display:flex;flex-direction:column;gap:8px"></div>
         <div class="legend" id="rhet-legend" style="margin-top:14px"></div>
       </div>
@@ -668,10 +674,12 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="arc-grid" style="grid-template-columns:1.05fr .95fr">
       <div>
         <div class="fig-title">Fig. 4c — The bill of faults: what a reviewer lists first</div>
+    <div class="fig-deck">Reviewers write identity objections first and measurement objections last.</div>
         <div id="bill"></div>
       </div>
       <div>
         <div class="fig-title">Fig. 4d — The succession: what thought follows what</div>
+    <div class="fig-deck">Theory is a residence, novelty a verdict — and some thoughts always travel in pairs.</div>
         <div id="succession"></div>
       </div>
     </div>
@@ -689,8 +697,10 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 4a — Opening move vs closing move, by object (lift vs base rate)</div>
+    <div class="fig-deck">Reviews open and close with different objects: the script has fixed moves.</div>
     <div id="lifts" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="fig-title" style="margin-top:34px">Fig. 4b — The arc of a review</div>
+    <div class="fig-deck">The verdict curve of an average review, from its first unit to its last.</div>
     <div class="arc-grid">
       <div id="arc"></div>
       <div class="stat-lines" id="arc-stats"></div>
@@ -711,8 +721,10 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
       <div id="wheel"></div>
       <div>
         <div class="fig-title">The chaining habit — odds a topic follows itself</div>
+    <div class="fig-deck">Topics repeat themselves far more than chance allows.</div>
         <div id="wheel-chains" style="display:flex;flex-direction:column;gap:7px"></div>
         <div class="fig-title" style="margin-top:26px">Strangest companions — cross-topic pairs above chance</div>
+    <div class="fig-deck">The cross-topic pairs that co-occur well above chance.</div>
         <div id="wheel-pairs" style="display:flex;flex-direction:column;gap:7px"></div>
       </div>
     </div>
@@ -742,9 +754,11 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 7a — Verdict mix per object, sorted by negativity</div>
+    <div class="fig-deck">Positioning work — related work, novelty — is judged almost only in the negative.</div>
     <div id="vprofile" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="legend" id="val-legend-2" style="margin-top:12px"></div>
     <div class="fig-title" style="margin-top:34px">Fig. 7b — Criticism that comes with a fix (brass), and grounding in the reviewer's own words (grey tick)</div>
+    <div class="fig-deck">Novelty criticism rarely comes with a fix; robustness criticism almost always does.</div>
     <div id="rx" style="display:flex;flex-direction:column;gap:8px"></div>
     <p class="caption"><b>Fig. 7</b> — Positioning work (related work, novelty) is judged almost exclusively in the negative, and novelty criticism is also the least actionable: barely half of it comes with a concrete fix, against 85% for robustness complaints.</p>
   </div></div>
@@ -761,16 +775,19 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="arc-grid" style="grid-template-columns:1.02fr .98fr">
       <div>
         <div class="fig-title">Fig. 18a — The tariff: the price of each objection, paper held fixed</div>
+    <div class="fig-deck">Holding the paper fixed, a novelty objection costs three times any other charge.</div>
         <div id="tariff"></div>
       </div>
       <div>
         <div class="fig-title">Fig. 18b — Price against repairability</div>
+    <div class="fig-deck">The expensive charge is hand-made against this paper; the cheap ones are prescriptions.</div>
         <div id="pricerep"></div>
       </div>
     </div>
     <p class="caption"><b>Fig. 18a</b> — <em>How to read:</em> each solid point is the regression coefficient for "this review raised at least one negative unit on the object," with rating demeaned within each paper, controlling for how many negative units and how many units the review contains overall; whiskers are a 95% interval from resampling whole forums. The hollow point is the naive gap between reviews with and without the objection, papers not held fixed — the distance between the two points is the part explained by <em>which papers</em> attract the objection. Holding the paper and the criticism volume fixed, a novelty objection costs −0.43 points on the even 2026 scale — three times any other objection — while framing, related work, and baselines cost around −0.15. Robustness and compute-cost objections carry a <em>positive</em> sign: they are the objections of reviewers who found nothing worse to say. Associations of a system, not effects of a sentence: reviewers choose what to raise, and the choice already encodes the verdict.</p>
     <p class="caption"><b>Fig. 18b</b> — Each object placed by the share of its negative units that arrive with a prescribed repair (horizontal) against its within-paper tariff (vertical). The bill collects in one corner: the one objection that rarely comes with a fix — novelty, 64% against 82–92% for everything else — is also the one that costs triple. Cheap objections are prescriptions; the expensive one is a sentence. The unlabeled points crowding the near-zero center — theory, clarity, statistics, method design, empirical scope — are the objections that neither cost nor spare; hover any point for its numbers.</p>
     <div class="fig-title" style="margin-top:38px">Fig. 18c — Same bench, different law</div>
+    <div class="fig-deck">Two reviewers of the same object agree far more when they brought the same standard.</div>
     <div id="law"></div>
     <p class="caption"><b>Fig. 18c</b> — <em>How to read:</em> across all nine years, take every pair of reviewers who examined the <em>same object of the same paper</em> in their initial reviews; each reviewer's stance is whether the majority of their units on that object were negative, and their <em>law</em> is the reasoning standard they used most. When both applied the same standard they reach the same stance 79.5% of the time; under different standards, 69.9% — and the gap holds across every object. Base agreement is high because criticism dominates the corpus, so read the gap, not the levels. The choice of standard is not prior to the judgment — it is part of it: which law a reviewer reaches for already carries most of the verdict they are about to give.</p>
   </div></div>
@@ -787,16 +804,19 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="arc-grid" style="grid-template-columns:1fr 1fr">
       <div>
         <div class="fig-title">Fig. 20a — Two grammars: what the panel inspects, what the chair weighs</div>
+    <div class="fig-deck">The chair does not re-litigate evidence — it weighs verdicts: statistics, positioning, novelty.</div>
         <div id="court-slope"></div>
       </div>
       <div>
         <div class="fig-title">Fig. 20b — What the bench forgives at the margin</div>
+    <div class="fig-deck">At the margin, only a clarity charge reliably blocks the pardon.</div>
         <div id="court-forgive"></div>
       </div>
     </div>
     <p class="caption"><b>Fig. 20a</b> — <em>How to read:</em> each line is one object of scrutiny; its left end is the object's share of all 952,856 official-reviewer units, its right end its share of the 56,736 meta-reviewer units (nine-tenths of them from 2024–26). The chair's attention is not the panel's: statistics and metrics grow from 10% of reviewer attention to 26% of the chair's, related work from 5% to 16%, novelty doubles — the adjudicable objects — while empirical scope, theory, and method design, the objects that demand re-reading the paper, fall to less than half their reviewer share. Meta-review units are also positive 30% of the time against the reviewers' 19%: the higher court speaks in verdict-language, not evidence-language.</p>
     <p class="caption"><b>Fig. 20b</b> — <em>How to read:</em> among the 6,547 borderline 2026 panels (mean rating 3.5–5.0, decided), each point compares how often lifted papers carried at least one negative unit on the object against rejected papers <em>at the same mean rating</em> (matched inside 0.25-point bins; whiskers are a 95% forum-resampling interval). Left of zero, the charge travels with rejection. The tilts are small and only clarity's interval clears zero — a paper the panel found hard to read is 4.4 points less likely to be lifted — but the ordering echoes the tariff of Plate IX: identity charges (framing, novelty) lean against the lift, while robustness and related-work charges are the ones the bench most readily overlooks. Clarity is the exception worth naming: it costs a reviewer nothing in score, yet at the bench it blocks the pardon.</p>
     <div class="fig-title" style="margin-top:38px">Fig. 20c — The redemption: what the chair praises when it lifts a paper</div>
+    <div class="fig-deck">A lifted paper's meta-review is mostly praise — of its numbers and its positioning.</div>
     <div id="court-redeem"></div>
     <p class="caption"><b>Fig. 20c</b> — Share of all meta-review units on those same borderline forums that <em>praise</em> each object, for lifted papers against rejected ones. On a lifted paper roughly three-quarters of the meta-review is praise, and its favorite subjects are the numbers and the positioning — "the improvements are significant, the comparisons honest" — while on a rejected borderline paper praise of any kind nearly vanishes. Read as the language of justification, not independent evidence: the meta-review is written by the person who has already decided.</p>
   </div></div>
@@ -813,16 +833,19 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="arc-grid" style="grid-template-columns:1fr 1fr">
       <div>
         <div class="fig-title">Fig. 22a — The spectrum: how close is your criticism's nearest twin?</div>
+    <div class="fig-deck">Most criticisms have a familiar twin in someone else's review.</div>
         <div id="form-spec"></div>
       </div>
       <div>
         <div class="fig-title">Fig. 22b — Formula share by object — and its echo of the tariff</div>
+    <div class="fig-deck">Costly objections are bespoke; free ones are struck from a common die.</div>
         <div id="form-obj"></div>
       </div>
     </div>
     <p class="caption"><b>Fig. 22a</b> — <em>How to read:</em> every negative unit's observation is embedded and matched against every unit from <em>other</em> papers; the curve is the distribution of that nearest-twin similarity. The median criticism has a twin at 0.81 — familiar, but not identical; 19.9% have one above 0.85, and 3.8% are formulas with a twin above 0.90. One honest caveat carries this whole plate: these are the instrument's normalized readings of criticisms, not the reviewers' raw sentences, and normalization itself pulls phrasings together — so read the absolute levels as upper bounds, and trust the <em>comparisons</em>, which all pass through the same instrument. One comparison worth trusting: the formula share <em>rises</em> with the score — 3.5% at ratings 0–2 but 6.8% at a 10 — because an admiring reviewer must still fill the weaknesses box, and fills it from the formulary.</p>
     <p class="caption"><b>Fig. 22b</b> — Share of each object's criticisms whose nearest twin clears 0.90, with the object's within-paper tariff (Plate IX) alongside. The inversion is exact: the objections that cost points are the bespoke ones — novelty at 1.3% and framing at 1.2% formula share, method and theory at 1.5% — while the free objections are struck from dies: reproducibility 8.7%, clarity 8.0%. The expensive charge is hand-made against this paper; the cheap charge is issued to everyone.</p>
     <div class="fig-title" style="margin-top:38px">Fig. 22c — Twin exhibits: the same criticism, two different papers</div>
+    <div class="fig-deck">The same criticism, nearly word for word, filed against two unrelated papers.</div>
     <div id="form-twins"></div>
     <p class="caption"><b>Fig. 22c</b> — Real pairs: each card holds one criticism as read from two unrelated papers' reviews, with the similarity of the pair; both quotations are the instrument's normalized reading, and each links to its source review on OpenReview so the paraphrase can be held against the original.</p>
   </div></div>
@@ -837,6 +860,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 8 — The sixteen repairs, by share of all suggested fixes</div>
+    <div class="fig-deck">What reviewers actually ask for, named — 'extend the evidence' leads at 22%.</div>
     <div id="repair-rows" style="display:flex;flex-direction:column;gap:8px"></div>
     <p class="caption"><b>Fig. 8</b> — <em>How to read:</em> each bar is one repair type's share of the 80,000 sampled fixes (hover a row for a verbatim exemplar; the small chips name the objects the repair most often attaches to). Method: bge-small embeddings, k-means (k=22, seed 7), merged to sixteen types and named by hand from c-TF-IDF terms and central exemplars. The asks are overwhelmingly constructive and concrete — a fifth of everything reviewers request is simply <em>more evidence, broader</em>.</p>
   </div></div>
@@ -851,19 +875,23 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 9a — The ladder: verdict mix per rating (ICLR 2026, even scale)</div>
+    <div class="fig-deck">Every rating has its own mix of verdicts.</div>
     <div id="ladder" style="display:flex;flex-direction:column;gap:9px"></div>
     <div class="legend" id="val-legend-3" style="margin-top:12px"></div>
     <div class="arc-grid" style="margin-top:34px">
       <div>
         <div class="fig-title">Fig. 9b — What a 2 argues vs what an 8 argues (share of units per standard)</div>
+    <div class="fig-deck">A 2 and an 8 argue from different standards.</div>
         <div class="legend" style="margin-bottom:10px"><span class="chip"><span class="sw" style="background:#d0685c"></span>rating 2</span><span class="chip"><span class="sw" style="background:#3ba183"></span>rating 8</span></div>
         <div id="ladder-cmp" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="ladder-stats"></div>
     </div>
     <div class="fig-title" style="margin-top:34px">Fig. 9c — The relocation of scrutiny: share of reviews that inspect each object, per rating</div>
+    <div class="fig-deck">As the score moves, scrutiny relocates to different objects.</div>
     <div class="hm-wrap"><div class="hm" id="cov-hm"></div></div>
     <div class="fig-title" style="margin-top:34px">Fig. 9d — Same paper, split verdict: share of papers where each side condemns the object <span id="split-n" style="color:var(--ink-2)"></span></div>
+    <div class="fig-deck">In a split verdict, the two sides condemn different things.</div>
     <div class="bar" style="margin-bottom:6px">
       <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
         <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">LOW SIDE</span><div class="modes" id="split-lo"></div>
@@ -873,6 +901,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     </div>
     <div id="split-vd" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="fig-title" style="margin-top:34px">Fig. 9e — The spread: how much co-reviewers of one paper disagree, and whether it matters</div>
+    <div class="fig-deck">How much co-reviewers disagree — and how little of it the outcome resolves.</div>
     <div class="arc-grid">
       <div id="spread-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
       <div class="stat-lines" id="spread-stats"></div>
@@ -890,8 +919,10 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 10a — The paper's share of the score (intraclass correlation, by year)</div>
+    <div class="fig-deck">In every year, most of a score's variance is not the paper.</div>
     <div id="icc-chart"></div>
     <div class="fig-title" style="margin-top:34px">Fig. 10b — Same paper, another reviewer: the score is a distribution</div>
+    <div class="fig-deck">Same paper, another reviewer: the score is a distribution — draw from it.</div>
     <div class="arc-grid" style="display:grid;grid-template-columns:1.35fr 1fr;gap:26px;align-items:center">
       <div>
         <div id="draw-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px">
@@ -907,6 +938,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>Fig. 10</b> — <em>How to read 10a:</em> the intraclass correlation is the share of rating variance attributable to the paper rather than to the reviewer draw; across 2018–2025 it sits between 0.34 and 0.45 — in every year, the majority of score variance is not the paper. 2026 reads lower still (0.18), but its coarser even-numbered scale mechanically deflates the estimate, so the cross-year drop should not be over-read. <em>14b:</em> each bar is the real ICLR 2026 distribution of one reviewer's score conditioned on what the paper's other reviewers averaged; the draw button samples from exactly that distribution. Framed deliberately as measurement noise: this is a property of the system under its constraints — anonymous volunteers, four reviews, deadline pressure — not a verdict on any reviewer. <a class="ruler-ref" href="method.html#ruler">&#9878; the scale itself changed four times over these years &#8212; method &#167; 10 &#183; the moving ruler</a></p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 10c — Your split, in context</div>
+    <div class="fig-deck">Measure your own panel's spread: a wide split is not a death sentence.</div>
     <div id="split-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
       <span class="draw-lab">Enter a panel's scores</span>
       <input id="split-in" type="text" inputmode="numeric" placeholder="8, 8, 3" aria-label="comma-separated scores">
@@ -917,10 +949,12 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>Fig. 10c</b> — <em>How to read:</em> type any panel's scores and they land on the upper rule; a pair of dividers measures the spread (max − min), then transfers that measurement onto the lower axis, where every real ICLR 2026 panel with three or more rated reviews is stacked by its spread. Bar heights are √-scaled so the rare wide splits stay visible; the green fraction of each bar, and the percentage above it, is the share of those panels accepted. One quiet regularity worth knowing: a wide split is not a death sentence — panels split by eight points were accepted 47% of the time, while perfect unanimity was accepted 30% of the time, because unanimity is most often unanimity about rejection. The spread of scores has also not collapsed over the decade — the entropy of each year's score distribution, normalized to that year's own scale so that changes of scoring form do not masquerade as changes of behavior, holds between 0.74 and 0.81 in every year but one (2020's four-point form reads 0.91) — so "everyone scores a six now" is not what the record shows. <a class="ruler-ref" href="method.html#ruler">&#9878; the scale itself changed four times over these years &#8212; method &#167; 10 &#183; the moving ruler</a></p>
 
     <div class="fig-title" style="margin-top:44px">Fig. 10d — The counterfactual conference: redraw every panel, count the flips</div>
+    <div class="fig-deck">Redraw the panels and most borderline decisions come out as a coin toss.</div>
     <div id="cfx-curve"></div>
     <p class="caption"><b>Fig. 10d</b> — <em>How to read:</em> a deliberately simple model, stated in full. Each paper's underlying value is estimated from its observed panel mean by the variance decomposition of Fig.&nbsp;10a (shrunk toward the venue mean in proportion to the reliability of a panel its size); a fresh panel of the same size then re-reads it, and the venue's own empirical acceptance curve — the observed P(accept&nbsp;|&nbsp;panel mean) — makes a fresh margin call. The line is the probability, over 4,000 such redraws, that the decision comes out differently, by observed panel mean. In the band where most decided papers live the redraw is close to a coin toss (peaking at 54% near a mean of 5.75), falling toward certainty only at the extremes. Under this model 37% of all 14,175 decided 2026 papers — and 58% of the accepted ones — would receive the other decision from a fresh draw; on 2025's finer scale the accepted-paper figure is 45%. The NeurIPS experiments, which ran real second committees, found roughly half of accepted papers un-reproduced — the computation and the experiment agree. This measures the system's precision under its constraints, not any panel's diligence; and because the margin call is itself part of the redraw, it counts the decision layer's own latitude alongside the panel draw.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 10e — One alternate opening night</div>
+    <div class="fig-deck">One press of the button, one alternate conference — never the same twice.</div>
     <div id="cfx-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:10px">
       <button id="cfx-go">Redraw the panels</button>
       <span class="draw-lab" id="cfx-stat"></span>
@@ -939,15 +973,19 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 11a — What reviewers inspect, 2018 → 2026</div>
+    <div class="fig-deck">What reviewers inspect drifted over nine years — the hygiene turn.</div>
     <div id="drift-ctl"><button id="dr-play" title="replay 2018 to 2026">▶&#8202; replay the decade</button><input id="dr-scrub" type="range" min="0" max="1000" value="1000" aria-label="scrub through the years"><span id="dr-year">2026</span></div>
     <div id="drift-obj"></div>
     <div class="fig-title" style="margin-top:30px">Fig. 11b — The standards they invoke, 2018 → 2026</div>
+    <div class="fig-deck">The standards they invoke drifted with it.</div>
     <div id="drift-rea"></div>
     <div class="fig-title" style="margin-top:30px">Fig. 11c — The hardening: nine-year vitals</div>
+    <div class="fig-deck">Three vital signs of the venue, read across nine years.</div>
     <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
     <p class="caption"><b>Fig. 11</b> — <em>How to read 11c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 11d — The currents: three distributions, moving through the years</div>
+    <div class="fig-deck">Four distributions morphing through nine years — turn the dial.</div>
     <div id="cur-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:10px">
       <button id="cur-play">▶&#8202; flow through the years</button>
       <input id="cur-scrub" type="range" min="0" max="1000" value="0" aria-label="year">
@@ -962,6 +1000,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>Fig. 11d</b> — <em>How to read:</em> three distributions redrawn continuously as the year dial moves — the shape of the scores given (the venue has used four scoring forms: ten labeled levels in 2018–19 and 2021, a four-point reject/weak-reject/weak-accept/accept form in 2020, a six-level ladder 2022–25, and even numbers only in 2026), the length of reviews (the slow migration from the 300-word mode toward shorter tails after 2022), and how many units of logic one reviewer produces. The fourth silhouette is the reasoning itself: the mix of the six inference forms (Plate III), with weighing slowly displacing precedent-citing as the decade advances. Press play and watch nine years of institutional change pass through four silhouettes. <a class="ruler-ref" href="method.html#ruler">&#9878; the scale itself changed four times over these years &#8212; method &#167; 10 &#183; the moving ruler</a></p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 11e — The relief: nine years of one distribution, stacked like terrain</div>
+    <div class="fig-deck">The same nine years stacked like terrain; the scale changes are the mountain range.</div>
     <div class="modes" id="relief-tabs" role="group" aria-label="quantity" style="flex-wrap:wrap;margin-bottom:10px">
       <button data-q="scores" class="on">scores</button>
       <button data-q="words">review length</button>
@@ -984,10 +1023,13 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="arc-grid">
       <div>
         <div class="fig-title">Fig. 12a — Fate of a judgment after the author responds</div>
+    <div class="fig-deck">After the authors respond, most judgments simply stand.</div>
         <div id="reb-fate" style="display:flex;flex-direction:column;gap:8px"></div>
         <div class="fig-title" style="margin-top:28px">Fig. 12b — What the response contained, and what happened</div>
+    <div class="fig-deck">Even fresh experiments mostly strengthen the original judgment.</div>
         <div id="reb-trig" style="display:flex;flex-direction:column;gap:8px"></div>
         <div class="fig-title" style="margin-top:28px">Fig. 12c — Who yields? Post-rebuttal movement by position in a split verdict (ICLR 2026)</div>
+    <div class="fig-deck">When a panel splits, it is the dissenting low scorer who yields.</div>
         <div id="reb-yield" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="reb-stats"></div>
@@ -1005,11 +1047,13 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 13 — Raised → revisited → softened / hardened, per object</div>
+    <div class="fig-deck">Most objections are never mentioned again; those that are, mostly harden.</div>
     <div id="fate-rows" style="display:flex;flex-direction:column;gap:9px"></div>
     <div class="legend" style="margin-top:14px"><span class="chip"><span class="sw" style="background:rgba(179,170,153,0.35)"></span>revisited after the response</span><span class="chip"><span class="sw" style="background:#3ba183"></span>of revisited: softened</span><span class="chip"><span class="sw" style="background:#d0685c"></span>of revisited: hardened</span></div>
     <p class="caption"><b>Fig. 13</b> — <em>How to read:</em> each row is one object of scrutiny; the grey bar is the share of objections the same reviewer explicitly revisited after the author response (4–12%, everything else goes unmentioned); within that sliver, verdigris marks objections that softened and sienna those that hardened — hardening outruns softening two-to-three-fold for every object. The exceptions are instructive: related-work objections are the most revisited (11.7% — a citation fix is checkable), and novelty objections harden the least (8.0%) — precedent, once cited, is simply restated.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 13b — The interrogative: does an objection asked fare differently from one asserted?</div>
+    <div class="fig-deck">Asked or asserted, an objection meets the same fate — a null result, reported as one.</div>
     <div id="interro"></div>
     <p class="caption"><b>Fig. 13b</b> — A null result, reported as one. Plate IV showed that objections differ sharply in <em>form</em> — robustness concerns are posed as questions 29% of the time, novelty verdicts only 9% — so the natural next question is whether the question mark means anything: 109,062 reviewer-object objections from 2026, classified by the review's own form fields (anchored in <code>[questions]</code> = asked, <code>[weaknesses]</code> = asserted) and joined to their post-response fate. The answer is flat: asked objections are revisited at 5.1% against 5.2% for asserted ones, soften at 0.2% against 0.3%, harden at 0.6% in both. The interrogative is a register of politeness, not a different epistemic act — the only thing that moves the needle is raising the objection in <em>both</em> fields, which revisits at 7.4%: intensity, not grammar.</p>
   </div></div>
@@ -1024,11 +1068,13 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 21a — A census of skeletons: what became of each year's review threads</div>
+    <div class="fig-deck">The conversation grew for seven years, peaked in 2025, and collapsed in 2026.</div>
     <div id="talk-legend"></div>
     <div id="talk-census"></div>
     <p class="caption"><b>Fig. 21a</b> — <em>How to read:</em> every official review roots a thread; its shape is decided by the turns beneath it — a <em>stump</em> received no reply at all, a <em>monologue</em> was answered by the authors with the reviewer never speaking again, a <em>return</em> saw the reviewer come back once, a <em>volley</em> twice or more (roles for 2018–21 recovered from signatures). The reviewer came back to 43.8% of threads in 2025 — the conversational high-water mark — and to 17.7% in 2026, while stumps grew from 9% in 2021 to 26%: one review thread in four now ends in silence before it begins. In 2026, threads where the reviewer returned were accepted at 50–51% against 39% for monologues and 1.2% for stumps — read the direction both ways, since authors triage which battles to fight and which papers to quietly abandon.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 21b — Five real skeletons, pressed like botanical specimens</div>
+    <div class="fig-deck">Five real forums pressed flat: long vines of exchange beside silent stumps.</div>
     <div id="talk-specimens"></div>
     <p class="caption"><b>Fig. 21b</b> — Actual 2026 forums, each drawn in full: squares are official reviews, dots the replies beneath them — <span style="color:#3ba183">verdigris for authors</span>, <span style="color:#c9a45c">brass for reviewers</span>, <span style="color:#8b84cf">violet for chairs</span>, grey for the public. The left specimens hold long alternating vines — reviewer and author trading turns five and six deep; the right ones are all stumps and short monologues. Hover any specimen for its decision.</p>
   </div></div>
@@ -1043,6 +1089,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 14a — How deliberations usually go</div>
+    <div class="fig-deck">Four panels in five never visibly move at all.</div>
     <div id="delib-pop"></div>
     <p class="caption" style="margin-bottom:6px"><b>Fig. 14a</b> — All 17,848 rated 2026 panels with two or more signature-matched reviewers, read by the instrument's <code>judgment_change</code> tags. The five endings overlap (a split panel can also soften) and the levels are machine-read, so treat them as the instrument's census: visible movement of any kind is rare — 85.7% of panels never show a judgment change — and when judgments do move after the response, strengthening outnumbers softening and reversal combined, 3,543 units to 1,336.</p>
 
@@ -1063,6 +1110,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>Fig. 14</b> — <em>How to read:</em> rows are the paper's reviewers, ordered by rating (badge at left); notes are their logic units in reasoning order, colored by verdict; the brass barline marks the author response, and the notes after it are the same reviewer returning — the triangle above a note records whether that judgment hardened or softened, the rare ↺ a reversal. The vertical threads are the panel's harmony and dissonance: the same object of scrutiny judged alike (ink) or oppositely (sienna) by different reviewers. Fourteen scenarios were chosen to span the repertoire — softenings, entrenchments, reversals, ten-point splits, unanimity — and every one links to its public forum.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 14b — The repertoire: what all 49,441 panels do</div>
+    <div class="fig-deck">What all 49,441 panels do with their discussion phase: mostly procedure and silence.</div>
     <div class="arc-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start">
       <div>
         <div class="rep-cap">HOW A PANEL'S DISCUSSION PHASE RESOLVES · ALL YEARS</div>
@@ -1077,6 +1125,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>Fig. 14b</b> — <em>How to read (left):</em> every panel with three or more reviewers, classified by what its discussion phase did — in four panels out of five, no judgment moves at all (silence: no post-response units; procedural: units but no recorded movement). The acceptance rates are association only: entrenchment accepts most because reinforcement includes reviewers reinforcing praise, and unanimity of silence often means unanimity about rejection. <em>(right)</em> The two curves compare the overlap of inspected objects for reviewers of the <em>same</em> paper against reviewers of <em>different</em> papers: 0.27 versus 0.21 — reviewers of one paper attend to only marginally more of the same things than strangers do. The disagreement measured by the consistency experiments begins before any verdict, at the choice of what to look at. And the dissonant objects — where co-reviewers reached opposite verdicts — are revisited after the response slightly <em>less</em> often than the agreed ones: the chords do not resolve.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 14c — The great quieting: the repertoire, year by year</div>
+    <div class="fig-deck">Silence fell for four years, then climbed all the way back.</div>
     <div id="rep-years"></div>
     <p class="caption"><b>Fig. 14c</b> — Share of panels per signature, 2018–2026. The discussion culture traces an arc: silence falls from 51% of panels in 2018 to 20% in 2022 — the most conversational year the venue has had — and then climbs all the way back to 52% in 2026, as submissions grew past nineteen thousand. Judgment movement of any kind (softening, entrenchment, contested) has been shrinking since 2022. Read descriptively: the format, the volume, and the culture all changed together, and this figure cannot separate them.</p>
   </div></div>
@@ -1091,6 +1140,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 15 — Acceptance rate with (●) vs without (○) negative units, per object</div>
+    <div class="fig-deck">Novelty criticism travels with rejection; compute-cost criticism travels with nothing.</div>
     <div id="tribunal" style="display:flex;flex-direction:column;gap:8px"></div>
     <p class="caption"><b>Fig. 15</b> — Novelty criticism shows the largest acceptance gap (−10.6pp, association only); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism show no acceptance gap at all — papers criticized there are accepted at the same rate as papers that are not. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
   </div></div>
@@ -1105,6 +1155,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 16 — Acceptance rate by breadth of criticism</div>
+    <div class="fig-deck">Every added front of criticism costs about five points of acceptance.</div>
     <div id="gauntlet"></div>
     <p class="caption"><b>Fig. 16</b> — Acceptance falls steeply, then almost linearly: 69% at two fronts, 57% at three, then roughly five points per additional front down to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
   </div></div>
@@ -1121,11 +1172,13 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="arc-grid">
       <div>
         <div class="fig-title">Fig. 17a — Contested ground: share of forums where reviewers took opposite stances</div>
+    <div class="fig-deck">Panels split most over whether the question matters at all.</div>
         <div id="dissent" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="panel-stats"></div>
     </div>
     <div class="fig-title" style="margin-top:34px">Fig. 17b — The bench: when the decision disagrees with the panel's lean</div>
+    <div class="fig-deck">When the decision disagrees with its panel, it usually disagrees toward mercy.</div>
     <div class="arc-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center">
       <div id="bench-curve"></div>
       <div class="stat-lines" id="bench-stats"></div>
@@ -1134,6 +1187,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <p class="caption"><b>Fig. 17a</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
 
     <div class="fig-title" style="margin-top:38px">Fig. 17c — The search party: what a panel covers, duplicates, and never sees</div>
+    <div class="fig-deck">The panel duplicates some searches and leaves a third of the ground unwalked.</div>
     <div id="party"></div>
     <p class="caption"><b>Fig. 17c</b> — <em>How to read:</em> treat the panel as a search party over the twelve objects of scrutiny. For each object, the bar splits the 18,074 rated 2026 panels of three or four by how many of their reviewers examined it at all — from the void of <em>no one</em> to the bright band of <em>three or more</em>. The party is uncoordinated: the average panel covers 7.95 of the twelve objects, agrees on examining only 0.83 of them, and leaves 4.05 entirely unvisited. Duplication and blindness sit side by side — over half of panels put three or more reviewers on empirical scope while two-thirds leave reproducibility unexamined, and the objections that decide papers are among the least searched: novelty, the costliest charge on the tariff (Plate IX), goes unexamined by every reviewer in 56% of panels. Coverage here means one unit of any valence — a low bar, deliberately.</p>
   </div></div>
@@ -1154,6 +1208,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div id="oracle-rows" style="display:flex;flex-direction:column;gap:8px;margin-top:18px"></div>
 
     <div class="fig-title" style="margin-top:44px">Fig. 19 — The archipelago: the same twenty-one fields, drawn as a sea chart</div>
+    <div class="fig-deck">Fields criticized alike drift together — and each island's coastline is its fingerprint.</div>
     <div id="archi"></div>
     <p class="caption"><b>Fig. 19</b> — <em>How to read:</em> every island is one primary area, placed by multidimensional scaling of its criticism fingerprint — fields that are criticized in the same way drift together, and the theory-judged fields form their own archipelago in the east while the applied coasts lie west. Island size is the number of 2026 papers; the <em>shape of the coastline is the fingerprint itself</em>: each of the twelve objects of scrutiny is a fixed compass direction (the rose gives the bearings), and a cape grows toward every object the field is charged with more often than the venue baseline, a bay where it is charged less. So learning theory sits far offshore with a great cape toward theory and a deep bay where its baselines shore should be, and datasets &amp; benchmarks — the island least judged by theory anywhere on the chart — anchors the southwest alone. Hover an island for its exact charges; the chart encodes association, not destiny.</p>
     <p class="caption"><b>Plate XXIII</b> — <em>How to read:</em> each bar is the share of the field's papers that drew at least one negative unit on that object; the white tick is the venue-wide baseline, and the right column is the deviation in points — sienna when the field is charged more than the venue, verdigris when less. Conditional frequencies only: fields differ in what they submit as much as in how they are judged.</p>
@@ -1204,6 +1259,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
   <div id="prov"></div>
   <details class="table-view"><summary>Full crosstab — object × reasoning standard</summary><div class="tv-wrap" id="tv"></div></details>
   <div class="fig-title" style="margin-top:30px">The changing words of criticism, 2018–20 vs 2024–26</div>
+    <div class="fig-deck">The vocabulary of criticism moved — partly with the review form itself.</div>
   <div id="era-words"></div>
   <p class="caption">Centroid drift of criticism language is 7–14× the year-to-year noise floor for novelty, empirical-scope, and clarity units — but read it gently: part of the shift is the review form itself (structured "weakness" fields arrived mid-decade), and the units are one pipeline's paraphrase. The direction that survives the caveat: early-era criticism speaks in verdicts (<em>fails, weak, insufficient</em>), late-era criticism in assessments (<em>limited, concerns, quality, generalizability</em>).</p>
   <dl class="method" id="method"></dl>
