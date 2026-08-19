@@ -499,7 +499,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div class="plate-no">Plate III · The Rhetoric</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 1,009,592 units</div>
     <h2>Each standard has a voice</h2>
-    <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units of the nine-year forum-level track</em> (introduced fully in Plate IX; neighboring plates use the 410,586-unit 2026 track) by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
+    <p class="lede">Not just <em>which</em> standard fires, but the shape of the inference itself. Six forms, assigned to <em>every one of the 1,009,592 units of the nine-year forum-level track</em> (introduced fully in Plate XI; neighboring plates use the 410,586-unit 2026 track) by a locally-trained classifier (no API, no keywords-only shortcut): the norm invoked, the verification blocked, the rival explanation raised, the precedent cited, the reach questioned, the evidence weighed. The caption owns the method and its error.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid" style="grid-template-columns:1.25fr .75fr">
@@ -586,26 +586,40 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate VIII · The Ladder</div>
+    <div class="plate-no">Plate VIII · The Repair Manual</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · 307,388 units carrying a suggested fix · clustered locally, named by hand</div>
+    <h2>What reviewers actually ask for</h2>
+    <p class="lede">Three quarters of all criticism arrives with a repair attached. Embedding and clustering 80,000 of those suggested fixes yields a working taxonomy of the discipline's demands — and one request towers over the rest: extend the evidence.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 8 — The sixteen repairs, by share of all suggested fixes</div>
+    <div id="repair-rows" style="display:flex;flex-direction:column;gap:8px"></div>
+    <p class="caption"><b>Fig. 8</b> — <em>How to read:</em> each bar is one repair type's share of the 80,000 sampled fixes (hover a row for a verbatim exemplar; the small chips name the objects the repair most often attaches to). Method: bge-small embeddings, k-means (k=22, seed 7), merged to sixteen types and named by hand from c-TF-IDF terms and central exemplars. The asks are overwhelmingly constructive and concrete — a fifth of everything reviewers request is simply <em>more evidence, broader</em>.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate IX · The Ladder</div>
     <div class="plate-scope">Corpus: ICLR 2026 · review-level track · official ratings joined at display time</div>
     <h2>What each score sounds like</h2>
     <p class="lede">Join every 2026 review's official rating — never shown to the extraction pipeline — to its logic units, and the scale becomes audible: what a 2 argues about, what an 8 still checks, and where on the ladder the reviewer's own confidence lives.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 8a — The ladder: verdict mix per rating (ICLR 2026, even scale)</div>
+    <div class="fig-title">Fig. 9a — The ladder: verdict mix per rating (ICLR 2026, even scale)</div>
     <div id="ladder" style="display:flex;flex-direction:column;gap:9px"></div>
     <div class="legend" id="val-legend-3" style="margin-top:12px"></div>
     <div class="arc-grid" style="margin-top:34px">
       <div>
-        <div class="fig-title">Fig. 8b — What a 2 argues vs what an 8 argues (share of units per standard)</div>
+        <div class="fig-title">Fig. 9b — What a 2 argues vs what an 8 argues (share of units per standard)</div>
         <div class="legend" style="margin-bottom:10px"><span class="chip"><span class="sw" style="background:#d0685c"></span>rating 2</span><span class="chip"><span class="sw" style="background:#3ba183"></span>rating 8</span></div>
         <div id="ladder-cmp" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="ladder-stats"></div>
     </div>
-    <div class="fig-title" style="margin-top:34px">Fig. 8c — The relocation of scrutiny: share of reviews that inspect each object, per rating</div>
+    <div class="fig-title" style="margin-top:34px">Fig. 9c — The relocation of scrutiny: share of reviews that inspect each object, per rating</div>
     <div class="hm-wrap"><div class="hm" id="cov-hm"></div></div>
-    <div class="fig-title" style="margin-top:34px">Fig. 8d — Same paper, split verdict: share of papers where each side condemns the object <span id="split-n" style="color:var(--ink-2)"></span></div>
+    <div class="fig-title" style="margin-top:34px">Fig. 9d — Same paper, split verdict: share of papers where each side condemns the object <span id="split-n" style="color:var(--ink-2)"></span></div>
     <div class="bar" style="margin-bottom:6px">
       <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
         <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">LOW SIDE</span><div class="modes" id="split-lo"></div>
@@ -614,88 +628,130 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       <div class="legend"><span class="chip"><span class="sw" style="background:#d0685c"></span><span id="split-lo-lab">low</span> condemns ← left wing</span><span class="chip"><span class="sw" style="background:#3ba183"></span>right wing → <span id="split-hi-lab">high</span> condemns</span></div>
     </div>
     <div id="split-vd" style="display:flex;flex-direction:column;gap:8px"></div>
-    <div class="fig-title" style="margin-top:34px">Fig. 8e — The spread: how much co-reviewers of one paper disagree, and whether it matters</div>
+    <div class="fig-title" style="margin-top:34px">Fig. 9e — The spread: how much co-reviewers of one paper disagree, and whether it matters</div>
     <div class="arc-grid">
       <div id="spread-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
       <div class="stat-lines" id="spread-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 8</b> — <em>How to read 8a:</em> each row is one rating; the bar is the verdict mix of its units; the thin brass underbar is the relative number of reviews at that rating; the right column reads n reviews · units per review · mean reviewer confidence (1–5). Ratings are joined at display time only; extraction never saw them. Five findings that are not the tautology (low score = more negative): <b>(1) Scrutiny relocates rather than shrinks</b> — novelty largely disappears from an 8's review (a novelty unit appears in 20% of 2-reviews but only 9% of 8-reviews) and baselines (42% → 29%), but inspects theory, method design, and compute <em>more</em> than a 2 does. <b>(2) A 2's praise is consolation praise</b> — its rare positive units go to clarity and framing ("well written, nice motivation"); an 8's praise goes to empirical scope and theory. <b>(3) There are many ways to fail</b> — within-rating diversity of what reviews discuss falls monotonically from 0 (most heterogeneous) to 10 (most scripted): unhappiness is diverse, excellence has one shape. <b>(4) In split verdicts on the very same paper</b>, both reviewers inspect theory and method at identical rates and merely disagree on the verdict — but novelty is a weapon only the low scorer draws (condemned by 22% of ≤2 reviewers vs 4% of their ≥8 co-reviewers). Quieter still: the reviewer's own confidence follows a U (4.2 at 0 · 3.4 at 6 · 3.9 at 10), and mid-scale criticism is the most actionable (78% of a 2–4's units carry a fix vs 56% at 10). <b>(5) The decision is a mean, not a variance</b> — 93% of multi-review papers carry disagreement (half of them by two full notches), and disagreement peaks for mid-scoring papers; yet holding the exact mean fixed, a unanimous 6-6-6 and a divided 4-6-8 are accepted at the identical rate (92% at mean 6.0). A naive banded version of this analysis suggests "consensus is fate" — that is a mean-composition confound, and the panel averages it away.</p>
+    <p class="caption"><b>Fig. 9</b> — <em>How to read 9a:</em> each row is one rating; the bar is the verdict mix of its units; the thin brass underbar is the relative number of reviews at that rating; the right column reads n reviews · units per review · mean reviewer confidence (1–5). Ratings are joined at display time only; extraction never saw them. Five findings that are not the tautology (low score = more negative): <b>(1) Scrutiny relocates rather than shrinks</b> — novelty largely disappears from an 8's review (a novelty unit appears in 20% of 2-reviews but only 9% of 8-reviews) and baselines (42% → 29%), but inspects theory, method design, and compute <em>more</em> than a 2 does. <b>(2) A 2's praise is consolation praise</b> — its rare positive units go to clarity and framing ("well written, nice motivation"); an 8's praise goes to empirical scope and theory. <b>(3) There are many ways to fail</b> — within-rating diversity of what reviews discuss falls monotonically from 0 (most heterogeneous) to 10 (most scripted): unhappiness is diverse, excellence has one shape. <b>(4) In split verdicts on the very same paper</b>, both reviewers inspect theory and method at identical rates and merely disagree on the verdict — but novelty is a weapon only the low scorer draws (condemned by 22% of ≤2 reviewers vs 4% of their ≥8 co-reviewers). Quieter still: the reviewer's own confidence follows a U (4.2 at 0 · 3.4 at 6 · 3.9 at 10), and mid-scale criticism is the most actionable (78% of a 2–4's units carry a fix vs 56% at 10). <b>(5) The decision is a mean, not a variance</b> — 93% of multi-review papers carry disagreement (half of them by two full notches), and disagreement peaks for mid-scoring papers; yet holding the exact mean fixed, a unanimous 6-6-6 and a divided 4-6-8 are accepted at the identical rate (92% at mean 6.0). A naive banded version of this analysis suggests "consensus is fate" — that is a mean-composition confound, and the panel averages it away.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate IX · The Drift</div>
+    <div class="plate-no">Plate X · The Measurement</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · all rated official reviews · a property of the system, not of any reviewer</div>
+    <h2>How repeatable is a score?</h2>
+    <p class="lede">Treat a paper's rating as a measurement and ask what any instrument must answer: if the measurement were repeated — same paper, another qualified reviewer — how much would it move? The NeurIPS experiments answered by actually re-running committees; this is the observational shadow of that experiment, computed from every co-review of the same paper across nine years of ICLR.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 10a — The paper's share of the score (intraclass correlation, by year)</div>
+    <div id="icc-chart"></div>
+    <div class="fig-title" style="margin-top:34px">Fig. 10b — Same paper, another reviewer: the score is a distribution</div>
+    <div class="arc-grid" style="display:grid;grid-template-columns:1.35fr 1fr;gap:26px;align-items:center">
+      <div>
+        <div id="draw-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px">
+          <span class="draw-lab">The other reviewers of a paper average</span>
+          <select id="draw-bin" aria-label="mean of the other reviewers"></select>
+          <button id="draw-btn">Draw a reviewer</button>
+          <span id="draw-out"></span>
+        </div>
+        <div id="draw-dist"></div>
+      </div>
+      <div class="stat-lines" id="draw-stats"></div>
+    </div>
+    <p class="caption"><b>Fig. 10</b> — <em>How to read 10a:</em> the intraclass correlation is the share of rating variance attributable to the paper rather than to the reviewer draw; across 2018–2025 it sits between 0.34 and 0.45 — in every year, the majority of score variance is not the paper. 2026 reads lower still (0.18), but its coarser even-numbered scale mechanically deflates the estimate, so the cross-year drop should not be over-read. <em>14b:</em> each bar is the real ICLR 2026 distribution of one reviewer's score conditioned on what the paper's other reviewers averaged; the draw button samples from exactly that distribution. Framed deliberately as measurement noise: this is a property of the system under its constraints — anonymous volunteers, four reviews, deadline pressure — not a verdict on any reviewer.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XI · The Drift</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 1,009,592 units</div>
     <h2>Nine years of shifting scrutiny</h2>
     <p class="lede">The same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em> (the forum-level Direct track). Share of reviewer attention per year; the four biggest movers are named, the rest recede.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 9a — What reviewers inspect, 2018 → 2026</div>
+    <div class="fig-title">Fig. 11a — What reviewers inspect, 2018 → 2026</div>
     <div id="drift-ctl"><button id="dr-play" title="replay 2018 to 2026">▶&#8202; replay the decade</button><input id="dr-scrub" type="range" min="0" max="1000" value="1000" aria-label="scrub through the years"><span id="dr-year">2026</span></div>
     <div id="drift-obj"></div>
-    <div class="fig-title" style="margin-top:30px">Fig. 9b — The standards they invoke, 2018 → 2026</div>
+    <div class="fig-title" style="margin-top:30px">Fig. 11b — The standards they invoke, 2018 → 2026</div>
     <div id="drift-rea"></div>
-    <div class="fig-title" style="margin-top:30px">Fig. 9c — The hardening: nine-year vitals</div>
+    <div class="fig-title" style="margin-top:30px">Fig. 11c — The hardening: nine-year vitals</div>
     <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
-    <p class="caption"><b>Fig. 9</b> — <em>How to read 9c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
+    <p class="caption"><b>Fig. 11</b> — <em>How to read 11c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate X · The Rebuttal</div>
-    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · Fig. 10c: 2026 only</div>
+    <div class="plate-no">Plate XII · The Rebuttal</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · Fig. 12c: 2026 only</div>
     <h2>Author responses barely move the needle</h2>
     <p class="lede">130,650 units sit after the author response (2018–2026). When the reviewer's judgment moves at all, it moves toward <em>reinforcement</em> two and a half times more often than concession — and no kind of response escapes that ratio.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid">
       <div>
-        <div class="fig-title">Fig. 10a — Fate of a judgment after the author responds</div>
+        <div class="fig-title">Fig. 12a — Fate of a judgment after the author responds</div>
         <div id="reb-fate" style="display:flex;flex-direction:column;gap:8px"></div>
-        <div class="fig-title" style="margin-top:28px">Fig. 10b — What the response contained, and what happened</div>
+        <div class="fig-title" style="margin-top:28px">Fig. 12b — What the response contained, and what happened</div>
         <div id="reb-trig" style="display:flex;flex-direction:column;gap:8px"></div>
-        <div class="fig-title" style="margin-top:28px">Fig. 10c — Who yields? Post-rebuttal movement by position in a split verdict (ICLR 2026)</div>
+        <div class="fig-title" style="margin-top:28px">Fig. 12c — Who yields? Post-rebuttal movement by position in a split verdict (ICLR 2026)</div>
         <div id="reb-yield" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="reb-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 10</b> — 10a: shares of all post-response units. 10b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects). <em>How to read 10c:</em> reviewers on 2026 forums whose ratings split by ≥4 notches, grouped by their own position; oxblood dot = share whose judgment weakened or reversed, brass dot = share that strengthened. The dissenting low scorer is the one who moves — 2.4× likelier to yield than the high co-reviewer — yet even for them reinforcement beats concession, and unanimous panels barely stir at all (9,329 split forums; ratings matched by reviewer signature, 95% coverage).</p>
+    <p class="caption"><b>Fig. 12</b> — 12a: shares of all post-response units. 12b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger; red = weakened or reversed, brass = strengthened, grey = clarified only. Even fresh experiments strengthen the original judgment 2.9× more often than they soften it. Softening rates barely differ by topic (3.9–5.4% across all twelve objects). <em>How to read 10c:</em> reviewers on 2026 forums whose ratings split by ≥4 notches, grouped by their own position; oxblood dot = share whose judgment weakened or reversed, brass dot = share that strengthened. The dissenting low scorer is the one who moves — 2.4× likelier to yield than the high co-reviewer — yet even for them reinforcement beats concession, and unanimous panels barely stir at all (9,329 split forums; ratings matched by reviewer signature, 95% coverage).</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XI · The Tribunal</div>
+    <div class="plate-no">Plate XIII · The Fate of an Objection</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 551,595 objections raised by official reviewers</div>
+    <h2>Most objections are never spoken of again</h2>
+    <p class="lede">Follow every objection — a reviewer's initial negative unit on one object — through the discussion phase: did the same reviewer return to that object after the authors responded, and if so, did the judgment soften or harden? The dominant fate, for every kind of objection, is silence.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 13 — Raised → revisited → softened / hardened, per object</div>
+    <div id="fate-rows" style="display:flex;flex-direction:column;gap:9px"></div>
+    <div class="legend" style="margin-top:14px"><span class="chip"><span class="sw" style="background:rgba(179,170,153,0.35)"></span>revisited after the response</span><span class="chip"><span class="sw" style="background:#3ba183"></span>of revisited: softened</span><span class="chip"><span class="sw" style="background:#d0685c"></span>of revisited: hardened</span></div>
+    <p class="caption"><b>Fig. 13</b> — <em>How to read:</em> each row is one object of scrutiny; the grey bar is the share of objections the same reviewer explicitly revisited after the author response (4–12%, everything else goes unmentioned); within that sliver, verdigris marks objections that softened and sienna those that hardened — hardening outruns softening two-to-three-fold for every object. The exceptions are instructive: related-work objections are the most revisited (11.7% — a citation fix is checkable), and novelty objections harden the least (8.0%) — precedent, once cited, is simply restated.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XIV · The Tribunal</div>
     <div class="plate-scope">Corpus: ICLR 2026 · review-level track · decisions joined at display time</div>
     <h2>Which criticism travels with rejection</h2>
     <p class="lede">13,704 of the 19,474 reviewed ICLR 2026 papers carry a non-withdrawn decision; the rest are excluded here. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 11 — Acceptance rate with (●) vs without (○) negative units, per object</div>
+    <div class="fig-title">Fig. 14 — Acceptance rate with (●) vs without (○) negative units, per object</div>
     <div id="tribunal" style="display:flex;flex-direction:column;gap:8px"></div>
-    <p class="caption"><b>Fig. 11</b> — Novelty criticism shows the largest acceptance gap (−10.6pp, association only); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism show no acceptance gap at all — papers criticized there are accepted at the same rate as papers that are not. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
+    <p class="caption"><b>Fig. 14</b> — Novelty criticism shows the largest acceptance gap (−10.6pp, association only); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism show no acceptance gap at all — papers criticized there are accepted at the same rate as papers that are not. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XII · The Gauntlet</div>
+    <div class="plate-no">Plate XV · The Gauntlet</div>
     <div class="plate-scope">Corpus: ICLR 2026 · review-level track · decisions joined at display time</div>
     <h2>Acceptance falls with every new front of criticism</h2>
     <p class="lede">For each ICLR 2026 paper: on how many of the twelve objects did it draw at least one negative unit — and did it survive? Dot size is the number of papers standing at that breadth.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 12 — Acceptance rate by breadth of criticism</div>
+    <div class="fig-title">Fig. 15 — Acceptance rate by breadth of criticism</div>
     <div id="gauntlet"></div>
-    <p class="caption"><b>Fig. 12</b> — Acceptance falls steeply, then almost linearly: 69% at two fronts, 57% at three, then roughly five points per additional front down to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
+    <p class="caption"><b>Fig. 15</b> — Acceptance falls steeply, then almost linearly: 69% at two fronts, 57% at three, then roughly five points per additional front down to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XIII · The Panel</div>
+    <div class="plate-no">Plate XVI · The Panel</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track</div>
     <h2>Dissent, and the kinder judge</h2>
     <p class="lede">Where do reviewers of the same paper split — and how does the meta-reviewer differ from the panel they oversee?</p>
@@ -703,24 +759,41 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid">
       <div>
-        <div class="fig-title">Fig. 13 — Contested ground: share of forums where reviewers took opposite stances</div>
+        <div class="fig-title">Fig. 16a — Contested ground: share of forums where reviewers took opposite stances</div>
         <div id="dissent" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="panel-stats"></div>
     </div>
-    <div class="fig-title" style="margin-top:34px">Fig. 13b — The bench: when the decision disagrees with the panel's lean</div>
+    <div class="fig-title" style="margin-top:34px">Fig. 16b — The bench: when the decision disagrees with the panel's lean</div>
     <div class="arc-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center">
       <div id="bench-curve"></div>
       <div class="stat-lines" id="bench-stats"></div>
     </div>
     <details class="table-view" style="margin-top:14px"><summary>The overruled — public exemplars</summary><div id="bench-ex" style="padding:14px 6px;font-size:12.5px;color:var(--ink-2)"></div></details>
-    <p class="caption"><b>Fig. 13</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
+    <p class="caption"><b>Fig. 16a</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XIV · The Specimens</div>
+    <div class="plate-no">Plate XVII · The Oracle</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · 19,474 reviewed papers with a primary area · association, not destiny</div>
+    <h2>Choose a field. Face its tribunal.</h2>
+    <p class="lede">Pick the primary area a paper would be submitted under, and the panel below recomputes from the real record: how often papers in that field drew at least one negative unit on each object of scrutiny, against the venue-wide baseline. The differences are the field's signature — what its reviewers reach for first.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="oracle-bar">
+      <select id="oracle-area" aria-label="primary area"></select>
+      <div class="oracle-stats" id="oracle-stats"></div>
+    </div>
+    <div id="oracle-rows" style="display:flex;flex-direction:column;gap:8px;margin-top:18px"></div>
+    <p class="caption"><b>Plate XVII</b> — <em>How to read:</em> each bar is the share of the field's papers that drew at least one negative unit on that object; the white tick is the venue-wide baseline, and the right column is the deviation in points — sienna when the field is charged more than the venue, verdigris when less. Conditional frequencies only: fields differ in what they submit as much as in how they are judged.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XVIII · The Specimens</div>
     <div class="plate-scope">Corpus: ICLR 2026 · review-level track · 232 sampled reviews</div>
     <h2>Raw reasoning, unretouched</h2>
     <p class="lede">232 reviews sampled across every category, shown as their structured logic flows. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview forum, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</p>
@@ -739,79 +812,6 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     </div>
   </div>
   <div id="spec-dock" role="group" aria-label="Specimen list controls"><span class="dk-count" id="dock-count"></span><button id="dock-more">Turn the page ▾</button><button id="dock-less">Close the book ▴</button></div>
-</section>
-
-<section>
-  <div class="plate-head">
-    <div class="plate-no">Plate XV · The Oracle</div>
-    <div class="plate-scope">Corpus: ICLR 2026 · 19,474 reviewed papers with a primary area · association, not destiny</div>
-    <h2>Choose a field. Face its tribunal.</h2>
-    <p class="lede">Pick the primary area a paper would be submitted under, and the panel below recomputes from the real record: how often papers in that field drew at least one negative unit on each object of scrutiny, against the venue-wide baseline. The differences are the field's signature — what its reviewers reach for first.</p>
-  </div>
-  <div class="plate"><div class="plate-inner">
-    <div class="oracle-bar">
-      <select id="oracle-area" aria-label="primary area"></select>
-      <div class="oracle-stats" id="oracle-stats"></div>
-    </div>
-    <div id="oracle-rows" style="display:flex;flex-direction:column;gap:8px;margin-top:18px"></div>
-    <p class="caption"><b>Plate XV</b> — <em>How to read:</em> each bar is the share of the field's papers that drew at least one negative unit on that object; the white tick is the venue-wide baseline, and the right column is the deviation in points — sienna when the field is charged more than the venue, verdigris when less. Conditional frequencies only: fields differ in what they submit as much as in how they are judged.</p>
-  </div></div>
-</section>
-
-<section>
-  <div class="plate-head">
-    <div class="plate-no">Plate XVI · The Measurement</div>
-    <div class="plate-scope">Corpus: ICLR 2018–2026 · all rated official reviews · a property of the system, not of any reviewer</div>
-    <h2>How repeatable is a score?</h2>
-    <p class="lede">Treat a paper's rating as a measurement and ask what any instrument must answer: if the measurement were repeated — same paper, another qualified reviewer — how much would it move? The NeurIPS experiments answered by actually re-running committees; this is the observational shadow of that experiment, computed from every co-review of the same paper across nine years of ICLR.</p>
-  </div>
-  <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 14a — The paper's share of the score (intraclass correlation, by year)</div>
-    <div id="icc-chart"></div>
-    <div class="fig-title" style="margin-top:34px">Fig. 14b — Same paper, another reviewer: the score is a distribution</div>
-    <div class="arc-grid" style="display:grid;grid-template-columns:1.35fr 1fr;gap:26px;align-items:center">
-      <div>
-        <div id="draw-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px">
-          <span class="draw-lab">The other reviewers of a paper average</span>
-          <select id="draw-bin" aria-label="mean of the other reviewers"></select>
-          <button id="draw-btn">Draw a reviewer</button>
-          <span id="draw-out"></span>
-        </div>
-        <div id="draw-dist"></div>
-      </div>
-      <div class="stat-lines" id="draw-stats"></div>
-    </div>
-    <p class="caption"><b>Fig. 14</b> — <em>How to read 14a:</em> the intraclass correlation is the share of rating variance attributable to the paper rather than to the reviewer draw; across 2018–2025 it sits between 0.34 and 0.45 — in every year, the majority of score variance is not the paper. 2026 reads lower still (0.18), but its coarser even-numbered scale mechanically deflates the estimate, so the cross-year drop should not be over-read. <em>14b:</em> each bar is the real ICLR 2026 distribution of one reviewer's score conditioned on what the paper's other reviewers averaged; the draw button samples from exactly that distribution. Framed deliberately as measurement noise: this is a property of the system under its constraints — anonymous volunteers, four reviews, deadline pressure — not a verdict on any reviewer.</p>
-  </div></div>
-</section>
-
-<section>
-  <div class="plate-head">
-    <div class="plate-no">Plate XVII · The Fate of an Objection</div>
-    <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track · 551,595 objections raised by official reviewers</div>
-    <h2>Most objections are never spoken of again</h2>
-    <p class="lede">Follow every objection — a reviewer's initial negative unit on one object — through the discussion phase: did the same reviewer return to that object after the authors responded, and if so, did the judgment soften or harden? The dominant fate, for every kind of objection, is silence.</p>
-  </div>
-  <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 15a — Raised → revisited → softened / hardened, per object</div>
-    <div id="fate-rows" style="display:flex;flex-direction:column;gap:9px"></div>
-    <div class="legend" style="margin-top:14px"><span class="chip"><span class="sw" style="background:rgba(179,170,153,0.35)"></span>revisited after the response</span><span class="chip"><span class="sw" style="background:#3ba183"></span>of revisited: softened</span><span class="chip"><span class="sw" style="background:#d0685c"></span>of revisited: hardened</span></div>
-    <p class="caption"><b>Fig. 15</b> — <em>How to read:</em> each row is one object of scrutiny; the grey bar is the share of objections the same reviewer explicitly revisited after the author response (4–12%, everything else goes unmentioned); within that sliver, verdigris marks objections that softened and sienna those that hardened — hardening outruns softening two-to-three-fold for every object. The exceptions are instructive: related-work objections are the most revisited (11.7% — a citation fix is checkable), and novelty objections harden the least (8.0%) — precedent, once cited, is simply restated.</p>
-  </div></div>
-</section>
-
-<section>
-  <div class="plate-head">
-    <div class="plate-no">Plate XVIII · The Repair Manual</div>
-    <div class="plate-scope">Corpus: ICLR 2026 · 307,388 units carrying a suggested fix · clustered locally, named by hand</div>
-    <h2>What reviewers actually ask for</h2>
-    <p class="lede">Three quarters of all criticism arrives with a repair attached. Embedding and clustering 80,000 of those suggested fixes yields a working taxonomy of the discipline's demands — and one request towers over the rest: extend the evidence.</p>
-  </div>
-  <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 16a — The sixteen repairs, by share of all suggested fixes</div>
-    <div id="repair-rows" style="display:flex;flex-direction:column;gap:8px"></div>
-    <p class="caption"><b>Fig. 16</b> — <em>How to read:</em> each bar is one repair type's share of the 80,000 sampled fixes (hover a row for a verbatim exemplar; the small chips name the objects the repair most often attaches to). Method: bge-small embeddings, k-means (k=22, seed 7), merged to sixteen types and named by hand from c-TF-IDF terms and central exemplars. The asks are overwhelmingly constructive and concrete — a fifth of everything reviewers request is simply <em>more evidence, broader</em>.</p>
-  </div></div>
 </section>
 
 <div class="appendix-rule"><span>Appendices</span></div>
@@ -3182,8 +3182,14 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const mx = Math.max(...SCORES.map(x => d[String(x)] || 0)) / tot;
     distHost.innerHTML = SCORES.map(x => {
       const p = (d[String(x)] || 0) / tot;
-      return `<div class="dd-row" data-s="${x}"><div class="dd-l">scores ${x}</div><div class="dd-t"><div class="dd-f" style="width:${100 * p / mx}%"></div></div><div class="dd-n">${(100 * p).toFixed(1)}%</div></div>`;
+      return `<div class="dd-row" data-s="${x}"><div class="dd-l">scores ${x}</div><div class="dd-t"><div class="dd-f" data-w="${100 * p / mx}" style="width:0%"></div></div><div class="dd-n">${(100 * p).toFixed(1)}%</div></div>`;
     }).join("");
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      distHost.querySelectorAll(".dd-f").forEach((f, i) => {
+        f.style.transitionDelay = (i * 55) + "ms";
+        f.style.width = f.dataset.w + "%";
+      });
+    }));
     const mean = SCORES.reduce((a, x) => a + x * (d[String(x)] || 0), 0) / tot;
     const spread = Math.sqrt(SCORES.reduce((a, x) => a + (d[String(x)] || 0) * (x - mean) ** 2, 0) / tot);
     stats.innerHTML = `
