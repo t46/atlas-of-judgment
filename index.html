@@ -167,7 +167,9 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .appendix-rule span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--muted); }
 .appendix .plate-no { color: var(--muted); }
 .appendix h2 { font-size: clamp(22px, 2.4vw, 30px); color: var(--ink-2); }
-.method { font-size: 13.5px; color: var(--ink-2); max-width: 76ch; margin: 0 auto; }
+.method { font-size: 13.5px; color: var(--ink-2); columns: 2 46ch; column-gap: 56px; }
+.method dt { break-after: avoid; }
+.method dd { break-inside: auto; }
 .method dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); margin-top: 18px; }
 .method dd { margin: 4px 0 0; }
 
@@ -426,7 +428,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
         <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">LOW SIDE</span><div class="modes" id="split-lo"></div>
         <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted)">HIGH SIDE</span><div class="modes" id="split-hi"></div>
       </div>
-      <div class="legend"><span class="chip"><span class="sw" style="background:#b45036"></span><span id="split-lo-lab">low</span> condemns ← left wing</span><span class="chip"><span class="sw" style="background:#2fa383"></span>right wing → <span id="split-hi-lab">high</span> condemns</span></div>
+      <div class="legend"><span class="chip"><span class="sw" style="background:#d0685c"></span><span id="split-lo-lab">low</span> condemns ← left wing</span><span class="chip"><span class="sw" style="background:#3ba183"></span>right wing → <span id="split-hi-lab">high</span> condemns</span></div>
     </div>
     <div id="split-vd" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="fig-title" style="margin-top:34px">Fig. 8e — The spread: how much co-reviewers of one paper disagree, and whether it matters</div>
@@ -1118,8 +1120,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const negV = STRUCT.position.neg_rate, posV = STRUCT.position.pos_rate;
     const defs = document.createElementNS(NS, "defs");
     defs.innerHTML = `<linearGradient id="arcband" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#b45036" stop-opacity="0.34"/>
-      <stop offset="100%" stop-color="#2fa383" stop-opacity="0.30"/></linearGradient>`;
+      <stop offset="0%" stop-color="#d0685c" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#3ba183" stop-opacity="0.28"/></linearGradient>`;
     svg.appendChild(defs);
     const band = document.createElementNS(NS, "path");
     band.setAttribute("d",
@@ -1728,8 +1730,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         <div class="vp-l">${objLabel[o]}</div>
         <div style="position:relative;height:13px" title="${objLabel[o]}: inspected by ${pct(lo_touch)} of ${selLo}-givers / ${pct(hi_touch)} of ${selHi}-givers; condemned by ${pct(lo_neg)} vs ${pct(hi_neg)}">
           <div style="position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--brass-line)"></div>
-          <div style="position:absolute;right:50%;top:1px;height:11px;width:${Math.min(50, lo_neg * K / 2)}%;background:#b45036;opacity:.9"></div>
-          <div style="position:absolute;left:50%;top:1px;height:11px;width:${Math.min(50, hi_neg * K / 2)}%;background:#2fa383;opacity:.9"></div>
+          <div style="position:absolute;right:50%;top:1px;height:11px;width:${Math.min(50, lo_neg * K / 2)}%;background:#d0685c;opacity:.9"></div>
+          <div style="position:absolute;left:50%;top:1px;height:11px;width:${Math.min(50, hi_neg * K / 2)}%;background:#3ba183;opacity:.9"></div>
         </div>
         <div class="vp-n">${pct(lo_neg)} ← → ${pct(hi_neg)}</div>
       </div>`).join("");
