@@ -785,7 +785,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <p class="lede">Fourteen real deliberations, written out like music. Each reviewer is a staff and each unit a note, placed in the order it was reasoned; the dashed barline is where the authors respond, and what follows it carries the fate of each judgment — hardened, softened, or reversed. Faint verticals bind reviewers who touched the same object: ink where they agree, sienna where the same object drew opposite verdicts. Hover any note to read the unit.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Fourteen exemplar panels, five scenarios — the aggregate of all 49,441 panels follows in Fig. 14b below</div>
+    <p style="font-size:13.5px;color:var(--ink-2);margin:0 0 12px;max-width:96ch">Fourteen real panels, grouped by how their discussion ended — <b style="color:var(--ink)">softening</b> (judgments weakened after the response), <b style="color:var(--ink)">entrenchment</b> (judgments only reinforced), <b style="color:var(--ink)">reversal</b> (at least one verdict flipped outright), <b style="color:var(--ink)">split verdict</b> (final ratings far apart), <b style="color:var(--ink)">unanimity</b> (identical ratings). Pick any panel to read its full score; the aggregate of all 49,441 panels follows in Fig.&nbsp;14b.</p>
     <div class="modes" id="delib-tabs" role="group" aria-label="deliberation" style="flex-wrap:wrap;margin-bottom:6px"></div>
     <div id="delib-head" style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin:8px 0 4px"></div>
     <div id="delib-score"></div>
@@ -3589,10 +3589,17 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const CHG = { strengthened: ["▲", "#d0685c"], weakened: ["▼", "#3ba183"], reversed: ["↺", "#8b84cf"], clarified: ["·", "#7f8ca3"] };
   let cur = 0;
   const ROMAN = ["I", "II", "III", "IV"];
+  const SCEN_TIP = {
+    "a softening": "judgments weakened after the authors responded",
+    "an entrenchment": "judgments were only reinforced",
+    "a reversal": "at least one verdict flipped outright",
+    "a split verdict": "final ratings ended far apart",
+    "unanimity": "identical final ratings",
+  };
   tabs.innerHTML = DELIB.forums.map((f, i) => {
     const nth = DELIB.forums.filter((g, j) => j < i && g.scenario === f.scenario).length;
     const short = f.scenario.replace(/^an? /, "");
-    return `<button data-i="${i}" class="${i === 0 ? "on" : ""}" title="${f.title.replace(/"/g, "&quot;")}">${short} ${ROMAN[nth]}</button>`;
+    return `<button data-i="${i}" class="${i === 0 ? "on" : ""}" title="${(SCEN_TIP[f.scenario] || "")} \u00b7 ${f.title.replace(/"/g, "&quot;")}">${short} ${ROMAN[nth]}</button>`;
   }).join("");
 
   const SCEN_DEF = {
