@@ -81,12 +81,21 @@ def main() -> None:
             by_year[year][forum_id].append(r)
     conn.close()
 
+    import math
     years = {}
     for year in sorted(by_year):
         stats = icc_oneway(list(by_year[year].values()))
+        # normalized score entropy: how spread out are this year's scores over its own levels
+        counts = {}
+        for g in by_year[year].values():
+            for r in g:
+                counts[r] = counts.get(r, 0) + 1
+        tot = sum(counts.values())
+        ent = -sum(c / tot * math.log(c / tot) for c in counts.values())
+        stats["entropy_norm"] = round(ent / math.log(len(counts)), 4) if len(counts) > 1 else 0
         if stats["n_forums"] >= 200:
             years[year] = stats
-        print(year, stats)
+        print(year, stats["entropy_norm"], stats)
 
     # 2026 leave-one-out conditional distributions (even scale 0..10)
     cond: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
@@ -100,7 +109,29 @@ def main() -> None:
             cond[str(b)][str(int(r))] += 1
     cond = {b: dict(d) for b, d in cond.items() if sum(d.values()) >= 400}
 
-    payload = {"years": years, "cond2026": cond}
+    # 2026 split-gap context: how common is each max-min gap, and how do such panels fare
+    aconn = sqlite3.connect(f"file:{ANALYSIS_DB}?mode=ro", uri=True)
+    accepted = {}
+    for fid, decision, withdrawn in aconn.execute(
+        "SELECT forum_id, decision, withdrawn FROM papers WHERE year = 2026"
+    ):
+        if decision and not withdrawn:
+            accepted[fid] = any(w in decision.lower() for w in ("accept", "oral", "poster", "spotlight"))
+    aconn.close()
+    gaps: dict[int, list[int]] = {}
+    for fid, g in by_year[2026].items():
+        if len(g) < 3:
+            continue
+        gap = int(max(g) - min(g))
+        acc = accepted.get(fid)
+        gaps.setdefault(gap, [0, 0, 0])
+        gaps[gap][0] += 1
+        if acc is not None:
+            gaps[gap][2] += 1
+            gaps[gap][1] += acc
+    gap_stats = {str(k): {"n": v[0], "accept": round(v[1] / v[2], 4) if v[2] > 50 else None}
+                 for k, v in sorted(gaps.items())}
+    payload = {"years": years, "cond2026": cond, "gaps2026": gap_stats}
     (V / "lottery-data.json").write_text(json.dumps(payload) + "\n")
     print("bins:", {b: sum(d.values()) for b, d in cond.items()})
 
