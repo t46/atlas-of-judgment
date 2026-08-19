@@ -111,8 +111,14 @@ svg text { font-family: var(--serif); }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
 .filters select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 8px 12px; font-size: 11.5px; font-family: var(--mono); }
 .filters .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.1em; }
-.unit-toggle { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 1px dashed var(--brass-line); color: var(--brass); padding: 6px 14px; cursor: pointer; margin-top: 10px; align-self: flex-start; }
-.unit-toggle:hover { border-style: solid; }
+.unit-toggle { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 1px dashed var(--brass-line); color: var(--brass); padding: 6px 14px; cursor: pointer; margin-top: 10px; align-self: flex-start; transition: background .25s ease, border-color .25s ease; }
+.unit-toggle:hover { border-style: solid; background: rgba(201,164,92,0.08); }
+.unit-toggle .arr { display: inline-block; transition: transform .45s cubic-bezier(.25,.8,.25,1); margin-left: 6px; }
+.unit-toggle.open .arr { transform: rotate(180deg); }
+.unit-fold { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s cubic-bezier(.25,.8,.25,1); }
+.unit-fold.open { grid-template-rows: 1fr; }
+.unit-fold > .uf-inner { min-height: 0; overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .unit-fold { transition: none !important; } .unit-toggle .arr { transition: none !important; } }
 .review-card { border: 1px solid var(--brass-faint); background: rgba(22,19,36,0.5); padding: 24px 26px; display: flex; flex-direction: column; gap: 14px; }
 .review-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; border-bottom: 1px solid var(--brass-faint); padding-bottom: 12px; }
 .review-head .title { font-family: var(--display); font-size: 20px; font-weight: 600; }
@@ -2006,7 +2012,9 @@ function showDissect(kind, key) {
 (function explorer() {
   const host = document.getElementById("reviews");
   const filters = document.getElementById("filters");
-  const INITIAL = 3;
+  const NARROW = matchMedia("(max-width: 700px)").matches;
+  const INITIAL = NARROW ? 2 : 3;
+  const HEAD = NARROW ? 1 : 2;
   const state = { o: "", r: "", v: "", shown: INITIAL };
   function sel(id, label, opts) {
     return `<select id="${id}" aria-label="${label}"><option value="">${label}: all</option>${opts.map(([k, l]) => `<option value="${k}">${l}</option>`).join("")}</select>`;
@@ -2018,7 +2026,7 @@ function showDissect(kind, key) {
     `<span class="count" id="f-count"></span>`;
   const esc = s => s == null ? "" : String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   const expanded = new Set();
-  let justUnfolded = null, justPaged = null;
+  let justPaged = null;
   const unitMatch = u => (!state.o || u.object_key === state.o) && (!state.r || u.reasoning_key === state.r) && (!state.v || u.valence === state.v);
   function unitHtml(u, hit) {
     const impr = u.suggested_improvement ? `<div class="improve"><b>Suggested fix</b> &nbsp;${esc(u.suggested_improvement)}</div>` : "";
@@ -2047,19 +2055,13 @@ function showDissect(kind, key) {
       return `<div class="review-card">
         <div class="review-head"><a class="title" href="${orForum}" target="_blank" rel="noopener" style="border:none;color:var(--ink)" title="Open the paper's forum on OpenReview">${esc(rv.paper_title || rv.paper_id)}</a>${dec}<a class="rid" href="${orReview}" target="_blank" rel="noopener" style="border:none" title="Open this exact review on OpenReview">REVIEW ${esc(rv.review_id)} · OPENREVIEW ↗</a></div>
         <div class="summary">${esc(rv.summary)}</div>
-        ${(active || expanded.has(rv.review_id) || rv.units.length <= 3 ? rv.units : rv.units.slice(0, 2)).map(u => unitHtml(u, !active || unitMatch(u))).join("")}
-        ${!active && rv.units.length > 3 ? `<button class="unit-toggle" data-rid="${esc(rv.review_id)}">${expanded.has(rv.review_id) ? "Fold the specimen \u25b4" : `Unfold ${rv.units.length - 2} more units \u25be`}</button>` : ""}
+        ${rv.units.slice(0, HEAD).map(u => unitHtml(u, !active || unitMatch(u))).join("")}
+        ${rv.units.length > HEAD ? `<div class="unit-fold${active || expanded.has(rv.review_id) || rv.units.length <= HEAD + 1 ? " open" : ""}"><div class="uf-inner">${rv.units.slice(HEAD).map(u => unitHtml(u, !active || unitMatch(u))).join("")}</div></div>` : ""}
+        ${!active && rv.units.length > HEAD + 1 ? `<button class="unit-toggle${expanded.has(rv.review_id) ? " open" : ""}" data-rid="${esc(rv.review_id)}" data-n="${rv.units.length - HEAD}"><span class="lbl">${expanded.has(rv.review_id) ? "Fold the specimen" : `Unfold ${rv.units.length - HEAD} more units`}</span><span class="arr">\u25be</span></button>` : ""}
       </div>`;
     }).join("");
     document.getElementById("more").style.display = matches.length > state.shown ? "" : "none";
     document.getElementById("less").style.display = state.shown > INITIAL ? "" : "none";
-    if (justUnfolded != null) {
-      const btn = host.querySelector(`.unit-toggle[data-rid="${CSS.escape(justUnfolded)}"]`);
-      if (btn) [...btn.closest(".review-card").querySelectorAll(".unit")].slice(2).forEach((u, i) => {
-        u.classList.add("spec-in"); u.style.animationDelay = Math.min(i * 55, 550) + "ms";
-      });
-      justUnfolded = null;
-    }
     if (justPaged != null) {
       [...host.children].slice(justPaged).forEach((c, i) => {
         c.classList.add("spec-in"); c.style.animationDelay = Math.min(i * 90, 540) + "ms";
@@ -2078,8 +2080,21 @@ function showDissect(kind, key) {
     const b = e.target.closest(".unit-toggle");
     if (!b) return;
     const rid = b.dataset.rid;
-    if (expanded.has(rid)) { expanded.delete(rid); } else { expanded.add(rid); justUnfolded = rid; }
-    render();
+    const fold = b.closest(".review-card").querySelector(".unit-fold");
+    const opening = !expanded.has(rid);
+    if (opening) {
+      expanded.add(rid);
+      fold.classList.add("open"); b.classList.add("open");
+      b.querySelector(".lbl").textContent = "Fold the specimen";
+      fold.querySelectorAll(".unit").forEach((u, i) => {
+        u.classList.remove("spec-in"); void u.offsetWidth;
+        u.classList.add("spec-in"); u.style.animationDelay = Math.min(120 + i * 70, 700) + "ms";
+      });
+    } else {
+      expanded.delete(rid);
+      fold.classList.remove("open"); b.classList.remove("open");
+      b.querySelector(".lbl").textContent = `Unfold ${b.dataset.n} more units`;
+    }
   });
   render();
 })();
