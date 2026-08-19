@@ -2201,16 +2201,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const io = new IntersectionObserver(entries => {
     for (const en of entries) {
       if (!en.isIntersecting) continue;
-      en.target.classList.add("in", "in-view");
-      if (en.target === sankeyPlate && !sankeyDone && window.__sankeyReveal) { sankeyDone = true; window.__sankeyReveal(); }
-      for (const path of en.target.querySelectorAll("path[data-draw]")) {
-        const len = path.getTotalLength();
-        path.style.strokeDasharray = len;
-        path.style.strokeDashoffset = len;
-        path.getBoundingClientRect();
-        path.style.transition = "stroke-dashoffset 1.6s cubic-bezier(.3,.6,.2,1) .2s";
-        path.style.strokeDashoffset = "0";
-        setTimeout(() => { path.style.strokeDasharray = "none"; path.style.transition = ""; }, 2100);
+      if (en.target.classList.contains("reveal")) {
+        en.target.classList.add("in");
+        if (en.target === sankeyPlate && !sankeyDone && window.__sankeyReveal) { sankeyDone = true; window.__sankeyReveal(); }
+      } else {
+        en.target.classList.add("in-view");
+        for (const path of en.target.querySelectorAll("path[data-draw]")) {
+          const len = path.getTotalLength();
+          path.style.strokeDasharray = len;
+          path.style.strokeDashoffset = len;
+          path.getBoundingClientRect();
+          path.style.transition = "stroke-dashoffset 1.6s cubic-bezier(.3,.6,.2,1) .2s";
+          path.style.strokeDashoffset = "0";
+          setTimeout(() => { path.style.strokeDasharray = "none"; path.style.transition = ""; }, 2100);
+        }
       }
       io.unobserve(en.target);
     }
@@ -2219,7 +2223,8 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     el.classList.add("reveal");
     io.observe(el);
   }
-  for (const el of document.querySelectorAll(".hm-wrap")) io.observe(el);
+  // sub-figure granularity: each direct child of a plate fires its own atoms
+  for (const el of document.querySelectorAll(".plate-inner > *, .hm-wrap")) io.observe(el);
   // count-up on title-page spec
   for (const el of document.querySelectorAll(".cnt")) {
     const target = +el.dataset.n, t0 = performance.now(), dur = 1500;
