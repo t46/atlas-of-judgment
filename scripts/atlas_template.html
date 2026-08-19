@@ -153,7 +153,12 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .tv-wrap table { border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; font-family: var(--mono); }
 .tv-wrap th, .tv-wrap td { border: 1px solid var(--brass-faint); padding: 5px 9px; text-align: right; white-space: nowrap; color: var(--ink-2); }
 .tv-wrap td:first-child, .tv-wrap th:first-child { text-align: left; }
-.method { font-size: 13.5px; color: var(--ink-2); max-width: 76ch; }
+.appendix-rule { display: flex; align-items: center; gap: 18px; margin: 90px 0 -20px; }
+.appendix-rule::before, .appendix-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-faint); }
+.appendix-rule span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--muted); }
+.appendix .plate-no { color: var(--muted); }
+.appendix h2 { font-size: clamp(22px, 2.4vw, 30px); color: var(--ink-2); }
+.method { font-size: 13.5px; color: var(--ink-2); max-width: 76ch; margin: 0 auto; }
 .method dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); margin-top: 18px; }
 .method dd { margin: 4px 0 0; }
 
@@ -510,7 +515,21 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div></div>
 </section>
 
-<section id="lexicon">
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XIV · The Specimens</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · review-level track · 232 sampled reviews</div>
+    <h2>Raw reasoning, unretouched</h2>
+    <p class="lede">232 reviews sampled across every category, shown as their structured logic flows. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview forum, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</p>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div id="reviews" style="display:flex;flex-direction:column;gap:16px"></div>
+  <div style="display:flex;gap:12px;justify-content:center"><button id="more">Turn the page</button><button id="less" style="display:none">Close the book ▴</button></div>
+</section>
+
+<div class="appendix-rule"><span>Appendices</span></div>
+
+<section id="lexicon" class="appendix">
   <div class="plate-head">
     <div class="plate-no">Appendix I · The Lexicon</div>
     <h2>What every term means</h2>
@@ -521,7 +540,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div></div>
 </section>
 
-<section>
+<section class="appendix">
   <div class="plate-head">
     <div class="plate-no">Appendix II · Provenance &amp; Method</div>
     <h2>Where this atlas comes from</h2>
@@ -2020,8 +2039,99 @@ function showDissect(kind, key) {
     <dd>Reasoning-side clustering had 61.5% noise, so the standard taxonomy is a skeleton induced from ~40% of the sample; assignment confidence is reported per unit. The structuring model's phrasing conventions may influence embeddings. 1,479 reviews (1.9%) failed extraction and are excluded; topic correlation of that missingness is unverified. Constellation names are automatic; they describe, not define, their regions.</dd>
     <dt>Leakage control</dt>
     <dd>Outcome metadata (decisions, scores) was never shown to the extraction pipeline; decisions are joined only at display time.</dd>
-    <dt>Instrument checks &amp; raw specimens</dt>
-    <dd>How far the machine reading can be trusted — the memo-inferred share per category and year, the construct-validity check against ICLR sub-scores — and the 232 sampled reviews as inspectable logic flows, live on the <a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa">Method page</a> (§10–§11).</dd>`;
+    <dt>Instrument checks</dt>
+    <dd>How far the machine reading can be trusted — the memo-inferred share per category and year, and the construct-validity check against ICLR sub-scores — is documented on the <a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa">Method page</a> (§10).</dd>`;
+})();
+
+// ---------------- specimens (Plate XIV) ----------------
+(function explorer() {
+  const host = document.getElementById("reviews");
+  const filters = document.getElementById("filters");
+  const NARROW = matchMedia("(max-width: 700px)").matches;
+  const INITIAL = NARROW ? 1 : 3;
+  const HEAD = NARROW ? 1 : 2;
+  const state = { o: "", r: "", v: "", shown: INITIAL };
+  function sel(id, label, opts) {
+    return `<select id="${id}" aria-label="${label}"><option value="">${label}: all</option>${opts.map(([k, l]) => `<option value="${k}">${l}</option>`).join("")}</select>`;
+  }
+  filters.innerHTML =
+    sel("f-o", "Object", objOrder.map(k => [k, objLabel[k]])) +
+    sel("f-r", "Standard", reaOrder.map(k => [k, reaLabel[k]])) +
+    sel("f-v", "Verdict", VAL_ORDER.map(v => [v, v])) +
+    `<span class="count" id="f-count"></span>`;
+  const esc = s => s == null ? "" : String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const expanded = new Set();
+  let justPaged = null;
+  const unitMatch = u => (!state.o || u.object_key === state.o) && (!state.r || u.reasoning_key === state.r) && (!state.v || u.valence === state.v);
+  function unitHtml(u, hit) {
+    const impr = u.suggested_improvement ? `<div class="improve"><b>Suggested fix</b> &nbsp;${esc(u.suggested_improvement)}</div>` : "";
+    return `<div class="unit" style="${hit ? "" : "opacity:.35"}"><div class="stripe" style="background:${VAL_COLOR[u.valence]}"></div>
+      <div><div class="tags">
+        <span class="chip">${objLabel[u.object_key]}</span>
+        <span class="chip">${reaLabel[u.reasoning_key]}</span>
+        <span class="chip" style="border-color:${VAL_COLOR[u.valence]};color:${VAL_COLOR[u.valence]}">${u.valence}</span>
+        <span class="chip">${u.support_status}</span>
+      </div>
+      <div class="flow">
+        <div class="step"><div class="sl">Inspected</div><p>${esc(u.inspected_object)}</p></div>
+        <div class="step"><div class="sl">→ Observed</div><p>${esc(u.observation)}</p></div>
+        <div class="step"><div class="sl">→ Reasoned</div><p>${esc(u.reasoning)}</p></div>
+        <div class="step"><div class="sl">→ Judged</div><p>${esc(u.judgment)}</p></div>
+      </div>${impr}</div></div>`;
+  }
+  function render() {
+    const active = state.o || state.r || state.v;
+    const matches = DATA.sample_reviews.filter(rv => !active || rv.units.some(unitMatch));
+    document.getElementById("f-count").textContent = `${matches.length} / ${DATA.sample_reviews.length} REVIEWS`;
+    host.innerHTML = matches.slice(0, state.shown).map(rv => {
+      const dec = rv.decision ? `<span class="chip ${/accept|oral|poster|spotlight/i.test(rv.decision) ? "acc" : /reject/i.test(rv.decision) ? "rej" : ""}">${esc(rv.decision)}</span>` : "";
+      const orForum = `https://openreview.net/forum?id=${encodeURIComponent(rv.paper_id)}`;
+      const orReview = `${orForum}&noteId=${encodeURIComponent(rv.review_id)}`;
+      return `<div class="review-card">
+        <div class="review-head"><a class="title" href="${orForum}" target="_blank" rel="noopener" style="border:none;color:var(--ink)" title="Open the paper's forum on OpenReview">${esc(rv.paper_title || rv.paper_id)}</a>${dec}<a class="rid" href="${orReview}" target="_blank" rel="noopener" style="border:none" title="Open this exact review on OpenReview">REVIEW ${esc(rv.review_id)} · OPENREVIEW ↗</a></div>
+        <div class="summary">${esc(rv.summary)}</div>
+        ${rv.units.slice(0, HEAD).map(u => unitHtml(u, !active || unitMatch(u))).join("")}
+        ${rv.units.length > HEAD ? `<div class="unit-fold${active || expanded.has(rv.review_id) || rv.units.length <= HEAD + 1 ? " open" : ""}"><div class="uf-inner">${rv.units.slice(HEAD).map(u => unitHtml(u, !active || unitMatch(u))).join("")}</div></div>` : ""}
+        ${!active && rv.units.length > HEAD + 1 ? `<button class="unit-toggle${expanded.has(rv.review_id) ? " open" : ""}" data-rid="${esc(rv.review_id)}" data-n="${rv.units.length - HEAD}"><span class="lbl">${expanded.has(rv.review_id) ? "Fold the specimen" : `Unfold ${rv.units.length - HEAD} more units`}</span><span class="arr">\u25be</span></button>` : ""}
+      </div>`;
+    }).join("");
+    document.getElementById("more").style.display = matches.length > state.shown ? "" : "none";
+    document.getElementById("less").style.display = state.shown > INITIAL ? "" : "none";
+    if (justPaged != null) {
+      [...host.children].slice(justPaged).forEach((c, i) => {
+        c.classList.add("spec-in"); c.style.animationDelay = Math.min(i * 90, 540) + "ms";
+      });
+      justPaged = null;
+    }
+  }
+  for (const [id, key] of [["f-o", "o"], ["f-r", "r"], ["f-v", "v"]])
+    document.getElementById(id).addEventListener("change", e => { state[key] = e.target.value; state.shown = INITIAL; render(); });
+  document.getElementById("more").addEventListener("click", () => { justPaged = state.shown; state.shown += 10; render(); });
+  document.getElementById("less").addEventListener("click", () => {
+    state.shown = INITIAL; expanded.clear(); render();
+    filters.scrollIntoView({ block: "center", behavior: "smooth" });
+  });
+  host.addEventListener("click", e => {
+    const b = e.target.closest(".unit-toggle");
+    if (!b) return;
+    const rid = b.dataset.rid;
+    const fold = b.closest(".review-card").querySelector(".unit-fold");
+    const opening = !expanded.has(rid);
+    if (opening) {
+      expanded.add(rid);
+      fold.classList.add("open"); b.classList.add("open");
+      b.querySelector(".lbl").textContent = "Fold the specimen";
+      fold.querySelectorAll(".unit").forEach((u, i) => {
+        u.classList.remove("spec-in"); void u.offsetWidth;
+        u.classList.add("spec-in"); u.style.animationDelay = Math.min(120 + i * 70, 700) + "ms";
+      });
+    } else {
+      expanded.delete(rid);
+      fold.classList.remove("open"); b.classList.remove("open");
+      b.querySelector(".lbl").textContent = `Unfold ${b.dataset.n} more units`;
+    }
+  });
+  render();
 })();
 
 // ---------------- lexicon + term definitions ----------------

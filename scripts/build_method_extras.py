@@ -45,8 +45,7 @@ def main() -> None:
         "objOrder": obj_order, "reaOrder": rea_order,
         "rel": panel["reliability"],
         "construct": construct["matrix"],
-        "samples": viz["sample_reviews"],
-    }
+            }
     data_js = json.dumps(payload).replace("</", "<\\/")
 
     css = """
@@ -116,13 +115,6 @@ def main() -> None:
 <div class="hm-wrap"><div class="hm" id="mx-con"></div></div>
 <p class="hm-note">The grid largely agrees with the venue's own decomposition — clarity criticism dents <em>presentation</em> specifically (−0.35), novelty dents <em>contribution</em> (−0.12) — with one telling leak: theory criticism dents presentation more than soundness, as if "I could not follow the theory" were filed under presentation. Rebuild: <code>uv run python scripts/build_construct_data.py</code> → <code>construct-data.json</code>.</p>
 
-<div class="no" id="s11">11</div>
-<h2>Raw specimens — the reading, inspectable</h2>
-<p>232 reviews sampled across every category of the 2026 track, shown exactly as the pipeline read them: each unit as <em>inspected → observed → reasoned → judged</em>, with its taxonomy assignment and valence. Every title links to the paper's OpenReview forum and every review ID opens the exact review, so the machine reading can be held against the original. Filter by object, standard, or verdict; non-matching units dim.</p>
-<div class="filters" id="sp-filters"></div>
-<div id="sp-reviews" style="display:flex;flex-direction:column;gap:16px"></div>
-<div style="display:flex;gap:12px;justify-content:center;margin-top:18px"><button id="sp-more">Turn the page</button><button id="sp-less" style="display:none">Close the book ▴</button></div>
-
 <script>
 const MX = {data_js};
 (function () {{
@@ -167,94 +159,6 @@ const MX = {data_js};
     }}
   }}
 
-  // ---- specimen explorer ----
-  const host = document.getElementById("sp-reviews");
-  const filters = document.getElementById("sp-filters");
-  const NARROW = matchMedia("(max-width: 700px)").matches;
-  const INITIAL = NARROW ? 2 : 3;
-  const HEAD = NARROW ? 1 : 2;
-  const state = {{ o: "", r: "", v: "", shown: INITIAL }};
-  const expanded = new Set();
-  let justPaged = null;
-  function sel(id, label, opts) {{
-    return `<select id="${{id}}" aria-label="${{label}}"><option value="">${{label}}: all</option>${{opts.map(([k, l]) => `<option value="${{k}}">${{l}}</option>`).join("")}}</select>`;
-  }}
-  filters.innerHTML =
-    sel("sp-f-o", "Object", objOrder.map(k => [k, objLabel[k]])) +
-    sel("sp-f-r", "Standard", reaOrder.map(k => [k, reaLabel[k]])) +
-    sel("sp-f-v", "Verdict", VAL_ORDER.map(v => [v, v])) +
-    `<span class="count" id="sp-count"></span>`;
-  const esc = s => s == null ? "" : String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  const unitMatch = u => (!state.o || u.object_key === state.o) && (!state.r || u.reasoning_key === state.r) && (!state.v || u.valence === state.v);
-  function unitHtml(u, hit) {{
-    const impr = u.suggested_improvement ? `<div class="improve"><b>Suggested fix</b> &nbsp;${{esc(u.suggested_improvement)}}</div>` : "";
-    return `<div class="unit" style="${{hit ? "" : "opacity:.35"}}"><div class="stripe" style="background:${{VAL_COLOR[u.valence]}}"></div>
-      <div><div class="tags">
-        <span class="chip">${{objLabel[u.object_key]}}</span>
-        <span class="chip">${{reaLabel[u.reasoning_key]}}</span>
-        <span class="chip" style="border-color:${{VAL_COLOR[u.valence]}};color:${{VAL_COLOR[u.valence]}}">${{u.valence}}</span>
-        <span class="chip">${{u.support_status}}</span>
-      </div>
-      <div class="flow">
-        <div class="step"><div class="sl">Inspected</div><p>${{esc(u.inspected_object)}}</p></div>
-        <div class="step"><div class="sl">→ Observed</div><p>${{esc(u.observation)}}</p></div>
-        <div class="step"><div class="sl">→ Reasoned</div><p>${{esc(u.reasoning)}}</p></div>
-        <div class="step"><div class="sl">→ Judged</div><p>${{esc(u.judgment)}}</p></div>
-      </div>${{impr}}</div></div>`;
-  }}
-  function render() {{
-    const active = state.o || state.r || state.v;
-    const matches = MX.samples.filter(rv => !active || rv.units.some(unitMatch));
-    document.getElementById("sp-count").textContent = `${{matches.length}} / ${{MX.samples.length}} REVIEWS`;
-    host.innerHTML = matches.slice(0, state.shown).map(rv => {{
-      const dec = rv.decision ? `<span class="chip ${{/accept|oral|poster|spotlight/i.test(rv.decision) ? "acc" : /reject/i.test(rv.decision) ? "rej" : ""}}">${{esc(rv.decision)}}</span>` : "";
-      const orForum = `https://openreview.net/forum?id=${{encodeURIComponent(rv.paper_id)}}`;
-      const orReview = `${{orForum}}&noteId=${{encodeURIComponent(rv.review_id)}}`;
-      return `<div class="review-card">
-        <div class="review-head"><a class="title" href="${{orForum}}" target="_blank" rel="noopener" title="Open the paper's forum on OpenReview">${{esc(rv.paper_title || rv.paper_id)}}</a>${{dec}}<a class="rid" href="${{orReview}}" target="_blank" rel="noopener" title="Open this exact review on OpenReview">REVIEW ${{esc(rv.review_id)}} · OPENREVIEW ↗</a></div>
-        <div class="summary">${{esc(rv.summary)}}</div>
-        ${{rv.units.slice(0, HEAD).map(u => unitHtml(u, !active || unitMatch(u))).join("")}}
-        ${{rv.units.length > HEAD ? `<div class="unit-fold${{active || expanded.has(rv.review_id) || rv.units.length <= HEAD + 1 ? " open" : ""}}"><div class="uf-inner">${{rv.units.slice(HEAD).map(u => unitHtml(u, !active || unitMatch(u))).join("")}}</div></div>` : ""}}
-        ${{!active && rv.units.length > HEAD + 1 ? `<button class="unit-toggle${{expanded.has(rv.review_id) ? " open" : ""}}" data-rid="${{esc(rv.review_id)}}" data-n="${{rv.units.length - HEAD}}"><span class="lbl">${{expanded.has(rv.review_id) ? "Fold the specimen" : `Unfold ${{rv.units.length - HEAD}} more units`}}</span><span class="arr">\\u25be</span></button>` : ""}}
-      </div>`;
-    }}).join("");
-    document.getElementById("sp-more").style.display = matches.length > state.shown ? "" : "none";
-    document.getElementById("sp-less").style.display = state.shown > INITIAL ? "" : "none";
-    if (justPaged != null) {{
-      [...host.children].slice(justPaged).forEach((c, i) => {{
-        c.classList.add("spec-in"); c.style.animationDelay = Math.min(i * 90, 540) + "ms";
-      }});
-      justPaged = null;
-    }}
-  }}
-  for (const [id, key] of [["sp-f-o", "o"], ["sp-f-r", "r"], ["sp-f-v", "v"]])
-    document.getElementById(id).addEventListener("change", e => {{ state[key] = e.target.value; state.shown = INITIAL; render(); }});
-  document.getElementById("sp-more").addEventListener("click", () => {{ justPaged = state.shown; state.shown += 10; render(); }});
-  document.getElementById("sp-less").addEventListener("click", () => {{
-    state.shown = INITIAL; expanded.clear(); render();
-    filters.scrollIntoView({{ block: "center", behavior: "smooth" }});
-  }});
-  host.addEventListener("click", e => {{
-    const b = e.target.closest(".unit-toggle");
-    if (!b) return;
-    const rid = b.dataset.rid;
-    const fold = b.closest(".review-card").querySelector(".unit-fold");
-    const opening = !expanded.has(rid);
-    if (opening) {{
-      expanded.add(rid);
-      fold.classList.add("open"); b.classList.add("open");
-      b.querySelector(".lbl").textContent = "Fold the specimen";
-      fold.querySelectorAll(".unit").forEach((u, i) => {{
-        u.classList.remove("spec-in"); void u.offsetWidth;
-        u.classList.add("spec-in"); u.style.animationDelay = Math.min(120 + i * 70, 700) + "ms";
-      }});
-    }} else {{
-      expanded.delete(rid);
-      fold.classList.remove("open"); b.classList.remove("open");
-      b.querySelector(".lbl").textContent = `Unfold ${{b.dataset.n}} more units`;
-    }}
-  }});
-  render();
 }})();
 </script>
 {END}
@@ -270,12 +174,12 @@ const MX = {data_js};
         s = s.replace("<footer>", html + "\n<footer>", 1)
 
     # TOC entries
+    s = s.replace('  <a href="#s11"><span class="tno">11</span>Raw specimens — the reading, inspectable</a>\n', '', 1)
     if "#s10" not in s:
         s = s.replace(
             '  <a href="#s9"><span class="tno">09</span>Cost ledger</a>\n</div>',
             '  <a href="#s9"><span class="tno">09</span>Cost ledger</a>\n'
-            '  <a href="#s10"><span class="tno">10</span>Instrument checks — reading the reader</a>\n'
-            '  <a href="#s11"><span class="tno">11</span>Raw specimens — the reading, inspectable</a>\n</div>',
+            '  <a href="#s10"><span class="tno">10</span>Instrument checks — reading the reader</a>\n</div>',
             1,
         )
     # footer scope line
