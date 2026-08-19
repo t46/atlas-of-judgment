@@ -142,6 +142,12 @@ svg text { font-family: var(--serif); }
 .unit .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 0; }
 .improve { grid-column: 1 / -1; margin: 12px 16px 0; padding: 9px 13px; border-left: 2px solid var(--brass); background: rgba(201,164,92,0.06); font-size: 12.5px; color: var(--ink-2); }
 .improve b { color: var(--brass); font-weight: 500; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+#spec-dock { position: fixed; left: 50%; transform: translateX(-50%); bottom: 18px; z-index: 60; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(18,16,31,0.88); backdrop-filter: blur(8px); border: 1px solid var(--brass-line); box-shadow: 0 6px 24px rgba(0,0,0,0.45); opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease; transform: translateX(-50%) translateY(8px); }
+#spec-dock.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+#spec-dock button { background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 7px 13px; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+#spec-dock button:hover { background: rgba(201,164,92,0.1); }
+#spec-dock .dk-count { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; color: var(--muted); padding-right: 2px; }
+@media (prefers-reduced-motion: reduce) { #spec-dock { transition: none !important; } }
 #more, #less { align-self: center; background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 10px 32px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
 #more:hover, #less:hover { background: rgba(201,164,92,0.08); }
 @media (max-width: 880px) { #minds { grid-template-columns: 1fr !important; } .unit .flow { grid-template-columns: 1fr; gap: 10px; } .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 16px 0; } .step:first-child { border-top: none; } }
@@ -528,6 +534,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="filters" id="filters"></div>
   <div id="reviews" style="display:flex;flex-direction:column;gap:16px"></div>
   <div style="display:flex;gap:12px;justify-content:center"><button id="more">Turn the page</button><button id="less" style="display:none">Close the book ▴</button></div>
+  <div id="spec-dock" role="group" aria-label="Specimen list controls"><span class="dk-count" id="dock-count"></span><button id="dock-more">Turn the page ▾</button><button id="dock-less">Close the book ▴</button></div>
 </section>
 
 <div class="appendix-rule"><span>Appendices</span></div>
@@ -2100,6 +2107,8 @@ function showDissect(kind, key) {
     }).join("");
     document.getElementById("more").style.display = matches.length > state.shown ? "" : "none";
     document.getElementById("less").style.display = state.shown > INITIAL ? "" : "none";
+    document.getElementById("dock-count").textContent = `${Math.min(state.shown, matches.length)} / ${matches.length}`;
+    if (typeof syncDock === "function") syncDock();
     if (justPaged != null) {
       [...host.children].slice(justPaged).forEach((c, i) => {
         c.classList.add("spec-in"); c.style.animationDelay = Math.min(i * 90, 540) + "ms";
@@ -2109,11 +2118,26 @@ function showDissect(kind, key) {
   }
   for (const [id, key] of [["f-o", "o"], ["f-r", "r"], ["f-v", "v"]])
     document.getElementById(id).addEventListener("change", e => { state[key] = e.target.value; state.shown = INITIAL; render(); });
-  document.getElementById("more").addEventListener("click", () => { justPaged = state.shown; state.shown += 10; render(); });
-  document.getElementById("less").addEventListener("click", () => {
+  function turnPage() { justPaged = state.shown; state.shown += 10; render(); }
+  function closeBook() {
     state.shown = INITIAL; expanded.clear(); render();
     filters.scrollIntoView({ block: "center", behavior: "smooth" });
-  });
+  }
+  document.getElementById("more").addEventListener("click", turnPage);
+  document.getElementById("less").addEventListener("click", closeBook);
+  document.getElementById("dock-more").addEventListener("click", turnPage);
+  document.getElementById("dock-less").addEventListener("click", closeBook);
+  const dock = document.getElementById("spec-dock");
+  let sectionVisible = false;
+  function syncDock() {
+    const canMore = document.getElementById("more").style.display !== "none";
+    const canLess = state.shown > INITIAL || expanded.size > 0;
+    document.getElementById("dock-more").style.display = canMore ? "" : "none";
+    document.getElementById("dock-less").style.display = canLess ? "" : "none";
+    dock.classList.toggle("show", sectionVisible && (canMore || canLess));
+  }
+  new IntersectionObserver(en => { sectionVisible = en[0].isIntersecting; syncDock(); },
+    { rootMargin: "-120px 0px -60px 0px" }).observe(host.closest("section"));
   host.addEventListener("click", e => {
     const b = e.target.closest(".unit-toggle");
     if (!b) return;
@@ -2123,6 +2147,7 @@ function showDissect(kind, key) {
     if (opening) {
       expanded.add(rid);
       fold.classList.add("open"); b.classList.add("open");
+      syncDock();
       b.querySelector(".lbl").textContent = "Fold the specimen";
       fold.querySelectorAll(".unit").forEach((u, i) => {
         u.classList.remove("spec-in"); void u.offsetWidth;
@@ -2131,6 +2156,7 @@ function showDissect(kind, key) {
     } else {
       expanded.delete(rid);
       fold.classList.remove("open"); b.classList.remove("open");
+      syncDock();
       b.querySelector(".lbl").textContent = `Unfold ${b.dataset.n} more units`;
     }
   });
