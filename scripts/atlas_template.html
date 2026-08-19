@@ -212,6 +212,7 @@ svg text.deft { cursor: help; }
   .tv-wrap td::before { content: attr(data-label); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 1px; }
   .tv-wrap td:first-child::before { content: none; }
   .lift-n, .vp-n, .rx-n { white-space: normal; font-size: 10px; }
+  .vp-l { white-space: normal; overflow: visible; text-overflow: clip; font-size: 11px; line-height: 1.3; }
   .arc-grid { grid-template-columns: 1fr !important; }
   .arc-grid > * { min-width: 0; }
   .stat-lines { min-width: 0; }
@@ -302,7 +303,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       </div>
       <div class="stat-lines" id="rhet-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 3</b> â <em>How to read:</em> each row is one reasoning standard; its bar splits that standard’s units by the inference form the classifier assigned, and the right column names the dominant form. Method: 600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; a logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; weakest class ANCHOR at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth. The signatures hold: reproducibility is 69% pure norm; statistical identifiability leads with blocked verification (43%) — <em>without error bars, nothing can be known</em>; novelty leans hardest on precedent. And weighing is where all the mercy lives: it is the only form in which praise occurs at scale (42% positive; every other form runs ≥88% negative).</p>
+    <p class="caption"><b>Fig. 3</b> — <em>How to read:</em> each row is one reasoning standard; its bar splits that standard’s units by the inference form the classifier assigned, and the right column names the dominant form. Method: 600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; a logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; weakest class ANCHOR at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth. The signatures hold: reproducibility is 69% pure norm; statistical identifiability leads with blocked verification (43%) — <em>without error bars, nothing can be known</em>; novelty leans hardest on precedent. And weighing is where all the mercy lives: it is the only form in which praise occurs at scale (42% positive; every other form runs ≥88% negative).</p>
   </div></div>
 </section>
 
@@ -411,7 +412,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       <div id="spread-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
       <div class="stat-lines" id="spread-stats"></div>
     </div>
-    <p class="caption"><b>Fig. 8</b> â <em>How to read 8a:</em> each row is one rating; the bar is the verdict mix of its units; the thin brass underbar is the relative number of reviews at that rating; the right column reads n reviews · units per review · mean reviewer confidence (1–5). Ratings are joined at display time only; extraction never saw them. Five findings that are not the tautology (low score = more negative): <b>(1) Scrutiny relocates rather than shrinks</b> — novelty largely disappears from an 8's review (a novelty unit appears in 20% of 2-reviews but only 9% of 8-reviews) and baselines (42% → 29%), but inspects theory, method design, and compute <em>more</em> than a 2 does. <b>(2) A 2's praise is consolation praise</b> — its rare positive units go to clarity and framing ("well written, nice motivation"); an 8's praise goes to empirical scope and theory. <b>(3) There are many ways to fail</b> — within-rating diversity of what reviews discuss falls monotonically from 0 (most heterogeneous) to 10 (most scripted): unhappiness is diverse, excellence has one shape. <b>(4) In split verdicts on the very same paper</b>, both reviewers inspect theory and method at identical rates and merely disagree on the verdict — but novelty is a weapon only the low scorer draws (condemned by 22% of ≤2 reviewers vs 4% of their ≥8 co-reviewers). Quieter still: the reviewer's own confidence follows a U (4.2 at 0 · 3.4 at 6 · 3.9 at 10), and mid-scale criticism is the most actionable (78% of a 2–4's units carry a fix vs 56% at 10). <b>(5) The decision is a mean, not a variance</b> — 93% of multi-review papers carry disagreement (half of them by two full notches), and disagreement peaks for mid-scoring papers; yet holding the exact mean fixed, a unanimous 6-6-6 and a divided 4-6-8 are accepted at the identical rate (92% at mean 6.0). A naive banded version of this analysis suggests "consensus is fate" — that is a mean-composition confound, and the panel averages it away.</p>
+    <p class="caption"><b>Fig. 8</b> — <em>How to read 8a:</em> each row is one rating; the bar is the verdict mix of its units; the thin brass underbar is the relative number of reviews at that rating; the right column reads n reviews · units per review · mean reviewer confidence (1–5). Ratings are joined at display time only; extraction never saw them. Five findings that are not the tautology (low score = more negative): <b>(1) Scrutiny relocates rather than shrinks</b> — novelty largely disappears from an 8's review (a novelty unit appears in 20% of 2-reviews but only 9% of 8-reviews) and baselines (42% → 29%), but inspects theory, method design, and compute <em>more</em> than a 2 does. <b>(2) A 2's praise is consolation praise</b> — its rare positive units go to clarity and framing ("well written, nice motivation"); an 8's praise goes to empirical scope and theory. <b>(3) There are many ways to fail</b> — within-rating diversity of what reviews discuss falls monotonically from 0 (most heterogeneous) to 10 (most scripted): unhappiness is diverse, excellence has one shape. <b>(4) In split verdicts on the very same paper</b>, both reviewers inspect theory and method at identical rates and merely disagree on the verdict — but novelty is a weapon only the low scorer draws (condemned by 22% of ≤2 reviewers vs 4% of their ≥8 co-reviewers). Quieter still: the reviewer's own confidence follows a U (4.2 at 0 · 3.4 at 6 · 3.9 at 10), and mid-scale criticism is the most actionable (78% of a 2–4's units carry a fix vs 56% at 10). <b>(5) The decision is a mean, not a variance</b> — 93% of multi-review papers carry disagreement (half of them by two full notches), and disagreement peaks for mid-scoring papers; yet holding the exact mean fixed, a unanimous 6-6-6 and a divided 4-6-8 are accepted at the identical rate (92% at mean 6.0). A naive banded version of this analysis suggests "consensus is fate" — that is a mean-composition confound, and the panel averages it away.</p>
   </div></div>
 </section>
 
@@ -429,7 +430,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     <div id="drift-rea"></div>
     <div class="fig-title" style="margin-top:30px">Fig. 9c — The hardening: nine-year vitals</div>
     <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
-    <p class="caption"><b>Fig. 9</b> â <em>How to read 9c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
+    <p class="caption"><b>Fig. 9</b> — <em>How to read 9c:</em> three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise; clarity (−4.9pp) and theory (−4.1pp) recede. Among standards, the novelty standard and presentation-as-trust each fall 3.5pp while cost-benefit and claim-evidence matching climb — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity on this forum-level track holds near 77% all nine years (the 2026 review-level track reads 71.8% — a different memo style, the same story). Assignment similarity is flat across years (0.81), so the drift is not an artifact of taxonomy transfer. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</p>
   </div></div>
 </section>
 
@@ -536,10 +537,10 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <details class="table-view"><summary>Full crosstab — object × reasoning standard</summary><div class="tv-wrap" id="tv"></div></details>
   <div class="fig-title" style="margin-top:30px">Fig. 15 — The instrument's own error: memo-inferred share, object × year</div>
   <div class="hm-wrap"><div class="hm" id="reliab"></div></div>
-  <div class="fig-title" style="margin-top:30px">Fig. 16 â The instrument check: does each criticism dent the sub-score it should?</div>
+  <div class="fig-title" style="margin-top:30px">Fig. 16 — The instrument check: does each criticism dent the sub-score it should?</div>
   <div class="hm-wrap"><div class="hm" id="construct-hm"></div></div>
-  <p class="caption"><b>Fig. 16</b> â <em>How to read:</em> each cell is the rating-adjusted change in one ICLR sub-score (soundness · presentation · contribution, 1–4 scale) when a review carries ≥1 negative unit on that object, versus reviews at the same overall rating without one; oxblood = the sub-score drops, verdigris = it rises. The taxonomy and the venue’s own decomposition largely agree — clarity criticism dents presentation specifically (−0.35), novelty dents contribution (−0.12) — with one telling leak: theory criticism dents presentation more than soundness, as if “I could not follow the theory” were filed under presentation.</p>
-  <p class="caption"><b>Fig. 15</b> â Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
+  <p class="caption"><b>Fig. 16</b> — <em>How to read:</em> each cell is the rating-adjusted change in one ICLR sub-score (soundness · presentation · contribution, 1–4 scale) when a review carries ≥1 negative unit on that object, versus reviews at the same overall rating without one; oxblood = the sub-score drops, verdigris = it rises. The taxonomy and the venue’s own decomposition largely agree — clarity criticism dents presentation specifically (−0.35), novelty dents contribution (−0.12) — with one telling leak: theory criticism dents presentation more than soundness, as if “I could not follow the theory” were filed under presentation.</p>
+  <p class="caption"><b>Fig. 15</b> — Share of units grounded in the memo's inference rather than the reviewer's explicit words (deeper violet = more inferred). Read every other plate through this one: categories and years where the violet deepens are where this atlas speaks more with the instrument's voice than the reviewer's.</p>
   <dl class="method" id="method"></dl>
 </section>
 
@@ -1652,7 +1653,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   hiHost.addEventListener("click", e => { const b = e.target.closest("button"); if (b && !b.disabled) { selHi = +b.dataset.v; renderSplit(); } });
   renderSplit();
 
-  // Fig 8e: the spread â one orbital arc of dispersion over the score meridian
+  // Fig 8e: the spread — one orbital arc of dispersion over the score meridian
   const D = DEPTH.dispersion;
   const sc = document.getElementById("spread-charts");
   sc.style.gridTemplateColumns = "1fr";
@@ -1886,17 +1887,24 @@ function showDissect(kind, key) {
   function fateFlow() {
     const host = document.getElementById("reb-fate");
     host.innerHTML = "";
-    const W = Math.max(300, host.clientWidth || 640), H = 240, BX = Math.max(120, W * 0.22), RX = W - 215;
+    const W = Math.max(240, host.clientWidth || 640);
+    const narrow = W < 520;
+    const H = 240, BX = narrow ? 16 : Math.max(120, W * 0.22), RX = narrow ? W - 108 : W - 215;
+    const FATE_SHORT = { "held (no visible change)": "held", "clarified only": "clarified" };
     const NSf = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(NSf, "svg");
     svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
-    const bandH = H - 40, top = 20;
+    const top = narrow ? 34 : 20, bandH = H - top - 20;
     const src = document.createElementNS(NSf, "rect");
     src.setAttribute("x", BX - 10); src.setAttribute("y", top); src.setAttribute("width", 10); src.setAttribute("height", bandH);
     src.setAttribute("fill", "#ece7dc"); src.setAttribute("fill-opacity", "0.85"); svg.appendChild(src);
     const sl = document.createElementNS(NSf, "text");
-    sl.setAttribute("x", BX - 18); sl.setAttribute("y", top + bandH / 2); sl.setAttribute("text-anchor", "end");
-    sl.setAttribute("dominant-baseline", "middle"); sl.setAttribute("font-size", "11.5"); sl.setAttribute("fill", "#b3aa99");
+    if (narrow) {
+      sl.setAttribute("x", BX - 10); sl.setAttribute("y", 16); sl.setAttribute("text-anchor", "start");
+    } else {
+      sl.setAttribute("x", BX - 18); sl.setAttribute("y", top + bandH / 2); sl.setAttribute("text-anchor", "end");
+    }
+    sl.setAttribute("dominant-baseline", "middle"); sl.setAttribute("font-size", narrow ? "10" : "11.5"); sl.setAttribute("fill", "#b3aa99");
     sl.textContent = `${fmt(N)} judgments`; svg.appendChild(sl);
     const GAPF = 8;
     const usable = bandH - GAPF * (fate.length - 1);
@@ -1913,8 +1921,8 @@ function showDissect(kind, key) {
       path.appendChild(t); svg.appendChild(path);
       const lb = document.createElementNS(NSf, "text");
       lb.setAttribute("x", RX + 8); lb.setAttribute("y", yDst + h1 / 2);
-      lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "11.5"); lb.setAttribute("fill", color);
-      lb.textContent = `${label} ${pct(share)}`; svg.appendChild(lb);
+      lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", narrow ? "10" : "11.5"); lb.setAttribute("fill", color);
+      lb.textContent = `${narrow ? (FATE_SHORT[label] || label) : label} ${pct(share)}`; svg.appendChild(lb);
       ySrc += h0; yDst += h1 + GAPF;
     });
     host.appendChild(svg);
