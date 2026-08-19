@@ -179,6 +179,28 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .tv-wrap table { border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; font-family: var(--mono); }
 .tv-wrap th, .tv-wrap td { border: 1px solid var(--brass-faint); padding: 5px 9px; text-align: right; white-space: nowrap; color: var(--ink-2); }
 .tv-wrap td:first-child, .tv-wrap th:first-child { text-align: left; }
+/* ---- the observatory: whole-page instrument chrome ---- */
+#meridian { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+#meridian .m-track { position: absolute; right: 6px; top: -14px; bottom: -14px; width: 1px; background: rgba(201,164,92,0.14); }
+#meridian .m-fill { position: absolute; right: 6px; top: -14px; width: 1px; background: var(--brass); transform-origin: top; }
+#meridian button { position: relative; display: block; width: 13px; height: 2px; padding: 0; background: rgba(201,164,92,0.35); border: none; cursor: pointer; transition: width 0.25s ease, background 0.25s ease; }
+#meridian button:hover { width: 22px; background: var(--brass); }
+#meridian button.cur { width: 22px; background: var(--brass); }
+#meridian button .m-lab { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; background: rgba(18,16,31,0.9); padding: 3px 7px; border: 1px solid var(--brass-faint); }
+#meridian button:hover .m-lab, #meridian button.cur .m-lab { opacity: 1; }
+#meridian button.cur .m-lab { color: var(--ink-2); border-color: transparent; background: none; }
+#meridian .m-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; color: var(--muted); margin-top: 6px; }
+@media (max-width: 1180px) { #meridian { display: none; } }
+.plate-head h2 { clip-path: inset(-4% 100% -8% 0); transition: clip-path 1.1s cubic-bezier(0.3, 0.6, 0.2, 1) 0.15s; }
+.plate-head.in h2 { clip-path: inset(-4% -2% -8% 0); }
+.plate-head .plate-no { letter-spacing: 0.5em; opacity: 0.4; transition: letter-spacing 1.2s cubic-bezier(0.3, 0.6, 0.2, 1), opacity 0.9s ease; }
+.plate-head.in .plate-no { letter-spacing: 0.26em; opacity: 1; }
+.plate-inner { will-change: transform; }
+#reticle { position: fixed; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; pointer-events: none; z-index: 200; opacity: 0; transition: opacity 0.3s ease; }
+#reticle::before { content: ""; position: absolute; inset: 0; border: 1px solid rgba(201,164,92,0.55); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.3, 0.6, 0.2, 1), border-color 0.3s ease; }
+#reticle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 2px; height: 2px; margin: -1px 0 0 -1px; background: var(--brass); border-radius: 50%; }
+#reticle.hot::before { transform: scale(1.7); border-color: var(--brass); }
+@media (prefers-reduced-motion: reduce) { .plate-head h2 { clip-path: none !important; transition: none !important; } .plate-head .plate-no { transition: none !important; letter-spacing: 0.26em; opacity: 1; } }
 .appendix-rule { display: flex; align-items: center; gap: 18px; margin: 90px 0 -20px; }
 .appendix-rule::before, .appendix-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-faint); }
 .appendix-rule span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--muted); }
@@ -261,6 +283,9 @@ svg text.deft { cursor: help; }
 }
 footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28px 0 64px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; text-transform: uppercase; }
 </style>
+
+<nav id="meridian" aria-label="navigate the plates"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
+<div id="reticle" aria-hidden="true"></div>
 
 <canvas id="ether" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none"></canvas>
 
@@ -2426,4 +2451,92 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     })(t0);
   }
 })();
+
+// ---------------- the observatory: rail, tilt, reticle ----------------
+(function observatory() {
+  // meridian rail
+  const rail = document.getElementById("meridian");
+  const fill = document.getElementById("m-fill");
+  const sections = [...document.querySelectorAll("section")].filter(sec => sec.querySelector(".plate-no"));
+  const hero = document.querySelector(".titlepage");
+  const entries = [{ el: hero, lab: "Title" }].concat(sections.map(sec => {
+    const no = sec.querySelector(".plate-no").textContent;
+    const m = no.split("\u00b7");
+    return { el: sec, lab: (m[1] || m[0]).trim() };
+  }));
+  const pct = document.createElement("div");
+  pct.className = "m-pct"; pct.id = "m-pct"; pct.textContent = "000%";
+  for (const en of entries) {
+    const b = document.createElement("button");
+    b.innerHTML = `<span class="m-lab">${en.lab}</span>`;
+    b.addEventListener("click", () => en.el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
+    rail.appendChild(b);
+    en.btn = b;
+  }
+  rail.appendChild(pct);
+  let cur = -1;
+  function onScroll() {
+    const st = scrollY, dh = document.documentElement.scrollHeight - innerHeight;
+    const p = dh ? st / dh : 0;
+    fill.style.height = `calc(${(p * 100).toFixed(2)}% )`;
+    pct.textContent = String(Math.round(p * 100)).padStart(3, "0") + "%";
+    let best = 0;
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i].el.getBoundingClientRect().top <= innerHeight * 0.4) best = i;
+    }
+    if (best !== cur) {
+      cur = best;
+      entries.forEach((en, i) => en.btn.classList.toggle("cur", i === best));
+    }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // inertia tilt: plates lean with scroll velocity like sheets of paper
+  if (!REDUCED && matchMedia("(min-width: 880px)").matches) {
+    const plates = [...document.querySelectorAll(".plate-inner")];
+    let lastY = scrollY, vel = 0, tilt = 0, idle = 0;
+    (function tiltLoop() {
+      requestAnimationFrame(tiltLoop);
+      const dy = scrollY - lastY; lastY = scrollY;
+      vel += (dy - vel) * 0.12;
+      const target = Math.max(-1.1, Math.min(1.1, vel * 0.028));
+      tilt += (target - tilt) * 0.1;
+      if (Math.abs(tilt) < 0.004 && Math.abs(vel) < 0.2) {
+        if (idle) return; idle = 1;
+        for (const p of plates) p.style.transform = "";
+        return;
+      }
+      idle = 0;
+      const tf = `perspective(1400px) rotateX(${(-tilt).toFixed(3)}deg)`;
+      for (const p of plates) {
+        const r = p.getBoundingClientRect();
+        if (r.bottom < -80 || r.top > innerHeight + 80) { if (p.style.transform) p.style.transform = ""; continue; }
+        p.style.transform = tf;
+      }
+    })();
+  }
+
+  // brass reticle cursor (fine pointers only)
+  if (!REDUCED && matchMedia("(pointer: fine)").matches) {
+    const ret = document.getElementById("reticle");
+    let mx = -100, my = -100, rx = -100, ry = -100, seen = false;
+    addEventListener("mousemove", e => {
+      mx = e.clientX; my = e.clientY;
+      if (!seen) { seen = true; ret.style.opacity = 1; rx = mx; ry = my; }
+      const el = e.target instanceof Element ? e.target : null;
+      const hot = el && el.closest("a, button, summary, select, canvas, .fbar, .legend .chip, .cell, .unit-toggle, svg");
+      ret.classList.toggle("hot", !!hot);
+    }, { passive: true });
+    document.documentElement.addEventListener("mouseleave", () => { ret.style.opacity = 0; seen = false; });
+    (function retLoop() {
+      requestAnimationFrame(retLoop);
+      rx += (mx - rx) * 0.22; ry += (my - ry) * 0.22;
+      ret.style.transform = `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px)`;
+    })();
+  } else {
+    document.getElementById("reticle").remove();
+  }
+})();
+
 </script>
