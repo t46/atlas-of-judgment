@@ -66,7 +66,7 @@ section { padding: 84px 0 6px; }
   font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; }
 .modes button + button { border-left: none; }
 .modes button.on, .toggle.on { color: var(--ground); background: var(--brass); border-color: var(--brass); }
-.modes button:focus-visible, .toggle:focus-visible, .legend .chip:focus-visible, #more:focus-visible, .filters select:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.modes button:focus-visible, .toggle:focus-visible, .legend .chip:focus-visible, #more:focus-visible, #less:focus-visible, .filters select:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 8px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); }
 .legend .chip { display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; border: 1px solid var(--brass-faint); cursor: pointer; user-select: none; white-space: nowrap; letter-spacing: 0.04em; }
 .legend .chip:hover, .legend .chip.pin { border-color: var(--brass); color: var(--ink); }
@@ -136,8 +136,8 @@ svg text { font-family: var(--serif); }
 .unit .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 0; }
 .improve { grid-column: 1 / -1; margin: 12px 16px 0; padding: 9px 13px; border-left: 2px solid var(--brass); background: rgba(201,164,92,0.06); font-size: 12.5px; color: var(--ink-2); }
 .improve b { color: var(--brass); font-weight: 500; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; }
-#more { align-self: center; background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 10px 32px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
-#more:hover { background: rgba(201,164,92,0.08); }
+#more, #less { align-self: center; background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 10px 32px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+#more:hover, #less:hover { background: rgba(201,164,92,0.08); }
 @media (max-width: 880px) { #minds { grid-template-columns: 1fr !important; } .unit .flow { grid-template-columns: 1fr; gap: 10px; } .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 16px 0; } .step:first-child { border-top: none; } }
 /* appendix */
 .prov-row { display: flex; gap: 18px; align-items: baseline; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; }
@@ -176,6 +176,9 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .in-view .cellfade { opacity: 1; }
 .hm-wrap .cellfade { opacity: 0; }
 .hm-wrap.in-view .cellfade { opacity: 1; }
+@keyframes specIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.spec-in { animation: specIn .45s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) { .spec-in { animation: none !important; } }
 .dotfade { opacity: 0; transition: opacity .6s ease .75s; }
 .in-view .dotfade { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .reveal, .grow, .cellfade, .dotfade { opacity: 1 !important; transform: none !important; transition: none !important; } }
@@ -512,7 +515,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div>
   <div class="filters" id="filters"></div>
   <div id="reviews" style="display:flex;flex-direction:column;gap:16px"></div>
-  <button id="more">Turn the page</button>
+  <div style="display:flex;gap:12px;justify-content:center"><button id="more">Turn the page</button><button id="less" style="display:none">Close the book ▴</button></div>
 </section>
 
 <section id="lexicon">
@@ -1992,7 +1995,8 @@ function showDissect(kind, key) {
 (function explorer() {
   const host = document.getElementById("reviews");
   const filters = document.getElementById("filters");
-  const state = { o: "", r: "", v: "", shown: 10 };
+  const INITIAL = 3;
+  const state = { o: "", r: "", v: "", shown: INITIAL };
   function sel(id, label, opts) {
     return `<select id="${id}" aria-label="${label}"><option value="">${label}: all</option>${opts.map(([k, l]) => `<option value="${k}">${l}</option>`).join("")}</select>`;
   }
@@ -2003,6 +2007,7 @@ function showDissect(kind, key) {
     `<span class="count" id="f-count"></span>`;
   const esc = s => s == null ? "" : String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   const expanded = new Set();
+  let justUnfolded = null, justPaged = null;
   const unitMatch = u => (!state.o || u.object_key === state.o) && (!state.r || u.reasoning_key === state.r) && (!state.v || u.valence === state.v);
   function unitHtml(u, hit) {
     const impr = u.suggested_improvement ? `<div class="improve"><b>Suggested fix</b> &nbsp;${esc(u.suggested_improvement)}</div>` : "";
@@ -2036,15 +2041,33 @@ function showDissect(kind, key) {
       </div>`;
     }).join("");
     document.getElementById("more").style.display = matches.length > state.shown ? "" : "none";
+    document.getElementById("less").style.display = state.shown > INITIAL ? "" : "none";
+    if (justUnfolded != null) {
+      const btn = host.querySelector(`.unit-toggle[data-rid="${CSS.escape(justUnfolded)}"]`);
+      if (btn) [...btn.closest(".review-card").querySelectorAll(".unit")].slice(2).forEach((u, i) => {
+        u.classList.add("spec-in"); u.style.animationDelay = Math.min(i * 55, 550) + "ms";
+      });
+      justUnfolded = null;
+    }
+    if (justPaged != null) {
+      [...host.children].slice(justPaged).forEach((c, i) => {
+        c.classList.add("spec-in"); c.style.animationDelay = Math.min(i * 90, 540) + "ms";
+      });
+      justPaged = null;
+    }
   }
   for (const [id, key] of [["f-o", "o"], ["f-r", "r"], ["f-v", "v"]])
-    document.getElementById(id).addEventListener("change", e => { state[key] = e.target.value; state.shown = 10; render(); });
-  document.getElementById("more").addEventListener("click", () => { state.shown += 10; render(); });
+    document.getElementById(id).addEventListener("change", e => { state[key] = e.target.value; state.shown = INITIAL; render(); });
+  document.getElementById("more").addEventListener("click", () => { justPaged = state.shown; state.shown += 10; render(); });
+  document.getElementById("less").addEventListener("click", () => {
+    state.shown = INITIAL; expanded.clear(); render();
+    filters.scrollIntoView({ block: "center", behavior: "smooth" });
+  });
   host.addEventListener("click", e => {
     const b = e.target.closest(".unit-toggle");
     if (!b) return;
     const rid = b.dataset.rid;
-    if (expanded.has(rid)) expanded.delete(rid); else expanded.add(rid);
+    if (expanded.has(rid)) { expanded.delete(rid); } else { expanded.add(rid); justUnfolded = rid; }
     render();
   });
   render();
