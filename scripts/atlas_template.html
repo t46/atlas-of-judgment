@@ -176,6 +176,24 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .tv-wrap table { border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; font-family: var(--mono); }
 .tv-wrap th, .tv-wrap td { border: 1px solid var(--brass-faint); padding: 5px 9px; text-align: right; white-space: nowrap; color: var(--ink-2); }
 .tv-wrap td:first-child, .tv-wrap th:first-child { text-align: left; }
+/* ---- the guided tour ---- */
+#tour-start { margin-top: 18px; background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 9px 22px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+#tour-start:hover { background: rgba(201,164,92,0.08); }
+#tour { position: fixed; left: 50%; transform: translateX(-50%) translateY(12px); bottom: 16px; z-index: 90; width: min(560px, calc(100vw - 24px)); background: rgba(18,16,31,0.95); backdrop-filter: blur(10px); border: 1px solid var(--brass-line); padding: 15px 18px 13px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease, transform 0.35s ease; }
+body.tour-on #tour { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+body.tour-on #spec-dock { display: none !important; }
+#tour .t-no { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.24em; color: var(--brass); text-transform: uppercase; }
+#tour .t-title { font-family: var(--display); font-size: 19px; color: var(--ink); margin-top: 4px; }
+#tour .t-text { font-size: 12.5px; line-height: 1.6; color: var(--ink-2); margin-top: 5px; }
+#tour .t-row { display: flex; gap: 8px; align-items: center; margin-top: 11px; }
+#tour .t-row button { background: none; border: 1px solid var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; }
+#tour .t-row button:hover:not(:disabled) { background: rgba(201,164,92,0.1); }
+#tour .t-row button:disabled { opacity: 0.3; cursor: default; }
+#tour .t-row .t-x { margin-left: auto; border-color: transparent; color: var(--muted); }
+#tour .t-row .t-x:hover { color: var(--brass); }
+@keyframes tourPulse { 0%, 100% { outline-color: rgba(201,164,92,0.9); } 50% { outline-color: rgba(201,164,92,0.25); } }
+.tour-focus { outline: 1px solid var(--brass); outline-offset: 10px; animation: tourPulse 2.2s ease infinite; }
+@media (prefers-reduced-motion: reduce) { .tour-focus { animation: none; } #tour { transition: none; } }
 /* ---- the observatory: whole-page instrument chrome ---- */
 #meridian { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
 #meridian .m-track { position: absolute; right: 6px; top: -14px; bottom: -14px; width: 1px; background: rgba(201,164,92,0.14); }
@@ -295,7 +313,8 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       <p class="tp-sub">The public reviews of ICLR 2026 — 98% of them, read at the finest grain — decomposed into atomic units of evaluative logic: what was inspected, what was observed, which standard was invoked, what was concluded — and charted like a sky. The plates that follow also read the venue’s nine-year record, 2018–2026, with the same taxonomy.</p>
       <div class="tp-spec">
         <b class="cnt" data-n="410586">410,586</b> logic units · <b class="cnt" data-n="74380">74,380</b> reviews · <b class="cnt" data-n="19474">19,474</b> papers<br>
-        + <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI
+        + <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI<br>
+        <button id="tour-start">Take the guided tour · 10 stops</button>
       </div>
     </div>
     <div style="justify-self:center;max-width:520px;width:100%;position:relative"><canvas id="planisphere" aria-label="circular star chart of all logic units; click a star to read its unit" style="width:100%;aspect-ratio:1"></canvas>
@@ -578,6 +597,16 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="filters" id="filters"></div>
   <div id="reviews" style="display:flex;flex-direction:column;gap:16px"></div>
   <div style="display:flex;gap:12px;justify-content:center"><button id="more">Turn the page</button><button id="less" style="display:none">Close the book ▴</button></div>
+  <div id="tour" role="dialog" aria-label="guided tour">
+    <div class="t-no" id="t-no"></div>
+    <div class="t-title" id="t-title"></div>
+    <div class="t-text" id="t-text"></div>
+    <div class="t-row">
+      <button id="t-prev">← Prev</button>
+      <button id="t-next">Next →</button>
+      <button class="t-x" id="t-exit">End tour ×</button>
+    </div>
+  </div>
   <div id="spec-dock" role="group" aria-label="Specimen list controls"><span class="dk-count" id="dock-count"></span><button id="dock-more">Turn the page ▾</button><button id="dock-less">Close the book ▴</button></div>
 </section>
 
@@ -2534,6 +2563,55 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   } else {
     document.getElementById("reticle").remove();
   }
+})();
+
+
+// ---------------- the guided tour ----------------
+(function tour() {
+  const STOPS = [
+    { sel: "#planisphere", title: "A sky of judgment", text: "Every star is one real unit of reviewer logic from ICLR 2026 \u2014 40,000 of them, drawn as a rotating chart. Click any star to read the unit it stands for." },
+    { sel: "#sankey", title: "71.8% of scrutiny resolves negative", text: "Objects flow through the standards that judge them and into verdicts. Merit recognition is the one column where praise concentrates \u2014 13.7% of the flow." },
+    { sel: "#heatmap", title: "The discipline has a grammar", text: "When a reviewer inspects x, they overwhelmingly reason via its canonical standard \u2014 the bright diagonal. Off-diagonal cells are where the grammar bends." },
+    { sel: "#arc", title: "Reviews follow a script", text: "Openings are conceptual, closings are hygiene, and the temperature follows an arc: praise opens at 26%, collapses mid-review, and partially recovers at the close." },
+    { sel: "#minds", title: "Five kinds of reviewer", text: "Clustering 98,513 reviewer-forum profiles yields five archetypes. Across nine years the polish-focused Gatekeeper fades (25%\u219215%) while the Stress-Tester rises (19%\u219226%)." },
+    { sel: "#cov-hm", title: "Scrutiny relocates with the score", text: "Low ratings inspect framing and novelty; high ratings still check empirical scope but largely stop discussing novelty \u2014 a novelty unit appears in 20% of 2-reviews but 9% of 8-reviews." },
+    { sel: "#drift-obj", title: "Nine years of shifting scrutiny", text: "The hygiene turn: compute cost, statistical rigor, and reproducibility rise steadily from 2018 to 2026, while presentation-flavored scrutiny recedes." },
+    { sel: "#reb-fate", title: "Author responses barely move the needle", text: "Of 130,650 post-rebuttal judgments, 83.7% hold. When one does move, it strengthens 2.5\u00d7 more often than it softens \u2014 no kind of response escapes that ratio." },
+    { sel: "#tribunal", title: "Not all criticism costs the same", text: "Novelty criticism carries the largest acceptance gap (\u221210.6pp, association only); compute-cost and robustness complaints carry none at all." },
+    { sel: "#reviews", title: "Read the raw reasoning", text: "232 sampled reviews, decomposed exactly as the pipeline read them. Filter with the distribution bars, unfold a specimen, and hold the machine reading against the original on OpenReview." },
+  ];
+  const card = document.getElementById("tour");
+  const elNo = document.getElementById("t-no"), elTitle = document.getElementById("t-title"), elText = document.getElementById("t-text");
+  const bPrev = document.getElementById("t-prev"), bNext = document.getElementById("t-next");
+  let i = -1, focused = null;
+  function clearFocus() { if (focused) { focused.classList.remove("tour-focus"); focused = null; } }
+  function go(n) {
+    i = Math.max(0, Math.min(STOPS.length - 1, n));
+    const st = STOPS[i];
+    const el = document.querySelector(st.sel);
+    if (!el) return;
+    clearFocus();
+    const box = el.closest(".plate-inner") ? el : el;
+    focused = box; box.classList.add("tour-focus");
+    el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" });
+    elNo.textContent = `Stop ${i + 1} / ${STOPS.length}`;
+    elTitle.textContent = st.title;
+    elText.textContent = st.text;
+    bPrev.disabled = i === 0;
+    bNext.textContent = i === STOPS.length - 1 ? "Finish \u2713" : "Next \u2192";
+  }
+  function start() { document.body.classList.add("tour-on"); go(0); }
+  function end() { document.body.classList.remove("tour-on"); clearFocus(); i = -1; }
+  document.getElementById("tour-start").addEventListener("click", start);
+  document.getElementById("t-exit").addEventListener("click", end);
+  bPrev.addEventListener("click", () => go(i - 1));
+  bNext.addEventListener("click", () => { if (i === STOPS.length - 1) end(); else go(i + 1); });
+  addEventListener("keydown", e => {
+    if (!document.body.classList.contains("tour-on")) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); if (i < STOPS.length - 1) go(i + 1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); go(i - 1); }
+    else if (e.key === "Escape") end();
+  });
 })();
 
 </script>
