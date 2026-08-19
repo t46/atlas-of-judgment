@@ -5727,7 +5727,10 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const grid = document.createElement("div");
     grid.className = "et-grid";
     const hasG = !!D.grounds;
-    if (host.clientWidth >= 880) grid.style.gridTemplateColumns = hasG ? "1fr 1.25fr 1fr" : "1.4fr 1fr";
+    if (host.clientWidth >= 880) {
+      grid.style.gridTemplateColumns = hasG ? "0.85fr 1.25fr 1fr" : "1.4fr 1fr";
+      if (hasG) grid.style.columnGap = "72px";
+    }
     if (hasG) {
       const g = document.createElement("div");
       g.innerHTML = `<div class="et-col-h">I · THE GROUND — WHAT WAS OBSERVED</div>` +
