@@ -24,6 +24,7 @@ def main() -> None:
     html = html.replace("__DEPTH_JSON__", load_json_island("score-depth.json"))
     html = html.replace("__CONSTRUCT_JSON__", load_json_island("construct-data.json"))
     html = html.replace("__STRUCTURE_JSON__", load_json_island("structure-data.json"))
+    html = html.replace("__ORACLE_JSON__", load_json_island("oracle-data.json"))
     direct_dir = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-direct-v1"
     for placeholder, name in (
         ("__DRIFT_JSON__", "drift-data.json"),

@@ -176,6 +176,38 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .tv-wrap table { border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; font-family: var(--mono); }
 .tv-wrap th, .tv-wrap td { border: 1px solid var(--brass-faint); padding: 5px 9px; text-align: right; white-space: nowrap; color: var(--ink-2); }
 .tv-wrap td:first-child, .tv-wrap th:first-child { text-align: left; }
+/* ---- lexicon constellations ---- */
+.lex-c { vertical-align: -4px; margin-right: 7px; }
+.lex-grid dt.lex-t { cursor: pointer; }
+.lex-grid dt.lex-t:hover { color: var(--brass); }
+/* ---- plate toolkit + marginalia ---- */
+.plate-tools { position: absolute; top: -21px; right: 2px; display: flex; gap: 16px; z-index: 5; }
+.plate-tools button, .plate-tools a { background: none; border: none; padding: 0; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); cursor: pointer; }
+.plate-tools button:hover, .plate-tools a:hover { color: var(--brass); }
+.margin-note { display: none; }
+@media (min-width: 1720px) {
+  .margin-note { display: block; position: absolute; left: calc(100% + 28px); width: 168px; font-family: var(--display); font-style: italic; font-size: 16.5px; line-height: 1.4; color: var(--ink-2); transform: rotate(-1.6deg) translateY(6px); opacity: 0; transition: opacity 0.9s ease 0.55s, transform 0.9s ease 0.55s; }
+  .plate.in .margin-note { opacity: 0.85; transform: rotate(-1.6deg) translateY(0); }
+  .margin-note::before { content: "\2014 "; color: var(--brass); }
+}
+/* ---- drift time scrubber ---- */
+#drift-ctl { display: flex; gap: 14px; align-items: center; margin: 2px 0 14px; }
+#drift-ctl button { background: none; border: 1px dashed var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; }
+#drift-ctl button:hover { border-style: solid; background: rgba(201,164,92,0.08); }
+#drift-ctl input[type=range] { flex: 1; max-width: 320px; accent-color: #c9a45c; }
+#drift-ctl #dr-year { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-2); min-width: 44px; }
+/* ---- the oracle ---- */
+.oracle-bar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.oracle-bar select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 9px 13px; font-size: 12px; font-family: var(--mono); max-width: 100%; }
+.oracle-stats { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-2); text-transform: uppercase; }
+.oracle-stats b { color: var(--brass); font-weight: 500; }
+.or-row { display: grid; grid-template-columns: 190px 1fr 108px; gap: 12px; align-items: center; }
+.or-l { font-size: 13px; color: var(--ink-2); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.or-track { position: relative; height: 12px; background: rgba(201,164,92,0.06); }
+.or-fill { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(201,164,92,0.55); transition: width 0.7s cubic-bezier(0.2, 0.7, 0.15, 1); }
+.or-base { position: absolute; top: -3px; bottom: -3px; width: 1.5px; background: var(--ink); opacity: 0.75; transition: left 0.7s cubic-bezier(0.2, 0.7, 0.15, 1); }
+.or-d { font-family: var(--mono); font-size: 10px; white-space: nowrap; }
+@media (max-width: 880px) { .or-row { grid-template-columns: 104px 1fr 74px; } .or-l { font-size: 10.5px; white-space: normal; line-height: 1.2; } .or-d { font-size: 8.5px; white-space: normal; } }
 /* ---- late-page motion: 8d wings, filter bars, appendix blocks ---- */
 @keyframes wingIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .in-view .wing.wl { transform-origin: right center; animation: wingIn 0.8s cubic-bezier(0.2, 0.7, 0.15, 1) both; }
@@ -518,6 +550,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 9a — What reviewers inspect, 2018 → 2026</div>
+    <div id="drift-ctl"><button id="dr-play" title="replay 2018 to 2026">▶&#8202; replay the decade</button><input id="dr-scrub" type="range" min="0" max="1000" value="1000" aria-label="scrub through the years"><span id="dr-year">2026</span></div>
     <div id="drift-obj"></div>
     <div class="fig-title" style="margin-top:30px">Fig. 9b — The standards they invoke, 2018 → 2026</div>
     <div id="drift-rea"></div>
@@ -620,6 +653,23 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div id="spec-dock" role="group" aria-label="Specimen list controls"><span class="dk-count" id="dock-count"></span><button id="dock-more">Turn the page ▾</button><button id="dock-less">Close the book ▴</button></div>
 </section>
 
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XV · The Oracle</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · 19,474 reviewed papers with a primary area · association, not destiny</div>
+    <h2>Choose a field. Face its tribunal.</h2>
+    <p class="lede">Pick the primary area a paper would be submitted under, and the panel below recomputes from the real record: how often papers in that field drew at least one negative unit on each object of scrutiny, against the venue-wide baseline. The differences are the field's signature — what its reviewers reach for first.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="oracle-bar">
+      <select id="oracle-area" aria-label="primary area"></select>
+      <div class="oracle-stats" id="oracle-stats"></div>
+    </div>
+    <div id="oracle-rows" style="display:flex;flex-direction:column;gap:8px;margin-top:18px"></div>
+    <p class="caption"><b>Plate XV</b> — <em>How to read:</em> each bar is the share of the field's papers that drew at least one negative unit on that object; the white tick is the venue-wide baseline, and the right column is the deviation in points — sienna when the field is charged more than the venue, verdigris when less. Conditional frequencies only: fields differ in what they submit as much as in how they are judged.</p>
+  </div></div>
+</section>
+
 <div class="appendix-rule"><span>Appendices</span></div>
 
 <section id="lexicon" class="appendix">
@@ -650,6 +700,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 <script>
 const DATA = __DATA_JSON__;
 const GALAXY = __GALAXY_JSON__;
+const ORACLE = __ORACLE_JSON__;
 const STRUCT = __STRUCTURE_JSON__;
 const PANEL = __PANEL_JSON__;
 const DRIFT = __DRIFT_JSON__;
@@ -1931,6 +1982,17 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const NS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const clipId = hostId + "-clip";
+    const defsC = document.createElementNS(NS, "defs");
+    const cp = document.createElementNS(NS, "clipPath"); cp.setAttribute("id", clipId);
+    const cpRect = document.createElementNS(NS, "rect");
+    cpRect.setAttribute("x", 0); cpRect.setAttribute("y", 0); cpRect.setAttribute("height", H);
+    cp.appendChild(cpRect); defsC.appendChild(cp); svg.appendChild(defsC);
+    const gS = document.createElementNS(NS, "g");
+    gS.setAttribute("clip-path", `url(#${clipId})`);
+    const p0 = (window.__driftP == null ? 1 : window.__driftP);
+    cpRect.setAttribute("width", p0 >= 0.999 ? W : padL + (W - padL - padR) * p0 + 2);
+    (window.__driftClips = window.__driftClips || {})[hostId] = { rect: cpRect, padL, plotW: W - padL - padR, W };
     const xs = i => padL + i / (years.length - 1) * (W - padL - padR);
     const ys = v => padT + (1 - v / yMax) * (H - padT - padB);
     for (const g of [0, 0.05, 0.1, 0.15, 0.2]) {
@@ -1967,7 +2029,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       pth.setAttribute("data-draw", "1");
       const title = document.createElementNS(NS, "title");
       title.textContent = `${labelOf(key)}: ${(vals[0] * 100).toFixed(1)}% (2018) → ${(vals[vals.length - 1] * 100).toFixed(1)}% (2026)`;
-      pth.appendChild(title); svg.appendChild(pth);
+      pth.appendChild(title); gS.appendChild(pth);
       if (hl >= 0 && !narrow) {
         const vEnd = vals[vals.length - 1], d = (vEnd - vals[0]) * 100;
         let y = ys(vEnd);
@@ -1977,9 +2039,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         lb.setAttribute("x", xs(years.length - 1) + 10); lb.setAttribute("y", y);
         lb.setAttribute("dominant-baseline", "middle"); lb.setAttribute("font-size", "15.5"); lb.setAttribute("fill", color);
         lb.textContent = `${labelOf(key)}  ${d > 0 ? "+" : ""}${d.toFixed(1)}pp`;
-        svg.appendChild(lb);
+        gS.appendChild(lb);
       }
     }
+    svg.appendChild(gS);
     host.appendChild(svg);
     if (narrow) {
       const legend = document.createElement("div");
@@ -2280,6 +2343,11 @@ function showDissect(kind, key) {
       }).join("");
     }
   }
+  window.__specFilter = (dim, k) => {
+    state[dim] = k; state.shown = INITIAL;
+    renderFilters(); render();
+    filters.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" });
+  };
   filters.addEventListener("click", e => {
     const b = e.target.closest(".fbar");
     if (!b) return;
@@ -2405,13 +2473,29 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 
 (function lexicon() {
   const groups = [
-    ["The twelve objects of scrutiny", objCats.map(c => [c.label_en, c.definition, objTot[c.key] / TOTAL])],
-    ["The twelve reasoning standards", reaCats.map(c => [c.label_en, c.definition, reaTot[c.key] / TOTAL])],
-    ["The five verdicts", VAL_ORDER.map(v => [v, VAL_DEFS[v], valTot[v] / TOTAL])],
+    ["The twelve objects of scrutiny", objCats.map(c => [c.label_en, c.definition, objTot[c.key] / TOTAL, "o", c.key])],
+    ["The twelve reasoning standards", reaCats.map(c => [c.label_en, c.definition, reaTot[c.key] / TOTAL, "r", c.key])],
+    ["The five verdicts", VAL_ORDER.map(v => [v, VAL_DEFS[v], valTot[v] / TOTAL, "v", v])],
   ];
+  function constel(key) {
+    let h = 0;
+    for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    const pts = [];
+    for (let i = 0; i < 5; i++) {
+      h = (h * 1103515245 + 12345) >>> 0; const x = 3 + (h % 13);
+      h = (h * 1103515245 + 12345) >>> 0; const y = 3 + (h % 13);
+      pts.push([x, y]);
+    }
+    const line = pts.map((p, i) => (i ? "L" : "M") + p[0] + "," + p[1]).join(" ");
+    return `<svg class="lex-c" width="19" height="19" viewBox="0 0 19 19" aria-hidden="true"><path d="${line}" fill="none" stroke="rgba(201,164,92,0.5)" stroke-width="0.8"/>${pts.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="1.3" fill="#c9a45c"/>`).join("")}</svg>`;
+  }
   document.getElementById("lexicon-body").innerHTML = groups.map(([title, rows]) =>
-    `<div><h3>${title}</h3><dl>${rows.map(([l, d, sh]) =>
-      `<dt>${l}<span class="sh">${pct(sh)}</span></dt><dd>${d}</dd>`).join("")}</dl></div>`).join("");
+    `<div><h3>${title}</h3><dl>${rows.map(([l, d, sh, dim, key]) =>
+      `<dt class="lex-t" data-dim="${dim}" data-k="${key}" title="click to filter the specimens">${constel(key)}${l}<span class="sh">${pct(sh)}</span></dt><dd>${d}</dd>`).join("")}</dl></div>`).join("");
+  document.getElementById("lexicon-body").addEventListener("click", e => {
+    const dt = e.target.closest(".lex-t");
+    if (dt && window.__specFilter) window.__specFilter(dt.dataset.dim, dt.dataset.k);
+  });
 })();
 
 (function termHovers() {
@@ -2635,6 +2719,134 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     else if (e.key === "ArrowLeft") { e.preventDefault(); go(i - 1); }
     else if (e.key === "Escape") end();
   });
+})();
+
+
+// ---------------- the oracle (Plate XV) ----------------
+(function oracle() {
+  const sel = document.getElementById("oracle-area");
+  const stats = document.getElementById("oracle-stats");
+  const rows = document.getElementById("oracle-rows");
+  const names = Object.keys(ORACLE.areas);
+  sel.innerHTML = names.map(a => `<option>${a}</option>`).join("");
+  const B = ORACLE.baseline;
+  function show(name) {
+    const A = ORACLE.areas[name];
+    const dAcc = (A.accept - B.accept) * 100;
+    stats.innerHTML = `<b>${fmt(A.n)}</b> papers · accepted <b>${pct(A.accept)}</b> ` +
+      `<span style="color:${dAcc >= 0 ? "#3ba183" : "#d0685c"}">(${dAcc >= 0 ? "+" : ""}${dAcc.toFixed(1)}pp vs venue)</span>`;
+    const ranked = objOrder.map(o => ({ o, v: A.objects[o], b: B.objects[o], d: (A.objects[o] - B.objects[o]) * 100 }))
+      .sort((x, y) => y.d - x.d);
+    rows.innerHTML = ranked.map(r => `
+      <div class="or-row" title="${objLabel[r.o]}: ${pct(r.v)} of ${name} papers vs ${pct(r.b)} venue-wide">
+        <div class="or-l">${objLabel[r.o]}</div>
+        <div class="or-track"><div class="or-fill" style="width:0%"></div><div class="or-base" style="left:${100 * r.b}%"></div></div>
+        <div class="or-d" style="color:${Math.abs(r.d) < 1 ? "var(--muted)" : r.d > 0 ? "#d0685c" : "#3ba183"}">${r.d > 0 ? "+" : ""}${r.d.toFixed(1)}pp</div>
+      </div>`).join("");
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      [...rows.querySelectorAll(".or-fill")].forEach((f, i) => { f.style.width = (100 * ranked[i].v) + "%"; });
+    }));
+  }
+  sel.addEventListener("change", () => show(sel.value));
+  show(names[0]);
+})();
+
+
+// ---------------- drift scrubber ----------------
+(function driftScrub() {
+  const play = document.getElementById("dr-play");
+  const scrub = document.getElementById("dr-scrub");
+  const yearEl = document.getElementById("dr-year");
+  if (!play) return;
+  let raf = null;
+  function setP(p) {
+    window.__driftP = p;
+    for (const k in (window.__driftClips || {})) {
+      const c = window.__driftClips[k];
+      c.rect.setAttribute("width", p >= 0.999 ? c.W : c.padL + c.plotW * p + 2);
+    }
+    yearEl.textContent = String(2018 + Math.round(p * 8));
+    scrub.value = Math.round(p * 1000);
+  }
+  play.addEventListener("click", () => {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (REDUCED) { setP(1); return; }
+    const T = 4600, t0 = performance.now();
+    (function step(t) {
+      const k = Math.min(1, (t - t0) / T);
+      setP(k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+      if (k < 1) raf = requestAnimationFrame(step); else raf = null;
+    })(t0);
+  });
+  scrub.addEventListener("input", () => {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    setP(scrub.value / 1000);
+  });
+})();
+
+// ---------------- plate toolkit + margin notes ----------------
+(function toolkit() {
+  const roman = ["0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"];
+  document.querySelectorAll("section").forEach(sec => {
+    const no = sec.querySelector(".plate-no");
+    const plate = sec.querySelector(".plate");
+    if (!no || !plate) return;
+    const slug = no.textContent.split("\u00b7")[0].trim().toLowerCase().replace(/\s+/g, "-");
+    if (!sec.id) sec.id = slug;
+    const tools = document.createElement("div");
+    tools.className = "plate-tools";
+    const hasFig = plate.querySelector("svg, canvas");
+    tools.innerHTML = `<button data-act="link">link</button>` +
+      `<a href="https://huggingface.co/datasets/t46/atlas-of-judgment" target="_blank" rel="noopener">data \u2197</a>` +
+      (hasFig ? `<button data-act="img">image \u2193</button>` : "");
+    plate.appendChild(tools);
+    tools.addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.act === "link") {
+        history.replaceState(null, "", "#" + sec.id);
+        (navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject()).then(
+          () => { b.textContent = "copied \u2713"; setTimeout(() => { b.textContent = "link"; }, 1600); },
+          () => { b.textContent = location.hash; });
+      } else if (b.dataset.act === "img") {
+        const el = plate.querySelector("canvas") || plate.querySelector("svg");
+        const rect = el.getBoundingClientRect();
+        const pad = 28, dpr = 2;
+        const oc = document.createElement("canvas");
+        oc.width = (rect.width + pad * 2) * dpr; oc.height = (rect.height + pad * 2) * dpr;
+        const o = oc.getContext("2d");
+        o.scale(dpr, dpr);
+        o.fillStyle = "#12101f"; o.fillRect(0, 0, rect.width + pad * 2, rect.height + pad * 2);
+        const fin = () => {
+          const a = document.createElement("a");
+          a.download = sec.id + ".png"; a.href = oc.toDataURL("image/png"); a.click();
+        };
+        if (el.tagName === "CANVAS") { o.drawImage(el, pad, pad, rect.width, rect.height); fin(); }
+        else {
+          const str = new XMLSerializer().serializeToString(el);
+          const img = new Image();
+          img.onload = () => { o.drawImage(img, pad, pad, rect.width, rect.height); fin(); };
+          img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(str);
+        }
+      }
+    });
+  });
+  // marginalia, printed in the gutter on wide presses
+  const NOTES = [
+    ["#sankey", "merit recognition \u2014 the one merciful column", "34%"],
+    ["#heatmap", "the famous diagonal", "26%"],
+    ["#drift-obj", "the hygiene turn, begun around \u201922", "24%"],
+    ["#reb-fate", "83.7% of judgments hold", "26%"],
+    ["#oracle-rows", "association, not destiny", "18%"],
+  ];
+  for (const [sel, text, top] of NOTES) {
+    const el = document.querySelector(sel);
+    if (!el) continue;
+    const plate = el.closest(".plate");
+    if (!plate) continue;
+    const n = document.createElement("div");
+    n.className = "margin-note"; n.style.top = top; n.textContent = text;
+    plate.appendChild(n);
+  }
 })();
 
 </script>
