@@ -243,6 +243,8 @@ svg text.deft { cursor: help; }
 footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28px 0 64px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; text-transform: uppercase; }
 </style>
 
+<canvas id="ether" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none"></canvas>
+
 <div class="shell titlepage">
   <div class="tp-frame"><div class="tp-frame-inner">
     <div>
@@ -617,6 +619,71 @@ function hideTip() { tip.style.display = "none"; }
 const valLegendHtml = VAL_ORDER.map(v => `<span class="chip" tabindex="0"><span class="sw" style="background:${VAL_COLOR[v]}"></span>${v} ${pct(valTot[v] / TOTAL)}</span>`).join("");
 document.getElementById("val-legend").innerHTML = valLegendHtml;
 document.getElementById("val-legend-2").innerHTML = valLegendHtml;
+
+// ---------------- the ether — the sky, leaked out of its frame ----------------
+(function ether() {
+  if (REDUCED) { document.getElementById("ether").remove(); return; }
+  const cv = document.getElementById("ether");
+  const ctx = cv.getContext("2d");
+  let W = 0, H = 0, motes = [];
+  let meteor = null, nextMeteor = performance.now() + 9000 + Math.random() * 14000;
+  function size() {
+    W = innerWidth; H = innerHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const N = Math.min(170, Math.round(W * H / 9000));
+    motes = [];
+    for (let i = 0; i < N; i++) motes.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vy: -(0.03 + Math.random() * 0.09), ph: Math.random() * 6.283,
+      sz: 0.7 + Math.random() * 1.2, brass: Math.random() < 0.2,
+      a: 0.07 + Math.random() * 0.13,
+    });
+  }
+  let last = performance.now();
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if (document.hidden) { last = now; return; }
+    const dt = Math.min(now - last, 50) / 16.7; last = now;
+    ctx.clearRect(0, 0, W, H);
+    for (const m of motes) {
+      m.y += m.vy * dt;
+      m.x += Math.sin(now / 4200 + m.ph) * 0.05 * dt;
+      if (m.y < -4) { m.y = H + 4; m.x = Math.random() * W; }
+      const a = m.a * (0.7 + 0.3 * Math.sin(now / 1500 + m.ph));
+      ctx.fillStyle = m.brass ? `rgba(201,164,92,${a.toFixed(3)})` : `rgba(220,225,240,${a.toFixed(3)})`;
+      ctx.fillRect(m.x, m.y, m.sz, m.sz);
+    }
+    // a rare meteor
+    if (!meteor && now > nextMeteor) {
+      const fromLeft = Math.random() < 0.5;
+      meteor = { x0: fromLeft ? -60 : W + 60, y0: Math.random() * H * 0.55,
+                 dx: (fromLeft ? 1 : -1) * (0.55 + Math.random() * 0.3), dy: 0.22 + Math.random() * 0.18, born: now };
+      nextMeteor = now + 16000 + Math.random() * 22000;
+    }
+    if (meteor) {
+      const age = now - meteor.born, T = 900;
+      if (age > T) meteor = null;
+      else {
+        const p = age / T, len = 90;
+        const x = meteor.x0 + meteor.dx * age, y = meteor.y0 + meteor.dy * age;
+        const fade = Math.sin(p * Math.PI);
+        const g = ctx.createLinearGradient(x - meteor.dx * len, y - meteor.dy * len, x, y);
+        g.addColorStop(0, "rgba(201,164,92,0)");
+        g.addColorStop(1, `rgba(236,231,220,${(0.35 * fade).toFixed(3)})`);
+        ctx.strokeStyle = g; ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x - meteor.dx * len, y - meteor.dy * len);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      }
+    }
+  }
+  size();
+  addEventListener("resize", size);
+  requestAnimationFrame(tick);
+})();
 
 // ---------------- planisphere (title page) — living star chart ----------------
 (function planisphere() {
