@@ -42,8 +42,8 @@ h2.mv.in {{ clip-path: inset(-6% -2% -10% 0); }}
 #topbar {{ position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(18,16,31,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.15, 1); }}
 #topbar.show {{ transform: translateY(0); }}
 #topbar .tb-mark {{ font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }}
-#topbar .tb-links {{ display: flex; gap: clamp(10px, 2.4vw, 26px); }}
-#topbar .tb-links a {{ font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; }}
+#topbar .tb-links {{ display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }}
+#topbar .tb-links a {{ font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }}
 #topbar .tb-links a:hover {{ color: var(--brass); }}
 #topbar .tb-links a.tb-live, #topbar .tb-links a.tb-here {{ color: var(--brass); }}
 @media (max-width: 560px) {{ #topbar .tb-mark {{ letter-spacing: 0.14em; }} #topbar .tb-links {{ gap: 9px; }} #topbar .tb-links a {{ font-size: 8px; letter-spacing: 0.08em; }} }}

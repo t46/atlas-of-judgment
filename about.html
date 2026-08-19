@@ -23,7 +23,8 @@ h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: ba
 h1 { font-size: clamp(46px, 6.5vw, 76px); line-height: 1.02; }
 h2 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15; margin-top: 70px; }
 .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); margin-bottom: 16px; }
-.no { font-family: var(--mono); font-size: 10px; letter-spacing: 0.26em; color: var(--muted); margin: 66px 0 -58px; text-transform: uppercase; }
+.no { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.32em; color: var(--brass); margin: 66px 0 -56px; text-transform: uppercase; }
+.no::before { content: ""; width: 30px; height: 1px; background: var(--brass-line); }
 p { margin: 14px 0 0; color: var(--ink-2); }
 p b, p strong { color: var(--ink); font-weight: 600; }
 em { color: var(--ink); }
@@ -173,8 +174,8 @@ h2.mv.in { clip-path: inset(-6% -2% -10% 0); }
 #topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(18,16,31,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.15, 1); }
 #topbar.show { transform: translateY(0); }
 #topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
-#topbar .tb-links { display: flex; gap: clamp(10px, 2.4vw, 26px); }
-#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
 #topbar .tb-links a:hover { color: var(--brass); }
 #topbar .tb-links a.tb-live, #topbar .tb-links a.tb-here { color: var(--brass); }
 @media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
