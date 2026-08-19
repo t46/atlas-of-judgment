@@ -254,7 +254,7 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
     </div>
     <div style="justify-self:center;max-width:520px;width:100%;position:relative"><canvas id="planisphere" aria-label="a murmuration of particles performing the four steps of judgment" style="width:100%;aspect-ratio:1"></canvas>
     <div id="murm-label" style="position:absolute;left:10px;bottom:34px;font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);opacity:0;transition:opacity .5s ease;pointer-events:none"></div>
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each mote: one unit of reviewer logic · the flock performs the four steps of judgment · stir it with your cursor</div></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase">each mote: one unit of reviewer logic · brass: praise · when the sky sorts into rings, the bands are the true verdict shares</div></div>
   </div></div>
 </div>
 
@@ -616,168 +616,63 @@ const valLegendHtml = VAL_ORDER.map(v => `<span class="chip" tabindex="0"><span 
 document.getElementById("val-legend").innerHTML = valLegendHtml;
 document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
-// ---------------- the murmuration (title page) — judgment, performed ----------------
+// ---------------- the murmuration (title page) — a sky with weather ----------------
 (function murmuration() {
   const cv = document.getElementById("planisphere");
   const ctx = cv.getContext("2d");
-  const wrap = cv.parentElement;
   const label = document.getElementById("murm-label");
   const INK = [236, 231, 220], BRASS = [201, 164, 92];
-  const VERDICTS = [
-    [0.718, [230, 103, 103]],   // negative
-    [0.094, [201, 133, 0]],     // conditional
-    [0.137, [25, 158, 112]],    // positive
-    [0.043, [144, 133, 233]],   // uncertain
-    [0.008, [213, 81, 129]],    // mixed
+  const VERDICTS = [                       // outer band -> inner band, widths = true shares
+    [0.718, [230, 103, 103]],              // negative
+    [0.094, [201, 133, 0]],                // conditional
+    [0.043, [144, 133, 233]],              // uncertain
+    [0.008, [213, 81, 129]],               // mixed
+    [0.137, [25, 158, 112]],               // positive — the innermost, brightest ring
   ];
-  let S = 520, N = 1400, parts = [], TG = {}, fontsReady = false;
-  let phase = -1, mode = "free", clock = 0, running = false;
+  const REGIMES = [
+    { key: "orbit", dur: 6500 },
+    { key: "vortex", dur: 5200 },
+    { key: "orbit", dur: 3600 },
+    { key: "rings", dur: 8000 },
+    { key: "orbit", dur: 3600 },
+    { key: "streams", dur: 6200 },
+  ];
+  let S = 520, N = 1400, parts = [], reg = 0, clock = 0, running = false;
   const mouse = { x: -9e9, y: -9e9 };
 
-  const PHASES = [
-    { key: "paper", dur: 6200, label: "01 · INSPECTED — a paper arrives" },
-    { key: "eye", dur: 6200, label: "02 · OBSERVED — the reviewer reads" },
-    { key: "flow", dur: 6800, label: "03 · REASONED — through twelve standards" },
-    { key: "verdict", dur: 8600, label: "04 · JUDGED — 71.8% resolve negative" },
-  ];
-  const FREE_DUR = 1700;
-
-  function shuffled(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; }
-
-  // ---- target shapes ----
-  function paperTargets() {
-    const pts = [];
-    const cx = S / 2, cy = S / 2, w = S * 0.40, h = S * 0.55, x0 = cx - w / 2, y0 = cy - h / 2;
-    const ear = w * 0.16;
-    // outline with a folded corner
-    const per = [[x0, y0], [x0 + w - ear, y0], [x0 + w, y0 + ear], [x0 + w, y0 + h], [x0, y0 + h], [x0, y0]];
-    for (let i = 0; i < per.length - 1; i++) {
-      const [ax, ay] = per[i], [bx, by] = per[i + 1];
-      const n = Math.max(2, Math.hypot(bx - ax, by - ay) / 4);
-      for (let k = 0; k < n; k++) pts.push({ x: ax + (bx - ax) * k / n, y: ay + (by - ay) * k / n });
-    }
-    for (let k = 0; k < 14; k++) { const t = k / 14; pts.push({ x: x0 + w - ear * (1 - t), y: y0 + ear * t }); }
-    // text lines
-    const lines = 13;
-    for (let li = 0; li < lines; li++) {
-      const y = y0 + h * 0.10 + li * (h * 0.80 / (lines - 1));
-      const wid = li === 0 ? w * 0.55 : w * (0.66 + 0.2 * Math.sin(li * 2.7));
-      const n = wid / 4.5;
-      for (let k = 0; k < n; k++) {
-        if (Math.random() < 0.16) continue; // word gaps
-        pts.push({ x: x0 + w * 0.10 + (wid * k / n), y: y + (li === 0 ? (Math.random() < 0.5 ? -2 : 2) : 0) });
-      }
-    }
-    return pts;
-  }
-
-  function eyeTargets() {
-    const pts = [];
-    const cx = S / 2, cy = S / 2, w = S * 0.37, h = S * 0.21;
-    for (let k = 0; k < 150; k++) { // almond: two mirrored arcs
-      const t = k / 150, x = cx - w + 2 * w * t;
-      const lift = Math.sin(t * Math.PI);
-      pts.push({ x, y: cy - h * lift }); pts.push({ x, y: cy + h * lift });
-    }
-    const ir = S * 0.135;
-    for (let k = 0; k < 130; k++) { const a = k / 130 * 6.2832; pts.push({ x: cx + Math.cos(a) * ir, y: cy + Math.sin(a) * ir }); }
-    for (let k = 0; k < 170; k++) { // pupil, filled
-      const a = Math.random() * 6.2832, r = Math.sqrt(Math.random()) * S * 0.055;
-      pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r });
-    }
-    for (let k = 0; k < 90; k++) { // brow
-      const t = k / 90, x = cx - w * 0.9 + 1.8 * w * t;
-      pts.push({ x, y: cy - h - S * 0.085 - Math.sin(t * Math.PI) * S * 0.05 });
-    }
-    return pts;
-  }
-
-  function flowTargets() {
-    const pts = [];
-    const top = S * 0.24, bh = S * 0.52;
-    const cols = [S * 0.20, S * 0.50, S * 0.80];
-    for (const x of cols) for (let k = 0; k < 60; k++) pts.push({ x: x + (Math.random() - 0.5) * 5, y: top + bh * k / 60 });
-    for (let hop = 0; hop < 2; hop++) {
-      const x1 = cols[hop], x2 = cols[hop + 1], xm = (x1 + x2) / 2;
-      for (let ln = 0; ln < 12; ln++) {
-        const y1 = top + bh * (ln + 0.5) / 12, y2 = top + bh * (((ln * 5 + hop * 3) % 12) + 0.5) / 12;
-        for (let k = 1; k < 22; k++) {
-          const t = k / 22, u = 1 - t;
-          const x = u * u * u * x1 + 3 * u * u * t * xm + 3 * u * t * t * xm + t * t * t * x2;
-          const y = u * u * u * y1 + 3 * u * u * t * y1 + 3 * u * t * t * y2 + t * t * t * y2;
-          pts.push({ x, y });
-        }
-      }
-    }
-    return pts;
-  }
-
-  function verdictTargets() {
-    const pts = [];
-    const oc = document.createElement("canvas");
-    oc.width = S; oc.height = S;
-    const o = oc.getContext("2d");
-    o.fillStyle = "#fff";
-    o.font = `600 ${Math.round(S * 0.27)}px "Cormorant Garamond", Georgia, serif`;
-    o.textAlign = "center"; o.textBaseline = "middle";
-    o.fillText("71.8%", S / 2, S * 0.44);
-    const img = o.getImageData(0, 0, S, S).data;
-    const step = 3;
-    for (let y = 0; y < S; y += step) for (let x = 0; x < S; x += step)
-      if (img[(y * S + x) * 4 + 3] > 128) pts.push({ x: x + Math.random() * step, y: y + Math.random() * step });
-    // the verdict bar beneath, five true segments
-    const bw = S * 0.56, bx = S / 2 - bw / 2, by = S * 0.655, bh2 = S * 0.035;
-    let acc = 0;
-    VERDICTS.forEach(([share, col], vi) => {
-      const x0 = bx + bw * acc, x1 = bx + bw * (acc + share); acc += share;
-      const n = Math.max(4, (x1 - x0) * bh2 / 26);
-      for (let k = 0; k < n; k++) pts.push({ x: x0 + Math.random() * (x1 - x0), y: by + Math.random() * bh2, vcol: col });
-    });
-    return pts;
-  }
-
-  function buildTargets() {
-    TG.paper = paperTargets(); TG.eye = eyeTargets(); TG.flow = flowTargets(); TG.verdict = verdictTargets();
-  }
-
-  // ---- particles ----
   function initParts() {
     parts = [];
-    const order = [];
-    VERDICTS.forEach(([share, col], vi) => { const n = Math.round(N * share); for (let k = 0; k < n; k++) order.push(col); });
-    while (order.length < N) order.push(VERDICTS[0][1]);
-    const vcols = shuffled(order);
+    // stable verdict assignment in true shares
+    const pool = [];
+    VERDICTS.forEach(([share, col], vi) => { const n = Math.round(N * share); for (let k = 0; k < n; k++) pool.push(vi); });
+    while (pool.length < N) pool.push(0);
+    for (let i = pool.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [pool[i], pool[j]] = [pool[j], pool[i]]; }
     for (let i = 0; i < N; i++) {
-      const a = Math.random() * 6.2832, r = Math.sqrt(Math.random()) * S * 0.46;
-      parts.push({ x: S / 2 + Math.cos(a) * r, y: S / 2 + Math.sin(a) * r, vx: 0, vy: 0, tx: 0, ty: 0,
-        c: INK.slice(), tc: INK, vcol: vcols[i], tw: Math.random() * 6.283, sz: 0.8 + Math.random() * 0.8 });
+      const a = Math.random() * 6.2832, r = S * (0.10 + 0.37 * Math.sqrt(Math.random()));
+      const vi = pool[i];
+      const home = r;
+      parts.push({
+        x: S / 2 + Math.cos(a) * r, y: S / 2 + Math.sin(a) * r,
+        vx: -Math.sin(a) * 0.4, vy: Math.cos(a) * 0.4,
+        vi, vcol: VERDICTS[vi][1], pos: vi === 4, home,
+        band: Math.random(),                     // stable position within a verdict band
+        c: INK.slice(), tw: Math.random() * 6.283, sz: 0.7 + Math.random() * 0.9,
+      });
     }
   }
 
-  function assign(key) {
-    const src = TG[key]; if (!src || !src.length) return;
-    const tg = shuffled(src);
-    for (let i = 0; i < N; i++) {
-      const p = parts[i], q = tg[i % tg.length];
-      p.tx = q.x + (Math.random() - 0.5) * 2.5;
-      p.ty = q.y + (Math.random() - 0.5) * 2.5;
-      if (key === "verdict") p.tc = q.vcol ? q.vcol : p.vcol;
-      else if (key === "flow") p.tc = Math.random() < 0.55 ? BRASS : INK;
-      else p.tc = INK;
+  // verdict band radii: annulus [0.15, 0.45]·S, widths proportional to share
+  function bandRadius(p) {
+    const R1 = S * 0.45, R0 = S * 0.15, T = R1 - R0;
+    let outer = R1;
+    for (let vi = 0; vi < VERDICTS.length; vi++) {
+      const w = T * VERDICTS[vi][0];
+      if (vi === p.vi) return outer - w * (0.12 + 0.76 * p.band);
+      outer -= w;
     }
+    return R0;
   }
 
-  function nextPhase() {
-    phase = (phase + 1) % PHASES.length;
-    assign(PHASES[phase].key);
-    if (label) {
-      label.style.opacity = 0;
-      setTimeout(() => { label.textContent = PHASES[phase].label; label.style.opacity = 1; }, 350);
-    }
-  }
-
-  // ---- render loop ----
-  let last = performance.now();
   function ring() {
     const c = S / 2, R = S * 0.485;
     ctx.strokeStyle = "rgba(201,164,92,0.30)"; ctx.lineWidth = 1;
@@ -792,89 +687,120 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       ctx.stroke();
     }
   }
+
+  let last = performance.now();
+  let labelShown = false;
   function tick(now) {
     requestAnimationFrame(tick);
     if (!running || document.hidden) { last = now; return; }
-    let dt = Math.min(now - last, 50); last = now;
+    const dt = Math.min(now - last, 50); last = now;
     clock += dt;
-    const dur = mode === "free" ? FREE_DUR : PHASES[phase].dur;
-    if (clock >= dur) {
-      clock = 0;
-      if (mode === "free") { mode = "form"; nextPhase(); }
-      else { mode = "free"; if (label) label.style.opacity = 0.35; }
+    const R = REGIMES[reg];
+    if (clock >= R.dur) { clock = 0; reg = (reg + 1) % REGIMES.length; }
+    const key = REGIMES[reg].key;
+    // regime weight: eases in and out inside its own window
+    const w = key === "orbit" ? 0 : Math.min(1, clock / 1300, (REGIMES[reg].dur - clock) / 1300);
+    if (label) {
+      const want = key === "rings" && w > 0.5;
+      if (want !== labelShown) {
+        labelShown = want;
+        if (want) label.textContent = "the verdicts, to scale — 71.8% negative";
+        label.style.opacity = want ? 0.9 : 0;
+      }
     }
-    const t = now;
-    const converge = mode === "form" ? Math.min(1, clock / 900) : 0;
-    const k = 0.024 * converge;
-    const wander = mode === "free" ? 0.17 : 0.05 * (1 - converge * 0.85) + 0.007;
+    const t = now, dts = dt / 16.7, c = S / 2;
     ctx.clearRect(0, 0, S, S);
     ring();
-    const dts = dt / 16.7;
     for (let i = 0; i < N; i++) {
       const p = parts[i];
-      // flow-field wander
-      const nx = Math.sin(p.y * 0.013 + t * 0.00042 + i * 0.13) + Math.sin(p.x * 0.007 - t * 0.00027);
-      const ny = Math.cos(p.x * 0.011 - t * 0.00035 + i * 0.11) + Math.cos(p.y * 0.006 + t * 0.0003);
-      p.vx += (nx * wander + (p.tx - p.x) * k) * dts;
-      p.vy += (ny * wander + (p.ty - p.y) * k) * dts;
-      // pointer stirs the flock
+      const dx = p.x - c, dy = p.y - c;
+      const r = Math.hypot(dx, dy) || 1;
+      const ux = dx / r, uy = dy / r;          // radial unit
+      const tx = -uy, ty = ux;                 // tangential unit
+      // --- base orbit: slow differential rotation + murmuration wander ---
+      const spd = 0.5 * (0.35 + 0.65 * Math.sqrt(S * 0.28 / Math.max(r, 24)));
+      let ax = (tx * spd - p.vx) * 0.028, ay = (ty * spd - p.vy) * 0.028;
+      const nx = Math.sin(p.y * 0.027 + t * 0.00042 + i * 0.83) + 0.5 * Math.sin(p.x * 0.011 - t * 0.00026);
+      const ny = Math.cos(p.x * 0.024 - t * 0.00035 + i * 0.71) + 0.5 * Math.cos(p.y * 0.010 + t * 0.00029);
+      const wob = 0.05 + 0.045 * (1 - w);
+      ax += nx * wob; ay += ny * wob;
+      const wHome = key === "orbit" ? 1 : 1 - w;
+      ax += ux * (p.home - r) * 0.0022 * wHome;
+      ay += uy * (p.home - r) * 0.0022 * wHome;
+      // --- regime forces, crossfaded ---
+      if (key === "vortex" && w > 0) {
+        const pull = (S * 0.11 - r) * 0.0021 * w;
+        ax += ux * pull * 16.7 * 0.06 + tx * spd * 1.6 * w * 0.05;
+        ay += uy * pull * 16.7 * 0.06 + ty * spd * 1.6 * w * 0.05;
+      } else if (key === "rings" && w > 0) {
+        const rt = bandRadius(p);
+        ax += ux * (rt - r) * 0.012 * w;
+        ay += uy * (rt - r) * 0.012 * w;
+        ax += (tx * 0.35 - p.vx) * 0.05 * w;
+        ay += (ty * 0.35 - p.vy) * 0.05 * w;
+      } else if (key === "streams" && w > 0) {
+        const th = Math.atan2(dy, dx);
+        const rw = S * (0.30 + 0.105 * Math.sin(3 * th + t * 0.00045));
+        ax += ux * (rw - r) * 0.0045 * w;
+        ay += uy * (rw - r) * 0.0045 * w;
+        ax += (tx * 1.5 - p.vx) * 0.05 * w;
+        ay += (ty * 1.5 - p.vy) * 0.05 * w;
+      }
+      // pointer stirs the sky
       const mdx = p.x - mouse.x, mdy = p.y - mouse.y, md2 = mdx * mdx + mdy * mdy;
-      if (md2 < 4900) { const f = (1 - md2 / 4900) * 1.6; const md = Math.sqrt(md2) || 1; p.vx += mdx / md * f * dts; p.vy += mdy / md * f * dts; }
-      p.vx *= 0.90; p.vy *= 0.90;
-      p.x += p.vx * dts * 2.2; p.y += p.vy * dts * 2.2;
-      // soft containment in the ring
-      const cx = p.x - S / 2, cy = p.y - S / 2, cr = Math.hypot(cx, cy), maxR = S * 0.47;
-      if (cr > maxR) { p.vx -= cx / cr * 0.5 * dts; p.vy -= cy / cr * 0.5 * dts; }
-      // color easing
-      p.c[0] += (p.tc[0] - p.c[0]) * 0.07 * dts;
-      p.c[1] += (p.tc[1] - p.c[1]) * 0.07 * dts;
-      p.c[2] += (p.tc[2] - p.c[2]) * 0.07 * dts;
-      const hot = mode === "form" && PHASES[phase].key === "verdict" ? 1 : 0;
-      const a = 0.62 + 0.28 * Math.sin(t / 640 + p.tw) + hot * 0.1;
-      const sz = p.sz * (1 + hot * 0.5 * converge);
-      ctx.fillStyle = `rgba(${p.c[0] | 0},${p.c[1] | 0},${p.c[2] | 0},${Math.min(1, a).toFixed(2)})`;
-      ctx.fillRect(p.x - sz / 2, p.y - sz / 2, sz, sz);
+      if (md2 < 5200) { const md = Math.sqrt(md2) || 1, f = (1 - md2 / 5200) * 1.5; ax += mdx / md * f; ay += mdy / md * f; }
+      p.vx = (p.vx + ax * dts) * 0.94; p.vy = (p.vy + ay * dts) * 0.94;
+      p.x += p.vx * dts * 2.1; p.y += p.vy * dts * 2.1;
+      // soft containment
+      if (r > S * 0.47) { p.vx -= ux * 0.5 * dts; p.vy -= uy * 0.5 * dts; }
+      // --- color: ink (praise faintly brass), stained by regime ---
+      let tc = p.pos ? BRASS : INK;
+      let mixw = 0;
+      if (key === "rings") { tc = p.vcol; mixw = w; }
+      else if (key === "streams") { tc = BRASS; mixw = w * (p.pos ? 0.9 : 0.45); }
+      const base = p.pos ? BRASS : INK;
+      const cr = base[0] + (tc[0] - base[0]) * mixw;
+      const cg = base[1] + (tc[1] - base[1]) * mixw;
+      const cb = base[2] + (tc[2] - base[2]) * mixw;
+      p.c[0] += (cr - p.c[0]) * 0.06 * dts;
+      p.c[1] += (cg - p.c[1]) * 0.06 * dts;
+      p.c[2] += (cb - p.c[2]) * 0.06 * dts;
+      const al = (p.pos ? 0.5 : 0.6) + 0.28 * Math.sin(t / 620 + p.tw) + (key === "rings" ? 0.12 * w : 0);
+      ctx.fillStyle = `rgba(${p.c[0] | 0},${p.c[1] | 0},${p.c[2] | 0},${Math.min(0.95, al).toFixed(2)})`;
+      ctx.fillRect(p.x - p.sz / 2, p.y - p.sz / 2, p.sz, p.sz);
     }
   }
 
   function resize() {
-    const w = Math.max(240, cv.clientWidth || 520);
+    const wpx = Math.max(240, cv.clientWidth || 520);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    S = w; N = w < 480 ? 950 : 1500;
-    cv.width = w * dpr; cv.height = w * dpr;
+    S = wpx; N = wpx < 480 ? 900 : 1450;
+    cv.width = wpx * dpr; cv.height = wpx * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    buildTargets();
     if (parts.length !== N) initParts();
-    if (phase >= 0) assign(PHASES[phase].key);
   }
 
-  function staticFrame() { // reduced motion: the verdict, settled
+  function staticFrame() {         // reduced motion: the stratified verdict sky, settled
     resize();
     ctx.clearRect(0, 0, S, S); ring();
-    const tg = TG.verdict;
-    for (let i = 0; i < tg.length; i++) {
-      const q = tg[i], col = q.vcol || (Math.random() < 0.718 ? VERDICTS[0][1] : VERDICTS[(1 + Math.random() * 4) | 0][1]);
-      ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},0.8)`;
-      ctx.fillRect(q.x, q.y, 1.4, 1.4);
+    for (const p of parts) {
+      const rt = bandRadius(p), a = Math.random() * 6.2832;
+      const col = p.vcol;
+      ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},0.7)`;
+      ctx.fillRect(S / 2 + Math.cos(a) * rt, S / 2 + Math.sin(a) * rt, p.sz, p.sz);
     }
-    if (label) { label.textContent = PHASES[3].label; label.style.opacity = 1; }
+    if (label) { label.textContent = "the verdicts, to scale — 71.8% negative"; label.style.opacity = 0.9; }
   }
 
   cv.addEventListener("pointermove", e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; }, { passive: true });
   cv.addEventListener("pointerleave", () => { mouse.x = -9e9; mouse.y = -9e9; });
   cv.addEventListener("pointerdown", e => {
     const r = cv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
-    for (const p of parts) { const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy) || 1; if (d < 130) { p.vx += dx / d * 9; p.vy += dy / d * 9; } }
+    for (const p of parts) { const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy) || 1; if (d < 130) { p.vx += dx / d * 8; p.vy += dy / d * 8; } }
   });
 
-  if (REDUCED) {
-    document.fonts.ready.then(staticFrame);
-    return;
-  }
+  if (REDUCED) { staticFrame(); return; }
   resize();
-  initParts();
-  mode = "free"; clock = FREE_DUR - 400; // form the paper almost immediately
-  document.fonts.ready.then(() => { buildTargets(); if (phase >= 0) assign(PHASES[phase].key); });
   new IntersectionObserver(en => { running = en[0].isIntersecting; }, { rootMargin: "60px" }).observe(cv);
   debounceResize(resize);
   requestAnimationFrame(tick);
