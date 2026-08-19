@@ -43,10 +43,15 @@ PAGES = [
 def main() -> None:
     dist = REPO / ".pages-dist"
     dist.mkdir(exist_ok=True)
+    import re
     for src_name, out_name, links in PAGES:
         html = (V / src_name).read_text()
         for url, rel in links.items():
             html = html.replace(url, rel)
+        # "Live" links point at this very site once deployed - drop them
+        html = re.sub(
+            r'(<span style="color:var\(--muted\)"> · </span>)?<a href="https://atlas-of-judgment\.pages\.dev"[^>]*>Live[^<]*</a>',
+            "", html)
         (REPO / out_name).write_text(HEAD + html)
         (dist / out_name).write_text(HEAD + html)
         print(f"{out_name}: {len(html) / 1e6:.2f} MB staged")
