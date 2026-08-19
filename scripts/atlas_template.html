@@ -206,6 +206,12 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 #topbar .tb-links a.tb-live { color: var(--brass); }
 @media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.16em; } #topbar .tb-links { gap: 10px; } #topbar .tb-links a { font-size: 8.5px; letter-spacing: 0.1em; } }
 @media (prefers-reduced-motion: reduce) { #topbar { transition: none; } }
+/* ---- the deliberation ---- */
+#delib-head .dh-t { font-family: var(--display); font-size: 19px; color: var(--ink); }
+#delib-head a { border: none; }
+#delib-head .dh-m { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+.dl-note { transition: opacity 0.4s ease, transform 0.4s ease; }
+@keyframes dlIn { from { opacity: 0; } to { opacity: 1; } }
 /* ---- the season ---- */
 #season-ctl button { background: none; border: 1px dashed var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; }
 #season-ctl button:hover { border-style: solid; background: rgba(201,164,92,0.08); }
@@ -723,35 +729,59 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XIV · The Tribunal</div>
+    <div class="plate-no">Plate XIV · The Deliberation</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · fourteen real panels, scored in full · every note is one unit · ratings joined</div>
+    <h2>Watch a panel think</h2>
+    <p class="lede">Fourteen real deliberations, written out like music. Each reviewer is a staff and each unit a note, placed in the order it was reasoned; the dashed barline is where the authors respond, and what follows it carries the fate of each judgment — hardened, softened, or reversed. Faint verticals bind reviewers who touched the same object: ink where they agree, sienna where the same object drew opposite verdicts. Hover any note to read the unit.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="modes" id="delib-tabs" role="group" aria-label="deliberation" style="flex-wrap:wrap;margin-bottom:6px"></div>
+    <div id="delib-head" style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin:8px 0 4px"></div>
+    <div id="delib-score"></div>
+    <div class="legend" style="margin-top:12px">
+      <span class="chip"><span class="sw" style="background:#d0685c"></span>negative unit</span>
+      <span class="chip"><span class="sw" style="background:#3ba183"></span>positive</span>
+      <span class="chip"><span class="sw" style="background:#bf8a30"></span>conditional</span>
+      <span class="chip"><span class="sw" style="background:#8b84cf"></span>uncertain</span>
+      <span class="chip">▲ hardened after response</span>
+      <span class="chip">▼ softened</span>
+      <span class="chip">↺ reversed</span>
+    </div>
+    <p class="caption"><b>Fig. 14</b> — <em>How to read:</em> rows are the paper's reviewers, ordered by rating (badge at left); notes are their logic units in reasoning order, colored by verdict; the brass barline marks the author response, and the notes after it are the same reviewer returning — the triangle above a note records whether that judgment hardened or softened, the rare ↺ a reversal. The vertical threads are the panel's harmony and dissonance: the same object of scrutiny judged alike (ink) or oppositely (sienna) by different reviewers. Fourteen scenarios were chosen to span the repertoire — softenings, entrenchments, reversals, ten-point splits, unanimity — and every one links to its public forum.</p>
+  </div></div>
+</section>
+
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XV · The Tribunal</div>
     <div class="plate-scope">Corpus: ICLR 2026 · review-level track · decisions joined at display time</div>
     <h2>Which criticism travels with rejection</h2>
     <p class="lede">13,704 of the 19,474 reviewed ICLR 2026 papers carry a non-withdrawn decision; the rest are excluded here. For each object of scrutiny: the acceptance rate of papers that drew at least one negative unit there, against those that didn't. Association, not causation — but the asymmetry is stark.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 14 — Acceptance rate with (●) vs without (○) negative units, per object</div>
+    <div class="fig-title">Fig. 15 — Acceptance rate with (●) vs without (○) negative units, per object</div>
     <div id="tribunal" style="display:flex;flex-direction:column;gap:8px"></div>
-    <p class="caption"><b>Fig. 14</b> — Novelty criticism shows the largest acceptance gap (−10.6pp, association only); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism show no acceptance gap at all — papers criticized there are accepted at the same rate as papers that are not. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
+    <p class="caption"><b>Fig. 15</b> — Novelty criticism shows the largest acceptance gap (−10.6pp, association only); statistical rigor and baseline complaints follow. At the other end, compute-cost and robustness criticism show no acceptance gap at all — papers criticized there are accepted at the same rate as papers that are not. Decisions were never shown to the extraction pipeline; they are joined here for the first time.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XV · The Gauntlet</div>
+    <div class="plate-no">Plate XVI · The Gauntlet</div>
     <div class="plate-scope">Corpus: ICLR 2026 · review-level track · decisions joined at display time</div>
     <h2>Acceptance falls with every new front of criticism</h2>
     <p class="lede">For each ICLR 2026 paper: on how many of the twelve objects did it draw at least one negative unit — and did it survive? Dot size is the number of papers standing at that breadth.</p>
   </div>
   <div class="plate"><div class="plate-inner">
-    <div class="fig-title">Fig. 15 — Acceptance rate by breadth of criticism</div>
+    <div class="fig-title">Fig. 16 — Acceptance rate by breadth of criticism</div>
     <div id="gauntlet"></div>
-    <p class="caption"><b>Fig. 15</b> — Acceptance falls steeply, then almost linearly: 69% at two fronts, 57% at three, then roughly five points per additional front down to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
+    <p class="caption"><b>Fig. 16</b> — Acceptance falls steeply, then almost linearly: 69% at two fronts, 57% at three, then roughly five points per additional front down to 27% at nine or more. Few papers escape with fewer than four: the modal paper is criticized on seven of the twelve objects. Association, not causation — breadth of criticism and paper quality are entangled by design.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XVI · The Panel</div>
+    <div class="plate-no">Plate XVII · The Panel</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · forum-level track</div>
     <h2>Dissent, and the kinder judge</h2>
     <p class="lede">Where do reviewers of the same paper split — and how does the meta-reviewer differ from the panel they oversee?</p>
@@ -759,24 +789,24 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
   <div class="plate"><div class="plate-inner">
     <div class="arc-grid">
       <div>
-        <div class="fig-title">Fig. 16a — Contested ground: share of forums where reviewers took opposite stances</div>
+        <div class="fig-title">Fig. 17a — Contested ground: share of forums where reviewers took opposite stances</div>
         <div id="dissent" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="stat-lines" id="panel-stats"></div>
     </div>
-    <div class="fig-title" style="margin-top:34px">Fig. 16b — The bench: when the decision disagrees with the panel's lean</div>
+    <div class="fig-title" style="margin-top:34px">Fig. 17b — The bench: when the decision disagrees with the panel's lean</div>
     <div class="arc-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center">
       <div id="bench-curve"></div>
       <div class="stat-lines" id="bench-stats"></div>
     </div>
     <details class="table-view" style="margin-top:14px"><summary>The overruled — public exemplars</summary><div id="bench-ex" style="padding:14px 6px;font-size:12.5px;color:var(--ink-2)"></div></details>
-    <p class="caption"><b>Fig. 16a</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
+    <p class="caption"><b>Fig. 17a</b> — A category counts as contested in a forum when at least two official reviewers touched it and landed on opposite valences. Reviewers split most on <em>problem framing</em> (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks. Meta-reviewers, meanwhile, run 13.7pp less negative and 10.5pp more positive than the panels they summarize.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XVII · The Oracle</div>
+    <div class="plate-no">Plate XVIII · The Oracle</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 19,474 reviewed papers with a primary area · association, not destiny</div>
     <h2>Choose a field. Face its tribunal.</h2>
     <p class="lede">Pick the primary area a paper would be submitted under, and the panel below recomputes from the real record: how often papers in that field drew at least one negative unit on each object of scrutiny, against the venue-wide baseline. The differences are the field's signature — what its reviewers reach for first.</p>
@@ -787,13 +817,13 @@ footer { margin-top: 90px; border-top: 1px solid var(--brass-line); padding: 28p
       <div class="oracle-stats" id="oracle-stats"></div>
     </div>
     <div id="oracle-rows" style="display:flex;flex-direction:column;gap:8px;margin-top:18px"></div>
-    <p class="caption"><b>Plate XVII</b> — <em>How to read:</em> each bar is the share of the field's papers that drew at least one negative unit on that object; the white tick is the venue-wide baseline, and the right column is the deviation in points — sienna when the field is charged more than the venue, verdigris when less. Conditional frequencies only: fields differ in what they submit as much as in how they are judged.</p>
+    <p class="caption"><b>Plate XVIII</b> — <em>How to read:</em> each bar is the share of the field's papers that drew at least one negative unit on that object; the white tick is the venue-wide baseline, and the right column is the deviation in points — sienna when the field is charged more than the venue, verdigris when less. Conditional frequencies only: fields differ in what they submit as much as in how they are judged.</p>
   </div></div>
 </section>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XVIII · The Specimens</div>
+    <div class="plate-no">Plate XIX · The Specimens</div>
     <div class="plate-scope">Corpus: ICLR 2026 · review-level track · 232 sampled reviews</div>
     <h2>Raw reasoning, unretouched</h2>
     <p class="lede">232 reviews sampled across every category, shown as their structured logic flows. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview forum, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</p>
@@ -853,6 +883,7 @@ const LIFECYCLE = __LIFECYCLE_JSON__;
 const REPAIR = __REPAIR_JSON__;
 const OVERRULE = __OVERRULE_JSON__;
 const SEASON = __SEASON_JSON__;
+const DELIB = __DELIB_JSON__;
 const STRUCT = __STRUCTURE_JSON__;
 const PANEL = __PANEL_JSON__;
 const DRIFT = __DRIFT_JSON__;
@@ -3474,6 +3505,155 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   size();
   debounceResize(size);
   // sparks need a light loop while playing; draw() is called by step already
+})();
+
+
+// ---------------- the deliberation (Plate XIV) ----------------
+(function deliberation() {
+  const tabs = document.getElementById("delib-tabs");
+  if (!tabs) return;
+  const head = document.getElementById("delib-head");
+  const host = document.getElementById("delib-score");
+  const NS = "http://www.w3.org/2000/svg";
+  const CHG = { strengthened: ["▲", "#d0685c"], weakened: ["▼", "#3ba183"], reversed: ["↺", "#8b84cf"], clarified: ["·", "#7f8ca3"] };
+  let cur = 0;
+  tabs.innerHTML = DELIB.forums.map((f, i) =>
+    `<button data-i="${i}" class="${i === 0 ? "on" : ""}" title="${f.title.replace(/"/g, "&quot;")}">${f.scenario}${DELIB.forums.filter((g, j) => j < i && g.scenario === f.scenario).length ? " ′".repeat(DELIB.forums.filter((g, j) => j < i && g.scenario === f.scenario).length) : ""}</button>`).join("");
+
+  function render(i, animate) {
+    cur = i;
+    for (const b of tabs.querySelectorAll("button")) b.classList.toggle("on", +b.dataset.i === i);
+    const F = DELIB.forums[i];
+    const acc = F.decision && /accept|oral|poster|spotlight/i.test(F.decision);
+    head.innerHTML = `<a class="dh-t" href="https://openreview.net/forum?id=${F.forum}" target="_blank" rel="noopener" title="open the forum on OpenReview">${F.title} ↗</a>
+      ${F.decision ? `<span class="chip ${acc ? "acc" : "rej"}">${F.decision}</span>` : ""}
+      <span class="dh-m">${F.comments} discussion comments</span>`;
+    host.innerHTML = "";
+    const W = Math.max(300, host.clientWidth || 1100);
+    const narrow = W < 700;
+    const padL = narrow ? 74 : 150, padR = 16, rowH = narrow ? 52 : 62, padT = 34, padB = 12;
+    const H = padT + F.reviewers.length * rowH + padB;
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.style.display = "block";
+    const maxInit = Math.max(...F.reviewers.map(r => r.units.filter(u => u.phase === "init").length));
+    const maxPost = Math.max(1, ...F.reviewers.map(r => r.units.filter(u => u.phase === "post").length));
+    const gapBar = narrow ? 26 : 40;
+    const sp = (W - padL - padR - gapBar) / (maxInit + maxPost);
+    const barX = padL + maxInit * sp + gapBar / 2;
+    // barline
+    const bl = document.createElementNS(NS, "line");
+    bl.setAttribute("x1", barX); bl.setAttribute("x2", barX);
+    bl.setAttribute("y1", padT - 16); bl.setAttribute("y2", H - padB);
+    bl.setAttribute("stroke", "#c9a45c"); bl.setAttribute("stroke-dasharray", "3 5"); bl.setAttribute("stroke-opacity", "0.6");
+    svg.appendChild(bl);
+    const blt = document.createElementNS(NS, "text");
+    blt.setAttribute("x", barX); blt.setAttribute("y", padT - 22);
+    blt.setAttribute("text-anchor", "middle"); blt.setAttribute("font-size", "8.5");
+    blt.setAttribute("fill", "#c9a45c"); blt.setAttribute("font-family", "IBM Plex Mono, monospace");
+    blt.setAttribute("letter-spacing", "2");
+    blt.textContent = "AUTHORS RESPOND";
+    svg.appendChild(blt);
+    // note positions for chords
+    const notePos = {};
+    F.reviewers.forEach((r, ri) => {
+      const y = padT + ri * rowH + rowH / 2;
+      // staff
+      const st = document.createElementNS(NS, "line");
+      st.setAttribute("x1", padL - 6); st.setAttribute("x2", W - padR);
+      st.setAttribute("y1", y); st.setAttribute("y2", y);
+      st.setAttribute("stroke", "rgba(201,164,92,0.12)");
+      svg.appendChild(st);
+      // label
+      const lb = document.createElementNS(NS, "text");
+      lb.setAttribute("x", padL - 12); lb.setAttribute("y", y - (narrow ? 8 : 0));
+      lb.setAttribute("text-anchor", "end"); lb.setAttribute("dominant-baseline", "middle");
+      lb.setAttribute("font-size", narrow ? "9" : "11"); lb.setAttribute("fill", "#b3aa99");
+      lb.setAttribute("font-family", "IBM Plex Mono, monospace");
+      lb.textContent = narrow ? r.key.slice(-4) : "Reviewer " + r.key.slice(-4);
+      svg.appendChild(lb);
+      const rb = document.createElementNS(NS, "text");
+      rb.setAttribute("x", padL - 12); rb.setAttribute("y", y + (narrow ? 6 : 15));
+      rb.setAttribute("text-anchor", "end"); rb.setAttribute("dominant-baseline", "middle");
+      rb.setAttribute("font-size", narrow ? "10" : "12"); rb.setAttribute("font-family", "IBM Plex Mono, monospace");
+      rb.setAttribute("fill", r.rating >= 6 ? "#3ba183" : r.rating <= 4 ? "#d0685c" : "#bf8a30");
+      rb.textContent = "rated " + r.rating;
+      svg.appendChild(rb);
+      // notes
+      let ii = 0, pi = 0;
+      r.units.forEach((u, ui) => {
+        const x = u.phase === "init" ? padL + (ii++) * sp + sp / 2 : barX + gapBar / 2 + (pi++) * sp + sp / 2;
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", x); c.setAttribute("cy", y);
+        c.setAttribute("r", narrow ? 4 : 5.2);
+        c.setAttribute("fill", VAL_COLOR[u.v] || "#b3aa99");
+        c.setAttribute("fill-opacity", u.phase === "post" ? "0.95" : "0.8");
+        c.classList.add("dl-note");
+        if (animate && !REDUCED) {
+          c.style.opacity = 0;
+          c.style.animation = `dlIn 0.4s ease ${(ri * 120 + ui * 42)}ms both`;
+        }
+        c.addEventListener("mousemove", e => showTip(e,
+          `<div class="t">${objLabel[u.o] || u.o} · ${u.v}</div><div class="n">${u.phase === "post" ? "AFTER THE RESPONSE" + (u.chg ? " · " + u.chg.toUpperCase() : "") : "INITIAL REVIEW"} · REVIEWER ${r.key.slice(-4)}</div><div style="margin-top:5px;font-size:12px;color:var(--ink-2)">${(u.t || "").replace(/</g, "&lt;")}</div>`));
+        c.addEventListener("mouseleave", hideTip);
+        svg.appendChild(c);
+        if (u.phase === "post" && u.chg && CHG[u.chg]) {
+          const [g, col] = CHG[u.chg];
+          const gl = document.createElementNS(NS, "text");
+          gl.setAttribute("x", x); gl.setAttribute("y", y - (narrow ? 8 : 10));
+          gl.setAttribute("text-anchor", "middle"); gl.setAttribute("font-size", narrow ? "8" : "9.5");
+          gl.setAttribute("fill", col);
+          gl.textContent = g;
+          if (animate && !REDUCED) { gl.style.opacity = 0; gl.style.animation = `dlIn 0.4s ease ${(ri * 120 + ui * 42 + 220)}ms both`; }
+          svg.appendChild(gl);
+        }
+        if (u.phase === "init") {
+          (notePos[u.o] = notePos[u.o] || []).push({ ri, x, y, v: u.v, first: !(notePos[u.o] || []).some(p => p.ri === ri) });
+        }
+      });
+    });
+    // chords: same object across reviewers (first occurrence per reviewer)
+    const chords = Object.entries(notePos)
+      .map(([o, ps]) => {
+        const firsts = ps.filter(p => p.first);
+        const rows = [...new Set(firsts.map(p => p.ri))];
+        if (rows.length < 2) return null;
+        const conflict = new Set(firsts.map(p => p.v === "negative" ? "n" : p.v === "positive" ? "p" : "x")).size > 1
+          && firsts.some(p => p.v === "negative") && firsts.some(p => p.v === "positive");
+        return { o, firsts: firsts.sort((a, b) => a.ri - b.ri), conflict, n: ps.length };
+      })
+      .filter(Boolean)
+      .sort((a, b) => (b.conflict - a.conflict) || (b.n - a.n))
+      .slice(0, 6);
+    for (const ch of chords) {
+      const p = document.createElementNS(NS, "path");
+      let d = "";
+      for (let k = 0; k < ch.firsts.length - 1; k++) {
+        const a = ch.firsts[k], b = ch.firsts[k + 1];
+        const mx = (a.x + b.x) / 2;
+        d += `M${a.x},${a.y} C${mx},${a.y + 14} ${mx},${b.y - 14} ${b.x},${b.y} `;
+      }
+      p.setAttribute("d", d); p.setAttribute("fill", "none");
+      p.setAttribute("stroke", ch.conflict ? "#d0685c" : "#ece7dc");
+      p.setAttribute("stroke-opacity", ch.conflict ? "0.4" : "0.12");
+      p.setAttribute("stroke-width", "1");
+      if (animate && !REDUCED) { p.style.opacity = 0; p.style.animation = "dlIn 0.7s ease 900ms both"; }
+      const title = document.createElementNS(NS, "title");
+      title.textContent = `${objLabel[ch.o] || ch.o}: ${ch.conflict ? "judged oppositely" : "judged alike"} by ${ch.firsts.length} reviewers`;
+      p.appendChild(title);
+      svg.insertBefore(p, svg.firstChild.nextSibling);
+    }
+    host.appendChild(svg);
+  }
+  tabs.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    render(+b.dataset.i, true);
+  });
+  render(0, false);
+  let seen = false;
+  new IntersectionObserver(en => {
+    if (en[0].isIntersecting && !seen) { seen = true; render(cur, true); }
+  }, { threshold: 0.2 }).observe(host);
+  debounceResize(() => render(cur, false));
 })();
 
 </script>
