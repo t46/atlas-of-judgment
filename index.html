@@ -179,6 +179,16 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .tv-wrap table { border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; font-family: var(--mono); }
 .tv-wrap th, .tv-wrap td { border: 1px solid var(--brass-faint); padding: 5px 9px; text-align: right; white-space: nowrap; color: var(--ink-2); }
 .tv-wrap td:first-child, .tv-wrap th:first-child { text-align: left; }
+/* ---- late-page motion: 8d wings, filter bars, appendix blocks ---- */
+@keyframes wingIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.in-view .wing.wl { transform-origin: right center; animation: wingIn 0.8s cubic-bezier(0.2, 0.7, 0.15, 1) both; }
+.in-view .wing.wr { transform-origin: left center; animation: wingIn 0.8s cubic-bezier(0.2, 0.7, 0.15, 1) 0.08s both; }
+.fpanel.reveal .fb-f { transform-origin: left center; transform: scaleX(0); transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.15, 1); }
+.fpanel.reveal.in .fb-f { transform: scaleX(1); }
+.fpanel.reveal .fbar:nth-child(2) .fb-f { transition-delay: 0.05s; } .fpanel.reveal .fbar:nth-child(4) .fb-f { transition-delay: 0.1s; }
+.fpanel.reveal .fbar:nth-child(6) .fb-f { transition-delay: 0.15s; } .fpanel.reveal .fbar:nth-child(8) .fb-f { transition-delay: 0.2s; }
+.fpanel.reveal .fbar:nth-child(10) .fb-f { transition-delay: 0.25s; } .fpanel.reveal .fbar:nth-child(12) .fb-f { transition-delay: 0.3s; }
+@media (prefers-reduced-motion: reduce) { .wing { animation: none !important; } .fpanel .fb-f { transform: none !important; transition: none !important; } }
 /* ---- the guided tour ---- */
 #tour-start { margin-top: 18px; background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 9px 22px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
 #tour-start:hover { background: rgba(201,164,92,0.08); }
@@ -1838,8 +1848,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         <div class="vp-l">${objLabel[o]}</div>
         <div style="position:relative;height:13px" title="${objLabel[o]}: inspected by ${pct(lo_touch)} of ${selLo}-givers / ${pct(hi_touch)} of ${selHi}-givers; condemned by ${pct(lo_neg)} vs ${pct(hi_neg)}">
           <div style="position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--brass-line)"></div>
-          <div style="position:absolute;right:50%;top:1px;height:11px;width:${Math.min(50, lo_neg * K / 2)}%;background:#d0685c;opacity:.9"></div>
-          <div style="position:absolute;left:50%;top:1px;height:11px;width:${Math.min(50, hi_neg * K / 2)}%;background:#3ba183;opacity:.9"></div>
+          <div class="wing wl" style="position:absolute;right:50%;top:1px;height:11px;width:${Math.min(50, lo_neg * K / 2)}%;background:#d0685c;opacity:.9"></div>
+          <div class="wing wr" style="position:absolute;left:50%;top:1px;height:11px;width:${Math.min(50, hi_neg * K / 2)}%;background:#3ba183;opacity:.9"></div>
         </div>
         <div class="vp-n">${pct(lo_neg)} ← → ${pct(hi_neg)}</div>
       </div>`).join("");
@@ -2347,8 +2357,16 @@ function showDissect(kind, key) {
     document.getElementById("dock-less").style.display = canLess ? "" : "none";
     dock.classList.toggle("show", sectionVisible && (canMore || canLess));
   }
-  new IntersectionObserver(en => { sectionVisible = en[0].isIntersecting; syncDock(); },
-    { rootMargin: "-120px 0px -60px 0px" }).observe(host.closest("section"));
+  let cardsRevealed = false;
+  new IntersectionObserver(en => {
+    sectionVisible = en[0].isIntersecting; syncDock();
+    if (sectionVisible && !cardsRevealed) {
+      cardsRevealed = true;
+      [...host.children].forEach((c, i) => {
+        c.classList.add("spec-in"); c.style.animationDelay = Math.min(i * 120, 480) + "ms";
+      });
+    }
+  }, { rootMargin: "-120px 0px -60px 0px" }).observe(host.closest("section"));
   host.addEventListener("click", e => {
     const b = e.target.closest(".unit-toggle");
     if (!b) return;
@@ -2470,6 +2488,11 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   }
   // sub-figure granularity: each direct child of a plate fires its own atoms
   for (const el of document.querySelectorAll(".plate-inner > *, .hm-wrap")) io.observe(el);
+  // sections that live outside a plate frame: filters, specimen list, appendix bodies
+  for (const el of document.querySelectorAll("#filters .fpanel, #prov, .method, #lexicon-body, #tv, .appendix-rule")) {
+    el.classList.add("reveal");
+    io.observe(el);
+  }
   // count-up on title-page spec
   for (const el of document.querySelectorAll(".cnt")) {
     const target = +el.dataset.n, t0 = performance.now(), dur = 1500;
