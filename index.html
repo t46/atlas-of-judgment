@@ -687,13 +687,13 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
     <div class="plate-no">Plate I · The Anatomy</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 410,586 units from 74,380 reviews</div>
     <h2>Object → standard → verdict</h2>
-    <p class="lede">This is the whole 2026 corpus in one diagram. Each unit of reasoning was labelled three ways: the <b>object</b> it inspects (what part of the paper the reviewer was looking at — 12 of them), the <b>standard</b> it argues from (the rule the reviewer used to turn that observation into a judgment — 12 of them), and the <b>verdict</b> it reaches (negative, positive, mixed, conditional, or uncertain). Both label sets were induced from the reviews themselves, not chosen in advance. Ribbon width is the number of units taking that path. Hover a node to trace its paths, <em>click one to read real units from it</em>; hover any term for its definition, or see <a href="#lexicon">the full list</a>.</p>
+    <p class="lede"><span class="cl">Why start here</span> the question this project began with — recorded before any data existed — was: <em>what do reviewers actually look at, how do they think, and how do they decide?</em> This diagram is that question answered at its coarsest grain, and it is the closest thing the atlas has to a portrait of its subject: every act of judgment taken apart into what was <b>inspected</b>, the <b>standard</b> it passed through, and the <b>verdict</b> where it landed — all 410,586 units of ICLR 2026 at once. Every later plate is a slice of this picture. Each unit of reasoning was labelled three ways: the <b>object</b> it inspects (what part of the paper the reviewer was looking at — 12 of them), the <b>standard</b> it argues from (the rule the reviewer used to turn that observation into a judgment — 12 of them), and the <b>verdict</b> it reaches (negative, positive, mixed, conditional, or uncertain). Both label sets were induced from the reviews themselves, not chosen in advance. The couplings are the content: <b>ribbon thickness is the strength of each bond</b> — how many units tie an object to a standard, and a standard to a verdict — so a thick ribbon is a habit of the discipline and a thin one an exception. Hover a node to trace everything its units touch, upstream and down, <em>and click one to read real units from it</em>; hover any term for its definition, or see <a href="#lexicon">the full list</a>.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div id="sankey"></div>
     <div class="legend" id="val-legend" style="margin-top:10px"></div>
     <div id="dissect" hidden></div>
-    <p class="caption"><b>Fig. 1a</b> — 71.8% of all units end in a negative verdict. Read that number as a property of the reading pipeline as much as of reviewers: the models that split reviews into units pick up explicit criticism more readily than passing praise, so the negative share is an upper bound rather than a measurement of reviewer temperament (Appendix II reports the check). What is safe to compare is one object or standard against another, since all of them were read the same way. Merit recognition — the one standard under which praise concentrates — carries just 13.7% of the units.</p>
+    <p class="caption"><b>Fig. 1a</b> — <span class="cl">Result</span> three things the flows show. First, criticism dominates every path: 71.8% of all units end negative, and no object escapes — the gentlest-treated object still runs 60% negative, the harshest 88%. That is not the acceptance rate in disguise: even reviews awarding an 8 are made of 45% negative units — thorough praise is still built out of criticism. Second, praise has a bottleneck: two thirds of all positive units (66.9%) reach the right edge through one standard, merit recognition — mercy is not spread across the reasoning; it has its own channel. Third, the single largest current in the corpus is empirical scope flowing into the design-justification standard (4.8% of everything): the modal act of ICLR reviewing is asking why the experiments were set up as they were. <span class="cl">Reading it</span> one caution on the 71.8% level itself: the models that split reviews into units catch explicit criticism more reliably than brief praise — a passing "well written" often goes unrecorded — so the negative share is tilted upward, and it measures the reading as much as the reviewers (Appendix II reports the check). Comparisons stay safe, because every object and standard was read the same way. How each object × standard pairing resolves, cell by cell, is the map below.</p>
     <div class="fig-title" style="margin-top:34px">Fig. 1b — The mercy map: how each pairing resolves</div>
     <div class="fig-deck">Mercy lives in one column — merit recognition; everywhere else, scrutiny condemns.</div>
     <div class="hm-wrap"><div class="hm" id="mercy"></div></div>
@@ -2013,7 +2013,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       paths.push({ d: ribbon(colX[1] + NW, y0, h0, colX[2], y1, h1),
         fill: "url(#sgR-" + v + ")", pc: VAL_COLOR[v], base: 0.42, hi: 0.85, r, v, n,
         x0: colX[1] + NW, y0, h0, x1: colX[2], y1, h1,
-        tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / TOTAL)}</div>` });
+        tipHtml: `<div class="t">${reaLabel[r]} → ${v}</div><div class="n">${fmt(n)} units · ${pct(n / reaTot[r])} of this standard · ${pct(n / TOTAL)} of all</div>` });
     }
     for (const p of paths) {
       const el = document.createElementNS(NS, "path");
@@ -2023,7 +2023,28 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       el.addEventListener("mouseleave", hideTip);
       p.el = el; svg.appendChild(el);
     }
-    function highlight(pred) { dimPred = pred; for (const p of paths) p.el.style.opacity = pred(p) ? p.hi : 0.03; }
+    // exact three-way counts for two-hop tracing: n(o,r,v)
+    const trip = {};
+    for (const tr of DATA.triples) trip[tr.o + "|" + tr.r + "|" + tr.v] = (trip[tr.o + "|" + tr.r + "|" + tr.v] || 0) + tr.n;
+    const rvTot = {};
+    for (const p of paths) if (p.v) rvTot[p.r + "|" + p.v] = p.n;
+    function wObj(o, p) {
+      if (p.o != null) return p.o === o ? 1 : 0;
+      // r->v ribbon: exact share of this ribbon's units that came from o
+      return (trip[o + "|" + p.r + "|" + p.v] || 0) / (rvTot[p.r + "|" + p.v] || 1);
+    }
+    function wVal(v, p) {
+      if (p.v != null) return p.v === v ? 1 : 0;
+      // o->r ribbon: exact share of this ribbon's units that end in v
+      return (trip[p.o + "|" + p.r + "|" + v] || 0) / (p.n || 1);
+    }
+    function highlight(wfn) {
+      dimPred = wfn;
+      for (const p of paths) {
+        const w = wfn(p);
+        p.el.style.opacity = w >= 0.999 ? p.hi : 0.03 + w * (p.hi - 0.03);
+      }
+    }
     function reset() { dimPred = null; for (const p of paths) p.el.style.opacity = p.base; }
     function node(x, y, h, fill) {
       const el = document.createElementNS(NS, "rect");
@@ -2063,20 +2084,25 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         label(colX[0] - 7, y + h / 2, `${objLabel[o]}  ${pctTxt}`, "end", 12.5);
       }
       nEl.style.cursor = "pointer";
-      nEl.addEventListener("mouseenter", () => highlight(p => p.o === o));
+      nEl.addEventListener("mouseenter", () => highlight(p => wObj(o, p)));
       nEl.addEventListener("mouseleave", reset);
       nEl.addEventListener("click", () => showDissect("obj", o));
     }
     for (const r of reaOrder) {
       const { y, h } = L2.pos[r];
       const nEl = node(colX[1], y, h, "#c9a45c");
+      const vmix = VAL_ORDER.map(v => ({ v, n: linkRV[r + "|" + v] || 0 })).filter(x => x.n)
+        .sort((a, b) => b.n - a.n)
+        .map(x => `<span style="color:${VAL_COLOR[x.v]}">${x.v} ${pct(x.n / reaTot[r])}</span>`).join(" · ");
+      nEl.addEventListener("mousemove", e => showTip(e, `<div class="t">${reaLabel[r]}</div><div class="n">${vmix}</div>`));
+      nEl.addEventListener("mouseleave", hideTip);
       const rp = `${(100 * reaTot[r] / TOTAL).toFixed(narrow ? 0 : 1)}%`;
       const t = narrow && h >= 22
         ? label2(colX[1] + NW + 7, y + h / 2, [REA_SHORT[r], rp], "start", 10)
         : label(colX[1] + NW + 7, y + h / 2, narrow ? `${REA_SHORT[r]} ${rp}` : `${reaLabel[r]}  ${rp}`, "start", narrow ? 10 : 11.5);
       t.setAttribute("paint-order", "stroke"); t.setAttribute("stroke", "#161324"); t.setAttribute("stroke-width", "3");
       nEl.style.cursor = "pointer";
-      nEl.addEventListener("mouseenter", () => highlight(p => p.r === r));
+      nEl.addEventListener("mouseenter", () => highlight(p => (p.r === r ? 1 : 0)));
       nEl.addEventListener("mouseleave", reset);
       nEl.addEventListener("click", () => showDissect("rea", r));
     }
@@ -2086,7 +2112,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       const txt = narrow ? `${v.slice(0, 3)} ${(100 * valTot[v] / TOTAL).toFixed(0)}%`
                          : `${v}  ${(100 * valTot[v] / TOTAL).toFixed(1)}%`;
       label(colX[2] + NW + 7, y + h / 2, txt, "start", narrow ? 10.5 : 12.5);
-      nEl.addEventListener("mouseenter", () => highlight(p => p.v === v));
+      nEl.addEventListener("mouseenter", () => highlight(p => wVal(v, p)));
       nEl.addEventListener("mouseleave", reset);
     }
     const heads = narrow
@@ -2142,7 +2168,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       const x = bez(p.x0, xm, xm, p.x1, pt.t);
       const y = bez(ys, ys, ye, ye, pt.t);
       let a = 0.5 * Math.sin(Math.PI * Math.min(1, pt.t * 1.15));
-      if (dimPred) a *= dimPred(p) ? 1.25 : 0.06;
+      if (dimPred) { const w = dimPred(p); a *= 0.06 + w * 1.35; }
       if (a <= 0.01) continue;
       ctx.globalAlpha = Math.min(a, 0.85);
       ctx.fillStyle = p.pc;
