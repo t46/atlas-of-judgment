@@ -603,7 +603,35 @@ body.tour-on #spec-dock { display: none !important; }
 #meridian button:hover .m-lab, #meridian button.cur .m-lab { opacity: 1; }
 #meridian button.cur .m-lab { color: var(--ink-2); border-color: transparent; background: none; }
 #meridian .m-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; color: var(--muted); margin-top: 6px; }
+#meridian button.m-act { width: auto; height: auto; background: none; font-family: var(--mono); font-size: 8px; letter-spacing: .1em; color: var(--brass-dim); padding: 3px 2px 1px; margin-top: 5px; line-height: 1; }
+#meridian button.m-act:hover { color: var(--brass); background: none; width: auto; }
 @media (max-width: 1180px) { #meridian { display: none; } }
+#meridian button.cur .m-lab { opacity: 1; color: var(--brass); border-color: var(--brass-line); background: rgba(18,16,31,0.95); }
+/* ---- the chart: full-screen contents navigator ---- */
+#atlas-nav { position: fixed; inset: 0; z-index: 2550; background: rgba(14,12,24,0.96); overflow-y: auto; overscroll-behavior: contain;
+  opacity: 0; pointer-events: none; transition: opacity .3s var(--ease-settle); }
+#atlas-nav.on { opacity: 1; pointer-events: auto; }
+#atlas-nav .an-in { max-width: 1240px; margin: 0 auto; padding: clamp(50px, 8svh, 90px) clamp(20px, 4vw, 60px) 80px; }
+#atlas-nav .an-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: clamp(24px, 4svh, 46px); }
+#atlas-nav .an-title { font-family: var(--display); font-size: clamp(30px, 4.5vw, 52px); color: var(--ink); }
+#atlas-nav .an-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--brass); margin-bottom: 8px; }
+#atlas-nav .an-x { background: none; border: 1px solid var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; padding: 8px 14px; cursor: pointer; }
+#atlas-nav .an-x:hover { background: rgba(201,164,92,0.1); }
+#atlas-nav .an-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: clamp(22px, 3vw, 42px) clamp(26px, 3.5vw, 54px); }
+#atlas-nav .an-act-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--brass); border-bottom: 1px solid var(--brass-line); padding-bottom: 7px; margin-bottom: 4px; }
+#atlas-nav .an-act-h b { color: var(--ink); font-weight: 500; letter-spacing: .18em; }
+#atlas-nav .an-act-s { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 4px 0 9px; line-height: 1.8; }
+#atlas-nav .an-item { display: flex; gap: 12px; align-items: baseline; width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+  padding: 5px 6px; color: var(--ink-2); font-family: var(--serif); font-size: 15.5px; transition: color .2s ease, background .2s ease; }
+#atlas-nav .an-item:hover { color: var(--ink); background: rgba(201,164,92,0.07); }
+#atlas-nav .an-item .an-no { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; color: var(--brass-dim); min-width: 34px; flex: none; }
+#atlas-nav .an-item:hover .an-no { color: var(--brass); }
+#atlas-nav.on .an-act { opacity: 0; transform: translateY(10px); animation: anIn .55s var(--ease-settle) forwards; }
+@keyframes anIn { to { opacity: 1; transform: none; } }
+#tb-contents { background: none; border: none; cursor: pointer; padding: 0; color: var(--brass); font: inherit; letter-spacing: inherit; text-transform: inherit; }
+#tb-contents:hover { color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { #atlas-nav { transition: none; } #atlas-nav.on .an-act { animation: none; opacity: 1; transform: none; } }
+@media print { #atlas-nav { display: none; } }
 /* the sextant — a fixed position instrument: which act, which plate (the page's depth gauge) */
 #sextant { position: fixed; left: 18px; bottom: 14px; z-index: 50; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--muted); background: rgba(18,16,31,0.82); border: 1px solid var(--brass-faint); padding: 5px 9px; pointer-events: none;
@@ -758,6 +786,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
 <nav id="topbar" aria-label="site">
   <a class="tb-mark" href="#top">Atlas of Judgment</a>
   <div class="tb-links">
+    <button id="tb-contents">Contents</button>
     <a href="about.html">About</a>
     <a href="method.html">Method</a>
     <a href="https://github.com/t46/atlas-of-judgment">GitHub</a>
@@ -4566,7 +4595,24 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   }));
   const pct = document.createElement("div");
   pct.className = "m-pct"; pct.id = "m-pct"; pct.textContent = "000%";
+  let lastActKey = null;
+  const leaves0 = [...document.querySelectorAll(".act-leaf")];
   for (const en of entries) {
+    let leafOf = null;
+    for (const lf of leaves0) {
+      if (lf.compareDocumentPosition(en.el) & Node.DOCUMENT_POSITION_FOLLOWING) leafOf = lf;
+      else break;
+    }
+    const key = leafOf ? (leafOf.querySelector(".al-no") || {}).textContent : null;
+    if (key && key !== lastActKey) {
+      lastActKey = key;
+      const m = document.createElement("button");
+      m.className = "m-act";
+      m.textContent = key.replace(/^ACT\s+/, "").replace(/^CODA$/, "\u2234");
+      m.title = key + (leafOf.querySelector(".al-t") ? " \u00b7 " + leafOf.querySelector(".al-t").textContent : "");
+      m.addEventListener("click", () => leafOf.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
+      rail.appendChild(m);
+    }
     const b = document.createElement("button");
     b.innerHTML = `<span class="m-lab">${en.lab}</span>`;
     b.addEventListener("click", () => en.el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
@@ -10326,5 +10372,69 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   };
   addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
   tick();
+})();
+
+// ---------------- the chart: full-screen contents navigator ----------------
+(function atlasNav() {
+  const leaves = [...document.querySelectorAll(".act-leaf")];
+  const secs = [...document.querySelectorAll("section")].filter(s => s.querySelector(".plate-no"));
+  if (!secs.length) return;
+  // group sections by the act-leaf that precedes them in document order
+  const groups = [];
+  let cur = { leaf: null, no: "PROLEGOMENA", title: "The Field & the Door", sub: "instrument checks before Act I", items: [] };
+  groups.push(cur);
+  let appGroup = null;
+  for (const sec of secs) {
+    let last = null;
+    for (const lf of leaves) {
+      if (lf.compareDocumentPosition(sec) & Node.DOCUMENT_POSITION_FOLLOWING) last = lf;
+      else break;
+    }
+    const pn = sec.querySelector(".plate-no").textContent;
+    const isApp = /^Appendix/.test(pn);
+    if (isApp) {
+      if (!appGroup) { appGroup = { leaf: null, no: "APPENDICES", title: "The Cabinet", sub: "lexicon · provenance · the null cabinet", items: [] }; groups.push(appGroup); }
+      cur = appGroup;
+    } else if (last && (groups[groups.length - 1].leaf !== last || cur === appGroup)) {
+      cur = { leaf: last,
+        no: (last.querySelector(".al-no") || {}).textContent || "",
+        title: (last.querySelector(".al-t") || {}).textContent || "",
+        sub: (last.querySelector(".al-s") || {}).textContent || "", items: [] };
+      groups.push(cur);
+    }
+    const parts = pn.split("\u00b7").map(x => x.trim());
+    const h2 = sec.querySelector("h2");
+    cur.items.push({ el: sec, no: (parts[0] || "").replace(/^Plate\s+/, "").replace(/^Prolegomenon\s*/, "Pro.").replace(/^Appendix\s+/, "App."),
+      label: parts[1] || parts[0], sub2: h2 ? h2.textContent : "" });
+  }
+  const ov = document.createElement("div");
+  ov.id = "atlas-nav";
+  ov.innerHTML = `<div class="an-in"><div class="an-head"><div><div class="an-eyebrow">Atlas of Judgment</div><div class="an-title">The Chart</div></div><button class="an-x">Close · Esc</button></div><div class="an-grid">` +
+    groups.filter(g => g.items.length).map((g, gi) =>
+      `<div class="an-act" style="animation-delay:${gi * 55}ms"><div class="an-act-h"><b>${g.no}</b> · ${g.title}</div><div class="an-act-s">${g.sub}</div>` +
+      g.items.map((it, ii) => `<button class="an-item" data-g="${gi}" data-i="${ii}"><span class="an-no">${it.no}</span><span>${it.label}${it.sub2 ? ` <span style="color:var(--muted);font-style:italic;font-size:13px">— ${it.sub2}</span>` : ""}</span></button>`).join("") +
+      `</div>`).join("") + `</div></div>`;
+  document.body.appendChild(ov);
+  const flat = groups.filter(g => g.items.length);
+  const open = () => { ov.classList.add("on"); document.documentElement.style.overflow = "hidden"; };
+  const close = () => { ov.classList.remove("on"); document.documentElement.style.overflow = ""; };
+  ov.addEventListener("click", e => {
+    const item = e.target.closest(".an-item");
+    if (item) {
+      const sec = flat[+item.dataset.g].items[+item.dataset.i].el;
+      close();
+      sec.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
+      return;
+    }
+    if (e.target.closest(".an-x") || !e.target.closest(".an-in")) close();
+  });
+  addEventListener("keydown", e => {
+    if (e.key === "Escape") close();
+    else if ((e.key === "c" || e.key === "C") && !/input|textarea|select/i.test((document.activeElement || {}).tagName || "") && !e.metaKey && !e.ctrlKey && !e.altKey)
+      ov.classList.contains("on") ? close() : open();
+  });
+  const tb = document.getElementById("tb-contents");
+  if (tb) tb.addEventListener("click", open);
+  window.__openChart = open;
 })();
 </script>
