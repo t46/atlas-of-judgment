@@ -1,0 +1,106 @@
+{
+  "id": "plate-xxviii",
+  "number": "XXVIII",
+  "title": "The Oracle",
+  "act": {
+    "number": "VIII",
+    "title": "Eras & Territories"
+  },
+  "corpus_scope": "ICLR 2026 · 19,474 reviewed papers with a primary area · association, not destiny",
+  "question": "Does a paper's field predict how it will be criticized?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-28",
+      "title": "The archipelago: all twenty-one primary areas, drawn as a sea chart",
+      "deck": "Fields criticized alike drift together — and each island's coastline is its fingerprint: learning theory's theory cape rises +25pp above the venue while its baselines shore falls away −31pp.",
+      "dom_host": "#archi",
+      "claims": [
+        {
+          "id": "28-fields-with-primary-area",
+          "statement": "Every paper carries a primary area, so the criticism profiles can be split by field without any further modelling — 19,474 reviewed papers with a primary area in all.",
+          "value": {
+            "quantity": 19474,
+            "unit": "count_papers"
+          },
+          "source_island": "archipelago-data.json",
+          "source_path": "islands[].n",
+          "derivation": "sum of n across all 21 primary-area islands",
+          "recompute": "scripts/build_archipelago_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["association-not-destiny"]
+        },
+        {
+          "id": "28-learning-theory-fingerprint",
+          "statement": "Learning theory's theory cape rises +25pp above the venue while its baselines shore falls away −31pp.",
+          "value": {
+            "quantity": [0.254, -0.305],
+            "unit": "percentage_point_deviation_from_venue_baseline",
+            "field": "learning theory",
+            "objects": ["theory", "baselines_ablations"]
+          },
+          "source_island": "archipelago-data.json",
+          "source_path": "islands[name=\"learning theory\"].dev",
+          "derivation": "dev[theory] = 0.2541 → +25.4pp above the venue baseline; dev[baselines_ablations] = −0.3051 → −30.5pp, rounding to −31pp",
+          "recompute": "scripts/build_archipelago_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": ["association-not-destiny"]
+        },
+        {
+          "id": "28-learning-theory-offshore",
+          "statement": "Learning theory sits far offshore with a great cape toward theory and a deep bay where its baselines shore should be.",
+          "value": {
+            "quantity": [0.254, -0.305],
+            "unit": "percentage_point_deviation_from_venue_baseline",
+            "field": "learning theory"
+          },
+          "source_island": "archipelago-data.json",
+          "source_path": "islands[name=\"learning theory\"].x, .y, .dev",
+          "derivation": "multidimensional-scaling placement (x,y) of the learning-theory island, driven by its dev[] vector relative to the other 20 islands",
+          "recompute": "scripts/build_archipelago_data.py",
+          "dom_ref": "data-archi=\"learning-theory\"",
+          "verified": null,
+          "caveat_refs": ["association-not-destiny"]
+        },
+        {
+          "id": "28-datasets-benchmarks-southwest",
+          "statement": "Datasets & benchmarks — the island least judged by theory anywhere on the chart — anchors the southwest alone.",
+          "value": {
+            "quantity": null,
+            "unit": "mds_position_rank",
+            "field": "datasets & benchmarks",
+            "object": "theory"
+          },
+          "source_island": "archipelago-data.json",
+          "source_path": "islands[name=\"datasets & benchmarks\"].dev, .x, .y",
+          "derivation": "lowest dev[theory] value across all 21 islands, combined with its (x,y) MDS placement",
+          "recompute": "scripts/build_archipelago_data.py",
+          "dom_ref": "data-archi=\"datasets\"",
+          "verified": null,
+          "caveat_refs": ["association-not-destiny"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "association-not-destiny",
+      "text": "Conditional frequencies only: fields differ in what they submit as much as in how they are judged. The chart encodes association, not destiny.",
+      "scope": "all Plate XXVIII field-vs-venue and archipelago claims",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_archipelago_data.py"
+    ],
+    "data": [
+      "/api/v1/data/archipelago-data.json"
+    ],
+    "related_plates": [
+      "plate-xv"
+    ]
+  }
+}

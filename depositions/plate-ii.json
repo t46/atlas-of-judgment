@@ -1,0 +1,207 @@
+{
+  "id": "plate-ii",
+  "number": "II",
+  "title": "The Grammar",
+  "act": {
+    "number": "I",
+    "title": "The Instrument"
+  },
+  "corpus_scope": "ICLR 2026 · 410,586 units · Fig. 2b’s movement: 2018–2026",
+  "question": "Plate I showed which objects reviewers inspect and which standards they argue from — are the two coupled, for each object, and has that coupling drifted over nine years?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-2a",
+      "title": "The grammar: which law judges which object",
+      "deck": "Five of twelve objects answer chiefly to their own law; the rest are judged under borrowed ones — design justification above all.",
+      "dom_host": "#heatmap",
+      "claims": [
+        {
+          "id": "2a-five-own-law",
+          "statement": "Five objects are judged first by their own named standard: novelty (67%), clarity (48%), robustness (33%), compute cost (32%), reproducibility (31%).",
+          "value": {
+            "quantity": [
+              0.67,
+              0.48,
+              0.33,
+              0.32,
+              0.31
+            ],
+            "unit": "share_of_object_units_under_own_standard"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "row-normalized share of each object's units argued under its own namesake standard, for the 5 objects where that standard leads the row",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "diagonal-bookkeeping"
+          ]
+        },
+        {
+          "id": "2a-design-justification-law",
+          "statement": "Design justification is the most-used law for four other objects: empirical scope, method design, theory, and statistical rigor.",
+          "value": {
+            "quantity": 4,
+            "unit": "count_of_objects"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "count of objects whose row-normalized top standard is design_justification",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-hm2a=\"design-law\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        },
+        {
+          "id": "2a-stats-namesake",
+          "statement": "Statistical rigor uses its nearest-named standard, identifiability, for just 9% of its units.",
+          "value": {
+            "quantity": 0.09,
+            "unit": "share_of_object_units"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "n(object=='stats_metrics', standard=='statistical_identifiability') / sum(n where object=='stats_metrics')",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-hm2a=\"stats-namesake\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-2b",
+      "title": "The grammar's nine years: where P(standard | object) itself moved",
+      "deck": "The grammar is a habit, not a fashion: 138 of 144 cells stay inside the shuffle floor — and what little moved was mostly ground the novelty standard gave up.",
+      "dom_host": "#hm-drift",
+      "claims": [
+        {
+          "id": "2b-shuffle-floor",
+          "statement": "138 of the 144 (object, standard) cells stay inside the shuffle floor of ±4.05 percentage points between the 2018–19 and 2025–26 eras.",
+          "value": {
+            "quantity": 138,
+            "unit": "count_of_cells_out_of_144"
+          },
+          "source_island": "ninegrammar-data.json",
+          "source_path": "delta",
+          "derivation": "count of the 12×12=144 (object, standard) cells where |delta[object][standard]| ≤ floor95 (0.0405)",
+          "recompute": "scripts/build_ninegrammar_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": []
+        },
+        {
+          "id": "2b-compute-cost",
+          "statement": "Compute cost consolidated onto the cost-benefit standard, from 25.9% to 34.6% across nine years.",
+          "value": {
+            "quantity": [
+              0.259,
+              0.346
+            ],
+            "unit": "share_of_object_units_early_to_late"
+          },
+          "source_island": "ninegrammar-data.json",
+          "source_path": "early / late",
+          "derivation": "P(standard='cost_benefit' | object='compute_cost') in the early (2018–19) vs. late (2025–26) era",
+          "recompute": "scripts/build_ninegrammar_data.py",
+          "dom_ref": "data-hm2b=\"compute-cb\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading-2b"
+          ]
+        },
+        {
+          "id": "2b-repro-own",
+          "statement": "Reproducibility consolidated onto its own norm, from 28.9% to 33.8% across nine years.",
+          "value": {
+            "quantity": [
+              0.289,
+              0.338
+            ],
+            "unit": "share_of_object_units_early_to_late"
+          },
+          "source_island": "ninegrammar-data.json",
+          "source_path": "early / late",
+          "derivation": "P(standard='reproducibility_norm' | object='reproducibility') early vs. late",
+          "recompute": "scripts/build_ninegrammar_data.py",
+          "dom_ref": "data-hm2b=\"repro-own\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading-2b"
+          ]
+        },
+        {
+          "id": "2b-framing-merit",
+          "statement": "Problem framing's leading law, merit recognition, extended its lead from 22.5% to 30.2%, while the novelty standard (21.7%→15.4%) and presentation trust (11.4%→7.2%) receded on the same row.",
+          "value": {
+            "quantity": [
+              0.225,
+              0.302
+            ],
+            "unit": "share_of_object_units_early_to_late"
+          },
+          "source_island": "ninegrammar-data.json",
+          "source_path": "early / late",
+          "derivation": "P(standard='merit_recognition' | object='problem_framing') early vs. late",
+          "recompute": "scripts/build_ninegrammar_data.py",
+          "dom_ref": "data-hm2b=\"framing-movers\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading-2b"
+          ]
+        },
+        {
+          "id": "2b-rw-slip",
+          "statement": "Related work also slipped away from the novelty standard, from 34.7% to 28.6%.",
+          "value": {
+            "quantity": [
+              0.347,
+              0.286
+            ],
+            "unit": "share_of_object_units_early_to_late"
+          },
+          "source_island": "ninegrammar-data.json",
+          "source_path": "early / late",
+          "derivation": "P(standard='novelty_standard' | object='related_work') early vs. late",
+          "recompute": "scripts/build_ninegrammar_data.py",
+          "dom_ref": "data-hm2b=\"rw-slip\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading-2b"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "diagonal-bookkeeping",
+      "text": "Several standards are name-twins of their objects (novelty and the novelty standard, robustness and the robustness norm); for those cells a bright diagonal is partly analytic, since both labels can be responses to the same sentence.",
+      "scope": "Fig. 2a diagonal / own-standard shares",
+      "verified_by": null
+    },
+    {
+      "id": "single-model-reading-2b",
+      "text": "Movers were re-checked within criticism and praise separately to rule out template effects, but a quieter drift in phrasing that the labeling model reads as a different rule cannot be excluded; every level rests on one model's reading, applied uniformly to both eras.",
+      "scope": "Fig. 2b nine-year movers",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_unit_viz_data.py",
+      "scripts/build_ninegrammar_data.py"
+    ],
+    "data": [
+      "/api/v1/data/viz-data.json",
+      "/api/v1/data/ninegrammar-data.json"
+    ],
+    "related_plates": [
+      "plate-i",
+      "plate-xxvi",
+      "plate-xxvii"
+    ]
+  }
+}

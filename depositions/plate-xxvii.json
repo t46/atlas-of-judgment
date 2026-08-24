@@ -1,0 +1,142 @@
+{
+  "id": "plate-xxvii",
+  "number": "XXVII",
+  "title": "The Unamended Code",
+  "act": {
+    "number": "VIII",
+    "title": "Eras & Territories"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 13,138 normative novelty sentences",
+  "question": "Has novelty's stated definition changed over nine years, the way its enforcement has?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-27a",
+      "title": "Distance of each year's sentences to the 2026 code",
+      "deck": "2018's reasoning fits the 2026 rulebook almost as well as 2026's own held-out half does — 0.159 against a 0.152 calibration.",
+      "dom_host": "#timeless-dist",
+      "claims": [
+        {
+          "id": "27a-2018-vs-calibration",
+          "statement": "2018's reasoning fits the 2026 rulebook almost as well as 2026's own held-out half does — 0.159 against a 0.152 calibration.",
+          "value": {
+            "quantity": [0.159, 0.152],
+            "unit": "mean_embedding_distance_to_2026_code",
+            "year": 2018
+          },
+          "source_island": "timeless-data.json",
+          "source_path": "dist_to_2026[], control.heldout_2026",
+          "derivation": "2018's mean embedding distance to the 2026 code (dist_to_2026[\"2018\"] = 0.159) compared to the code's own held-out-half calibration distance (control.heldout_2026 = 0.1516 → 0.152)",
+          "recompute": "scripts/build_timeless_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": ["sentence-embedding-limit"]
+        },
+        {
+          "id": "27a-earliest-years-above-calibration",
+          "statement": "Stated with its uncertainty: the earliest years do sit measurably above it (2018–20 run about +0.006, two to three bootstrap standard errors — and sentences cluster within reviews, so even that overstates the certainty).",
+          "value": {
+            "quantity": 0.006,
+            "unit": "distance_above_calibration",
+            "years": [2018, 2019, 2020]
+          },
+          "source_island": "timeless-data.json",
+          "source_path": "dist_to_2026[], dist_se",
+          "derivation": "dist_to_2026[year] − control.heldout_2026, for 2018–2020, averaging about +0.006, against dist_se giving a two-to-three-SE gap",
+          "recompute": "scripts/build_timeless_data.py",
+          "dom_ref": "data-tml27a=\"early-years\"",
+          "verified": null,
+          "caveat_refs": ["size-not-undetectability", "sentence-embedding-limit"]
+        },
+        {
+          "id": "27a-every-year-within-band",
+          "statement": "Every year 2018–2026 sits within 0.008 of that line, so the null is a claim about size, not undetectability.",
+          "value": {
+            "quantity": 0.008,
+            "unit": "max_distance_above_calibration_any_year"
+          },
+          "source_island": "timeless-data.json",
+          "source_path": "dist_to_2026[]",
+          "derivation": "max over all nine years of dist_to_2026[year] − control.heldout_2026",
+          "recompute": "scripts/build_timeless_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["size-not-undetectability"]
+        }
+      ]
+    },
+    {
+      "id": "fig-27b",
+      "title": "The clause mix, year by year",
+      "deck": "The same six clauses in every year — with one slow tilt: differentiation slips 50% → 38% while combination absorbs it.",
+      "dom_host": "#timeless-mix",
+      "claims": [
+        {
+          "id": "27b-differentiation-slip",
+          "statement": "One slow tilt is real: the differentiation clause's share slips from 50% in 2018 to 38% in 2026, with the combination clause absorbing most of it.",
+          "value": {
+            "quantity": [0.50, 0.38],
+            "unit": "share_of_novelty_sentences",
+            "clause": "differentiation"
+          },
+          "source_island": "timeless-data.json",
+          "source_path": "mix_by_year[].diff",
+          "derivation": "mix_by_year[\"2018\"].diff = 0.50 to mix_by_year[\"2026\"].diff = 0.381, ≈38%; mix_by_year[\"2018\"].combination = 0.2987 to mix_by_year[\"2026\"].combination = 0.3428 absorbs most of the drop",
+          "recompute": "scripts/build_timeless_data.py",
+          "dom_ref": "data-tml27b=\"diff-combo\"",
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "27b-clause-ranges",
+          "statement": "All six clauses are present in every year of the record — the differentiation clause holds 36–50%, the combination clause 29–35%, the transfer clause 5–7%.",
+          "value": {
+            "quantity": [[0.36, 0.50], [0.29, 0.35], [0.05, 0.07]],
+            "unit": "share_of_novelty_sentences_range_2018_2026",
+            "clauses": ["differentiation", "combination", "transfer"]
+          },
+          "source_island": "timeless-data.json",
+          "source_path": "mix_by_year[]",
+          "derivation": "min/max across all nine years of mix_by_year[year].diff, .combination, .transfer",
+          "recompute": "scripts/build_timeless_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["transfer-clause-uncertain"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "sentence-embedding-limit",
+      "text": "An embedding distance can only see changes large enough to shift the phrasing, and the six clauses are coarse; sentence embeddings could miss a subtle semantic shift that preserves register.",
+      "scope": "Fig. 27a distance-to-code null result",
+      "verified_by": null
+    },
+    {
+      "id": "size-not-undetectability",
+      "text": "The null is a claim about size, not undetectability — a drift of a few percent in the rule's phrasing, beside the double-digit relative swings in its enforcement one plate back (Plate XXVI).",
+      "scope": "Fig. 27a null result",
+      "verified_by": null
+    },
+    {
+      "id": "transfer-clause-uncertain",
+      "text": "The transfer clause rides on the code's one genuinely mixed cluster — most of its sentences describe applying a known technique in a new setting, though some read equally well as ordinary differentiation claims — so its band is the least certain of the six.",
+      "scope": "Fig. 27b clause-mix ranges, transfer clause",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_timeless_data.py"
+    ],
+    "data": [
+      "/api/v1/data/timeless-data.json"
+    ],
+    "related_plates": [
+      "plate-ii",
+      "plate-xiv",
+      "plate-xxvi"
+    ]
+  }
+}

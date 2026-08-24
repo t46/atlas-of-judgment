@@ -1,0 +1,137 @@
+{
+  "id": "plate-xv",
+  "number": "XV",
+  "title": "The Consequence",
+  "act": {
+    "number": "IV",
+    "title": "The Tariff"
+  },
+  "corpus_scope": "ICLR 2026 · decisions joined at display time",
+  "question": "Which criticism travels with rejection, and does the breadth of criticism a paper draws predict its acceptance?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-15a",
+      "title": "Acceptance rate with vs. without negative units, per object",
+      "deck": "Novelty criticism travels with rejection — a 10.6-point lower acceptance rate; compute-cost and robustness criticism travel with nothing.",
+      "dom_host": "#tribunal",
+      "claims": [
+        {
+          "id": "15a-novelty-gap",
+          "statement": "Novelty shows the largest acceptance gap, −10.6 points (95% CI −12.1 to −9.0), with statistical rigour (−9.5) and baseline complaints (−9.3) behind it.",
+          "value": {
+            "quantity": [
+              -10.6,
+              -9.5,
+              -9.3
+            ],
+            "unit": "acceptance_rate_points"
+          },
+          "source_island": "tribunal-ci.json",
+          "source_path": "novelty",
+          "derivation": "novelty.gap × 100 = −10.6 points (accept-rate of papers with a novelty negative unit minus papers without one); stats_metrics.gap × 100 = −9.5; baselines_ablations.gap × 100 = −9.3",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": "data-trib=\"widest-none\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "between-paper-association"
+          ]
+        },
+        {
+          "id": "15a-no-gap-objects",
+          "statement": "Compute cost (CI −1.7 to +1.4) and robustness (−0.9 to +2.4) show no gap at all — papers criticised on those grounds are accepted at the same rate as papers that are not.",
+          "value": {
+            "quantity": [
+              -1.71,
+              1.39,
+              -0.92,
+              2.43
+            ],
+            "unit": "acceptance_rate_ci_points"
+          },
+          "source_island": "tribunal-ci.json",
+          "source_path": "compute_cost, robustness_sensitivity",
+          "derivation": "compute_cost and robustness_sensitivity's 95% confidence intervals (.lo/.hi × 100) both cross zero",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": "data-trib=\"widest-none\"",
+          "verified": null,
+          "caveat_refs": [
+            "between-paper-association"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-15b",
+      "title": "Acceptance rate by breadth of criticism",
+      "deck": "Each additional object criticised comes with about five points less acceptance.",
+      "dom_host": "#gauntlet",
+      "claims": [
+        {
+          "id": "15b-staircase",
+          "statement": "Acceptance falls steeply and then almost linearly — 69% at two objects, 57% at three, then roughly five points for each additional object, down to 27% at nine or more.",
+          "value": {
+            "quantity": [
+              0.6923,
+              0.5663,
+              0.2738
+            ],
+            "unit": "acceptance_rate_by_breadth"
+          },
+          "source_island": "panel-data.json",
+          "source_path": "gauntlet",
+          "derivation": "acceptance rate of 2026 decided papers grouped by count of distinct objects criticised (breadth 2, 3, 9-or-more), papers with fewer than 30 at a breadth dropped",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": "data-gaunt=\"staircase\"",
+          "verified": null,
+          "caveat_refs": [
+            "breadth-entangled"
+          ]
+        },
+        {
+          "id": "15b-modal-seven",
+          "statement": "The most common paper is criticised on seven of the twelve objects.",
+          "value": {
+            "quantity": 7,
+            "unit": "modal_breadth_of_objects_criticised",
+            "n": 3459
+          },
+          "source_island": "panel-data.json",
+          "source_path": "gauntlet",
+          "derivation": "breadth 7 holds the largest paper count (3,459) among the gauntlet buckets",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": "data-gaunt=\"modal-seven\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "between-paper-association",
+      "text": "Association only, and the direction is not established: reviewers raise novelty on papers they are already unconvinced by, so this measures which criticism keeps company with rejection, not which criticism causes it. Nothing is held fixed, so this compares different papers, not one paper's reviewers against each other.",
+      "scope": "Fig. 15a acceptance gaps",
+      "verified_by": null
+    },
+    {
+      "id": "breadth-entangled",
+      "text": "Association only, and here the two quantities are entangled by construction — a weaker paper gives reviewers more to criticise, so breadth of criticism is partly a measurement of the paper rather than a treatment applied to it.",
+      "scope": "Fig. 15b breadth figures",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_panel_data.py"
+    ],
+    "data": [
+      "/api/v1/data/tribunal-ci.json",
+      "/api/v1/data/panel-data.json"
+    ],
+    "related_plates": [
+      "plate-xiv",
+      "plate-xxviii"
+    ]
+  }
+}

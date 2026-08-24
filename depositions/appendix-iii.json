@@ -1,0 +1,144 @@
+{
+  "id": "appendix-iii",
+  "number": "App. III",
+  "title": "The Null Cabinet",
+  "act": {
+    "number": null,
+    "title": "Appendices"
+  },
+  "corpus_scope": null,
+  "question": "Which analyses looked like findings but didn't survive a harder look?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-mirage",
+      "title": "The archetype mirage, drawn: real roses against forged ones",
+      "deck": "The forgery blooms: five specialists at ×2.0–3.0 emerge from pure multinomial noise, and the clustering explains barely more of the real reviewers (35.8%) than of the noise (31.0%).",
+      "dom_host": "#mirage-fig",
+      "claims": [
+        {
+          "id": "mirage-explained-variance",
+          "statement": "The clustering explains barely more of the real reviewers (35.8%) than of the noise (31.0%).",
+          "value": {
+            "quantity": [0.358, 0.310],
+            "unit": "share_between_profile_variance_explained",
+            "labels": ["real", "synthetic_null"]
+          },
+          "source_island": "mirage-data.json",
+          "source_path": "ev_real, ev_null",
+          "derivation": "share of between-profile variance the 5-cluster k-means partition explains: 0.3578 (35.8%) for the 98,513 real reviewer profiles, 0.3102 (31.0%) for the synthetic multinomial-noise profiles",
+          "recompute": "scripts/build_mirage_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": ["mirage-quantified-not-total"]
+        },
+        {
+          "id": "mirage-real-clusters",
+          "statement": "Top row: the five clusters k-means (k = 5, seed 7) finds among 98,513 real reviewer-paper profiles (official reviewers, ≥5 units, 2018–2026).",
+          "value": {
+            "quantity": 98513,
+            "unit": "count_reviewer_paper_profiles"
+          },
+          "source_island": "mirage-data.json",
+          "source_path": "real[]",
+          "derivation": "n_profiles = 98,513 real reviewer-paper profiles (official reviewers with ≥5 units, min_units = 5), clustered k-means with k=5, seed 7",
+          "recompute": "scripts/build_mirage_data.py",
+          "dom_ref": "data-mirage=\"real\"",
+          "verified": null,
+          "caveat_refs": ["small-profile-noise"]
+        },
+        {
+          "id": "mirage-null-clusters",
+          "statement": "Bottom row: the five clusters the same pipeline finds in synthetic profiles drawn from one shared field mix — profiles that by construction contain no reviewer types at all.",
+          "value": {
+            "quantity": null,
+            "unit": "synthetic_null_profiles_same_pipeline"
+          },
+          "source_island": "mirage-data.json",
+          "source_path": "null[]",
+          "derivation": "same k-means (k=5) partition applied to synthetic profiles drawn from one shared multinomial field mix, null seed 46, at each reviewer's own unit volume",
+          "recompute": "scripts/build_mirage_data.py",
+          "dom_ref": "data-mirage=\"null\"",
+          "verified": null,
+          "caveat_refs": ["small-profile-noise"]
+        },
+        {
+          "id": "mirage-overdispersion",
+          "statement": "The mirage is quantified, not total: the real rows sit 1.15× above the multinomial variance floor at the median standard (1.58× at the most dispersed), and the clustering explains 4.8pp more of the real profiles than of the forged ones, a gap that widens with profile length — a faint true signature, far below what the roses' confidence suggests.",
+          "value": {
+            "quantity": [1.15, 1.58, 0.048],
+            "unit": "overdispersion_ratio_and_pp_gap"
+          },
+          "source_island": "mirage-data.json",
+          "source_path": "overdisp_median, overdisp_max, ev_real, ev_null",
+          "derivation": "overdisp_median = 1.15, overdisp_max = 1.584 ≈ 1.58, and ev_real − ev_null = 0.3578 − 0.3102 = 0.0476 ≈ 4.8pp",
+          "recompute": "scripts/build_mirage_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["mirage-quantified-not-total"]
+        },
+        {
+          "id": "cabinet-mirage-plate-removed",
+          "statement": "A rose-diagram plate once claimed five reviewer archetypes — Architect, Stress-Tester, Advocate, Gatekeeper, Auditor — from k-means over 98,513 per-reviewer standard profiles, each rose a specialization of ×2.4–3.1 the field. The plate was removed on 2026-08-21.",
+          "value": {
+            "quantity": [2.4, 3.1],
+            "unit": "specialization_ratio_range",
+            "plate_removed_date": "2026-08-21"
+          },
+          "source_island": "mirage-data.json",
+          "source_path": "real[].ratio",
+          "derivation": "each real cluster's own leading (top) standard ratio, ranging from ×2.43 to ×3.1 across the five clusters — the same real[] clusters this appendix's deflating test reruns",
+          "recompute": "scripts/build_mirage_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["mirage-quantified-not-total", "small-profile-noise"]
+        },
+        {
+          "id": "mirage-null-specialists",
+          "statement": "The forgery blooms: five specialists at ×2.0–3.0 emerge from pure multinomial noise.",
+          "value": {
+            "quantity": [2.0, 3.0],
+            "unit": "leading_standard_ratio_range",
+            "labels": ["synthetic_null"]
+          },
+          "source_island": "mirage-data.json",
+          "source_path": "null[].ratio",
+          "derivation": "each synthetic-null cluster's own leading (top) standard ratio, ranging from ×2.03 to ×2.96 across the five clusters — despite the null profiles containing no reviewer types by construction",
+          "recompute": "scripts/build_mirage_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["mirage-quantified-not-total", "small-profile-noise"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "mirage-quantified-not-total",
+      "text": "The mirage is quantified, not total: the real rows sit 1.15× above the multinomial variance floor at the median standard (1.58× at the most dispersed), and the clustering explains 4.8pp more of the real profiles than of the forged ones, a gap that widens with profile length — a faint true signature, far below what the roses' confidence suggests.",
+      "scope": "all Appendix III mirage claims",
+      "verified_by": null
+    },
+    {
+      "id": "small-profile-noise",
+      "text": "A median profile holds six units, and at that grain k-means carves sampling noise into confident-looking specialists. This is the test that deleted a plate.",
+      "scope": "all Appendix III mirage claims",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_mirage_data.py"
+    ],
+    "data": [
+      "/api/v1/data/mirage-data.json"
+    ],
+    "related_plates": [
+      "plate-xxvi",
+      "plate-iv",
+      "plate-xix",
+      "plate-xxi",
+      "plate-xxiii"
+    ]
+  }
+}

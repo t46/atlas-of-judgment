@@ -1,0 +1,95 @@
+{
+  "id": "plate-xi",
+  "number": "XI",
+  "title": "The Repair Manual",
+  "act": {
+    "number": "III",
+    "title": "The Law"
+  },
+  "corpus_scope": "ICLR 2026 · 307,388 units carrying a suggested fix · clustered locally, named by hand",
+  "question": "What do reviewers' suggested fixes actually ask authors to do — and does any of it ask for a different method?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-11",
+      "title": "The sixteen repairs, by share of all suggested fixes",
+      "deck": "'Extend the evidence' leads at 22% — and its whole family, the work of research, is over two thirds of everything asked.",
+      "dom_host": "#repair-rows",
+      "claims": [
+        {
+          "id": "11-extend-leads",
+          "statement": "\"Extend the evidence\" leads alone at 22%.",
+          "value": {
+            "quantity": 0.2215,
+            "unit": "share_of_sampled_fixes",
+            "n": 80000
+          },
+          "source_island": "repair-manual.json",
+          "source_path": "groups[]",
+          "derivation": "the top-ranked of 16 merged repair-type clusters (\"Extend the evidence\") holds 22.15% of the 80,000 sampled 2026 suggested-fixes, ahead of the next two clusters (8.59%, 8.48%)",
+          "recompute": "scripts/build_repair_manual.py",
+          "dom_ref": "data-repair=\"extend\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "cluster-granularity"
+          ]
+        },
+        {
+          "id": "11-family-sum",
+          "statement": "The family sum: work of research 69%, writing 26%, disclosure 5%.",
+          "value": {
+            "quantity": [
+              0.69,
+              0.26,
+              0.05
+            ],
+            "unit": "share_of_sampled_fixes"
+          },
+          "source_island": "repair-manual.json",
+          "source_path": "groups[]",
+          "derivation": "the sixteen named repair types merged into three families (substantiate/work-of-research, articulate/writing, disclose) and summed by share",
+          "recompute": "scripts/build_repair_manual.py",
+          "dom_ref": "data-repair=\"families\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "cluster-granularity"
+          ]
+        },
+        {
+          "id": "11-no-redesign",
+          "statement": "None of the sixteen types — none of the 22 raw clusters — asks the authors to change the method itself.",
+          "value": {
+            "quantity": 0,
+            "unit": "count_of_redesign_clusters"
+          },
+          "source_island": "repair-manual.json",
+          "source_path": "groups[]",
+          "derivation": "count of the 16 merged types (and the 22 raw k-means clusters beneath them) whose family is a method redesign = 0",
+          "recompute": "scripts/build_repair_manual.py",
+          "dom_ref": "data-repair=\"redesign\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "cluster-granularity",
+      "text": "A single cluster's share depends on how finely the taxonomy is cut — splitting or merging the 22 raw k-means clusters moves any one type's share, while the three-family totals barely move.",
+      "scope": "Fig. 11 all percentages",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_repair_manual.py"
+    ],
+    "data": [
+      "/api/v1/data/repair-manual.json"
+    ],
+    "related_plates": [
+      "plate-vii"
+    ]
+  }
+}

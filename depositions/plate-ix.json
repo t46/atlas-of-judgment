@@ -1,0 +1,123 @@
+{
+  "id": "plate-ix",
+  "number": "IX",
+  "title": "The Unnamed Precedent",
+  "act": {
+    "number": "III",
+    "title": "The Law"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 30,824 negative novelty units",
+  "question": "Every novelty objection implies a comparison against a prior work — does the reviewer ever name it?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-9a",
+      "title": "Of every 100 novelty objections: who names the prior?",
+      "deck": "12 name a specific work. 25 wave at \"prior work.\" 63 assert un-novelty with no referent at all — and the naming rate has halved since 2018, under both instruments tried.",
+      "dom_host": "#canon-fig",
+      "claims": [
+        {
+          "id": "9a-naming-halved",
+          "statement": "The named-citation share fell from 20.15% in 2018 to 10.77% in 2026 — roughly half — under the ±2-sentence window instrument.",
+          "value": {
+            "quantity": [
+              0.2015,
+              0.1077
+            ],
+            "unit": "share_named_by_year"
+          },
+          "source_island": "canon-data.json",
+          "source_path": "named_share_by_year",
+          "derivation": "named_share_by_year['2018'] vs. named_share_by_year['2026']",
+          "recompute": "scripts/build_canon_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "citation-regex-undercount",
+            "instrument-sensitivity"
+          ]
+        },
+        {
+          "id": "9a-100-breakdown",
+          "statement": "Of every 100 novelty objections whose charge could be located: 12 name a specific work, 25 wave at \"prior work\" with no extractable citation, and 63 assert un-novelty with no referent at all.",
+          "value": {
+            "quantity": [
+              0.1246,
+              0.2464,
+              0.629
+            ],
+            "unit": "share_of_locatable_novelty_units"
+          },
+          "source_island": "canon-data.json",
+          "source_path": "named_share / vague_only_share",
+          "derivation": "named_share=0.1246, vague_only_share=0.2464, none=1-named_share-vague_only_share≈0.629, over the 24,233 novelty units whose charge could be located (79% of 30,824)",
+          "recompute": "scripts/build_canon_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "citation-regex-undercount"
+          ]
+        },
+        {
+          "id": "9a-naming-halved-tight",
+          "statement": "Under the tighter unit-only instrument the naming rate also roughly halves: 8.4% in 2018 to 3.5% in 2026.",
+          "value": {
+            "quantity": [
+              0.084,
+              0.035
+            ],
+            "unit": "share_named_by_year_tight_instrument"
+          },
+          "source_island": "canon-data.json",
+          "source_path": "named_share_by_year",
+          "derivation": "same field family as the door claim, recomputed with the citation regex run over the unit text alone rather than the ±2-sentence window",
+          "recompute": "scripts/build_canon_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "citation-regex-undercount",
+            "instrument-sensitivity"
+          ]
+        },
+        {
+          "id": "9a-no-canon",
+          "statement": "Even under a deliberately generous surname+year key, the most-cited precedent reaches just 21 of the 23,251 papers these objections were filed against — no canon among the named.",
+          "value": {
+            "quantity": 21,
+            "unit": "count_of_papers_citing_most_common_precedent"
+          },
+          "source_island": "canon-data.json",
+          "source_path": "max_forums_per_key",
+          "derivation": "max_forums_per_key = the largest number of distinct forums (papers) sharing one surname+year citation key, over 23,251 papers objected to",
+          "recompute": "scripts/build_canon_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "citation-regex-undercount",
+      "text": "The measurement runs a citation regex over the reviewer's original words (an \"Author et al., year\" pattern or arXiv ID); it misses prose references like \"the BERT paper\", so all lit/named shares are undercounts.",
+      "scope": "all Fig. 9a naming-rate findings",
+      "verified_by": null
+    },
+    {
+      "id": "instrument-sensitivity",
+      "text": "The naming level is instrument-sensitive: a tight unit-only reading found 5/29/66 named/vague/none, while the ±2-sentence window used for the headline figures found 12/25/63 (the wider window can absorb a neighbouring criticism's citation). But the two facts the plate rests on hold under both instruments: roughly two thirds of novelty objections carry no referent at all, and the naming rate halves from 2018 to 2026 under either reading.",
+      "scope": "Fig. 9a naming-rate and halving findings",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_canon_data.py"
+    ],
+    "data": [
+      "/api/v1/data/canon-data.json"
+    ],
+    "related_plates": []
+  }
+}

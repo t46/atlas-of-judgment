@@ -1,0 +1,147 @@
+{
+  "id": "plate-xxv",
+  "number": "XXV",
+  "title": "The Measurement",
+  "act": {
+    "number": "VII",
+    "title": "The Measure"
+  },
+  "corpus_scope": "ICLR 2018–2026 · all rated official reviews · a property of the system, not of any reviewer",
+  "question": "If a paper's rating were repeated with another qualified reviewer, how much would it move — and how repeatable is a score really?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-25a",
+      "title": "The paper's share of the score: how much of a rating is the paper, not the reviewer (by year)",
+      "deck": "In every year, most of a score's variance is not the paper — its share holds at 0.34–0.45 (2026's coarser scale reads 0.18).",
+      "dom_host": "#icc-chart",
+      "claims": [
+        {
+          "id": "25a-y-range",
+          "statement": "Across 2018–2025 the intraclass correlation sits between 0.34 and 0.45 — in every year, the majority of score variance is not the paper.",
+          "value": {
+            "quantity": [0.34, 0.45],
+            "unit": "intraclass_correlation"
+          },
+          "source_island": "lottery-data.json",
+          "source_path": "years[]",
+          "derivation": "LOTTERY.years[y].icc for y = 2018..2025, min/max range",
+          "recompute": "scripts/build_lottery_data.py",
+          "dom_ref": "data-icc=\"y-range\"",
+          "verified": null,
+          "caveat_refs": ["moving-ruler"]
+        },
+        {
+          "id": "25a-y2026",
+          "statement": "2026 reads lower still (0.18).",
+          "value": {
+            "quantity": 0.18,
+            "unit": "intraclass_correlation",
+            "year": 2026
+          },
+          "source_island": "lottery-data.json",
+          "source_path": "years[]",
+          "derivation": "the intraclass correlation for 2026 is stored directly as 0.18 (LOTTERY.years['2026'].icc)",
+          "recompute": "scripts/build_lottery_data.py",
+          "dom_ref": "data-icc=\"y2026\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": ["moving-ruler"]
+        }
+      ]
+    },
+    {
+      "id": "fig-25c",
+      "title": "Your split, in context",
+      "deck": "Measure your own panel's spread — a wide split is not a death sentence: panels split by 8 points accept 47%, unanimous ones 30%.",
+      "dom_host": "#split-fig",
+      "claims": [
+        {
+          "id": "25c-split-not-fatal",
+          "statement": "A wide split is not a death sentence: panels split by eight points were accepted 47% of the time (a thin bin, 168 panels), while perfect unanimity was accepted 30% of the time (1,319 panels), because unanimity is most often unanimity about rejection.",
+          "value": {
+            "quantity": [0.47, 0.30],
+            "unit": "acceptance_rate",
+            "split_8pt": 0.47,
+            "unanimous": 0.30,
+            "n_split_8pt": 168,
+            "n_unanimous": 1319
+          },
+          "source_island": "lottery-data.json",
+          "source_path": "panels_by_spread[]",
+          "derivation": "share of real ICLR 2026 panels (three or more rated reviews) accepted, grouped by max−min rating spread, at spread=8 vs. spread=0 (unanimous)",
+          "recompute": "scripts/build_lottery_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-25d",
+      "title": "The counterfactual conference: redraw every panel, count the flips",
+      "deck": "Redraw the panels and most borderline decisions come out as a coin toss — 58% of accepted papers, 37% of all decisions, flip on a fresh draw.",
+      "dom_host": "#cfx-curve",
+      "claims": [
+        {
+          "id": "25d-flip-rates",
+          "statement": "37% of all 14,175 decided 2026 papers — and 58% of the accepted ones — would receive the other decision from a fresh draw.",
+          "value": {
+            "quantity": [0.37, 0.58],
+            "unit": "share_flipping",
+            "all_decisions": 0.37,
+            "accepted_only": 0.58,
+            "n_decided": 14175
+          },
+          "source_island": "counterfactual-data.json",
+          "source_path": "redraws[]",
+          "derivation": "each paper's underlying value is estimated from its observed panel mean via the Fig 25a variance decomposition (shrunk toward the venue mean by panel-size reliability); a fresh same-size panel is redrawn and the venue's empirical P(accept | panel mean) makes the call, averaged over 4,000 redraws",
+          "recompute": "scripts/build_counterfactual_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["simulation-not-real-committee"]
+        },
+        {
+          "id": "25d-peak",
+          "statement": "Peaking at 54% near a mean of 5.75.",
+          "value": {
+            "quantity": 0.54,
+            "unit": "flip_probability",
+            "panel_mean": 5.75
+          },
+          "source_island": "counterfactual-data.json",
+          "source_path": "redraws[]",
+          "derivation": "maximum of the flip-probability curve P(different decision | panel mean) over 4,000 redraws",
+          "recompute": "scripts/build_counterfactual_data.py",
+          "dom_ref": "data-cfx=\"peak\"",
+          "verified": null,
+          "caveat_refs": ["simulation-not-real-committee"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "moving-ruler",
+      "text": "The rating scale changed four times across 2018–2026 (including a 4-point 2020 scale and 2026's even-only 0–10-by-2 scale). Cross-year comparisons of score-derived statistics like the intraclass correlation can be mechanically shifted by the scale's own coarseness, independent of any real change in reviewing behavior — 2026's lower ICC (0.18 vs. 0.34–0.45) should not be over-read as a real drop, and 2020's four-point form carries a milder dose of the same coarseness.",
+      "scope": "Fig 25a intraclass correlation by year",
+      "verified_by": "Appendix II (method § 10, the moving ruler)"
+    },
+    {
+      "id": "simulation-not-real-committee",
+      "text": "This measures the system's precision under its constraints, not any panel's diligence, and is not a validation against a real second committee: the NeurIPS consistency experiments used real independent committees and found roughly half of accepted papers un-reproduced, which this model's range is reassuringly close to but does not confirm, since one is a real experiment and the other a simulation built from this atlas's own variance estimate.",
+      "scope": "Fig 25d counterfactual flip-rate model",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_lottery_data.py",
+      "scripts/build_counterfactual_data.py"
+    ],
+    "data": [
+      "/api/v1/data/lottery-data.json",
+      "/api/v1/data/counterfactual-data.json"
+    ],
+    "related_plates": []
+  }
+}

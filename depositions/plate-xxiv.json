@@ -1,0 +1,146 @@
+{
+  "id": "plate-xxiv",
+  "number": "XXIV",
+  "title": "The Ladder",
+  "act": {
+    "number": "VII",
+    "title": "The Measure"
+  },
+  "corpus_scope": "ICLR 2026 · official ratings joined at display time",
+  "question": "Why is a low score low, and why is a high score high — what does each rating on the ladder actually argue?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-24a",
+      "title": "The ladder: verdict mix per rating (ICLR 2026, whose ratings run 0–10 in steps of two)",
+      "deck": "Even a perfect 10 is one-third objection (35% negative units); a 0 is 91% condemnation. The mix, not just the amount, is the score.",
+      "dom_host": "#ladder",
+      "claims": [
+        {
+          "id": "24a-ends",
+          "statement": "Even a perfect 10 is one-third objection (35% negative units); a 0 is 91% condemnation.",
+          "value": {
+            "quantity": [0.35, 0.91],
+            "unit": "share_negative_units",
+            "rating_10": 0.35,
+            "rating_0": 0.91
+          },
+          "source_island": "score-data.json",
+          "source_path": "by_rating[]",
+          "derivation": "SCORE.by_rating['10'].valence.negative and SCORE.by_rating['0'].valence.negative",
+          "recompute": "scripts/build_score_data.py",
+          "dom_ref": "data-lad24a=\"ends\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-24b",
+      "title": "What a 2 argues vs what an 8 argues (share of units per standard)",
+      "deck": "The standards swap with the verdict: novelty and fair comparison belong to the 2 (18% vs 12%, 10% vs 6% of units), merit recognition to the 8 (7% → 29%).",
+      "dom_host": "#ladder-cmp",
+      "claims": [
+        {
+          "id": "24b-swap",
+          "statement": "Novelty and fair comparison belong to the 2 (18% vs 12%, 10% vs 6% of units), merit recognition to the 8 (7% → 29%).",
+          "value": {
+            "quantity": [0.18, 0.12, 0.10, 0.06, 0.07, 0.29],
+            "unit": "share_of_units_by_rating_and_standard",
+            "novelty_standard_r2_r8": [0.18, 0.12],
+            "fair_comparison_r2_r8": [0.10, 0.06],
+            "merit_recognition_r2_r8": [0.07, 0.29]
+          },
+          "source_island": "score-depth.json",
+          "source_path": "standards_by_rating[]",
+          "derivation": "DEPTH standards share for rating 2 vs. rating 8, for novelty_standard, fair_comparison, and merit_recognition",
+          "recompute": "scripts/build_score_depth.py",
+          "dom_ref": "data-lad24b=\"swap\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-24c",
+      "title": "The relocation of scrutiny: share of reviews that inspect each object, per rating",
+      "deck": "Scrutiny relocates rather than shrinks: novelty falls 20% → 9% and baselines 42% → 29% up the ladder — theory, method design and compute rise.",
+      "dom_host": "#cov-hm",
+      "claims": [
+        {
+          "id": "24c-fall",
+          "statement": "Novelty falls 20% → 9% and baselines 42% → 29% up the ladder.",
+          "value": {
+            "quantity": [0.20, 0.09, 0.42, 0.29],
+            "unit": "share_of_reviews_inspecting",
+            "novelty_r2_r8": [0.20, 0.09],
+            "baselines_r2_r8": [0.42, 0.29]
+          },
+          "source_island": "score-depth.json",
+          "source_path": "coverage_by_rating[]",
+          "derivation": "DEPTH cov2[o].touch vs. cov8[o].touch for o in {novelty, baselines_ablations}",
+          "recompute": "scripts/build_score_depth.py",
+          "dom_ref": "data-lad24c=\"fall\"",
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "24c-rise",
+          "statement": "Theory, method design and compute rise up the ladder.",
+          "value": {
+            "quantity": null,
+            "unit": "directional_sign_positive",
+            "objects": ["theory", "method_design", "compute_cost"]
+          },
+          "source_island": "score-depth.json",
+          "source_path": "coverage_by_rating[]",
+          "derivation": "DEPTH cov8[o].touch / cov2[o].touch > 1 for o in {theory, method_design, compute_cost}",
+          "recompute": "scripts/build_score_depth.py",
+          "dom_ref": "data-lad24c=\"rise\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-24d",
+      "title": "Same paper, split verdict: share of papers where each side condemns the object",
+      "deck": "On the same paper, both sides inspect theory and method at identical rates and split only on the verdict — novelty is the weapon only the low side draws: 21% vs 4%.",
+      "dom_host": "#split-vd",
+      "claims": [
+        {
+          "id": "24d-novelty-weapon",
+          "statement": "Novelty is the weapon only the low side draws: 21% vs 4%.",
+          "value": {
+            "quantity": [0.21, 0.04],
+            "unit": "share_condemning",
+            "low_side": 0.21,
+            "high_side": 0.04
+          },
+          "source_island": "score-depth.json",
+          "source_path": "split_verdict[]",
+          "derivation": "share of low-rated (2) vs. high-rated (8) co-reviewers condemning novelty, across the 1,789 papers rated both 2 and 8",
+          "recompute": "scripts/build_score_depth.py",
+          "dom_ref": "data-lad24d=\"novelty-weapon\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    }
+  ],
+  "caveats": [],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_score_depth.py",
+      "scripts/build_score_data.py"
+    ],
+    "data": [
+      "/api/v1/data/score-depth.json",
+      "/api/v1/data/score-data.json"
+    ],
+    "related_plates": [
+      "plate-vi",
+      "plate-xxi"
+    ]
+  }
+}

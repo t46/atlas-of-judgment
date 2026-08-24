@@ -1,0 +1,163 @@
+{
+  "id": "plate-vi",
+  "number": "VI",
+  "title": "The Early Verdict",
+  "act": {
+    "number": "II",
+    "title": "One Hand"
+  },
+  "corpus_scope": "ICLR 2026 · 74,380 rated reviews",
+  "question": "How much of a reviewer's own final rating can be read off the review's own text, how quickly does reading more of it stop helping, and is the tally that predicts it weighted or flat?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-6a",
+      "title": "Verdict readability against units read",
+      "deck": "The rating is a weighted tally: a novelty negative counts ×2.4 the average, a robustness negative ×0.4 — yet the count alone does almost all the ranking, and nothing after the ninth unit changes it.",
+      "dom_host": "#commit-fig",
+      "claims": [
+        {
+          "id": "6a-verdict-contribution",
+          "statement": "Verdicts alone buy +0.260 of the whole review's +0.279 AUC climb toward predicting the reviewer's own rating.",
+          "value": {
+            "quantity": 0.26,
+            "unit": "auc_contribution"
+          },
+          "source_island": "commit-data.json",
+          "source_path": "auc / auc_full",
+          "derivation": "AUC gained by adding verdict features vs. the whole review's total AUC gain over chance (0.279)",
+          "recompute": "scripts/build_commit_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "internal-consistency-not-prediction"
+          ]
+        },
+        {
+          "id": "6a-topic-contribution",
+          "statement": "Topics add only +0.019 AUC on top of verdicts across all reviews; in the long-review subset the topic contribution is -0.006 — noise.",
+          "value": {
+            "quantity": [
+              0.019,
+              -0.006
+            ],
+            "unit": "auc_gain_from_topics_all_vs_long"
+          },
+          "source_island": "commit-data.json",
+          "source_path": "auc_full / auc_long_full",
+          "derivation": "(auc_full - auc) for all reviews vs. (auc_long_full - auc_long) for the 10+-unit long-review subset",
+          "recompute": "scripts/build_commit_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "internal-consistency-not-prediction"
+          ]
+        },
+        {
+          "id": "6a-novelty-weight",
+          "statement": "One novelty negative counts as 2.4 average negatives — six robustness negatives.",
+          "value": {
+            "quantity": 2.4,
+            "unit": "relative_weight_vs_average_negative"
+          },
+          "source_island": "commit-data.json",
+          "source_path": "tally",
+          "derivation": "tally.coef['novelty'] / mean(tally.coef.*), a logistic fit on whole-review per-topic negative counts",
+          "recompute": "scripts/build_commit_data.py",
+          "dom_ref": "data-commit=\"weights\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "association-not-causation"
+          ]
+        },
+        {
+          "id": "6a-tariff-correlation",
+          "statement": "The ordering of these per-topic weights reproduces the within-paper tariff of Plate XIV almost exactly (Spearman ρ = 0.90).",
+          "value": {
+            "quantity": 0.9,
+            "unit": "spearman_rho"
+          },
+          "source_island": "commit-data.json",
+          "source_path": "tally",
+          "derivation": "Spearman rank correlation between tally.coef ordering and Plate XIV's jurisprudence-data.json tariff.*.coef ordering",
+          "recompute": "scripts/build_commit_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "association-not-causation"
+          ]
+        },
+        {
+          "id": "6a-first-unit-auc",
+          "statement": "One unit reaches 0.69 AUC, two thirds of the way to the 0.78 ceiling.",
+          "value": {
+            "quantity": [
+              0.69,
+              0.78
+            ],
+            "unit": "auc"
+          },
+          "source_island": "commit-data.json",
+          "source_path": "auc",
+          "derivation": "auc[k=1] compared to the whole-review ceiling auc[k=max]",
+          "recompute": "scripts/build_commit_data.py",
+          "dom_ref": "data-commit=\"first-unit\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "internal-consistency-not-prediction"
+          ]
+        },
+        {
+          "id": "6a-words-floor",
+          "statement": "The words themselves reach 0.822 AUC (TF-IDF over the full text, a floor not a ceiling on what the text carries) — more than the coarse verdict-plus-topic profile (+0.043).",
+          "value": {
+            "quantity": [
+              0.822,
+              0.043
+            ],
+            "unit": "auc_and_auc_gain_over_profile"
+          },
+          "source_island": "commit-data.json",
+          "source_path": "text_auc",
+          "derivation": "text_auc (TF-IDF classifier AUC) compared to auc_full (verdict+topic profile AUC)",
+          "recompute": "scripts/build_commit_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "internal-consistency-not-prediction"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "internal-consistency-not-prediction",
+      "text": "The target is the same reviewer's own rating, so this measures the internal consistency of a document with its own summary number, not a prediction of anything external — and it is a statement about the text, not about when the reviewer decided.",
+      "scope": "all Fig. 6a AUC findings",
+      "verified_by": null
+    },
+    {
+      "id": "association-not-causation",
+      "text": "Panel ⑤'s weights are descriptive regression coefficients on correlated counts, not causal prices; their agreement with Plate XIV's independently-designed tariff is what earns them the reading.",
+      "scope": "Fig. 6a novelty-weight and tariff-correlation findings",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_commit_data.py",
+      "scripts/build_score_data.py"
+    ],
+    "data": [
+      "/api/v1/data/commit-data.json",
+      "/api/v1/data/score-data.json"
+    ],
+    "related_plates": [
+      "plate-iv",
+      "plate-v",
+      "plate-xiv",
+      "plate-xxv"
+    ]
+  }
+}

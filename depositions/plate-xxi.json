@@ -1,0 +1,156 @@
+{
+  "id": "plate-xxi",
+  "number": "XXI",
+  "title": "The Deliberation",
+  "act": {
+    "number": "V",
+    "title": "The Encounter"
+  },
+  "corpus_scope": "17,848 ICLR 2026 panels (21a) · fourteen deliberations scored in full (21b) · 49,441 panels 2018–2026 (21c–d)",
+  "question": "How does a panel's discussion usually end, and what does that ending correlate with?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-21a",
+      "title": "How deliberations usually go",
+      "deck": "Six panels in seven — 85.7% — never visibly move at all.",
+      "dom_host": "#delib-pop",
+      "claims": [
+        {
+          "id": "21a-no-movement",
+          "statement": "85.7% of panels never show a judgment change.",
+          "value": {
+            "quantity": 0.857,
+            "unit": "share_of_panels",
+            "n_panels": 17848,
+            "n_no_movement": 15289
+          },
+          "source_island": "deliberation-data.json",
+          "source_path": "population[]",
+          "derivation": "15,289 panels with no recorded strengthen/weaken/reverse ÷ 17,848 rated panels × 100 = 85.66%, rounds to 85.7%",
+          "recompute": "scripts/build_deliberation_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": ["written-judgment-only-21"]
+        },
+        {
+          "id": "21a-movement",
+          "statement": "When judgments do move after the response, strengthening outnumbers softening and reversal combined, 3,543 units to 1,336.",
+          "value": {
+            "quantity": [3543, 1336],
+            "unit": "unit_count",
+            "strengthened": 3543,
+            "weakened_or_reversed": 1336
+          },
+          "source_island": "deliberation-data.json",
+          "source_path": "move_units[]",
+          "derivation": "DELIB.move_units.strengthened vs. DELIB.move_units.weakened + DELIB.move_units.reversed",
+          "recompute": "scripts/build_deliberation_data.py",
+          "dom_ref": "data-delib=\"movement\"",
+          "verified": null,
+          "caveat_refs": ["written-judgment-only-21"]
+        }
+      ]
+    },
+    {
+      "id": "fig-21c",
+      "title": "The repertoire: the five endings and their verdicts",
+      "deck": "The quiet endings accept least — silence 27%, entrenchment 54% (association, not cause) — and co-reviewers barely inspect the same things strangers would.",
+      "dom_host": "#rep-sigs",
+      "claims": [
+        {
+          "id": "21c-quiet-endings",
+          "statement": "The quiet endings accept least — silence 27%, entrenchment 54%.",
+          "value": {
+            "quantity": [0.27, 0.54],
+            "unit": "acceptance_rate_2026",
+            "silence": 0.27,
+            "entrenchment": 0.54
+          },
+          "source_island": "repertoire-data.json",
+          "source_path": "signatures[]",
+          "derivation": "REP.signatures.silence.accept_2026 and REP.signatures.entrenchment.accept_2026",
+          "recompute": "scripts/build_repertoire_data.py",
+          "dom_ref": "data-repsig=\"quiet-endings\"",
+          "verified": null,
+          "caveat_refs": ["deliberation-association-not-cause"]
+        },
+        {
+          "id": "21c-two-curves",
+          "statement": "The overlap of inspected objects for reviewers of the same paper against reviewers of different papers: 0.27 versus 0.21.",
+          "value": {
+            "quantity": [0.27, 0.21],
+            "unit": "overlap_of_inspected_objects",
+            "same_paper": 0.27,
+            "different_papers": 0.21
+          },
+          "source_island": "repertoire-data.json",
+          "source_path": "overlap[]",
+          "derivation": "REP.overlap.real_hist (co-reviewers of one paper) vs. REP.overlap.base_hist (strangers), mean overlap of inspected objects",
+          "recompute": "scripts/build_repertoire_data.py",
+          "dom_ref": "data-repov=\"two-curves\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-21d",
+      "title": "The great quieting: 49,441 panels, year by year",
+      "deck": "Conversation bulges in 2022 and is squeezed shut by 2026 — silence falls 51% → 20%, then climbs all the way back to 52%.",
+      "dom_host": "#rep-years",
+      "claims": [
+        {
+          "id": "21d-landmarks",
+          "statement": "Silence's share runs 51% → 20% → 52% from the first year, through 2022, to the last year.",
+          "value": {
+            "quantity": [0.51, 0.20, 0.52],
+            "unit": "share_silence_by_year",
+            "first_year": 0.51,
+            "2022": 0.20,
+            "last_year": 0.52
+          },
+          "source_island": "repertoire-data.json",
+          "source_path": "by_year[]",
+          "derivation": "REP.by_year[y].silence for y = first year, 2022, and last year of the 49,441-panel 2018–2026 series",
+          "recompute": "scripts/build_repertoire_data.py",
+          "dom_ref": "data-repyr=\"landmarks\"",
+          "verified": null,
+          "caveat_refs": ["descriptive-confound"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "written-judgment-only-21",
+      "text": "The five endings are machine-read from a field recording whether a reviewer's judgment strengthened, weakened, or reversed after the response; treat them as a census of what is visible in writing, not a verdict on any panel's diligence — a score changed without accompanying text never enters these counts.",
+      "scope": "Fig 21a panel population and movement counts",
+      "verified_by": null
+    },
+    {
+      "id": "deliberation-association-not-cause",
+      "text": "Acceptance-rate differences between deliberation endings are an association, not a causal payoff of an ending: entrenchment accepts most partly because reinforcement includes reviewers reinforcing praise, and unanimity of silence often means unanimity about rejection.",
+      "scope": "Fig 21c signature-vs-acceptance readings",
+      "verified_by": null
+    },
+    {
+      "id": "descriptive-confound",
+      "text": "The nine-year trend is descriptive only: the review format, submission volume, and reviewing culture all changed together over 2018–2026, and this figure cannot separate which of them drove the swing in silence.",
+      "scope": "Fig 21d year-by-year silence trend",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_deliberation_data.py",
+      "scripts/build_repertoire_data.py"
+    ],
+    "data": [
+      "/api/v1/data/deliberation-data.json",
+      "/api/v1/data/repertoire-data.json",
+      "/api/v1/data/overrule-data.json"
+    ],
+    "related_plates": []
+  }
+}

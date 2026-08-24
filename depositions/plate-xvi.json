@@ -1,0 +1,115 @@
+{
+  "id": "plate-xvi",
+  "number": "XVI",
+  "title": "The Shapes of Talk",
+  "act": {
+    "number": "V",
+    "title": "The Encounter"
+  },
+  "corpus_scope": "199,031 review threads, 2018–2026 · pure reply structure, no machine reading anywhere",
+  "question": "Does the reviewer ever come back after the authors respond, and how has that reply structure changed over nine years?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-16a",
+      "title": "A census of skeletons: what became of each year's review threads",
+      "deck": "Reviewers came back to 43.8% of threads in 2025 but only 17.7% in 2026.",
+      "dom_host": "#talk-census",
+      "claims": [
+        {
+          "id": "16a-returns-peak-collapse",
+          "statement": "Reviewers came back to 43.8% of threads in 2025 but only 17.7% in 2026.",
+          "value": {
+            "quantity": [
+              0.438,
+              0.177
+            ],
+            "unit": "share_reviewer_returned"
+          },
+          "source_island": "threads-data.json",
+          "source_path": "returns",
+          "derivation": "returns['2025'].returned / returns['2025'].n = 20,453/46,748 = 43.8%; returns['2026'].returned / returns['2026'].n = 13,439/75,859 = 17.7%",
+          "recompute": "scripts/build_threads_data.py",
+          "dom_ref": "data-talk16a=\"returns\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "process-not-people"
+          ]
+        },
+        {
+          "id": "16a-stump-growth",
+          "statement": "Stumps grew from 9% in 2021 to 26% — one review thread in four now ends in silence before it begins.",
+          "value": {
+            "quantity": [
+              0.09,
+              0.26
+            ],
+            "unit": "share_threads_no_reply"
+          },
+          "source_island": "threads-data.json",
+          "source_path": "shapes",
+          "derivation": "shapes['2021'].stump / total 2021 threads = 8.7%, ≈9%; shapes['2026'].stump / total 2026 threads = 26.4%, ≈26%",
+          "recompute": "scripts/build_threads_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": [
+            "process-not-people"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-16b",
+      "title": "Five real skeletons, pressed like botanical specimens",
+      "deck": "Five real discussions pressed flat: long vines of exchange beside silent stumps.",
+      "dom_host": "#talk-specimens",
+      "claims": [
+        {
+          "id": "16b-decision-gap",
+          "statement": "In 2026, threads where the reviewer returned were accepted at 50–51% against 39% for monologues and 1.2% for stumps.",
+          "value": {
+            "quantity": [
+              0.5067,
+              0.5017,
+              0.3912,
+              0.0115
+            ],
+            "unit": "acceptance_rate_by_thread_shape"
+          },
+          "source_island": "threads-data.json",
+          "source_path": "accept_by_shape",
+          "derivation": "accept_by_shape.return.acc = 50.7%, .volley.acc = 50.2%, .monologue.acc = 39.1%, .stump.acc = 1.2%",
+          "recompute": "scripts/build_threads_data.py",
+          "dom_ref": "data-talk16b=\"vines-stumps\"",
+          "verified": null,
+          "caveat_refs": [
+            "triage-both-ways"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "process-not-people",
+      "text": "Each year's discussion rules differ — response windows, mandatory acknowledgements — so the year-to-year levels track the venue's process as well as its people.",
+      "scope": "Fig. 16a year-to-year comparisons",
+      "verified_by": null
+    },
+    {
+      "id": "triage-both-ways",
+      "text": "Read the acceptance-rate direction both ways, since authors triage which battles to fight and which papers to quietly abandon.",
+      "scope": "Fig. 16b acceptance-by-shape figures",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_threads_data.py"
+    ],
+    "data": [
+      "/api/v1/data/threads-data.json"
+    ],
+    "related_plates": []
+  }
+}

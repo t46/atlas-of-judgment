@@ -1,0 +1,133 @@
+{
+  "id": "plate-xvii",
+  "number": "XVII",
+  "title": "The Rebuttal",
+  "act": {
+    "number": "V",
+    "title": "The Encounter"
+  },
+  "corpus_scope": "ICLR 2018–2026 · Fig. 17c: 2026 only",
+  "question": "When a reviewer writes again after the authors respond, does their judgment move — and who yields when a panel's scores split?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-17a",
+      "title": "Fate of a judgment after the author responds",
+      "deck": "After the authors respond, most written judgments simply stand.",
+      "dom_host": "#reb-fate",
+      "claims": [
+        {
+          "id": "17a-reinforcement-ratio",
+          "statement": "When a written judgment moves, it moves toward reinforcement 2.4 times more often than concession.",
+          "value": {
+            "quantity": 2.4,
+            "unit": "ratio_strengthened_to_softened",
+            "n": 130650
+          },
+          "source_island": "panel-data.json",
+          "source_path": "rebuttal.overall",
+          "derivation": "strengthened (14,194) ÷ (weakened + reversed = 4,636 + 1,371 = 6,007) = 2.36 ≈ 2.4×, among all 130,650 post-response units",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": [
+            "written-judgment-only"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-17b",
+      "title": "What the response contained, and what happened",
+      "deck": "Even fresh experiments mostly strengthen the original judgment.",
+      "dom_host": "#reb-trig",
+      "claims": [
+        {
+          "id": "17b-fresh-experiments",
+          "statement": "Even fresh experiments strengthen the original judgment 2.9× more often than they soften it.",
+          "value": {
+            "quantity": 2.9,
+            "unit": "ratio_strengthen_to_soften"
+          },
+          "source_island": "panel-data.json",
+          "source_path": "rebuttal.triggers",
+          "derivation": "triggers.new_evidence: strengthened (2,626) ÷ (weakened + reversed = 633 + 287 = 920) = 2.85 ≈ 2.9×",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": "data-trig17=\"new-evidence\"",
+          "verified": null,
+          "caveat_refs": [
+            "written-judgment-only"
+          ]
+        },
+        {
+          "id": "17b-softening-flat",
+          "statement": "Softening rates barely differ by topic (3.9–5.4% across all twelve objects).",
+          "value": {
+            "quantity": [
+              0.039,
+              0.054
+            ],
+            "unit": "share_softened_by_object"
+          },
+          "source_island": "panel-data.json",
+          "source_path": "rebuttal.per_category",
+          "derivation": "softened / n per object category, range across the twelve objects",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": [
+            "written-judgment-only"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-17c",
+      "title": "Who yields? Post-rebuttal movement by position in a split verdict (ICLR 2026)",
+      "deck": "When ratings split by four points or more, the reviewer holding the lowest score is the one who yields — weakening or reversing their judgment 2.4× more often than the highest scorer.",
+      "dom_host": "#reb-yield",
+      "claims": [
+        {
+          "id": "17c-low-vs-high",
+          "statement": "The dissenting low scorer is the one who moves — 2.4× likelier to yield than the high co-reviewer.",
+          "value": {
+            "quantity": 2.4,
+            "unit": "ratio_soften_share",
+            "n": 9329
+          },
+          "source_island": "yield-data.json",
+          "source_path": "groups",
+          "derivation": "groups.split_low_scorer.soften ÷ groups.split_high_scorer.soften = 0.0281 / 0.0116 = 2.4×, across 9,329 split panels (ratings split by 4+ points)",
+          "recompute": "scripts/build_yield_data.py",
+          "dom_ref": "data-yield17=\"low-vs-high\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "written-judgment-only"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "written-judgment-only",
+      "text": "This plate reads what reviewers wrote, so a score quietly raised or lowered without a word is invisible — the corpus keeps no rating history — and every recorded fate is a model's reading of the text; a courteous \"I thank the authors and maintain my score\" reads as reinforcement.",
+      "scope": "all Fig. 17 fate and yield percentages",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_panel_data.py",
+      "scripts/build_yield_data.py"
+    ],
+    "data": [
+      "/api/v1/data/yield-data.json",
+      "/api/v1/data/panel-data.json"
+    ],
+    "related_plates": [
+      "plate-xvi",
+      "plate-xix"
+    ]
+  }
+}

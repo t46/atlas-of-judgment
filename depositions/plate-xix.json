@@ -1,0 +1,149 @@
+{
+  "id": "plate-xix",
+  "number": "XIX",
+  "title": "The Fate of an Objection",
+  "act": {
+    "number": "V",
+    "title": "The Encounter"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 551,595 objections raised by official reviewers",
+  "question": "When a reviewer raises an objection, is it ever revisited after the authors respond — and if so, does the judgment soften or harden?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-19a",
+      "title": "Raised → revisited → softened / hardened, per object",
+      "deck": "92% of objections are never mentioned again. Of the 8% that are, most stand unchanged — and when the judgment does move, it hardens 2.5× more often than it softens.",
+      "dom_host": "#fate-rows",
+      "claims": [
+        {
+          "id": "19a-objections-raised",
+          "statement": "551,595 objections raised by official reviewers, 2018–2026.",
+          "value": {
+            "quantity": 551595,
+            "unit": "count"
+          },
+          "source_island": "lifecycle-data.json",
+          "source_path": "objects[]",
+          "derivation": "sum of .raised over all 12 objects in LIFECYCLE.objects = 551,595",
+          "recompute": "scripts/build_lifecycle_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": []
+        },
+        {
+          "id": "19a-silence",
+          "statement": "92.1% of objections occupy the near-empty span — the same reviewer never mentions them again — with 6.5% revisited but unmoved, 1.0% hardened and 0.4% softened.",
+          "value": {
+            "quantity": 0.921,
+            "unit": "share_of_objections"
+          },
+          "source_island": "lifecycle-data.json",
+          "source_path": "objects[]",
+          "derivation": "share of the 551,595 objections whose own reviewer never mentions the object again after the author response",
+          "recompute": "scripts/build_lifecycle_data.py",
+          "dom_ref": "data-fate19=\"silence\"",
+          "verified": null,
+          "caveat_refs": ["written-judgment-only-19"]
+        },
+        {
+          "id": "19a-harden-range",
+          "statement": "Hardening outruns softening for every object — from 1.5× (novelty) to 3.2× (clarity), 2.5× overall.",
+          "value": {
+            "quantity": 2.5,
+            "unit": "harden_to_soften_ratio_overall",
+            "range": [1.5, 3.2]
+          },
+          "source_island": "lifecycle-data.json",
+          "source_path": "objects[]",
+          "derivation": "per-object harden_given_revisit ÷ soften_given_revisit ratio, ranked across the 12 objects; overall ratio computed from LIFECYCLE totals",
+          "recompute": "scripts/build_lifecycle_data.py",
+          "dom_ref": "data-fate19=\"harden-range\"",
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "19a-revisit-extremes",
+          "statement": "Related-work objections are the most revisited (11.7% — a citation fix is checkable), and novelty objections harden the least (8.0% of revisits).",
+          "value": {
+            "quantity": [0.117, 0.08],
+            "unit": "share",
+            "related_work_revisit_rate": 0.117,
+            "novelty_harden_share_of_revisits": 0.08
+          },
+          "source_island": "lifecycle-data.json",
+          "source_path": "objects[]",
+          "derivation": "LIFECYCLE.objects.related_work.revisit_rate (max across 12 objects) and LIFECYCLE.objects.novelty harden-given-revisit share (min across 12)",
+          "recompute": "scripts/build_lifecycle_data.py",
+          "dom_ref": "data-fate19=\"revisit-extremes\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-19b",
+      "title": "The interrogative: does an objection asked fare differently from one asserted?",
+      "deck": "Asked or asserted, an objection meets the same fate — revisited at 5.1% vs 5.2%, a null result reported as one. The only thing that moves the needle is raising it in both fields (7.4%): intensity, not grammar.",
+      "dom_host": "#interro",
+      "claims": [
+        {
+          "id": "19b-null-result",
+          "statement": "Objections phrased as questions are revisited at 5.1% against 5.2% for those asserted as statements — a null result, reported as one.",
+          "value": {
+            "quantity": [0.051, 0.052],
+            "unit": "share_revisited",
+            "asked": 0.051,
+            "asserted": 0.052
+          },
+          "source_island": "interrogative-data.json",
+          "source_path": "rows[]",
+          "derivation": "share of 2026 objections revisited after the response, split by whether the objection was phrased as a question ([questions] field, 13,568) or asserted ([weaknesses] field, 85,343)",
+          "recompute": "scripts/build_interrogative_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "19b-both-fields",
+          "statement": "An objection raised in both fields is revisited at 7.4% and hardens at 1.1% — what moves the needle is intensity, not grammar.",
+          "value": {
+            "quantity": [0.074, 0.011],
+            "unit": "share",
+            "revisit": 0.074,
+            "harden": 0.011
+          },
+          "source_island": "interrogative-data.json",
+          "source_path": "rows[]",
+          "derivation": "ov.both[key] for key='revisit' and key='harden', among the 5,151 objections raised in both the weaknesses and questions fields",
+          "recompute": "scripts/build_interrogative_data.py",
+          "dom_ref": "data-intq=\"both-fields\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "written-judgment-only-19",
+      "text": "A revisited objection is counted only when the same reviewer's own text names the object again after the response; a score quietly changed without a word of text is invisible to this measure, and every recorded fate is a model's reading of prose.",
+      "scope": "Fig 19a revisited/softened/hardened shares",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_lifecycle_data.py",
+      "scripts/build_interrogative_data.py"
+    ],
+    "data": [
+      "/api/v1/data/lifecycle-data.json",
+      "/api/v1/data/interrogative-data.json"
+    ],
+    "related_plates": [
+      "plate-v",
+      "plate-xvii"
+    ]
+  }
+}

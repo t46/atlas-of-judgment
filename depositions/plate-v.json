@@ -1,0 +1,214 @@
+{
+  "id": "plate-v",
+  "number": "V",
+  "title": "The Itinerary",
+  "act": {
+    "number": "II",
+    "title": "One Hand"
+  },
+  "corpus_scope": "ICLR 2026 · prologue: all 410,586 units in written order · itinerary: 192,085 units anchored to their exact line",
+  "question": "Does the order in which a review is written carry information — what gets said first, what last, and what survives once the review form's own scaffolding is stripped away, inside the weaknesses section alone?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-5a",
+      "title": "Opening move vs closing move, by object (lift vs base rate)",
+      "deck": "Reviews open on what the paper is — framing at 1.86× its base rate, novelty 1.57× — and close on clarity (1.81×), related work, and reproducibility.",
+      "dom_host": "#lifts",
+      "claims": [
+        {
+          "id": "5a-framing-opens",
+          "statement": "Problem framing opens a review 1.86× more often than its overall share predicts (5.5% of first units against 3.0% of all units).",
+          "value": {
+            "quantity": 1.86,
+            "unit": "opening_lift"
+          },
+          "source_island": "structure-data.json",
+          "source_path": "opening",
+          "derivation": "first_share['problem_framing'] / overall_share['problem_framing'] (open_lift field)",
+          "recompute": "scripts/build_structure_data.py",
+          "dom_ref": "data-lifts=\"framing-opens\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-form-scaffolding"
+          ]
+        },
+        {
+          "id": "5a-clarity-closes",
+          "statement": "The closing end belongs to clarity (1.81×), related work (1.66×), and reproducibility (1.41×).",
+          "value": {
+            "quantity": [
+              1.81,
+              1.66,
+              1.41
+            ],
+            "unit": "closing_lift"
+          },
+          "source_island": "structure-data.json",
+          "source_path": "opening",
+          "derivation": "last_share[o] / overall_share[o] (close_lift field), top three objects",
+          "recompute": "scripts/build_structure_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-5b",
+      "title": "The arc of a review",
+      "deck": "Warm open, hard middle (82% negative at its peak), softened close — an arc the review form itself writes.",
+      "dom_host": "#arc",
+      "claims": [
+        {
+          "id": "5b-arc",
+          "statement": "The negative share of a review's units runs 70% in the opening fifth, peaks at 82% in the middle, and falls to 60% at the close.",
+          "value": {
+            "quantity": [
+              0.7,
+              0.82,
+              0.6
+            ],
+            "unit": "share_negative_by_fifth"
+          },
+          "source_island": "structure-data.json",
+          "source_path": "arcs",
+          "derivation": "share of negative-verdict units within each of five position-bins, pooled over the 72,828 reviews with 3+ units",
+          "recompute": "scripts/build_structure_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-form-scaffolding"
+          ]
+        },
+        {
+          "id": "5b-hedged-growth",
+          "statement": "What grows toward the end is the hedged share — monotonically, 3% to 27%.",
+          "value": {
+            "quantity": [
+              0.03,
+              0.27
+            ],
+            "unit": "share_hedged_open_to_close_fifth"
+          },
+          "source_island": "structure-data.json",
+          "source_path": "arcs",
+          "derivation": "share of hedged (conditional/uncertain/mixed) units in the first vs. last fifth",
+          "recompute": "scripts/build_structure_data.py",
+          "dom_ref": "data-arc=\"hedged\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-form-scaffolding"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-5c",
+      "title": "The bill of faults: what a reviewer lists first",
+      "deck": "What a paper is — novelty, framing — gets objected to first (novelty leads the bill at 1.6× chance); how it is measured — statistics, reproducibility — comes last (0.7×).",
+      "dom_host": "#bill",
+      "claims": [
+        {
+          "id": "5c-novelty-opens-bill",
+          "statement": "Novelty objections open the bill 1.6× more often than their base rate, with problem framing (1.4×) and method design (1.2×) behind them.",
+          "value": {
+            "quantity": [
+              1.6,
+              1.4,
+              1.2
+            ],
+            "unit": "lead_off_lift"
+          },
+          "source_island": "itinerary-data.json",
+          "source_path": "bill",
+          "derivation": "share of a subject's faults that are the first-listed fault in the weaknesses section, divided by its overall share of faults, over the 30,869 reviews with 2+ line-anchored faults",
+          "recompute": "scripts/build_itinerary_data.py",
+          "dom_ref": "data-bill=\"novelty-opens\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        },
+        {
+          "id": "5c-late-filed",
+          "statement": "Statistics, robustness, and reproducibility are filed toward the end of the weaknesses list (0.7× lead-off lift).",
+          "value": {
+            "quantity": 0.7,
+            "unit": "lead_off_lift"
+          },
+          "source_island": "itinerary-data.json",
+          "source_path": "bill",
+          "derivation": "lead-off lift for the lowest-ranked subjects (stats_metrics, robustness_sensitivity, reproducibility)",
+          "recompute": "scripts/build_itinerary_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-5d",
+      "title": "Traveling companions: which subjects share a review",
+      "deck": "Mostly company, not sequence: theory fills the reviews it enters, while novelty is said once — 97% of reviews that raise it never return to it.",
+      "dom_host": "#succession",
+      "claims": [
+        {
+          "id": "5d-clarity-rw-travel",
+          "statement": "Clarity travels with related work at 1.9× chance, the strongest chord in the traveling-companions ring.",
+          "value": {
+            "quantity": 1.9,
+            "unit": "cooccurrence_lift"
+          },
+          "source_island": "itinerary-data.json",
+          "source_path": "transitions",
+          "derivation": "lift of clarity→related_work / related_work→clarity successions against independence, over 336,206 consecutive-unit pairs",
+          "recompute": "scripts/build_itinerary_data.py",
+          "dom_ref": "data-suc=\"clarity-rw\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        },
+        {
+          "id": "5d-novelty-once",
+          "statement": "97% of reviews that raise novelty never return to it — the highest one-mention rate of the twelve objects.",
+          "value": {
+            "quantity": 0.97,
+            "unit": "share_of_mentioning_reviews_mentioning_once"
+          },
+          "source_island": "itinerary-data.json",
+          "source_path": "mention",
+          "derivation": "mention.novelty.once_share = share of reviews mentioning novelty that mention it exactly once = 0.9655",
+          "recompute": "scripts/build_itinerary_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": []
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "review-form-scaffolding",
+      "text": "The whole-review prologue cut mixes the strengths section into the opening, so much of what it finds is the review form's script, not necessarily the reviewer's own habit; recomputed over negative units only, problem framing's opening lift drops from 1.86× to 1.34× while novelty's sharpens to 1.65×. The closing-end lifts barely move under the same check.",
+      "scope": "Fig. 5a / 5b prologue findings",
+      "verified_by": null
+    },
+    {
+      "id": "writing-order-not-thought-order",
+      "text": "This describes where in a document a kind of judgment tends to be written down; it is not evidence about the order in which the reviewer thought or decided — a review is composed, and a reviewer may reorder, template, or polish before submitting.",
+      "scope": "all Fig. 5 findings",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_structure_data.py",
+      "scripts/build_itinerary_data.py"
+    ],
+    "data": [
+      "/api/v1/data/structure-data.json",
+      "/api/v1/data/itinerary-data.json"
+    ],
+    "related_plates": [
+      "plate-iv"
+    ]
+  }
+}

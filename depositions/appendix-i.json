@@ -1,0 +1,19 @@
+{
+  "id": "appendix-i",
+  "number": "App. I",
+  "title": "The Lexicon",
+  "act": {
+    "number": null,
+    "title": "Appendices"
+  },
+  "corpus_scope": null,
+  "question": "What does every term on this page mean?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [],
+  "caveats": [],
+  "links": {
+    "recompute_scripts": [],
+    "data": [],
+    "related_plates": []
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "id": "plate-iv",
+  "number": "IV",
+  "title": "The Syntax",
+  "act": {
+    "number": "II",
+    "title": "One Hand"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 183,717 initial reviews, 829,684 units",
+  "question": "Plate III sorted every unit into six argument forms — do the forms care what comes next? Is there a syntax to reasoning, or does order carry no information once each review's own mix is accounted for?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-4a",
+      "title": "The transition table, as departure from each review's own mix",
+      "deck": "The grammar hunt comes back nearly empty: no transition beats chance by more than 18% — and the little structure that remains looks like the review template, not a way of thinking.",
+      "dom_host": "#chain-fig",
+      "claims": [
+        {
+          "id": "4a-band",
+          "statement": "No cell in the transition-lift table leaves the 0.80–1.18 band — once a review's own mix of forms is fixed, knowing the current form changes the odds of the next one by at most ±20%.",
+          "value": {
+            "quantity": [
+              0.8,
+              1.18
+            ],
+            "unit": "lift_band"
+          },
+          "source_island": "chain-data.json",
+          "source_path": "lift",
+          "derivation": "lift[f1][f2] = observed transition rate f1→f2 / rate expected from shuffling each review's own unit order, min/max across the 6×6 form matrix",
+          "recompute": "scripts/build_chain_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-template-confound"
+          ]
+        },
+        {
+          "id": "4a-self-attract",
+          "statement": "A form is most attracted to itself: rival-cause follows rival-cause at 1.18, scope follows scope at 1.18.",
+          "value": {
+            "quantity": [
+              1.18,
+              1.18
+            ],
+            "unit": "lift"
+          },
+          "source_island": "chain-data.json",
+          "source_path": "lift",
+          "derivation": "lift['DOUBT']['DOUBT'] and lift['REACH']['REACH'], the two diagonal cells at the table's maximum",
+          "recompute": "scripts/build_chain_data.py",
+          "dom_ref": "data-chain=\"self-attract\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-template-confound"
+          ]
+        },
+        {
+          "id": "4a-weigh-resist",
+          "statement": "Every other form mildly resists being followed by on-balance weighing (0.80–0.95).",
+          "value": {
+            "quantity": [
+              0.8,
+              0.95
+            ],
+            "unit": "lift_range"
+          },
+          "source_island": "chain-data.json",
+          "source_path": "lift",
+          "derivation": "min/max of lift[f1]['WEIGH'] over f1 != 'WEIGH'",
+          "recompute": "scripts/build_chain_data.py",
+          "dom_ref": "data-chain=\"weigh-column\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-template-confound"
+          ]
+        },
+        {
+          "id": "4a-weigh-opens",
+          "statement": "On-balance weighing opens 38.5% of reviews against its 30.5% share of all units — eight points above chance.",
+          "value": {
+            "quantity": [
+              0.385,
+              0.305
+            ],
+            "unit": "opening_share_vs_overall_share"
+          },
+          "source_island": "chain-data.json",
+          "source_path": "start_share / overall_share",
+          "derivation": "start_share['WEIGH'] compared to overall_share['WEIGH']",
+          "recompute": "scripts/build_chain_data.py",
+          "dom_ref": "data-chain=\"weigh-opens\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-template-confound"
+          ]
+        },
+        {
+          "id": "4a-closing-baseline",
+          "statement": "Closing shares sit near every form's baseline; the largest deviation is norm, +1.7 percentage points.",
+          "value": {
+            "quantity": 0.017,
+            "unit": "pp_deviation_end_share_vs_overall_share"
+          },
+          "source_island": "chain-data.json",
+          "source_path": "end_share / overall_share",
+          "derivation": "max over forms of |end_share[f] - overall_share[f]|, which is norm",
+          "recompute": "scripts/build_chain_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "review-template-confound"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "review-template-confound",
+      "text": "Reviews are written into a template — a summary up front, strengths and weaknesses in blocks — and the template alone would produce the same traces. The honest reading is not that reasoning has a grammar, but the reverse: the search for one came back nearly empty, and what remains is plausibly the architecture of the review form rather than of thought.",
+      "scope": "Fig. 4a residual structure (self-attraction, on-balance resistance, on-balance opening)",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_chain_data.py"
+    ],
+    "data": [
+      "/api/v1/data/chain-data.json"
+    ],
+    "related_plates": [
+      "plate-iii",
+      "plate-v"
+    ]
+  }
+}

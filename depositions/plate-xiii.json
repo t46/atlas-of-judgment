@@ -1,0 +1,143 @@
+{
+  "id": "plate-xiii",
+  "number": "XIII",
+  "title": "The Charge Sheet",
+  "act": {
+    "number": "III",
+    "title": "The Law"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 120,540 of 191,946 reviews state a rule in words",
+  "question": "Which stated rules tend to appear together on the same review's charge sheet, and does that clustering belong to the paper or to the reviewer?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-13a",
+      "title": "The full grid: every pair of rules, filed together or apart",
+      "deck": "Most pairs run warm (82% exceed chance; median ×1.19) — a longer, more thorough review files more of everything — which is what makes the violet cells remarkable: novelty's clauses push each other off the sheet, down to ×0.66, against the tide.",
+      "dom_host": "#sheet-matrix",
+      "claims": [
+        {
+          "id": "13a-warm-share",
+          "statement": "82% of readable cells exceed chance.",
+          "value": {
+            "quantity": 0.82,
+            "unit": "share_of_readable_cells_above_chance"
+          },
+          "source_island": "chargesheet-data.json",
+          "source_path": "matrix_cells",
+          "derivation": "share of readable cross-docket rule-pair cells (same-docket pairs excluded) whose lift exceeds ×1, across all 191,946 initial reviews",
+          "recompute": "scripts/build_chargesheet_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        },
+        {
+          "id": "13a-median-lift",
+          "statement": "The median cross-docket pair sits at ×1.19.",
+          "value": {
+            "quantity": 1.19,
+            "unit": "lift_multiple"
+          },
+          "source_island": "chargesheet-data.json",
+          "source_path": "matrix_cells",
+          "derivation": "median lift across all readable cross-docket rule pairs",
+          "recompute": "scripts/build_chargesheet_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-13b",
+      "title": "The extremes, read closely",
+      "deck": "The strongest attractions (up to ×3.6) and repulsions (down to ×0.66) by name — each with its 95% interval and its cross-reviewer twin.",
+      "dom_host": "#sheet-top",
+      "claims": [
+        {
+          "id": "13b-attraction",
+          "statement": "The strongest attraction is clarity's precision rule with theory's rigor rule, at ×3.6.",
+          "value": {
+            "quantity": 3.64,
+            "unit": "lift_multiple"
+          },
+          "source_island": "chargesheet-data.json",
+          "source_path": "top_cross[]",
+          "derivation": "top_cross[0].lift — clarity/notation_law (\"the precision rule\") paired with theory/rigor_rule",
+          "recompute": "scripts/build_chargesheet_data.py",
+          "dom_ref": "data-sheet=\"precision-rigor\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "paper-vs-reviewer"
+          ]
+        },
+        {
+          "id": "13b-repulsion",
+          "statement": "The strongest repulsion is method design's novelty rule against novelty's own differentiation rule, at ×0.66.",
+          "value": {
+            "quantity": 0.658,
+            "unit": "lift_multiple"
+          },
+          "source_island": "chargesheet-data.json",
+          "source_path": "bottom_cross[]",
+          "derivation": "bottom_cross[0].lift — method_design/novelty_rule paired with novelty/diff (\"the differentiation rule\")",
+          "recompute": "scripts/build_chargesheet_data.py",
+          "dom_ref": "data-sheet=\"novelty-repelled\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "paper-vs-reviewer",
+            "extractor-consistency"
+          ]
+        },
+        {
+          "id": "13b-reviewer-habit",
+          "statement": "The repulsions are not a mixture: re-measured across two different reviewers of the same paper the median is ×0.97, no suppression at all, against ×0.75 within one review — filing one novelty clause suppresses the next only inside the same review, so the one-stamp habit is the reviewer's, not the paper's.",
+          "value": {
+            "quantity": [
+              0.975,
+              0.748
+            ],
+            "unit": "median_lift_cross_vs_within_review"
+          },
+          "source_island": "chargesheet-control.json",
+          "source_path": "[]",
+          "derivation": "median lift_cross (0.975) and median lift_within (0.748) over the bottom-tier repelled pairs re-measured across two different reviewers of the same paper",
+          "recompute": "scripts/build_chargesheet_control.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "extractor-consistency"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "paper-vs-reviewer",
+      "text": "A within-review lift cannot by itself say whether the pull follows a careful reviewer or a paper that invites both complaints — every displayed pair was re-measured across two different reviewers of the same paper to separate the two.",
+      "scope": "Fig. 13b attraction and repulsion extremes",
+      "verified_by": null
+    },
+    {
+      "id": "extractor-consistency",
+      "text": "Units are the model's distillation, read one review at a time, so a machine reader's internal consistency could contribute to the within-review excess on the attraction side; on the repulsion side that bias can only create positive correlation, so the one-per-review suppression is, if anything, understated.",
+      "scope": "Fig. 13b cross-reviewer control",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_chargesheet_data.py",
+      "scripts/build_chargesheet_ci.py",
+      "scripts/build_chargesheet_control.py"
+    ],
+    "data": [
+      "/api/v1/data/chargesheet-data.json",
+      "/api/v1/data/chargesheet-control.json"
+    ],
+    "related_plates": [
+      "plate-v"
+    ]
+  }
+}

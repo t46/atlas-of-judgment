@@ -1,0 +1,173 @@
+{
+  "id": "plate-vii",
+  "number": "VII",
+  "title": "The Elements",
+  "act": {
+    "number": "III",
+    "title": "The Law"
+  },
+  "corpus_scope": "698,507 negative units across all twelve objects, 2018–2026 · ground → law → remedy, decomposed at the unit level",
+  "question": "What does a charge like \"lacks novelty\" actually say, once split into what was observed, the rule invoked, and the remedy demanded?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-7a",
+      "title": "The decomposition of a charge: novelty",
+      "deck": "Pick a docket: every charge decomposes into what was observed, the laws it invokes, and the remedy it demands — 26–40% of denials state their rule in words.",
+      "dom_host": "#elem-tri",
+      "claims": [
+        {
+          "id": "7a-stated-rate",
+          "statement": "26–40% of denials state their rule in words across the twelve dockets; the rest leave it implicit (min: clarity 26.4%, max: novelty 40.4%).",
+          "value": {
+            "quantity": [
+              0.26,
+              0.4
+            ],
+            "unit": "share_of_denials_with_stated_rule"
+          },
+          "source_island": "elements-all.json",
+          "source_path": "[docket].stated",
+          "derivation": "count of denials whose rule text was extracted by the sentence-mining pattern / count of all denials, per docket, min and max across the 12 dockets",
+          "recompute": "scripts/build_elements_all_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "law-share-is-floor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-7c",
+      "title": "What each charge asks of you",
+      "deck": "Every docket has a remedy signature: clarity wants writing (90%), baselines want experiments (80%), reproducibility wants disclosure (76%) — and novelty, alone, wants nothing at all 39% of the time.",
+      "dom_host": "#elem-matrix",
+      "claims": [
+        {
+          "id": "7c-novelty-no-remedy",
+          "statement": "Novelty leaves 39% of its denials without any road back.",
+          "value": {
+            "quantity": 0.39,
+            "unit": "share_of_denials_without_remedy"
+          },
+          "source_island": "elements-all.json",
+          "source_path": "novelty.remedies",
+          "derivation": "n(remedy=='none') / n(all denials), docket=novelty",
+          "recompute": "scripts/build_elements_all_data.py",
+          "dom_ref": "data-elem7c=\"novelty-none\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "remedy-share-is-floor"
+          ]
+        },
+        {
+          "id": "7c-others-offer-remedy",
+          "statement": "Every other charge offers a remedy 82–92% of the time.",
+          "value": {
+            "quantity": [
+              0.82,
+              0.92
+            ],
+            "unit": "share_of_denials_with_remedy"
+          },
+          "source_island": "elements-all.json",
+          "source_path": "[docket].remedies",
+          "derivation": "min/max across the other eleven dockets of 1 - n(remedy=='none')/n(all denials)",
+          "recompute": "scripts/build_elements_all_data.py",
+          "dom_ref": "data-elem7c=\"others-offer\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "remedy-share-is-floor"
+          ]
+        },
+        {
+          "id": "7c-remedy-signatures",
+          "statement": "Clarity's remedy is 90% writing (articulate), baselines' is 80% experiments (substantiate), reproducibility's is 76% disclosure.",
+          "value": {
+            "quantity": [
+              0.9,
+              0.8,
+              0.76
+            ],
+            "unit": "share_of_docket_denials_by_remedy_type"
+          },
+          "source_island": "elements-all.json",
+          "source_path": "[docket].remedies",
+          "derivation": "clarity.remedies.articulate, baselines_ablations.remedies.evidence, reproducibility.remedies.report, each as share of that docket's denials",
+          "recompute": "scripts/build_elements_all_data.py",
+          "dom_ref": "data-elem7c=\"three-remedies\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "remedy-share-is-floor"
+          ]
+        },
+        {
+          "id": "7c-redesign-rare",
+          "statement": "\"Redesign\" is rare everywhere — only theory shows any at scale, at 7%.",
+          "value": {
+            "quantity": 0.07,
+            "unit": "share_of_docket_denials"
+          },
+          "source_island": "elements-all.json",
+          "source_path": "theory.remedies",
+          "derivation": "theory.remedies.method as share of theory's denials, compared against near-zero for the other eleven dockets",
+          "recompute": "scripts/build_elements_all_data.py",
+          "dom_ref": "data-elem7c=\"redesign-rare\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "remedy-share-is-floor"
+          ]
+        },
+        {
+          "id": "7c-length-artifact-ruled-out",
+          "statement": "The novelty no-remedy gap is not a terseness artifact: it persists inside every quartile of unit length — novelty offers a fix for 60–61% of its denials in each quartile, against 76–94% for the other objects.",
+          "value": {
+            "quantity": [
+              0.6,
+              0.61,
+              0.76,
+              0.94
+            ],
+            "unit": "share_with_remedy_by_length_quartile"
+          },
+          "source_island": "elements-all.json",
+          "source_path": "novelty.remedies",
+          "derivation": "share of denials with any remedy, computed within each of four unit-length quartiles, novelty vs. the other eleven objects",
+          "recompute": "scripts/build_elements_all_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "remedy-share-is-floor"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "law-share-is-floor",
+      "text": "The sentence-mining pattern that detects a stated rule is a prior about normative phrasing, so all stated-law shares are floors, not exact counts of every implicit rule.",
+      "scope": "Fig. 7a stated-law shares (including the 26–40% door)",
+      "verified_by": null
+    },
+    {
+      "id": "remedy-share-is-floor",
+      "text": "Remedy shares for the eleven extended objects are estimated on 40,000-fix samples per object where fixes exceed that, and each docket's fixes are read through eight clusters — so an exact 0% means rarer than the clustering resolves, a floor rather than a measured absence.",
+      "scope": "Fig. 7c remedy-mix shares",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_elements_all_data.py"
+    ],
+    "data": [
+      "/api/v1/data/elements-all.json"
+    ],
+    "related_plates": [
+      "plate-i",
+      "plate-viii"
+    ]
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "id": "plate-xxvi",
+  "number": "XXVI",
+  "title": "The Drift",
+  "act": {
+    "number": "VIII",
+    "title": "Eras & Territories"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 1,009,592 units",
+  "question": "Is what reviewers scrutinize a stable feature of peer review, or has it drifted over nine years?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-26a",
+      "title": "What reviewers inspect, 2018 → 2026",
+      "deck": "What reviewers inspect drifted over nine years, toward compute cost and statistical rigor.",
+      "dom_host": "#drift-obj",
+      "claims": [
+        {
+          "id": "26a-objects-rise",
+          "statement": "The hygiene turn: compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise.",
+          "value": {
+            "quantity": [0.032, 0.030],
+            "unit": "percentage_point_change_2018_to_2026",
+            "objects": ["compute_cost", "stats_metrics"]
+          },
+          "source_island": "drift-data.json",
+          "source_path": "object_share[]",
+          "derivation": "object_share[object][2026] − object_share[object][2018], ×100, in percentage points; baselines_ablations and reproducibility also rise over the same span but are named without a printed pp figure in the caption",
+          "recompute": "scripts/build_drift_data.py",
+          "dom_ref": "data-drift26a=\"obj-rise\"",
+          "verified": null,
+          "caveat_refs": ["label-consistency-check", "reviewer-vs-submission-confound"]
+        },
+        {
+          "id": "26a-objects-fall",
+          "statement": "Clarity (−4.9pp) and theory (−4.1pp) recede.",
+          "value": {
+            "quantity": [-0.049, -0.041],
+            "unit": "percentage_point_change_2018_to_2026",
+            "objects": ["clarity", "theory"]
+          },
+          "source_island": "drift-data.json",
+          "source_path": "object_share[]",
+          "derivation": "object_share[object][2026] − object_share[object][2018], ×100, in percentage points",
+          "recompute": "scripts/build_drift_data.py",
+          "dom_ref": "data-drift26a=\"obj-fall\"",
+          "verified": null,
+          "caveat_refs": ["label-consistency-check", "reviewer-vs-submission-confound"]
+        },
+        {
+          "id": "26a-clarity-relative-fall",
+          "statement": "In relative terms, clarity's share fell 37%.",
+          "value": {
+            "quantity": -0.37,
+            "unit": "relative_change_2018_to_2026",
+            "object": "clarity"
+          },
+          "source_island": "drift-data.json",
+          "source_path": "object_share.clarity[]",
+          "derivation": "(object_share.clarity[2026] − object_share.clarity[2018]) / object_share.clarity[2018] = (0.0831 − 0.1319) / 0.1319 = −37.0%",
+          "recompute": "scripts/build_drift_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": ["label-consistency-check", "reviewer-vs-submission-confound"]
+        }
+      ]
+    },
+    {
+      "id": "fig-26b",
+      "title": "The standards they invoke, 2018 → 2026",
+      "deck": "The standards they invoke drifted with it.",
+      "dom_host": "#drift-rea",
+      "claims": [
+        {
+          "id": "26b-standards-fall",
+          "statement": "Among standards, the novelty standard and the presentation-as-trust standard — judging a paper's care by how it is written — each fall 3.5pp, while cost-benefit and claim-evidence matching climb.",
+          "value": {
+            "quantity": -0.035,
+            "unit": "percentage_point_change_2018_to_2026",
+            "standards": ["novelty_standard", "presentation_trust"]
+          },
+          "source_island": "drift-data.json",
+          "source_path": "reasoning_share[]",
+          "derivation": "reasoning_share[standard][2026] − reasoning_share[standard][2018], ×100, in percentage points; cost_benefit and claim_evidence_match rise over the same span but are named without a printed pp figure in the caption",
+          "recompute": "scripts/build_drift_data.py",
+          "dom_ref": "data-drift26b=\"rea-fall\"",
+          "verified": null,
+          "caveat_refs": ["label-consistency-check", "reviewer-vs-submission-confound"]
+        }
+      ]
+    },
+    {
+      "id": "fig-26c",
+      "title": "The hardening: nine-year vitals",
+      "deck": "Three vital signs of the venue, read across nine years.",
+      "dom_host": "#vitals",
+      "claims": [
+        {
+          "id": "26c-post-rebuttal-halved",
+          "statement": "The field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.",
+          "value": {
+            "quantity": [0.077, 0.034],
+            "unit": "share_post_response_units_weakened_or_reversed",
+            "years": [2018, 2026]
+          },
+          "source_island": "drift-data.json",
+          "source_path": "meta[]",
+          "derivation": "(weakened + reversed) / post_response_units, per year, for 2018 and 2026",
+          "recompute": "scripts/build_drift_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "26c-negativity-stable",
+          "statement": "Negativity in the nine-year corpus holds near 77% all nine years (the 2026 corpus reads 71.8% — a different memo style, the same story).",
+          "value": {
+            "quantity": 0.77,
+            "unit": "share_negative_units_approx"
+          },
+          "source_island": "drift-data.json",
+          "source_path": "valence_share.negative[]",
+          "derivation": "valence_share.negative[year], across all nine years, hovering in a narrow band around 0.77 (min 0.7485 in 2023, max 0.7907 in 2018)",
+          "recompute": "scripts/build_drift_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-26d",
+      "title": "The currents: four distributions, nine years",
+      "deck": "Four distributions morphing through nine years — turn the dial, or stack the years like a mountain range.",
+      "dom_host": "#cur-flow",
+      "claims": [
+        {
+          "id": "26d-four-scoring-forms",
+          "statement": "The venue has used four scoring forms: ten labeled levels in 2018–19 and 2021, a four-point reject/weak-reject/weak-accept/accept form in 2020, a six-level ladder 2022–25, and even numbers only in 2026.",
+          "value": {
+            "quantity": 4,
+            "unit": "count_distinct_scoring_forms_2018_2026"
+          },
+          "source_island": "currents-data.json",
+          "source_path": "scores[]",
+          "derivation": "distinct rating-scale shapes observed per year in the scores distribution, grouped into four eras",
+          "recompute": "scripts/build_currents_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["era-scale-caveat"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "label-consistency-check",
+      "text": "The share of units the labeller places in the same category on a held-out check is the same in the early years as in the late ones (0.81), so the drift measured here is a change in what reviewers wrote, not a change in how well the labels fit older text.",
+      "scope": "all Fig. 26a / 26b drift-share claims",
+      "verified_by": "Appendix II"
+    },
+    {
+      "id": "reviewer-vs-submission-confound",
+      "text": "What the series cannot separate is reviewers changing from submissions changing: it measures what got written, not why.",
+      "scope": "all Fig. 26a / 26b drift-share claims",
+      "verified_by": null
+    },
+    {
+      "id": "era-scale-caveat",
+      "text": "The venue's scoring scale changed four times over 2018–2026 (ten labeled levels in 2018–19 and 2021, a four-point form in 2020, a six-level ladder 2022–25, even numbers only in 2026); because the rungs themselves moved, compare the shapes of the score distributions across years, not their raw positions.",
+      "scope": "Fig. 26d SCORES GIVEN comparisons across years",
+      "verified_by": "Method page § 10, the moving ruler"
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_drift_data.py",
+      "scripts/build_currents_data.py"
+    ],
+    "data": [
+      "/api/v1/data/drift-data.json",
+      "/api/v1/data/currents-data.json"
+    ],
+    "related_plates": [
+      "plate-ii",
+      "plate-iii",
+      "plate-xxvii"
+    ]
+  }
+}

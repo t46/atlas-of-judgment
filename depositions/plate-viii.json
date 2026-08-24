@@ -1,0 +1,178 @@
+{
+  "id": "plate-viii",
+  "number": "VIII",
+  "title": "The Combination Clause",
+  "act": {
+    "number": "III",
+    "title": "The Law"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 4,316 combination-rule sentences from 4,262 units",
+  "question": "What, concretely, redeems \"mere combination\" — and what is being called a combination in the first place?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-8a",
+      "title": "The redemptions: what would make a combination count",
+      "deck": "Six distinct ways out, holding 76% of the clause's own sentences — added value, new insight, differentiation, a new mechanism, an isolated contribution, innovation beyond the integration — and two clauses that offer none.",
+      "dom_host": "#combo-exc",
+      "claims": [
+        {
+          "id": "8a-six-exceptions-share",
+          "statement": "Six genuine exception clauses hold 76% of the combination rule's own sentences.",
+          "value": {
+            "quantity": 0.7595,
+            "unit": "share_of_combination_rule_sentences"
+          },
+          "source_island": "combination-data.json",
+          "source_path": "exceptions[]",
+          "derivation": "sum of .share over the six non-dead-end exceptions (excludes \"The threshold, restated\" and \"The reproduction floor\")",
+          "recompute": "scripts/build_combination_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "single-model-reading"
+          ]
+        },
+        {
+          "id": "8a-dead-tracks",
+          "statement": "24% of statements offer no exit — two dead-end tracks (\"the threshold, restated\" and \"the reproduction floor\") that never rejoin the main line.",
+          "value": {
+            "quantity": 0.24,
+            "unit": "share_of_combination_rule_sentences"
+          },
+          "source_island": "combination-data.json",
+          "source_path": "exceptions[]",
+          "derivation": "1 - sum(.share over the six genuine exceptions) = 1 - 0.7595",
+          "recompute": "scripts/build_combination_data.py",
+          "dom_ref": "data-combo8a=\"dead-tracks\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading"
+          ]
+        },
+        {
+          "id": "8a-conditional-word",
+          "statement": "An explicit conditional word (unless, without, only if) appears in 43.6% of the combination-rule statements — a floor, since track families are read from a sentence's content rather than its grammar.",
+          "value": {
+            "quantity": 0.436,
+            "unit": "share_of_statements"
+          },
+          "source_island": "combination-data.json",
+          "source_path": "conditional_share",
+          "derivation": "count of the 4,316 combination-rule sentences containing an explicit conditional marker / 4,316",
+          "recompute": "scripts/build_combination_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-8b",
+      "title": "The referents: what is being called a combination",
+      "deck": "In 46% of charges the assembled parts are never named: the reviewer says the work combines existing methods without saying which.",
+      "dom_host": "#combo-ref",
+      "claims": [
+        {
+          "id": "8b-generic-46",
+          "statement": "46% of combination charges assemble no named parts at all.",
+          "value": {
+            "quantity": 0.46,
+            "unit": "share_of_charges"
+          },
+          "source_island": "combination-data.json",
+          "source_path": "referents[]",
+          "derivation": "referents entry 'The generic combination charge'.share, over the 4,262 combination-rule units",
+          "recompute": "scripts/build_combination_data.py",
+          "dom_ref": "data-combo8b=\"generic\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading",
+            "distillation-audit-check"
+          ]
+        },
+        {
+          "id": "8b-lineup-18",
+          "statement": "18% of combination charges recite the parts' names.",
+          "value": {
+            "quantity": 0.179,
+            "unit": "share_of_charges"
+          },
+          "source_island": "combination-data.json",
+          "source_path": "referents[]",
+          "derivation": "referents entry 'The component lineup'.share",
+          "recompute": "scripts/build_combination_data.py",
+          "dom_ref": "data-combo8b=\"lineup\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading"
+          ]
+        },
+        {
+          "id": "8b-precedent-16",
+          "statement": "16% of combination charges match one specific named precedent.",
+          "value": {
+            "quantity": 0.16,
+            "unit": "share_of_charges"
+          },
+          "source_island": "combination-data.json",
+          "source_path": "referents[]",
+          "derivation": "referents entry for the named-precedent-match cluster, .share",
+          "recompute": "scripts/build_combination_data.py",
+          "dom_ref": "data-combo8b=\"precedent\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading"
+          ]
+        },
+        {
+          "id": "8b-newproblem-noinsight",
+          "statement": "12% of combination charges concede the problem is new and charge only the tools, and 8% charge precisely the absence of a new insight.",
+          "value": {
+            "quantity": [
+              0.12,
+              0.08
+            ],
+            "unit": "share_of_charges"
+          },
+          "source_island": "combination-data.json",
+          "source_path": "referents[]",
+          "derivation": "referents entries for the new-problem-conceded and no-new-insight clusters, .share each",
+          "recompute": "scripts/build_combination_data.py",
+          "dom_ref": "data-combo8b=\"new-or-noinsight\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "single-model-reading"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "single-model-reading",
+      "text": "Clusters are data-driven (k-means over sentence embeddings); merges and names are readings of exemplars drafted by a machine reader and reviewed by the analyst. Raw clusters ship with the dataset.",
+      "scope": "Fig. 8a exception-clause shares and Fig. 8b referent shares",
+      "verified_by": null
+    },
+    {
+      "id": "distillation-audit-check",
+      "text": "The 46% generic-charge share is measured on the distilled observations, so it was audited against the source reviews: in a 30-case sample, wherever the source charge could be located, its specificity matched the observation's — with one ambiguous exception — so the share is not an artifact of summarization.",
+      "scope": "Fig. 8b 46% generic-combination-charge claim",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_combination_data.py"
+    ],
+    "data": [
+      "/api/v1/data/combination-data.json"
+    ],
+    "related_plates": [
+      "plate-vii"
+    ]
+  }
+}

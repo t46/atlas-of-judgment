@@ -1,0 +1,224 @@
+{
+  "id": "plate-xiv",
+  "number": "XIV",
+  "title": "The Price",
+  "act": {
+    "number": "IV",
+    "title": "The Tariff"
+  },
+  "corpus_scope": "ICLR 2026 · 74,373 rated reviews of 19,467 papers · standards & stated rules: the nine-year corpus — 384 thousand reviewer pairs, 120,540 rule-stating reviews",
+  "question": "What does each objection cost a paper in rating points, is that cost tied to whether the objection can be repaired, and does a stated rule price by what it says or by where it is aimed?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-14a",
+      "title": "The tariff: the price of each objection, paper held fixed",
+      "deck": "Holding the paper fixed, a novelty objection travels with well over twice the score deficit of any other charge.",
+      "dom_host": "#tariff",
+      "claims": [
+        {
+          "id": "14a-novelty-price",
+          "statement": "A novelty objection costs −0.43 points on the 2026 rating scale, holding the paper and criticism volume fixed — 2.4 times the next charge.",
+          "value": {
+            "quantity": -0.429,
+            "unit": "rating_points_deficit",
+            "object": "novelty"
+          },
+          "source_island": "jurisprudence-data.json",
+          "source_path": "tariff",
+          "derivation": "novelty's within-paper coefficient is −0.429; the next-largest negative-signed coefficient among objects whose 95% interval excludes zero is problem framing at −0.179; 0.429 ÷ 0.179 = 2.40×",
+          "recompute": "scripts/build_jurisprudence_data.py",
+          "dom_ref": "data-tariff=\"novelty-price\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "association-not-causation"
+          ]
+        },
+        {
+          "id": "14a-next-prices",
+          "statement": "Framing costs −0.18, related work and baselines about −0.15.",
+          "value": {
+            "quantity": -0.18,
+            "unit": "rating_points_deficit"
+          },
+          "source_island": "jurisprudence-data.json",
+          "source_path": "tariff",
+          "derivation": "within-paper regression coefficients for problem_framing, related_work, baselines_ablations",
+          "recompute": "scripts/build_jurisprudence_data.py",
+          "dom_ref": "data-tariff=\"next-prices\"",
+          "verified": null,
+          "caveat_refs": [
+            "association-not-causation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-14b",
+      "title": "Price against repairability",
+      "deck": "The expensive charge is hand-made against this paper; the cheap ones are prescriptions.",
+      "dom_host": "#pricerep",
+      "claims": [
+        {
+          "id": "14b-novelty-corner",
+          "statement": "The bill collects in one corner: novelty, 64% against 82–92% for everything else.",
+          "value": {
+            "quantity": 0.64,
+            "unit": "share_with_prescribed_fix",
+            "object": "novelty"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "obj_extras",
+          "derivation": "with_improvement / n for novelty (5,977 / 9,409 = 63.5%, ≈64%), against 82–92% for the other eleven objects, joined against Fig. 14a's tariff coefficient",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-pricerep=\"novelty-corner\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-14c",
+      "title": "Same bench, different law",
+      "deck": "Same paper, same object — and still, one split in three among pairs holding different standards travels with the standards alone.",
+      "dom_host": "#law",
+      "claims": [
+        {
+          "id": "14c-standard-split",
+          "statement": "Reviewer pairs who argued from the same standard reach opposite stances 20.5% of the time; pairs who argued from different standards, 30.1% — half again as often, and the bracketed +9.7 points is the split added by the standards alone.",
+          "value": {
+            "quantity": [
+              0.205,
+              0.301,
+              0.097
+            ],
+            "unit": "share_opposite_stance"
+          },
+          "source_island": "jurisprudence-data.json",
+          "source_path": "law.dominant",
+          "derivation": "same-standard pair disagreement rate = 1 − law.dominant.same.agree = 20.5%; different-standard = 1 − law.dominant.diff.agree = 30.1%; difference = +9.7 points",
+          "recompute": "scripts/build_jurisprudence_data.py",
+          "dom_ref": "data-lawrow=\"same-standard\"",
+          "verified": null,
+          "caveat_refs": [
+            "standard-part-of-judgment"
+          ]
+        },
+        {
+          "id": "14c-thin-rows",
+          "statement": "The two thinnest rows (reproducibility, related work) rest on under 1,500 same-standard pairs.",
+          "value": {
+            "quantity": [
+              776,
+              1335
+            ],
+            "unit": "count_of_same_standard_pairs"
+          },
+          "source_island": "jurisprudence-data.json",
+          "source_path": "law.by_object",
+          "derivation": "law.by_object[o].same.n for reproducibility (776) and related_work (1,335), both under the plate's 1,500 read-loosely threshold",
+          "recompute": "scripts/build_jurisprudence_data.py",
+          "dom_ref": "data-lawrow=\"thin-rows\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-14d",
+      "title": "One law, twelve courtrooms: the evidence rule's tariff by docket",
+      "deck": "Aimed at what the paper claims to be (framing), the same rule keeps a −0.30σ deficit even with the review's criticism volume held fixed; aimed at how it is written (clarity), it costs nothing.",
+      "dom_host": "#lawtariff-fig",
+      "claims": [
+        {
+          "id": "14d-evidence-rule-docket",
+          "statement": "The identical evidence rule keeps a −0.30σ deficit in the framing docket and one indistinguishable from zero in clarity; the framing–clarity gap is −0.29σ (95% CI −0.38 to −0.20).",
+          "value": {
+            "quantity": [
+              -0.3004,
+              -0.0088
+            ],
+            "unit": "std_dev_rating_deficit_volume_adjusted"
+          },
+          "source_island": "lawtariff-data.json",
+          "source_path": "dockets",
+          "derivation": "dockets.problem_framing and dockets.clarity, the evidence_imported entry's .adj field (mean within-paper score deficit in σ, volume-regressed out)",
+          "recompute": "scripts/build_lawtariff_data.py",
+          "dom_ref": "data-lawfig=\"hero-dockets\"",
+          "verified": null,
+          "caveat_refs": [
+            "association-not-causation",
+            "era-scale"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-14e",
+      "title": "Inside the novelty docket: the price of each of its rules",
+      "deck": "Novelty's own rules — about combining or extending existing work — cost the most (−0.44 to −0.46σ, volume-adjusted); the borrowed evidence rule costs well under half that (−0.19).",
+      "dom_host": "#lawtariff-nov",
+      "claims": [
+        {
+          "id": "14e-novelty-own-rules",
+          "statement": "Novelty's own rules sit at −0.44σ and beyond; the borrowed evidence rule costs −0.19 — the ×2.4 marked on the chart.",
+          "value": {
+            "quantity": [
+              -0.4362,
+              -0.4558,
+              -0.1926
+            ],
+            "unit": "std_dev_rating_deficit_volume_adjusted"
+          },
+          "source_island": "lawtariff-data.json",
+          "source_path": "dockets.novelty",
+          "derivation": "dockets.novelty entries' .adj field: combination −0.4362, increment −0.4558, against the borrowed claims (\"evidence rule (imported)\") entry at −0.1926",
+          "recompute": "scripts/build_lawtariff_data.py",
+          "dom_ref": "data-lawnov=\"brass-vs-borrowed\"",
+          "verified": null,
+          "caveat_refs": [
+            "association-not-causation"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "association-not-causation",
+      "text": "Nobody assigned the objections at random: a reviewer who is already unconvinced is the one who raises novelty, so the number measures which objection travels with a low score, not what raising it would do. Read every price here as association, never causation.",
+      "scope": "all Fig. 14 tariff and rule-price numbers",
+      "verified_by": null
+    },
+    {
+      "id": "era-scale",
+      "text": "Fig. 14d/14e's prices are expressed in standard deviations of that year's own rating scale, because ICLR changed scales four times over 2018–2026, so four scoring regimes can share one axis.",
+      "scope": "Fig. 14d/14e σ figures",
+      "verified_by": null
+    },
+    {
+      "id": "standard-part-of-judgment",
+      "text": "The choice of standard is not prior to the judgment — it is part of it: which law a reviewer reaches for already carries most of the verdict they are about to give. Stance and standard are extracted from the same few units, so consistency of a reviewer's writing can contribute to the gap.",
+      "scope": "Fig. 14c standard-split figures",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_jurisprudence_data.py",
+      "scripts/build_lawtariff_data.py",
+      "scripts/build_lawtariff_ci.py"
+    ],
+    "data": [
+      "/api/v1/data/jurisprudence-data.json",
+      "/api/v1/data/lawtariff-data.json",
+      "/api/v1/data/viz-data.json"
+    ],
+    "related_plates": [
+      "plate-x",
+      "plate-xiii",
+      "plate-xxiv",
+      "plate-xxv"
+    ]
+  }
+}

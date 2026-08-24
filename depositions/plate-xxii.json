@@ -1,0 +1,180 @@
+{
+  "id": "plate-xxii",
+  "number": "XXII",
+  "title": "The Higher Court",
+  "act": {
+    "number": "VI",
+    "title": "The Higher Court"
+  },
+  "corpus_scope": "56,736 meta-reviewer units (90% from 2024–26) · 6,547 borderline 2026 panels · association, not cause",
+  "question": "What does the area chair weigh differently from the panel it summarizes, and what does the bench forgive at the margin?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-22a",
+      "title": "Two grammars: what the panel inspects, what the chair weighs",
+      "deck": "The chair does not re-litigate evidence — it weighs verdicts: statistics, positioning, novelty.",
+      "dom_host": "#court-slope",
+      "claims": [
+        {
+          "id": "22a-meta-units-count",
+          "statement": "56,736 meta-reviewer units, nine tenths of them from 2024–26, joined at the margin to 6,547 borderline 2026 panels.",
+          "value": {
+            "quantity": 56736,
+            "unit": "count",
+            "share_2024_2026": 0.9,
+            "n_borderline_panels": 6547
+          },
+          "source_island": "panel-data.json",
+          "source_path": "meta[]",
+          "derivation": "raw count of extracted meta-review logic units, n = 56,736 (PANEL.meta.meta_reviewer.n)",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": []
+        },
+        {
+          "id": "22a-rising",
+          "statement": "Statistics and metrics grow from 10% of reviewer attention to 26% of the chair's, related work from 5% to 16%, novelty doubles — the objects a chair can rule on from the reviews alone.",
+          "value": {
+            "quantity": [0.10, 0.26, 0.05, 0.16],
+            "unit": "share_of_units_reviewer_to_ac",
+            "stats_metrics": [0.10, 0.26],
+            "related_work": [0.05, 0.16]
+          },
+          "source_island": "court-data.json",
+          "source_path": "grammars[]",
+          "derivation": "COURT.grammars.reviewer.objects[o].share vs. COURT.grammars.ac.objects[o].share, for o in {stats_metrics, related_work, novelty}, across 952,856 official-reviewer units and 56,736 meta-reviewer units",
+          "recompute": "scripts/build_court_data.py",
+          "dom_ref": "data-court22a=\"rising\"",
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "22a-falling",
+          "statement": "Empirical scope, theory, and method design — the objects that demand re-reading the paper — fall to less than half their reviewer share.",
+          "value": {
+            "quantity": 0.5,
+            "unit": "share_ratio_ceiling",
+            "objects": ["empirical_scope", "theory", "method_design"]
+          },
+          "source_island": "court-data.json",
+          "source_path": "grammars[]",
+          "derivation": "COURT.grammars.ac.objects[o].share ÷ COURT.grammars.reviewer.objects[o].share < 0.5 for o in {empirical_scope, theory, method_design}",
+          "recompute": "scripts/build_court_data.py",
+          "dom_ref": "data-court22a=\"falling\"",
+          "verified": null,
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-22b",
+      "title": "What the bench forgives at the margin",
+      "deck": "At the margin, only a clarity charge reliably blocks the pardon.",
+      "dom_host": "#court-forgive",
+      "claims": [
+        {
+          "id": "22b-clarity-clear",
+          "statement": "Clarity's interval clears zero — a paper the panel found hard to read is 4.4 points less likely to be lifted.",
+          "value": {
+            "quantity": -4.4,
+            "unit": "pp_difference",
+            "object": "clarity"
+          },
+          "source_island": "court-data.json",
+          "source_path": "forgive[]",
+          "derivation": "COURT.forgive.clarity.adj_delta, matched inside 0.25-point mean-rating bins among the 6,547 borderline 2026 panels, 95% interval from resampling whole papers excludes zero",
+          "recompute": "scripts/build_court_data.py",
+          "dom_ref": "data-court22b=\"clarity-clear\"",
+          "verified": null,
+          "caveat_refs": ["borderline-margin-association"]
+        },
+        {
+          "id": "22b-identity-lean",
+          "statement": "Identity charges (framing, novelty) lean against the lift.",
+          "value": {
+            "quantity": null,
+            "unit": "directional_sign_negative",
+            "objects": ["problem_framing", "novelty"]
+          },
+          "source_island": "court-data.json",
+          "source_path": "forgive[]",
+          "derivation": "sign of COURT.forgive[o].adj_delta is negative for o in {problem_framing, novelty}",
+          "recompute": "scripts/build_court_data.py",
+          "dom_ref": "data-court22b=\"identity-lean\"",
+          "verified": null,
+          "caveat_refs": ["borderline-margin-association"]
+        },
+        {
+          "id": "22b-overlooked",
+          "statement": "Robustness and related-work charges are the ones the bench most readily overlooks.",
+          "value": {
+            "quantity": null,
+            "unit": "directional_sign_positive",
+            "objects": ["robustness_sensitivity", "related_work"]
+          },
+          "source_island": "court-data.json",
+          "source_path": "forgive[]",
+          "derivation": "COURT.forgive[o].adj_delta most positive (paper still lifted despite the charge) for o in {robustness_sensitivity, related_work}",
+          "recompute": "scripts/build_court_data.py",
+          "dom_ref": "data-court22b=\"overlooked\"",
+          "verified": null,
+          "caveat_refs": ["borderline-margin-association"]
+        }
+      ]
+    },
+    {
+      "id": "fig-22c",
+      "title": "The redemption: what the chair praises when it lifts a paper",
+      "deck": "75% of a lifted paper's meta-review is praise — of its numbers and its positioning; on rejected borderline papers, praise falls to 8%.",
+      "dom_host": "#court-redeem",
+      "claims": [
+        {
+          "id": "22c-praise-share",
+          "statement": "Roughly three-quarters of a lifted paper's meta-review is praise, favoring its numbers and its positioning; on a rejected borderline paper, praise of any kind nearly vanishes.",
+          "value": {
+            "quantity": [0.75, 0.08],
+            "unit": "share_of_meta_review_units_that_praise",
+            "lifted": 0.75,
+            "rejected_borderline": 0.08
+          },
+          "source_island": "court-data.json",
+          "source_path": "redemption[]",
+          "derivation": "COURT.redemption praise-share of meta-review units on lifted vs. rejected borderline papers",
+          "recompute": "scripts/build_court_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["justification-not-evidence"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "borderline-margin-association",
+      "text": "These comparisons are association, not cause: the accept line and the borderline band are inferred from outcomes, and a paper's fate may hinge on information the panel mean does not carry — a chair's own reading, a scope policy, a discounted reviewer.",
+      "scope": "Fig 22b forgiveness dot-and-interval comparisons",
+      "verified_by": null
+    },
+    {
+      "id": "justification-not-evidence",
+      "text": "The meta-review is written by the area chair after the decision is already made, so its praise reflects the language of justification, not independent evidence of paper quality.",
+      "scope": "Fig 22c redemption praise shares",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_court_data.py",
+      "scripts/build_panel_data.py"
+    ],
+    "data": [
+      "/api/v1/data/court-data.json",
+      "/api/v1/data/panel-data.json"
+    ],
+    "related_plates": [
+      "plate-xiv"
+    ]
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "id": "plate-xii",
+  "number": "XII",
+  "title": "The Verdicts",
+  "act": {
+    "number": "III",
+    "title": "The Law"
+  },
+  "corpus_scope": "ICLR 2026 · 410,586 units",
+  "question": "Which objects of scrutiny are judged almost only in the negative, and which criticism arrives with no way forward?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-12a",
+      "title": "Verdict mix per object, sorted by negativity",
+      "deck": "Positioning work — related work at 88% negative, novelty at 82% — is judged almost only in the negative.",
+      "dom_host": "#vprofile",
+      "claims": [
+        {
+          "id": "12a-positioning",
+          "statement": "The positioning objects — related work and novelty — are almost never written about except to criticise: 88% and 82% of their units are negative.",
+          "value": {
+            "quantity": [
+              0.8765,
+              0.8225
+            ],
+            "unit": "share_negative_of_object_units"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "summing all 410,586 2026 units by object: related_work is 9,033/10,306 = 87.65% negative, novelty is 9,409/11,440 = 82.25% negative",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-vp12a=\"positioning\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": []
+        },
+        {
+          "id": "12-own-words-flat",
+          "statement": "The share of units grounded in the reviewer's own explicit words is flat across all twelve objects (17–22%) — checked and retired from the chart rather than drawn.",
+          "value": {
+            "quantity": [
+              0.17,
+              0.22
+            ],
+            "unit": "share_reviewer_explicit"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "obj_extras",
+          "derivation": "reviewer_explicit / n per object (obj_extras[o].reviewer_explicit / obj_extras[o].n), range across the twelve objects",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-12b",
+      "title": "Criticism that arrives with no fix at all",
+      "deck": "37% of novelty criticism offers no way forward — two to four times any other object.",
+      "dom_host": "#rx",
+      "claims": [
+        {
+          "id": "12b-novelty-nofix",
+          "statement": "Novelty criticism is also the least actionable, alone: 37% of it arrives with no fix, two to four times the no-fix share of any other object (8–18%).",
+          "value": {
+            "quantity": 0.37,
+            "unit": "share_of_object_criticism_without_fix",
+            "object": "novelty"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "obj_extras",
+          "derivation": "share of novelty's negative units lacking a suggested-fix field (1 − with_improvement/n), compared against 8–18% for the other eleven objects",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-vp12b=\"novelty-nofix\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "fix-not-fixability"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "fix-not-fixability",
+      "text": "\"Comes with a fix\" is a property of what the reviewer wrote, not of whether the problem is fixable — though for novelty the two are hard to separate: a reviewer who thinks a contribution too small often has no repair to offer.",
+      "scope": "Fig. 12b no-fix shares",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_unit_viz_data.py"
+    ],
+    "data": [
+      "/api/v1/data/viz-data.json"
+    ],
+    "related_plates": [
+      "plate-i",
+      "plate-vii"
+    ]
+  }
+}

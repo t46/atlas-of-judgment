@@ -1,0 +1,130 @@
+{
+  "id": "plate-iii",
+  "number": "III",
+  "title": "The Rhetoric",
+  "act": {
+    "number": "I",
+    "title": "The Instrument"
+  },
+  "corpus_scope": "ICLR 2018–2026 · 1,009,592 units",
+  "question": "Two plates recorded what a reviewer judged and which rule they judged by — what shape does the argument itself take, and does each standard have its own voice?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-3",
+      "title": "The voice of each standard — six argument forms, all 1,009,592 units",
+      "deck": "Five of the six argument forms almost always criticize. When praise comes, nearly four times out of five (78.8%) it arrives as on-balance weighing.",
+      "dom_host": "#rhetoric",
+      "claims": [
+        {
+          "id": "3-onbalance-mercy",
+          "statement": "On-balance weighing is the only argument form in which praise occurs at scale (42% of its units are positive), and it carries 78.8% of all praise in the corpus; the other five forms run 88–97% negative.",
+          "value": {
+            "quantity": [
+              0.42,
+              0.788
+            ],
+            "unit": "share_positive_within_form_and_share_of_all_praise"
+          },
+          "source_island": "rhetoric-v2.json",
+          "source_path": "by_valence",
+          "derivation": "WEIGH.positive / sum(WEIGH.*) for the 42% figure; sum(WEIGH.positive) / sum(positive across all six forms) for the 78.8% figure",
+          "recompute": "scripts/build_rhetoric_v2.py",
+          "dom_ref": "data-rhet=\"weigh-mercy\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "argument-form-classifier-reading"
+          ]
+        },
+        {
+          "id": "3-repro-norm",
+          "statement": "Reproducibility is 69% pure norm-invocation.",
+          "value": {
+            "quantity": 0.69,
+            "unit": "share_of_standard_units"
+          },
+          "source_island": "rhetoric-v2.json",
+          "source_path": "by_standard",
+          "derivation": "by_standard['reproducibility_norm'].NORM / sum(by_standard['reproducibility_norm'].*)",
+          "recompute": "scripts/build_rhetoric_v2.py",
+          "dom_ref": "data-rhet=\"repro-norm\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "argument-form-classifier-reading"
+          ]
+        },
+        {
+          "id": "3-stats-cant-verify",
+          "statement": "Statistical identifiability leads with the can't-verify form at 43% — more than seven times that form's corpus-wide share.",
+          "value": {
+            "quantity": 0.43,
+            "unit": "share_of_standard_units"
+          },
+          "source_island": "rhetoric-v2.json",
+          "source_path": "by_standard",
+          "derivation": "by_standard['statistical_identifiability'].BLOCK / sum(by_standard['statistical_identifiability'].*), compared to overall.BLOCK share",
+          "recompute": "scripts/build_rhetoric_v2.py",
+          "dom_ref": "data-rhet=\"stats-blocked\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "argument-form-classifier-reading"
+          ]
+        },
+        {
+          "id": "3-novelty-precedent",
+          "statement": "No standard cites precedent as often as the novelty standard (29% of its units).",
+          "value": {
+            "quantity": 0.29,
+            "unit": "share_of_standard_units"
+          },
+          "source_island": "rhetoric-v2.json",
+          "source_path": "by_standard",
+          "derivation": "by_standard['novelty_standard'].ANCHOR / sum(by_standard['novelty_standard'].*), ranked against all twelve standards",
+          "recompute": "scripts/build_rhetoric_v2.py",
+          "dom_ref": "data-rhet=\"novelty-precedent\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "argument-form-classifier-reading"
+          ]
+        },
+        {
+          "id": "3-classifier-quality",
+          "statement": "The classifier that scales the 600 gold-labeled units to the full corpus reaches 5-fold cross-validation accuracy 0.685, macro-F1 0.666.",
+          "value": {
+            "quantity": [
+              0.685,
+              0.666
+            ],
+            "unit": "cv_accuracy_and_macro_f1"
+          },
+          "source_island": "rhetoric-v2.json",
+          "source_path": "validation",
+          "derivation": "validation.cv_accuracy, validation.cv_macro_f1 from the 5-fold CV run over local embeddings plus surface-marker features",
+          "recompute": "scripts/build_rhetoric_v2.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "argument-form-classifier-reading"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "argument-form-classifier-reading",
+      "text": "The six argument forms are a locally-trained classifier's reading of a genuinely interpretive construct (5-fold CV accuracy 0.685, macro-F1 0.666; weakest on the precedent-citing form at F1 0.53). A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded. Trust each row's shape against the corpus-mix bar more than any single cell's exact share.",
+      "scope": "all Fig. 3 argument-form percentages",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_rhetoric_v2.py"
+    ],
+    "data": [
+      "/api/v1/data/rhetoric-v2.json"
+    ],
+    "related_plates": []
+  }
+}

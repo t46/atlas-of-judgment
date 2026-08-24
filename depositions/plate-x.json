@@ -1,0 +1,149 @@
+{
+  "id": "plate-x",
+  "number": "X",
+  "title": "The Formulary",
+  "act": {
+    "number": "III",
+    "title": "The Law"
+  },
+  "corpus_scope": "ICLR 2026 · 293,671 negative units, embedded locally · nearest twin always from a different paper",
+  "question": "Which criticisms are field-wide formulas repeated across papers, and which are written for the paper at hand — and does that distinction change what the objection costs?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-10a",
+      "title": "The spectrum: how close is your criticism's nearest twin?",
+      "deck": "Most criticisms have a familiar twin in someone else's review — the median criticism's nearest twin sits at 0.81 similarity.",
+      "dom_host": "#form-spec",
+      "claims": [
+        {
+          "id": "10a-median-twin",
+          "statement": "The median criticism's nearest twin sits at 0.81 similarity.",
+          "value": {
+            "quantity": 0.81,
+            "unit": "cosine_similarity"
+          },
+          "source_island": "boilerplate-data.json",
+          "source_path": "median_sim",
+          "derivation": "median nearest-other-paper-twin cosine similarity across all 293,671 embedded 2026 negative units",
+          "recompute": "scripts/build_boilerplate_data.py",
+          "dom_ref": "data-spec10=\"median\"",
+          "verified": "checked against shipped JSON, 2026-08-25",
+          "caveat_refs": [
+            "tidied-restatement"
+          ]
+        },
+        {
+          "id": "10a-familiar-share",
+          "statement": "19.9% have one above 0.85.",
+          "value": {
+            "quantity": 0.199,
+            "unit": "share_of_negative_units"
+          },
+          "source_island": "boilerplate-data.json",
+          "source_path": "overall[]",
+          "derivation": "share of the 293,671 embedded 2026 negative units whose nearest-twin similarity clears the 0.85 threshold",
+          "recompute": "scripts/build_boilerplate_data.py",
+          "dom_ref": "data-spec10=\"familiar\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "tidied-restatement"
+          ]
+        },
+        {
+          "id": "10a-formula-share",
+          "statement": "3.8% are formulas with a twin above 0.90.",
+          "value": {
+            "quantity": 0.038,
+            "unit": "share_of_negative_units"
+          },
+          "source_island": "boilerplate-data.json",
+          "source_path": "overall[]",
+          "derivation": "share of the 293,671 embedded 2026 negative units whose nearest-twin similarity clears the 0.90 threshold, the cutoff behind every formula share on this plate",
+          "recompute": "scripts/build_boilerplate_data.py",
+          "dom_ref": "data-spec10=\"formula\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "tidied-restatement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-10b",
+      "title": "Formula share by object, against what the objection costs in score",
+      "deck": "The objections that cost the most score are the hand-written ones (novelty: 1.3% formula share); the cheap ones are standard formulas (reproducibility: 8.7%).",
+      "dom_host": "#form-obj",
+      "claims": [
+        {
+          "id": "10b-bespoke",
+          "statement": "The objections that cost points are the paper-specific ones — novelty at 1.3% and framing at 1.2% formula share, method and theory at 1.5%.",
+          "value": {
+            "quantity": [
+              0.013,
+              0.012,
+              0.015
+            ],
+            "unit": "formula_share_at_0.90_cutoff"
+          },
+          "source_island": "boilerplate-data.json",
+          "source_path": "by_object",
+          "derivation": "per-object share of negative units whose nearest twin clears 0.90 (by_object[o].shares[1]) for novelty, problem_framing, method_design, theory, joined against Plate XIV's within-paper tariff coefficient for the same objects",
+          "recompute": "scripts/build_boilerplate_data.py",
+          "dom_ref": "data-juris=\"bespoke\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "tariff-borrowed"
+          ]
+        },
+        {
+          "id": "10b-formulaic",
+          "statement": "The free objections are the formulaic ones: reproducibility 8.7%, clarity 8.0%.",
+          "value": {
+            "quantity": [
+              0.087,
+              0.08
+            ],
+            "unit": "formula_share_at_0.90_cutoff"
+          },
+          "source_island": "boilerplate-data.json",
+          "source_path": "by_object",
+          "derivation": "per-object share of negative units whose nearest twin clears 0.90 (by_object[o].shares[1]) for reproducibility and clarity, joined against Plate XIV's within-paper tariff coefficient for the same objects",
+          "recompute": "scripts/build_boilerplate_data.py",
+          "dom_ref": "data-juris=\"formulaic\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "tariff-borrowed"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "tidied-restatement",
+      "text": "What is compared is the model's tidied restatement of each criticism, not the reviewer's raw sentence, and that tidying pulls different phrasings closer together — so read the absolute similarity levels as upper bounds, and trust the comparisons (like the rise with score), which all pass through the same instrument.",
+      "scope": "all Fig. 10a similarity levels",
+      "verified_by": null
+    },
+    {
+      "id": "tariff-borrowed",
+      "text": "The tariff pole of Fig. 10b is borrowed from Plate XIV's within-paper 2026 regression and carries that plate's caveats (bootstrap intervals, single-year scope, association not causation).",
+      "scope": "Fig. 10b tariff pole",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_boilerplate_data.py"
+    ],
+    "data": [
+      "/api/v1/data/boilerplate-data.json",
+      "/api/v1/data/jurisprudence-data.json"
+    ],
+    "related_plates": [
+      "plate-ix",
+      "plate-xiv"
+    ]
+  }
+}

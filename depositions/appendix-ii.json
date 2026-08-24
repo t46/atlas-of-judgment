@@ -1,0 +1,174 @@
+{
+  "id": "appendix-ii",
+  "number": "App. II",
+  "title": "Provenance & Method",
+  "act": {
+    "number": null,
+    "title": "Appendices"
+  },
+  "corpus_scope": null,
+  "question": "Where does this atlas's data and method come from, and what are its limits?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-a0-provenance",
+      "title": "The provenance ladder: from raw reviews to labelled units",
+      "deck": "Layer I human reviews, Layer II free-text analytic memos, Layer III schema-constrained logic units — each stage verified against the one below it.",
+      "dom_host": "#prov",
+      "claims": [
+        {
+          "id": "a0-memo-and-unit-counts",
+          "statement": "DeepSeek analytic memos — free-text metascientific analysis per review (Full Layered pipeline, 151,193 memos); Qwen structured logic units — schema-constrained normalization of memos (review-logic-qwen-2026-full, 74,380 / 75,859 reviews).",
+          "value": {
+            "quantity": [151193, 74380, 75859],
+            "unit": "count_memos_and_reviews"
+          },
+          "source_island": null,
+          "source_path": null,
+          "derivation": "fixed pipeline-provenance counts written directly into the Appendix II provenance table (not templated from a shipped data island): the Layer II memo count from the Full Layered extraction run, and Layer III's ratio of reviews normalized into structured units (74,380) out of all reviews attempted (75,859)",
+          "recompute": null,
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["two-stage-llm-reading"]
+        },
+        {
+          "id": "a0-high-confidence-assignment",
+          "statement": "Nearest category centroid, cosine. High-confidence (≥0.75): objects 94.5%, standards 87.9%.",
+          "value": {
+            "quantity": [0.9447, 0.8787],
+            "unit": "share_units_ge_075_cosine_similarity",
+            "labels": ["object", "standard"]
+          },
+          "source_island": "viz-data.json",
+          "source_path": "confidence",
+          "derivation": "confidence.object_share_ge_075 = 0.9447, confidence.reasoning_share_ge_075 = 0.8787 — share of units whose nearest-centroid cosine similarity clears 0.75",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["extraction-noise-limits"]
+        },
+        {
+          "id": "a0-rebuttal-units",
+          "statement": "130,650 post-author-response units (Direct) with judgment_change and a keyword reading of update_trigger.",
+          "value": {
+            "quantity": 130650,
+            "unit": "count_post_response_units"
+          },
+          "source_island": "panel-data.json",
+          "source_path": "rebuttal.post_units",
+          "derivation": "count of logic units extracted from post-author-response review text, across the nine-year corpus",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "a0-tribunal-papers",
+          "statement": "13,704 ICLR 2026 papers with decisions (withdrawn excluded), joined to negative-unit presence per category at display time only.",
+          "value": {
+            "quantity": 13704,
+            "unit": "count_papers_with_decisions"
+          },
+          "source_island": "panel-data.json",
+          "source_path": "tribunal.n_papers",
+          "derivation": "count of 2026 forums with a recorded accept/reject decision, withdrawn submissions excluded",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "a0-nine-year-corpus-coverage",
+          "statement": "DRIFT: 1,009,592 units from the nine-year corpus (all ICLR 2018–2026, 50,861 papers at 98.16% strict coverage), labeled with the same centroids; per-year mean assignment similarity is flat at 0.81, so cross-year comparisons are not a transfer artifact.",
+          "value": {
+            "quantity": [1009592, 50861, 0.9816, 0.81],
+            "unit": "count_units_papers_coverage_and_label_consistency"
+          },
+          "source_island": "drift-data.json",
+          "source_path": "meta[]",
+          "derivation": "total unit count and paper count across the nine-year corpus, strict-coverage share of papers reached, and per-year mean nearest-centroid assignment similarity held flat across years",
+          "recompute": "scripts/build_drift_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": []
+        },
+        {
+          "id": "a0-known-limits",
+          "statement": "Reasoning-side clustering had 61.5% noise, so the standard taxonomy is a skeleton induced from ~40% of the sample; assignment confidence is reported per unit. 1,479 reviews (1.9%) failed extraction and are excluded; topic correlation of that missingness is unverified.",
+          "value": {
+            "quantity": [0.615, 1479, 0.019],
+            "unit": "share_noise_and_excluded_reviews"
+          },
+          "source_island": null,
+          "source_path": null,
+          "derivation": "fixed pipeline-provenance figures written directly into the Appendix II \"Known limits\" panel (not templated from a shipped data island): HDBSCAN noise share on the reasoning-side induction sample (sample size 12,000, per scripts/induce_unit_taxonomy.py's default --sample-size), and count/share of reviews that failed the extraction pipeline entirely",
+          "recompute": null,
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["extraction-noise-limits"]
+        }
+      ]
+    },
+    {
+      "id": "fig-a1",
+      "title": "The changing words of criticism, 2018–20 vs 2024–26",
+      "deck": "The vocabulary of criticism moved — partly with the review form itself.",
+      "dom_host": "#era-words",
+      "claims": [
+        {
+          "id": "a1-centroid-drift-ratio",
+          "statement": "Centroid drift of criticism language is 7–14× the typical year-to-year wobble in categories that are otherwise stable (novelty, empirical scope, clarity) — but read it gently: part of the shift is the review form itself.",
+          "value": {
+            "quantity": [7, 14],
+            "unit": "ratio_to_typical_year_to_year_wobble",
+            "objects": ["novelty", "empirical_scope", "clarity"]
+          },
+          "source_island": "galaxy.json",
+          "source_path": "points[]",
+          "derivation": "embedding-centroid displacement of criticism-language for stable categories, 2018–20 era vs 2024–26 era, divided by the median year-to-year centroid displacement in the same categories",
+          "recompute": "scripts/build_galaxy_data.py",
+          "dom_ref": null,
+          "verified": null,
+          "caveat_refs": ["era-vocabulary-confound"]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "two-stage-llm-reading",
+      "text": "Not a direct analysis of raw reviews. Each unit is a two-stage LLM reading (DeepSeek memo → Qwen normalization); the support_status tag records whether a unit is grounded in the reviewer's explicit words or inferred by the memo. The negative share reflects the memos' bias toward articulating the logic of criticism — it is not the sentiment ratio of human reviews.",
+      "scope": "all atlas claims",
+      "verified_by": null
+    },
+    {
+      "id": "extraction-noise-limits",
+      "text": "Reasoning-side clustering had 61.5% noise, so the standard taxonomy is a skeleton induced from ~40% of the sample; assignment confidence is reported per unit. 1,479 reviews (1.9%) failed extraction and are excluded; topic correlation of that missingness is unverified. Constellation names are automatic; they describe, not define, their regions.",
+      "scope": "taxonomy induction and extraction coverage",
+      "verified_by": null
+    },
+    {
+      "id": "era-vocabulary-confound",
+      "text": "Part of the criticism-language shift is the review form itself (structured 'weakness' fields arrived mid-decade), and the units are one pipeline's paraphrase.",
+      "scope": "Fig. A1 era-word claims",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_unit_viz_data.py",
+      "scripts/build_panel_data.py",
+      "scripts/build_drift_data.py",
+      "scripts/build_galaxy_data.py"
+    ],
+    "data": [
+      "/api/v1/data/viz-data.json",
+      "/api/v1/data/panel-data.json",
+      "/api/v1/data/drift-data.json",
+      "/api/v1/data/galaxy.json"
+    ],
+    "related_plates": [
+      "plate-i"
+    ]
+  }
+}
