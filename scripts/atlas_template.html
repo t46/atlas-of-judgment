@@ -347,11 +347,12 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .clause .c-d { font-size: 10.5px; color: var(--muted); margin-top: 6px; }
 @media (max-width: 880px) { .et-grid { grid-template-columns: 1fr; gap: 20px; } #elem-rib { display: none; } }
 /* ---- act interleaves ---- */
-.act-leaf { max-width: 1160px; margin: 110px auto 26px; padding: 0 20px; display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+.act-leaf { min-height: 88svh; max-width: none; margin: 40px auto 8px; padding: 0 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 13px; text-align: center; position: relative; }
+.act-leaf::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 62% 44% at 50% 50%, rgba(201,164,92,0.055), transparent 70%); pointer-events: none; }
 .act-leaf .al-rule { width: min(320px, 60%); height: 1px; background: var(--brass-line); }
-.act-leaf .al-no { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.5em; color: var(--brass); }
-.act-leaf .al-t { font-family: var(--display); font-size: 23px; color: var(--ink); }
-.act-leaf .al-s { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.act-leaf .al-no { font-family: var(--mono); font-size: clamp(10px, 1.2vw, 13px); letter-spacing: 0.5em; color: var(--brass); }
+.act-leaf .al-t { font-family: var(--display); font-size: clamp(44px, 7.5vw, 96px); line-height: 1.04; color: var(--ink); text-wrap: balance; }
+.act-leaf .al-s { font-family: var(--mono); font-size: clamp(9px, 1vw, 11px); letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
 /* ---- figure decks ---- */
 .fig-deck { font-size: 13px; font-style: italic; color: var(--ink-2); margin: 4px 0 12px; max-width: 88ch; }
 .fig-rel { font-family: var(--mono); font-size: 10px; line-height: 1.6; color: var(--muted); border-left: 2px solid var(--brass-faint); padding-left: 10px; margin: 0 0 14px; max-width: 88ch; }
@@ -2214,7 +2215,14 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const ctx = cv.getContext("2d");
   const raw = GALAXY.points.filter((_, i) => i % 2 === 0);
   // three depth layers with differential rotation
-  const pts = raw.map((p, i) => ({ x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3, o: p[2], r: p[3], v: p[4], s: p[5] }));
+  const pts = raw.map((p, i) => {
+    const sa = (i * 2654435761 % 6283) / 1000, sr = 0.55 + ((i * 40503) % 997) / 997 * 0.75;
+    return { x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3, o: p[2], r: p[3], v: p[4], s: p[5],
+             sx: Math.cos(sa) * sr, sy: Math.sin(sa) * sr };
+  });
+  // overture: stars begin scattered far off their true positions and assemble as the dome opens
+  let assembly = document.documentElement.classList.contains("overture") ? 0 : 1;
+  window.__skyAssemble = k => { assembly = k; };
   // the script's journey: waypoints = centroids of the objects a typical review visits, in order
   const SCRIPT_ORDER = ["problem_framing", "novelty", "method_design", "empirical_scope", "baselines_ablations", "stats_metrics", "reproducibility"];
   const objCent = {};
@@ -2284,6 +2292,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       const rx = c + px * cos[l] - py * sin[l], ry = c + px * sin[l] + py * cos[l];
       const wx = wobA * (Math.sin(ry * 0.045 + (t || 0) * 0.00055 + p.x * 37) + 0.5 * Math.sin(rx * 0.02 - (t || 0) * 0.00034));
       const wy = wobA * (Math.cos(rx * 0.041 - (t || 0) * 0.00047 + p.y * 41) + 0.5 * Math.cos(ry * 0.018 + (t || 0) * 0.00031));
+      if (assembly < 1) {
+        const s = (1 - assembly) * (1 - assembly) * w;
+        return [rx + wx + p.sx * s, ry + wy + p.sy * s];
+      }
       return [rx + wx, ry + wy];
     };
     // lens: the pointer, or an autonomous observer's eye that sweeps the sphere
@@ -10266,7 +10278,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 (function overture() {
   const html = document.documentElement;
   const cur = document.getElementById("overture");
-  const finish = () => { html.classList.remove("overture", "ov-open"); if (cur) cur.remove(); };
+  const finish = () => { html.classList.remove("overture", "ov-open"); if (cur) cur.remove(); if (window.__skyAssemble) window.__skyAssemble(1); };
   if (!cur || !html.classList.contains("overture")) { if (cur) cur.remove(); return; }
   try { sessionStorage.setItem("aoj-overture", "1"); } catch (e) {}
   let doneFlag = false;
@@ -10285,8 +10297,31 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       const r = (e * maxR).toFixed(1);
       const m = `radial-gradient(circle at 50% 50%, transparent ${r}px, #000 ${+r + 1}px)`;
       cur.style.webkitMaskImage = m; cur.style.maskImage = m;
+      if (window.__skyAssemble) window.__skyAssemble(e);
       if (k < 1) requestAnimationFrame(tick); else done();
     })(t0);
   }, 1500);
+})();
+
+// ---------------- the descent: leaving the hero falls into the sky ----------------
+(function descent() {
+  if (REDUCED) return;
+  const hero = document.querySelector(".tp-hero");
+  const sky = document.querySelector(".tp-sky");
+  const ov = document.querySelector(".tp-overlay");
+  const cue = document.querySelector(".tp-descend");
+  if (!hero || !sky) return;
+  let raf = null;
+  const tick = () => {
+    raf = null;
+    const h = hero.offsetHeight || innerHeight;
+    const k = Math.min(1.2, Math.max(0, scrollY / h));
+    sky.style.transform = `scale(${1 + k * 0.35})`;
+    sky.style.opacity = String(Math.max(0, 1 - k * 1.15));
+    if (ov) { ov.style.transform = `translateY(${(-k * h * 0.28).toFixed(1)}px)`; ov.style.opacity = String(Math.max(0, 1 - k * 1.6)); }
+    if (cue) cue.style.opacity = String(Math.max(0, 1 - k * 3));
+  };
+  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
+  tick();
 })();
 </script>
