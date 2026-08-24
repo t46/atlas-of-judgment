@@ -41,10 +41,19 @@ def island_tag(name: str, path: Path) -> str:
     return f'<script type="application/json" id="isl-{name}">{body}</script>'
 
 
+def galaxy_lite_tag() -> str:
+    import json
+    g = json.loads((OUTPUT_DIR / "galaxy.json").read_text())
+    g["points"] = g["points"][::3]
+    body = json.dumps(g, separators=(",", ":")).replace("</", "<\\/")
+    return f'<script type="application/json" id="isl-GALAXY_LITE">{body}</script>'
+
+
 def main() -> None:
     html = (PROJECT_ROOT / "scripts/atlas_template.html").read_text()
     tags = [island_tag(n, OUTPUT_DIR / f) for n, f in ISLANDS]
     tags += [island_tag(n, DIRECT_DIR / f) for n, f in DIRECT_ISLANDS]
+    tags.append(galaxy_lite_tag())
     for n, _ in ISLANDS + DIRECT_ISLANDS:
         html = html.replace(f"__{n}_JSON__", f'__ISL("{n}")')
     assert "__ISLANDS_BLOCK__" in html, "template missing __ISLANDS_BLOCK__ placeholder"

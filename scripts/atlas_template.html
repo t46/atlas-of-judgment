@@ -2002,7 +2002,7 @@ __ISLANDS_BLOCK__
 <script>
 const __ISL = id => JSON.parse(document.getElementById("isl-" + id).textContent);
 const DATA = __DATA_JSON__;
-const GALAXY = __GALAXY_JSON__;
+const GALAXY = __ISL("GALAXY_LITE");
 
 const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
 const VAL_COLOR = { negative: "#d0685c", uncertain: "#8b84cf", mixed: "#bd5878", conditional: "#bf8a30", positive: "#3ba183" };
@@ -2268,14 +2268,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const cv = document.getElementById("planisphere");
   const ctx = cv.getContext("2d");
   const PLN_MOBILE = matchMedia("(max-width: 760px)").matches;
-  const raw = GALAXY.points.filter((_, i) => i % (PLN_MOBILE ? 5 : 2) === 0);
-  let plnFrame = 0;
-  // three depth layers with differential rotation
-  const pts = raw.map((p, i) => {
+  const buildPts = rw => rw.map((p, i) => {
     const sa = (i * 2654435761 % 6283) / 1000, sr = 0.55 + ((i * 40503) % 997) / 997 * 0.75;
     return { x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, layer: i % 3, o: p[2], r: p[3], v: p[4], s: p[5],
              sx: Math.cos(sa) * sr, sy: Math.sin(sa) * sr };
   });
+  let raw = GALAXY.points.filter((_, i) => i % 2 === 0);   // lite (1/3) halved again = 1/6 for first paint
+  let pts = buildPts(raw);
+  let plnFrame = 0;
+  // once the full galaxy is parsed (desktop, deferred), the sky quietly deepens
+  window.__skyUpgrade = fullPoints => { raw = fullPoints.filter((_, i) => i % 2 === 0); pts = buildPts(raw); };
   // overture: stars begin scattered far off their true positions and assemble as the dome opens
   let assembly = document.documentElement.classList.contains("overture") ? 0 : 1;
   window.__skyAssemble = k => { assembly = k; };
@@ -2587,6 +2589,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
 // ---------------- deferred build: everything below runs after the overture ----------------
 window.__atlasRest = function () {
+const GALAXY_FULL = matchMedia("(max-width: 760px)").matches ? null : __ISL("GALAXY");
+if (GALAXY_FULL && window.__skyUpgrade) window.__skyUpgrade(GALAXY_FULL.points);
 const ORACLE = __ORACLE_JSON__;
 const LOTTERY = __LOTTERY_JSON__;
 const LIFECYCLE = __LIFECYCLE_JSON__;
@@ -4714,6 +4718,9 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const io = new IntersectionObserver(entries => {
     for (const en of entries) {
       if (!en.isIntersecting) continue;
+      // tall elements (a full plate on a phone) can never reach ratio 0.12 —
+      // also accept "it already fills a good part of the viewport"
+      if (en.intersectionRatio < 0.12 && en.intersectionRect.height < innerHeight * 0.4) continue;
       if (en.target.classList.contains("reveal")) {
         en.target.classList.add("in");
         if (en.target === sankeyPlate && !sankeyDone && window.__sankeyReveal) { sankeyDone = true; window.__sankeyReveal(); }
@@ -4731,7 +4738,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       }
       io.unobserve(en.target);
     }
-  }, { threshold: 0.12 });
+  }, { threshold: [0.05, 0.12] });
   for (const el of document.querySelectorAll(".plate, .plate-head")) {
     el.classList.add("reveal");
     io.observe(el);
@@ -10590,7 +10597,8 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const ctx = cv.getContext("2d");
   const FIN_MOBILE = matchMedia("(max-width: 760px)").matches;
   let finFrame = 0;
-  const pts = GALAXY.points.filter((_, i) => i % (FIN_MOBILE ? 7 : 3) === 0).map((p, i) => ({
+  const finSrc = (typeof GALAXY_FULL !== "undefined" && GALAXY_FULL) ? GALAXY_FULL.points : GALAXY.points;
+  const pts = finSrc.filter((_, i) => i % (FIN_MOBILE ? 3 : 3) === 0).map((p, i) => ({
     x: p[0] / 4095, y: p[1] / 4095, praise: p[4] === 4, ph: (i * 2654435761 % 6283) / 1000,
   }));
   let W = 0, H = 0;
