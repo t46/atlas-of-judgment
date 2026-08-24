@@ -49,8 +49,12 @@ def main() -> None:
         )
     ]
 
-    # per-object-category extras: how often criticism comes with a concrete fix,
-    # and how often the unit is grounded in the reviewer's explicit words
+    # per-object-category extras: how often CRITICISM comes with a concrete fix,
+    # and how often the unit is grounded in the reviewer's explicit words.
+    # Denominator is negative units only (2026-08-21 fix: the earlier version
+    # divided by all units, so objects with many positive units — framing,
+    # novelty — looked artificially fix-poor through composition alone), and a
+    # fix must be substantive (>15 chars, matching the repair-manual filter).
     obj_extras = {
         row["k"]: {
             "n": row["n"],
@@ -59,9 +63,11 @@ def main() -> None:
         }
         for row in conn.execute(
             "SELECT l.object_key k, COUNT(*) n,"
-            " SUM(u.suggested_improvement IS NOT NULL) imp,"
+            " SUM(u.suggested_improvement IS NOT NULL"
+            "     AND LENGTH(TRIM(u.suggested_improvement)) > 15) imp,"
             " SUM(u.support_status = 'reviewer_explicit') expl"
             " FROM unit_labels l JOIN units u ON u.unit_pk = l.unit_pk"
+            " WHERE u.valence = 'negative'"
             " GROUP BY 1"
         )
     }

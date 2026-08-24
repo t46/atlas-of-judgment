@@ -33,11 +33,34 @@ def main() -> None:
     html = html.replace("__DELIB_JSON__", load_json_island("deliberation-data.json"))
     html = html.replace("__REPERTOIRE_JSON__", load_json_island("repertoire-data.json"))
     html = html.replace("__CURRENTS_JSON__", load_json_island("currents-data.json"))
+    html = html.replace("__ITIN_JSON__", load_json_island("itinerary-data.json"))
+    html = html.replace("__JURIS_JSON__", load_json_island("jurisprudence-data.json"))
+    html = html.replace("__ARCHI_JSON__", load_json_island("archipelago-data.json"))
+    html = html.replace("__COURT_JSON__", load_json_island("court-data.json"))
+    html = html.replace("__TALK_JSON__", load_json_island("threads-data.json"))
+    html = html.replace("__FORM_JSON__", load_json_island("boilerplate-data.json"))
+    html = html.replace("__PARTY_JSON__", load_json_island("searchparty-data.json"))
+    html = html.replace("__CFX_JSON__", load_json_island("counterfactual-data.json"))
+    html = html.replace("__ELEMS_JSON__", load_json_island("elements-all.json"))
+    html = html.replace("__NINE_JSON__", load_json_island("ninegrammar-data.json"))
+    html = html.replace("__INTQ_JSON__", load_json_island("interrogative-data.json"))
+    html = html.replace("__TIDE_JSON__", load_json_island("tide-data.json"))
+    html = html.replace("__CHAIN_JSON__", load_json_island("chain-data.json"))
+    html = html.replace("__COMMIT_JSON__", load_json_island("commit-data.json"))
+    html = html.replace("__CANON_JSON__", load_json_island("canon-data.json"))
+    html = html.replace("__LAWT_JSON__", load_json_island("lawtariff-data.json"))
+    html = html.replace("__SHEET_JSON__", load_json_island("chargesheet-data.json"))
+    html = html.replace("__ACECHO_JSON__", load_json_island("acecho-data.json"))
+    html = html.replace("__TML_JSON__", load_json_island("timeless-data.json"))
+    html = html.replace("__MOVES_JSON__", load_json_island("moves-data.json"))
+    html = html.replace("__COMBO_JSON__", load_json_island("combination-data.json"))
+    html = html.replace("__TRIBCI_JSON__", load_json_island("tribunal-ci.json"))
     direct_dir = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-direct-v1"
     for placeholder, name in (
         ("__DRIFT_JSON__", "drift-data.json"),
         ("__PANEL_JSON__", "panel-data.json"),
         ("__MINDS_JSON__", "minds-data.json"),
+        ("__MIRAGE_JSON__", "mirage-data.json"),
         ("__RHET_JSON__", "rhetoric-v2.json"),
         ("__YIELD_JSON__", "yield-data.json"),
     ):

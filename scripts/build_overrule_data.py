@@ -57,6 +57,12 @@ def main() -> None:
 
     over_rej = [(f, p) for f, p in papers.items() if p["mean"] >= thr + 0.5 and not p["accepted"]]
     over_acc = [(f, p) for f, p in papers.items() if p["mean"] <= thr - 0.5 and p["accepted"]]
+    margins = []
+    for mg in (0.25, 0.5, 0.75, 1.0):
+        rej = sum(1 for p in papers.values() if p["mean"] >= thr + mg and not p["accepted"])
+        acc = sum(1 for p in papers.values() if p["mean"] <= thr - mg and p["accepted"])
+        margins.append({"margin": mg, "lifted": acc, "dropped": rej})
+    print("margins:", margins)
 
     # agreement vs distance from threshold
     curve = []
@@ -77,6 +83,7 @@ def main() -> None:
     payload = {
         "n_papers": len(papers), "accept_rate": round(acc_rate, 4), "threshold": round(thr, 3),
         "n_overruled_rejected": len(over_rej), "n_overruled_accepted": len(over_acc),
+        "margins": margins,
         "curve": curve,
         "ex_rejected_high": exemplars(over_rej, lambda kv: -kv[1]["mean"]),
         "ex_accepted_low": exemplars(over_acc, lambda kv: kv[1]["mean"]),

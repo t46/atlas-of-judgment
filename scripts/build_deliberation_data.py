@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -127,8 +127,51 @@ def main() -> None:
         })
         print(f'{s["scenario"]:>16s}  {f["forum_id"]}  n={s["n"]:2d} post={s["post"]:2d} soft={s["soft"]} hard={s["hard"]} gap={s["gap"]}  {payload[-1]["title"][:40]}')
 
-    (V / "deliberation-data.json").write_text(json.dumps({"forums": payload}) + "\n")
+    # ---- the population: the same primitives over every 2026 panel with
+    # >=2 rating-matched official reviewers (no size filter), so the case
+    # files can be placed against how deliberations usually go ----
+    pop = {"n_panels": 0, "softening": 0, "entrenchment": 0, "reversal": 0,
+           "split": 0, "unanimity": 0, "no_movement": 0}
+    move_units = Counter()
+    for cid, f in forums.items():
+        revs = f["revs"]
+        if len(revs) < 2:
+            continue
+        rats = {}
+        for rk in revs:
+            r = sig_rating.get((f["forum_id"], rk.split("_")[-1]))
+            if r is not None:
+                rats[rk] = r
+        if len(rats) < 2:
+            continue
+        soft = sum(1 for us in revs.values() for u in us if u["chg"] in ("weakened", "reversed"))
+        hard = sum(1 for us in revs.values() for u in us if u["chg"] == "strengthened")
+        rev = sum(1 for us in revs.values() for u in us if u["chg"] == "reversed")
+        gap = max(rats.values()) - min(rats.values())
+        pop["n_panels"] += 1
+        if soft:
+            pop["softening"] += 1
+        if hard and not soft:
+            pop["entrenchment"] += 1
+        if rev:
+            pop["reversal"] += 1
+        if gap >= 4:
+            pop["split"] += 1
+        if gap == 0:
+            pop["unanimity"] += 1
+        if not any(u["chg"] for us in revs.values() for u in us):
+            pop["no_movement"] += 1
+        for us in revs.values():
+            for u in us:
+                if u["phase"] == "post" and u["chg"]:
+                    move_units[u["chg"]] += 1
+
+    (V / "deliberation-data.json").write_text(
+        json.dumps({"forums": payload, "population": pop, "move_units": dict(move_units)}) + "\n"
+    )
     print(f"{len(payload)} exemplar deliberations")
+    print("population:", pop)
+    print("move units:", dict(move_units))
 
 
 if __name__ == "__main__":
