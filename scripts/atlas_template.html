@@ -852,6 +852,8 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
         document.documentElement.classList.remove("overture", "ov-open", "ov-anticipate");
         var o = document.getElementById("overture");
         if (o) o.remove();
+        if (window.__skyAssemble) window.__skyAssemble(1);
+        if (window.__ovOnDone) setTimeout(window.__ovOnDone, 50);
       }
     }, 10000);
   }
@@ -1996,51 +1998,11 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </footer>
 <div id="tooltip" role="status"></div>
 
+__ISLANDS_BLOCK__
 <script>
+const __ISL = id => JSON.parse(document.getElementById("isl-" + id).textContent);
 const DATA = __DATA_JSON__;
 const GALAXY = __GALAXY_JSON__;
-const ORACLE = __ORACLE_JSON__;
-const LOTTERY = __LOTTERY_JSON__;
-const LIFECYCLE = __LIFECYCLE_JSON__;
-const REPAIR = __REPAIR_JSON__;
-const OVERRULE = __OVERRULE_JSON__;
-const SEASON = __SEASON_JSON__;
-const DELIB = __DELIB_JSON__;
-const REP = __REPERTOIRE_JSON__;
-const CURRENTS = __CURRENTS_JSON__;
-const ITIN = __ITIN_JSON__;
-const JURIS = __JURIS_JSON__;
-const ARCHI = __ARCHI_JSON__;
-const COURT = __COURT_JSON__;
-const TALK = __TALK_JSON__;
-const FORM = __FORM_JSON__;
-const PARTY = __PARTY_JSON__;
-const CFX = __CFX_JSON__;
-const ELEMS = __ELEMS_JSON__;
-const NINE = __NINE_JSON__;
-const INTQ = __INTQ_JSON__;
-const TIDE = __TIDE_JSON__;
-const STRUCT = __STRUCTURE_JSON__;
-const PANEL = __PANEL_JSON__;
-const DRIFT = __DRIFT_JSON__;
-const MINDS = __MINDS_JSON__;
-const MIRAGE = __MIRAGE_JSON__;
-const FIELD = __FIELD_JSON__;
-const RHET = __RHET_JSON__;
-const SCORE = __SCORE_JSON__;
-const DEPTH = __DEPTH_JSON__;
-const YIELD = __YIELD_JSON__;
-const CONSTRUCT = __CONSTRUCT_JSON__;
-const CHAIN = __CHAIN_JSON__;
-const COMMIT = __COMMIT_JSON__;
-const CANON = __CANON_JSON__;
-const LAWT = __LAWT_JSON__;
-const SHEET = __SHEET_JSON__;
-const ACECHO = __ACECHO_JSON__;
-const TML = __TML_JSON__;
-const MOVES = __MOVES_JSON__;
-const COMBO = __COMBO_JSON__;
-const TRIBCI = __TRIBCI_JSON__;
 
 const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
 const VAL_COLOR = { negative: "#d0685c", uncertain: "#8b84cf", mixed: "#bd5878", conditional: "#bf8a30", positive: "#3ba183" };
@@ -2387,6 +2349,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       const wx = wobA * (Math.sin(ry * 0.045 + (t || 0) * 0.00055 + p.x * 37) + 0.5 * Math.sin(rx * 0.02 - (t || 0) * 0.00034));
       const wy = wobA * (Math.cos(rx * 0.041 - (t || 0) * 0.00047 + p.y * 41) + 0.5 * Math.cos(ry * 0.018 + (t || 0) * 0.00031));
       if (assembly < 1) {
+        if (performance.now() > 12000) { assembly = 1; return [rx + wx, ry + wy]; }
         const s = (1 - assembly) * (1 - assembly) * w;
         return [rx + wx + p.sx * s, ry + wy + p.sy * s];
       }
@@ -2624,6 +2587,50 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
 // ---------------- deferred build: everything below runs after the overture ----------------
 window.__atlasRest = function () {
+const ORACLE = __ORACLE_JSON__;
+const LOTTERY = __LOTTERY_JSON__;
+const LIFECYCLE = __LIFECYCLE_JSON__;
+const REPAIR = __REPAIR_JSON__;
+const OVERRULE = __OVERRULE_JSON__;
+const SEASON = __SEASON_JSON__;
+const DELIB = __DELIB_JSON__;
+const REP = __REPERTOIRE_JSON__;
+const CURRENTS = __CURRENTS_JSON__;
+const ITIN = __ITIN_JSON__;
+const JURIS = __JURIS_JSON__;
+const ARCHI = __ARCHI_JSON__;
+const COURT = __COURT_JSON__;
+const TALK = __TALK_JSON__;
+const FORM = __FORM_JSON__;
+const PARTY = __PARTY_JSON__;
+const CFX = __CFX_JSON__;
+const ELEMS = __ELEMS_JSON__;
+const NINE = __NINE_JSON__;
+const INTQ = __INTQ_JSON__;
+const TIDE = __TIDE_JSON__;
+const STRUCT = __STRUCTURE_JSON__;
+const PANEL = __PANEL_JSON__;
+const DRIFT = __DRIFT_JSON__;
+const MINDS = __MINDS_JSON__;
+const MIRAGE = __MIRAGE_JSON__;
+const FIELD = __FIELD_JSON__;
+const RHET = __RHET_JSON__;
+const SCORE = __SCORE_JSON__;
+const DEPTH = __DEPTH_JSON__;
+const YIELD = __YIELD_JSON__;
+const CONSTRUCT = __CONSTRUCT_JSON__;
+const CHAIN = __CHAIN_JSON__;
+const COMMIT = __COMMIT_JSON__;
+const CANON = __CANON_JSON__;
+const LAWT = __LAWT_JSON__;
+const SHEET = __SHEET_JSON__;
+const ACECHO = __ACECHO_JSON__;
+const TML = __TML_JSON__;
+const MOVES = __MOVES_JSON__;
+const COMBO = __COMBO_JSON__;
+const TRIBCI = __TRIBCI_JSON__;
+
+
 // ---------------- sankey (Plate II) ----------------
 (function sankey() {
   const host = document.getElementById("sankey");

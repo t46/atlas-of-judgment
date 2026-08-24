@@ -1,72 +1,54 @@
-"""Inject viz-data.json + galaxy.json into observatory_template.html.
+"""Inject the data islands into atlas_template.html as JSON script tags.
 
-Escapes "</" inside the JSON data islands so free-text fields can never
-terminate the <script> block, then writes
-data/analysis/iclr/unit-taxonomy-2026-v1/anatomy.html (the published artifact).
+Islands ship as <script type="application/json"> blocks and are parsed with
+JSON.parse via __ISL(name) — 2-4x faster than evaluating multi-MB JS object
+literals, and it lets the template defer parsing of the 42 non-critical
+islands until after the overture (only DATA and GALAXY parse up front).
+"</" is escaped as "<\\/" (a legal JSON escape) so free text can never
+terminate the script block. Writes
+data/analysis/iclr/unit-taxonomy-2026-v1/anatomy.html.
 """
 
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-2026-v1"
+DIRECT_DIR = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-direct-v1"
+
+ISLANDS = [
+    ("DATA", "viz-data.json"), ("GALAXY", "galaxy.json"), ("FIELD", "field-stats.json"),
+    ("SCORE", "score-data.json"), ("DEPTH", "score-depth.json"), ("CONSTRUCT", "construct-data.json"),
+    ("STRUCTURE", "structure-data.json"), ("ORACLE", "oracle-data.json"), ("LOTTERY", "lottery-data.json"),
+    ("LIFECYCLE", "lifecycle-data.json"), ("REPAIR", "repair-manual.json"), ("OVERRULE", "overrule-data.json"),
+    ("SEASON", "season-data.json"), ("DELIB", "deliberation-data.json"), ("REPERTOIRE", "repertoire-data.json"),
+    ("CURRENTS", "currents-data.json"), ("ITIN", "itinerary-data.json"), ("JURIS", "jurisprudence-data.json"),
+    ("ARCHI", "archipelago-data.json"), ("COURT", "court-data.json"), ("TALK", "threads-data.json"),
+    ("FORM", "boilerplate-data.json"), ("PARTY", "searchparty-data.json"), ("CFX", "counterfactual-data.json"),
+    ("ELEMS", "elements-all.json"), ("NINE", "ninegrammar-data.json"), ("INTQ", "interrogative-data.json"),
+    ("TIDE", "tide-data.json"), ("CHAIN", "chain-data.json"), ("COMMIT", "commit-data.json"),
+    ("CANON", "canon-data.json"), ("LAWT", "lawtariff-data.json"), ("SHEET", "chargesheet-data.json"),
+    ("ACECHO", "acecho-data.json"), ("TML", "timeless-data.json"), ("MOVES", "moves-data.json"),
+    ("COMBO", "combination-data.json"), ("TRIBCI", "tribunal-ci.json"),
+]
+DIRECT_ISLANDS = [
+    ("DRIFT", "drift-data.json"), ("PANEL", "panel-data.json"), ("MINDS", "minds-data.json"),
+    ("MIRAGE", "mirage-data.json"), ("RHET", "rhetoric-v2.json"), ("YIELD", "yield-data.json"),
+]
 
 
-def load_json_island(name: str) -> str:
-    return (OUTPUT_DIR / name).read_text().strip().replace("</", "<\\/")
+def island_tag(name: str, path: Path) -> str:
+    body = path.read_text().strip().replace("</", "<\\/")
+    return f'<script type="application/json" id="isl-{name}">{body}</script>'
 
 
 def main() -> None:
-    template = (PROJECT_ROOT / "scripts/atlas_template.html").read_text()
-    html = template.replace("__DATA_JSON__", load_json_island("viz-data.json"))
-    html = html.replace("__GALAXY_JSON__", load_json_island("galaxy.json"))
-    html = html.replace("__FIELD_JSON__", load_json_island("field-stats.json"))
-    html = html.replace("__SCORE_JSON__", load_json_island("score-data.json"))
-    html = html.replace("__DEPTH_JSON__", load_json_island("score-depth.json"))
-    html = html.replace("__CONSTRUCT_JSON__", load_json_island("construct-data.json"))
-    html = html.replace("__STRUCTURE_JSON__", load_json_island("structure-data.json"))
-    html = html.replace("__ORACLE_JSON__", load_json_island("oracle-data.json"))
-    html = html.replace("__LOTTERY_JSON__", load_json_island("lottery-data.json"))
-    html = html.replace("__LIFECYCLE_JSON__", load_json_island("lifecycle-data.json"))
-    html = html.replace("__REPAIR_JSON__", load_json_island("repair-manual.json"))
-    html = html.replace("__OVERRULE_JSON__", load_json_island("overrule-data.json"))
-    html = html.replace("__SEASON_JSON__", load_json_island("season-data.json"))
-    html = html.replace("__DELIB_JSON__", load_json_island("deliberation-data.json"))
-    html = html.replace("__REPERTOIRE_JSON__", load_json_island("repertoire-data.json"))
-    html = html.replace("__CURRENTS_JSON__", load_json_island("currents-data.json"))
-    html = html.replace("__ITIN_JSON__", load_json_island("itinerary-data.json"))
-    html = html.replace("__JURIS_JSON__", load_json_island("jurisprudence-data.json"))
-    html = html.replace("__ARCHI_JSON__", load_json_island("archipelago-data.json"))
-    html = html.replace("__COURT_JSON__", load_json_island("court-data.json"))
-    html = html.replace("__TALK_JSON__", load_json_island("threads-data.json"))
-    html = html.replace("__FORM_JSON__", load_json_island("boilerplate-data.json"))
-    html = html.replace("__PARTY_JSON__", load_json_island("searchparty-data.json"))
-    html = html.replace("__CFX_JSON__", load_json_island("counterfactual-data.json"))
-    html = html.replace("__ELEMS_JSON__", load_json_island("elements-all.json"))
-    html = html.replace("__NINE_JSON__", load_json_island("ninegrammar-data.json"))
-    html = html.replace("__INTQ_JSON__", load_json_island("interrogative-data.json"))
-    html = html.replace("__TIDE_JSON__", load_json_island("tide-data.json"))
-    html = html.replace("__CHAIN_JSON__", load_json_island("chain-data.json"))
-    html = html.replace("__COMMIT_JSON__", load_json_island("commit-data.json"))
-    html = html.replace("__CANON_JSON__", load_json_island("canon-data.json"))
-    html = html.replace("__LAWT_JSON__", load_json_island("lawtariff-data.json"))
-    html = html.replace("__SHEET_JSON__", load_json_island("chargesheet-data.json"))
-    html = html.replace("__ACECHO_JSON__", load_json_island("acecho-data.json"))
-    html = html.replace("__TML_JSON__", load_json_island("timeless-data.json"))
-    html = html.replace("__MOVES_JSON__", load_json_island("moves-data.json"))
-    html = html.replace("__COMBO_JSON__", load_json_island("combination-data.json"))
-    html = html.replace("__TRIBCI_JSON__", load_json_island("tribunal-ci.json"))
-    direct_dir = PROJECT_ROOT / "data/analysis/iclr/unit-taxonomy-direct-v1"
-    for placeholder, name in (
-        ("__DRIFT_JSON__", "drift-data.json"),
-        ("__PANEL_JSON__", "panel-data.json"),
-        ("__MINDS_JSON__", "minds-data.json"),
-        ("__MIRAGE_JSON__", "mirage-data.json"),
-        ("__RHET_JSON__", "rhetoric-v2.json"),
-        ("__YIELD_JSON__", "yield-data.json"),
-    ):
-        html = html.replace(
-            placeholder, (direct_dir / name).read_text().strip().replace("</", "<\\/")
-        )
+    html = (PROJECT_ROOT / "scripts/atlas_template.html").read_text()
+    tags = [island_tag(n, OUTPUT_DIR / f) for n, f in ISLANDS]
+    tags += [island_tag(n, DIRECT_DIR / f) for n, f in DIRECT_ISLANDS]
+    for n, _ in ISLANDS + DIRECT_ISLANDS:
+        html = html.replace(f"__{n}_JSON__", f'__ISL("{n}")')
+    assert "__ISLANDS_BLOCK__" in html, "template missing __ISLANDS_BLOCK__ placeholder"
+    html = html.replace("__ISLANDS_BLOCK__", "\n".join(tags))
     out = OUTPUT_DIR / "anatomy.html"
     out.write_text(html)
     print(f"{out} ({out.stat().st_size / 1e6:.2f} MB)")
