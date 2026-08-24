@@ -815,8 +815,9 @@ svg text.deft { cursor: help; }
 @keyframes epiDrift { from { transform: translateX(-28px); } to { transform: translateX(28px); } }
 @media (prefers-reduced-motion: reduce) { .act-leaf .al-epi .epi-stars { animation: none; } }
 .act-leaf.al-in .al-epi { opacity: 0.16; filter: blur(0); transition: opacity 1.6s var(--ease-settle) .4s, filter 1.9s var(--ease-settle) .4s; }
-.act-leaf .al-epi-cap { font-family: var(--mono); font-size: clamp(8.5px, .95vw, 10.5px); letter-spacing: 0.24em; text-transform: uppercase; color: var(--brass-dim); margin-top: 6px; opacity: 0; transition: opacity .9s var(--ease-settle) .7s; }
-.act-leaf.al-in .al-epi-cap { opacity: 1; }
+.act-leaf .al-syn { font-family: var(--serif); font-style: italic; font-size: clamp(14px, 1.35vw, 16.5px); line-height: 1.8; color: var(--ink-2); max-width: 58ch; margin-top: 12px; opacity: 0; transform: translateY(8px); transition: opacity 1s var(--ease-settle) .55s, transform 1s var(--ease-settle) .55s; }
+.act-leaf.al-in .al-syn { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .act-leaf .al-syn { opacity: 1; transform: none; transition: none; } }
 .act-leaf .al-dots { display: flex; gap: 9px; margin-top: 14px; opacity: 0; transition: opacity .9s var(--ease-settle) .9s; }
 .act-leaf.al-in .al-dots { opacity: 1; }
 .act-leaf .al-dots button { width: 22px; height: 3px; padding: 0; border: none; background: rgba(201,164,92,0.35); cursor: pointer; position: relative; transition: background .25s ease; }
@@ -10693,15 +10694,24 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 // ---------------- act-gate epigraphs: each act's one audited number, plus its plates ----------------
 (function actEpigraphs() {
   const EPI = {
-    "ACT I": ["71.8%", "of everything reviewers write is criticism \u00b7 plate i"],
-    "ACT II": ["0.69", "the first unit already carries two thirds of the verdict's signal \u00b7 plate vi"],
-    "ACT III": ["3.8%", "of criticisms are formulas with a near-verbatim twin \u00b7 plate x"],
-    "ACT IV": ["\u22120.43", "points \u2014 the price of a novelty objection, paper held fixed \u00b7 plate xiv"],
-    "ACT V": ["92%", "of objections are never mentioned again \u00b7 plate xix"],
-    "ACT VI": ["2.7\u00d7", "the bench overrules toward mercy \u00b7 plate xx"],
-    "ACT VII": ["0.18", "the 2026 intraclass correlation \u2014 the ruler on trial \u00b7 plate xxv"],
-    "ACT VIII": ["\u22124.9pp", "clarity's nine-year retreat from reviewer attention \u00b7 plate xxvi"],
-    "CODA": ["232", "real reviews, readable in full \u00b7 plate xxix"],
+    "ACT I": ["71.8%", "of everything reviewers write is criticism \u00b7 plate i",
+      "How a million reviews became countable: every act of judgment split into what was inspected, the rule it invoked, and the verdict it reached \u2014 and the couplings that make criticism a grammar rather than a mood."],
+    "ACT II": ["0.69", "the first unit already carries two thirds of the verdict's signal \u00b7 plate vi",
+      "One reviewer, alone at the page: the order criticism is written in, the forms it chains through, and how early the written verdict is already decided."],
+    "ACT III": ["3.8%", "of criticisms are formulas with a near-verbatim twin \u00b7 plate x",
+      "The anatomy of a charge: what a criticism actually says, the clauses it invokes, the repair it prescribes \u2014 and which laws are filed together when a paper stands trial."],
+    "ACT IV": ["\u22120.43", "points \u2014 the price of a novelty objection, paper held fixed \u00b7 plate xiv",
+      "The price list: what each objection costs in score with the paper held fixed, and which criticism keeps company with rejection \u2014 the atlas's closest look at consequence."],
+    "ACT V": ["92%", "of objections are never mentioned again \u00b7 plate xix",
+      "Judgment meets resistance: rebuttals, authors' moves, panels in deliberation \u2014 six plates on whether anything said after the review actually moves the judgment."],
+    "ACT VI": ["2.7\u00d7", "the bench overrules toward mercy \u00b7 plate xx",
+      "The area chair's bench: a different grammar of attention, what the bench forgives that reviewers would not, and whose words the meta-review actually carries."],
+    "ACT VII": ["0.18", "the 2026 intraclass correlation \u2014 the ruler on trial \u00b7 plate xxv",
+      "The ruler itself on trial: what the 1\u201310 scale is made of, and how much of a rating is the paper against how much is the reviewer you happened to draw."],
+    "ACT VIII": ["\u22124.9pp", "clarity's nine-year retreat from reviewer attention \u00b7 plate xxvi",
+      "Nine years and twelve territories: how attention drifted, what the unamended law of novelty held still, and how differently the same venue judges its different fields."],
+    "CODA": ["232", "real reviews, readable in full \u00b7 plate xxix",
+      "The evidence, unprocessed: real reviews with their reasoning laid bare, every specimen linked back to its source on OpenReview."],
   };
   const leaves = [...document.querySelectorAll(".act-leaf")];
   const secs = [...document.querySelectorAll("section")].filter(s => s.querySelector(".plate-no"));
@@ -10726,11 +10736,12 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
         <defs><clipPath id="${cid}"><text class="epi-clip-text" x="500" y="308" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="330" font-weight="500">${e[0]}</text></clipPath></defs>
         <g clip-path="url(#${cid})"><rect x="0" y="0" width="1000" height="400" fill="#c9a45c" opacity="0.45"/><g class="epi-stars">${stars.join("")}</g></g>
       </svg>`;
+      epi.querySelector("svg").innerHTML += `<title>${e[0]} \u2014 ${e[1]}</title>`;
       leaf.appendChild(epi);
-      const cap = document.createElement("div");
-      cap.className = "al-epi-cap";
-      cap.textContent = e[0] + " \u2014 " + e[1];
-      leaf.appendChild(cap);
+      const syn = document.createElement("div");
+      syn.className = "al-syn";
+      syn.textContent = e[2];
+      leaf.appendChild(syn);
     }
     // plate dots: sections between this leaf and the next
     const next = leaves[li + 1] || null;
