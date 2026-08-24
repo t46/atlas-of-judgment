@@ -1,0 +1,115 @@
+<title>Atlas of Judgment · Machine Reader</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #12101f; --raise: #1a1729; --ink: #ece7dc; --ink-2: #b3aa99; --muted: #6f6758;
+  --brass: #c9a45c; --brass-dim: #8a713e; --brass-line: rgba(201,164,92,0.28); --brass-faint: rgba(201,164,92,0.13);
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Cormorant Garamond", Georgia, serif;
+  --serif: "Source Serif 4", Georgia, serif;
+  --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.7;
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
+body::before { content: ""; position: fixed; inset: 0; z-index: 2500; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'%20opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px; }
+a { color: var(--brass); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.shell { max-width: 980px; margin: 0 auto; padding: 0 clamp(20px, 3vw, 44px) 90px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--brass); margin-top: 64px; }
+h1 { font-family: var(--display); font-weight: 500; font-size: clamp(40px, 6vw, 64px); line-height: 1.02; margin: 14px 0 10px; }
+.sub { color: var(--ink-2); max-width: 72ch; }
+.stats { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 14px; }
+.stats b { color: var(--brass); font-weight: 500; }
+.leaf { margin: 84px 0 30px; display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+.leaf .rule { width: min(320px, 60%); height: 1px; background: var(--brass-line); }
+.leaf .no { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.5em; color: var(--brass); }
+.leaf .t { font-family: var(--display); font-size: 23px; color: var(--ink); }
+.card { border: 1px solid var(--brass-line); border-left: 2px solid var(--brass); background: rgba(255,255,255,0.012); padding: 18px 22px 20px; margin: 14px 0; }
+.card .k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); margin-bottom: 8px; }
+.card .ep { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.card p { font-size: 13.5px; color: var(--ink-2); margin: 8px 0 0; }
+pre { background: var(--raise); border: 1px solid var(--brass-faint); padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 11px; line-height: 1.65; color: var(--ink-2); margin: 12px 0 0; }
+pre b { color: var(--brass); font-weight: 500; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--brass-line); }
+td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--ink-2); vertical-align: top; }
+td .pn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--brass); white-space: nowrap; }
+.chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.06em; color: var(--ink-2); border: 1px solid rgba(255,255,255,0.12); padding: 1px 7px; border-radius: 9px; margin: 1px 2px 1px 0; }
+.pending { color: var(--muted); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; }
+details { border: 1px solid rgba(255,255,255,0.08); margin: 6px 0; background: rgba(255,255,255,0.008); }
+summary { cursor: pointer; padding: 9px 14px; font-family: var(--mono); font-size: 11.5px; color: var(--ink); }
+summary .sz { color: var(--muted); font-size: 10px; margin-left: 10px; }
+details .body { padding: 4px 16px 12px; font-size: 12.5px; color: var(--ink-2); }
+details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--brass); }
+.note { border: 1px solid var(--brass-line); padding: 16px 20px; font-size: 13.5px; color: var(--ink-2); margin: 14px 0; }
+.note b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
+.colophon { margin-top: 90px; padding-top: 22px; border-top: 1px solid var(--brass-faint); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); line-height: 2.1; }
+.wrap-x { overflow-x: auto; }
+</style>
+<div class="shell">
+  <div class="eyebrow">Atlas of Judgment</div>
+  <h1>Machine <em>Reader</em></h1>
+  <p class="sub">A static, zero-cost API over the same audited data the plates are built from. Every endpoint is a plain JSON file on the CDN — one source, two formats: the page you can read, and the claims a machine can cite, recompute, and audit.</p>
+  <div class="stats"><b>1,420,178</b> units of reviewer logic · <b>410,586</b> read at full depth for 2026 · nine years of ICLR · <a href="/">the human-readable atlas ↗</a></div>
+
+  <div class="leaf"><span class="rule"></span><div class="no">QUICKSTART</div><div class="t">Three instruments</div><span class="rule"></span></div>
+
+  <div class="card">
+    <div class="k">01 · Index</div>
+    <div class="ep">GET <a href="/api/v1/index.json">/api/v1/index.json</a></div>
+    <p>The catalogue: every plate, every data island, every endpoint, plus which islands feed which plates.</p>
+  </div>
+  <div class="card">
+    <div class="k">02 · Deposition</div>
+    <div class="ep">GET <a href="/api/v1/plates/plate-i.json">/api/v1/plates/plate-i.json</a></div>
+    <p>One plate's testimony: its headline claims, each with a typed value, source island, derivation, recompute script, and governing caveats.</p>
+    <pre>{
+  "id": "1a-negative-share",
+  "statement": "71.8% of all units end negative, and no object escapes …",
+  "value": { "quantity": 0.718, "unit": "share_of_units", "n": 410586 },
+  <b>"source_island"</b>: "viz-data.json",
+  <b>"derivation"</b>: "sum(n where verdict=='negative') / sum(n) …",
+  <b>"recompute"</b>: "scripts/build_unit_viz_data.py",
+  "verified": "D10 number audit, 2026-08-24",
+  "caveat_refs": ["unit-recall-bias"]
+}</pre>
+  </div>
+  <div class="card">
+    <div class="k">03 · Data island</div>
+    <div class="ep">GET <a href="/api/v1/data/viz-data.json">/api/v1/data/viz-data.json</a></div>
+    <p>The 41 underlying data islands as standalone files — byte-identical twins of the JSON embedded in the human page.</p>
+  </div>
+  <div class="note"><b>Also</b> &nbsp; <a href="/openapi.yaml">/openapi.yaml</a> — machine-readable schema &nbsp;·&nbsp; <a href="/llms.txt">/llms.txt</a> — the entry point for AI readers</div>
+
+  <div class="leaf"><span class="rule"></span><div class="no">CATALOGUE</div><div class="t">The plates</div><span class="rule"></span></div>
+  <div class="wrap-x"><table>
+    <tr><th>Plate</th><th>Title</th><th>Act</th><th>Deposition</th><th>Source islands</th></tr>
+    __PLATE_ROWS__
+  </table></div>
+  <p style="font-size:12.5px;color:var(--muted)">Depositions marked <span class="pending">PENDING</span> are being transcribed from the plates' audited captions — the claim ids will be stable once published.</p>
+
+  <div class="leaf"><span class="rule"></span><div class="no">HOLDINGS</div><div class="t">The data islands</div><span class="rule"></span></div>
+  __ISLANDS__
+
+  <div class="leaf"><span class="rule"></span><div class="no">CONVENTIONS</div><div class="t">How to read a claim</div><span class="rule"></span></div>
+  <div class="note">
+    <b>Source vs. derivation vs. verified</b><br>
+    Nearly every headline number on this site is an aggregate computed over an array (most often <code style="font-family:var(--mono);font-size:11px">triples[]</code>), not a single JSON leaf. A claim therefore separates the <i>source</i> (which file, which array), the <i>derivation</i> (the arithmetic, stated plainly), and <i>verified</i> (the dated human audit that recomputed it). A pointer pretending to be more precise than that would be less honest, not more.
+  </div>
+  <div class="note">
+    <b>Caveats attach to claims, not pages</b><br>
+    Each claim lists <code style="font-family:var(--mono);font-size:11px">caveat_refs</code> — an empty list is itself an assertion that none apply. The corpus-wide one to know: ICLR changed its rating scale and review form four times over 2018–2026, so any claim comparing <i>scores</i> across years carries the moving-ruler caveat (see <a href="/method.html">method</a> §10). Claims about unit counts and shares — most of the site — are measured by the taxonomy, which is the constant instrument.
+  </div>
+  <div class="note">
+    <b>Citing</b><br>
+    Cite plate id + claim id, e.g. <code style="font-family:var(--mono);font-size:11px">plate-i#1a-negative-share</code> — stable across visual redesigns even when the prose around a number is rewritten. Derived data is CC BY 4.0; the underlying reviews belong to their anonymous authors via OpenReview.
+  </div>
+
+  <div class="colophon">
+    Atlas of Judgment · machine reader v1 · generated __BUILD_DATE__<br>
+    <a href="/">Atlas</a> · <a href="/about.html">About</a> · <a href="/method.html">Method</a> · <a href="https://github.com/t46/atlas-of-judgment">GitHub</a> · <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a> · CC BY 4.0
+  </div>
+</div>

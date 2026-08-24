@@ -1,0 +1,168 @@
+{
+  "id": "plate-i",
+  "number": "I",
+  "title": "The Anatomy",
+  "act": {
+    "number": "I",
+    "title": "The Instrument"
+  },
+  "corpus_scope": "ICLR 2026 · 410,586 units from 74,380 reviews",
+  "question": "What do reviewers actually look at, how do they think, and how do they decide?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-1a",
+      "title": "Object → standard → verdict (the sankey)",
+      "deck": "71.8% of everything reviewers write is criticism — and two thirds of the praise reaches its verdict through a single standard, merit recognition.",
+      "dom_host": "#sankey",
+      "claims": [
+        {
+          "id": "1a-negative-share",
+          "statement": "71.8% of all units end negative, and no object escapes — the gentlest-treated object still runs 60% negative, the harshest 88%.",
+          "value": {
+            "quantity": 0.718,
+            "unit": "share_of_units",
+            "n": 410586
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "sum(n where verdict=='negative') / sum(n), and per-object min/max of the same ratio",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "unit-recall-bias"
+          ]
+        },
+        {
+          "id": "1a-mercy-bottleneck",
+          "statement": "Two thirds of all positive units (66.9%) reach the right edge through one standard, merit recognition.",
+          "value": {
+            "quantity": 0.669,
+            "unit": "share_of_positive_units"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "sum(n where verdict=='positive' and standard=='merit_recognition') / sum(n where verdict=='positive')",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-sankey=\"mercy-positive\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        },
+        {
+          "id": "1a-largest-current",
+          "statement": "The single largest current in the corpus is empirical scope flowing into the design-justification standard (4.8% of everything).",
+          "value": {
+            "quantity": 0.048,
+            "unit": "share_of_all_units"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "n(object=='empirical_scope', standard=='design_justification') / sum(n)",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-sankey=\"largest-current\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        },
+        {
+          "id": "1a-novelty-monogamous",
+          "statement": "Novelty is the most monogamous object — one standard (its own) carries 67% of its units and two cover 80%.",
+          "value": {
+            "quantity": 0.67,
+            "unit": "share_of_object_units",
+            "object": "novelty"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "top-1 and top-2 standard share of n, grouped by object=='novelty', ranked across all 12 objects",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-sankey=\"novelty-monogamous\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    },
+    {
+      "id": "fig-1b",
+      "title": "The severity map: where mercy lives",
+      "deck": "All 131 readable pairings outside the merit-recognition column condemn more often than not; inside that one column, criticism falls to 14–35% for eleven of the twelve objects.",
+      "dom_host": "#mercy",
+      "claims": [
+        {
+          "id": "1b-readable-pairings",
+          "statement": "131 readable pairings — 12 × 12 pairings minus the merit-recognition column (12) minus 1 cell under 40 units; every one runs majority-negative.",
+          "value": {
+            "quantity": 131,
+            "unit": "count"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "12×12 object×standard pairings − merit_recognition column (12) − 1 cell with n<40 = 131",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        },
+        {
+          "id": "1b-harshest-cells",
+          "statement": "The harshest cells: related work judged by presentation-as-trust (95.9% negative), clarity judged by the same standard (94.7%), and reproducibility judged by statistical identifiability (94.4%).",
+          "value": {
+            "quantity": [
+              0.959,
+              0.947,
+              0.944
+            ],
+            "unit": "share_negative_per_cell"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "top-3 (object, standard) cells by negative-share, each holding hundreds to thousands of units",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-mercy=\"harshest-three\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": [
+            "unit-recall-bias"
+          ]
+        },
+        {
+          "id": "1b-rw-no-mercy",
+          "statement": "Related work is the worst-treated object even inside the mercy column: 55% negative even under merit recognition, where no other object exceeds 35%.",
+          "value": {
+            "quantity": 0.55,
+            "unit": "share_negative",
+            "object": "related_work",
+            "standard": "merit_recognition"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "triples[]",
+          "derivation": "negative-share of the (related_work, merit_recognition) cell, compared against the same cell for all 12 objects",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": "data-mercy=\"rw-mercy\"",
+          "verified": "D10 number audit, 2026-08-24",
+          "caveat_refs": []
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "unit-recall-bias",
+      "text": "The models that split reviews into units catch explicit criticism more reliably than brief praise — a passing \"well written\" often goes unrecorded — so the negative share is tilted upward. Comparisons between cells stay safe because every object and standard was read the same way.",
+      "scope": "all Fig. 1a / 1b percentages",
+      "verified_by": "Appendix II"
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_unit_viz_data.py"
+    ],
+    "data": [
+      "/api/v1/data/viz-data.json"
+    ],
+    "related_plates": [
+      "plate-ii",
+      "plate-xii",
+      "plate-xiii"
+    ]
+  }
+}

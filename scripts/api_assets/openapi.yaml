@@ -1,0 +1,235 @@
+openapi: 3.1.0
+info:
+  title: Atlas of Judgment — Machine Reader API
+  version: "1.0.0"
+  description: >
+    Static, zero-cost read-only API over the Atlas of Judgment's audited data islands
+    and per-plate depositions. Served from Cloudflare Pages as plain JSON files —
+    every endpoint below is a static resource, not a dynamic route.
+  license:
+    name: CC BY 4.0
+    url: https://creativecommons.org/licenses/by/4.0/
+servers:
+  - url: https://atlas-of-judgment.pages.dev
+
+paths:
+  /api/v1/index.json:
+    get:
+      summary: Catalogue of endpoints, plates, and data islands
+      operationId: getIndex
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndexDocument"
+
+  /api/v1/plates/{plateId}.json:
+    get:
+      summary: One plate's deposition — headline claims, sources, caveats
+      operationId: getPlateDeposition
+      parameters:
+        - name: plateId
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - plate-i
+              - plate-ii
+              - plate-iii
+              - plate-iv
+              - plate-v
+              - plate-vi
+              - plate-vii
+              - plate-viii
+              - plate-ix
+              - plate-x
+              - plate-xi
+              - plate-xii
+              - plate-xiii
+              - plate-xiv
+              - plate-xv
+              - plate-xvi
+              - plate-xvii
+              - plate-xviii
+              - plate-xix
+              - plate-xx
+              - plate-xxi
+              - plate-xxii
+              - plate-xxiii
+              - plate-xxiv
+              - plate-xxv
+              - plate-xxvi
+              - plate-xxvii
+              - plate-xxviii
+              - plate-xxix
+              - appendix-i
+              - appendix-ii
+              - appendix-iii
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Deposition"
+        "404":
+          description: Unknown plate id
+
+  /api/v1/data/{island}.json:
+    get:
+      summary: A raw data island, as served to the human page's <script> tags
+      operationId: getDataIsland
+      parameters:
+        - name: island
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Island filename stem (see /api/v1/index.json for the full, current list)
+            example: viz-data
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Shape is island-specific; see /api/v1/index.json for the field-name summary per island.
+        "404":
+          description: Unknown island
+
+components:
+  schemas:
+    IndexDocument:
+      type: object
+      properties:
+        corpus:
+          type: object
+          properties:
+            units_2026: { type: integer, example: 410586 }
+            reviews_2026: { type: integer, example: 74380 }
+            units_2018_2026: { type: integer, example: 1420178 }
+            papers: { type: integer, example: 52460 }
+        plates:
+          type: array
+          items: { $ref: "#/components/schemas/IndexPlateEntry" }
+        islands:
+          type: array
+          items: { $ref: "#/components/schemas/IndexIslandEntry" }
+
+    IndexPlateEntry:
+      type: object
+      required: [id, number, title, act, deposition_url]
+      properties:
+        id: { type: string, example: plate-i }
+        number: { type: string, example: "I" }
+        title: { type: string, example: "The Anatomy" }
+        act: { type: string, example: "The Instrument" }
+        deposition_url: { type: string, example: "/api/v1/plates/plate-i.json" }
+
+    IndexIslandEntry:
+      type: object
+      required: [file, url, status]
+      properties:
+        file: { type: string, example: viz-data.json }
+        url: { type: string, example: "/api/v1/data/viz-data.json" }
+        used_by_plates:
+          type: array
+          items: { type: string }
+        status:
+          type: string
+          enum: [active, orphaned]
+
+    Deposition:
+      type: object
+      required: [id, number, title, act, question, figures]
+      properties:
+        id: { type: string }
+        number: { type: string }
+        title: { type: string }
+        act:
+          type: object
+          properties:
+            number: { type: string }
+            title: { type: string }
+        corpus_scope: { type: string }
+        question: { type: string }
+        page_url: { type: string, format: uri }
+        figures:
+          type: array
+          items: { $ref: "#/components/schemas/Figure" }
+        caveats:
+          type: array
+          items: { $ref: "#/components/schemas/Caveat" }
+        links:
+          type: object
+          properties:
+            recompute_scripts:
+              type: array
+              items: { type: string }
+            data:
+              type: array
+              items: { type: string }
+            related_plates:
+              type: array
+              items: { type: string }
+
+    Figure:
+      type: object
+      required: [id, title, deck, claims]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        deck: { type: string }
+        dom_host: { type: string }
+        claims:
+          type: array
+          items: { $ref: "#/components/schemas/Claim" }
+
+    Claim:
+      type: object
+      required: [id, statement, value, source_island, derivation]
+      properties:
+        id: { type: string }
+        statement: { type: string }
+        value:
+          type: object
+          description: Structured quantity — never a bare number, so ratios always carry their denominator.
+          required: [quantity, unit]
+          properties:
+            quantity:
+              oneOf:
+                - type: number
+                - type: array
+                  items: { type: number }
+            unit: { type: string, example: share_of_units }
+            n: { type: integer }
+            object: { type: string }
+            standard: { type: string }
+        source_island: { type: string, example: viz-data.json }
+        source_path: { type: string, description: "The array/object the derivation runs over — not a single JSON leaf." }
+        derivation: { type: string, description: "Plain-language arithmetic, not code — matches the site's existing .prov-pop DERIVATION field." }
+        recompute: { type: string, description: "Path to the script that regenerates this island from raw review text." }
+        dom_ref:
+          type: string
+          nullable: true
+          description: "The hover-bind data-* key wiring this claim to a chart cell on the human page, if any."
+        verified:
+          type: string
+          nullable: true
+          description: "Human audit tag, e.g. 'D10 number audit, 2026-08-24'. Null means not yet audited — a real gap, not an omission."
+        caveat_refs:
+          type: array
+          items: { type: string }
+
+    Caveat:
+      type: object
+      required: [id, text, scope]
+      properties:
+        id: { type: string }
+        text: { type: string }
+        scope: { type: string }
+        verified_by: { type: string }
