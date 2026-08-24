@@ -99,6 +99,23 @@ section.console .plate-inner::before, section.console .plate-inner::after { disp
 #star-card .sc-x { position: absolute; top: 4px; right: 6px; background: none; border: none; color: var(--muted); font-size: 15px; cursor: pointer; }
 #star-card .sc-x:hover { color: var(--brass); }
 @media (max-width: 900px) { .tp-frame-inner { grid-template-columns: 1fr; } }
+/* ---- the overture: the observatory dome opens (session-once, skippable, JS-gated) ---- */
+#overture { display: none; }
+html.overture #overture { display: flex; position: fixed; inset: 0; z-index: 2600; background: var(--ground); align-items: center; justify-content: center;
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
+html.overture { overflow: hidden; }
+.ov-mark { display: flex; flex-direction: column; align-items: center; gap: 15px; text-align: center; padding: 0 20px; }
+.ov-eyebrow { font-family: var(--mono); font-size: clamp(11px, 1.6vw, 14px); text-transform: uppercase; color: var(--brass);
+  letter-spacing: 1.4em; text-indent: 1.4em; opacity: 0; animation: ovEye 1.5s var(--ease-settle) .1s forwards; }
+@keyframes ovEye { 0% { opacity: 0; letter-spacing: 1.4em; } 40% { opacity: 1; } 100% { opacity: 1; letter-spacing: 0.48em; } }
+.ov-rule { width: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--brass-line), transparent); animation: ovRule 1.2s var(--ease-settle) .5s forwards; }
+@keyframes ovRule { to { width: min(360px, 70vw); } }
+.ov-sub { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); opacity: 0; animation: ovSub .9s var(--ease-settle) .95s forwards; }
+@keyframes ovSub { to { opacity: 1; } }
+html.overture .tp-title-hero .w > span { animation-play-state: paused; }
+html.overture.ov-open .tp-title-hero .w > span { animation-play-state: running; }
+html.overture .tp-hero { transform: scale(1.045); }
+html.overture.ov-open .tp-hero { transform: scale(1); transition: transform 1.5s var(--ease-settle); }
 /* ---- the full-viewport hero: the sky itself is the title page ---- */
 .tp-hero { position: relative; min-height: 100svh; width: 100%; overflow: hidden; }
 .tp-sky { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
@@ -751,6 +768,16 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
 
 <canvas id="ether" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none"></canvas>
 
+<div id="overture" aria-hidden="true"><div class="ov-mark">
+  <div class="ov-eyebrow">Atlas of Judgment</div>
+  <div class="ov-rule"></div>
+  <div class="ov-sub">An observatory of peer review · MMXXVI</div>
+</div></div>
+<script>(function () { try {
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem("aoj-overture"))
+    document.documentElement.classList.add("overture");
+} catch (e) {} })();</script>
+
 <div class="titlepage" id="top">
   <div class="tp-hero">
     <div class="tp-sky"><div class="tp-sky-inner">
@@ -858,7 +885,7 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
 
 <div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><span class="al-rule"></span></div>
 
-<section class="console">
+<section>
   <div class="plate-head">
     <div class="plate-no">Plate I · The Anatomy</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 410,586 units from 74,380 reviews</div>
@@ -10233,5 +10260,33 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     bar.innerHTML = `<div class="console-bar-in"><span class="cb-id">${pid || ""}</span><span class="cb-title">${ptitle || ""}</span>${meter}<span class="cb-right">${scope ? scope.textContent.replace("Corpus: ", "") : ""}</span><span class="cb-live">live</span></div>`;
     plate.parentNode.insertBefore(bar, plate);
   });
+})();
+
+// ---------------- the overture: dome-opening sequence (skippable, session-once) ----------------
+(function overture() {
+  const html = document.documentElement;
+  const cur = document.getElementById("overture");
+  const finish = () => { html.classList.remove("overture", "ov-open"); if (cur) cur.remove(); };
+  if (!cur || !html.classList.contains("overture")) { if (cur) cur.remove(); return; }
+  try { sessionStorage.setItem("aoj-overture", "1"); } catch (e) {}
+  let doneFlag = false;
+  const done = () => { if (!doneFlag) { doneFlag = true; finish(); } };
+  ["click", "keydown", "wheel", "touchstart"].forEach(ev => addEventListener(ev, done, { once: true, passive: true }));
+  setTimeout(() => {
+    if (doneFlag) return;
+    html.classList.add("ov-open");
+    const DUR = 1350;
+    const maxR = Math.hypot(innerWidth, innerHeight) / 2 + 60;
+    const t0 = performance.now();
+    (function tick(now) {
+      if (doneFlag) return;
+      const k = Math.min(1, (now - t0) / DUR);
+      const e = 1 - Math.pow(1 - k, 3);
+      const r = (e * maxR).toFixed(1);
+      const m = `radial-gradient(circle at 50% 50%, transparent ${r}px, #000 ${+r + 1}px)`;
+      cur.style.webkitMaskImage = m; cur.style.maskImage = m;
+      if (k < 1) requestAnimationFrame(tick); else done();
+    })(t0);
+  }, 1500);
 })();
 </script>
