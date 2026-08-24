@@ -20,9 +20,15 @@
           "id": "mirage-explained-variance",
           "statement": "The clustering explains barely more of the real reviewers (35.8%) than of the noise (31.0%).",
           "value": {
-            "quantity": [0.358, 0.310],
+            "quantity": [
+              0.358,
+              0.31
+            ],
             "unit": "share_between_profile_variance_explained",
-            "labels": ["real", "synthetic_null"]
+            "labels": [
+              "real",
+              "synthetic_null"
+            ]
           },
           "source_island": "mirage-data.json",
           "source_path": "ev_real, ev_null",
@@ -30,7 +36,9 @@
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": null,
           "verified": "checked against shipped JSON, 2026-08-25",
-          "caveat_refs": ["mirage-quantified-not-total"]
+          "caveat_refs": [
+            "mirage-quantified-not-total"
+          ]
         },
         {
           "id": "mirage-real-clusters",
@@ -45,7 +53,9 @@
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": "data-mirage=\"real\"",
           "verified": null,
-          "caveat_refs": ["small-profile-noise"]
+          "caveat_refs": [
+            "small-profile-noise"
+          ]
         },
         {
           "id": "mirage-null-clusters",
@@ -60,13 +70,19 @@
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": "data-mirage=\"null\"",
           "verified": null,
-          "caveat_refs": ["small-profile-noise"]
+          "caveat_refs": [
+            "small-profile-noise"
+          ]
         },
         {
           "id": "mirage-overdispersion",
           "statement": "The mirage is quantified, not total: the real rows sit 1.15× above the multinomial variance floor at the median standard (1.58× at the most dispersed), and the clustering explains 4.8pp more of the real profiles than of the forged ones, a gap that widens with profile length — a faint true signature, far below what the roses' confidence suggests.",
           "value": {
-            "quantity": [1.15, 1.58, 0.048],
+            "quantity": [
+              1.15,
+              1.58,
+              0.048
+            ],
             "unit": "overdispersion_ratio_and_pp_gap"
           },
           "source_island": "mirage-data.json",
@@ -75,13 +91,18 @@
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": null,
           "verified": null,
-          "caveat_refs": ["mirage-quantified-not-total"]
+          "caveat_refs": [
+            "mirage-quantified-not-total"
+          ]
         },
         {
           "id": "cabinet-mirage-plate-removed",
           "statement": "A rose-diagram plate once claimed five reviewer archetypes — Architect, Stress-Tester, Advocate, Gatekeeper, Auditor — from k-means over 98,513 per-reviewer standard profiles, each rose a specialization of ×2.4–3.1 the field. The plate was removed on 2026-08-21.",
           "value": {
-            "quantity": [2.4, 3.1],
+            "quantity": [
+              2.4,
+              3.1
+            ],
             "unit": "specialization_ratio_range",
             "plate_removed_date": "2026-08-21"
           },
@@ -91,15 +112,23 @@
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": null,
           "verified": null,
-          "caveat_refs": ["mirage-quantified-not-total", "small-profile-noise"]
+          "caveat_refs": [
+            "mirage-quantified-not-total",
+            "small-profile-noise"
+          ]
         },
         {
           "id": "mirage-null-specialists",
           "statement": "The forgery blooms: five specialists at ×2.0–3.0 emerge from pure multinomial noise.",
           "value": {
-            "quantity": [2.0, 3.0],
+            "quantity": [
+              2.0,
+              3.0
+            ],
             "unit": "leading_standard_ratio_range",
-            "labels": ["synthetic_null"]
+            "labels": [
+              "synthetic_null"
+            ]
           },
           "source_island": "mirage-data.json",
           "source_path": "null[].ratio",
@@ -107,7 +136,55 @@
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": null,
           "verified": null,
-          "caveat_refs": ["mirage-quantified-not-total", "small-profile-noise"]
+          "caveat_refs": [
+            "mirage-quantified-not-total",
+            "small-profile-noise"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-15b",
+      "title": "Acceptance rate by breadth of criticism (relocated to the Null Cabinet, 2026-08-25 — expected by construction)",
+      "deck": "Each additional object criticised comes with about five points less acceptance.",
+      "dom_host": "#gauntlet",
+      "claims": [
+        {
+          "id": "15b-staircase",
+          "statement": "Acceptance falls steeply and then almost linearly — 69% at two objects, 57% at three, then roughly five points for each additional object, down to 27% at nine or more.",
+          "value": {
+            "quantity": [
+              0.6923,
+              0.5663,
+              0.2738
+            ],
+            "unit": "acceptance_rate_by_breadth"
+          },
+          "source_island": "panel-data.json",
+          "source_path": "gauntlet",
+          "derivation": "acceptance rate of 2026 decided papers grouped by count of distinct objects criticised (breadth 2, 3, 9-or-more), papers with fewer than 30 at a breadth dropped",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": "data-gaunt=\"staircase\"",
+          "verified": null,
+          "caveat_refs": [
+            "breadth-entangled"
+          ]
+        },
+        {
+          "id": "15b-modal-seven",
+          "statement": "The most common paper is criticised on seven of the twelve objects.",
+          "value": {
+            "quantity": 7,
+            "unit": "modal_breadth_of_objects_criticised",
+            "n": 3459
+          },
+          "source_island": "panel-data.json",
+          "source_path": "gauntlet",
+          "derivation": "breadth 7 holds the largest paper count (3,459) among the gauntlet buckets",
+          "recompute": "scripts/build_panel_data.py",
+          "dom_ref": "data-gaunt=\"modal-seven\"",
+          "verified": null,
+          "caveat_refs": []
         }
       ]
     }
@@ -123,6 +200,12 @@
       "id": "small-profile-noise",
       "text": "A median profile holds six units, and at that grain k-means carves sampling noise into confident-looking specialists. This is the test that deleted a plate.",
       "scope": "all Appendix III mirage claims",
+      "verified_by": null
+    },
+    {
+      "id": "breadth-entangled",
+      "text": "Association only, and here the two quantities are entangled by construction — a weaker paper gives reviewers more to criticise, so breadth of criticism is partly a measurement of the paper rather than a treatment applied to it.",
+      "scope": "Fig. 15b breadth figures",
       "verified_by": null
     }
   ],
