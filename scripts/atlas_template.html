@@ -113,6 +113,11 @@ html.overture { overflow: hidden; }
 .ov-sub { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); opacity: 0; animation: ovSub .9s var(--ease-settle) .95s forwards; }
 @keyframes ovSub { to { opacity: 1; } }
 html.overture .tp-title-hero .w > span { animation-play-state: paused; }
+html.overture .tp-overlay .tp-eyebrow { opacity: 0; }
+html.overture .tp-descend { opacity: 0; }
+.tp-descend { transition: opacity 1s var(--ease-settle) 1.1s; }
+html.ov-anticipate .ov-rule { transform: scaleX(0.9); transition: transform .28s var(--ease-settle); }
+html.ov-open .ov-rule, html.ov-open .ov-sub { opacity: 0 !important; transition: opacity .35s ease; }
 html.overture.ov-open .tp-title-hero .w > span { animation-play-state: running; }
 html.overture .tp-hero { transform: scale(1.045); }
 html.overture.ov-open .tp-hero { transform: scale(1); transition: transform 1.5s var(--ease-settle); }
@@ -131,8 +136,8 @@ html.overture.ov-open .tp-hero { transform: scale(1); transition: transform 1.5s
 .tp-title-hero { font-family: var(--display); font-weight: 500; font-size: clamp(58px, 10.5vw, 148px); line-height: 0.96; letter-spacing: 0.01em; margin: 16px 0 14px; text-shadow: 0 2px 26px rgba(18,16,31,.92); text-wrap: balance; }
 .tp-title-hero em { font-style: italic; }
 .tp-title-hero .w { display: inline-block; overflow: hidden; vertical-align: bottom; }
-.tp-title-hero .w > span { display: inline-block; transform: translate3d(0, 1.15em, 0) rotate(6deg); animation: tpw 1.1s var(--ease-settle) forwards; }
-@keyframes tpw { to { transform: none; } }
+.tp-title-hero .w > span { display: inline-block; transform: translate3d(0, 1.15em, 0) rotate(6deg) scale(1.05); filter: blur(6px); animation: tpw 1.2s var(--ease-settle) forwards; }
+@keyframes tpw { 60% { filter: blur(0); } to { transform: none; filter: blur(0); } }
 .tp-tag { font-family: var(--serif); font-style: italic; font-size: clamp(14px, 1.6vw, 17.5px); color: var(--ink-2); text-shadow: 0 1px 10px rgba(18,16,31,.9); max-width: 52ch; }
 .tp-hero-links { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; margin-top: 18px; }
 .tp-skycap { position: absolute; right: clamp(18px, 4vw, 60px); bottom: 52px; max-width: 300px; text-align: right;
@@ -642,6 +647,15 @@ body.tour-on #spec-dock { display: none !important; }
 #sextant.sx-swap .sx-plate { opacity: 0; }
 @media (max-width: 700px) { #sextant { font-size: 7.5px; padding: 4px 7px; left: 10px; bottom: 10px; } }
 @media print { #sextant { display: none; } }
+/* half-gate: a slim mid-act breath for the longest flat stretches */
+.half-gate { min-height: 34svh; display: flex; align-items: center; justify-content: center; gap: 16px; padding: 0 20px; }
+.half-gate .hg-rule { width: min(180px, 26vw); height: 1px; background: var(--brass-line); transform: scaleX(0); transition: transform 1s var(--ease-settle); }
+.half-gate .hg-rule:first-child { transform-origin: right center; }
+.half-gate .hg-rule:last-child { transform-origin: left center; }
+.half-gate .hg-t { font-family: var(--mono); font-size: 9px; letter-spacing: .4em; text-transform: uppercase; color: var(--brass-dim); white-space: nowrap; opacity: 0; transition: opacity .9s var(--ease-settle) .3s; }
+.half-gate.al-in .hg-rule { transform: scaleX(1); }
+.half-gate.al-in .hg-t { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .half-gate .hg-rule { transform: scaleX(1); transition: none; } .half-gate .hg-t { opacity: 1; transition: none; } }
 /* act-leaf entrance: mask opens upward while the title settles upward — one correlated gesture */
 .act-leaf .al-rule { transform: scaleX(0); transition: transform 1.1s var(--ease-settle); }
 .act-leaf .al-rule:first-child { transform-origin: right center; }
@@ -781,7 +795,8 @@ svg text.deft { cursor: help; }
 #fin-again:hover { background: rgba(201,164,92,0.12); color: var(--ink); }
 /* ---- act-gate epigraph: the act's one number as a watermark ---- */
 .act-leaf .al-epi { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); font-family: var(--display); font-size: clamp(130px, 26vw, 340px); line-height: 1; color: var(--brass); opacity: 0; pointer-events: none; white-space: nowrap; z-index: -1; }
-.act-leaf.al-in .al-epi { opacity: 0.055; transition: opacity 1.6s var(--ease-settle) .4s; }
+.act-leaf .al-epi { filter: blur(16px); }
+.act-leaf.al-in .al-epi { opacity: 0.055; filter: blur(0); transition: opacity 1.6s var(--ease-settle) .4s, filter 1.9s var(--ease-settle) .4s; }
 .act-leaf .al-epi-cap { font-family: var(--mono); font-size: clamp(8.5px, .95vw, 10.5px); letter-spacing: 0.24em; text-transform: uppercase; color: var(--brass-dim); margin-top: 6px; opacity: 0; transition: opacity .9s var(--ease-settle) .7s; }
 .act-leaf.al-in .al-epi-cap { opacity: 1; }
 .act-leaf .al-dots { display: flex; gap: 9px; margin-top: 14px; opacity: 0; transition: opacity .9s var(--ease-settle) .9s; }
@@ -1214,6 +1229,8 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
+<div class="half-gate" aria-hidden="true"><span class="hg-rule"></span><span class="hg-t">Act III · continued — plates X–XIII</span><span class="hg-rule"></span></div>
+
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate X · The Formulary</div>
@@ -1489,6 +1506,8 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <p class="caption"><b>Fig. 18</b> — <span class="cl">Where to look</span> right panel: the dashed line is the null — a move that changed nothing puts every mark on it. Six of the seven bands touch or cross that line; only the contest&#8217;s clears it. <span class="cl">How to read</span> left, the share of exchanges in which the reviewer recorded a weakened or reversed judgment, by decile of the author&#8217;s total reply length (median words on the axis) — an association, not a payoff: longer replies also happen where there is more to fix, and where the reviewer was engaged enough to answer at all. Right, each move&#8217;s four filled dots are its softening premium computed <em>inside</em> reply-length quartiles, so a move common in long replies cannot borrow the effort effect; the hollow dot is the raw gap before that control, and the band spans the four strata. <span class="cl">Result</span> only the contest — detected in 5% of exchanges, though the seven detectors differ in breadth, so prevalences compare only loosely — stays positive in every stratum: +1.6 to +2.8pp in the three quartiles with enough contests to read, and +1.4pp in the shortest-reply quartile, drawn faint because it holds only 265 contests, under the 300-exchange floor the other strata clear. The rest flatten once effort is held fixed: the concession and the ritual thanks swing between −1.4 and +1.4pp with no consistent sign, and the promissory note keeps a faint non-negative residue (0 to +1.6pp). <button class="hover-bind" data-moves18b="delivered">The delivered experiment — the move authors invest most in — is the flattest of all</button>: within ±0.7pp of the line, negative in three of four strata, the only move whose average premium sits below zero. An object-level check finds the same flatness at the point of impact: among exchanges charged on a given object, delivering experiments shifts softening <em>on that object</em> by less than half a point in either direction across all eight most-charged objects, with no consistent sign (novelty 1.1% with vs 1.3% without; empirical scope 1.7% vs 1.2%). Read the contest with care: authors choose to contest when they hold a strong hand, so this is the association of a chosen move, not the payoff of a tactic anyone could copy. And the outcome measure is conservative — it counts only judgment changes the reviewer put in writing; a reviewer quietly raising a score without re-engaging the argument is invisible here (Plate XVII reads the same limit from the other side). An embedding clustering of 722,406 reply sentences — a 26,428-exchange subsample of this universe, capped at 30 sentences per exchange (method &#167; 10) — separates topics more than tactics and finds the same null.</p>
   </div></div>
 </section>
+
+<div class="half-gate" aria-hidden="true"><span class="hg-rule"></span><span class="hg-t">Act V · continued — plates XIX–XXI</span><span class="hg-rule"></span></div>
 
 <section id="sec-fate">
   <div class="plate-head">
@@ -10325,11 +10344,32 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 (function actLeaves() {
   const leaves = document.querySelectorAll(".act-leaf");
   if (!leaves.length) return;
+  const scramble = el => {
+    if (!el || REDUCED) return;
+    const fin = el.textContent;
+    let f = 0;
+    (function step() {
+      f++;
+      el.textContent = f >= 7 ? fin : fin.replace(/\d/g, d => String((+d + f * 3 + fin.length) % 10));
+      if (f < 7) setTimeout(step, 50);
+    })();
+  };
   if (REDUCED) { leaves.forEach(l => l.classList.add("al-in")); return; }
   const io = new IntersectionObserver(ens => {
-    for (const en of ens) if (en.isIntersecting) { en.target.classList.add("al-in"); io.unobserve(en.target); }
+    for (const en of ens) if (en.isIntersecting) {
+      en.target.classList.add("al-in");
+      scramble(en.target.querySelector(".al-epi"));
+      io.unobserve(en.target);
+    }
   }, { threshold: 0.5 });
   leaves.forEach(l => io.observe(l));
+  const hg = document.querySelectorAll(".half-gate");
+  if (hg.length) {
+    const io2 = new IntersectionObserver(ens => {
+      for (const en of ens) if (en.isIntersecting) { en.target.classList.add("al-in"); io2.unobserve(en.target); }
+    }, { threshold: 0.6 });
+    hg.forEach(h => io2.observe(h));
+  }
 })();
 
 // ---------------- the console bar: plate chrome built from the plate's own data ----------------
@@ -10361,15 +10401,46 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const finish = () => { html.classList.remove("overture", "ov-open"); if (cur) cur.remove(); if (window.__skyAssemble) window.__skyAssemble(1); };
   if (!cur || !html.classList.contains("overture")) { if (cur) cur.remove(); return; }
   try { sessionStorage.setItem("aoj-overture", "1"); } catch (e) {}
-  let doneFlag = false;
-  const done = () => { if (!doneFlag) { doneFlag = true; finish(); } };
+  let doneFlag = false, flyEye = null;
+  const done = () => {
+    if (doneFlag) return;
+    doneFlag = true;
+    if (flyEye) flyEye.remove();
+    finish();
+  };
   ["click", "keydown", "wheel", "touchstart"].forEach(ev => addEventListener(ev, done, { once: true, passive: true }));
+  // beat 2: anticipation — the rule inhales just before the dome opens
+  setTimeout(() => { if (!doneFlag) html.classList.add("ov-anticipate"); }, 1700);
+  // beat 3: the aperture, with the site's name handed off as the same glyphs in flight
   setTimeout(() => {
     if (doneFlag) return;
-    html.classList.add("ov-open");
-    const DUR = 1350;
+    const DUR = 1300;
+    const ovEye = cur.querySelector(".ov-eyebrow");
+    const heroEye = document.querySelector(".tp-overlay .tp-eyebrow");
+    if (ovEye && heroEye) {
+      const a = ovEye.getBoundingClientRect();
+      const b = heroEye.getBoundingClientRect();
+      flyEye = ovEye;
+      ovEye.style.animation = "none";
+      ovEye.style.letterSpacing = "0.48em";
+      ovEye.style.position = "fixed";
+      ovEye.style.left = a.left + "px";
+      ovEye.style.top = a.top + "px";
+      ovEye.style.margin = "0";
+      ovEye.style.zIndex = "2610";
+      ovEye.style.opacity = "1";
+      document.body.appendChild(ovEye);
+      requestAnimationFrame(() => {
+        ovEye.style.transformOrigin = "top left";
+        ovEye.style.transition = `transform ${DUR + 250}ms var(--ease-settle), letter-spacing ${DUR + 250}ms var(--ease-settle), opacity 320ms ease ${DUR}ms`;
+        ovEye.style.transform = `translate(${(b.left - a.left).toFixed(1)}px, ${(b.top - a.top).toFixed(1)}px) scale(${(b.height / a.height).toFixed(4)})`;
+        ovEye.style.letterSpacing = "0.4em";
+        ovEye.style.opacity = "0";
+      });
+    }
     const maxR = Math.hypot(innerWidth, innerHeight) / 2 + 60;
     const t0 = performance.now();
+    let titleStarted = false;
     (function tick(now) {
       if (doneFlag) return;
       const k = Math.min(1, (now - t0) / DUR);
@@ -10377,10 +10448,14 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       const r = (e * maxR).toFixed(1);
       const m = `radial-gradient(circle at 50% 50%, transparent ${r}px, #000 ${+r + 1}px)`;
       cur.style.webkitMaskImage = m; cur.style.maskImage = m;
-      if (window.__skyAssemble) window.__skyAssemble(e);
-      if (k < 1) requestAnimationFrame(tick); else done();
+      // the stars settle on a light spring — a touch of overshoot, then rest
+      if (window.__skyAssemble) window.__skyAssemble(1 - Math.exp(-5.2 * k) * Math.cos(9 * k));
+      // beat 4: the title begins its rise only once the dome is more than half open
+      if (!titleStarted && e >= 0.55) { titleStarted = true; html.classList.add("ov-open"); }
+      if (k < 1) requestAnimationFrame(tick);
+      else setTimeout(done, 650);   // beat 5: hold — let the frame breathe before the page takes over
     })(t0);
-  }, 1500);
+  }, 2000);
 })();
 
 // ---------------- the descent: leaving the hero falls into the sky ----------------
@@ -10397,6 +10472,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const h = hero.offsetHeight || innerHeight;
     const k = Math.min(1.2, Math.max(0, scrollY / h));
     sky.style.transform = `scale(${1 + k * 0.35})`;
+    sky.style.filter = `brightness(${(1 + k * 0.16).toFixed(3)})`;
     sky.style.opacity = String(Math.max(0, 1 - k * 1.15));
     if (ov) { ov.style.transform = `translateY(${(-k * h * 0.28).toFixed(1)}px)`; ov.style.opacity = String(Math.max(0, 1 - k * 1.6)); }
     if (cue) cue.style.opacity = String(Math.max(0, 1 - k * 3));
