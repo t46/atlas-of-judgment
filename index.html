@@ -44,10 +44,12 @@ h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: ba
 section { padding: 84px 0 6px; }
 .cl { font-family: var(--mono); font-size: 8.8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); white-space: nowrap; margin: 0 9px 0 3px; opacity: .8; }
 .lede .cl { font-size: 9.2px; }
-.rn-box { border: 1px solid var(--brass-line); border-left: 2px solid var(--brass); padding: 22px 26px 24px; background: rgba(255,255,255,0.012); }
-.rn-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); margin-bottom: 16px; }
-.rn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-@media (max-width: 860px) { .rn-grid { grid-template-columns: 1fr; gap: 22px; } .rn-box { padding: 18px 18px 20px; } }
+/* the reader's note is the specimen's fine print — no frame of its own, a centered rule-flanked seal and two columns of colophon text */
+.rn-box { padding: 0; }
+.rn-eyebrow { display: flex; align-items: center; gap: 16px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass-dim); margin-bottom: 20px; white-space: nowrap; }
+.rn-eyebrow::before, .rn-eyebrow::after { content: ""; height: 1px; background: rgba(255,255,255,0.07); flex: 1; min-width: 20px; }
+.rn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 38px; }
+@media (max-width: 860px) { .rn-grid { grid-template-columns: 1fr; gap: 22px; } .rn-eyebrow { white-space: normal; } }
 .rn-h { font-family: var(--serif); font-size: 15.5px; color: var(--ink); margin-bottom: 7px; }
 .rn-box p { font-size: 13.5px; line-height: 1.75; color: var(--ink-2); margin: 0; }
 .rn-box b { color: var(--ink); font-weight: 500; }
@@ -1035,7 +1037,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div>
 </section>
 
-<section id="readers-note" style="padding-top:44px">
+<section id="readers-note" style="padding-top:34px">
   <div class="rn-box">
     <div class="rn-eyebrow">Before you start · what was counted, and how</div>
     <div class="rn-grid">
