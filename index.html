@@ -142,6 +142,37 @@ svg.bander-lines polyline { stroke: var(--brass-dim); stroke-width: 1; fill: non
 .tp-sub { font-size: 16.5px; color: var(--ink-2); max-width: 46ch; margin-top: 16px; }
 .tp-spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; color: var(--muted); margin-top: 30px; line-height: 2.1; text-transform: uppercase; }
 .tp-spec b { color: var(--brass); font-weight: 500; }
+/* ---- the threshold: the question, the docket, the specimen ---- */
+.tq { font-family: var(--display); font-weight: 500; font-size: clamp(34px, 5vw, 60px); line-height: 1.08; letter-spacing: 0.005em; text-wrap: balance; margin: 0 0 30px; max-width: 21ch; }
+.tq em { color: var(--brass); }
+.docket { border-left: 1px solid var(--brass-line); padding: 6px 0 6px 30px; display: flex; flex-direction: column; gap: 17px; }
+.dk-n { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: clamp(21px, 2.2vw, 27px); color: var(--ink); letter-spacing: 0.02em; line-height: 1; }
+.dk-l { font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass-dim); margin-top: 6px; }
+.dk-more { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; line-height: 2.1; margin-top: 4px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.055); }
+.dk-more b { color: var(--brass); font-weight: 500; }
+@media (max-width: 860px) { .docket { border-left: none; border-top: 1px solid var(--brass-line); padding: 22px 0 0; margin-top: 6px; flex-direction: row; flex-wrap: wrap; gap: 14px 34px; align-items: baseline; } .dk-more { flex-basis: 100%; border-top: none; padding-top: 2px; } }
+.sp-frame { border: 1px solid var(--brass-line); background: rgba(255,255,255,0.012); padding: 30px 34px 26px; }
+.sp-eyebrow { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); margin-bottom: 24px; }
+.sp-no { color: var(--muted); letter-spacing: 0.18em; }
+.sp-quote { font-family: var(--display); font-style: italic; font-size: clamp(21px, 2.7vw, 30px); line-height: 1.45; color: var(--ink); margin: 0; text-wrap: pretty; transition: text-shadow 0.5s var(--ease-settle); }
+.sp-quote.glow { text-shadow: 0 0 22px rgba(201,164,92,0.35); }
+.sq { border-bottom: 1px dashed transparent; padding-bottom: 2px; transition: border-color 0.35s var(--ease-settle); }
+.sq.on { border-bottom-color: var(--brass); }
+.sp-src { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); margin-top: 14px; }
+.sp-src a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.16); }
+.sp-src a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+.sp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 26px; border-top: 1px solid var(--brass-line); }
+.sp-cell { padding: 16px 20px 15px 0; margin-right: 20px; border-top: 2px solid transparent; margin-top: -1px; cursor: default; transition: border-color 0.35s var(--ease-settle); }
+.sp-cell:hover, .sp-cell.lit { border-top-color: var(--brass); }
+.sp-lab { font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); margin-bottom: 9px; }
+.sp-val { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); }
+.sp-val b { color: var(--ink); font-weight: 500; }
+.sp-imp { color: var(--muted); font-style: italic; }
+.sp-chip { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--v-negative); border: 1px solid rgba(208,104,92,0.45); border-radius: 2px; padding: 2px 7px; margin-left: 7px; white-space: nowrap; }
+.sp-foot { margin-top: 6px; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); border-top: 1px solid rgba(255,255,255,0.055); padding-top: 16px; }
+@media (max-width: 1000px) { .sp-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .sp-grid { grid-template-columns: 1fr; } .sp-cell { margin-right: 0; padding-right: 0; } .sp-frame { padding: 22px 18px 20px; } }
+@media print { .sp-cell { border-top-color: var(--brass-line); } }
 #planisphere { width: 100%; max-width: 520px; aspect-ratio: 1; justify-self: center; cursor: crosshair; }
 #star-card { position: absolute; left: 6px; right: 6px; bottom: 6px; background: rgba(18,16,31,0.94); backdrop-filter: blur(6px); border: 1px solid var(--brass-line); padding: 12px 34px 12px 14px; animation: specIn 0.35s ease both; }
 #star-card .sc-q { font-size: 12.5px; line-height: 1.55; color: var(--ink); font-style: italic; }
@@ -973,18 +1004,36 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="tp-descend"><span>Descend</span><i></i></div>
   </div>
   <div class="shell tp-below">
+    <h2 class="tq">What do peer reviewers actually <em>look at</em> — and how do they <em>decide</em>?</h2>
     <div class="tp-below-grid">
-      <p class="tp-sub" style="max-width:none">What do peer reviewers actually look at, and how do they decide? To find out, open-weight language models read every public ICLR review and split each one into its separate pieces of reasoning. One piece — a <em>unit</em> — records four things: what the reviewer inspected, what they observed, the standard they judged it by, and what they concluded. This page counts 410,586 units from ICLR 2026 (98% of its reviews), read one review at a time, and 1,009,592 units from 2018–2026, read a second way that takes in each paper's whole discussion — rebuttal replies and the area chair included. Every number below is a count of units. The reading is a machine's, not a human's; the note below explains what that costs, and every plate links back to the original reviews.</p>
-      <div class="tp-spec" style="margin-top:6px">
-        <b class="cnt" data-n="410586">410,586</b> logic units · <b class="cnt" data-n="74380">74,380</b> reviews · <b class="cnt" data-n="19474">19,474</b> papers<br>
-        + <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI<br>
-        the sky behind this page drifts in the corpus's true verdict proportions
+      <p class="tp-sub" style="max-width:none">To find out, open-weight language models read every public ICLR review and split each one into its separate pieces of reasoning. One piece — a <em>unit</em> — records four things: what the reviewer inspected, what they observed, the standard they judged it by, and what they concluded. This page counts 410,586 units from ICLR 2026 (98% of its reviews), read one review at a time, and 1,009,592 units from 2018–2026, read a second way that takes in each paper's whole discussion — rebuttal replies and the area chair included. Every number below is a count of units. The reading is a machine's, not a human's; the note below explains what that costs, and every plate links back to the original reviews.</p>
+      <div class="docket">
+        <div class="dk-cell"><div class="dk-n cnt" data-n="410586">410,586</div><div class="dk-l">logic units</div></div>
+        <div class="dk-cell"><div class="dk-n cnt" data-n="74380">74,380</div><div class="dk-l">reviews</div></div>
+        <div class="dk-cell"><div class="dk-n cnt" data-n="19474">19,474</div><div class="dk-l">papers</div></div>
+        <div class="dk-more">+ <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI<br>
+        the sky behind this page drifts in the corpus's true verdict proportions</div>
       </div>
     </div>
   </div>
 </div>
 
 <main class="shell">
+
+<section id="specimen" style="padding-top:50px">
+  <div class="sp-frame">
+    <div class="sp-eyebrow"><span>One unit, dissected — hover or tap a field to find it in the sentence</span><span class="sp-no">specimen № 335 of 410,586</span></div>
+    <blockquote class="sp-quote" id="sp-quote">&#8220;<span class="sq" data-f="inspected">Limited novelty</span>: Core idea&#8202;&#8212;&#8202;early-commitment to promising partial solutions&#8202;&#8212;&#8202;<span class="sq" data-f="observed">closely resembles existing beam/pruning and adaptive-consistency techniques</span>; <span class="sq" data-f="verdict">incremental contribution</span>.&#8221;</blockquote>
+    <div class="sp-src">the sentence as filed — one weakness from <a href="https://openreview.net/forum?id=hPUjTTj64O&amp;noteId=03ETTo7ue7" target="_blank" rel="noopener">an official review of ICLR 2026 submission hPUjTTj64O ↗</a> · matched verbatim to the raw OpenReview record, 2026-08-25</div>
+    <div class="sp-grid" id="sp-grid">
+      <div class="sp-cell" data-f="inspected"><div class="sp-lab">① inspected</div><div class="sp-val">the <b>novelty of the method&#8217;s early-commitment mechanism</b> — the part of the paper this judgment is about</div></div>
+      <div class="sp-cell" data-f="observed"><div class="sp-lab">② observed</div><div class="sp-val">the core idea <b>resembles existing beam/pruning and adaptive-consistency techniques</b> — what the reviewer saw there</div></div>
+      <div class="sp-cell" data-f="standard"><div class="sp-lab">③ standard</div><div class="sp-val">the norm the reviewer holds: <b>novelty requires a new mechanism</b>, not just a re-packaging of known search strategies <span class="sp-imp">— written nowhere in the sentence; most standards are implicit, and the machine&#8217;s reading names them</span></div></div>
+      <div class="sp-cell" data-f="verdict"><div class="sp-lab">④ verdict</div><div class="sp-val"><b>the contribution is incremental</b> <span class="sp-chip">negative</span></div></div>
+    </div>
+    <div class="sp-foot">Four fields, one unit. This exact dissection was performed 410,586 times on ICLR 2026, and a million more across nine years of discussion — every figure below is a count of these. The note that follows says what a machine&#8217;s reading costs, and how to check it.</div>
+  </div>
+</section>
 
 <section id="readers-note" style="padding-top:44px">
   <div class="rn-box">
@@ -5537,6 +5586,44 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       if (k < 1) requestAnimationFrame(tick);
     })(t0);
   }
+})();
+
+// ---------------- the specimen: one unit, dissected ----------------
+(function specimen() {
+  const grid = document.getElementById("sp-grid"), quote = document.getElementById("sp-quote");
+  if (!grid || !quote) return;
+  const seg = f => quote.querySelector(`.sq[data-f="${f}"]`);
+  const light = (f, on) => {
+    const cell = grid.querySelector(`.sp-cell[data-f="${f}"]`);
+    if (cell) cell.classList.toggle("lit", on);
+    if (f === "standard") quote.classList.toggle("glow", on); // the standard has no words of its own — it is read out of the whole sentence
+    else { const s = seg(f); if (s) s.classList.toggle("on", on); }
+  };
+  for (const cell of grid.querySelectorAll(".sp-cell")) {
+    cell.addEventListener("mouseenter", () => light(cell.dataset.f, true));
+    cell.addEventListener("mouseleave", () => light(cell.dataset.f, false));
+    cell.addEventListener("focus", () => light(cell.dataset.f, true));
+    cell.addEventListener("blur", () => light(cell.dataset.f, false));
+    cell.tabIndex = 0;
+  }
+  for (const s of quote.querySelectorAll(".sq")) {
+    s.addEventListener("mouseenter", () => light(s.dataset.f, true));
+    s.addEventListener("mouseleave", () => light(s.dataset.f, false));
+  }
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const order = ["inspected", "observed", "standard", "verdict"];
+  let played = false;
+  const io = new IntersectionObserver(ens => {
+    for (const en of ens) {
+      if (!en.isIntersecting || played) continue;
+      played = true; io.disconnect();
+      order.forEach((f, i) => {
+        setTimeout(() => light(f, true), 500 + i * 620);
+        setTimeout(() => light(f, false), 500 + i * 620 + 560);
+      });
+    }
+  }, { threshold: 0.55 });
+  io.observe(grid);
 })();
 
 // ---------------- the observatory: rail, tilt, reticle ----------------
