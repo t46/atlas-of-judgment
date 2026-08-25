@@ -37,6 +37,9 @@ h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: ba
 .lede { color: var(--ink-2); margin: 0; font-size: 15.5px; line-height: 1.75; }
 .lede-voices .cv-body { font-size: 15.5px; }
 .lede-voices .cv:first-child { padding-top: 0; }
+/* under a display heading the label sits as an overline, keeping body flush with the h2 */
+.lede-voices .cv { display: block; }
+.lede-voices .cv-lab { display: block; text-align: left; padding-top: 0; margin-bottom: 7px; }
 .lede em, .caption em { color: var(--ink); font-style: italic; }
 section { padding: 84px 0 6px; }
 .cl { font-family: var(--mono); font-size: 8.8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); white-space: nowrap; margin: 0 9px 0 3px; opacity: .8; }
