@@ -817,7 +817,7 @@ body.tour-on #spec-dock { display: none !important; }
 @media (prefers-reduced-motion: reduce) { .tour-focus { animation: none; } #tour { transition: none; } }
 /* ---- the observatory: whole-page instrument chrome ---- */
 /* ---- the long rule: the argument's own instrument, standing in the margin ---- */
-#rule { position: fixed; right: 6px; top: 50%; transform: translateY(-50%); z-index: 50; width: 132px; pointer-events: none; }
+#rule { position: fixed; right: 4px; top: 50%; transform: translateY(-50%); z-index: 50; width: 138px; pointer-events: none; }
 #rule .grip { pointer-events: auto; }
 #rule .ladder { opacity: 0; transition: opacity .34s var(--ease-glide); }
 #rule.open .ladder { opacity: 1; }
@@ -853,7 +853,7 @@ body.tour-on #spec-dock { display: none !important; }
 #rule .seg.turn { animation: hinge .78s var(--ease-settle) both; }
 @keyframes hinge { from { transform: rotate(7deg); } to { transform: none; } }
 #rl-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: .14em; fill: var(--muted); }
-#rl-flag { position: absolute; right: 136px; white-space: nowrap; font-family: var(--mono); font-size: 8.5px; letter-spacing: .17em; text-transform: uppercase; color: var(--brass); background: rgba(239,228,201,0.96); border: 1px solid var(--brass-faint); padding: 4px 8px; opacity: 0; transition: opacity .2s ease; pointer-events: none; transform: translateY(-50%); }
+#rl-flag { position: absolute; right: 142px; white-space: nowrap; font-family: var(--mono); font-size: 8.5px; letter-spacing: .17em; text-transform: uppercase; color: var(--brass); background: rgba(239,228,201,0.96); border: 1px solid var(--brass-faint); padding: 4px 8px; opacity: 0; transition: opacity .2s ease; pointer-events: none; transform: translateY(-50%); }
 #rl-flag.on { opacity: 1; }
 @media (max-width: 1100px) { #rule { display: none; } }
 @media print { #rule { display: none; } }
@@ -6583,8 +6583,8 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const nItems = ACTS.reduce((s, a) => s + a.items.length, 0);
   const ORDER = ACTS.flatMap(a => a.items).concat(CASE);   // the reading order, as the rule sees it
 
-  const W = 132, RW = 20, X = 106, NUMX = 38, WORDX = 45, KINK = 6;
-  const LADX = 10, LADW = X - 4 - 10;   // the drawer's panel, wide enough to hold the longest word clear of the blade
+  const W = 138, RW = 20, X = 106, NUMX = 38, WORDX = 45, KINK = 6;
+  const LADX = 10, LADW = X + RW + KINK + 2 - 10;   // the drawer is a tray: it carries the blade — including ACT VII's kink — so no edge crosses the rule
 
   function layout() {
     const H = Math.max(380, Math.min(680, innerHeight * 0.72));
