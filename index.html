@@ -6837,7 +6837,10 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 // ---------------- the guided tour ----------------
 (function tour() {
   const STOPS = [
-    { sel: "#planisphere", title: "A sky of judgment", text: "Every star is one real unit of reviewer logic from ICLR 2026 \u2014 40,000 of them, drawn as a rotating chart. Click any star to read the unit it stands for." },
+    { sel: "#neb, #planisphere", title: "The joint of judgment",
+      hero: 1,
+      text: "The atlas vertebra \u2014 the bone a skull turns on \u2014 reading and deciding, over and over, on real units of reviewer logic from ICLR 2026. Hold the loupe over it to read the sentences its shadow develops.",
+      textFallback: "A chart of 40,000 real units of reviewer logic from ICLR 2026, each one a mark in its own place. Click any mark to read the unit it stands for." },
     { sel: "#sankey", title: "71.8% of scrutiny resolves negative", text: "Objects flow through the standards that judge them and into verdicts. Merit recognition is the one column where praise concentrates \u2014 13.7% of the flow." },
     { sel: "#heatmap", title: "The discipline has a grammar", text: "Which rule judges which part of the paper is patterned, not free \u2014 but the law is often borrowed: only five of twelve objects are judged chiefly by their own standard, and design justification reaches across four rows." },
     { sel: "#arc", title: "Reviews follow a script", text: "Openings are conceptual, closings are hygiene, and the temperature follows an arc: praise opens at 26%, collapses mid-review, and partially recovers at the close." },
@@ -6857,13 +6860,15 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const st = STOPS[i];
     const el = document.querySelector(st.sel);
     if (!el) return;
+    // the hero is the vertebra when WebGL carries it, and the engraved plate when it does not
+    const text = (st.hero && !window.__neb3dActive && st.textFallback) ? st.textFallback : st.text;
     clearFocus();
     const box = el.closest(".plate-inner") ? el : el;
     focused = box; box.classList.add("tour-focus");
     el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" });
     elNo.textContent = `Stop ${i + 1} / ${STOPS.length}`;
     elTitle.textContent = st.title;
-    elText.textContent = st.text;
+    elText.textContent = text;
     bPrev.disabled = i === 0;
     bNext.textContent = i === STOPS.length - 1 ? "Finish \u2713" : "Next \u2192";
   }
