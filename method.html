@@ -98,10 +98,41 @@ footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display
 .col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; }
 .col-links a:hover { color: var(--ink); }
 .col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
+
+/* ---- unified furniture: motion tokens, grain, fixed topbar, entrance ---- */
+:root { --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1); --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1); }
+body::before { content: ""; position: fixed; inset: 0; z-index: 2500; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'%20opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px; }
+#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(18,16,31,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; white-space: nowrap; border: none; }
+#topbar .tb-links { display: flex; gap: clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; }
+#topbar .tb-links a:hover { color: var(--brass); }
+#topbar .tb-links a.here { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.16em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+.eyebrow { letter-spacing: 0.9em; opacity: 0; animation: pgEye 1.2s var(--ease-settle) .1s forwards; }
+@keyframes pgEye { 40% { opacity: 1; } to { opacity: 1; letter-spacing: 0.34em; } }
+h1 { clip-path: inset(100% 0 0 0); transform: translateY(14px); animation: pgH1 1s var(--ease-settle) .3s forwards; }
+@keyframes pgH1 { to { clip-path: inset(0 0 0 0); transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow { animation: none; opacity: 1; letter-spacing: 0.34em; }
+  h1 { animation: none; clip-path: none; transform: none; }
+}
 </style>
 
 <div class="shell" id="top">
-<nav class="nav"><a href="about.html">About</a><a href="index.html">The Atlas</a><a class="here" href="#">The Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a></nav>
+<nav id="topbar" aria-label="site">
+  <a class="tb-mark" href="index.html">Atlas of Judgment</a>
+  <div class="tb-links">
+    <a href="index.html">The Atlas</a>
+    <a href="about.html">About</a>
+    <a class="here" href="#">Method</a>
+    <a href="https://github.com/t46/atlas-of-judgment">GitHub</a>
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Data</a>
+  </div>
+</nav>
+<div style="height:54px"></div>
 
 <div class="eyebrow">Atlas of Judgment · Reproduction Record</div>
 <h1>How the data <em style="font-style:italic">was made</em></h1>
