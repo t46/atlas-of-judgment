@@ -817,14 +817,7 @@ body.tour-on #spec-dock { display: none !important; }
 @media (prefers-reduced-motion: reduce) { .tour-focus { animation: none; } #tour { transition: none; } }
 /* ---- the observatory: whole-page instrument chrome ---- */
 /* ---- the long rule: the argument's own instrument, standing in the margin ---- */
-#rule { position: fixed; right: 4px; top: 50%; transform: translateY(-50%); z-index: 50; width: 138px; pointer-events: none; }
-#rule .grip { pointer-events: auto; }
-#rule .ladder { opacity: 0; transition: opacity .34s var(--ease-glide); }
-#rule.open .ladder { opacity: 1; }
-#rule .ladder .hit { pointer-events: none; }
-#rule.held .ladder .hit { pointer-events: auto; }
-#rule .ladder-bg { fill: var(--paper); stroke: var(--brass-line); stroke-width: 1; }
-#rule .ladder { filter: drop-shadow(-4px 3px 7px rgba(61,44,20,0.16)); }
+#rule { position: fixed; right: 6px; top: 50%; transform: translateY(-50%); z-index: 50; width: 36px; pointer-events: none; }
 #rule svg { display: block; overflow: visible; pointer-events: none; }
 #rule .hit { pointer-events: auto; cursor: pointer; }
 #rule .hit:focus { outline: none; }
@@ -837,12 +830,6 @@ body.tour-on #spec-dock { display: none !important; }
 #rule .tag { fill: none; stroke: var(--brass); stroke-width: 1; }
 #rule .hinge-p { fill: var(--ground); stroke: var(--brass); stroke-width: 1.2; }
 #rule .hinge-c { fill: var(--brass); }
-#rule .num { font-family: var(--mono); font-size: 7.4px; letter-spacing: .12em; fill: rgba(107,86,54,0.34); transition: fill .5s var(--ease-glide); }
-#rule .num.past { fill: rgba(107,86,54,0.66); }
-#rule .num.on { fill: var(--brass); font-weight: 500; }
-#rule .mag { font-family: var(--mono); font-size: 7.2px; letter-spacing: .19em; fill: rgba(107,86,54,0.34); transition: fill .5s var(--ease-glide); }
-#rule .mag.past { fill: rgba(107,86,54,0.66); }
-#rule .mag.on { fill: var(--brass); font-weight: 500; }
 #rule .spine { stroke: var(--brass-line); stroke-width: 1; }
 #rule .spine.turned { stroke: var(--brass); stroke-width: 1.3; }
 #rule .bevel { stroke: rgba(138,90,31,0.13); stroke-width: 1; }
@@ -854,11 +841,13 @@ body.tour-on #spec-dock { display: none !important; }
 #rule .seg.turn { animation: hinge .78s var(--ease-settle) both; }
 @keyframes hinge { from { transform: rotate(7deg); } to { transform: none; } }
 #rl-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: .14em; fill: var(--muted); }
-#rl-flag { position: absolute; right: 142px; white-space: nowrap; font-family: var(--mono); font-size: 8.5px; letter-spacing: .17em; text-transform: uppercase; color: var(--brass); background: rgba(239,228,201,0.96); border: 1px solid var(--brass-faint); padding: 4px 8px; opacity: 0; transition: opacity .2s ease; pointer-events: none; transform: translateY(-50%); }
+#rl-flag { position: absolute; right: 44px; white-space: nowrap; font-family: var(--mono); font-size: 8.5px; letter-spacing: .17em; text-transform: uppercase; color: var(--brass); background: rgba(239,228,201,0.96); border: 1px solid var(--brass-faint); padding: 5px 9px; opacity: 0; transition: opacity .2s ease; pointer-events: none; transform: translateY(-50%); text-align: right; }
+#rl-flag .rl-f1 { display: block; color: var(--brass); }
+#rl-flag .rl-f2 { display: block; margin-top: 3px; color: var(--brass-dim); font-size: 7.6px; letter-spacing: .14em; }
 #rl-flag.on { opacity: 1; }
 @media (max-width: 1100px) { #rule { display: none; } }
 @media print { #rule { display: none; } }
-@media (prefers-reduced-motion: reduce) { #rule .runner, #rule .seg.turn, #rule .ladder { transition: none; animation: none; } }
+@media (prefers-reduced-motion: reduce) { #rule .runner, #rule .seg.turn { transition: none; animation: none; } }
 #atlas-nav .an-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--brass-faint); margin-bottom: clamp(18px, 3svh, 30px); }
 #atlas-nav .an-tab { background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer;
   font-family: var(--mono); font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted);
@@ -2403,7 +2392,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div id="vitals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 26</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read 26c</span><div class="cv-body">three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: <button class="hover-bind" data-drift26a="obj-rise">compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise</button>; <button class="hover-bind" data-drift26a="obj-fall">clarity (−4.9pp) and theory (−4.1pp) recede</button>. Among standards, <button class="hover-bind" data-drift26b="rea-fall">the novelty standard and the presentation-as-trust standard — judging a paper's care by how it is written — each fall 3.5pp</button> while <button class="hover-bind" data-drift26b="rea-rise">cost-benefit and claim-evidence matching climb</button> — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity in the nine-year corpus holds near 77% all nine years (the 2026 corpus reads 71.8% — a different memo style, the same story). The share of units the labeller places in the same category on a held-out check is the same in the early years as in the late ones (0.81), so the drift is a change in what reviewers wrote, not a change in how well the labels fit older text. The moves are small in points but far outside noise — a reviewer-clustered bootstrap (2,721 reviewers in 2018 against 73,427 in 2026) puts each of the four named moves at eight to sixteen times its standard error; in relative terms <span class="prov"><button class="stat-door">clarity's share fell 37%</button><span class="prov-pop" hidden><b>SOURCE</b> drift-data.json → object_share.clarity (2018 vs 2026 entries)<br><b>DERIVATION</b> (0.0831 − 0.1319) / 0.1319 = −37.0% relative drop in clarity's share of review units<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span> and compute cost's rose 67%. What the series cannot separate is reviewers changing from submissions changing: it measures what got written, not why. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 7.7% in 2018 to 3.4% in 2026.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read 26c</span><div class="cv-body">three nine-year vital signs — how often a post-rebuttal judgment weakens or reverses, how much of a review is written after the rebuttal, and how many units a reviewer produces. The hygiene turn: <button class="hover-bind" data-drift26a="obj-rise">compute cost (+3.2pp), statistical rigor (+3.0pp), baselines and reproducibility rise</button>; <button class="hover-bind" data-drift26a="obj-fall">clarity (−4.9pp) and theory (−4.1pp) recede</button>. Among standards, <button class="hover-bind" data-drift26b="rea-fall">the novelty standard and the presentation-as-trust standard — judging a paper's care by how it is written — each fall 3.5pp</button> while <button class="hover-bind" data-drift26b="rea-rise">cost-benefit and claim-evidence matching climb</button> — scrutiny has drifted from <em>what is this idea?</em> toward <em>what does the evidence cost, and does it cover the claim?</em> Negativity in the nine-year corpus holds near 77% all nine years (the 2026 corpus reads 71.8% — a different memo style, the same story). The share of units the labeller places in the same category on a held-out check is the same in the early years as in the late ones (0.81), so the drift is a change in what reviewers wrote, not a change in how well the labels fit older text. The moves are small in points but far outside noise — a reviewer-clustered bootstrap (2,721 reviewers in 2018 against 73,427 in 2026) puts each of the four named moves at eight to sixteen times its standard error; in relative terms <span class="prov"><button class="stat-door">clarity's share fell 37%</button><span class="prov-pop" hidden><b>SOURCE</b> drift-data.json → object_share.clarity (2018 vs 2026 entries)<br><b>DERIVATION</b> (0.0831 − 0.1319) / 0.1319 = −37.0% relative drop in clarity's share of review units<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span> and compute cost's rose 67%. What the series cannot separate is reviewers changing from submissions changing: it measures what got written, not why. And the field is hardening: the share of post-response judgments that weaken or reverse has halved, 8.2% in 2018 to 4.2% in 2026 &#8212; though 2018 rests on only 1,239 post-response units.</div></div>
     </div>
 
     <div class="fig-title" style="margin-top:38px">Fig. 26d — The currents: four distributions, nine years — as a flow, or as terrain</div>
@@ -6594,8 +6583,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const nItems = ACTS.reduce((s, a) => s + a.items.length, 0);
   const ORDER = ACTS.flatMap(a => a.items).concat(CASE);   // the reading order, as the rule sees it
 
-  const W = 138, RW = 20, X = 106, NUMX = 38, WORDX = 45, KINK = 6;
-  const LADX = 10, LADW = X + RW + KINK + 2 - 10;   // the drawer is a tray: it carries the blade — including ACT VII's kink — so no edge crosses the rule
+  const W = 36, RW = 20, X = 6, KINK = 6;
 
   function layout() {
     const H = Math.max(380, Math.min(680, innerHeight * 0.72));
@@ -6616,12 +6604,6 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     host.querySelectorAll("svg").forEach(n => n.remove());
     marks = []; segNodes = [];
     svg = el("svg", { width: W, height: L.H + 34, viewBox: `0 -9 ${W} ${L.H + 34}`, "aria-hidden": "false" });
-
-    // the ladder of magnifications lives in a drawer: it opens over the page on demand,
-    // so nothing of the atlas is permanently covered by its own instrument
-    const ladder = el("g", { class: "ladder" });
-    ladder.appendChild(el("rect", { x: LADX, y: -13, width: LADW, height: L.H + 26, class: "ladder-bg" }));
-    svg.appendChild(ladder);
 
     // the ferrule: the brass end-cap the first segment is set into
     svg.appendChild(el("rect", { x: X - 3, y: -7, width: RW + 6, height: 6, class: "ferrule" }));
@@ -6661,19 +6643,12 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
         if (minor) g.appendChild(el("rect", { x: x + RW - 5.2, y: ty - 1.8, width: 3.6, height: 3.6, class: "tag" }));
         const hit = el("rect", { x: x - 2, y: ty - 5, width: RW + 4, height: 10, fill: "transparent", class: "hit" });
         g.appendChild(hit);
-        marks.push({ ln: tk, hit, label: it.label, el: it.el, y: ty });
+        marks.push({ ln: tk, hit, label: it.label, el: it.el, y: ty, act: s.a });
       });
 
-      // the arc of the argument, permanently legible: one row per act
-      const my = s.y + s.h / 2;
-      const nm = el("text", { x: NUMX, y: my + 2.6, "text-anchor": "end", class: "num" });
-      nm.textContent = s.a.no === "CODA" ? "∴" : s.a.no;
-      const wd = el("text", { x: WORDX, y: my + 2.6, class: "mag" });
-      wd.textContent = s.a.mag.word;
-      ladder.appendChild(nm); ladder.appendChild(wd);
-      const ah = el("rect", { x: LADX, y: s.y, width: LADW, height: s.h, fill: "transparent", class: "hit" });
-      ladder.appendChild(ah);
-      segNodes.push({ face, nm, wd, act: s.a, hit: ah, y: my, g });
+      // no words are drawn in the margin: the arc lives on the act leaves, in the
+      // sextant, and on Plate 0 — the rule keeps only what an instrument keeps.
+      segNodes.push({ face, act: s.a, y: s.y + s.h / 2, g });
     });
 
     // the instrument case: where the rule is put away — and where the appendices are kept
@@ -6685,7 +6660,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
         svg.appendChild(el("line", { x1: cx0 + 4, y1: ty, x2: cx0 + 4 + (k === CASE.length - 1 ? 13 : 8), y2: ty, class: "tick" }));
         const hit = el("rect", { x: cx0, y: ty - 4, width: RW + 6, height: 8, fill: "transparent", class: "hit" });
         svg.appendChild(hit);
-        marks.push({ ln: null, hit, label: it.label, el: it.el, y: ty });
+        marks.push({ ln: null, hit, label: it.label, el: it.el, y: ty, act: null });
       });
     }
 
@@ -6695,40 +6670,33 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     cursor.appendChild(el("line", { x1: X - 5, y1: 0, x2: X + RW + 5, y2: 0, class: "cursor-hair" }));
     svg.appendChild(cursor);
 
-    const grip = el("rect", { x: X - 6, y: -12, width: RW + 12, height: L.H + 26, fill: "transparent", class: "grip" });
-    svg.appendChild(grip);
-    grip.addEventListener("mouseenter", () => { host.classList.add("held"); openLadder(); });
-    host.addEventListener("mouseleave", () => { clearTimeout(openT); host.classList.remove("open", "held"); });
-
     pct = el("text", { x: W - 4, y: L.H + 18, "text-anchor": "end", id: "rl-pct" });
     pct.textContent = "000%";
     svg.appendChild(pct);
     host.appendChild(svg);
 
     const goto = target => { if (target) target.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); };
-    const wire = (node, label, y, go) => {
+    const wire = (node, label, y, go, act) => {
       node.setAttribute("tabindex", "0");
       node.setAttribute("role", "link");
-      node.setAttribute("aria-label", label);
-      node.addEventListener("mouseenter", () => showFlag(label, y));
+      node.setAttribute("aria-label", label + (act ? " — " + act.no + " · " + act.name + ", under the lens: " + act.mag.phrase : ""));
+      node._act = act;
+      node.addEventListener("mouseenter", () => showFlag(label, y, act));
       node.addEventListener("mouseleave", hideFlag);
-      node.addEventListener("focus", () => { host.classList.add("held"); openLadder(); showFlag(label, y); });
-      node.addEventListener("blur", () => { hideFlag(); if (!host.matches(":hover")) { host.classList.remove("held"); openLadder(600); } });
+      node.addEventListener("focus", () => showFlag(label, y));
+      node.addEventListener("blur", hideFlag);
       node.addEventListener("click", go);
       node.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
     };
-    marks.forEach(m => wire(m.hit, m.label, m.y, () => goto(m.el)));
-    segNodes.forEach(sg => wire(sg.hit,
-      "Act " + sg.act.no + " · " + sg.act.name + " — magnification: " + sg.act.mag.phrase, sg.y,
-      () => goto(sg.act.leaf)));
+    marks.forEach(m => wire(m.hit, m.label, m.y, () => goto(m.el), m.act));
   }
-  let openT = null;
-  function openLadder(ms) {
-    host.classList.add("open");
-    clearTimeout(openT);
-    if (ms) openT = setTimeout(() => host.classList.remove("open"), ms);
+  function showFlag(txt, y, act) {
+    if (!flag) return;
+    flag.innerHTML = '<span class="rl-f1"></span>' + (act ? '<span class="rl-f2"></span>' : "");
+    flag.firstChild.textContent = txt;
+    if (act) flag.lastChild.textContent = (act.no === "CODA" ? "Coda" : "Act " + act.no) + " · " + act.name + " — " + act.mag.phrase;
+    flag.style.top = y + "px"; flag.classList.add("on");
   }
-  function showFlag(txt, y) { if (!flag) return; flag.textContent = txt; flag.style.top = y + "px"; flag.classList.add("on"); }
   function hideFlag() { if (flag) flag.classList.remove("on"); }
 
   build();
@@ -6751,14 +6719,10 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     for (let i = 0; i < ACTS.length; i++) { if (best < n + ACTS[i].items.length) { ai = i; break; } n += ACTS[i].items.length; }
     if (ai === curAct) return;
     curAct = ai;
-    // crossing into an act opens the drawer just long enough to say where you now are
-    if (ai >= 0 && curMark > 0) openLadder(2600);
     segNodes.forEach((x, i) => {
       // the hinge turns as the reader crosses into the act: the rule opens one more segment
       if (i === ai && !REDUCED) { x.g.classList.remove("turn"); void x.g.getBBox(); x.g.classList.add("turn"); }
       x.face.classList.toggle("on", i === ai);
-      x.wd.classList.toggle("on", i === ai); x.nm.classList.toggle("on", i === ai);
-      x.wd.classList.toggle("past", ai >= 0 && i < ai); x.nm.classList.toggle("past", ai >= 0 && i < ai);
     });
   }
   addEventListener("scroll", onScroll, { passive: true });
