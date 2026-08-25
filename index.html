@@ -99,7 +99,7 @@ section.console .plate-inner::before, section.console .plate-inner::after { disp
 .cv-lead .cv-body { font-style: italic; }
 /* ---- anchor layer: key numerals, on-chart annotations, caveat banderoles ---- */
 sup.kb { font-family: var(--mono); font-size: 8px; color: var(--brass); letter-spacing: 0; padding-left: 2px; }
-.fig-key { position: absolute; z-index: 22; width: 16px; height: 16px; border-radius: 50%; box-sizing: border-box;
+.fig-key { position: absolute; z-index: 22; pointer-events: auto; width: 16px; height: 16px; border-radius: 50%; box-sizing: border-box;
   border: 1px solid var(--brass-dim); background: rgba(18,16,31,0.88); color: var(--brass);
   font-family: var(--mono); font-size: 8.5px; line-height: 14px; text-align: center;
   transform: translate(-50%, -50%); transition: background .25s var(--ease-settle), color .25s var(--ease-settle); }
@@ -1090,7 +1090,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv-fig"><b>Fig. 2a</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">this grid is not a new dataset either — it is a third view of the same 144 object × standard pairings as Plate I: the sankey drew them as ribbons, the severity map coloured each by how it ends, and this one colours each by how <em>common</em> it is within its row. Frequency is exactly what this plate's question — are object and standard coupled? — needs: if any standard could be applied to any object indifferently, every row of this map would be the <em>same</em> stripe pattern — each column simply at that standard's corpus-wide share — and knowing the object would tell you nothing about the rule. Coupling is the departure from that: rows with individual profiles, each object concentrating its units on its own few standards. That departure is what the map shows everywhere — no two rows match. Each row is one object of scrutiny; cells are the share of that object's units argued under each standard, row-normalized, deeper brass for more. The one cell too thin to read (novelty × the reproducibility norm, 36 units) is hatched grey here as everywhere. If the object/standard distinction feels slippery here — what separates <em>novelty</em> the object from the <em>novelty standard</em>? — two real units about the same object show it. The object is what the reviewer was looking at; the standard is the rule the argument runs on. <em>“Lack of sufficient differentiation from prior art undermines contribution”</em> looks at novelty and argues from the novelty standard — the rule that being distinct from prior work is itself the requirement. <em>“A novel contribution supported by thorough empirical evaluation warrants high marks, even if some clarity issues exist”</em> looks at the same object but argues from merit recognition — the rule that strengths should be credited to the score. Same subject, two different laws; this plate counts how often each law is the one applied.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">counting each row's most-used law: five objects are judged first by their own named standard — novelty (67%), clarity (48%), robustness (33%), compute cost (32%), reproducibility (31%) — while <button class="hover-bind" data-hm2a="design-law">design justification is the most-used law for four others (empirical scope, method design, theory, statistical rigor)</button>; the citation list answers first to the novelty standard (50%), and problem framing to merit recognition (29%). Even the tightest coupling is far from total: novelty argues a third of its units under other laws, and <button class="hover-bind" data-hm2a="stats-namesake">statistical rigor uses its nearest-named standard, identifiability, for just 9% of its units</button> — the standard label carries information the object's name does not.</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">treat diagonal brightness as bookkeeping, not certainty — several standards are name-twins of their objects (novelty and the novelty standard, robustness and the robustness norm), and for those cells a bright diagonal is partly analytic, since both labels can be responses to the same sentence; the evidence lives in the off-diagonal mass — statistical rigor judged by identifiability, empirical scope answering to the claim-evidence matching norm — and in how the whole grammar moved (Fig.&nbsp;2b).</div></div>
+    <div class="cv cv-caveat" data-tether="heatmap:diagonal:right"><span class="cv-lab">Reading it</span><div class="cv-body">treat diagonal brightness as bookkeeping, not certainty — several standards are name-twins of their objects (novelty and the novelty standard, robustness and the robustness norm), and for those cells a bright diagonal is partly analytic, since both labels can be responses to the same sentence; the evidence lives in the off-diagonal mass — statistical rigor judged by identifiability, empirical scope answering to the claim-evidence matching norm — and in how the whole grammar moved (Fig.&nbsp;2b).</div></div>
     </div>
 
     <div class="fig-title" style="margin-top:38px">Fig. 2b — The grammar's nine years: where P(standard | object) itself moved</div>
@@ -1103,7 +1103,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv cv-done cv-longlab"><span class="cv-lab">What chance would draw</span><div class="cv-body">if the grammar were fixed, the two eras would differ only by sampling noise — so the noise is measured rather than assumed: shuffle the era labels within each object and redraw the map, and in 95% of 50 relabelings even the single largest cell change stays within ±4.05 percentage points. Cells inside that floor are dimmed to near-invisibility; under the null, this entire map would be dark. <br><br></div></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">brass = the standard gained jurisdiction over that object, violet = it lost it; brighter is a larger move; hover any cell for its early and current shares. (Those shares come from the nine-year labeling run, whose levels differ somewhat from Fig.&nbsp;2a's 2026 corpus — this map's subject is the change within one consistent pipeline, not the levels.) <br><br></div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">138 of the 144 cells stay inside the shuffle floor: across nine years in which the corpus grew almost nineteen-fold, the grammar mostly did not move. Six cells did. Two are specialization — <button class="hover-bind" data-hm2b="compute-cb">compute cost consolidated onto the cost-benefit standard (25.9%&nbsp;→&nbsp;34.6%)</button> and <button class="hover-bind" data-hm2b="repro-own">reproducibility onto its own norm (28.9%&nbsp;→&nbsp;33.8%)</button>. Three sit in a single row: <button class="hover-bind" data-hm2b="framing-movers">problem framing's leading law, merit recognition, extended its lead (22.5%&nbsp;→&nbsp;30.2%) while the novelty standard (21.7%&nbsp;→&nbsp;15.4%) and presentation trust (11.4%&nbsp;→&nbsp;7.2%) receded</button>. And <button class="hover-bind" data-hm2b="rw-slip">related work also slipped away from the novelty standard (34.7%&nbsp;→&nbsp;28.6%)</button>. <br><br></div></div>
-    <div class="cv cv-caveat cv-longlab"><span class="cv-lab">Is the movement substantive?</span><div class="cv-body">A share can move for boring reasons — reviews now arrive in structured Strengths/Weaknesses templates, and framing units are indeed praise more often than they were (30%&nbsp;→&nbsp;39% positive), which by itself inflates merit recognition, the crediting rule. So each mover was re-checked within criticism and praise separately. Merit recognition's gain does shrink under that control but survives (+6.3pp among praise units alone); every other mover passes untouched — the novelty standard recedes among critical and praising units alike (−4.5pp and −5.4pp on problem framing, −4.3pp and −7.7pp on related work), and cost-benefit gains most inside critical units (+10.3pp), where a mere change of tone could not put it. Reading the units confirms that the rules themselves did not change meaning: a 2018 cost unit argues <em>“fair comparison requires accounting for all computational resources consumed”</em> and a 2025 one <em>“overhead claims must be backed by runtime experiments”</em> — the same law, reached for more often. What these checks cannot exclude is a quieter drift in phrasing that the labeling model reads as a different rule; every level here rests on one model's reading, applied uniformly to both eras. <br><br></div></div>
+    <div class="cv cv-caveat cv-longlab" data-tether="hm-drift:merit-cell:right"><span class="cv-lab">Is the movement substantive?</span><div class="cv-body">A share can move for boring reasons — reviews now arrive in structured Strengths/Weaknesses templates, and framing units are indeed praise more often than they were (30%&nbsp;→&nbsp;39% positive), which by itself inflates merit recognition, the crediting rule. So each mover was re-checked within criticism and praise separately. Merit recognition's gain does shrink under that control but survives (+6.3pp among praise units alone); every other mover passes untouched — the novelty standard recedes among critical and praising units alike (−4.5pp and −5.4pp on problem framing, −4.3pp and −7.7pp on related work), and cost-benefit gains most inside critical units (+10.3pp), where a mere change of tone could not put it. Reading the units confirms that the rules themselves did not change meaning: a 2018 cost unit argues <em>“fair comparison requires accounting for all computational resources consumed”</em> and a 2025 one <em>“overhead claims must be backed by runtime experiments”</em> — the same law, reached for more often. What these checks cannot exclude is a quieter drift in phrasing that the labeling model reads as a different rule; every level here rests on one model's reading, applied uniformly to both eras. <br><br></div></div>
     <div class="cv cv-caveat"><span class="cv-lab">Interpretation</span><div class="cv-body">after the checks, the drift sorts into three grades of confidence. Firmest: the quiet specializations — cost and reproducibility questions each acquired their own law — and the novelty standard's retreat from the two objects next door to it, framing and citations, which holds among critical and praising units alike. To be read more gently: the swing toward merit recognition, the one mover that partly reflects the era's style of reviewing — praise now arriving in its own labelled section — and only partly a change in which rule judges framing. And the widest finding is the stillest one: 138 cells, nine years, a corpus grown nineteen-fold, and no movement that shuffling the era labels could not have drawn.</div></div>
     </div>
   </div></div>
@@ -1173,7 +1173,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv-fig"><b>Fig. 4a</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each cell is a lift: how often one argument form actually follows another, divided by how often it would if each review's own units were shuffled — so 1.00 means order carries no information, and if the forms did not care what comes next, the entire table would sit at 1.00. Sienna marks a following that happens more than the review's own mix predicts, verdigris less; the flanking columns give each form's share of opening and closing positions.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the finding is an absence. No cell leaves the 0.80–1.18 band: once a review's own mix of forms is fixed, knowing the current form changes the odds of the next one by at most ±20% — argument order is nearly memoryless. If reviewer reasoning had a real syntax, the way sentences do, cells here would run to several times chance; nothing comes close. What little structure survives: <button class="hover-bind" data-chain="self-attract">a form is most attracted to itself (rival-cause follows rival-cause at 1.18, scope follows scope at 1.18)</button>, <button class="hover-bind" data-chain="weigh-column">every other form mildly resists being followed by on-balance (0.80–0.95)</button>, and <button class="hover-bind" data-chain="weigh-opens">on-balance opens 38.5% of reviews against its 30.5% share of all units</button> — eight points above chance — while closing shares sit near every form's baseline (largest deviation: norm, +1.7pp).</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Interpretation</span><div class="cv-body">read even that residue with suspicion: reviews are written into a template — a summary up front, strengths and weaknesses in blocks — and the template alone would produce exactly these traces. The on-balance-first opening matches the summary-section convention, and same-form runs match section blocks. So the honest reading is not "reasoning has a grammar" but the reverse: we went looking for one, found almost nothing, and what remains is plausibly the architecture of the review form rather than of thought. Forms from the Plate III classifier (CV accuracy 0.685); transitions pool 183,717 reviews, 829,684 units.</div></div>
+    <div class="cv cv-caveat" data-tether="chain-fig:weigh-opens:right"><span class="cv-lab">Interpretation</span><div class="cv-body">read even that residue with suspicion: reviews are written into a template — a summary up front, strengths and weaknesses in blocks — and the template alone would produce exactly these traces. The on-balance-first opening matches the summary-section convention, and same-form runs match section blocks. So the honest reading is not "reasoning has a grammar" but the reverse: we went looking for one, found almost nothing, and what remains is plausibly the architecture of the review form rather than of thought. Forms from the Plate III classifier (CV accuracy 0.685); transitions pool 183,717 reviews, 829,684 units.</div></div>
     </div>
   </div></div>
 </section>
@@ -1207,10 +1207,11 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv-fig"><b>Fig. 5a</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">one row per object of scrutiny, sorted by opening lift; the horizontal axis is the lift defined in the lede, drawn on a log scale so ×2 sits as far right of the ×1 rule as ×0.5 sits left of it. The legend above the chart names the two marks; hover a row for exact values.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-lifts="framing-opens">problem framing opens a review 1.86× more often than its overall share predicts</button> (5.5% of first units against 3.0% of all units), with novelty (1.57×) and method design (1.37×) behind it; the closing end belongs to clarity (1.81×), related work (1.66×) and reproducibility (1.41×). No subject claims both ends, and statistical rigour — a plausible guess for a closing subject — closes exactly at its base rate (1.00×) while avoiding the opening (0.63×).</div></div>
-    <div class="cv cv-caveat cv-longlab"><span class="cv-lab">How much of this is the form?</span><div class="cv-body">The whole-review cut mixes the strengths section into the opening, and that matters most for the top row: when problem framing opens a review, 49% of the time it opens as praise — "the paper tackles an important problem" is the classic first strength. Recomputed over negative units only, asking which subject the <em>criticism</em> starts with, problem framing's lift drops to 1.34× while novelty's sharpens to 1.65× (89% of novelty's openings are objections). The closing side barely moves under the same check — clarity 1.81 → 1.77, related work 1.66 → 1.65, reproducibility 1.41 → 1.40 — so closing on clarity is a habit of the criticism itself, the "minor points" tail; and those closing clarity units are asserted, not asked (78% negative, 8% hedged). The opening result is also confirmed below: Fig.&nbsp;5c makes the same cut independently, never leaving the weaknesses section, and finds novelty leading off the listed faults at 1.62× against the 1.65× here — two cuts, one habit. <b>Fig. 5b</b> —</div></div>
+    <div class="cv cv-caveat cv-longlab" data-tether="lifts:framing-opens:right"><span class="cv-lab">How much of this is the form?</span><div class="cv-body">The whole-review cut mixes the strengths section into the opening, and that matters most for the top row: when problem framing opens a review, 49% of the time it opens as praise — "the paper tackles an important problem" is the classic first strength. Recomputed over negative units only, asking which subject the <em>criticism</em> starts with, problem framing's lift drops to 1.34× while novelty's sharpens to 1.65× (89% of novelty's openings are objections). The closing side barely moves under the same check — clarity 1.81 → 1.77, related work 1.66 → 1.65, reproducibility 1.41 → 1.40 — so closing on clarity is a habit of the criticism itself, the "minor points" tail; and those closing clarity units are asserted, not asked (78% negative, 8% hedged). The opening result is also confirmed below: Fig.&nbsp;5c makes the same cut independently, never leaving the weaknesses section, and finds novelty leading off the listed faults at 1.62× against the 1.65× here — two cuts, one habit. </div></div>
+    <div class="cv-fig" style="margin-top:16px"><b>Fig. 5b</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the horizontal axis is position within the review in fifths; each curve is the share of that fifth's units carrying one verdict — negative, positive, or hedged (the dashed line; conditional, uncertain, or mixed, as defined in the lede) — pooled over the <span id="ge3"></span> reviews with three or more units, so the three curves sum to 100% in every fifth.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the negative share runs 70% in the opening fifth, peaks at 82% in the middle, and falls to 60% at the close. Praise does something different from a mirror image: 26% of opening-fifth units are positive, collapsing to 6% by the third fifth and 5% in the fourth, then only half-returning (13%) at the close. <button class="hover-bind" data-arc="hedged">What actually grows toward the end is the hedged share — monotonically, 3% → 27%</button>.</div></div>
-    <div class="cv cv-caveat cv-longlab"><span class="cv-lab">How much of this is the form?</span><div class="cv-body">Most of it, and that is the honest reading: ICLR's template asks for strengths before weaknesses and questions at the end. The warm opening is the strengths section passing by; the hard middle is the weaknesses section (93.4% of weaknesses-section units are negative — Fig.&nbsp;5c documents this); and the close softens less because warmth returns than because assertion gives way to questions — it is the hedged curve, not the positive one, that claims the final fifth. The arc is better read as the form's script, executed in near-unison across the corpus, than as a rhetorical choice each reviewer makes.</div></div>
+    <div class="cv cv-caveat cv-longlab" data-tether="arc:hedged:right"><span class="cv-lab">How much of this is the form?</span><div class="cv-body">Most of it, and that is the honest reading: ICLR's template asks for strengths before weaknesses and questions at the end. The warm opening is the strengths section passing by; the hard middle is the weaknesses section (93.4% of weaknesses-section units are negative — Fig.&nbsp;5c documents this); and the close softens less because warmth returns than because assertion gives way to questions — it is the hedged curve, not the positive one, that claims the final fifth. The arc is better read as the form's script, executed in near-unison across the corpus, than as a rhetorical choice each reviewer makes.</div></div>
     <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">this describes where in a document a kind of judgment tends to be written down; it is not evidence about the order in which the reviewer thought, or decided.</div></div>
     </div>
   
@@ -1285,7 +1286,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv-fig"><b>Fig. 6a</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the four panels share one currency: AUC, the chance the classifier ranks a randomly picked 6-or-above review over a randomly picked lower one — 0.5 is a coin flip, and height or length above the coin-flip mark <em>is</em> the signal. ① is the cumulative climb: the horizontal axis is how many units the classifier was allowed to read, the filled area its lead over chance, the dashed line what the whole review achieves. ② is the same sweep differentiated, on the long reviews only: each bar is the AUC <em>gained by reading one more unit</em> — the first unit's +0.23 is off the scale and stated in the corner; bars turn pale where the gain dies. ③ decomposes the whole review's AUC — verdicts alone, then topics added, then a third bar that abandons the unit features entirely and reads every word (TF-IDF over the full text). ④ asks what one negative unit <em>weighs</em>: a logistic fit on whole-review per-topic negative counts, each bar the pull of one negative of that topic on the score, expressed as a multiple of the average negative's pull — the dashed line is ×1, an average negative.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the findings are ③ and ④, read together. The verdicts buy +0.260 of the +0.279 climb and the topics +0.019 (in the long subset, −0.006 — nothing but noise). Yet the tally is genuinely weighted: one novelty negative counts as 2.4 average negatives — six robustness negatives — and the ordering of these weights reproduces the within-paper tariff of Plate XIV almost exactly (Spearman ρ = 0.90): two designs, one price list. (In the model's own units, a novelty negative is −1.04 log-odds toward a sub-6 rating; the method page carries the details.) Both facts hold at once because so little of the <em>between-review</em> variance rides on composition — weighting the tally beats the plain count by just +0.009 AUC. Topic-blind for <em>ranking</em>, priced for <em>each unit</em>. The words themselves reach 0.822 (TF-IDF, so a floor, not a ceiling, on what the text carries) — more than the coarse profile (+0.043) — and even so, a wide residual stays outside every reading here; Plate XXV will show how much of it is the reviewer, not the review. ② the ninth unit still pays a sliver; from the tenth, nothing — even with fifteen units on the page, the tail is redundant with the head (the few-thousandths jitter is cross-validation noise). ① is the expected part, drawn for scale: <button class="hover-bind" data-commit="first-unit">one unit reaches 0.69, two thirds of the way to the 0.78 ceiling</button>; the pooled flattening at six is partly arithmetic — a median review is over by five — which is exactly why ② is computed on the long reviews alone.</div></div>
-    <div class="cv cv-caveat cv-longlab"><span class="cv-lab">What it shows, and what it does not</span><div class="cv-body">the target is the <em>same reviewer's own</em> rating, so this is the internal consistency of a document with its own summary number, not a prediction of anything external — and it is a statement about the text, not about when the reviewer decided: later units largely restate the first, which is exactly what you would write if the conclusion came first. Provenance: ③'s words bar and all of ④ were added as follow-up analyses during review — declared exploratory, committed to publication whichever way they came out. ④'s weights are descriptive regression coefficients on correlated counts, not causal prices; their agreement with the tariff's independent design is what earns them the reading.</div></div>
+    <div class="cv cv-caveat cv-longlab" data-tether="commit-fig:weights:right"><span class="cv-lab">What it shows, and what it does not</span><div class="cv-body">the target is the <em>same reviewer's own</em> rating, so this is the internal consistency of a document with its own summary number, not a prediction of anything external — and it is a statement about the text, not about when the reviewer decided: later units largely restate the first, which is exactly what you would write if the conclusion came first. Provenance: ③'s words bar and all of ④ were added as follow-up analyses during review — declared exploratory, committed to publication whichever way they came out. ④'s weights are descriptive regression coefficients on correlated counts, not causal prices; their agreement with the tariff's independent design is what earns them the reading.</div></div>
     </div>
   </div></div>
 </section>
@@ -1352,6 +1353,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
         <div class="fig-title">Fig. 8a — The redemptions: what would make a combination count</div>
         <div class="fig-deck">Six distinct ways out, <span class="prov"><button class="stat-door">holding 76% of the clause’s own sentences</button><span class="prov-pop" hidden><b>SOURCE</b> combination-data.json → exceptions[].share, six genuine clauses<br><b>DERIVATION</b> sum of .share over the six non-dead-end exceptions (excludes "The threshold, restated" and "The reproduction floor") = 0.7595 ≈ 76%<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span> — added value, new insight, differentiation, a new mechanism, an isolated contribution, innovation beyond the integration — and two clauses that offer none.</div>
         <div id="combo-exc"></div>
+    <div class="fig-annot" id="annot-combo8a"></div>
       </div>
       <div>
         <div style="display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-bottom:8px;font-family:var(--mono);font-size:8px;letter-spacing:.08em">
@@ -1369,7 +1371,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     </div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 8</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">left, the rule drawn as its own grammar — a railroad of the 4,316 combination-rule sentences, sub-clustered and named. Every statement enters at the same spine — <em>a combination of known parts is not novel</em> — and each track is one family of the rule, its weight the family&#8217;s share. The six brass tracks are genuine exception clauses — each names the thing whose presence redeems the assembly — and they rejoin the main line: novel after all. <button class="hover-bind" data-combo8a="dead-tracks">The two dim tracks are boundary statements that never rejoin</button>; 24% of statements offer no exit. Hovering a track lights its card below, where each clause carries its definition and a reviewer&#8217;s own sentence. An explicit conditional word (unless, without, only if) appears in 43.6% of the statements — a floor, since the track families are read from a sentence&#8217;s content rather than its grammar, and together the six exception tracks hold 76%. For a rejected author the left column is the actionable reading of &#8220;just a combination&#8221;: <button class="hover-bind" data-combo8a="six-exceptions">show the value the parts don&#8217;t already have, name the insight, differentiate from what you adapted, exhibit the mechanism, isolate which piece is yours, or demonstrate innovation beyond the integration itself</button>. Right, the same units&#8217; observations grouped by what they point at: <button class="hover-bind" data-combo8b="generic">46% assemble no named parts at all</button>, <button class="hover-bind" data-combo8b="lineup">18% recite the parts&#8217; names</button>, <button class="hover-bind" data-combo8b="precedent">16% match one specific named precedent</button>, <button class="hover-bind" data-combo8b="new-or-noinsight">12% concede the problem is new and charge only the tools, and 8% charge precisely the absence of a new insight</button>. The 46% is measured on the distilled observations, so it was audited against the source reviews: in a 30-case sample, wherever the source charge could be located, its specificity matched the observation&#8217;s — generic charges were generic in the reviewer&#8217;s own words too, with one ambiguous exception — so the share is not an artifact of summarization. Clusters are k-means over sentence embeddings, names drafted by a machine reader over exemplars and reviewed by the analyst (method &#167; 10); raw clusters ship with the dataset.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body"><span id="annot-combo8a-src">left, the rule drawn as its own grammar — a railroad of the 4,316 combination-rule sentences, sub-clustered and named. Every statement enters at the same spine — <em>a combination of known parts is not novel</em> — and each track is one family of the rule, its weight the family&#8217;s share.</span> The six brass tracks are genuine exception clauses — each names the thing whose presence redeems the assembly — and they rejoin the main line: novel after all. <button class="hover-bind" data-combo8a="dead-tracks">The two dim tracks are boundary statements that never rejoin</button>; 24% of statements offer no exit. Hovering a track lights its card below, where each clause carries its definition and a reviewer&#8217;s own sentence. An explicit conditional word (unless, without, only if) appears in 43.6% of the statements — a floor, since the track families are read from a sentence&#8217;s content rather than its grammar, and together the six exception tracks hold 76%. For a rejected author the left column is the actionable reading of &#8220;just a combination&#8221;: <button class="hover-bind" data-combo8a="six-exceptions">show the value the parts don&#8217;t already have, name the insight, differentiate from what you adapted, exhibit the mechanism, isolate which piece is yours, or demonstrate innovation beyond the integration itself</button>. Right, the same units&#8217; observations grouped by what they point at: <button class="hover-bind" data-combo8b="generic">46% assemble no named parts at all</button>, <button class="hover-bind" data-combo8b="lineup">18% recite the parts&#8217; names</button>, <button class="hover-bind" data-combo8b="precedent">16% match one specific named precedent</button>, <button class="hover-bind" data-combo8b="new-or-noinsight">12% concede the problem is new and charge only the tools, and 8% charge precisely the absence of a new insight</button>. The 46% is measured on the distilled observations, so it was audited against the source reviews: in a 30-case sample, wherever the source charge could be located, its specificity matched the observation&#8217;s — generic charges were generic in the reviewer&#8217;s own words too, with one ambiguous exception — so the share is not an artifact of summarization. Clusters are k-means over sentence embeddings, names drafted by a machine reader over exemplars and reviewed by the analyst (method &#167; 10); raw clusters ship with the dataset.</div></div>
     </div>
   </div></div>
 </section>
@@ -1429,9 +1431,10 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="fig-title" style="margin-top:38px">Fig. 10c — Twin exhibits: the same criticism, two different papers</div>
     <div class="fig-deck">Three tiers of twinhood, descending Fig.&nbsp;10a&#8217;s guides — brass marks the words that differ; in the top tier, almost nothing.</div>
     <div id="form-twins"></div>
+    <div class="fig-annot" id="annot-twins"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 10c</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each card holds one criticism as read from two unrelated papers' reviews, facing each other across the pair's similarity; brass marks the words that differ between the two, so the amount of brass on a card is the distance between the twins. The cards descend Fig.&nbsp;10a's guides: <button class="hover-bind" data-twins10="verbatim">in the verbatim tier almost nothing lights</button>; <button class="hover-bind" data-twins10="formula">at the formula line (0.90 — the cutoff behind every formula share on this plate) the phrasing starts to drift while the complaint holds</button>; <button class="hover-bind" data-twins10="familiar">at 0.85 the sentence is the reviewer's own and only the complaint is shared</button>. Both quotations are the model's tidied restatement, and each links to its source review on OpenReview so the paraphrase can be held against the original.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each card holds one criticism as read from two unrelated papers' reviews, facing each other across the pair's similarity; <span id="annot-twins-src">brass marks the words that differ between the two, so the amount of brass on a card is the distance between the twins</span>. The cards descend Fig.&nbsp;10a's guides: <button class="hover-bind" data-twins10="verbatim">in the verbatim tier almost nothing lights</button>; <button class="hover-bind" data-twins10="formula">at the formula line (0.90 — the cutoff behind every formula share on this plate) the phrasing starts to drift while the complaint holds</button>; <button class="hover-bind" data-twins10="familiar">at 0.85 the sentence is the reviewer's own and only the complaint is shared</button>. Both quotations are the model's tidied restatement, and each links to its source review on OpenReview so the paraphrase can be held against the original.</div></div>
     <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">a near-identical pair is not evidence of a careless reviewer. Two papers can share a real defect, and a discipline needs portable standards — what the pairs show is which criticisms are portable, and that the portable ones are concentrated in the cheap dockets.</div></div>
     </div>
   </div></div>
@@ -1454,7 +1457,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">of 2026's 410,586 units, 307,388 carry a suggested fix; 80,000 of those were sampled, embedded (bge-small) and clustered (k-means, k=22, seed 7), then merged to sixteen types and named by hand from each cluster's most distinctive words (class-based TF-IDF) and most central examples.</div></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the thin bar on top is the headline: the three-family composition of everything asked. Below it, each bar is one repair type's share of the sampled fixes, grouped and colored by Plate VII's remedy families; click or tap a row to open a verbatim exemplar and the objects the repair most often attaches to. The family assignment is the analyst's, with two judgment calls recorded: error bars count as work of research (they must first be computed), surface fixes as work of writing.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-repair="extend">"extend the evidence" leads alone at 22%</button> — but a single cluster's share depends on how finely the taxonomy is cut (splitting or merging clusters moves it, while the family totals barely move), so the stabler finding is <button class="hover-bind" data-repair="families">the family sum: work of research 69%, writing 26%, disclosure 5%</button>. And one absence, drawn as the empty dashed shelf at the bottom: <button class="hover-bind" data-repair="redesign">none of the sixteen types — none of the 22 raw clusters — asks the authors to change the method itself</button>, the same absence Fig.&nbsp;7c found at coarse grain. On first view the figure assembles as sediment: each falling grain is one sampled ask, settling into its shelf — and nothing ever lands on the redesign shelf.</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">that absence is a fact about what reviewers <em>write</em>, not about what they think. A repair is an ask the authors could plausibly act on within a rebuttal, and "start over" is not — which may be exactly why the harshest criticism arrives with no repair at all (novelty's 39% in Fig.&nbsp;7c). The taxonomy's sixteen-to-three mapping and the two recorded judgment calls are this figure's error bars; any single cluster's share moves with how finely the 22 raw clusters are cut, though the family totals do not.</div></div>
+    <div class="cv cv-caveat" data-tether="repair-rows:redesign:right"><span class="cv-lab">Reading it</span><div class="cv-body">that absence is a fact about what reviewers <em>write</em>, not about what they think. A repair is an ask the authors could plausibly act on within a rebuttal, and "start over" is not — which may be exactly why the harshest criticism arrives with no repair at all (novelty's 39% in Fig.&nbsp;7c). The taxonomy's sixteen-to-three mapping and the two recorded judgment calls are this figure's error bars; any single cluster's share moves with how finely the 22 raw clusters are cut, though the family totals do not.</div></div>
     </div>
   </div></div>
 </section>
@@ -1472,17 +1475,19 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">EACH ROW = ONE OBJECT&#8217;S UNITS, HUNG ON A SHARED AXIS BY POLARITY</div>
     <div id="vprofile" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="legend" id="val-legend-2" style="margin-top:12px"></div>
+    <div class="fig-annot" id="annot-vp12a"></div>
     <div class="fig-title" style="margin-top:34px">Fig. 12b — Criticism that arrives with no fix at all</div>
     <div class="fig-deck">37% of novelty criticism offers no way forward — two to four times any other object.</div>
     <div class="fig-rel"><b>FIG. 7c&#8217;S "NO REMEDY", IN THE 2026 WINDOW</b> — the same fix field Fig.&nbsp;7c read as remedies over nine years (novelty: 37% without a fix here, 39% there — Fig.&nbsp;10 read the objections themselves, not their fixes); drawn in the same color as 7c&#8217;s no-remedy band.</div>
     <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">% = OF THIS OBJECT&#8217;S CRITICISM, HOW MUCH ARRIVES WITH NO SUGGESTED FIX</div>
     <div id="rx" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div class="fig-annot" id="annot-vp12b"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 12</b></div>
     <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">every 2026 unit is grouped by the object it inspects. <b>12a</b> splits each object's units by the verdict they reach; <b>12b</b> asks two further yes/no questions of each object's negative units — did the reviewer write a concrete suggested fix alongside the criticism, and does the unit quote or point at specific text in the paper rather than resting on the model's inference.</div></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">in 12a every object hangs on one shared axis: the sienna wing reaching left is the share of its units that criticise, the green wing reaching right the share that praise, and the dim band between them everything in between (uncertain, mixed, conditional — hover for the split; the full five-way mix is Plate I's). The further a row reaches left, the more that topic exists only to be criticised. In 12b each track is 100% of the object's criticism; the dark band is the share arriving with <em>no</em> suggested fix, and the dim remainder arrives with one — so novelty's band is the largest, yet still only a third of its criticism.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body"><span id="annot-vp12a-src">in 12a every object hangs on one shared axis: the sienna wing reaching left is the share of its units that criticise, the green wing reaching right the share that praise, and the dim band between them everything in between (uncertain, mixed, conditional — hover for the split; the full five-way mix is Plate I's). The further a row reaches left, the more that topic exists only to be criticised.</span> <span id="annot-vp12b-src">In 12b each track is 100% of the object's criticism; the dark band is the share arriving with <em>no</em> suggested fix, and the dim remainder arrives with one — so novelty's band is the largest, yet still only a third of its criticism.</span></div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-vp12a="positioning">the positioning objects — related work and novelty — are almost never written about except to criticise (88% and 82% of their units are negative)</button>, and <button class="hover-bind" data-vp12b="novelty-nofix">novelty criticism is also the least actionable, alone: 37% of it arrives with no fix, two to four times the no-fix share of any other object (8–18%)</button>. A second quantity was checked and retired from the chart: the share of units grounded in the reviewer's own explicit words is flat across all twelve objects (17–22%), so it is reported here rather than drawn.</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">"comes with a fix" is a property of what the reviewer wrote, not of whether the problem is fixable, though for novelty the two are hard to separate — a reviewer who thinks a contribution too small often has no repair to offer.</div></div>
+    <div class="cv cv-caveat" data-tether="rx:novelty-nofix:right"><span class="cv-lab">Reading it</span><div class="cv-body">"comes with a fix" is a property of what the reviewer wrote, not of whether the problem is fixable, though for novelty the two are hard to separate — a reviewer who thinks a contribution too small often has no repair to offer.</div></div>
     </div>
   </div></div>
 </section>
@@ -1548,7 +1553,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv-fig"><b>Fig. 14a</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each solid point is the regression coefficient for "this review raised at least one negative unit on the object," with each paper's own mean rating subtracted out so only within-paper differences remain, controlling for how many negative units and how many units the review contains overall; whiskers are a 95% interval from resampling whole papers. The hollow point is the naive gap between reviews with and without the objection, papers not held fixed — the distance between the two points is the part explained by <em>which papers</em> attract the objection and by the extra criticism that travels with it. Holding the paper and the criticism volume fixed, <button class="hover-bind" data-tariff="novelty-price">a novelty objection costs −0.43 points</button> on the 2026 rating scale (which runs 2, 4, 6, 8, 10 — even numbers only) — <span class="prov"><button class="stat-door">2.4 times the next charge</button><span class="prov-pop" hidden><b>SOURCE</b> jurisprudence-data.json → tariff.novelty.coef vs. tariff.problem_framing.coef<br><b>DERIVATION</b> novelty's within-paper coefficient is −0.429; the next-largest negative-signed coefficient among objects whose 95% interval excludes zero is problem framing at −0.179 (robustness/compute-cost run positive-signed, a different kind of association, so excluded); 0.429 ÷ 0.179 = 2.40×<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span> — while <button class="hover-bind" data-tariff="next-prices">framing costs −0.18, related work and baselines about −0.15</button>. Robustness and compute-cost objections carry a <em>positive</em> sign: they are the objections of reviewers who found nothing worse to say. Read these as associations, not effects. Nobody assigned the objections at random: a reviewer who is already unconvinced is the one who raises novelty, so the number measures which objection travels with a low score, not what raising it would do.</div></div>
     </div>
-    <p class="caption"><b>Fig. 14b</b> — Each object placed by the share of its negative units that arrive with a prescribed repair (horizontal) against its within-paper tariff (vertical). Circle area tracks how many criticisms the object drew, fill repeats Fig.&nbsp;14a's color — red = costs rating points, green = travels with higher ones, gray = interval crosses zero — and each label is inked in its circle's color, with a thin line tying the two — novelty alone in white, the plate's finding. The bill collects in one corner: the one objection that rarely comes with a fix — <button class="hover-bind" data-pricerep="novelty-corner">novelty, 64% against 82–92% for everything else</button> — is also by far the costliest. Cheap objections are prescriptions; the expensive one is a sentence. The unlabeled points crowding the near-zero center — <button class="hover-bind" data-pricerep="center-cluster">theory, clarity, statistics, method design, empirical scope</button> — are the objections that neither cost nor spare; hover any point for its numbers.</p>
+    <p class="caption"><b>Fig. 14b</b> — Each object placed by the share of its negative units that arrive with a prescribed repair (horizontal) against its within-paper tariff (vertical). <span id="annot-pricerep-src">Circle area tracks how many criticisms the object drew, fill repeats Fig.&nbsp;14a's color — red = costs rating points, green = travels with higher ones, gray = interval crosses zero — and each label is inked in its circle's color, with a thin line tying the two</span> — novelty alone in white, the plate's finding. The bill collects in one corner: the one objection that rarely comes with a fix — <button class="hover-bind" data-pricerep="novelty-corner">novelty, 64% against 82–92% for everything else</button> — is also by far the costliest. Cheap objections are prescriptions; the expensive one is a sentence. The unlabeled points crowding the near-zero center — <button class="hover-bind" data-pricerep="center-cluster">theory, clarity, statistics, method design, empirical scope</button> — are the objections that neither cost nor spare; hover any point for its numbers.</p>
     <div class="fig-title" style="margin-top:38px">Fig. 14c — Same bench, different law</div>
     <div class="fig-deck">Same paper, same object — and still, one split in three among pairs holding different standards travels with the standards alone.</div>
     <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">A PAIR = TWO REVIEWERS OF THE SAME PAPER WHO BOTH EXAMINED THIS OBJECT &mdash; THE PAPER CANNOT EXPLAIN WHAT FOLLOWS. EACH CRACK SPREADS FROM THE CENTER LINE: LEFTWARD, HOW OFTEN SAME-STANDARD PAIRS STILL REACH OPPOSITE STANCES &middot; RIGHTWARD, THE ADDED SPLIT WHEN THEIR STANDARDS DIFFER</div>
@@ -1558,7 +1563,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv cv-read"><span class="cv-lab">Where to look</span><div class="cv-body">the top row is the finding, and the bracket marks it. Its brass wing: <button class="hover-bind" data-lawrow="same-standard">reviewer pairs who argued from the same standard reach opposite stances 20.5% of the time</button>. Its sienna wing: pairs who argued from different standards, 30.1% — half again as often, and the bracketed +9.7 points is the split added by the standards alone: of the splits among different-standard pairs, one in three is excess over the shared-standard rate (in agreement terms, 79.5% against 69.9%). The paper cannot be the explanation — both reviewers read the same paper. The rows beneath repeat the reading object by object: every sienna wing is positive.</div></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">every crack spreads from the shared center line — brass leftward for the same-standard split rate, sienna rightward for the addition when standards differ — so both wings compare directly across rows, and rows are sorted by the sienna wing.</div></div>
     <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">across all nine years, take every pair of reviewers who examined the <em>same object of the same paper</em> in their initial reviews; a reviewer's stance on the object is whether the majority of their units on it were negative, and their <em>standard</em> is the reasoning law they used most.</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">the <button class="hover-bind" data-lawrow="thin-rows">two thinnest rows (reproducibility, related work) rest on under 1,500 same-standard pairs</button> — read their exact sizes loosely. Splits are rare in absolute terms because criticism dominates the corpus — most pairs condemn together — which is why the sienna addition, not the whole crack, is the quantity to read. And stance and standard are extracted from the same few units, so consistency of a reviewer's writing can contribute to the gap. The choice of standard is not prior to the judgment — it is part of it: which law a reviewer reaches for already carries most of the verdict they are about to give.</div></div>
+    <div class="cv cv-caveat" data-tether="law:thin-rows:left"><span class="cv-lab">Reading it</span><div class="cv-body">the <button class="hover-bind" data-lawrow="thin-rows">two thinnest rows (reproducibility, related work) rest on under 1,500 same-standard pairs</button> — read their exact sizes loosely. Splits are rare in absolute terms because criticism dominates the corpus — most pairs condemn together — which is why the sienna addition, not the whole crack, is the quantity to read. And stance and standard are extracted from the same few units, so consistency of a reviewer's writing can contribute to the gap. The choice of standard is not prior to the judgment — it is part of it: which law a reviewer reaches for already carries most of the verdict they are about to give.</div></div>
     </div>
     <div class="fig-rel" style="margin-top:18px"><b>THE FIVE FIGURES, READ TOGETHER</b> — hold the paper fixed and most objections cost nothing (14a); the one objection that does cost is the one that rarely arrives with a repair (14b); two reviewers of the same object disagree half again as often when they argue from different standards (14c); and the stated rule prices by where it is aimed, not by what it says (14d, 14e). Together they say one thing: what a review writes as its <em>reasons</em> looks less like the input that produced the verdict than like a part of the verdict itself. The repairable criticism is homework that leaves the score alone; the unrepairable charge, and even the choice of standard, travel with the judgment. Association throughout, never causation — but the same picture, three ways.</div>
     <div class="fig-title" style="margin-top:38px;letter-spacing:.14em">The Law&#8217;s Price — the same rule, priced docket by docket over nine years</div>
@@ -1700,13 +1705,14 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
         <div class="fig-title">Fig. 17c — Who yields? Post-rebuttal movement by position in a split verdict (ICLR 2026)</div>
     <div class="fig-deck">When ratings split by four points or more, the reviewer holding the lowest score is the one who yields — <span class="prov"><button class="stat-door">weakening or reversing their judgment 2.4× more often than the highest scorer</button><span class="prov-pop" hidden><b>SOURCE</b> yield-data.json → groups.split_low_scorer.soften, groups.split_high_scorer.soften<br><b>DERIVATION</b> 0.0281 ÷ 0.0116 = 2.4× (share of low-scorer post-rebuttal units that soften/reverse, vs. the high-scorer's share, across 9,329 split panels)<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>.</div>
         <div id="reb-yield" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div class="fig-annot" id="annot-yield"></div>
       </div>
       <div class="stat-lines" id="reb-stat-c"></div>
     </div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 17</b></div>
     <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">when a reviewer writes again after the authors respond, the model that read the discussion records, for each judgment, whether it was strengthened, weakened, reversed, merely clarified, or left unchanged, together with what the reviewer names as the trigger. These 130,650 post-response units are what the three panels count. <em>17a:</em> every post-response unit, flowing from the response into its recorded fate — each band’s width is the exact share of units in that state; <button class="hover-bind" data-fate17="held-unreadable">the grey <em>unreadable</em> band is where the reading recorded no legible fate, kept apart rather than folded into held</button>. 17b: among units whose judgment visibly moved, split by a keyword reading of the recorded trigger (two rare triggers — unstated, and bare commitments — moved 163 judgments between them and are omitted); red = weakened or reversed, brass = strengthened, grey = clarified only. <button class="hover-bind" data-trig17="new-evidence">Even fresh experiments strengthen the original judgment 2.9× more often than they soften it</button>. Softening rates barely differ by topic (3.9–5.4% across all twelve objects).</div></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read 17c</span><div class="cv-body">reviewers on 2026 papers whose ratings split by 4 points or more (two steps on a scale that runs 2, 4, 6, 8, 10), grouped by their own position; oxblood dot = share whose judgment weakened or reversed, brass dot = share that strengthened. The tinted band spans the yield rates of every group except the low scorer — only the low scorer’s ringed dot stands outside it. <button class="hover-bind" data-yield17="low-vs-high">The dissenting low scorer is the one who moves — 2.4× likelier to yield than the high co-reviewer</button> — yet even for them reinforcement beats concession, and unanimous panels barely stir at all (9,329 split panels; a reviewer's units are matched to their rating through their anonymous OpenReview identity, which succeeds for 95% of reviews). Two cares close the plate: every fate here is the model’s reading of prose — a courteous "I thank the authors and maintain my score" reads as reinforcement — and a rating changed without accompanying text never enters these counts; the corpus stores no rating history, so the score’s own needle is beyond this plate’s reach.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read 17c</span><div class="cv-body">reviewers on 2026 papers whose ratings split by 4 points or more (two steps on a scale that runs 2, 4, 6, 8, 10), grouped by their own position; <span id="annot-yield-src">oxblood dot = share whose judgment weakened or reversed, brass dot = share that strengthened. The tinted band spans the yield rates of every group except the low scorer — only the low scorer’s ringed dot stands outside it.</span> <button class="hover-bind" data-yield17="low-vs-high">The dissenting low scorer is the one who moves — 2.4× likelier to yield than the high co-reviewer</button> — yet even for them reinforcement beats concession, and unanimous panels barely stir at all (9,329 split panels; a reviewer's units are matched to their rating through their anonymous OpenReview identity, which succeeds for 95% of reviews). Two cares close the plate: every fate here is the model’s reading of prose — a courteous "I thank the authors and maintain my score" reads as reinforcement — and a rating changed without accompanying text never enters these counts; the corpus stores no rating history, so the score’s own needle is beyond this plate’s reach.</div></div>
     </div>
   </div></div>
 </section>
@@ -2186,7 +2192,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div id="archi"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 28</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">every island is one primary area, placed by multidimensional scaling — a method that puts similarly-treated items near each other on a map — of its criticism fingerprint — fields that are criticized in the same way drift together, and the theory-judged fields form their own archipelago in the east while the applied coasts lie west. Island size is the number of 2026 papers; the <em>shape of the coastline is the fingerprint itself</em>: each of the twelve objects of scrutiny is a fixed compass direction (the rose gives the bearings), and a cape grows toward every object the field is charged with more often than the venue baseline, a bay where it is charged less. So <button class="hover-bind" data-archi="learning-theory">learning theory sits far offshore with a great cape toward theory and a deep bay where its baselines shore should be</button>, and <button class="hover-bind" data-archi="datasets">datasets &amp; benchmarks — the island least judged by theory anywhere on the chart — anchors the southwest alone</button>. Hover an island for its exact charges; the chart encodes association, not destiny.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">every island is one primary area, placed by multidimensional scaling — a method that puts similarly-treated items near each other on a map — of its criticism fingerprint — fields that are criticized in the same way drift together, and the theory-judged fields form their own archipelago in the east while the applied coasts lie west. Island size is the number of 2026 papers; the <em>shape of the coastline is the fingerprint itself</em>: <span id="annot-archi-src">each of the twelve objects of scrutiny is a fixed compass direction (the rose gives the bearings), and a cape grows toward every object the field is charged with more often than the venue baseline, a bay where it is charged less</span>. So <button class="hover-bind" data-archi="learning-theory">learning theory sits far offshore with a great cape toward theory and a deep bay where its baselines shore should be</button>, and <button class="hover-bind" data-archi="datasets">datasets &amp; benchmarks — the island least judged by theory anywhere on the chart — anchors the southwest alone</button>. Hover an island for its exact charges; the chart encodes association, not destiny.</div></div>
     </div>
   </div></div>
 </section>
@@ -2255,7 +2261,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="fig-deck">The forgery blooms: five specialists at ×2.0–3.0 emerge from pure multinomial noise, and <span class="prov"><button class="stat-door">the clustering explains barely more of the real reviewers (35.8%) than of the noise (31.0%)</button><span class="prov-pop" hidden><b>SOURCE</b> mirage-data.json → ev_real, ev_null<br><b>DERIVATION</b> share of between-profile variance the 5-cluster k-means partition explains: 0.3578 (35.8%) for the 98,513 real reviewer profiles, 0.3102 (31.0%) for the synthetic multinomial-noise profiles<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>.</div>
     <div id="mirage-fig"></div>
     <div class="caption cap-voices" style="columns:auto">
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each rose has twelve petals, one per reasoning standard; a petal&#8217;s length is how far that cluster leans on the standard relative to the whole field (&#8730;-compressed), and the dashed ring is ×1 — the rose an interchangeable field would draw. <button class="hover-bind" data-mirage="real">Top row: the five clusters k-means (k&nbsp;=&nbsp;5, seed 7) finds among 98,513 real reviewer-paper profiles</button> (official reviewers, ≥5 units, 2018–2026). <button class="hover-bind" data-mirage="null">Bottom row: the five clusters the <em>same</em> pipeline finds in synthetic profiles drawn from one shared field mix</button> at each reviewer&#8217;s own unit volume — profiles that by construction contain no reviewer types at all. Under each rose: its leading standard, that petal&#8217;s ratio, and the cluster&#8217;s share of profiles; hover any petal for its standard and exact ratio.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body"><span id="annot-mirage-src">each rose has twelve petals, one per reasoning standard; a petal&#8217;s length is how far that cluster leans on the standard relative to the whole field (&#8730;-compressed), and the dashed ring is ×1 — the rose an interchangeable field would draw.</span> <button class="hover-bind" data-mirage="real">Top row: the five clusters k-means (k&nbsp;=&nbsp;5, seed 7) finds among 98,513 real reviewer-paper profiles</button> (official reviewers, ≥5 units, 2018–2026). <button class="hover-bind" data-mirage="null">Bottom row: the five clusters the <em>same</em> pipeline finds in synthetic profiles drawn from one shared field mix</button> at each reviewer&#8217;s own unit volume — profiles that by construction contain no reviewer types at all. Under each rose: its leading standard, that petal&#8217;s ratio, and the cluster&#8217;s share of profiles; hover any petal for its standard and exact ratio.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the two rows are nearly the same picture — a median profile holds six units, and at that grain k-means carves sampling noise into confident-looking specialists. This is the test that deleted a plate.</div></div>
     <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">the mirage is quantified, not total: the real rows sit 1.15× above the multinomial variance floor at the median standard (1.58× at the most dispersed), and the clustering explains 4.8pp more of the real profiles than of the forged ones, a gap that widens with profile length — a faint true signature, far below what the roses&#8217; confidence suggests. Recomputable by scripts/build_mirage_data.py (null seed 46). The cabinet&#8217;s entries follow.</div></div>
     </div>
@@ -2505,7 +2511,7 @@ function wireBinds({ fig, buttons, keyOf, apply, clear, label, ghostW = 210, gho
       const chip = document.createElement("span");
       chip.className = "fig-key";
       chip.textContent = num;
-      anchors.host.appendChild(chip);
+      anchors.overlay.appendChild(chip);
       const place = () => {
         const p = anchors.resolve(key);
         if (p) { chip.style.left = p.x + "px"; chip.style.top = p.y + "px"; }
@@ -2517,7 +2523,7 @@ function wireBinds({ fig, buttons, keyOf, apply, clear, label, ghostW = 210, gho
     });
     // chips sharing a bar edge slide along it rather than stacking
     const settle = () => {
-      const chips = [...anchors.host.querySelectorAll(":scope > .fig-key")]
+      const chips = [...anchors.overlay.querySelectorAll(".fig-key")]
         .map(c => ({ c, x: parseFloat(c.style.left) || 0, y: parseFloat(c.style.top) || 0 }))
         .sort((a, b) => a.y - b.y);
       for (let i = 1; i < chips.length; i++) {
@@ -2555,8 +2561,13 @@ function cellFocuser(host) {
 window.__tetherAnchors = {};
 function anchorLayer(host, resolve) {
   if (getComputedStyle(host).position === "static") host.style.position = "relative";
-  const layer = { host, resolve, place: [] };
-  const re = () => layer.place.forEach(f => f());
+  const overlay = document.createElement("div");
+  overlay.className = "anchor-overlay";
+  overlay.style.cssText = "position:absolute;inset:0;pointer-events:none;z-index:22";
+  host.appendChild(overlay);
+  const layer = { host, overlay, resolve, place: [] };
+  // figures that rebuild with innerHTML="" would orphan the chips — re-adopt the overlay
+  const re = () => { if (!overlay.isConnected) host.appendChild(overlay); layer.place.forEach(f => f()); };
   new ResizeObserver(() => requestAnimationFrame(re)).observe(host);
   layer.refresh = re;
   return layer;
@@ -3427,6 +3438,31 @@ const TRIBCI = __ISL("TRIBCI");
     "stats-namesake": (o, r) => o === "stats_metrics" && r === "statistical_identifiability",
   };
   const f2a = cellFocuser(hm);
+  const hm2aLayer = anchorLayer(hm, key => {
+    const pred = PRED2A[key];
+    if (!pred) return null;
+    const els = [...hm.querySelectorAll(".cell")].filter(c => pred(c.dataset.o, c.dataset.r));
+    if (!els.length || els.length > 14) return null;
+    const h = hm.getBoundingClientRect();
+  if (els.length <= 4) { const r = els[0].getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const rects = els.map(c => c.getBoundingClientRect());
+  const x0 = Math.min(...rects.map(r => r.left)), x1 = Math.max(...rects.map(r => r.right));
+  const y0 = Math.min(...rects.map(r => r.top)), y1 = Math.max(...rects.map(r => r.bottom));
+  return { x: (x0 + x1) / 2 - h.left, y: (y0 + y1) / 2 - h.top };
+  });
+  regTether("heatmap", hm2aLayer, {
+    diagonal: () => {
+      const els = [hm.querySelector('.cell[data-o="novelty"][data-r="novelty_standard"]'),
+                   hm.querySelector('.cell[data-o="robustness_sensitivity"][data-r="robustness_norm"]')].filter(Boolean);
+      if (!els.length) return null;
+      const h = hm.getBoundingClientRect();
+      if (els.length <= 4) { const r = els[0].getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+      const rects = els.map(c => c.getBoundingClientRect());
+      const x0 = Math.min(...rects.map(r => r.left)), x1 = Math.max(...rects.map(r => r.right));
+      const y0 = Math.min(...rects.map(r => r.top)), y1 = Math.max(...rects.map(r => r.bottom));
+      return { x: (x0 + x1) / 2 - h.left, y: (y0 + y1) / 2 - h.top };
+    },
+  });
   wireBinds({
     fig: hm,
     label: "FIG. 2A \u00b7 MINIATURE",
@@ -3435,6 +3471,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.hm2a,
     apply: key => f2a.apply(PRED2A[key]),
     clear: f2a.clear,
+    anchors: hm2aLayer,
   });
 })();
 
@@ -3621,6 +3658,17 @@ const TRIBCI = __ISL("TRIBCI");
   debounceResize(buildArc);
 
   // caption⇄figure binding: Fig 5a opener row, Fig 5b hedged curve
+  const liftsHost = document.getElementById("lifts");
+  const LIFTS_OBJ = { "framing-opens": "problem_framing" };
+  const liftsLayer = anchorLayer(liftsHost, key => {
+    const obj = LIFTS_OBJ[key];
+    if (!obj) return null;
+    const row = liftsHost.querySelector(`.lift-row[data-o="${obj}"]`);
+    const el = (row && row.querySelector(".lift-dot.lift-open")) || row;
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = liftsHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
+  regTether("lifts", liftsLayer);
   wireBinds({
     fig: document.getElementById("lifts"),
     label: "FIG. 5A \u00b7 MINIATURE",
@@ -3629,7 +3677,19 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.lifts,
     apply: () => document.querySelectorAll("#lifts .lift-row[data-o]").forEach(rw => { rw.style.opacity = rw.dataset.o === "problem_framing" ? "1" : "0.15"; }),
     clear: () => document.querySelectorAll("#lifts .lift-row[data-o]").forEach(rw => { rw.style.opacity = ""; }),
+    anchors: liftsLayer,
   });
+  const arcHost = document.getElementById("arc");
+  const arcLayer = anchorLayer(arcHost, key => {
+    if (key !== "hedged") return null;
+    const marks = [...arcHost.querySelectorAll('[data-series="hedged"]')];
+    if (!marks.length) return null;
+    const h = arcHost.getBoundingClientRect();
+    let best = null;
+    for (const m of marks) { const r = m.getBoundingClientRect(); if (!best || r.right > best.right) best = r; }
+    return { x: best.right - h.left - 6, y: best.top - h.top + best.height / 2 };
+  });
+  regTether("arc", arcLayer);
   wireBinds({
     fig: document.getElementById("arc"),
     label: "FIG. 5B \u00b7 MINIATURE",
@@ -3638,6 +3698,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.arc,
     apply: () => document.querySelectorAll("#arc [data-series]").forEach(m => { m.style.opacity = m.dataset.series === "hedged" ? "1" : "0.15"; }),
     clear: () => document.querySelectorAll("#arc [data-series]").forEach(m => { m.style.opacity = ""; }),
+    anchors: arcLayer,
   });
   const arcMap = Object.fromEntries(STRUCT.arcs.map(a => [a.first + "|" + a.last, a.share]));
   const hedAt = i => 1 - STRUCT.position.neg_rate[i] - STRUCT.position.pos_rate[i];
@@ -3745,6 +3806,19 @@ const TRIBCI = __ISL("TRIBCI");
     "staircase": v => [2, 3, 9].includes(+v),
     "modal-seven": v => +v === 7,
   };
+  const GBREADTH = { "staircase": [2, 3, 9], "modal-seven": [7] };
+  const gauntLayer = anchorLayer(gauntHost, key => {
+    const bs = GBREADTH[key];
+    if (!bs) return null;
+    const els = bs.map(b => gauntHost.querySelector(`circle[data-breadth="${b}"]`)).filter(Boolean);
+    if (!els.length) return null;
+    const h = gauntHost.getBoundingClientRect();
+  if (els.length <= 1) { const r = els[0].getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const rects = els.map(c => c.getBoundingClientRect());
+  const x0 = Math.min(...rects.map(r => r.left)), x1 = Math.max(...rects.map(r => r.right));
+  const y0 = Math.min(...rects.map(r => r.top)), y1 = Math.max(...rects.map(r => r.bottom));
+  return { x: (x0 + x1) / 2 - h.left, y: (y0 + y1) / 2 - h.top };
+  });
   wireBinds({
     fig: gauntHost,
     label: "FIG. 15B \u00b7 MINIATURE",
@@ -3753,6 +3827,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.gaunt,
     apply: key => gauntHost.querySelectorAll("[data-breadth]").forEach(m => { m.style.opacity = P15B[key](m.dataset.breadth) ? "1" : "0.2"; }),
     clear: () => gauntHost.querySelectorAll("[data-breadth]").forEach(m => { m.style.opacity = ""; }),
+    anchors: gauntLayer,
   });
 })();
 
@@ -3828,6 +3903,18 @@ const TRIBCI = __ISL("TRIBCI");
     "growth": mk => mk.closest("[data-metric]")?.dataset.metric === "submissions" && ["2018", "2026"].includes(mk.dataset.year),
   };
   const fMarks = () => host.querySelectorAll("[data-metric] circle[data-year], [data-metric] rect[data-year]");
+  const fieldLayer = anchorLayer(host, key => {
+    const pred = FPRED[key];
+    if (!pred) return null;
+    const els = [...fMarks()].filter(pred);
+    if (!els.length || els.length > 14) return null;
+    const h = host.getBoundingClientRect();
+  if (els.length <= 1) { const r = els[0].getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const rects = els.map(c => c.getBoundingClientRect());
+  const x0 = Math.min(...rects.map(r => r.left)), x1 = Math.max(...rects.map(r => r.right));
+  const y0 = Math.min(...rects.map(r => r.top)), y1 = Math.max(...rects.map(r => r.bottom));
+  return { x: (x0 + x1) / 2 - h.left, y: (y0 + y1) / 2 - h.top };
+  });
   wireBinds({
     fig: host,
     label: "THE FIELD \u00b7 MINIATURE",
@@ -3836,6 +3923,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.field,
     apply: key => fMarks().forEach(mk => { mk.style.opacity = FPRED[key](mk) ? "1" : "0.15"; }),
     clear: () => fMarks().forEach(mk => { mk.style.opacity = ""; }),
+    anchors: fieldLayer,
   });
 })();
 
@@ -3903,6 +3991,14 @@ const TRIBCI = __ISL("TRIBCI");
       row.querySelectorAll("[data-form]").forEach(s => { s.style.opacity = ""; s.style.outline = ""; });
     });
   };
+  const rhetLayer = anchorLayer(rhost, key => {
+    const pcfg = RPRED[key];
+    if (!pcfg || !pcfg.r) return null;
+    const row = rhost.querySelector(`.vp-row[data-r="${pcfg.r}"]`);
+    const el = (row && row.querySelector(`[data-form="${pcfg.f}"]`)) || row;
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = rhost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: rhost,
     label: "FIG. 3 \u00b7 MINIATURE",
@@ -3911,6 +4007,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.rhet,
     apply: key => rApply(RPRED[key]),
     clear: rClear,
+    anchors: rhetLayer,
   });
 })();
 
@@ -4028,6 +4125,16 @@ const TRIBCI = __ISL("TRIBCI");
 
   // caption⇄figure binding: the positioning objects (12a) and novelty's no-fix row (12b)
   const vpHost = document.getElementById("vprofile"), rxHost = document.getElementById("rx");
+  const VP12A_OBJS = { "positioning": ["related_work", "novelty"] };
+  const vp12aLayer = anchorLayer(vpHost, key => {
+    const objs = VP12A_OBJS[key];
+    if (!objs) return null;
+    const el = objs.map(o => vpHost.querySelector(`.vp-row[data-o="${o}"]`)).find(Boolean);
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = vpHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
+  const anV12a = document.getElementById("annot-vp12a"), anS12a = document.getElementById("annot-vp12a-src");
+  if (anV12a && anS12a) anV12a.innerHTML = anS12a.innerHTML;
   wireBinds({
     fig: vpHost,
     label: "FIG. 12A \u00b7 MINIATURE",
@@ -4036,7 +4143,18 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.vp12a,
     apply: () => vpHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = ["related_work", "novelty"].includes(r.dataset.o) ? "1" : "0.25"; }),
     clear: () => vpHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: vp12aLayer,
   });
+  const rxLayer = anchorLayer(rxHost, key => {
+    if (key !== "novelty-nofix") return null;
+    const row = rxHost.querySelector('.vp-row[data-o="novelty"]');
+    const el = (row && row.querySelector(".rx-fill")) || row;
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = rxHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
+  regTether("rx", rxLayer);
+  const anV12b = document.getElementById("annot-vp12b"), anS12b = document.getElementById("annot-vp12b-src");
+  if (anV12b && anS12b) anV12b.innerHTML = anS12b.innerHTML;
   wireBinds({
     fig: rxHost,
     label: "FIG. 12B \u00b7 MINIATURE",
@@ -4045,6 +4163,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.vp12b,
     apply: () => rxHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = r.dataset.o === "novelty" ? "1" : "0.25"; }),
     clear: () => rxHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: rxLayer,
   });
 })();
 
@@ -4282,6 +4401,14 @@ const TRIBCI = __ISL("TRIBCI");
 
   // caption⇄figure binding: 24a rating rows, 24b swapped standards, 24c coverage cells, 24d novelty row
   const ladHost = document.getElementById("ladder");
+  const LAD24A_ROWS = { "ends": ["10", "0"] };
+  const lad24aLayer = anchorLayer(ladHost, key => {
+    const rs = LAD24A_ROWS[key];
+    if (!rs) return null;
+    const el = rs.map(rv => ladHost.querySelector(`.vp-row[data-r="${rv}"]`)).find(Boolean);
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = ladHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: ladHost,
     label: "FIG. 24A \u00b7 MINIATURE",
@@ -4290,8 +4417,17 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.lad24a,
     apply: () => ladHost.querySelectorAll(".vp-row[data-r]").forEach(r => { r.style.opacity = ["10", "0"].includes(r.dataset.r) ? "1" : "0.2"; }),
     clear: () => ladHost.querySelectorAll(".vp-row[data-r]").forEach(r => { r.style.opacity = ""; }),
+    anchors: lad24aLayer,
   });
   const cmpHost = document.getElementById("ladder-cmp");
+  const LAD24B_KEYS = { "swap": ["novelty_standard", "fair_comparison", "merit_recognition"] };
+  const lad24bLayer = anchorLayer(cmpHost, key => {
+    const ks = LAD24B_KEYS[key];
+    if (!ks) return null;
+    const el = ks.map(k => cmpHost.querySelector(`.lift-row[data-k="${k}"]`)).find(Boolean);
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = cmpHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: cmpHost,
     label: "FIG. 24B \u00b7 MINIATURE",
@@ -4300,6 +4436,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.lad24b,
     apply: () => cmpHost.querySelectorAll(".lift-row[data-k]").forEach(r => { r.style.opacity = ["novelty_standard", "fair_comparison", "merit_recognition"].includes(r.dataset.k) ? "1" : "0.2"; }),
     clear: () => cmpHost.querySelectorAll(".lift-row[data-k]").forEach(r => { r.style.opacity = ""; }),
+    anchors: lad24bLayer,
   });
   const covHm = document.getElementById("cov-hm");
   const fCov = cellFocuser(covHm);
@@ -4307,6 +4444,18 @@ const TRIBCI = __ISL("TRIBCI");
     "fall": (o, r) => ["novelty", "baselines_ablations"].includes(o),
     "rise": (o, r) => ["theory", "method_design", "compute_cost"].includes(o),
   };
+  const lad24cLayer = anchorLayer(covHm, key => {
+    const pred = P24C[key];
+    if (!pred) return null;
+    const els = [...covHm.querySelectorAll(".cell")].filter(c => pred(c.dataset.o, c.dataset.r));
+    if (!els.length || els.length > 14) return null;
+    const h = covHm.getBoundingClientRect();
+  if (els.length <= 4) { const r = els[0].getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const rects = els.map(c => c.getBoundingClientRect());
+  const x0 = Math.min(...rects.map(r => r.left)), x1 = Math.max(...rects.map(r => r.right));
+  const y0 = Math.min(...rects.map(r => r.top)), y1 = Math.max(...rects.map(r => r.bottom));
+  return { x: (x0 + x1) / 2 - h.left, y: (y0 + y1) / 2 - h.top };
+  });
   wireBinds({
     fig: covHm,
     label: "FIG. 24C \u00b7 MINIATURE",
@@ -4315,8 +4464,16 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.lad24c,
     apply: key => fCov.apply(P24C[key]),
     clear: fCov.clear,
+    anchors: lad24cLayer,
   });
   const splitHost = document.getElementById("split-vd");
+  const lad24dLayer = anchorLayer(splitHost, key => {
+    if (key !== "novelty-weapon") return null;
+    const row = splitHost.querySelector('.vp-row[data-o="novelty"]');
+    const el = (row && row.querySelector(".wing.wl")) || row;
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = splitHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: splitHost,
     label: "FIG. 24D \u00b7 MINIATURE",
@@ -4325,6 +4482,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.lad24d,
     apply: () => splitHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = r.dataset.o === "novelty" ? "1" : "0.2"; }),
     clear: () => splitHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: lad24dLayer,
   });
 })();
 
@@ -4704,6 +4862,11 @@ function showDissect(kind, key) {
       if (ly < prevLy + 12) ly = prevLy + 12;
       b.ly = ly; prevLy = ly;
     }
+    window.__fateAnchors = { "held-unreadable": (() => {
+      const b = bands.find(x => x.label === "unreadable (no fate read)");
+      return b ? { x: RX + 8, y: (b.yB0 + b.yB1) / 2 } : null;
+    })() };
+    window.__fateCanvas = cv;
     // eased edge: cubic with both control points pulled to the middle
     const c1d = (a, b2, t) => { const u = 1 - t; return a * (u * u * u + 3 * u * u * t) + b2 * (3 * u * t * t + t * t * t); };
     const xOf = t => { const u = 1 - t; return u * u * u * BX + 3 * u * u * t * xm + 3 * u * t * t * xm + t * t * t * RX; };
@@ -4836,6 +4999,13 @@ function showDissect(kind, key) {
   document.getElementById("reb-stat-c").innerHTML = statRow(["×" + (YIELD.groups.split_low_scorer.soften / YIELD.groups.split_high_scorer.soften).toFixed(1), "the dissenting low scorer's yield rate, against the high co-reviewer's"]);
 
   // caption⇄figure binding: 17a bands (canvas hook), 17b trigger row, 17c yield rows
+  const fateLayer = anchorLayer(document.getElementById("reb-fate"), key => {
+    const pt = window.__fateAnchors && window.__fateAnchors[key];
+    const c = window.__fateCanvas;
+    if (!pt || !c) return null;
+    const r = c.getBoundingClientRect(), h = document.getElementById("reb-fate").getBoundingClientRect();
+    return { x: r.left - h.left + pt.x, y: r.top - h.top + pt.y };
+  });
   wireBinds({
     fig: document.getElementById("reb-fate"),
     label: "FIG. 17A",
@@ -4844,8 +5014,16 @@ function showDissect(kind, key) {
     keyOf: b => b.dataset.fate17,
     apply: () => { if (window.__fateFocus) window.__fateFocus(["held (no visible change)", "unreadable (no fate read)"]); },
     clear: () => { if (window.__fateFocus) window.__fateFocus(null); },
+    anchors: fateLayer,
   });
   const trigHost = document.getElementById("reb-trig");
+  const trigLayer = anchorLayer(trigHost, key => {
+    const trig = { "new-evidence": "new_evidence" }[key];
+    if (!trig) return null;
+    const el = trigHost.querySelector(`.vp-row[data-trigger="${trig}"]`);
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = trigHost.getBoundingClientRect(); return { x: r.left - h.left + 8, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: trigHost,
     label: "FIG. 17B \u00b7 MINIATURE",
@@ -4854,8 +5032,17 @@ function showDissect(kind, key) {
     keyOf: b => b.dataset.trig17,
     apply: () => trigHost.querySelectorAll(".vp-row[data-trigger]").forEach(r => { r.style.opacity = r.dataset.trigger === "new_evidence" ? "1" : "0.2"; }),
     clear: () => trigHost.querySelectorAll(".vp-row[data-trigger]").forEach(r => { r.style.opacity = ""; }),
+    anchors: trigLayer,
   });
   const yieldHost = document.getElementById("reb-yield");
+  const yieldLayer = anchorLayer(yieldHost, key => {
+    if (key !== "low-vs-high") return null;
+    const el = yieldHost.querySelector('.lift-row[data-group="low"] .lift-track');
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = yieldHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
+  const anVy = document.getElementById("annot-yield"), anSy = document.getElementById("annot-yield-src");
+  if (anVy && anSy) anVy.innerHTML = anSy.innerHTML;
   wireBinds({
     fig: yieldHost,
     label: "FIG. 17C \u00b7 MINIATURE",
@@ -4864,6 +5051,7 @@ function showDissect(kind, key) {
     keyOf: b => b.dataset.yield17,
     apply: () => yieldHost.querySelectorAll(".lift-row[data-group]").forEach(r => { r.style.opacity = ["low", "high"].includes(r.dataset.group) ? "1" : "0.25"; }),
     clear: () => yieldHost.querySelectorAll(".lift-row[data-group]").forEach(r => { r.style.opacity = ""; }),
+    anchors: yieldLayer,
   });
 })();
 
@@ -4902,6 +5090,14 @@ function showDissect(kind, key) {
     "widest-none": k => ["novelty", "compute_cost", "robustness_sensitivity"].includes(k),
     "runners-up": k => ["stats_metrics", "baselines_ablations"].includes(k),
   };
+  const tribLayer = anchorLayer(tribHost, key => {
+    const pred = P15A[key];
+    if (!pred) return null;
+    const rows = [...tribHost.querySelectorAll(".lift-row[data-o]")].filter(r => pred(r.dataset.o));
+    if (!rows.length || rows.length > 14) return null;
+    const el = (rows[0].querySelector(".lift-track")) || rows[0];
+    const r = el.getBoundingClientRect(), h = tribHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: tribHost,
     label: "FIG. 15A \u00b7 MINIATURE",
@@ -4910,6 +5106,7 @@ function showDissect(kind, key) {
     keyOf: b => b.dataset.trib,
     apply: key => tribHost.querySelectorAll(".lift-row[data-o]").forEach(r => { r.style.opacity = P15A[key](r.dataset.o) ? "1" : "0.18"; }),
     clear: () => tribHost.querySelectorAll(".lift-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: tribLayer,
   });
 })();
 
@@ -4935,6 +5132,12 @@ function showDissect(kind, key) {
 
   // caption⇄figure binding: the most- and least-contested rows
   const disHost = document.getElementById("dissent");
+  const dissentLayer = anchorLayer(disHost, key => {
+    if (key !== "extremes") return null;
+    const el = disHost.querySelector('.vp-row[data-o="problem_framing"]');
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = disHost.getBoundingClientRect(); return { x: r.left - h.left + 8, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: disHost,
     label: "FIG. 20A \u00b7 MINIATURE",
@@ -4943,6 +5146,7 @@ function showDissect(kind, key) {
     keyOf: b => b.dataset.dissent,
     apply: () => disHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = ["problem_framing", "robustness_sensitivity"].includes(r.dataset.o) ? "1" : "0.2"; }),
     clear: () => disHost.querySelectorAll(".vp-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: dissentLayer,
   });
 })();
 
@@ -5753,6 +5957,22 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   // caption⇄figure binding: named ICC years
   const iccEl = document.getElementById("icc-chart");
   const P25A = { "y2026": y => y === "2026", "y-range": y => y !== "2026" };
+  const iccLayer = anchorLayer(iccEl, key => {
+    const pred = P25A[key];
+    if (!pred) return null;
+    const circles = [...iccEl.querySelectorAll("circle[data-y]")].filter(c => pred(c.dataset.y));
+    if (!circles.length || circles.length > 14) return null;
+    const svgEl = circles[0].ownerSVGElement;
+    const m = svgEl && svgEl.getScreenCTM();
+    if (!m) return null;
+    const h = iccEl.getBoundingClientRect();
+    const toHost = c => { const pt = new DOMPoint(+c.getAttribute("cx"), +c.getAttribute("cy")).matrixTransform(m); return { x: pt.x - h.left, y: pt.y - h.top }; };
+    if (circles.length <= 4) return toHost(circles[0]);
+    const pts = circles.map(toHost);
+    const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+    const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+    return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: iccEl,
     label: "FIG. 25A \u00b7 MINIATURE",
@@ -5761,6 +5981,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.icc,
     apply: key => iccEl.querySelectorAll("circle[data-y]").forEach(c => { c.style.opacity = P25A[key](c.dataset.y) ? "1" : "0.15"; }),
     clear: () => iccEl.querySelectorAll("circle[data-y]").forEach(c => { c.style.opacity = ""; }),
+    anchors: iccLayer,
   });
 })();
 
@@ -5815,6 +6036,21 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "harden-range": { objs: ["novelty", "clarity"] },
     "revisit-extremes": { objs: ["related_work", "novelty"] },
   };
+  const fate19Layer = anchorLayer(fateHost, key => {
+    const cfg = P19[key];
+    if (!cfg) return null;
+    const h = fateHost.getBoundingClientRect();
+    if (cfg.seg) {
+      const el = fateHost.querySelector(`[data-seg="${cfg.seg}"]`);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+    }
+    const rows = [...fateHost.querySelectorAll(".fate-row[data-o]")].filter(r => cfg.objs.includes(r.dataset.o));
+    if (!rows.length) return null;
+    const r = rows[0].getBoundingClientRect();
+    return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: fateHost,
     label: "FIG. 19A \u00b7 MINIATURE",
@@ -5834,6 +6070,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       fateHost.querySelectorAll("[data-seg]").forEach(s => { s.style.outline = ""; });
       fateHost.querySelectorAll(".fate-row[data-o]").forEach(r => { r.style.opacity = ""; });
     },
+    anchors: fate19Layer,
   });
 })();
 
@@ -6022,6 +6259,15 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "redesign": e => e.classList.contains("rep-ghost") || e.dataset.fam === "redesign",
   };
   const m11 = () => host.querySelectorAll(".rep-row, .rep-seg, .rep-ghost");
+  const repairLayer = anchorLayer(host, key => {
+    const pred = P11[key];
+    if (!pred) return null;
+    const els = [...m11()].filter(pred);
+    if (!els.length || els.length > 14) return null;
+    const el = els[0];
+    const r = el.getBoundingClientRect(), h = host.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
+  regTether("repair-rows", repairLayer);
   wireBinds({
     fig: host,
     label: "FIG. 11 \u00b7 MINIATURE",
@@ -6030,6 +6276,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.repair,
     apply: key => m11().forEach(e => { e.style.opacity = P11[key](e) ? "1" : "0.18"; }),
     clear: () => m11().forEach(e => { e.style.opacity = ""; }),
+    anchors: repairLayer,
   });
 })();
 
@@ -6128,6 +6375,12 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   
   // caption⇄figure binding: the two wings
   const wingsHost = document.getElementById("bench-wings");
+  const wingsLayer = anchorLayer(wingsHost, key => {
+    if (key !== "both") return null;
+    const el = wingsHost.querySelector('[data-wing="dropped"]');
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = wingsHost.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: wingsHost,
     label: "FIG. 20B \u00b7 MINIATURE",
@@ -6136,6 +6389,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.wings,
     apply: () => wingsHost.querySelectorAll("[data-wing]").forEach(w => { w.style.outline = "1px solid rgba(236,231,220,.5)"; w.style.outlineOffset = "3px"; }),
     clear: () => wingsHost.querySelectorAll("[data-wing]").forEach(w => { w.style.outline = ""; w.style.outlineOffset = ""; }),
+    anchors: wingsLayer,
   });
 })();
   document.getElementById("bench-ex").innerHTML =
@@ -6307,6 +6561,14 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   // sparks need a light loop while playing; draw() is called by step already
 
   // caption⇄figure binding: the withdrawal ribbon, named in the caption
+  const seasonLayer = anchorLayer(host, key => {
+    if (key !== "withdrawals") return null;
+    const bi = KINDS.findIndex(([k]) => k === "withdrawals");
+    if (bi < 0) return null;
+    const bh = bandH();
+    const r = cv.getBoundingClientRect(), h = host.getBoundingClientRect();
+    return { x: r.left - h.left + padL + 30, y: r.top - h.top + padT + bi * bh + bh / 2 };
+  });
   wireBinds({
     fig: host,
     label: "THE SEASON",
@@ -6315,6 +6577,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.season,
     apply: () => { dimKind = "withdrawals"; draw(); },
     clear: () => { dimKind = null; draw(); },
+    anchors: seasonLayer,
   });
 })();
 
@@ -7492,6 +7755,12 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   buildBill(false); buildSuc(); buildDwell();
 
   // caption⇄figure binding: Fig 5c novelty row, Fig 5d chords/nodes
+  const billLayer = anchorLayer(billHost, key => {
+    if (key !== "novelty-opens") return null;
+    const el = billHost.querySelector('.bill-row[data-o="novelty"]');
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = billHost.getBoundingClientRect(); return { x: r.left - h.left + 8, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: billHost,
     label: "FIG. 5C \u00b7 MINIATURE",
@@ -7500,6 +7769,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.bill,
     apply: () => billHost.querySelectorAll(".bill-row[data-o]").forEach(rw => { rw.style.opacity = rw.dataset.o === "novelty" ? "1" : "0.15"; }),
     clear: () => billHost.querySelectorAll(".bill-row[data-o]").forEach(rw => { rw.style.opacity = ""; }),
+    anchors: billLayer,
   });
   const SUCPRED = {
     "clarity-rw": () => {
@@ -7514,6 +7784,30 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       sucHost.querySelectorAll("g[data-o]").forEach(g => { g.style.opacity = g.dataset.o === "empirical_scope" ? "1" : "0.25"; });
     },
   };
+  const sucLayer = anchorLayer(sucHost, key => {
+    const h = sucHost.getBoundingClientRect();
+    if (key === "clarity-rw") {
+      const path = sucHost.querySelector('path[data-a="clarity"][data-b="related_work"], path[data-a="related_work"][data-b="clarity"]');
+      if (!path || !path.ownerSVGElement) return null;
+      const mid = path.getPointAtLength(path.getTotalLength() / 2);
+      const m = path.ownerSVGElement.getScreenCTM();
+      if (!m) return null;
+      const pt = new DOMPoint(mid.x, mid.y).matrixTransform(m);
+      return { x: pt.x - h.left, y: pt.y - h.top };
+    }
+    if (key === "scope-alone") {
+      const g = sucHost.querySelector('g[data-o="empirical_scope"]');
+      if (!g || !g.ownerSVGElement) return null;
+      const cs = g.querySelectorAll("circle");
+      const c = cs[cs.length - 1];
+      if (!c) return null;
+      const m = g.ownerSVGElement.getScreenCTM();
+      if (!m) return null;
+      const pt = new DOMPoint(+c.getAttribute("cx"), +c.getAttribute("cy")).matrixTransform(m);
+      return { x: pt.x - h.left, y: pt.y - h.top };
+    }
+    return null;
+  });
   wireBinds({
     fig: sucHost,
     label: "FIG. 5D \u00b7 MINIATURE",
@@ -7525,6 +7819,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       sucHost.querySelectorAll("path[data-a]").forEach(pp => { pp.style.opacity = ""; });
       sucHost.querySelectorAll("g[data-o]").forEach(g => { g.style.opacity = ""; });
     },
+    anchors: sucLayer,
   });
   let sucSeen = false;
   new IntersectionObserver(en => { if (en[0].isIntersecting && !sucSeen) { sucSeen = true; if (!REDUCED) { if (sparkRAF) { cancelAnimationFrame(sparkRAF); sparkRAF = null; } buildSuc(true); buildDwell(true); } } }, { threshold: 0.25 }).observe(sucHost);
@@ -7763,6 +8058,26 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "novelty-price": o => o === "novelty",
     "next-prices": o => ["problem_framing", "related_work", "baselines_ablations"].includes(o),
   };
+  const tar14aLayer = anchorLayer(tarHost, key => {
+    const pred = P14A[key];
+    if (!pred) return null;
+    const rows = [...tarHost.querySelectorAll(".tar-row[data-o]")].filter(r => pred(r.dataset.o));
+    const hr = tarHost.getBoundingClientRect();
+    const pts = rows.map(r => {
+      const svg = r.querySelector(".tar-svg svg");
+      if (!svg) return null;
+      const cs = svg.querySelectorAll("circle");
+      const dot = cs[cs.length - 1];
+      if (!dot) return null;
+      const sr = svg.getBoundingClientRect();
+      return { x: sr.left - hr.left + (+dot.getAttribute("cx")), y: sr.top - hr.top + (+dot.getAttribute("cy")) };
+    }).filter(Boolean);
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: tarHost,
     label: "FIG. 14A \u00b7 MINIATURE",
@@ -7771,11 +8086,28 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.tariff,
     apply: key => tarHost.querySelectorAll(".tar-row[data-o]").forEach(r => { r.style.opacity = P14A[key](r.dataset.o) ? "1" : "0.18"; }),
     clear: () => tarHost.querySelectorAll(".tar-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: tar14aLayer,
   });
   const P14B = {
     "novelty-corner": o => o === "novelty",
     "center-cluster": o => ["theory", "clarity", "stats_metrics", "method_design", "empirical_scope"].includes(o),
   };
+  const pr14bLayer = anchorLayer(prHost, key => {
+    const pred = P14B[key];
+    if (!pred) return null;
+    const svg = prHost.querySelector("svg");
+    if (!svg) return null;
+    const circles = [...svg.querySelectorAll("circle[data-o]")].filter(c => pred(c.dataset.o));
+    const sr = svg.getBoundingClientRect(), hr = prHost.getBoundingClientRect();
+    const pts = circles.map(c => ({ x: sr.left - hr.left + (+c.getAttribute("cx")), y: sr.top - hr.top + (+c.getAttribute("cy")) }));
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
+  const anVpr = document.getElementById("annot-pricerep"), anSpr = document.getElementById("annot-pricerep-src");
+  if (anVpr && anSpr) anVpr.innerHTML = anSpr.innerHTML;
   wireBinds({
     fig: prHost,
     label: "FIG. 14B \u00b7 MINIATURE",
@@ -7784,11 +8116,33 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.pricerep,
     apply: key => prHost.querySelectorAll("circle[data-o]").forEach(c => { c.style.opacity = P14B[key](c.dataset.o) ? "1" : "0.15"; }),
     clear: () => prHost.querySelectorAll("circle[data-o]").forEach(c => { c.style.opacity = ""; }),
+    anchors: pr14bLayer,
   });
   const P14C = {
     "same-standard": o => o === "__all__",
     "thin-rows": o => ["reproducibility", "related_work"].includes(o),
   };
+  const law14cLayer = anchorLayer(lawHost, key => {
+    const pred = P14C[key];
+    if (!pred) return null;
+    const rows = [...lawHost.querySelectorAll(".law-row[data-o]")].filter(r => pred(r.dataset.o));
+    const hr = lawHost.getBoundingClientRect();
+    const pts = rows.map(r => {
+      const svg = r.querySelector(".law-svg svg");
+      if (!svg) return null;
+      const cs = svg.querySelectorAll("circle");
+      const tip = cs[cs.length - 1];
+      if (!tip) return null;
+      const sr = svg.getBoundingClientRect();
+      return { x: sr.left - hr.left + (+tip.getAttribute("cx")), y: sr.top - hr.top + (+tip.getAttribute("cy")) };
+    }).filter(Boolean);
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
+  regTether("law", law14cLayer);
   wireBinds({
     fig: lawHost,
     label: "FIG. 14C \u00b7 MINIATURE",
@@ -7797,6 +8151,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.lawrow,
     apply: key => lawHost.querySelectorAll(".law-row[data-o]").forEach(r => { r.style.opacity = P14C[key](r.dataset.o) ? "1" : "0.2"; }),
     clear: () => lawHost.querySelectorAll(".law-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: law14cLayer,
   });
 })();
 
@@ -7939,6 +8294,16 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 
   // caption⇄figure binding: named islands
   const P28 = { "learning-theory": "learning theory", "datasets": "datasets & benchmarks" };
+  const archiLayer = anchorLayer(host, key => {
+    const name = P28[key];
+    if (!name) return null;
+    const g = host.querySelector(`g.isl[data-area="${CSS.escape(name)}"]`);
+    if (!g) return null;
+    const r = g.getBoundingClientRect(), hr = host.getBoundingClientRect();
+    return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + r.height / 2 };
+  });
+  const anVar = document.getElementById("annot-archi"), anSar = document.getElementById("annot-archi-src");
+  if (anVar && anSar) anVar.innerHTML = anSar.innerHTML;
   wireBinds({
     fig: host,
     label: "FIG. 28 \u00b7 MINIATURE",
@@ -7947,6 +8312,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.archi,
     apply: key => host.querySelectorAll("g.isl[data-area]").forEach(g => { g.style.opacity = g.dataset.area === P28[key] ? "1" : "0.18"; }),
     clear: () => host.querySelectorAll("g.isl[data-area]").forEach(g => { g.style.opacity = ""; }),
+    anchors: archiLayer,
   });
 })();
 
@@ -8174,6 +8540,24 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "falling": new Set(["empirical_scope", "theory", "method_design"]),
   };
   const slopeEl = document.getElementById("court-slope");
+  const court22aLayer = anchorLayer(slopeEl, key => {
+    const set = P22A[key];
+    if (!set) return null;
+    const svg = slopeEl.querySelector("svg");
+    if (!svg) return null;
+    const sr = svg.getBoundingClientRect(), hr = slopeEl.getBoundingClientRect();
+    const pts = [];
+    for (const o of set) {
+      const cs = svg.querySelectorAll(`circle[data-o="${o}"]`);
+      const right = cs[cs.length - 1];
+      if (right) pts.push({ x: sr.left - hr.left + (+right.getAttribute("cx")), y: sr.top - hr.top + (+right.getAttribute("cy")) });
+    }
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: slopeEl,
     label: "FIG. 22A \u00b7 MINIATURE",
@@ -8182,6 +8566,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.court22a,
     apply: key => slopeEl.querySelectorAll("[data-o]").forEach(m => { m.style.opacity = P22A[key].has(m.dataset.o) ? "1" : "0.12"; }),
     clear: () => slopeEl.querySelectorAll("[data-o]").forEach(m => { m.style.opacity = ""; }),
+    anchors: court22aLayer,
   });
   const P22B = {
     "clarity-clear": new Set(["clarity"]),
@@ -8189,6 +8574,23 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "overlooked": new Set(["robustness_sensitivity", "related_work"]),
   };
   const forEl = document.getElementById("court-forgive");
+  const court22bLayer = anchorLayer(forEl, key => {
+    const set = P22B[key];
+    if (!set) return null;
+    const rows = [...forEl.querySelectorAll(".tar-row[data-o]")].filter(r => set.has(r.dataset.o));
+    const hr = forEl.getBoundingClientRect();
+    const pts = rows.map(r => {
+      const dot = r.querySelector(".tar-svg svg circle.mvdot");
+      if (!dot) return null;
+      const sr = dot.ownerSVGElement.getBoundingClientRect();
+      return { x: sr.left - hr.left + (+dot.getAttribute("cx")), y: sr.top - hr.top + (+dot.getAttribute("cy")) };
+    }).filter(Boolean);
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: forEl,
     label: "FIG. 22B \u00b7 MINIATURE",
@@ -8197,6 +8599,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.court22b,
     apply: key => forEl.querySelectorAll(".tar-row[data-o]").forEach(r => { r.style.opacity = P22B[key].has(r.dataset.o) ? "1" : "0.15"; }),
     clear: () => forEl.querySelectorAll(".tar-row[data-o]").forEach(r => { r.style.opacity = ""; }),
+    anchors: court22bLayer,
   });
 })();
 
@@ -8501,6 +8904,19 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   debounceResize(() => { buildCensus(false); buildSpecimens(false); });
 
   // caption⇄figure binding: 2025/2026 return crests + vines-vs-stumps cards
+  const talk16aLayer = anchorLayer(census, key => {
+    if (key !== "returns") return null;
+    const svg = census.querySelector("svg");
+    if (!svg) return null;
+    const els = [...svg.querySelectorAll("text[data-year]")].filter(x => x.dataset.year === "2025" || x.dataset.year === "2026");
+    const hr = census.getBoundingClientRect();
+    const pts = els.map(x => { const r = x.getBoundingClientRect(); return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + r.height / 2 }; });
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: census,
     label: "FIG. 16A \u00b7 MINIATURE",
@@ -8509,8 +8925,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.talk16a,
     apply: () => census.querySelectorAll("text[data-year]").forEach(tx => { tx.style.opacity = ["2025", "2026"].includes(tx.dataset.year) ? "1" : "0.3"; }),
     clear: () => census.querySelectorAll("text[data-year]").forEach(tx => { tx.style.opacity = ""; }),
+    anchors: talk16aLayer,
   });
   const spHostEl = document.getElementById("talk-specimens");
+  const talk16bLayer = anchorLayer(spHostEl, key => {
+    if (key !== "vines-stumps") return null;
+    const cards = [...spHostEl.querySelectorAll(".spec-card")].filter(c => c.dataset.role !== "monologue");
+    const hr = spHostEl.getBoundingClientRect();
+    const pts = cards.map(c => { const r = c.getBoundingClientRect(); return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + r.height / 2 }; });
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: spHostEl,
     label: "FIG. 16B \u00b7 MINIATURE",
@@ -8519,6 +8947,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.talk16b,
     apply: () => spHostEl.querySelectorAll(".spec-card").forEach(c => { c.style.opacity = c.dataset.role === "monologue" ? "0.25" : "1"; }),
     clear: () => spHostEl.querySelectorAll(".spec-card").forEach(c => { c.style.opacity = ""; }),
+    anchors: talk16bLayer,
   });
 })();
 
@@ -8804,6 +9233,24 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       formulaic: new Set(["reproducibility", "clarity"]),
     };
     const lineGroups = () => objHost.querySelectorAll("g.fs-ln");
+    const juris10bLayer = anchorLayer(objHost, key => {
+      const set = JPRED[key];
+      if (!set) return null;
+      const groups = [...lineGroups()].filter(g => { const o = g.querySelector(".fs-stroke"); return o && set.has(o.dataset.o); });
+      const hr = objHost.getBoundingClientRect();
+      const pts = groups.map(g => {
+        const cs = g.querySelectorAll("circle");
+        const right = cs[cs.length - 1];
+        if (!right) return null;
+        const sr = right.ownerSVGElement.getBoundingClientRect();
+        return { x: sr.left - hr.left + (+right.getAttribute("cx")), y: sr.top - hr.top + (+right.getAttribute("cy")) };
+      }).filter(Boolean);
+      if (!pts.length) return null;
+    if (pts.length === 1) return pts[0];
+    const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+    const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+    return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+    });
     wireBinds({
       fig: objHost,
       label: "FIG. 10B · MINIATURE",
@@ -8815,12 +9262,22 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
         g.style.opacity = o && JPRED[key].has(o.dataset.o) ? "1" : "0.12";
       }),
       clear: () => lineGroups().forEach(g => { g.style.opacity = ""; }),
+      anchors: juris10bLayer,
     });
   }
 
   // caption⇄figure binding: Fig 10a spectrum tiers + Fig 10c twin tiers
   {
     const spec10 = document.getElementById("form-spec");
+    const spec10Layer = anchorLayer(spec10, key => {
+      const svg = spec10.querySelector("svg");
+      if (!svg) return null;
+      const g = key === "median" ? svg.querySelector(".sp-med") : svg.querySelector(`.sp-tail[data-tier="${key}"]`);
+      const line = g && g.querySelector("line");
+      if (!line) return null;
+      const sr = svg.getBoundingClientRect(), hr = spec10.getBoundingClientRect();
+      return { x: sr.left - hr.left + (+line.getAttribute("x1")), y: sr.top - hr.top + (+line.getAttribute("y1")) };
+    });
     wireBinds({
       fig: spec10,
       label: "FIG. 10A \u00b7 MINIATURE",
@@ -8832,8 +9289,17 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
         g.style.opacity = hit ? "1" : "0.15";
       }),
       clear: () => spec10.querySelectorAll(".sp-tail, .sp-med").forEach(g => { g.style.opacity = ""; }),
+      anchors: spec10Layer,
     });
     const twins10 = document.getElementById("form-twins");
+    const twins10Layer = anchorLayer(twins10, key => {
+      const card = twins10.querySelector(`.twin-card2[data-tier="${key}"]`);
+      if (!card) return null;
+      const r = card.getBoundingClientRect(), hr = twins10.getBoundingClientRect();
+      return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + 14 };
+    });
+    const anVtw = document.getElementById("annot-twins"), anStw = document.getElementById("annot-twins-src");
+    if (anVtw && anStw) anVtw.innerHTML = anStw.innerHTML;
     wireBinds({
       fig: twins10,
       label: "FIG. 10C \u00b7 MINIATURE",
@@ -8842,6 +9308,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       keyOf: b => b.dataset.twins10,
       apply: key => twins10.querySelectorAll(".twin-card2").forEach(c => { c.style.opacity = c.dataset.tier === key ? "1" : "0.2"; }),
       clear: () => twins10.querySelectorAll(".twin-card2").forEach(c => { c.style.opacity = ""; }),
+      anchors: twins10Layer,
     });
   }
 })();
@@ -8897,6 +9364,19 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "novelty-unseen": (o, s) => o === "novelty" && s === "0",
     "scope-vs-repro": (o, s) => (o === "empirical_scope" && s === "3") || (o === "reproducibility" && s === "0"),
   };
+  const partyLayer = anchorLayer(host, key => {
+    const pred = P20C[key];
+    if (!pred) return null;
+    const segs = [...host.querySelectorAll(".tc-seg[data-o]")].filter(s => pred(s.dataset.o, s.dataset.seg));
+    if (segs.length > 14) return null;
+    const hr = host.getBoundingClientRect();
+    const pts = segs.map(s => { const r = s.getBoundingClientRect(); return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + r.height / 2 }; });
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: host,
     label: "FIG. 20C \u00b7 MINIATURE",
@@ -8905,6 +9385,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.party,
     apply: key => host.querySelectorAll(".tc-seg[data-o]").forEach(s => { s.style.opacity = P20C[key](s.dataset.o, s.dataset.seg) ? "1" : "0.15"; }),
     clear: () => host.querySelectorAll(".tc-seg[data-o]").forEach(s => { s.style.opacity = ""; }),
+    anchors: partyLayer,
   });
 })();
 
@@ -9069,6 +9550,15 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   debounceResize(() => { buildCurve(); makeCanvas(); if (lastDraw) paintAll(i => (lastDraw[i] ? "kept" : "lost")); });
 
   // caption⇄figure binding: the 2026 peak point
+  const cfxLayer = anchorLayer(curveHost, key => {
+    if (key !== "peak") return null;
+    const svg = curveHost.querySelector("svg");
+    if (!svg) return null;
+    const c = [...svg.querySelectorAll("circle[data-yr]")].find(x => x.dataset.yr === "2026" && Math.abs(+x.dataset.m - 5.75) < 0.01);
+    if (!c) return null;
+    const sr = svg.getBoundingClientRect(), hr = curveHost.getBoundingClientRect();
+    return { x: sr.left - hr.left + (+c.getAttribute("cx")), y: sr.top - hr.top + (+c.getAttribute("cy")) };
+  });
   wireBinds({
     fig: curveHost,
     label: "FIG. 25D \u00b7 MINIATURE",
@@ -9081,6 +9571,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       c.setAttribute("r", hit ? "5" : "2.4");
     }),
     clear: () => curveHost.querySelectorAll("circle[data-yr]").forEach(c => { c.style.opacity = ""; c.setAttribute("r", "2.4"); }),
+    anchors: cfxLayer,
   });
 })();
 
@@ -9117,6 +9608,26 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "rw-slip": (o, r) => o === "related_work" && r === "novelty_standard",
   };
   const f2b = cellFocuser(hm);
+  const hm2bLayer = anchorLayer(hm, key => {
+    const pred = PRED2B[key];
+    if (!pred) return null;
+    const cells = [...hm.querySelectorAll(".cell")].filter(c => pred(c.dataset.o, c.dataset.r));
+    if (!cells.length || cells.length > 14) return null;
+    if (cells.length <= 4) {
+      const c = cells[0];
+      return { x: c.offsetLeft + c.offsetWidth / 2, y: c.offsetTop + c.offsetHeight / 2 };
+    }
+    const x0 = Math.min(...cells.map(c => c.offsetLeft)), x1 = Math.max(...cells.map(c => c.offsetLeft + c.offsetWidth));
+    const y0 = Math.min(...cells.map(c => c.offsetTop)), y1 = Math.max(...cells.map(c => c.offsetTop + c.offsetHeight));
+    return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
+  regTether("hm-drift", hm2bLayer, {
+    "merit-cell": () => {
+      const c = hm.querySelector('.cell[data-o="problem_framing"][data-r="merit_recognition"]');
+      if (!c) return null;
+      return { x: c.offsetLeft + c.offsetWidth / 2, y: c.offsetTop + c.offsetHeight / 2 };
+    },
+  });
   wireBinds({
     fig: hm,
     label: "FIG. 2B \u00b7 MINIATURE",
@@ -9125,6 +9636,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.hm2b,
     apply: key => f2b.apply(PRED2B[key]),
     clear: f2b.clear,
+    anchors: hm2bLayer,
   });
 })();
 
@@ -9171,6 +9683,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 
   // caption⇄figure binding: the "both fields" dots
   const intqHost = document.getElementById("interro");
+  const intqLayer = anchorLayer(intqHost, key => {
+    if (key !== "both-fields") return null;
+    const circles = [...intqHost.querySelectorAll("circle.intq-both")];
+    const hr = intqHost.getBoundingClientRect();
+    const pts = circles.map(c => {
+      const sr = c.ownerSVGElement.getBoundingClientRect();
+      return { x: sr.left - hr.left + (+c.getAttribute("cx")), y: sr.top - hr.top + (+c.getAttribute("cy")) };
+    });
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: intqHost,
     label: "FIG. 19B \u00b7 MINIATURE",
@@ -9185,6 +9711,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       intqHost.querySelectorAll("circle").forEach(c => { c.style.opacity = ""; });
       intqHost.querySelectorAll("circle.intq-both").forEach(c => { c.setAttribute("r", "4"); });
     },
+    anchors: intqLayer,
   });
 })();
 
@@ -9265,6 +9792,22 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   // caption⇄figure binding: the earliest bin, both panels, both years
   const earlyLabel = TIDE["2026"].bins[0].label;
   const tMarks = () => document.querySelectorAll("#tide-rating circle[data-bin], #tide-words circle[data-bin]");
+  const tideFig = document.getElementById("tide-rating").closest(".rn-grid") || document.getElementById("tide-rating").parentElement.parentElement;
+  const tideLayer = anchorLayer(tideFig, key => {
+    if (key !== "early") return null;
+    const marks = [...tMarks()].filter(c => c.dataset.bin === earlyLabel);
+    if (!marks.length) return null;
+    const hr = tideFig.getBoundingClientRect();
+    const pts = marks.map(c => {
+      const sr = c.ownerSVGElement.getBoundingClientRect();
+      return { x: sr.left - hr.left + (+c.getAttribute("cx")), y: sr.top - hr.top + (+c.getAttribute("cy")) };
+    });
+    if (!pts.length) return null;
+  if (pts.length === 1) return pts[0];
+  const x0 = Math.min(...pts.map(q => q.x)), x1 = Math.max(...pts.map(q => q.x));
+  const y0 = Math.min(...pts.map(q => q.y)), y1 = Math.max(...pts.map(q => q.y));
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: document.getElementById("tide-rating").closest(".rn-grid") || document.getElementById("tide-rating").parentElement.parentElement,
     label: "THE TIDE \u00b7 MINIATURE",
@@ -9273,6 +9816,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.tide,
     apply: () => tMarks().forEach(c => { c.style.opacity = c.dataset.bin === earlyLabel ? "1" : "0.18"; c.setAttribute("r", c.dataset.bin === earlyLabel ? "4.5" : "3"); }),
     clear: () => tMarks().forEach(c => { c.style.opacity = ""; c.setAttribute("r", "3"); }),
+    anchors: tideLayer,
   });
 })();
 
@@ -9433,6 +9977,13 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 
   // caption⇄figure binding: Fig 7b imported clause + Fig 7c remedy segments
   const rbEl = document.getElementById("elem-rules");
+  const elem7bLayer = anchorLayer(rbEl, key => {
+    if (key !== "imported") return null;
+    const cl = rbEl.querySelector('.clause[data-k="claims"]');
+    const el = (cl && cl.querySelector(".c-h")) || cl;
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = rbEl.getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: rbEl,
     label: "FIG. 7B \u00b7 MINIATURE",
@@ -9441,6 +9992,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.elem7b,
     apply: () => rbEl.querySelectorAll(".clause").forEach(c => { c.style.opacity = c.dataset.k === "claims" ? "1" : "0.15"; }),
     clear: () => rbEl.querySelectorAll(".clause").forEach(c => { c.style.opacity = ""; }),
+    anchors: elem7bLayer,
   });
   const P7C = {
     "novelty-none": (o, k) => o === "novelty" && k === "none",
@@ -9448,6 +10000,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "three-remedies": (o, k) => (o === "clarity" && k === "articulate") || (o === "baselines_ablations" && k === "evidence") || (o === "reproducibility" && k === "report"),
     "redesign-rare": (o, k) => k === "method",
   };
+  const elem7cLayer = anchorLayer(mx, key => {
+    const pred = P7C[key];
+    if (!pred) return null;
+    let els = [...mx.querySelectorAll(".tc-seg[data-o]")].filter(s => pred(s.dataset.o, s.dataset.k));
+    const vis = els.filter(s => parseFloat(s.dataset.w) >= 1);
+    if (vis.length) els = vis;
+    if (!els.length || els.length > 14) return null;
+    const h = mx.getBoundingClientRect();
+  if (els.length <= 4) { const r = els[0].getBoundingClientRect(); return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const rects = els.map(c => c.getBoundingClientRect());
+  const x0 = Math.min(...rects.map(r => r.left)), x1 = Math.max(...rects.map(r => r.right));
+  const y0 = Math.min(...rects.map(r => r.top)), y1 = Math.max(...rects.map(r => r.bottom));
+  return { x: (x0 + x1) / 2 - h.left, y: (y0 + y1) / 2 - h.top };
+  });
   wireBinds({
     fig: mx,
     label: "FIG. 7C \u00b7 MINIATURE",
@@ -9456,6 +10022,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.elem7c,
     apply: key => mx.querySelectorAll(".tc-seg[data-o]").forEach(s => { s.style.opacity = P7C[key](s.dataset.o, s.dataset.k) ? "1" : "0.15"; }),
     clear: () => mx.querySelectorAll(".tc-seg[data-o]").forEach(s => { s.style.opacity = ""; }),
+    anchors: elem7cLayer,
   });
 })();
 
@@ -9550,6 +10117,21 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "weigh-opens": el2 => el2.dataset.form === "WEIGH" && el2.dataset.edge === "open",
   };
   const cMarks = () => host.querySelectorAll("[data-f1], [data-form]");
+  const chainLayer = anchorLayer(host, key => {
+    const pred = CPRED[key];
+    if (!pred) return null;
+    const marks = [...cMarks()].filter(pred);
+    if (marks.length > 14) return null;
+    const els = marks.length <= 4 ? marks.slice(0, 1) : marks;
+    if (!els.length) return null;
+  const h = host.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
+  regTether("chain-fig", chainLayer);
   wireBinds({
     fig: host,
     label: "FIG. 4A \u00b7 MINIATURE",
@@ -9562,6 +10144,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       m.style.outline = hit ? "1px solid #ece7dc" : "";
     }),
     clear: () => cMarks().forEach(m => { m.style.opacity = ""; m.style.outline = ""; }),
+    anchors: chainLayer,
   });
 })();
 
@@ -9738,6 +10321,30 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       cc.style.filter = "drop-shadow(0 0 5px rgba(236,231,220,.9))"; cc.setAttribute("r", "6.5");
     }),
   };
+  const commitLayer = anchorLayer(host, key => {
+    if (key === "weights") {
+      const els = [...host.querySelectorAll("rect[data-o]")].filter(r => ["novelty", "robustness_sensitivity"].includes(r.dataset.o));
+      if (!els.length) return null;
+      const h = host.getBoundingClientRect();
+      const rects = els.map(e => e.getBoundingClientRect());
+      if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+      const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+      const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+      return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+    }
+    if (key === "first-unit") {
+      const els = [...host.querySelectorAll('circle[data-mark="first-unit"]')];
+      if (!els.length) return null;
+      const h = host.getBoundingClientRect();
+      const rects = els.map(e => e.getBoundingClientRect());
+      if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+      const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+      const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+      return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+    }
+    return null;
+  });
+  regTether("commit-fig", commitLayer);
   wireBinds({
     fig: host,
     label: "FIG. 6A \u00b7 MINIATURE",
@@ -9749,6 +10356,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       host.querySelectorAll("rect[data-o]").forEach(rr => { rr.style.opacity = ""; });
       host.querySelectorAll('circle[data-mark="first-unit"]').forEach(cc => { cc.style.filter = ""; cc.setAttribute("r", "4.2"); });
     },
+    anchors: commitLayer,
   });
 })();
 
@@ -9787,6 +10395,28 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 
   // caption⇄figure binding: waffle groups + sparkline endpoints
   const host9 = document.getElementById("canon-fig");
+  const canonLayer = anchorLayer(host9, key => {
+    if (key === "halved") {
+      const els = [...host9.querySelectorAll("circle[data-year]")].filter(c => c.dataset.year === "2018" || c.dataset.year === "2026");
+      if (!els.length) return null;
+      const h = host9.getBoundingClientRect();
+      const rects = els.map(e => e.getBoundingClientRect());
+      if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+      const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+      const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+      return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+    }
+    const cells = [...host9.querySelectorAll(".cellfade[data-grp]")].filter(c => c.dataset.grp === key);
+    if (!cells.length || cells.length > 14) return null;
+    const els = cells.slice(0, 1);
+    if (!els.length) return null;
+  const h = host9.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: host9,
     label: "FIG. 9A \u00b7 MINIATURE",
@@ -9808,6 +10438,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       host9.querySelectorAll("circle[data-year]").forEach(c => { c.setAttribute("r", "2.6"); c.style.opacity = ""; });
       host9.querySelectorAll(".cellfade[data-grp]").forEach(c => { c.style.opacity = ""; });
     },
+    anchors: canonLayer,
   });
 })();
 
@@ -9881,6 +10512,17 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   debounceResize(build);
 
   // caption⇄figure binding: hero dockets in 14d, brass-vs-borrowed in 14e
+  const lawfigLayer = anchorLayer(host, key => {
+    if (key !== "hero-dockets") return null;
+    const els = [...host.querySelectorAll(".lt-row[data-key]")].filter(r => ["problem_framing", "clarity"].includes(r.dataset.key));
+    if (!els.length) return null;
+  const h = host.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: host,
     label: "FIG. 14D \u00b7 MINIATURE",
@@ -9889,6 +10531,14 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.lawfig,
     apply: () => host.querySelectorAll(".lt-row[data-key]").forEach(r => { r.style.opacity = ["problem_framing", "clarity"].includes(r.dataset.key) ? "1" : "0.2"; }),
     clear: () => host.querySelectorAll(".lt-row[data-key]").forEach(r => { r.style.opacity = ""; }),
+    anchors: lawfigLayer,
+  });
+  const lawnovLayer = anchorLayer(host2, key => {
+    if (key !== "brass-vs-borrowed") return null;
+    const el = host2.querySelector('.lt-row[data-key="claims"]');
+    if (!el) return null;
+    const r = el.getBoundingClientRect(), h = host2.getBoundingClientRect();
+    return { x: r.left - h.left + 12, y: r.top - h.top + r.height / 2 };
   });
   wireBinds({
     fig: host2,
@@ -9898,6 +10548,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.lawnov,
     apply: () => host2.querySelectorAll(".lt-row[data-key]").forEach(r => { r.style.opacity = "1"; r.style.outline = r.dataset.key === "claims" ? "1px solid #ece7dc" : ""; }),
     clear: () => host2.querySelectorAll(".lt-row[data-key]").forEach(r => { r.style.opacity = ""; r.style.outline = ""; }),
+    anchors: lawnovLayer,
   });
 })();
 
@@ -10048,6 +10699,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     },
   };
   const sheetFig = document.getElementById("sheet-top").closest(".rn-grid") || document.getElementById("sheet-top").parentElement.parentElement;
+  const sheetLayer = anchorLayer(sheetFig, key => {
+    const pred = P13[key];
+    if (!pred) return null;
+    const rows = [...sheetRows()].filter(pred);
+    if (rows.length > 14) return null;
+    const els = rows.slice(0, 1);
+    if (!els.length) return null;
+  const h = sheetFig.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: sheetFig,
     label: "FIG. 13B \u00b7 MINIATURE",
@@ -10056,6 +10721,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.sheet,
     apply: key => sheetRows().forEach(r => { r.style.opacity = P13[key](r) ? "1" : "0.2"; }),
     clear: () => sheetRows().forEach(r => { r.style.opacity = ""; }),
+    anchors: sheetLayer,
   });
 })();
   const OBJN = { empirical_scope: "scope", method_design: "method", theory: "theory", stats_metrics: "stats", compute_cost: "cost", clarity: "clarity", baselines_ablations: "baselines", robustness_sensitivity: "robust.", problem_framing: "framing", related_work: "related", reproducibility: "repro.", novelty: "novelty" };
@@ -10339,6 +11005,21 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   debounceResize(() => { buildTiers(false); buildWho(false); });
 
   // caption⇄figure binding: tier rows/segments + echoed-position rows
+  const echo23aLayer = anchorLayer(h1, key => {
+    let els;
+    if (key === "crit-vs-praise") {
+      els = [...h1.querySelectorAll("[data-row]")].filter(r => r.dataset.row !== "all meta units");
+    } else if (key === "own-copy") {
+      els = [...h1.querySelectorAll("[data-seg]")].filter(s => s.dataset.srow === "all meta units" && ["own", "copy"].includes(s.dataset.seg));
+    } else return null;
+    if (!els.length) return null;
+  const h = h1.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: h1,
     label: "FIG. 23A \u00b7 MINIATURE",
@@ -10356,6 +11037,18 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       h1.querySelectorAll("[data-row]").forEach(r => { r.style.opacity = ""; });
       h1.querySelectorAll("[data-seg]").forEach(s => { s.style.opacity = ""; });
     },
+    anchors: echo23aLayer,
+  });
+  const echo23bLayer = anchorLayer(h2, key => {
+    if (key !== "low-vs-high") return null;
+    const els = [...h2.querySelectorAll("[data-pos]")].filter(r => ["the panel's lowest", "the panel's highest"].includes(r.dataset.pos));
+    if (!els.length) return null;
+  const h = h2.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
   });
   wireBinds({
     fig: h2,
@@ -10365,6 +11058,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.echo23b,
     apply: () => h2.querySelectorAll("[data-pos]").forEach(r => { r.style.opacity = ["the panel's lowest", "the panel's highest"].includes(r.dataset.pos) ? "1" : "0.25"; }),
     clear: () => h2.querySelectorAll("[data-pos]").forEach(r => { r.style.opacity = ""; }),
+    anchors: echo23bLayer,
   });
 })();
 
@@ -10468,6 +11162,18 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   build(); debounceResize(build);
 
   // caption⇄figure binding: earliest years + the two swapping clauses
+  const tml27aLayer = anchorLayer(h1, key => {
+    if (key !== "early-years") return null;
+    const sv1 = h1.querySelector("svg");
+    const els = [...h1.querySelectorAll("circle[data-y]")].filter(c => ["2018", "2019", "2020"].includes(c.dataset.y) && c.closest("svg") === sv1);
+    if (!els.length) return null;
+  const h = h1.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: h1,
     label: "FIG. 27A \u00b7 MINIATURE",
@@ -10476,6 +11182,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.tml27a,
     apply: () => h1.querySelectorAll("circle[data-y]").forEach(c => { c.style.opacity = ["2018", "2019", "2020"].includes(c.dataset.y) ? "1" : "0.15"; }),
     clear: () => h1.querySelectorAll("circle[data-y]").forEach(c => { c.style.opacity = ""; }),
+    anchors: tml27aLayer,
   });
   wireBinds({
     fig: h2,
@@ -10615,6 +11322,19 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   mvAIO.observe(h1);
 
   // caption⇄figure binding: effort deciles + named moves
+  const moves18aLayer = anchorLayer(h1, key => {
+    if (key !== "deciles") return null;
+    const dots = [...h1.querySelectorAll(".adot[data-decile]")];
+    if (dots.length < 2) return null;
+    const els = [dots[0], dots[dots.length - 1]];
+    if (!els.length) return null;
+  const h = h1.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: h1,
     label: "FIG. 18A \u00b7 MINIATURE",
@@ -10623,11 +11343,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.moves18a,
     apply: () => { const dots = h1.querySelectorAll(".adot[data-decile]"); const last = dots.length - 1; dots.forEach((d, di) => { d.style.opacity = (di === 0 || di === last) ? "1" : "0.25"; d.setAttribute("r", (di === 0 || di === last) ? "4.6" : "3.2"); }); },
     clear: () => h1.querySelectorAll(".adot[data-decile]").forEach(d => { d.style.opacity = ""; d.setAttribute("r", "3.2"); }),
+    anchors: moves18aLayer,
   });
   const P18B = {
     "contest": k => k === "disagree",
     "delivered": k => k === "new_evidence",
   };
+  const moves18bLayer = anchorLayer(h2, key => {
+    const pred = P18B[key];
+    if (!pred) return null;
+    const g = [...h2.querySelectorAll("g[data-move]")].find(gg => pred(gg.dataset.move));
+    if (!g) return null;
+    const r = g.getBoundingClientRect(), h = h2.getBoundingClientRect();
+    return { x: r.left - h.left + 14, y: r.top - h.top + r.height / 2 };
+  });
   wireBinds({
     fig: h2,
     label: "FIG. 18B \u00b7 MINIATURE",
@@ -10636,6 +11365,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.moves18b,
     apply: key => h2.querySelectorAll("g[data-move]").forEach(g => { g.style.opacity = P18B[key](g.dataset.move) ? "1" : "0.18"; }),
     clear: () => h2.querySelectorAll("g[data-move]").forEach(g => { g.style.opacity = ""; }),
+    anchors: moves18bLayer,
   });
 })();
 
@@ -10809,6 +11539,22 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "six-exceptions": k => !["threshold", "repro"].includes(k),
     "dead-tracks": k => ["threshold", "repro"].includes(k),
   };
+  const combo8aLayer = anchorLayer(h1, key => {
+    const pred = P8A[key];
+    if (!pred) return null;
+    const gs = [...h1.querySelectorAll(".rr-tr")].filter(g => pred(g.dataset.k));
+    if (gs.length > 14) return null;
+    const els = gs.length <= 4 ? gs.slice(0, 1) : gs;
+    if (!els.length) return null;
+  const h = h1.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
+  const anV8a = document.getElementById("annot-combo8a"), anS8a = document.getElementById("annot-combo8a-src");
+  if (anV8a && anS8a) anV8a.innerHTML = anS8a.innerHTML;
   wireBinds({
     fig: h1,
     label: "FIG. 8A \u00b7 MINIATURE",
@@ -10817,6 +11563,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.combo8a,
     apply: key => h1.querySelectorAll(".rr-tr").forEach(g => { g.style.opacity = P8A[key](g.dataset.k) ? "1" : "0.22"; }),
     clear: () => h1.querySelectorAll(".rr-tr").forEach(g => { g.style.opacity = ""; }),
+    anchors: combo8aLayer,
   });
   const P8B = {
     "generic": new Set(["generic"]),
@@ -10824,6 +11571,18 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     "precedent": new Set(["precedent"]),
     "new-or-noinsight": new Set(["newproblem", "noinsight"]),
   };
+  const combo8bLayer = anchorLayer(h2, key => {
+    const set = P8B[key];
+    if (!set) return null;
+    const els = [...h2.querySelectorAll("[data-k]")].filter(c => set.has(c.dataset.k));
+    if (!els.length) return null;
+  const h = h2.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   wireBinds({
     fig: h2,
     label: "FIG. 8B \u00b7 MINIATURE",
@@ -10832,6 +11591,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.combo8b,
     apply: key => h2.querySelectorAll("[data-k]").forEach(c => { c.style.opacity = P8B[key].has(c.dataset.k) ? "1" : "0.18"; }),
     clear: () => h2.querySelectorAll("[data-k]").forEach(c => { c.style.opacity = ""; }),
+    anchors: combo8bLayer,
   });
 })();
 
@@ -10921,6 +11681,18 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   }
 
   // caption⇄figure binding: real vs forged rows
+  const mirageLayer = anchorLayer(host, key => {
+    const els = [...host.querySelectorAll("[data-mrow]")].filter(r => r.dataset.mrow === key);
+    if (!els.length) return null;
+  const h = host.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
+  const anVmi = document.getElementById("annot-mirage"), anSmi = document.getElementById("annot-mirage-src");
+  if (anVmi && anSmi) anVmi.innerHTML = anSmi.innerHTML;
   wireBinds({
     fig: host,
     label: "APPENDIX III \u00b7 MINIATURE",
@@ -10929,6 +11701,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.mirage,
     apply: key => host.querySelectorAll("[data-mrow]").forEach(r => { r.style.opacity = r.dataset.mrow === key ? "1" : "0.15"; }),
     clear: () => host.querySelectorAll("[data-mrow]").forEach(r => { r.style.opacity = ""; }),
+    anchors: mirageLayer,
   });
 })();
 
@@ -10936,6 +11709,17 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 // ---------------- caption⇄figure bindings, Plate XXI (hosts addressed by id) ----------------
 (function bindPlate21() {
   const pop = document.getElementById("delib-pop");
+  const delibLayer = pop && anchorLayer(pop, key => {
+    if (key !== "movement") return null;
+    const els = [...pop.querySelectorAll(".pop-row[data-key]")].filter(r => ["softening", "entrenchment", "reversal"].includes(r.dataset.key));
+    if (!els.length) return null;
+  const h = pop.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   if (pop) wireBinds({
     fig: pop,
     label: "FIG. 21A \u00b7 MINIATURE",
@@ -10944,8 +11728,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.delib,
     apply: () => pop.querySelectorAll(".pop-row[data-key]").forEach(r => { r.style.opacity = ["softening", "entrenchment", "reversal"].includes(r.dataset.key) ? "1" : "0.25"; }),
     clear: () => pop.querySelectorAll(".pop-row[data-key]").forEach(r => { r.style.opacity = ""; }),
+    anchors: delibLayer,
   });
   const sigs = document.getElementById("rep-sigs");
+  const repsigLayer = sigs && anchorLayer(sigs, key => {
+    if (key !== "quiet-endings") return null;
+    const els = [...sigs.querySelectorAll("g[data-sig]")].filter(g => ["silence", "entrenchment"].includes(g.dataset.sig));
+    if (!els.length) return null;
+  const h = sigs.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   if (sigs) wireBinds({
     fig: sigs,
     label: "FIG. 21C \u00b7 MINIATURE",
@@ -10954,8 +11750,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.repsig,
     apply: () => sigs.querySelectorAll("g[data-sig]").forEach(g => { g.style.opacity = ["silence", "entrenchment"].includes(g.dataset.sig) ? "1" : "0.2"; }),
     clear: () => sigs.querySelectorAll("g[data-sig]").forEach(g => { g.style.opacity = ""; }),
+    anchors: repsigLayer,
   });
   const ov = document.getElementById("rep-overlap");
+  const repovLayer = ov && anchorLayer(ov, key => {
+    if (key !== "two-curves") return null;
+    const els = [...ov.querySelectorAll("path[data-hist]")];
+    if (!els.length) return null;
+  const h = ov.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   if (ov) wireBinds({
     fig: ov,
     label: "FIG. 21C \u00b7 OVERLAP",
@@ -10964,8 +11772,20 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.repov,
     apply: () => ov.querySelectorAll("path[data-hist]").forEach(pt => { pt.style.strokeWidth = "3"; pt.style.filter = "drop-shadow(0 0 4px rgba(236,231,220,.4))"; }),
     clear: () => ov.querySelectorAll("path[data-hist]").forEach(pt => { pt.style.strokeWidth = ""; pt.style.filter = ""; }),
+    anchors: repovLayer,
   });
   const ry = document.getElementById("rep-years");
+  const repyrLayer = ry && anchorLayer(ry, key => {
+    if (key !== "landmarks") return null;
+    const els = [...ry.querySelectorAll("text.ry-landmark")];
+    if (!els.length) return null;
+  const h = ry.getBoundingClientRect();
+  const rects = els.map(e => e.getBoundingClientRect());
+  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
+  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
   if (ry) wireBinds({
     fig: ry,
     label: "FIG. 21D \u00b7 MINIATURE",
@@ -10974,6 +11794,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     keyOf: b => b.dataset.repyr,
     apply: () => ry.querySelectorAll("text.ry-landmark").forEach(tx => { tx.style.fontSize = "14px"; tx.style.fill = "#c9a45c"; }),
     clear: () => ry.querySelectorAll("text.ry-landmark").forEach(tx => { tx.style.fontSize = ""; tx.style.fill = ""; }),
+    anchors: repyrLayer,
   });
 })();
 
