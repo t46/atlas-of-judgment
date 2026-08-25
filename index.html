@@ -87,16 +87,33 @@ section.console .plate-inner::before, section.console .plate-inner::after { disp
 .cv { display: grid; grid-template-columns: 86px 1fr; gap: 20px; padding: 12px 0 13px; }
 .cv + .cv { border-top: 1px solid rgba(255,255,255,0.055); }
 .cv-lab { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass-dim); text-align: right; padding-top: 4px; line-height: 1.8; }
-.cv-body { font-size: 13.5px; color: var(--ink-2); columns: 2 46ch; column-gap: 56px; text-wrap: pretty; }
+.cv-body { font-size: 13.5px; color: var(--ink-2); max-width: 72ch; text-wrap: pretty; }
 .cv-result .cv-lab { color: var(--brass); }
 .cv-result .cv-body { font-size: 14.5px; color: var(--ink); }
 .cv-why .cv-body { font-style: italic; font-size: 13px; }
-.cv-caveat { border: 1px solid var(--brass-line); border-left: 2px solid var(--brass); background: rgba(201,164,92,0.045); padding: 12px 18px 13px 16px; margin-top: 6px; }
+.cv-caveat { border: 1px solid var(--brass-line); border-left: 2px solid var(--brass); background: rgba(201,164,92,0.045); padding: 12px 18px 13px 16px; margin-top: 6px; max-width: 780px; box-sizing: border-box; }
 .cv-caveat .cv-lab { color: var(--brass); }
 
 .cv-longlab .cv-lab { grid-column: 2; text-align: left; padding-top: 0; margin-bottom: 2px; }
 .cv-longlab .cv-body { grid-column: 2; }
 .cv-lead .cv-body { font-style: italic; }
+/* ---- anchor layer: key numerals, on-chart annotations, caveat banderoles ---- */
+sup.kb { font-family: var(--mono); font-size: 8px; color: var(--brass); letter-spacing: 0; padding-left: 2px; }
+.fig-key { position: absolute; z-index: 22; width: 16px; height: 16px; border-radius: 50%; box-sizing: border-box;
+  border: 1px solid var(--brass-dim); background: rgba(18,16,31,0.88); color: var(--brass);
+  font-family: var(--mono); font-size: 8.5px; line-height: 14px; text-align: center;
+  transform: translate(-50%, -50%); transition: background .25s var(--ease-settle), color .25s var(--ease-settle); }
+.fig-key.on, .fig-key:hover { background: var(--brass); color: #12101f; border-color: var(--brass); }
+button.hover-bind.bound-hot { color: var(--brass); border-bottom-color: var(--brass); }
+svg.annot-lines, svg.bander-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; overflow: visible; }
+svg.bander-lines polyline { stroke: var(--brass-dim); stroke-width: 1; fill: none; opacity: .65; }
+.fig-annot { font-size: 11.5px; line-height: 1.6; font-style: italic; color: var(--ink-2); }
+.fig-annot b { font-weight: 600; color: var(--ink); font-style: italic; }
+.fig-annot .fa-sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin: 0 4px 0 2px; vertical-align: -1px; border: 1px solid rgba(255,255,255,0.15); }
+.fig-annot:not(.placed) { margin: 12px 0 0; border-left: 1px solid var(--brass-line); padding-left: 12px; max-width: 62ch; }
+.fig-annot.placed { position: absolute; z-index: 21; }
+.cav-dag { position: absolute; z-index: 22; color: var(--brass); font-family: var(--display); font-size: 15px; transform: translate(-50%, -55%); text-shadow: 0 0 8px rgba(18,16,31,.95); }
+.cv-caveat[data-tether] .cv-lab::before { content: "\2020\2002"; color: var(--brass); }
 
 @media (max-width: 760px) {
   .cv { grid-template-columns: 1fr; gap: 6px; }
@@ -1043,16 +1060,17 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div id="dissect" hidden></div>
     <div class="caption cap-voices"><div class="cv-fig"><b>Fig. 1a</b></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">five things the ribbons show. First, criticism dominates every path: 71.8% of all units end negative, and no object escapes — the gentlest-treated object still runs 60% negative, the harshest 88%. That is not the acceptance rate in disguise: even reviews awarding an 8 are made of 45% negative units — thorough praise is still built out of criticism. Second, praise has a bottleneck: <button class="hover-bind" data-sankey="mercy-positive">two thirds of all positive units (66.9%) reach the right edge through one standard, merit recognition</button> — mercy is not spread across the reasoning; it has its own channel. Third, the single largest current in the corpus is <button class="hover-bind" data-sankey="largest-current">empirical scope flowing into the design-justification standard</button> (4.8% of everything): the modal act of ICLR reviewing is asking why the experiments were set up as they were. Fourth, the bonds themselves run from tight to loose: <button class="hover-bind" data-sankey="novelty-monogamous">novelty is the most monogamous object</button> — one standard (its own) carries 67% of its units and two cover 80% — while statistical rigor is the most promiscuous, spreading so widely that its top standard holds only 14% and eight are needed to cover 80%. The median object needs six. Judging what a paper <em>is</em> has one law; judging whether its numbers hold has many. Fifth, the strongest bonds that are <em>not</em> an object paired with its own namesake standard — the ones that carry information: <button class="hover-bind" data-sankey="rw-novelty-std">half of all related-work criticism (50%, 3.3× its expected share) is argued under the <em>novelty</em> standard</button>, so the citation list is read chiefly as a claim about priority rather than a bibliography to complete; <button class="hover-bind" data-sankey="rw-presentation">missing citations are also read as a carelessness signal (presentation-as-trust at 2.4× base)</button>; and <button class="hover-bind" data-sankey="framing-merit">problem framing is the object where praise concentrates (merit recognition at 2.1× base)</button> — the motivation section is the field's default site of compliment.</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">one caution on the 71.8% level itself: the models that split reviews into units catch explicit criticism more reliably than brief praise — a passing "well written" often goes unrecorded — so the negative share is tilted upward, and it measures the reading as much as the reviewers (Appendix II reports the check). Comparisons stay safe, because every object and standard was read the same way. How each object × standard pairing resolves, cell by cell, is the map below.</div></div>
+    <div class="cv cv-caveat" data-tether="sankey:negative-node:right"><span class="cv-lab">Reading it</span><div class="cv-body">one caution on the 71.8% level itself: the models that split reviews into units catch explicit criticism more reliably than brief praise — a passing "well written" often goes unrecorded — so the negative share is tilted upward, and it measures the reading as much as the reviewers (Appendix II reports the check). Comparisons stay safe, because every object and standard was read the same way. How each object × standard pairing resolves, cell by cell, is the map below.</div></div>
     </div>
     <div class="fig-title" style="margin-top:34px">Fig. 1b — The severity map: where mercy lives</div>
     <div class="fig-deck">All <span class="prov"><button class="stat-door">131 readable pairings</button><span class="prov-pop" hidden><b>SOURCE</b> viz-data.json → triples[] (shipped inside this page)<br><b>DERIVATION</b> 12 × 12 pairings − the merit-recognition column (12) − 1 cell under 40 units = 131; each has a negative share above 50%<br><b>VERIFIED</b> D10 number audit, 2026-08-24</span></span> outside the merit-recognition column condemn more often than not; inside that one column, criticism falls to 14–35% for eleven of the twelve objects.</div>
     <div class="hm-wrap"><div class="hm" id="mercy"></div></div>
+    <div class="fig-annot" id="annot-mercy">So a <span class="fa-sw" style="background:color-mix(in oklab,#d0685c 85%,#161324)"></span><b>deep red cell means: when a reviewer examines this part of a paper under this rule, the judgment almost always ends in criticism</b>; a <span class="fa-sw" style="background:color-mix(in oklab,#d0685c 12%,#161324)"></span><b>dark cell means that pairing tends to end well</b> for the author.</div>
     <div class="caption cap-voices"><div class="cv-fig"><b>Fig. 1b</b></div>
     <div class="cv cv-why"><span class="cv-lab">Why this is here</span><div class="cv-body">this is not new data — it is the diagram above shown a second way. The sankey holds the verdicts too, but reading how a particular pairing tends to end means hovering its ribbons one at a time; here the same 144 pairings are laid out so the outcome of every one is visible at once and can be compared at a glance.</div></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the same 144 object × standard pairings, as a grid: rows are objects, columns are standards, and each cell is coloured by the share of that pairing's units that end in a negative verdict. So a <b>deep red cell means: when a reviewer examines this part of a paper under this rule, the judgment almost always ends in criticism</b>; a <b>dark cell means that pairing tends to end well</b> for the author. Hover any cell for its exact share and unit count; one cell of the 144 (novelty × the reproducibility norm, 36 units) is too thin to read and is hatched grey rather than coloured.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the same 144 object × standard pairings, as a grid: rows are objects, columns are standards, and each cell is coloured by the share of that pairing's units that end in a negative verdict. Hover any cell for its exact share and unit count; one cell of the 144 (novelty × the reproducibility norm, 36 units) is too thin to read and is hatched grey rather than coloured.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the map has one exception, not many. <button class="hover-bind" data-mercy="outside-mercy">Outside the merit-recognition column</button>, <em>every single one</em> of the 131 pairings with enough units runs majority-negative — the mildest of them (<button class="hover-bind" data-mercy="mildest">problem framing × the robustness norm</button>) still condemns 56% of the time. <button class="hover-bind" data-mercy="mercy-col">Inside that column</button> the share falls to 14–35% for eleven of the twelve objects. <button class="hover-bind" data-mercy="harshest-three">The harshest cells</button>, named as the extremes they are (each holds hundreds to thousands of units, so the shares are not sampling noise): related work judged by presentation-as-trust (95.9% negative), clarity judged by the same standard (94.7%), and reproducibility judged by statistical identifiability (94.4%). And one object finds no mercy anywhere: related work occupies the harshest cell of the whole map <em>and</em> is the worst-treated object inside the mercy column itself — <button class="hover-bind" data-mercy="rw-mercy">55% negative even under merit recognition</button>, where no other object exceeds 35%. That squares with Fig.&nbsp;1a's fifth result: a citation list is read as a claim about priority, and there is no standard under which that claim is usually granted.</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">the wall of red is also a reminder that the pipeline records explicit criticism more readily than passing praise — the level is tilted; the comparisons between cells are what to trust.</div></div>
+    <div class="cv cv-caveat" data-tether="mercy:cbar:right"><span class="cv-lab">Reading it</span><div class="cv-body">the wall of red is also a reminder that the pipeline records explicit criticism more readily than passing praise — the level is tilted; the comparisons between cells are what to trust.</div></div>
     </div>
   </div></div>
 </section>
@@ -2426,7 +2444,7 @@ wireProvenance();
 // generic caption⇄figure binding engine: hover = transient highlight, click = pin,
 // and when the figure is off-screen a live miniature (scaled DOM clone) surfaces
 // beside the phrase — the answer comes to the sentence
-function wireBinds({ fig, buttons, keyOf, apply, clear, label, ghostW = 210, ghost = true }) {
+function wireBinds({ fig, buttons, keyOf, apply, clear, label, ghostW = 210, ghost = true, anchors = null }) {
   const shell = document.createElement("div");
   shell.style.cssText = "position:fixed;z-index:75;pointer-events:none;display:none;background:var(--raise);border:1px solid var(--brass-line);padding:7px 8px 6px;box-shadow:0 10px 34px rgba(0,0,0,.55)";
   shell.innerHTML = `<div style="font-family:var(--mono);font-size:7.5px;letter-spacing:.2em;color:var(--brass);margin-bottom:5px">${label}</div><div class="ghost-body" style="overflow:hidden"></div>`;
@@ -2474,6 +2492,44 @@ function wireBinds({ fig, buttons, keyOf, apply, clear, label, ghostW = 210, gho
   });
   addEventListener("keydown", e => { if (e.key === "Escape" && pinned) { unpin(); clear(); hide(); } });
   addEventListener("scroll", () => { if (pinned) show(pinned); else hide(); }, { passive: true });
+  // keyed numerals: the engraved-atlas convention — a brass numeral in the caption phrase,
+  // its twin standing at the phrase's coordinates in the figure (visible without hover, print-real)
+  if (anchors && innerWidth >= 760) {
+    let n = 0;
+    buttons.forEach(b => {
+      const key = keyOf(b);
+      if (!anchors.resolve(key)) return;
+      const num = ++n;
+      b.insertAdjacentHTML("beforeend", `<sup class="kb">${num}</sup>`);
+      const chip = document.createElement("span");
+      chip.className = "fig-key";
+      chip.textContent = num;
+      anchors.host.appendChild(chip);
+      const place = () => {
+        const p = anchors.resolve(key);
+        if (p) { chip.style.left = p.x + "px"; chip.style.top = p.y + "px"; }
+      };
+      place();
+      anchors.place.push(place);
+      chip.addEventListener("mouseenter", () => { chip.classList.add("on"); b.classList.add("bound-hot"); apply(key); });
+      chip.addEventListener("mouseleave", () => { chip.classList.remove("on"); b.classList.remove("bound-hot"); clear(); });
+    });
+    // chips sharing a bar edge slide along it rather than stacking
+    const settle = () => {
+      const chips = [...anchors.host.querySelectorAll(":scope > .fig-key")]
+        .map(c => ({ c, x: parseFloat(c.style.left) || 0, y: parseFloat(c.style.top) || 0 }))
+        .sort((a, b) => a.y - b.y);
+      for (let i = 1; i < chips.length; i++) {
+        const prev = chips[i - 1], cur = chips[i];
+        if (Math.abs(cur.x - prev.x) < 12 && cur.y - prev.y < 18) {
+          cur.x = prev.x + 17;
+          cur.c.style.left = cur.x + "px";
+        }
+      }
+    };
+    settle();
+    anchors.place.push(settle);
+  }
 }
 // shared apply/clear pair for .cell grids carrying data-o/data-r (the Fig 1b pattern)
 function cellFocuser(host) {
@@ -2493,6 +2549,73 @@ function cellFocuser(host) {
     },
     clear: () => cells().forEach(c => c.classList.remove("cell-lit", "cell-dim")),
   };
+}
+// ---- anchor layer: bind keys gain figure coordinates (numerals / annots / banderoles) ----
+window.__tetherAnchors = {};
+function anchorLayer(host, resolve) {
+  if (getComputedStyle(host).position === "static") host.style.position = "relative";
+  const layer = { host, resolve, place: [] };
+  const re = () => layer.place.forEach(f => f());
+  new ResizeObserver(() => requestAnimationFrame(re)).observe(host);
+  layer.refresh = re;
+  return layer;
+}
+function regTether(figId, layer, extra) {
+  window.__tetherAnchors[figId] = key => {
+    const host = layer.host, plate = host.closest(".plate-inner");
+    const p = (extra && extra[key]) ? extra[key]() : layer.resolve(key);
+    if (!p || !plate) return null;
+    const hr = host.getBoundingClientRect(), pr = plate.getBoundingClientRect();
+    return { x: p.x + hr.left - pr.left, y: p.y + hr.top - pr.top };
+  };
+}
+function wireTethers() {
+  document.querySelectorAll(".cv-caveat[data-tether]").forEach(box => {
+    const [figId, key, side] = box.dataset.tether.split(":");
+    const host = document.getElementById(figId);
+    const plate = host && host.closest(".plate-inner");
+    if (!plate) return;
+    if (getComputedStyle(plate).position === "static") plate.style.position = "relative";
+    let svg = plate.querySelector(":scope > svg.bander-lines");
+    if (!svg) {
+      svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "bander-lines");
+      plate.appendChild(svg);
+    }
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    svg.appendChild(line);
+    const dag = document.createElement("span");
+    dag.className = "cav-dag"; dag.textContent = "\u2020";
+    plate.appendChild(dag);
+    const place = () => {
+      const fn = window.__tetherAnchors[figId];
+      const pt = fn && fn(key);
+      if (!pt || innerWidth < 1000) { dag.style.display = "none"; line.setAttribute("points", ""); return; }
+      dag.style.display = "";
+      dag.style.left = pt.x + "px"; dag.style.top = pt.y + "px";
+      const pr = plate.getBoundingClientRect(), br = box.getBoundingClientRect();
+      const right = side === "right";
+      const bx = (right ? br.right : br.left) - pr.left;
+      const by = br.top - pr.top + 14;
+      const gx = right ? pr.width + 18 : -18;
+      const ex = right ? pt.x + 12 : pt.x - 12;
+      line.setAttribute("points", `${bx},${by} ${gx},${by} ${gx},${pt.y} ${ex},${pt.y}`);
+    };
+    place();
+    new ResizeObserver(() => requestAnimationFrame(place)).observe(plate);
+  });
+}
+function placeAnnot(an, layer, at) {
+  const plate = layer.host.closest(".plate-inner");
+  const place = () => {
+    if (innerWidth < 1000) { an.classList.remove("placed"); an.style.left = an.style.top = an.style.width = ""; return; }
+    an.classList.add("placed");
+    const p = at();
+    an.style.left = p.x + "px"; an.style.top = p.y + "px"; an.style.width = p.w + "px";
+  };
+  place();
+  layer.place.push(place);
+  new ResizeObserver(() => requestAnimationFrame(place)).observe(plate);
 }
 function cbar(afterEl, gradient, label, left, right) {
   const d = document.createElement("div");
@@ -3241,6 +3364,27 @@ const TRIBCI = __ISL("TRIBCI");
     "rw-presentation": pp => (pp.o === "related_work" && pp.r === "presentation_trust") ? 1 : 0,
     "framing-merit": pp => (pp.o === "problem_framing" && pp.r === "merit_recognition") ? 1 : 0,
   };
+  const skLayer = anchorLayer(host, key => {
+    const pred = SPRED[key];
+    if (!pred) return null;
+    let best = null;
+    for (const p of paths) if (pred(p) >= 0.999 && (!best || (p.h0 || 0) > (best.h0 || 0))) best = p;
+    if (!best || !best.el || !best.el.ownerSVGElement) return null;
+    // pin the numeral where the ribbon departs its source bar (engraved-key convention)
+    const m = best.el.ownerSVGElement.getScreenCTM();
+    if (!m) return null;
+    const pt = new DOMPoint(best.x0 + 3, best.y0 + best.h0 / 2).matrixTransform(m);
+    const h = host.getBoundingClientRect();
+    return { x: pt.x - h.left, y: pt.y - h.top };
+  });
+  regTether("sankey", skLayer, {
+    "negative-node": () => {
+      const el = [...host.querySelectorAll("svg text")].find(x => /^negative/.test(x.textContent));
+      if (!el) return null;
+      const r = el.getBoundingClientRect(), h = host.getBoundingClientRect();
+      return { x: r.left - h.left - 9, y: r.top - h.top + r.height / 2 };
+    },
+  });
   wireBinds({
     fig: host,
     label: "FIG. 1A \u00b7 MINIATURE",
@@ -3249,6 +3393,7 @@ const TRIBCI = __ISL("TRIBCI");
     keyOf: b => b.dataset.sankey,
     apply: key => { if (window.__sankeyHighlight) window.__sankeyHighlight(SPRED[key]); },
     clear: () => { if (window.__sankeyReset) window.__sankeyReset(); },
+    anchors: skLayer,
   });
 })();
 
@@ -4472,6 +4617,27 @@ function showDissect(kind, key) {
     "mildest": (o, r) => o === "problem_framing" && r === "robustness_norm",
     "rw-mercy": (o, r) => o === "related_work" && r === "merit_recognition",
   };
+  const mLayer = anchorLayer(hm, key => {
+    const pred = PREDS[key];
+    if (!pred) return null;
+    const cells = [...allCells].filter(c => pred(c.dataset.o, c.dataset.r));
+    if (!cells.length || cells.length > 14) return null;
+    if (cells.length <= 4) {
+      const c = cells[0];
+      return { x: c.offsetLeft + c.offsetWidth / 2, y: c.offsetTop + c.offsetHeight / 2 };
+    }
+    const x0 = Math.min(...cells.map(c => c.offsetLeft)), x1 = Math.max(...cells.map(c => c.offsetLeft + c.offsetWidth));
+    const y0 = Math.min(...cells.map(c => c.offsetTop)), y1 = Math.max(...cells.map(c => c.offsetTop + c.offsetHeight));
+    return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  });
+  regTether("mercy", mLayer, {
+    cbar: () => {
+      const el = hm.nextElementSibling && hm.nextElementSibling.querySelector(".cbar-bar");
+      if (!el) return null;
+      const r = el.getBoundingClientRect(), h = hm.getBoundingClientRect();
+      return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 };
+    },
+  });
   wireBinds({
     fig: hm,
     label: "FIG. 1B \u00b7 MINIATURE",
@@ -4480,6 +4646,7 @@ function showDissect(kind, key) {
     keyOf: b => b.dataset.mercy,
     apply: key => focusCells(PREDS[key]),
     clear: clearFocus,
+    anchors: mLayer,
   });
 })();
 
@@ -11041,7 +11208,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 
 };
 (function () {
-  const go = () => { if (window.__atlasRest) { const f = window.__atlasRest; window.__atlasRest = null; try { f(); } catch (e) { console.error("atlasRest:", e); } } };
+  const go = () => { if (window.__atlasRest) { const f = window.__atlasRest; window.__atlasRest = null; try { f(); wireTethers(); } catch (e) { console.error("atlasRest:", e); } } };
   if (document.documentElement.classList.contains("overture")) window.__ovOnDone = go;
   else setTimeout(go, 60);
   setTimeout(go, 12000);   // safety: build no matter what
