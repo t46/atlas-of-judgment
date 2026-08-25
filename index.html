@@ -3132,16 +3132,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const Pulse = { y: 0, light: 0.32 };
   // the acts, as instructions to the light rather than as ornaments
   const ACTS = {
-    I:    { name: "the instrument", coalesce: 1, arms: 1, read: 0.7, sink: 0, second: 0, tick: 0, span: 1.00 },
-    II:   { name: "one hand",       coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, tick: 0, span: 0.72 },
-    III:  { name: "the law",        coalesce: 0, arms: 1, read: 1.5, sink: 0, second: 0, tick: 0, span: 1.00 },
-    IV:   { name: "the tariff",     coalesce: 0, arms: 1, read: 0.7, sink: 1, second: 0, tick: 0, span: 1.00 },
-    V:    { name: "the encounter",  coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 1, tick: 0, span: 1.00 },
-    VI:   { name: "the higher court", coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, tick: 0, span: 1.42 },
-    VII:  { name: "the measure",    coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, tick: 1, span: 1.00 },
-    VIII: { name: "eras",           coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, tick: 0, span: 1.00, era: 1 },
+    I:    { name: "the instrument", coalesce: 1, arms: 1, read: 0.7, sink: 0, second: 0, edge: 0, span: 1.00 },
+    II:   { name: "one hand",       coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, edge: 0, span: 0.72 },
+    III:  { name: "the law",        coalesce: 0, arms: 1, read: 1.5, sink: 0, second: 0, edge: 0, span: 1.00 },
+    IV:   { name: "the tariff",     coalesce: 0, arms: 1, read: 0.7, sink: 1, second: 0, edge: 0, span: 1.00 },
+    V:    { name: "the encounter",  coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 1, edge: 0, span: 1.00 },
+    VI:   { name: "the higher court", coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, edge: 0, span: 1.42 },
+    VII:  { name: "the measure",    coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, edge: 1, span: 1.00 },
+    VIII: { name: "eras",           coalesce: 0, arms: 1, read: 0.7, sink: 0, second: 0, edge: 0, span: 1.00, era: 1 },
   };
-  let A = ACTS.I, blend = { read: 0.7, second: 0, tick: 0, span: 1, sink: 0 };
+  let A = ACTS.I, blend = { read: 0.7, second: 0, edge: 0, span: 1, sink: 0 };
 
   // ---------------- ① THE CAST SHADOW ----------------
   const scv = document.getElementById("cast-shadow");
@@ -3180,12 +3180,13 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   addEventListener("resize", size);
 
   // the joint's silhouette, cast onto the sheet: an open ring, seen at a raking angle
-  function castShadow(t, lightA, tilt, strength) {
+  function castShadow(t, lightA, tilt, strength, anchorY) {
     sx.clearRect(0, 0, W, H);
     if (strength < 0.01) return;
     // the shadow lives in the right margin, thrown away from the light
     const ox = W * (0.62 + Math.cos(lightA) * 0.22);
-    const oy = H * (0.34 + Math.sin(lightA) * 0.06);
+    // ...and it falls across the heading that summoned it, never across the paragraph beneath
+    const oy = anchorY + Math.sin(lightA) * H * 0.05;
     const R = Math.min(W, H) * 0.36 * blend.span;
     sx.save();
     sx.translate(ox, oy);
@@ -3196,8 +3197,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     sx.arc(0, 0, R, 0, 6.2832);
     sx.arc(0, 0, R * 0.52, 0, 6.2832, true);
     sx.closePath();
-    sx.filter = "blur(" + (26 + strength * 14).toFixed(1) + "px)";
-    sx.fillStyle = "rgba(84,64,38," + (0.13 * strength).toFixed(3) + ")";
+    sx.filter = "blur(" + ((26 + strength * 14) * (1 - 0.42 * blend.edge)).toFixed(1) + "px)";
+    sx.fillStyle = "rgba(84,64,38," + (0.045 * strength).toFixed(3) + ")";
     sx.fill();
     // the lateral masses, so the silhouette reads as the joint and not as a ring
     for (const s2 of [-1, 1]) {
@@ -3217,29 +3218,14 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       sx.arc(0, 0, R * 0.92, 0, 6.2832);
       sx.arc(0, 0, R * 0.48, 0, 6.2832, true);
       sx.closePath();
-      sx.filter = "blur(" + (26 + strength * 14).toFixed(1) + "px)";
-      sx.fillStyle = "rgba(84,64,38," + (0.13 * strength * blend.second).toFixed(3) + ")";
+      sx.filter = "blur(" + ((26 + strength * 14) * (1 - 0.42 * blend.edge)).toFixed(1) + "px)";
+      sx.fillStyle = "rgba(84,64,38," + (0.045 * strength * blend.second).toFixed(3) + ")";
       sx.fill();
       sx.filter = "none";
       sx.restore();
     }
-    // ACT VII — the measure: the shadow's own rim acquires graduations
-    if (blend.tick > 0.01) {
-      sx.save();
-      sx.translate(ox, oy);
-      sx.rotate(tilt * 0.5 - 0.18);
-      sx.scale(1, 0.34);
-      sx.strokeStyle = "rgba(84,64,38," + (0.30 * strength * blend.tick).toFixed(3) + ")";
-      sx.lineWidth = 2.2;
-      for (let i = 0; i < 72; i++) {
-        const th = i / 72 * 6.2832, big = i % 6 === 0;
-        sx.beginPath();
-        sx.moveTo(Math.cos(th) * R * (big ? 1.04 : 1.09), Math.sin(th) * R * (big ? 1.04 : 1.09));
-        sx.lineTo(Math.cos(th) * R * 1.14, Math.sin(th) * R * 1.14);
-        sx.stroke();
-      }
-      sx.restore();
-    }
+    // ACT VII — the measure: no graduations are drawn on the shadow. Instead the
+    // shadow's own edge sharpens (see the blur term above): a measured thing has a definite border.
 
     // ...and inside the shadow, the corpus's own writing develops
     // ...and inside the umbra — only there, and softly — the corpus's own writing develops
@@ -3264,7 +3250,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     wc.globalCompositeOperation = "source-over";
     sx.save();
     sx.globalCompositeOperation = "multiply";
-    sx.globalAlpha = 0.22 * strength * blend.read / 0.7;
+    sx.globalAlpha = 0.085 * strength * blend.read / 0.7;
     sx.drawImage(wcv, 0, 0, W, H);
     sx.globalAlpha = 1;
     sx.restore();
@@ -3272,8 +3258,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     if (blend.sink > 0.01) {
       const g = sx.createLinearGradient(0, oy - R * 0.5, 0, oy + R * 0.62);
       g.addColorStop(0, "rgba(84,64,38,0)");
-      g.addColorStop(0.55, "rgba(84,64,38," + (0.055 * strength * blend.sink).toFixed(3) + ")");
-      g.addColorStop(1, "rgba(255,252,244," + (0.16 * strength * blend.sink).toFixed(3) + ")");
+      g.addColorStop(0.55, "rgba(84,64,38," + (0.022 * strength * blend.sink).toFixed(3) + ")");
+      g.addColorStop(1, "rgba(255,252,244," + (0.07 * strength * blend.sink).toFixed(3) + ")");
       sx.fillStyle = g;
       sx.fillRect(0, oy - R * 0.5, W, R * 1.12);
     }
@@ -3281,22 +3267,18 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
   // ---------------- the joint keeps working, off-screen ----------------
   let nextDraw = 0, tilt = 0, tiltT = 0;
+  // the joint keeps drawing units even with the hero far behind
   function drawUnit(t) {
-    current = (Math.random() * LINES.length) | 0;
-    const v = LINES[current][1];
+    const i = (Math.random() * CORPUS.length) | 0;
+    const v = CORPUS[i][1];
     tiltT = v <= 1 ? 0.34 + Math.random() * 0.10 : v === 2 ? 0.12 : -0.03;
-    Pulse.unit = LINES[current][0];
-    Pulse.verdict = v;
     nextDraw = t + (v <= 1 ? 5.2 : 4.0) + Math.random() * 2.2;
-    Pulse.emit();
   }
-
 
   // the act leaves already exist — each one tells the light how to behave from here on
   const ORDER = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
-  const leaves = [...document.querySelectorAll(".act-leaf")];
   let lightT = 0.32;
-  new IntersectionObserver(en => {
+  const actIO = new IntersectionObserver(en => {
     for (const e of en) {
       if (!e.isIntersecting) continue;
       const no = (e.target.querySelector(".al-no") || {}).textContent || "";
@@ -3307,29 +3289,41 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       tiltT = ORDER.indexOf(key) % 2 ? -0.06 : 0.30;
       nextDraw = 0;
     }
-  }, { threshold: 0.4 }).observe ? leaves.forEach(l => new IntersectionObserver(en => {
+  }, { threshold: 0.4 });
+  document.querySelectorAll(".act-leaf").forEach(l => actIO.observe(l));
+
+  // ---------------- the shadow is an EVENT, not a resident ----------------
+  // it is thrown when a heading arrives, falls across that heading, and clears
+  // before the reader reaches the paragraph beneath it.
+  let head = null, headT0 = -99, headDur = 3.0;
+  const headIO = new IntersectionObserver(en => {
     for (const e of en) {
       if (!e.isIntersecting) continue;
-      const no = (l.querySelector(".al-no") || {}).textContent || "";
-      const key = (no.match(/ACT\s+([IVX]+)/i) || [])[1];
-      if (!key || !ACTS[key]) continue;
-      A = ACTS[key];
-      lightT = 0.32 + ORDER.indexOf(key) * 0.42;
-      tiltT = ORDER.indexOf(key) % 2 ? -0.06 : 0.30;
-      nextDraw = 0;
+      // only on arrival from below — scrolling back up does not re-fire the light
+      if (e.boundingClientRect.top > innerHeight * 0.34) {
+        const leaf = e.target.classList.contains("act-leaf");
+        head = e.target;
+        // the title lands first, alone; only then does the light move behind it
+        headT0 = (performance.now() - t0) / 1000 + (leaf ? 1.5 : 1.0);
+        headDur = leaf ? 4.2 : 2.8;
+      }
     }
-  }, { threshold: 0.4 }).observe(l)) : null;
+    // a band across the upper page: the light answers when a heading crosses it,
+    // whatever the heading's own height (an act leaf is a screenful; a plate head is not)
+  }, { rootMargin: "-15% 0px -38% 0px", threshold: 0 });
+  document.querySelectorAll(".act-leaf, .plate-head").forEach(h => headIO.observe(h));
 
-  // the joint keeps drawing units even with the hero far behind
-  function drawUnit(t) {
-    const i = (Math.random() * CORPUS.length) | 0;
-    const v = CORPUS[i][1];
-    tiltT = v <= 1 ? 0.34 + Math.random() * 0.10 : v === 2 ? 0.12 : -0.03;
-    nextDraw = t + (v <= 1 ? 5.2 : 4.0) + Math.random() * 2.2;
+  // rise, hold, clear — the envelope of a passing shadow
+  function envelope(u) {
+    if (u < 0 || u > 1) return 0;
+    const rise = 0.22, fall = 0.46;
+    if (u < rise) { const k = u / rise; return k * k * (3 - 2 * k); }
+    if (u > 1 - fall) { const k = (1 - u) / fall; return k * k * (3 - 2 * k); }
+    return 1;
   }
 
   const t0 = performance.now();
-  let raf = null, lastY = scrollY;
+  let raf = null, lastY = scrollY, lit = 0;
   function tick(now) {
     const t = (now - t0) / 1000;
     const y = scrollY;
@@ -3338,14 +3332,20 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     if (t > nextDraw) drawUnit(t);
     tilt += (tiltT - tilt) * 0.022;
     Pulse.light += (lightT - Pulse.light) * 0.012;
-    for (const k of ["read", "second", "tick", "span", "sink"])
+    for (const k of ["read", "second", "edge", "span", "sink"])
       blend[k] += ((A[k] === undefined ? (k === "span" ? 1 : 0) : A[k]) - blend[k]) * 0.014;
     const hero = document.querySelector(".tp-hero");
     const hh = hero ? hero.offsetHeight : innerHeight;
-    const doc = document.body.scrollHeight - innerHeight;
-    const prog = doc > 0 ? y / doc : 0;
-    const st = Math.min(1, Math.max(0, (y - hh * 0.5) / (hh * 0.5))) * Math.min(1, Math.max(0, (1 - prog) * 5));
-    castShadow(t, Pulse.light, tilt, st);
+    const past = Math.min(1, Math.max(0, (y - hh * 0.5) / (hh * 0.5)));
+    // the light only answers a heading, and only for as long as that heading is the event
+    const st = past * envelope((t - headT0) / headDur);
+    if (st > 0.01 && head) {
+      // an act leaf is a screenful; the light answers its title line, not its box
+      const r = (head.querySelector(".al-t") || head).getBoundingClientRect();
+      // ride the heading itself; if it has scrolled clear of the page, let the light go
+      if (r.bottom < -H * 0.15 || r.top > H * 1.15) { headT0 = -99; }
+      else { castShadow(t, Pulse.light, tilt, st, r.top + r.height * 0.5); lit = 1; }
+    } else if (lit) { sx.clearRect(0, 0, W, H); lit = 0; }
     raf = requestAnimationFrame(tick);
   }
   size(); addEventListener("resize", size);
