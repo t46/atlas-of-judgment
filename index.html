@@ -858,6 +858,36 @@ body.tour-on #spec-dock { display: none !important; }
 @media (max-width: 1100px) { #rule { display: none; } }
 @media print { #rule { display: none; } }
 @media (prefers-reduced-motion: reduce) { #rule .runner, #rule .seg.turn, #rule .ladder { transition: none; animation: none; } }
+/* ---- Plate 0 · The Specimen: the head of the chart ---- */
+#atlas-nav .sp-head { margin: 6px 0 14px; }
+#atlas-nav .sp-no { font-family: var(--mono); font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); }
+#atlas-nav .sp-h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 34px); font-weight: 600; margin-top: 4px; line-height: 1.15; }
+#atlas-nav .sp-wrap { border: 1px solid var(--brass-line); background: var(--plot-ground); overflow-x: auto; overscroll-behavior-x: contain; }
+#atlas-nav .sp-plate { display: block; min-width: 940px; width: 100%; height: auto; }
+#atlas-nav .sp-lab { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; fill: rgba(107,86,54,0.5); cursor: pointer; transition: fill .3s var(--ease-glide); }
+#atlas-nav .sp-lab .sp-w { font-weight: 500; }
+#atlas-nav .sp-lab.on { fill: var(--brass); }
+#atlas-nav .sp-sub { font-family: var(--mono); font-size: 7.2px; letter-spacing: .13em; fill: rgba(107,86,54,0.38); transition: fill .3s var(--ease-glide); }
+#atlas-nav .sp-sub.on { fill: var(--brass-dim); }
+#atlas-nav .sp-leader { fill: none; stroke: rgba(138,90,31,0.20); stroke-width: 1; transition: stroke .3s var(--ease-glide); }
+#atlas-nav .sp-leader.on { stroke: var(--brass); stroke-width: 1.2; }
+#atlas-nav .sp-ldot { fill: rgba(138,90,31,0.28); transition: fill .3s var(--ease-glide); }
+#atlas-nav .sp-ldot.on { fill: var(--brass); }
+#atlas-nav .sp-frame { fill: none; stroke: var(--brass); stroke-width: 1.1; opacity: 0; transition: opacity .32s var(--ease-glide); }
+#atlas-nav .sp-frame.on { opacity: 1; }
+#atlas-nav .sp-corner { stroke: rgba(138,90,31,0.22); stroke-width: 1; fill: none; }
+#atlas-nav .sp-tiny { font-family: var(--mono); font-size: 6.6px; letter-spacing: .14em; fill: var(--muted); }
+#atlas-nav .sp-tinyb { font-family: var(--mono); font-size: 6.6px; letter-spacing: .14em; fill: var(--brass); }
+#atlas-nav .sp-slabtxt { font-family: var(--mono); font-size: 7.4px; letter-spacing: .16em; fill: rgba(107,86,54,0.6); }
+#atlas-nav .sp-ghost { fill: none; stroke: rgba(138,90,31,0.13); stroke-width: 1; transition: stroke .32s var(--ease-glide); }
+#atlas-nav .sp-ghost.on { stroke: var(--brass); }
+#atlas-nav .sp-greek { stroke: rgba(60,46,30,0.30); stroke-width: 1; }
+#atlas-nav .sp-grad { stroke: var(--brass-faint); stroke-width: 1; }
+#atlas-nav .sp-key:focus { outline: none; }
+#atlas-nav .sp-key:focus-visible .sp-lab { fill: var(--brass); text-decoration: underline; }
+#atlas-nav .sp-read { font-family: var(--serif); font-size: clamp(13.5px, 1.5vw, 15px); line-height: 1.62; color: var(--ink-2); border-top: 1px solid var(--brass-faint); padding-top: 13px; margin-top: 14px; min-height: 4.4em; }
+#atlas-nav .sp-read b { font-family: var(--mono); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); font-weight: 500; display: block; margin-bottom: 7px; }
+#atlas-nav .sp-cap { font-family: var(--mono); font-size: 8.5px; letter-spacing: .15em; color: var(--muted); text-transform: uppercase; margin: 10px 0 34px; line-height: 1.85; }
 /* ---- the chart: full-screen contents navigator ---- */
 #atlas-nav { position: fixed; inset: 0; z-index: 2550; background: rgba(248,241,224,0.96); overflow-y: auto; overscroll-behavior: contain;
   opacity: 0; pointer-events: none; transition: opacity .22s var(--ease-out-expo); }
@@ -13110,6 +13140,180 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 
 
 
+
+// ---------------- Plate 0 · The Specimen ----------------
+// One real review drawn as an anatomical specimen, with the nine acts keyed to the
+// part each one cuts. Nothing here is illustrative: the bands are this review's units,
+// each stratum's length is the number of characters actually written at that layer,
+// and the decision is the one the record holds. No rating is drawn — the unit record
+// carries none, and Act VII is about the scale itself, not this specimen's number.
+function buildSpecimenPlate(actsByNo, closeChart) {
+  if (typeof DATA === "undefined" || !DATA.sample_reviews || !DATA.sample_reviews.length) return null;
+  // the specimen is chosen, not picked: the review that shows the most of the vocabulary
+  const pick = DATA.sample_reviews
+    .filter(r => r.units && r.units.length >= 4 && r.units.length <= 6)
+    .map(r => ({ r, v: new Set(r.units.map(u => u.valence)).size }))
+    .sort((a, b) => b.v - a.v || a.r.review_id.localeCompare(b.r.review_id))[0];
+  if (!pick) return null;
+  const SPEC = pick.r;
+
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+  const host = document.createElement("div");
+  host.innerHTML = '<div class="sp-head"><div class="sp-no">Plate 0 · The Specimen</div>' +
+    '<div class="sp-h2">What this atlas cuts, and at what nine depths</div></div>' +
+    '<div class="sp-wrap"><svg class="sp-plate" viewBox="0 0 1200 720" role="img" aria-label="One review drawn as an anatomical specimen, with the nine acts of the atlas keyed to the part each one examines."></svg></div>' +
+    '<div class="sp-read"></div><p class="sp-cap"></p>';
+  const svg = host.querySelector(".sp-plate"), read = host.querySelector(".sp-read");
+
+  const COLX = 470, COLW = 190, U0 = 136, UH = 62, UG = 9;
+  const GX = 392, GW = 36, RX = 706, RW = 158;
+  const SLX = 356, SLW = 520, SLY = 62, SLH = 42;
+  const PRX = 356, PRW = 520, PRY = 548, PRH = 76, YRY = 664;
+  const N = SPEC.units.length, COLB = U0 + N * UH + (N - 1) * UG;
+  let t;
+
+  // the eight years standing behind this one
+  const ghosts = [];
+  for (let k = 8; k >= 1; k--) {
+    const gh = el("rect", { x: COLX + k * 5, y: U0 - k * 4, width: COLW, height: COLB - U0, class: "sp-ghost", opacity: (0.9 - k * 0.09).toFixed(2) });
+    svg.appendChild(gh); ghosts.push(gh);
+  }
+  // the chair's slab
+  svg.appendChild(el("rect", { x: SLX, y: SLY, width: SLW, height: SLH, fill: "rgba(138,90,31,0.05)", stroke: "var(--brass-faint)", "stroke-width": 1 }));
+  t = el("text", { x: SLX + 11, y: SLY + 15, class: "sp-slabtxt" });
+  t.textContent = "AREA CHAIR · META-REVIEW · DECISION: " + String(SPEC.decision || "—").toUpperCase();
+  svg.appendChild(t);
+  for (let i = 0; i < 3; i++) svg.appendChild(el("line", { x1: SLX + 11, y1: SLY + 25 + i * 7, x2: SLX + 11 + [430, 470, 330][i], y2: SLY + 25 + i * 7, class: "sp-greek", opacity: .35 }));
+  // the other half of the room
+  svg.appendChild(el("rect", { x: RX, y: 170, width: RW, height: 300, fill: "rgba(138,90,31,0.035)", stroke: "var(--brass-faint)", "stroke-width": 1 }));
+  t = el("text", { x: RX + 9, y: 186, class: "sp-slabtxt" }); t.textContent = "AUTHOR REPLY"; svg.appendChild(t);
+  for (let i = 0; i < 16; i++) svg.appendChild(el("line", { x1: RX + 9, y1: 198 + i * 17, x2: RX + 9 + (40 + ((i * 53) % 100)), y2: 198 + i * 17, class: "sp-greek", opacity: .3 }));
+  // the scale the instrument produces its number on — drawn empty, on purpose
+  svg.appendChild(el("rect", { x: GX, y: U0, width: GW, height: COLB - U0, fill: "none", stroke: "var(--brass-faint)", "stroke-width": 1 }));
+  for (let sc = 1; sc <= 10; sc++) {
+    const y = COLB - (sc - 1) / 9 * (COLB - U0);
+    svg.appendChild(el("line", { x1: GX, y1: y, x2: GX + (sc % 3 === 1 ? 11 : 6), y2: y, class: "sp-grad" }));
+  }
+  for (const sc of [10, 7, 4, 1]) {
+    const y = COLB - (sc - 1) / 9 * (COLB - U0);
+    const nt = el("text", { x: GX - 6, y: y + 3, class: "sp-tiny", "text-anchor": "end" }); nt.textContent = sc; svg.appendChild(nt);
+  }
+  t = el("text", { x: GX + GW / 2, y: U0 - 9, class: "sp-tinyb", "text-anchor": "middle" }); t.textContent = "THE SCALE"; svg.appendChild(t);
+
+  // the specimen itself
+  const FIELDS = [["inspected_object", "INSPECTED"], ["observation", "OBSERVED"], ["reasoning", "REASONED"], ["judgment", "JUDGED"]];
+  const maxLen = Math.max(...SPEC.units.map(u => Math.max(...FIELDS.map(f => (u[f[0]] || "").length))));
+  const strata = [];
+  SPEC.units.forEach((u, i) => {
+    const y0 = U0 + i * (UH + UG);
+    svg.appendChild(el("rect", { x: COLX, y: y0, width: COLW, height: UH, fill: "rgba(248,241,224,0.92)", stroke: "var(--brass-faint)", "stroke-width": 1 }));
+    FIELDS.forEach((f, j) => {
+      const sy = y0 + 4 + j * 14, w = 8 + ((u[f[0]] || "").length / maxLen) * (COLW - 20);
+      svg.appendChild(el("rect", { x: COLX + 6, y: sy, width: w, height: 10, fill: VAL_FILL[u.valence] || "#bdb2b9", opacity: (0.36 + j * 0.17).toFixed(2) }));
+      const hit = el("rect", { x: COLX, y: sy - 2, width: COLW, height: 14, fill: "transparent", style: "cursor:pointer" });
+      svg.appendChild(hit);
+      strata.push({ hit, u, f, i });
+      if (i === 0) { const lt = el("text", { x: COLX - 7, y: sy + 8, class: "sp-tiny", "text-anchor": "end" }); lt.textContent = f[1][0]; svg.appendChild(lt); }
+    });
+    const vt = el("text", { x: COLX + COLW + 7, y: y0 + UH / 2 + 3, class: "sp-tiny" }); vt.textContent = String(u.valence).toUpperCase(); svg.appendChild(vt);
+  });
+  t = el("text", { x: COLX, y: U0 - 9, class: "sp-tinyb" }); t.textContent = "ONE REVIEW · " + N + " LOGIC UNITS"; svg.appendChild(t);
+
+  // the record it was all read out of
+  svg.appendChild(el("rect", { x: PRX, y: PRY, width: PRW, height: PRH, fill: "rgba(138,90,31,0.035)", stroke: "var(--brass-faint)", "stroke-width": 1 }));
+  t = el("text", { x: PRX + 11, y: PRY + 15, class: "sp-slabtxt" }); t.textContent = "THE ORIGINAL PROSE, AS POSTED"; svg.appendChild(t);
+  for (let i = 0; i < 5; i++) svg.appendChild(el("line", { x1: PRX + 11, y1: PRY + 26 + i * 10, x2: PRX + 11 + (300 + ((i * 137) % 200)), y2: PRY + 26 + i * 10, class: "sp-greek", opacity: .3 }));
+  svg.appendChild(el("line", { x1: PRX, y1: YRY, x2: PRX + PRW, y2: YRY, class: "sp-grad" }));
+  for (let k = 0; k < 9; k++) {
+    const x = PRX + k * (PRW / 8), on = k === 8;
+    svg.appendChild(el("line", { x1: x, y1: YRY - (on ? 9 : 5), x2: x, y2: YRY, stroke: on ? "var(--brass)" : "var(--brass-line)", "stroke-width": on ? 1.4 : 1 }));
+    const yt = el("text", { x, y: YRY + 12, class: on ? "sp-tinyb" : "sp-tiny", "text-anchor": "middle" }); yt.textContent = 2018 + k; svg.appendChild(yt);
+  }
+
+  const negI = Math.max(0, SPEC.units.findIndex(u => u.valence === "negative"));
+  const u0y = i => U0 + i * (UH + UG);
+  const KEYS = [
+    { no: "I", w: "SENTENCE", side: "L", ly: 150, box: [COLX + 4, u0y(0) + 2, COLW - 8, 14],
+      say: "One field of one unit — the atlas's smallest countable thing. Act I asks whether such a thing survives being counted at all." },
+    { no: "II", w: "REVIEW", side: "L", ly: 236, box: [COLX - 4, U0 - 6, COLW + 8, COLB - U0 + 12],
+      say: "The whole column, in the order it was written: what one reviewer, working alone, sets down — and whether that order carries information." },
+    { no: "III", w: "CLAIM", side: "L", ly: 322, box: [COLX + 4, u0y(negI) + 44, COLW - 8, 14],
+      say: "The judged stratum of one charge: what it asserts, which standard it invokes, and what it asks for in return." },
+    { no: "IV", w: "COST", side: "L", ly: 408, box: [GX - 8, u0y(negI) - 4, COLX + COLW - GX + 16, UH + 8],
+      say: "The same charge, joined to the number beside it. Not what it says — what it costs the paper." },
+    { no: "VII", w: "RATING", side: "L", ly: 494, box: [GX - 8, U0 - 6, GW + 16, COLB - U0 + 12],
+      say: "The scale alone. The instrument turns on its own output and asks whether that number can be trusted as a measurement." },
+    { no: "VI", w: "COURT", side: "R", ly: 84, box: [SLX - 6, SLY - 6, SLW + 12, SLH + 12],
+      say: "The slab above: the chair's decision — what it weighs, and whose words it is written in." },
+    { no: "V", w: "ROOM", side: "R", ly: 212, box: [COLX - 8, 164, RX + RW - COLX + 16, 312],
+      say: "Both columns at once — the review and the reply. Does judgment move when people meet?" },
+    { no: "CODA", w: "RECORD", side: "R", ly: 566, box: [PRX - 6, PRY - 6, PRW + 12, PRH + 12],
+      say: "The prose the whole atlas was read out of, held against its original." },
+    { no: "VIII", w: "YEARS", side: "R", ly: 660, box: [COLX - 7, U0 - 38, COLW + 52, COLB - U0 + 46],
+      say: "Nine of these, one per year. Is any of what you have just read particular to now — or to one field?" },
+  ];
+  const LX = 250, RXL = 950, nodes = [];
+  for (const a of KEYS) {
+    const meta = actsByNo[a.no] || {};
+    const L = a.side === "L", bx = a.box;
+    const g = el("g", { class: "sp-key", style: "cursor:pointer", tabindex: "0", role: "button" });
+    g.setAttribute("aria-label", (a.no === "CODA" ? "Coda" : "Act " + a.no) + " · " + (meta.title || "") + " — under the lens: " + a.w.toLowerCase());
+    const lab = el("text", { x: L ? LX : RXL, y: a.ly, "text-anchor": L ? "end" : "start", class: "sp-lab" });
+    const n1 = el("tspan"); n1.textContent = (a.no === "CODA" ? "CODA" : "ACT " + a.no) + "  ";
+    const w1 = el("tspan", { class: "sp-w" }); w1.textContent = a.w;
+    lab.appendChild(n1); lab.appendChild(w1); g.appendChild(lab);
+    const sub = el("text", { x: L ? LX : RXL, y: a.ly + 12, "text-anchor": L ? "end" : "start", class: "sp-sub" });
+    sub.textContent = String(meta.title || "").toUpperCase(); g.appendChild(sub);
+    const tx = L ? bx[0] : bx[0] + bx[2];
+    const ty = Math.max(bx[1] + 8, Math.min(bx[1] + bx[3] - 8, a.ly));
+    const sx0 = L ? LX + 10 : RXL - 10, mid = (sx0 + tx) / 2;
+    const path = el("path", { class: "sp-leader", d: `M${sx0},${a.ly - 3} H${mid} V${ty} H${tx}` });
+    g.appendChild(path);
+    const dot = el("circle", { cx: tx, cy: ty, r: 2.2, class: "sp-ldot" });
+    g.appendChild(dot);
+    const fr = el("rect", { x: bx[0], y: bx[1], width: bx[2], height: bx[3], class: "sp-frame" });
+    svg.appendChild(fr);
+    const c = 6;
+    for (const [dx, dy, ex, ey] of [[0,0,c,0],[0,0,0,c],[bx[2],0,-c,0],[bx[2],0,0,c],[0,bx[3],c,0],[0,bx[3],0,-c],[bx[2],bx[3],-c,0],[bx[2],bx[3],0,-c]])
+      svg.appendChild(el("line", { x1: bx[0] + dx, y1: bx[1] + dy, x2: bx[0] + dx + ex, y2: bx[1] + dy + ey, class: "sp-corner" }));
+    svg.appendChild(g);
+    nodes.push({ a, meta, g, lab, sub, path, fr, dot });
+  }
+
+  function light(k) {
+    nodes.forEach((n, i) => {
+      const on = i === k;
+      n.lab.classList.toggle("on", on); n.sub.classList.toggle("on", on);
+      n.path.classList.toggle("on", on); n.fr.classList.toggle("on", on); n.dot.classList.toggle("on", on);
+      if (n.a.w === "YEARS") ghosts.forEach(gh => gh.classList.toggle("on", on));
+    });
+    if (k == null) { read.innerHTML = ""; return; }
+    const n = nodes[k];
+    read.innerHTML = `<b>${n.a.no === "CODA" ? "Coda" : "Act " + n.a.no}${n.meta.title ? " · " + n.meta.title : ""} — under the lens: ${n.a.w.toLowerCase()}</b>${n.a.say}`;
+  }
+  nodes.forEach((n, i) => {
+    n.g.addEventListener("mouseenter", () => light(i));
+    n.g.addEventListener("focus", () => light(i));
+    const go = () => { if (n.meta.leaf) { closeChart(); n.meta.leaf.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); } };
+    n.g.addEventListener("click", go);
+    n.g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
+  svg.addEventListener("mouseleave", () => light(0));
+  // reading a stratum reads back the real sentence the atlas stored there
+  strata.forEach(st => st.hit.addEventListener("mouseenter", () => {
+    read.innerHTML = `<b>${st.f[1]} · unit ${st.i + 1} of ${N} · ${st.u.valence}</b>${st.u[st.f[0]] || ""}`;
+  }));
+
+  host.querySelector(".sp-cap").textContent =
+    "Specimen · review " + SPEC.review_id + " · “" + String(SPEC.paper_title || "").slice(0, 62) + "…” · decision " +
+    SPEC.decision + " — every band, every stratum length and every valence is this review's own record; " +
+    "each stratum is as long as the text actually written at that layer. The scale is drawn empty: the unit record carries no rating. " +
+    "Hover a part to read what the atlas stored there.";
+  light(0);
+  return host;
+}
+
 // ---------------- the chart: full-screen contents navigator ----------------
 (function atlasNav() {
   const leaves = [...document.querySelectorAll(".act-leaf")];
@@ -13155,6 +13359,16 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const flat = groups.filter(g => g.items.length);
   const open = () => { ov.classList.add("on"); document.documentElement.style.overflow = "hidden"; };
   const close = () => { ov.classList.remove("on"); document.documentElement.style.overflow = ""; };
+  // Plate 0 stands at the head of the chart: the acts keyed to the specimen they cut
+  try {
+    const byNo = {};
+    for (const lf of leaves) {
+      const no = ((lf.querySelector(".al-no") || {}).textContent || "").replace(/^ACT\s+/, "").trim();
+      byNo[no] = { leaf: lf, title: ((lf.querySelector(".al-t") || {}).textContent || "").trim() };
+    }
+    const plate = buildSpecimenPlate(byNo, close);
+    if (plate) ov.querySelector(".an-grid").before(plate);
+  } catch (e) { /* the chart must open even if the plate cannot be drawn */ }
   ov.addEventListener("click", e => {
     const item = e.target.closest(".an-item");
     if (item) {
