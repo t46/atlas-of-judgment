@@ -382,16 +382,16 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0; }
 .filters select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 8px 12px; font-size: 11.5px; font-family: var(--mono); }
 .filters .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.1em; }
-.review-card { border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.5); padding: 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+.review-card { border: 1px solid var(--brass-faint); background: rgba(22,19,36,0.5); padding: 22px 22px; display: flex; flex-direction: column; gap: 14px; }
 .review-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; border-bottom: 1px solid var(--brass-faint); padding-bottom: 12px; }
 .review-head .title { font-family: var(--display); font-size: 19px; font-weight: 600; border: none; color: var(--ink); }
 .review-head a.title:hover, .review-head a.rid:hover { color: var(--brass); }
 .review-head .rid { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; border: none; }
 .chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; padding: 2px 9px; border: 1px solid var(--brass-faint); color: var(--ink-2); white-space: nowrap; }
-.chip.acc { border-color: #356b43; color: #356b43; }
-.chip.rej { border-color: #6f1f45; color: #6f1f45; }
+.chip.acc { border-color: #3ba183; color: #3ba183; }
+.chip.rej { border-color: #d0685c; color: #d0685c; }
 .summary { color: var(--ink-2); font-style: italic; font-size: 14px; }
-.unit { display: grid; grid-template-columns: 3px 1fr; background: rgba(248,241,224,0.75); border: 1px solid var(--brass-faint); margin-top: 10px; }
+.unit { display: grid; grid-template-columns: 3px 1fr; background: rgba(26,23,41,0.75); border: 1px solid var(--brass-faint); margin-top: 10px; }
 .unit .stripe { height: 100%; }
 .unit .flow { display: grid; grid-template-columns: repeat(4, 1fr); padding: 12px 14px 14px 0; }
 .unit .step { padding: 2px 16px 0; border-left: 1px solid var(--brass-faint); border-top: none; }
@@ -399,11 +399,11 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 .unit .step .sl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
 .unit .step p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--ink); }
 .unit .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 0; }
-.improve { grid-column: 1 / -1; margin: 12px 16px 0; padding: 9px 13px; border-left: 2px solid var(--brass); background: rgba(138,90,31,0.06); font-size: 12.5px; color: var(--ink-2); }
+.improve { grid-column: 1 / -1; margin: 12px 16px 0; padding: 9px 13px; border-left: 2px solid var(--brass); background: rgba(201,164,92,0.06); font-size: 12.5px; color: var(--ink-2); }
 .improve b { color: var(--brass); font-weight: 500; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; }
 @media (max-width: 880px) { .unit .flow { grid-template-columns: 1fr; gap: 10px; } .unit .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 16px 0; } .unit .step:first-child { border-top: none; } }
 .unit-toggle { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 1px dashed var(--brass-line); color: var(--brass); padding: 6px 14px; cursor: pointer; margin-top: 10px; align-self: flex-start; transition: background .25s ease; }
-.unit-toggle:hover { border-style: solid; background: rgba(138,90,31,0.08); }
+.unit-toggle:hover { border-style: solid; background: rgba(201,164,92,0.08); }
 .unit-toggle .arr { display: inline-block; transition: transform .45s cubic-bezier(.25,.8,.25,1); margin-left: 6px; }
 .unit-toggle.open .arr { transform: rotate(180deg); }
 .unit-fold { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s cubic-bezier(.25,.8,.25,1); }
@@ -412,7 +412,7 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 @keyframes specIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .spec-in { animation: specIn .45s cubic-bezier(.2,.7,.2,1) both; }
 #sp-more, #sp-less { background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 10px 32px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
-#sp-more:hover, #sp-less:hover { background: rgba(138,90,31,0.08); }
+#sp-more:hover, #sp-less:hover { background: rgba(201,164,92,0.08); }
 @media (prefers-reduced-motion: reduce) { .unit-fold, .unit-toggle .arr { transition: none !important; } .spec-in { animation: none !important; } }
 </style>
 
@@ -442,11 +442,57 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
   <tr><td>2026</td><td><code>rating</code></td><td>six: 0, 2, 4, 6, 8, 10</td><td>bare even integers; no shared threshold anchor with earlier years</td></tr>
 </table></div>
 <h3 id="elements-audit">The elements audit — three blind readers</h3>
-<p>Plate VIII decomposes "not novel" into elements by clustering (data-driven terrain) and analyst merging (hand-drawn borders). To audit the borders, three independent machine readers (Claude Haiku agents) were each given 60 raw novelty denials and <em>no taxonomy</em>, and asked what each denial actually says. All three independently re-derived the plate's main families — the obvious combination, the insufficient increment, undifferentiated prior art, anticipation, restating the known, mere transfer, the discounted non-method contribution, and the venue-indexed bar — and one reader independently reproduced the decision to keep the <em>imported evidence rule</em> as its own element. Two elements the clustering had folded away surfaced in the audit and are recorded here as finer clauses: the <b>false-priority accusation</b> (the paper claims to be first, and the reviewer says the claim is untrue — an accusation of attribution, not of similarity; ≈3–7% of audited samples, folded inside "restating the known"), and the <b>unlocated contribution</b> (the reviewer cannot find what the paper claims is new; ≈5–10%, all three readers surfaced it). The second is best read the way the imported evidence rule is read: the charge is filed in novelty's docket but the operative law is presentation's — with one substantive twist that keeps it from being a mere clarity issue: reviewers treat novelty that cannot be located as novelty that does not exist, which is to say the venue's operative novelty is a property of the artifact <em>plus its argument</em>, never the artifact alone — consistent with the differentiation rule's burden-of-articulation clause, and with the fact that the dominant remedy for novelty is work of writing. Audit protocol and transcripts ship with the repository.</p>
+<p>Plate X decomposes "not novel" into elements by clustering (data-driven terrain) and analyst merging (hand-drawn borders). To audit the borders, three independent machine readers (Claude Haiku agents) were each given 60 raw novelty denials and <em>no taxonomy</em>, and asked what each denial actually says. All three independently re-derived the plate's main families — the obvious combination, the insufficient increment, undifferentiated prior art, anticipation, restating the known, mere transfer, the discounted non-method contribution, and the venue-indexed bar — and one reader independently reproduced the decision to keep the <em>imported evidence rule</em> as its own element. Two elements the clustering had folded away surfaced in the audit and are recorded here as finer clauses: the <b>false-priority accusation</b> (the paper claims to be first, and the reviewer says the claim is untrue — an accusation of attribution, not of similarity; ≈3–7% of audited samples, folded inside "restating the known"), and the <b>unlocated contribution</b> (the reviewer cannot find what the paper claims is new; ≈5–10%, all three readers surfaced it). The second is best read the way the imported evidence rule is read: the charge is filed in novelty's docket but the operative law is presentation's — with one substantive twist that keeps it from being a mere clarity issue: reviewers treat novelty that cannot be located as novelty that does not exist, which is to say the venue's operative novelty is a property of the artifact <em>plus its argument</em>, never the artifact alone — consistent with the differentiation rule's burden-of-articulation clause, and with the fact that the dominant remedy for novelty is work of writing. Audit protocol and transcripts ship with the repository.</p>
 
 <p>How the atlas handles this: score distributions are always drawn per year on that year's own levels (Figs. 11d, 11e) and the scale changes are named in the captions; the score-spread claim (Fig. 10c) uses entropy normalized to each year's own level count, so a change of form cannot masquerade as a change of behavior; the intraclass correlation (Fig. 10a) is a variance ratio and so survives relabeling, but coarser grids mechanically deflate it — the 2026 point is dashed and flagged for exactly this reason. Raw-point quantities (means, reviewer-pair gaps) are never compared across form boundaries. Sub-scores (soundness · presentation · contribution) exist only from 2024, which is why the construct-validity check above is confined to recent years.</p>
 
+<script>
+const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability", "baselines_ablations": "Baselines & ablations", "theory": "Theory, assumptions & guarantees", "method_design": "Method design rationale", "compute_cost": "Compute cost & scalability", "clarity": "Clarity & presentation", "novelty": "Novelty & contribution", "related_work": "Related work & citations", "stats_metrics": "Statistical rigor & metrics", "robustness_sensitivity": "Robustness & sensitivity", "reproducibility": "Reproducibility & code", "problem_framing": "Problem framing & motivation"}, "reaLabel": {"novelty_standard": "Novelty standard", "claim_evidence_match": "Claim-evidence scope matching", "fair_comparison": "Fair comparison norm", "statistical_identifiability": "Statistical identifiability", "confound_hypothesis": "Confound / alternative explanation", "design_justification": "Design justification demand", "robustness_norm": "Robustness norm", "cost_benefit": "Practical cost-benefit", "construct_validity": "Measurement construct validity", "reproducibility_norm": "Reproducibility norm", "presentation_trust": "Presentation as trust signal", "merit_recognition": "Merit recognition"}, "objOrder": ["empirical_scope", "method_design", "theory", "stats_metrics", "compute_cost", "clarity", "baselines_ablations", "robustness_sensitivity", "problem_framing", "novelty", "related_work", "reproducibility"], "reaOrder": ["design_justification", "novelty_standard", "merit_recognition", "robustness_norm", "fair_comparison", "presentation_trust", "claim_evidence_match", "cost_benefit", "statistical_identifiability", "confound_hypothesis", "construct_validity", "reproducibility_norm"], "rel": {"years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026], "memo_inferred_share": {"baselines_ablations": [0.3248, 0.3133, 0.2941, 0.27, 0.3096, 0.3199, 0.4171, 0.4341, 0.463], "clarity": [0.2903, 0.2822, 0.2816, 0.2613, 0.2906, 0.3296, 0.4016, 0.4281, 0.4484], "compute_cost": [0.3442, 0.2971, 0.2716, 0.2778, 0.3011, 0.318, 0.4087, 0.4371, 0.4545], "empirical_scope": [0.3008, 0.2641, 0.2913, 0.2598, 0.3082, 0.3188, 0.4033, 0.426, 0.4513], "method_design": [0.3167, 0.2795, 0.2852, 0.2633, 0.2865, 0.3198, 0.4063, 0.4278, 0.4526], "novelty": [0.3333, 0.3157, 0.3203, 0.2521, 0.3091, 0.3479, 0.4157, 0.4323, 0.4734], "problem_framing": [0.2807, 0.2762, 0.3103, 0.2852, 0.3039, 0.3408, 0.4186, 0.4348, 0.4609], "related_work": [0.345, 0.3671, 0.3466, 0.322, 0.3351, 0.3845, 0.4486, 0.463, 0.497], "reproducibility": [0.3454, 0.3333, 0.3401, 0.2649, 0.2996, 0.3258, 0.423, 0.4345, 0.4678], "robustness_sensitivity": [0.3481, 0.2414, 0.2715, 0.2463, 0.2899, 0.3241, 0.4014, 0.4251, 0.4514], "stats_metrics": [0.3219, 0.3092, 0.2922, 0.2738, 0.2945, 0.3533, 0.4176, 0.4431, 0.4754], "theory": [0.295, 0.2613, 0.2881, 0.2507, 0.2969, 0.2891, 0.3801, 0.3988, 0.425]}}, "construct": {"empirical_scope": {"soundness": -0.0253, "presentation": 0.0294, "contribution": -0.0025}, "baselines_ablations": {"soundness": -0.0425, "presentation": -0.0168, "contribution": -0.0042}, "theory": {"soundness": -0.0217, "presentation": -0.0683, "contribution": -0.0066}, "method_design": {"soundness": -0.0301, "presentation": 0.0305, "contribution": -0.0198}, "compute_cost": {"soundness": 0.0038, "presentation": 0.022, "contribution": 0.0026}, "clarity": {"soundness": -0.0175, "presentation": -0.3465, "contribution": 0.037}, "novelty": {"soundness": 0.0147, "presentation": 0.0251, "contribution": -0.1219}, "related_work": {"soundness": -0.0233, "presentation": -0.117, "contribution": -0.0336}, "stats_metrics": {"soundness": -0.0457, "presentation": -0.0123, "contribution": 0.0047}, "robustness_sensitivity": {"soundness": -0.0202, "presentation": 0.0034, "contribution": 0.02}, "reproducibility": {"soundness": -0.0509, "presentation": -0.0851, "contribution": 0.0342}, "problem_framing": {"soundness": -0.0306, "presentation": -0.0825, "contribution": -0.0221}}};
+(function () {
+  const fmt = n => n.toLocaleString("en-US");
+  const pct = x => (100 * x).toFixed(1) + "%";
+  const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
+  const VAL_COLOR = { negative: "#d0685c", uncertain: "#8b84cf", mixed: "#bd5878", conditional: "#bf8a30", positive: "#3ba183" };
+  const objLabel = MX.objLabel, reaLabel = MX.reaLabel, objOrder = MX.objOrder, reaOrder = MX.reaOrder;
 
+  // ---- reliability heatmap ----
+  const R = MX.rel;
+  const rel = document.getElementById("mx-rel");
+  rel.style.gridTemplateColumns = `minmax(86px, 210px) repeat(${R.years.length}, 1fr)`;
+  rel.insertAdjacentHTML("beforeend", `<div></div>` + R.years.map(y => `<div class="cl">'${String(y).slice(2)}</div>`).join(""));
+  for (const o of objOrder) {
+    const vals = R.memo_inferred_share[o]; if (!vals) continue;
+    rel.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    vals.forEach((v, i) => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.style.background = `color-mix(in oklab, #8b84cf ${Math.round(v * 130)}%, #161324)`;
+      cell.title = `${objLabel[o]} · ${R.years[i]}: ${pct(v)} memo-inferred`;
+      rel.appendChild(cell);
+    });
+  }
+
+  // ---- construct-validity heatmap ----
+  const SUBS = ["soundness", "presentation", "contribution"];
+  const con = document.getElementById("mx-con");
+  con.style.gridTemplateColumns = `minmax(86px, 210px) repeat(${SUBS.length}, 1fr)`;
+  con.insertAdjacentHTML("beforeend", `<div></div>` + SUBS.map(x => `<div class="cl">${x}</div>`).join(""));
+  for (const o of objOrder) {
+    con.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    for (const sub of SUBS) {
+      const v = (MX.construct[o] || {})[sub] || 0;
+      const mag = Math.min(92, Math.round(Math.abs(v) / 0.35 * 100));
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.style.background = `color-mix(in oklab, ${v < 0 ? "#b45036" : "#2fa383"} ${mag}%, #161324)`;
+      cell.title = `negative ${objLabel[o]} unit × ${sub}: Δ mean = ${v > 0 ? "+" : ""}${v.toFixed(3)} (rating-adjusted)`;
+      con.appendChild(cell);
+    }
+  }
+
+})();
+</script>
+<!-- METHOD-EXTRAS END -->
 
 <h3 id="order-of-work">The order of the plates is not the order of the work</h3>
 <p>A page like this can read as though every analysis had been foreseen and each plate had waited for the one before it. It did not happen that way, and saying otherwise would be a research practice worth naming: inventing the motivation after seeing the result. So, plainly:</p>
@@ -465,6 +511,7 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 <div class="pv-wrap"><table class="pv-table">
 <thead><tr><th>Plate</th><th>The question it answers</th><th>Provenance</th><th>Notes</th></tr></thead>
 <tbody>
+<tr><td>Plate 0 · The Specimen</td><td>Orientation: one review's anatomy, keyed to the nine acts</td><td class="pv-st">stated first</td><td>Navigation, not analysis; it carries no claim about the corpus. Built to a stated request, at the head of the site's full-screen contents overlay ("The Chart"). The specimen is chosen by a stated rule, not picked by hand: among the 232 <code>sample_reviews</code>, the review with 4&#8211;6 units showing the most distinct valences, ties broken by <code>review_id</code> ascending &#8212; today that resolves to review 08lMHzVzba (5 units, all five valences, decision Reject). Each unit is drawn as a band split into four strata (inspected object / observation / reasoning / judgment); each stratum's drawn length is the character count of the text actually stored at that layer, scaled to the longest field in the specimen, so the visual dominance of the reasoning stratum is the record's own shape, not a design choice. Leader lines key each of the nine acts to the part of the specimen it examines. The rating scale is drawn empty: this review's unit record carries no rating, so none is marked.</td></tr>
 <tr><td>Prolegomenon · The Field</td><td>Venue counts, no machine reading</td><td class="pv-nr">not recorded</td><td>Scene-setting; needed before any claim about reviews.</td></tr>
 <tr><td>Prolegomenon II · The Season</td><td>The calendar of one cycle</td><td class="pv-ps">part stated</td><td>A time-axis view was approved by the researcher from early prototypes (2026-08-18: "時間軸面白いですねやりましょう"); the plate's final form evolved afterwards, so the link is a matter of record only in that general sense.</td></tr>
 <tr><td>The Door</td><td>Entry by the sentence a reader was handed</td><td class="pv-st">stated first</td><td>Navigation, not analysis. Proposed and built in the seven-act revision.</td></tr>
@@ -509,6 +556,11 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 .pv-st { color: #356b43; } .pv-fo { color: #8a5a1f; } .pv-ex { color: #6b5d94; } .pv-ps { color: #7c5f10; } .pv-nr { color: var(--muted); }
 </style>
 
+<h3 id="nav-instruments">The long rule and the cast shadow — instruments, not plates</h3>
+<p>Two persistent graphics recur across the atlas and are neither plates nor ledger entries. They are editorial apparatus, and the honest thing is to say so here rather than let a reader mistake them for figures: neither claims anything about the corpus. Each has exactly one real dependency on the data, and it is named below.</p>
+<p><b>The long rule</b>, a folding rule in the right margin, is built from the document itself: its hinges mark the act boundaries, its segment lengths are proportional to each act's plate count &#8212; counted at runtime from the page, not hand-tuned &#8212; and its graduations are one per plate, each one clickable. What is engraved along it is a vocabulary of magnifications (SENTENCE &#183; REVIEW &#183; CLAIM &#183; COST &#183; ROOM &#183; COURT &#183; RATING &#183; YEARS &#183; RECORD), one word per act, naming the size of the object that act holds under the lens. That vocabulary is editorial: it is the authors' own description of the book's structure, not a measurement of anything, and it should be read the way a table of contents is read, not the way a plate is read.</p>
+<p><b>The cast shadow</b> is a shadow thrown across the page when a heading arrives, inside which real sentences from the corpus develop and fade. It is decorative. The sentences are genuine corpus text &#8212; that much is a real data dependency &#8212; but nothing is claimed by which ones appear; no frequency, ranking or representativeness should be read into the selection. The whole layer is absent under <code>prefers-reduced-motion</code> and in print, which is itself a statement that it carries no content the page depends on.</p>
+
 <h3 id="new-instruments">Notes for the nine added plates</h3>
 <p>Nine plates were added in the seven-act revision (the Syntax, the Early Verdict, the Combination Clause, the Unnamed Precedent, the Law&#8217;s Price, the Charge Sheet, the Moves, the Borrowed Verdict, the Unamended Code), plus the Door, which is navigation and makes no claims. (In the 2026-08-24 restructure the Law's Price merged into the Price plate, the Gauntlet into the Consequence, and the Script into the Itinerary as its prologue; their instruments are unchanged.) Their instruments, and where each can mislead:</p>
 <ul>
@@ -536,53 +588,6 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 </ul>
 <p>Naming provenance for the added plates: the novelty direct-track clause map and the combination sub-cluster names follow the same workflow as the eleven-docket elements — machine-drafted over exemplars, analyst-reviewed (one contested cluster, the transfer/differentiation mixture, is flagged in both the map file and the caption). All raw cluster exports, per-unit assignments, and the builders that made them ship with the repository and the HF dataset.</p>
 
-<script>
-const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability", "baselines_ablations": "Baselines & ablations", "theory": "Theory, assumptions & guarantees", "method_design": "Method design rationale", "compute_cost": "Compute cost & scalability", "clarity": "Clarity & presentation", "novelty": "Novelty & contribution", "related_work": "Related work & citations", "stats_metrics": "Statistical rigor & metrics", "robustness_sensitivity": "Robustness & sensitivity", "reproducibility": "Reproducibility & code", "problem_framing": "Problem framing & motivation"}, "reaLabel": {"novelty_standard": "Novelty standard", "claim_evidence_match": "Claim-evidence scope matching", "fair_comparison": "Fair comparison norm", "statistical_identifiability": "Statistical identifiability", "confound_hypothesis": "Confound / alternative explanation", "design_justification": "Design justification demand", "robustness_norm": "Robustness norm", "cost_benefit": "Practical cost-benefit", "construct_validity": "Measurement construct validity", "reproducibility_norm": "Reproducibility norm", "presentation_trust": "Presentation as trust signal", "merit_recognition": "Merit recognition"}, "objOrder": ["empirical_scope", "method_design", "theory", "stats_metrics", "compute_cost", "clarity", "baselines_ablations", "robustness_sensitivity", "problem_framing", "novelty", "related_work", "reproducibility"], "reaOrder": ["design_justification", "novelty_standard", "merit_recognition", "robustness_norm", "fair_comparison", "presentation_trust", "claim_evidence_match", "cost_benefit", "statistical_identifiability", "confound_hypothesis", "construct_validity", "reproducibility_norm"], "rel": {"years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026], "memo_inferred_share": {"baselines_ablations": [0.3248, 0.3133, 0.2941, 0.27, 0.3096, 0.3199, 0.4171, 0.4341, 0.463], "clarity": [0.2903, 0.2822, 0.2816, 0.2613, 0.2906, 0.3296, 0.4016, 0.4281, 0.4484], "compute_cost": [0.3442, 0.2971, 0.2716, 0.2778, 0.3011, 0.318, 0.4087, 0.4371, 0.4545], "empirical_scope": [0.3008, 0.2641, 0.2913, 0.2598, 0.3082, 0.3188, 0.4033, 0.426, 0.4513], "method_design": [0.3167, 0.2795, 0.2852, 0.2633, 0.2865, 0.3198, 0.4063, 0.4278, 0.4526], "novelty": [0.3333, 0.3157, 0.3203, 0.2521, 0.3091, 0.3479, 0.4157, 0.4323, 0.4734], "problem_framing": [0.2807, 0.2762, 0.3103, 0.2852, 0.3039, 0.3408, 0.4186, 0.4348, 0.4609], "related_work": [0.345, 0.3671, 0.3466, 0.322, 0.3351, 0.3845, 0.4486, 0.463, 0.497], "reproducibility": [0.3454, 0.3333, 0.3401, 0.2649, 0.2996, 0.3258, 0.423, 0.4345, 0.4678], "robustness_sensitivity": [0.3481, 0.2414, 0.2715, 0.2463, 0.2899, 0.3241, 0.4014, 0.4251, 0.4514], "stats_metrics": [0.3219, 0.3092, 0.2922, 0.2738, 0.2945, 0.3533, 0.4176, 0.4431, 0.4754], "theory": [0.295, 0.2613, 0.2881, 0.2507, 0.2969, 0.2891, 0.3801, 0.3988, 0.425]}}, "construct": {"empirical_scope": {"soundness": -0.0253, "presentation": 0.0294, "contribution": -0.0025}, "baselines_ablations": {"soundness": -0.0425, "presentation": -0.0168, "contribution": -0.0042}, "theory": {"soundness": -0.0217, "presentation": -0.0683, "contribution": -0.0066}, "method_design": {"soundness": -0.0301, "presentation": 0.0305, "contribution": -0.0198}, "compute_cost": {"soundness": 0.0038, "presentation": 0.022, "contribution": 0.0026}, "clarity": {"soundness": -0.0175, "presentation": -0.3465, "contribution": 0.037}, "novelty": {"soundness": 0.0147, "presentation": 0.0251, "contribution": -0.1219}, "related_work": {"soundness": -0.0233, "presentation": -0.117, "contribution": -0.0336}, "stats_metrics": {"soundness": -0.0457, "presentation": -0.0123, "contribution": 0.0047}, "robustness_sensitivity": {"soundness": -0.0202, "presentation": 0.0034, "contribution": 0.02}, "reproducibility": {"soundness": -0.0509, "presentation": -0.0851, "contribution": 0.0342}, "problem_framing": {"soundness": -0.0306, "presentation": -0.0825, "contribution": -0.0221}}};
-(function () {
-  const fmt = n => n.toLocaleString("en-US");
-  const pct = x => (100 * x).toFixed(1) + "%";
-  const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
-  const VAL_COLOR = { negative: "#6f1f45", uncertain: "#6b5d94", mixed: "#914963", conditional: "#7c5f10", positive: "#356b43" };
-  const objLabel = MX.objLabel, reaLabel = MX.reaLabel, objOrder = MX.objOrder, reaOrder = MX.reaOrder;
-
-  // ---- reliability heatmap ----
-  const R = MX.rel;
-  const rel = document.getElementById("mx-rel");
-  rel.style.gridTemplateColumns = `minmax(86px, 210px) repeat(${R.years.length}, 1fr)`;
-  rel.insertAdjacentHTML("beforeend", `<div></div>` + R.years.map(y => `<div class="cl">'${String(y).slice(2)}</div>`).join(""));
-  for (const o of objOrder) {
-    const vals = R.memo_inferred_share[o]; if (!vals) continue;
-    rel.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
-    vals.forEach((v, i) => {
-      const cell = document.createElement("div");
-      cell.className = "cell";
-      cell.style.background = `color-mix(in oklab, #6b5d94 ${Math.round(v * 130)}%, #f3ead2)`;
-      cell.title = `${objLabel[o]} · ${R.years[i]}: ${pct(v)} memo-inferred`;
-      rel.appendChild(cell);
-    });
-  }
-
-  // ---- construct-validity heatmap ----
-  const SUBS = ["soundness", "presentation", "contribution"];
-  const con = document.getElementById("mx-con");
-  con.style.gridTemplateColumns = `minmax(86px, 210px) repeat(${SUBS.length}, 1fr)`;
-  con.insertAdjacentHTML("beforeend", `<div></div>` + SUBS.map(x => `<div class="cl">${x}</div>`).join(""));
-  for (const o of objOrder) {
-    con.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
-    for (const sub of SUBS) {
-      const v = (MX.construct[o] || {})[sub] || 0;
-      const mag = Math.min(92, Math.round(Math.abs(v) / 0.35 * 100));
-      const cell = document.createElement("div");
-      cell.className = "cell";
-      cell.style.background = `color-mix(in oklab, ${v < 0 ? "#b45036" : "#2fa383"} ${mag}%, #f3ead2)`;
-      cell.title = `negative ${objLabel[o]} unit × ${sub}: Δ mean = ${v > 0 ? "+" : ""}${v.toFixed(3)} (rating-adjusted)`;
-      con.appendChild(cell);
-    }
-  }
-
-})();
-</script>
-<!-- METHOD-EXTRAS END -->
 
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
