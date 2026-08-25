@@ -579,8 +579,16 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .fpanel.reveal .fbar:nth-child(10) .fb-f { transition-delay: 0.25s; } .fpanel.reveal .fbar:nth-child(12) .fb-f { transition-delay: 0.3s; }
 @media (prefers-reduced-motion: reduce) { .wing { animation: none !important; } .vp-row { animation: none !important; } .fpanel .fb-f { transform: none !important; transition: none !important; } }
 /* ---- the guided tour ---- */
-#tour-start { margin-top: 18px; background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 9px 22px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
-#tour-start:hover { background: rgba(201,164,92,0.08); }
+.tp-tour { position: absolute; left: clamp(18px, 4vw, 60px); bottom: 52px; background: none; border: none; padding: 0; cursor: pointer;
+  display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass-dim); transition: color .3s var(--ease-out-expo); }
+.tp-tour:hover { color: var(--brass); }
+.tp-iris { display: inline-block; width: 13px; height: 13px; border: 1px solid currentColor; border-radius: 50%; position: relative; flex: none; }
+.tp-iris::after { content: ""; position: absolute; inset: 3.5px; background: currentColor; border-radius: 50%; transition: transform .5s var(--ease-settle); }
+.tp-tour:hover .tp-iris::after { transform: scale(0.4); }
+html.overture .tp-tour { opacity: 0; }
+.tp-tour { transition: color .3s var(--ease-out-expo), opacity 1s var(--ease-settle) 1.3s; }
+@media (max-width: 700px) { .tp-tour { bottom: 14px; left: 14px; } }
 #tour { position: fixed; left: 50%; transform: translateX(-50%) translateY(12px); bottom: 16px; z-index: 90; width: min(560px, calc(100vw - 24px)); background: rgba(18,16,31,0.95); backdrop-filter: blur(10px); border: 1px solid var(--brass-line); padding: 15px 18px 13px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease, transform 0.35s ease; }
 body.tour-on #tour { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
 body.tour-on #spec-dock { display: none !important; }
@@ -889,6 +897,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
       <div class="tp-hero-links"><a href="https://claude.ai/code/artifact/6f0ed75c-f899-47ce-870e-6c3d5c45cc48" style="color:var(--ink-2);text-decoration:none">About ↗</a><span style="color:var(--muted)"> · </span><a href="https://claude.ai/code/artifact/c76a5355-ce79-456e-9193-d1be6a6a0baa" style="color:var(--ink-2);text-decoration:none">Method ↗</a><span style="color:var(--muted)"> · </span><a href="https://github.com/t46/atlas-of-judgment" style="color:var(--ink-2);text-decoration:none">GitHub ↗</a><span style="color:var(--muted)"> · </span><a href="https://huggingface.co/datasets/t46/atlas-of-judgment" style="color:var(--ink-2);text-decoration:none">Data ↗</a><span style="color:var(--muted)"> · </span><a href="https://atlas-of-judgment.pages.dev" style="color:var(--brass);text-decoration:none">Live ↗</a></div>
     </div>
     <div class="tp-skycap">each star: one of 40,000 real units of reviewer logic · brass: praise · the comet walks the typical review’s path · click any star to read it</div>
+    <button class="tp-tour" id="tour-start"><span class="tp-iris" aria-hidden="true"></span>guided tour · ten stops</button>
     <div class="tp-descend"><span>Descend</span><i></i></div>
   </div>
   <div class="shell tp-below">
@@ -897,8 +906,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
       <div class="tp-spec" style="margin-top:6px">
         <b class="cnt" data-n="410586">410,586</b> logic units · <b class="cnt" data-n="74380">74,380</b> reviews · <b class="cnt" data-n="19474">19,474</b> papers<br>
         + <b>1,009,592</b> units spanning 2018–2026 · taxonomy induced, not imposed · ICLR MMXXVI<br>
-        the sky behind this page drifts in the corpus's true verdict proportions<br>
-        <button id="tour-start">Take the guided tour · 10 stops</button>
+        the sky behind this page drifts in the corpus's true verdict proportions
       </div>
     </div>
   </div>
