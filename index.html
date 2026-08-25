@@ -6583,7 +6583,8 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const nItems = ACTS.reduce((s, a) => s + a.items.length, 0);
   const ORDER = ACTS.flatMap(a => a.items).concat(CASE);   // the reading order, as the rule sees it
 
-  const W = 132, RW = 20, X = 106, NUMX = 50, WORDX = 57, KINK = 6;
+  const W = 132, RW = 20, X = 106, NUMX = 38, WORDX = 45, KINK = 6;
+  const LADX = 10, LADW = X - 4 - 10;   // the drawer's panel, wide enough to hold the longest word clear of the blade
 
   function layout() {
     const H = Math.max(380, Math.min(680, innerHeight * 0.72));
@@ -6608,7 +6609,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     // the ladder of magnifications lives in a drawer: it opens over the page on demand,
     // so nothing of the atlas is permanently covered by its own instrument
     const ladder = el("g", { class: "ladder" });
-    ladder.appendChild(el("rect", { x: 20, y: -13, width: X - 26, height: L.H + 26, class: "ladder-bg" }));
+    ladder.appendChild(el("rect", { x: LADX, y: -13, width: LADW, height: L.H + 26, class: "ladder-bg" }));
     svg.appendChild(ladder);
 
     // the ferrule: the brass end-cap the first segment is set into
@@ -6659,7 +6660,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       const wd = el("text", { x: WORDX, y: my + 2.6, class: "mag" });
       wd.textContent = s.a.mag.word;
       ladder.appendChild(nm); ladder.appendChild(wd);
-      const ah = el("rect", { x: 20, y: s.y, width: X - 26, height: s.h, fill: "transparent", class: "hit" });
+      const ah = el("rect", { x: LADX, y: s.y, width: LADW, height: s.h, fill: "transparent", class: "hit" });
       ladder.appendChild(ah);
       segNodes.push({ face, nm, wd, act: s.a, hit: ah, y: my, g });
     });
