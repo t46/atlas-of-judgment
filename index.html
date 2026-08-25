@@ -633,7 +633,28 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .tp-tour:hover .tp-iris::after { transform: scale(0.4); }
 html.overture .tp-tour { opacity: 0; }
 .tp-tour { transition: color .3s var(--ease-out-expo), opacity 1s var(--ease-settle) 1.3s; }
-@media (max-width: 700px) { .tp-tour { bottom: 14px; left: 14px; } }
+.tp-tour2 { bottom: 78px; }
+.tp-door { display: inline-block; width: 10px; height: 13px; border: 1px solid currentColor; position: relative; flex: none; transform-origin: left center; transition: transform .5s var(--ease-settle); }
+.tp-door::after { content: ""; position: absolute; right: 2px; top: 6px; width: 2px; height: 2px; background: currentColor; border-radius: 50%; }
+.tp-tour:hover .tp-door { transform: perspective(70px) rotateY(-30deg); }
+/* the door overlay: same family as the chart */
+#door-nav { position: fixed; inset: 0; z-index: 2550; background: rgba(14,12,24,0.96); overflow-y: auto; overscroll-behavior: contain;
+  opacity: 0; pointer-events: none; transition: opacity .22s var(--ease-out-expo); }
+#door-nav.on { opacity: 1; pointer-events: auto; transition: opacity .34s var(--ease-settle); }
+#door-nav .an-in { max-width: 720px; margin: 0 auto; padding: clamp(50px, 10svh, 110px) clamp(20px, 4vw, 60px) 80px; }
+#door-nav .an-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: clamp(22px, 4svh, 40px); }
+#door-nav .an-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--brass); margin-bottom: 8px; }
+#door-nav .an-title { font-family: var(--display); font-size: clamp(28px, 4vw, 44px); color: var(--ink); }
+#door-nav .an-x { background: none; border: 1px solid var(--brass-line); color: var(--brass); font-family: var(--mono); font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; padding: 8px 14px; cursor: pointer; }
+#door-nav .an-x:hover { background: rgba(201,164,92,0.1); }
+.dn-row { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; width: 100%; text-align: left; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 11px 6px; cursor: pointer; color: var(--ink-2); font-family: var(--serif); font-size: 14px; transition: background .2s var(--ease-out-expo), color .2s; }
+.dn-row:hover { color: var(--ink); background: rgba(201,164,92,0.07); }
+.dn-row .dn-ph { font-style: italic; }
+.dn-row .dn-o { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--brass-dim); flex: none; }
+.dn-row:hover .dn-o { color: var(--brass); }
+#door-nav .dn-note { margin-top: 22px; font-size: 12.5px; color: var(--muted); font-style: italic; }
+@media print { #door-nav, .tp-tour { display: none; } }
+@media (max-width: 700px) { .tp-tour { bottom: 14px; left: 14px; } .tp-tour2 { bottom: 40px; } }
 #tour { position: fixed; left: 50%; transform: translateX(-50%) translateY(12px); bottom: 16px; z-index: 90; width: min(560px, calc(100vw - 24px)); background: rgba(18,16,31,0.95); backdrop-filter: blur(10px); border: 1px solid var(--brass-line); padding: 15px 18px 13px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease, transform 0.35s ease; }
 body.tour-on #tour { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
 body.tour-on #spec-dock { display: none !important; }
@@ -943,6 +964,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     </div>
     <div class="tp-skycap">each star: one of 40,000 real units of reviewer logic · brass: praise · the comet walks the typical review’s path · click any star to read it</div>
     <button class="tp-tour" id="tour-start"><span class="tp-iris" aria-hidden="true"></span>guided tour · ten stops</button>
+    <button class="tp-tour tp-tour2" id="door-start"><span class="tp-door" aria-hidden="true"></span>i came holding a sentence</button>
     <div class="tp-descend"><span>Descend</span><i></i></div>
   </div>
   <div class="shell tp-below">
@@ -1031,18 +1053,6 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-
-<section id="consult" style="padding-top:8px">
-  <div class="plate-head">
-    <div class="plate-no">The Door</div>
-    <h2>Start from the sentence you were handed</h2>
-    <p class="lede">Most readers arrive holding one line from a review — "limited novelty," "insufficient baselines" — and want to know what it means and what to do about it. Pick that criticism here and the page jumps to the plate that takes it apart: what reviewers had actually observed when they wrote it, the rule they were applying, and what they asked the author to do. The three links under the grid go to what reviewers ask for, what each criticism costs in score, and what happened to authors who answered.</p>
-  </div>
-  <div class="plate"><div class="plate-inner">
-    <div id="consult-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px"></div>
-    <div style="display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;font-size:12.5px;opacity:.85" id="consult-links"></div>
-  </div></div>
-</section>
 
 <div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><span class="al-rule"></span></div>
 
@@ -2296,6 +2306,18 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 </main>
+<section id="consult" class="appendix" style="padding-top:8px">
+  <div class="plate-head">
+    <div class="plate-no">The Door</div>
+    <h2>The sentence you were handed</h2>
+    <p class="lede">Most readers arrived holding one line from a review — "limited novelty," "insufficient baselines." By now that line has a docket. Pick it here and the page returns to the plate that takes it apart: what reviewers had actually observed when they wrote it, the law they were applying, and the remedy they most often prescribe. The three links under the grid go to what reviewers ask for, what each criticism costs in score, and what happened to authors who answered.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div id="consult-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;font-size:12.5px;opacity:.85" id="consult-links"></div>
+  </div></div>
+</section>
+
 <div id="finale" aria-label="closing sky">
   <canvas id="finale-sky" aria-hidden="true"></canvas>
   <div class="fin-in">
@@ -10069,6 +10091,29 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     <a href="javascript:void 0" data-p="The Price">what does each charge cost? →</a>
     <a href="javascript:void 0" data-p="Fate of an Objection">what happens after you answer? →</a>`;
   links.addEventListener("click", e => { const a = e.target.closest("a[data-p]"); if (a) jump(a.dataset.p); });
+  // the same door, standing at the threshold
+  const dbtn = document.getElementById("door-start");
+  if (dbtn) {
+    const ov = document.createElement("div");
+    ov.id = "door-nav";
+    ov.innerHTML = `<div class="an-in"><div class="an-head"><div><div class="an-eyebrow">The Door</div><div class="an-title">I came holding a sentence</div></div><button class="an-x" id="dn-close">Close &middot; Esc</button></div><div id="dn-list">` +
+      keys.map(k => `<button class="dn-row" data-o="${k}"><span class="dn-ph">${PHRASE[k]}</span><span class="dn-o">${NAME[k]}</span></button>`).join("") +
+      `</div><div class="dn-note">Each phrase opens the law that governs it. The full docket — laws, remedies, prices — waits at the end of the atlas.</div></div>`;
+    document.body.appendChild(ov);
+    const close = () => ov.classList.remove("on");
+    dbtn.addEventListener("click", () => ov.classList.add("on"));
+    ov.querySelector("#dn-close").addEventListener("click", close);
+    ov.addEventListener("click", e => { if (e.target === ov) close(); });
+    addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+    ov.querySelector("#dn-list").addEventListener("click", e => {
+      const b = e.target.closest(".dn-row");
+      if (!b) return;
+      close();
+      dispatchEvent(new CustomEvent("atlas-consult", { detail: b.dataset.o }));
+      const el = document.getElementById("elem-tri");
+      if (el) el.closest("section").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" });
+    });
+  }
 })();
 
 // ---------------- the syntax (transition table) ----------------
