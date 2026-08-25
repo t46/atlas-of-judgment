@@ -823,7 +823,8 @@ body.tour-on #spec-dock { display: none !important; }
 #rule.open .ladder { opacity: 1; }
 #rule .ladder .hit { pointer-events: none; }
 #rule.held .ladder .hit { pointer-events: auto; }
-#rule .ladder-bg { fill: rgba(243,234,210,0.965); stroke: var(--brass-faint); stroke-width: 1; }
+#rule .ladder-bg { fill: var(--paper); stroke: var(--brass-line); stroke-width: 1; }
+#rule .ladder { filter: drop-shadow(-4px 3px 7px rgba(61,44,20,0.16)); }
 #rule svg { display: block; overflow: visible; pointer-events: none; }
 #rule .hit { pointer-events: auto; cursor: pointer; }
 #rule .hit:focus { outline: none; }
@@ -858,6 +859,16 @@ body.tour-on #spec-dock { display: none !important; }
 @media (max-width: 1100px) { #rule { display: none; } }
 @media print { #rule { display: none; } }
 @media (prefers-reduced-motion: reduce) { #rule .runner, #rule .seg.turn, #rule .ladder { transition: none; animation: none; } }
+#atlas-nav .an-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--brass-faint); margin-bottom: clamp(18px, 3svh, 30px); }
+#atlas-nav .an-tab { background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted);
+  padding: 9px 16px 8px; transition: color .2s ease, border-color .2s ease; }
+#atlas-nav .an-tab:hover { color: var(--brass); }
+#atlas-nav .an-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--brass); }
+#atlas-nav .an-tab .an-tab-n { color: var(--brass); margin-right: 8px; }
+#atlas-nav .an-tab[aria-selected="true"] .an-tab-n { color: var(--brass); }
+#atlas-nav .an-pane[hidden] { display: none; }
+@media (max-width: 560px) { #atlas-nav .an-tab { padding: 9px 10px 8px; font-size: 8.5px; letter-spacing: .16em; } }
 /* ---- Plate 0 · The Specimen: the head of the chart ---- */
 #atlas-nav .sp-head { margin: 6px 0 14px; }
 #atlas-nav .sp-no { font-family: var(--mono); font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); }
@@ -13161,8 +13172,7 @@ function buildSpecimenPlate(actsByNo, closeChart) {
   const NS = "http://www.w3.org/2000/svg";
   const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
   const host = document.createElement("div");
-  host.innerHTML = '<div class="sp-head"><div class="sp-no">Plate 0 · The Specimen</div>' +
-    '<div class="sp-h2">What this atlas cuts, and at what nine depths</div></div>' +
+  host.innerHTML = '<div class="sp-head"><div class="sp-h2">What this atlas cuts, and at what nine depths</div></div>' +
     '<div class="sp-wrap"><svg class="sp-plate" viewBox="0 0 1200 720" role="img" aria-label="One review drawn as an anatomical specimen, with the nine acts of the atlas keyed to the part each one examines."></svg></div>' +
     '<div class="sp-read"></div><p class="sp-cap"></p>';
   const svg = host.querySelector(".sp-plate"), read = host.querySelector(".sp-read");
@@ -13368,7 +13378,44 @@ function buildSpecimenPlate(actsByNo, closeChart) {
       byNo[no] = { leaf: lf, title: ((lf.querySelector(".al-t") || {}).textContent || "").trim() };
     }
     const plate = buildSpecimenPlate(byNo, close);
-    if (plate) ov.querySelector(".an-grid").before(plate);
+    if (plate) {
+      // two ways of showing one structure — the plate and the index — on tabs rather
+      // than stacked, because scrolling between them to compare is the worse motion
+      const grid = ov.querySelector(".an-grid");
+      const paneP = document.createElement("div");
+      paneP.className = "an-pane"; paneP.id = "an-pane-plate";
+      paneP.setAttribute("role", "tabpanel"); paneP.setAttribute("aria-labelledby", "an-tab-plate");
+      paneP.appendChild(plate);
+      const paneL = document.createElement("div");
+      paneL.className = "an-pane"; paneL.id = "an-pane-list";
+      paneL.setAttribute("role", "tabpanel"); paneL.setAttribute("aria-labelledby", "an-tab-list");
+      grid.before(paneL); paneL.appendChild(grid);
+      paneL.before(paneP);
+      const bar = document.createElement("div");
+      bar.className = "an-tabs"; bar.setAttribute("role", "tablist");
+      bar.innerHTML =
+        '<button class="an-tab" id="an-tab-plate" role="tab" aria-controls="an-pane-plate"><span class="an-tab-n">Plate 0</span>The Specimen</button>' +
+        '<button class="an-tab" id="an-tab-list" role="tab" aria-controls="an-pane-list"><span class="an-tab-n">All</span>The Index</button>';
+      paneP.before(bar);
+      const tabs = [...bar.querySelectorAll(".an-tab")], panes = [paneP, paneL];
+      const show = i => {
+        tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; });
+        panes.forEach((pn, k) => { pn.hidden = k !== i; });
+        try { sessionStorage.setItem("aoj-chart-tab", i); } catch (e) {}
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener("click", () => show(i));
+        t.addEventListener("keydown", e => {
+          if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+          e.preventDefault();
+          const n = (i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length;
+          show(n); tabs[n].focus();
+        });
+      });
+      let start = 0;
+      try { const v = sessionStorage.getItem("aoj-chart-tab"); if (v !== null) start = +v || 0; } catch (e) {}
+      show(start);
+    }
   } catch (e) { /* the chart must open even if the plate cannot be drawn */ }
   ov.addEventListener("click", e => {
     const item = e.target.closest(".an-item");
