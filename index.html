@@ -816,20 +816,48 @@ body.tour-on #spec-dock { display: none !important; }
 .tour-focus { outline: 1px solid var(--brass); outline-offset: 10px; animation: tourPulse 2.2s ease infinite; }
 @media (prefers-reduced-motion: reduce) { .tour-focus { animation: none; } #tour { transition: none; } }
 /* ---- the observatory: whole-page instrument chrome ---- */
-#meridian { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
-#meridian .m-track { position: absolute; right: 6px; top: -14px; bottom: -14px; width: 1px; background: rgba(138,90,31,0.14); }
-#meridian .m-fill { position: absolute; right: 6px; top: -14px; width: 1px; background: var(--brass); transform-origin: top; }
-#meridian button { position: relative; display: block; width: 13px; height: 2px; padding: 0; background: rgba(138,90,31,0.35); border: none; cursor: pointer; transition: width 0.25s ease, background 0.25s ease; }
-#meridian button:hover { width: 22px; background: var(--brass); }
-#meridian button.cur { width: 22px; background: var(--brass); }
-#meridian button .m-lab { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; background: rgba(239,228,201,0.9); padding: 3px 7px; border: 1px solid var(--brass-faint); }
-#meridian button:hover .m-lab, #meridian button.cur .m-lab { opacity: 1; }
-#meridian button.cur .m-lab { color: var(--ink-2); border-color: transparent; background: none; }
-#meridian .m-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; color: var(--muted); margin-top: 6px; }
-#meridian button.m-act { width: auto; height: auto; background: none; font-family: var(--mono); font-size: 8px; letter-spacing: .1em; color: var(--brass-dim); padding: 3px 2px 1px; margin-top: 5px; line-height: 1; }
-#meridian button.m-act:hover { color: var(--brass); background: none; width: auto; }
-@media (max-width: 1180px) { #meridian { display: none; } }
-#meridian button.cur .m-lab { opacity: 1; color: var(--brass); border-color: var(--brass-line); background: rgba(239,228,201,0.95); }
+/* ---- the long rule: the argument's own instrument, standing in the margin ---- */
+#rule { position: fixed; right: 6px; top: 50%; transform: translateY(-50%); z-index: 50; width: 132px; pointer-events: none; }
+#rule .grip { pointer-events: auto; }
+#rule .ladder { opacity: 0; transition: opacity .34s var(--ease-glide); }
+#rule.open .ladder { opacity: 1; }
+#rule .ladder .hit { pointer-events: none; }
+#rule.held .ladder .hit { pointer-events: auto; }
+#rule .ladder-bg { fill: rgba(243,234,210,0.965); stroke: var(--brass-faint); stroke-width: 1; }
+#rule svg { display: block; overflow: visible; pointer-events: none; }
+#rule .hit { pointer-events: auto; cursor: pointer; }
+#rule .hit:focus { outline: none; }
+#rule .hit:focus-visible { fill: rgba(138,90,31,0.14); outline: 1px solid var(--brass); }
+#rule .seg-face { fill: rgba(138,90,31,0.045); stroke: var(--brass-faint); stroke-width: 1; transition: fill .45s var(--ease-glide), stroke .45s var(--ease-glide); }
+#rule .seg-face.on { fill: rgba(138,90,31,0.10); stroke: var(--brass-line); }
+#rule .tick { stroke: rgba(138,90,31,0.42); stroke-width: 1; }
+#rule .tick.big { stroke: var(--brass); stroke-width: 1.3; }
+#rule .tick.done { stroke: rgba(138,90,31,0.22); }
+#rule .tag { fill: none; stroke: var(--brass); stroke-width: 1; }
+#rule .hinge-p { fill: var(--ground); stroke: var(--brass); stroke-width: 1.2; }
+#rule .hinge-c { fill: var(--brass); }
+#rule .num { font-family: var(--mono); font-size: 7.4px; letter-spacing: .12em; fill: rgba(107,86,54,0.34); transition: fill .5s var(--ease-glide); }
+#rule .num.past { fill: rgba(107,86,54,0.66); }
+#rule .num.on { fill: var(--brass); font-weight: 500; }
+#rule .mag { font-family: var(--mono); font-size: 7.2px; letter-spacing: .19em; fill: rgba(107,86,54,0.34); transition: fill .5s var(--ease-glide); }
+#rule .mag.past { fill: rgba(107,86,54,0.66); }
+#rule .mag.on { fill: var(--brass); font-weight: 500; }
+#rule .spine { stroke: var(--brass-line); stroke-width: 1; }
+#rule .spine.turned { stroke: var(--brass); stroke-width: 1.3; }
+#rule .bevel { stroke: rgba(138,90,31,0.13); stroke-width: 1; }
+#rule .ferrule { fill: rgba(138,90,31,0.14); stroke: var(--brass-line); stroke-width: 1; }
+#rule .case { fill: none; stroke: var(--brass-line); stroke-width: 1; }
+#rule .cursor-bar { fill: rgba(138,90,31,0.16); stroke: var(--brass); stroke-width: 1; }
+#rule .cursor-hair { stroke: var(--brass); stroke-width: 1.2; }
+#rule .runner { transition: transform .55s var(--ease-settle); }
+#rule .seg.turn { animation: hinge .78s var(--ease-settle) both; }
+@keyframes hinge { from { transform: rotate(7deg); } to { transform: none; } }
+#rl-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: .14em; fill: var(--muted); }
+#rl-flag { position: absolute; right: 136px; white-space: nowrap; font-family: var(--mono); font-size: 8.5px; letter-spacing: .17em; text-transform: uppercase; color: var(--brass); background: rgba(239,228,201,0.96); border: 1px solid var(--brass-faint); padding: 4px 8px; opacity: 0; transition: opacity .2s ease; pointer-events: none; transform: translateY(-50%); }
+#rl-flag.on { opacity: 1; }
+@media (max-width: 1100px) { #rule { display: none; } }
+@media print { #rule { display: none; } }
+@media (prefers-reduced-motion: reduce) { #rule .runner, #rule .seg.turn, #rule .ladder { transition: none; animation: none; } }
 /* ---- the chart: full-screen contents navigator ---- */
 #atlas-nav { position: fixed; inset: 0; z-index: 2550; background: rgba(248,241,224,0.96); overflow-y: auto; overscroll-behavior: contain;
   opacity: 0; pointer-events: none; transition: opacity .22s var(--ease-out-expo); }
@@ -844,6 +872,7 @@ body.tour-on #spec-dock { display: none !important; }
 #atlas-nav .an-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: clamp(22px, 3vw, 42px) clamp(26px, 3.5vw, 54px); }
 #atlas-nav .an-act-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--brass); border-bottom: 1px solid var(--brass-line); padding-bottom: 7px; margin-bottom: 4px; }
 #atlas-nav .an-act-h b { color: var(--ink); font-weight: 500; letter-spacing: .18em; }
+#atlas-nav .an-act-m { font-family: var(--mono); font-size: 8.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--brass); margin: 7px 0 2px; }
 #atlas-nav .an-act-s { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 4px 0 9px; line-height: 1.8; }
 #atlas-nav .an-item { display: flex; gap: 12px; align-items: baseline; width: 100%; text-align: left; background: none; border: none; cursor: pointer;
   padding: 5px 6px; color: var(--ink-2); font-family: var(--serif); font-size: 15.5px; transition: color .2s ease, background .2s ease; }
@@ -864,6 +893,8 @@ body.tour-on #spec-dock { display: none !important; }
 #sextant b { color: var(--brass); font-weight: 500; }
 #sextant .sx-sep { color: var(--brass-dim); margin: 0 6px; }
 #sextant .sx-plate { color: var(--ink-2); transition: opacity .28s var(--ease-settle); }
+#sextant .sx-mag { color: var(--brass-dim); margin-left: 8px; }
+#sextant .sx-mag::before { content: "\2b1a\a0"; color: var(--brass); }
 #sextant.sx-swap .sx-plate { opacity: 0; }
 @media (max-width: 700px) { #sextant { font-size: 7.5px; padding: 4px 7px; left: 10px; bottom: 10px; } }
 @media print { #sextant { display: none; } }
@@ -876,6 +907,8 @@ body.tour-on #spec-dock { display: none !important; }
 .half-gate.al-in .hg-rule { transform: scaleX(1); }
 .half-gate.al-in .hg-t { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .half-gate .hg-rule { transform: scaleX(1); transition: none; } .half-gate .hg-t { opacity: 1; transition: none; } }
+.act-leaf .al-mag { max-width: 40em; margin: clamp(18px, 3svh, 30px) auto 0; padding-top: 14px; border-top: 1px solid var(--brass-faint); font-size: clamp(13.5px, 1.5vw, 15px); line-height: 1.66; color: var(--ink-2); }
+.act-leaf .al-mag b { display: block; font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--brass); margin-bottom: 9px; }
 /* act-leaf entrance: mask opens upward while the title settles upward — one correlated gesture */
 .act-leaf .al-rule { transform: scaleX(0); transition: transform 1.1s var(--ease-settle); }
 .act-leaf .al-rule:first-child { transform-origin: right center; }
@@ -1080,7 +1113,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div>
 </nav>
 
-<nav id="meridian" aria-label="navigate the plates"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
+<nav id="rule" aria-label="the long rule — where you are in the argument"><div id="rl-flag"></div></nav>
 <div id="sextant" aria-hidden="true"></div>
 <div id="reticle" aria-hidden="true"></div>
 
@@ -1188,7 +1221,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 <!-- The Field, The Season and The Tide now travel as overtures at the heads of Acts VIII, V and VII -->
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><div class="al-mag"><b>Magnification · A SENTENCE</b>The rule opens at its finest mark. What sits under it here is one sentence of one review — and the first question is whether such a thing can be counted at all.</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1295,7 +1328,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT II</div><div class="al-t">One Hand</div><div class="al-s">what one reviewer sets down, alone · plates IV–VI</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT II</div><div class="al-t">One Hand</div><div class="al-s">what one reviewer sets down, alone · plates IV–VI</div><div class="al-mag"><b>Magnification · ONE REVIEW</b>One mark coarser. The unit is no longer the sentence but the page it sits in: what a single reviewer, working alone, sets down and in what order.</div><span class="al-rule"></span></div>
 
 <section id="interlude-windows">
   <div class="plate-head">
@@ -1448,7 +1481,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT III</div><div class="al-t">The Law</div><div class="al-s">what a criticism actually says — and asks for · plates VII–XIII</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT III</div><div class="al-t">The Law</div><div class="al-s">what a criticism actually says — and asks for · plates VII–XIII</div><div class="al-mag"><b>Magnification · A CRITICISM’S CLAIM</b>Back to fine work, and to a different object. Not the review now but one charge inside it — what that charge asserts, and what it asks for.</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1680,7 +1713,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT IV</div><div class="al-t">The Tariff</div><div class="al-s">what a criticism changes · plates XIV–XV</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT IV</div><div class="al-t">The Tariff</div><div class="al-s">what a criticism changes · plates XIV–XV</div><div class="al-mag"><b>Magnification · A CRITICISM’S COST</b>The same charge at the same magnification, with a different question underneath it: not what it says, but what it costs.</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1786,7 +1819,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT V</div><div class="al-t">The Encounter</div><div class="al-s">when people meet, does judgment move · plates XVI–XXI</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT V</div><div class="al-t">The Encounter</div><div class="al-s">when people meet, does judgment move · plates XVI–XXI</div><div class="al-mag"><b>Magnification · A ROOM</b>The rule opens wider. The unit is no longer one person’s page but the room they argue in — authors, reviewers, and the exchange between them.</div><span class="al-rule"></span></div>
 
 <section id="sec-season">
   <div class="plate-head">
@@ -2082,7 +2115,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VI</div><div class="al-t">The Higher Court</div><div class="al-s">the chair&#8217;s court — what it weighs, whose words it borrows · plates XXII–XXIII</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VI</div><div class="al-t">The Higher Court</div><div class="al-s">the chair&#8217;s court — what it weighs, whose words it borrows · plates XXII–XXIII</div><div class="al-mag"><b>Magnification · A COURT</b>Wider still, and upward. Above the room sits the court that reads it, and writes the decision in its own hand — or in someone else’s.</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -2144,7 +2177,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VII</div><div class="al-t">The Measure</div><div class="al-s">can a rating be trusted as a measurement · plates XXIV–XXV</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VII</div><div class="al-t">The Measure</div><div class="al-s">can a rating be trusted as a measurement · plates XXIV–XXV</div><div class="al-mag"><b>Magnification · A RATING</b>Here the rule folds back on itself. What it measures now is a number the instrument itself produced: the score, held up against everything already counted.</div><span class="al-rule"></span></div>
 
 <section id="sec-tide">
   <div class="plate-head">
@@ -2284,7 +2317,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXVIII</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXVIII</div><div class="al-mag"><b>Magnification · NINE YEARS</b>The widest mark on the rule — nine years of it, and the separate fields inside those years.</div><span class="al-rule"></span></div>
 
 <section id="field">
   <div class="plate-head">
@@ -2430,7 +2463,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXIX</div><span class="al-rule"></span></div>
+<div class="act-leaf"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXIX</div><div class="al-mag"><b>Magnification · THE RECORD ITSELF</b>The rule is set down. What is left is the record it was read from, held against its originals.</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -6472,11 +6505,227 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   io.observe(grid);
 })();
 
+// ---------------- the long rule: the argument's own instrument ----------------
+// A folding rule, hinged at every act boundary. Its segments are as long as the acts
+// are wide — the graduations are real plates, counted — and what is engraved on it is
+// not a scale but a series of MAGNIFICATIONS: the size of the thing this book is
+// holding under the lens at each point. An anatomical atlas records depth, not geography.
+(function longRule() {
+  const host = document.getElementById("rule");
+  if (!host) return;
+  const flag = document.getElementById("rl-flag");
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+  // the one piece of editorial content the rule adds: what each act is looking at
+  const MAG = {
+    "I":    { word: "SENTENCE", phrase: "A SENTENCE" },
+    "II":   { word: "REVIEW",   phrase: "ONE REVIEW" },
+    "III":  { word: "CLAIM",    phrase: "A CRITICISM’S CLAIM" },
+    "IV":   { word: "COST",     phrase: "A CRITICISM’S COST" },
+    "V":    { word: "ROOM",     phrase: "A ROOM" },
+    "VI":   { word: "COURT",    phrase: "A COURT" },
+    "VII":  { word: "RATING",   phrase: "A RATING", fold: 1 },
+    "VIII": { word: "YEARS",    phrase: "NINE YEARS" },
+    "CODA": { word: "RECORD",   phrase: "THE RECORD ITSELF" },
+  };
+
+  // ---- the structure, read out of the document itself ----
+  const leaves = [...document.querySelectorAll(".act-leaf")];
+  const secs = [...document.querySelectorAll("section")].filter(s => s.querySelector(".plate-no"));
+  if (!leaves.length || !secs.length) return;
+  const isCase = pn => /^Appendix|^The Door/i.test(pn);
+  const acts = [], CASE = [];
+  for (const lf of leaves) {
+    const no = ((lf.querySelector(".al-no") || {}).textContent || "").replace(/^ACT\s+/, "").trim();
+    acts.push({ no, name: ((lf.querySelector(".al-t") || {}).textContent || "").trim(), leaf: lf,
+                mag: MAG[no] || { word: no, phrase: no }, items: [] });
+  }
+  for (const sec of secs) {
+    const pn = sec.querySelector(".plate-no").textContent.trim();
+    if (isCase(pn)) { CASE.push({ el: sec, label: pn }); continue; }
+    let owner = null;
+    for (const a of acts) { if (a.leaf.compareDocumentPosition(sec) & Node.DOCUMENT_POSITION_FOLLOWING) owner = a; else break; }
+    (owner || acts[0]).items.push({ el: sec, label: pn });
+  }
+  const ACTS = acts.filter(a => a.items.length);
+  if (!ACTS.length) return;
+  const nItems = ACTS.reduce((s, a) => s + a.items.length, 0);
+  const ORDER = ACTS.flatMap(a => a.items).concat(CASE);   // the reading order, as the rule sees it
+
+  const W = 132, RW = 20, X = 106, NUMX = 50, WORDX = 57, KINK = 6;
+
+  function layout() {
+    const H = Math.max(380, Math.min(680, innerHeight * 0.72));
+    const CASE_H = CASE.length ? 32 : 0, HINGE = 7;
+    const body = H - CASE_H - HINGE * ACTS.length;
+    const base = 13;
+    const per = (body - base * ACTS.length) / nItems;
+    const segs = [];
+    let y = 0;
+    ACTS.forEach(a => { const h = base + per * a.items.length; segs.push({ a, y, h, dx: a.mag.fold ? KINK : 0 }); y += h + HINGE; });
+    return { H, segs, caseY: y, CASE_H, HINGE };
+  }
+
+  let L, svg, cursor, pct, marks = [], segNodes = [];
+
+  function build() {
+    L = layout();
+    host.querySelectorAll("svg").forEach(n => n.remove());
+    marks = []; segNodes = [];
+    svg = el("svg", { width: W, height: L.H + 34, viewBox: `0 -9 ${W} ${L.H + 34}`, "aria-hidden": "false" });
+
+    // the ladder of magnifications lives in a drawer: it opens over the page on demand,
+    // so nothing of the atlas is permanently covered by its own instrument
+    const ladder = el("g", { class: "ladder" });
+    ladder.appendChild(el("rect", { x: 20, y: -13, width: X - 26, height: L.H + 26, class: "ladder-bg" }));
+    svg.appendChild(ladder);
+
+    // the ferrule: the brass end-cap the first segment is set into
+    svg.appendChild(el("rect", { x: X - 3, y: -7, width: RW + 6, height: 6, class: "ferrule" }));
+    svg.appendChild(el("circle", { cx: X + 2, cy: -4, r: 1, class: "hinge-c" }));
+    svg.appendChild(el("circle", { cx: X + RW - 2, cy: -4, r: 1, class: "hinge-c" }));
+
+    let prevDX = 0;
+    L.segs.forEach((s, i) => {
+      const x = X + s.dx, cxm = x + RW / 2;
+      // the hinge: two blade-ends and the pivot that joins them. ACT VII's is the one
+      // hinge that has been turned — the instrument folded back onto its own output.
+      if (i) {
+        const yh = s.y - L.HINGE / 2, px = (X + prevDX + RW / 2 + cxm) / 2;
+        svg.appendChild(el("line", { x1: X + prevDX + RW / 2, y1: yh - L.HINGE / 2, x2: cxm, y2: yh + L.HINGE / 2,
+          class: "spine" + (s.dx ? " turned" : "") }));
+        svg.appendChild(el("circle", { cx: px, cy: yh, r: 3.2, class: "hinge-p" }));
+        svg.appendChild(el("circle", { cx: px, cy: yh, r: 1.15, class: "hinge-c" }));
+      }
+      prevDX = s.dx;
+
+      const g = el("g", { class: "seg" });
+      g.style.transformOrigin = `${cxm}px ${s.y}px`;
+      svg.appendChild(g);
+      // the blade face — its length is the act's plate count, not a designer's choice
+      const face = el("rect", { x, y: s.y, width: RW, height: s.h, class: "seg-face" });
+      g.appendChild(face);
+      g.appendChild(el("line", { x1: cxm, y1: s.y + 3, x2: cxm, y2: s.y + s.h - 3, class: "spine" }));
+      g.appendChild(el("line", { x1: x + RW - 3, y1: s.y + 2, x2: x + RW - 3, y2: s.y + s.h - 2, class: "bevel" }));
+
+      // graduations — one per plate, real and countable
+      const pad = 7, run = s.h - pad * 2, n = s.a.items.length;
+      s.a.items.forEach((it, k) => {
+        const ty = s.y + pad + (n === 1 ? run / 2 : run * k / (n - 1));
+        const minor = /^Overture|^Interlude/i.test(it.label);
+        const tk = el("line", { x1: x + 1.5, y1: ty, x2: x + 1.5 + (minor ? 5 : 9), y2: ty, class: "tick" + (minor ? "" : " big") });
+        g.appendChild(tk);
+        if (minor) g.appendChild(el("rect", { x: x + RW - 5.2, y: ty - 1.8, width: 3.6, height: 3.6, class: "tag" }));
+        const hit = el("rect", { x: x - 2, y: ty - 5, width: RW + 4, height: 10, fill: "transparent", class: "hit" });
+        g.appendChild(hit);
+        marks.push({ ln: tk, hit, label: it.label, el: it.el, y: ty });
+      });
+
+      // the arc of the argument, permanently legible: one row per act
+      const my = s.y + s.h / 2;
+      const nm = el("text", { x: NUMX, y: my + 2.6, "text-anchor": "end", class: "num" });
+      nm.textContent = s.a.no === "CODA" ? "∴" : s.a.no;
+      const wd = el("text", { x: WORDX, y: my + 2.6, class: "mag" });
+      wd.textContent = s.a.mag.word;
+      ladder.appendChild(nm); ladder.appendChild(wd);
+      const ah = el("rect", { x: 20, y: s.y, width: X - 26, height: s.h, fill: "transparent", class: "hit" });
+      ladder.appendChild(ah);
+      segNodes.push({ face, nm, wd, act: s.a, hit: ah, y: my, g });
+    });
+
+    // the instrument case: where the rule is put away — and where the appendices are kept
+    if (CASE.length) {
+      const cy = L.caseY, cx0 = X - 3;
+      svg.appendChild(el("rect", { x: cx0, y: cy, width: RW + 6, height: L.CASE_H, rx: 2, class: "case" }));
+      CASE.forEach((it, k) => {
+        const ty = cy + 8 + k * ((L.CASE_H - 16) / Math.max(1, CASE.length - 1));
+        svg.appendChild(el("line", { x1: cx0 + 4, y1: ty, x2: cx0 + 4 + (k === CASE.length - 1 ? 13 : 8), y2: ty, class: "tick" }));
+        const hit = el("rect", { x: cx0, y: ty - 4, width: RW + 6, height: 8, fill: "transparent", class: "hit" });
+        svg.appendChild(hit);
+        marks.push({ ln: null, hit, label: it.label, el: it.el, y: ty });
+      });
+    }
+
+    // the sliding index cursor — the brass runner
+    cursor = el("g", { class: "runner" });
+    cursor.appendChild(el("rect", { x: X - 5, y: -5.5, width: RW + 10, height: 11, class: "cursor-bar" }));
+    cursor.appendChild(el("line", { x1: X - 5, y1: 0, x2: X + RW + 5, y2: 0, class: "cursor-hair" }));
+    svg.appendChild(cursor);
+
+    const grip = el("rect", { x: X - 6, y: -12, width: RW + 12, height: L.H + 26, fill: "transparent", class: "grip" });
+    svg.appendChild(grip);
+    grip.addEventListener("mouseenter", () => { host.classList.add("held"); openLadder(); });
+    host.addEventListener("mouseleave", () => { clearTimeout(openT); host.classList.remove("open", "held"); });
+
+    pct = el("text", { x: W - 4, y: L.H + 18, "text-anchor": "end", id: "rl-pct" });
+    pct.textContent = "000%";
+    svg.appendChild(pct);
+    host.appendChild(svg);
+
+    const goto = target => { if (target) target.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); };
+    const wire = (node, label, y, go) => {
+      node.setAttribute("tabindex", "0");
+      node.setAttribute("role", "link");
+      node.setAttribute("aria-label", label);
+      node.addEventListener("mouseenter", () => showFlag(label, y));
+      node.addEventListener("mouseleave", hideFlag);
+      node.addEventListener("focus", () => { host.classList.add("held"); openLadder(); showFlag(label, y); });
+      node.addEventListener("blur", () => { hideFlag(); if (!host.matches(":hover")) { host.classList.remove("held"); openLadder(600); } });
+      node.addEventListener("click", go);
+      node.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    };
+    marks.forEach(m => wire(m.hit, m.label, m.y, () => goto(m.el)));
+    segNodes.forEach(sg => wire(sg.hit,
+      "Act " + sg.act.no + " · " + sg.act.name + " — magnification: " + sg.act.mag.phrase, sg.y,
+      () => goto(sg.act.leaf)));
+  }
+  let openT = null;
+  function openLadder(ms) {
+    host.classList.add("open");
+    clearTimeout(openT);
+    if (ms) openT = setTimeout(() => host.classList.remove("open"), ms);
+  }
+  function showFlag(txt, y) { if (!flag) return; flag.textContent = txt; flag.style.top = y + "px"; flag.classList.add("on"); }
+  function hideFlag() { if (flag) flag.classList.remove("on"); }
+
+  build();
+  let rt = null;
+  addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { build(); curMark = -1; curAct = -2; onScroll(); }, 120); });
+
+  let curAct = -2, curMark = -1;
+  function onScroll() {
+    const dh = document.documentElement.scrollHeight - innerHeight;
+    const p = dh ? Math.min(1, Math.max(0, scrollY / dh)) : 0;
+    if (pct) pct.textContent = String(Math.round(p * 100)).padStart(3, "0") + "%";
+    let best = 0;
+    for (let i = 0; i < ORDER.length; i++) if (ORDER[i].el.getBoundingClientRect().top <= innerHeight * 0.4) best = i;
+    if (best === curMark) return;
+    curMark = best;
+    const m = marks[best];
+    if (m && cursor) cursor.setAttribute("transform", `translate(0,${m.y.toFixed(1)})`);
+    marks.forEach((mk, i) => mk.ln && mk.ln.classList.toggle("done", i < best));
+    let n = 0, ai = -1;
+    for (let i = 0; i < ACTS.length; i++) { if (best < n + ACTS[i].items.length) { ai = i; break; } n += ACTS[i].items.length; }
+    if (ai === curAct) return;
+    curAct = ai;
+    // crossing into an act opens the drawer just long enough to say where you now are
+    if (ai >= 0 && curMark > 0) openLadder(2600);
+    segNodes.forEach((x, i) => {
+      // the hinge turns as the reader crosses into the act: the rule opens one more segment
+      if (i === ai && !REDUCED) { x.g.classList.remove("turn"); void x.g.getBBox(); x.g.classList.add("turn"); }
+      x.face.classList.toggle("on", i === ai);
+      x.wd.classList.toggle("on", i === ai); x.nm.classList.toggle("on", i === ai);
+      x.wd.classList.toggle("past", ai >= 0 && i < ai); x.nm.classList.toggle("past", ai >= 0 && i < ai);
+    });
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+
 // ---------------- the observatory: rail, tilt, reticle ----------------
 (function observatory() {
-  // meridian rail
-  const rail = document.getElementById("meridian");
-  const fill = document.getElementById("m-fill");
+  // the plates, in order — the sextant and the long rule both read from this list
   const sections = [...document.querySelectorAll("section")].filter(sec => sec.querySelector(".plate-no"));
   const hero = document.querySelector(".titlepage");
   const entries = [{ el: hero, lab: "Title" }].concat(sections.map(sec => {
@@ -6484,33 +6733,6 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const m = no.split("\u00b7");
     return { el: sec, lab: (m[1] || m[0]).trim() };
   }));
-  const pct = document.createElement("div");
-  pct.className = "m-pct"; pct.id = "m-pct"; pct.textContent = "000%";
-  let lastActKey = null;
-  const leaves0 = [...document.querySelectorAll(".act-leaf")];
-  for (const en of entries) {
-    let leafOf = null;
-    for (const lf of leaves0) {
-      if (lf.compareDocumentPosition(en.el) & Node.DOCUMENT_POSITION_FOLLOWING) leafOf = lf;
-      else break;
-    }
-    const key = leafOf ? (leafOf.querySelector(".al-no") || {}).textContent : null;
-    if (key && key !== lastActKey) {
-      lastActKey = key;
-      const m = document.createElement("button");
-      m.className = "m-act";
-      m.textContent = key.replace(/^ACT\s+/, "").replace(/^CODA$/, "\u2234");
-      m.title = key + (leafOf.querySelector(".al-t") ? " \u00b7 " + leafOf.querySelector(".al-t").textContent : "");
-      m.addEventListener("click", () => leafOf.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
-      rail.appendChild(m);
-    }
-    const b = document.createElement("button");
-    b.innerHTML = `<span class="m-lab">${en.lab}</span>`;
-    b.addEventListener("click", () => en.el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
-    rail.appendChild(b);
-    en.btn = b;
-  }
-  rail.appendChild(pct);
   // the sextant: which act, which plate — derived from document order
   const sx = document.getElementById("sextant");
   const leaves = [...document.querySelectorAll(".act-leaf")];
@@ -6522,7 +6744,10 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     }
     if (!last) return null;
     const no = last.querySelector(".al-no"), ti = last.querySelector(".al-t");
-    return `<b>${no ? no.textContent : ""}</b><span class="sx-sep">·</span>${ti ? ti.textContent : ""}`;
+    // the magnification travels with the act: the one part of the long rule that reaches every width
+    const mg = ((last.querySelector(".al-mag b") || {}).textContent || "").replace(/^Magnification\s*·\s*/i, "");
+    return `<b>${no ? no.textContent : ""}</b><span class="sx-sep">·</span>${ti ? ti.textContent : ""}` +
+      (mg ? `<span class="sx-mag">${mg}</span>` : "");
   };
   for (const en of entries) en.act = actOf(en.el);
   let sxTimer = null;
@@ -6544,15 +6769,12 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   function onScroll() {
     const st = scrollY, dh = document.documentElement.scrollHeight - innerHeight;
     const p = dh ? st / dh : 0;
-    fill.style.height = `calc(${(p * 100).toFixed(2)}% )`;
-    pct.textContent = String(Math.round(p * 100)).padStart(3, "0") + "%";
     let best = 0;
     for (let i = 0; i < entries.length; i++) {
       if (entries[i].el.getBoundingClientRect().top <= innerHeight * 0.4) best = i;
     }
     if (best !== cur) {
       cur = best;
-      entries.forEach((en, i) => en.btn.classList.toggle("cur", i === best));
       setSextant(entries[best]);
     }
   }
@@ -12900,7 +13122,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       else break;
     }
     const pn = sec.querySelector(".plate-no").textContent;
-    const isApp = /^Appendix/.test(pn);
+    const isApp = /^Appendix|^The Door/.test(pn);
     if (isApp) {
       if (!appGroup) { appGroup = { leaf: null, no: "APPENDICES", title: "The Cabinet", sub: "lexicon · provenance · the null cabinet", items: [] }; groups.push(appGroup); }
       cur = appGroup;
@@ -12908,6 +13130,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       cur = { leaf: last,
         no: (last.querySelector(".al-no") || {}).textContent || "",
         title: (last.querySelector(".al-t") || {}).textContent || "",
+        mag: ((last.querySelector(".al-mag b") || {}).textContent || "").replace(/^Magnification\s*·\s*/i, ""),
         sub: (last.querySelector(".al-s") || {}).textContent || "", items: [] };
       groups.push(cur);
     }
@@ -12920,7 +13143,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   ov.id = "atlas-nav";
   ov.innerHTML = `<div class="an-in"><div class="an-head"><div><div class="an-eyebrow">Atlas of Judgment</div><div class="an-title">The Chart</div></div><button class="an-x">Close · Esc</button></div><div class="an-grid">` +
     groups.filter(g => g.items.length).map((g, gi) =>
-      `<div class="an-act" style="animation-delay:${gi * 55}ms"><div class="an-act-h"><b>${g.no}</b> · ${g.title}</div><div class="an-act-s">${g.sub}</div>` +
+      `<div class="an-act" style="animation-delay:${gi * 55}ms"><div class="an-act-h"><b>${g.no}</b> · ${g.title}</div>${g.mag ? `<div class="an-act-m">under the lens · ${g.mag}</div>` : ""}<div class="an-act-s">${g.sub}</div>` +
       g.items.map((it, ii) => `<button class="an-item" data-g="${gi}" data-i="${ii}"><span class="an-no">${it.no}</span><span>${it.label}${it.sub2 ? ` <span style="color:var(--muted);font-style:italic;font-size:13px">— ${it.sub2}</span>` : ""}</span></button>`).join("") +
       `</div>`).join("") + `</div></div>`;
   document.body.appendChild(ov);
