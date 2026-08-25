@@ -996,67 +996,14 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
       </div>
       <div>
         <div class="rn-h">Two readings, not one corpus</div>
-        <p>The reviews were read twice, in two different ways, and the plates use whichever fits the question. <b>ICLR 2026</b> was read one review at a time (410,586 units), so each unit can point at the line of the review it came from. <b>2018–2026</b> was read a second way — each paper's whole discussion in a single pass, including the replies written after the author's rebuttal and the area chair's meta-review (1,009,592 units) — which is what makes it possible to see <em>when</em> a judgment was made and whether it later changed. Neither is a subset of the other. Each plate's header names the years it uses; the <a href="method.html">Method page</a> gives both pipelines in full. One more thing worth knowing before the sequence starts: <b>the order of the plates is an editorial arrangement, made after the analyses existed</b>, not the order in which the work was done — the Method page carries a <a href="method.html#provenance-ledger">plate-by-plate ledger</a> of which questions were written down before the numbers existed, which plates are frankly exploratory, which we simply have no record for, and one claim that was published wrong and corrected in place.</p>
+        <p>The reviews were read twice, in two different ways, and the plates use whichever fits the question. <b>ICLR 2026</b> was read one review at a time (410,586 units), so each unit can point at the line of the review it came from. <b>2018–2026</b> was read a second way — each paper's whole discussion in a single pass, including the replies written after the author's rebuttal and the area chair's meta-review (1,009,592 units) — which is what makes it possible to see <em>when</em> a judgment was made and whether it later changed. Neither is a subset of the other. Each plate's header names the years it uses; the <a href="method.html">Method page</a> gives both pipelines in full. One more thing worth knowing before the sequence starts: <b>the order of the plates is an editorial arrangement, made after the analyses existed</b>, not the order in which the work was done — the Method page carries a <a href="method.html#provenance-ledger">plate-by-plate ledger</a> of which questions were written down before the numbers existed, which plates are frankly exploratory, which we simply have no record for, and one claim that was published wrong and corrected in place. Finally, the stage-setting plates travel as <em>overtures</em> at the heads of the acts they serve: the calendar of one full review season opens Act V, one warning about review timing — reviews filed weeks early run harsher and longer than deadline-day ones, and no plate controls for filing time — opens Act VII as <a href="#sec-tide">the Tide</a>, and the venue's own census opens Act VIII.</p>
       </div>
     </div>
   </div>
 </section>
 
 
-<section id="field" style="padding-top:56px">
-  <div class="plate-head">
-    <div class="plate-no">Prolegomenon · The Field</div>
-    <div class="plate-scope">Corpus: ICLR 2018–2026 · OpenReview public record · 52,460 papers</div>
-    <h2>ICLR itself, 2018 → 2026</h2>
-    <p class="lede">Start with the venue itself, before any of the review analysis. These are plain counts from ICLR's public record on OpenReview: how many papers were submitted, how many were accepted, how long the reviews ran. <button class="hover-bind" data-field="growth">Submissions have grown twenty-one-fold in nine years</button>, and that growth is the backdrop for everything that follows.</p>
-  </div>
-  <div class="plate"><div class="plate-inner">
-    <div class="fig-deck">Review length fell for three straight years from its 2022 peak, then held flat; reviews per paper stepped from three to about four in 2021 and stayed.</div>
-    <div id="field-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
-    <details class="table-view" style="margin-top:20px"><summary>Full census table</summary><div class="tv-wrap" id="field-table"></div></details>
-    <div class="caption cap-voices">
-    <div class="cv-fig"><b>Census</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">one small chart per quantity — submissions, acceptance rate, reviews per paper, median review length — each plotted against the year, with the full table underneath. Counted directly from the OpenReview record; no machine reading is involved in this plate. Acceptance among decided, non-withdrawn papers; 2019 decisions are not recoverable from the public record and are shown as —. Withdrawn counts are only meaningful from 2025 (earlier years delisted withdrawals). The quiet story: <button class="hover-bind" data-field="words-arc">review length peaked in 2022 at a median 532 words, fell for three straight years to 410 in 2025, and then held flat (412 in 2026)</button> — while the number of reviews a paper receives stepped up from three to about four in 2021 and has stayed there.</div></div>
-    </div>
-  </div></div>
-</section>
-
-<section>
-  <div class="plate-head">
-    <div class="plate-no">Prolegomenon II · The Season</div>
-    <div class="plate-scope">Corpus: ICLR 2026 · every public event, timestamped to the day · Sep 2025 – Mar 2026</div>
-    <h2>One review season, replayed</h2>
-    <p class="lede">Every public act of the ICLR 2026 cycle, on its real calendar day: 19,814 submissions crest at the deadline, 75,859 reviews land in a two-day burst, 180,146 discussion comments answer them, 5,216 papers withdraw — most in the week after the reviews arrive — and on a single day in January, 14,175 decisions fall at once.</p>
-  </div>
-  <div class="plate"><div class="plate-inner">
-    <div class="fig-deck">The withdrawal ribbon rises within days of the reviews becoming readable — and long before any decision exists.</div>
-    <div id="season-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:8px">
-      <button id="se-play">▶&#8202; replay the season</button>
-      <input id="se-scrub" type="range" min="0" max="1000" value="1000" aria-label="scrub through the season">
-      <span id="se-date">Mar 08</span>
-    </div>
-    <div id="season"></div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 0">BAND HEIGHT = REVIEWS SUBMITTED THAT DAY, &#8730;-SCALED TO EACH BAND&#8217;S OWN PEAK</div>
-    <div id="season-count" class="se-counters"></div>
-    <div class="caption cap-voices">
-    <div class="cv-fig"><b>The Season</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each ribbon is one kind of public event, day by day (square-root vertical scale, so the deadline spike does not flatten everything else); press replay and the season unfolds — the playhead carries the date, sparks mark days with over a thousand events, and the counters accumulate the running totals. The shape worth noticing: <button class="hover-bind" data-season="withdrawals">the withdrawal ribbon rises within days of the review burst and long before any decision is announced</button>. What that timing shows is when withdrawals happen, not why — but it does place most of them after the reviews were readable and before any verdict existed.</div></div>
-    </div>
-
-    <div class="fig-title" style="margin-top:38px">The Tide — the early review is a different document</div>
-    <div class="fig-deck">Reviews filed weeks early run harsher and longer than deadline-day reviews — in both years.</div>
-    <div class="arc-grid" style="grid-template-columns:1.1fr .9fr">
-      <div><div id="tide-rating"></div></div>
-      <div><div id="tide-words"></div></div>
-    </div>
-    <div class="caption cap-voices">
-    <div class="cv-fig"><b>The Tide</b></div>
-    <div class="cv cv-why"><span class="cv-lab">Why this is here</span><div class="cv-body">everything after this section reads what reviews <em>say</em>. Before that, one property of reviews as documents is worth having in hand: they are not interchangeable draws. When a review was written already goes with how harsh and how long it is, and no later plate controls for filing time — so this stands as a caveat over the whole atlas, and it is placed here, in the season, because filing time is a fact about the calendar rather than about the text.</div></div>
-    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">every official review of ICLR 2026 and 2025 was placed in a bin by how many days before that year's filing peak — the de-facto deadline — it was first posted, and each bin's mean rating, median length and mean number of units were computed.</div></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the horizontal axis runs from two weeks early, on the left, to after the deadline, on the right. Left: mean rating, shown as the deviation from the same year's deadline-day mean so the two scale regimes never share an axis; whiskers are bootstrap 95% intervals. Right: median length in words. The gradient is monotone and replicates in both years: <button class="hover-bind" data-tide="early">reviews filed two or more weeks early run about half a point (2026: −0.48; 2025: −0.34) harsher and some fifty words longer than deadline-day reviews</button>, and carry more units of logic (5.68 vs 5.40). Read without a causal story — early filing is not randomly assigned: reviewers who finish early may simply be those with the most to say, and a paper that invites a swift, thorough rejection gets one. What this establishes, robustly, is only a correlation: <em>when</em> a review was filed goes together with <em>how harsh and how long</em> it is. <a class="ruler-ref" href="method.html#ruler">&#9878; the scale itself changed four times over these years &#8212; method &#167; 10 &#183; the moving ruler</a></div></div>
-    </div>
-  </div></div>
-</section>
+<!-- The Field, The Season and The Tide now travel as overtures at the heads of Acts VIII, V and VII -->
 
 
 <div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><span class="al-rule"></span></div>
@@ -1066,7 +1013,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate I · The Anatomy</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 410,586 units from 74,380 reviews</div>
     <h2>Object → standard → verdict</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why start here</span><div class="cv-body">the question this project began with — recorded before any data existed — was: <em>what do reviewers actually look at, how do they think, and how do they decide?</em> This diagram is that question answered at its coarsest grain, and it is the closest thing the atlas has to a portrait of its subject: every act of judgment taken apart into what was <b>inspected</b>, the <b>standard</b> it passed through, and the <b>verdict</b> where it landed — all 410,586 units of ICLR 2026 at once. Every later plate is a slice of this picture. Each unit of reasoning was labelled three ways: the <b>object</b> it inspects (what part of the paper the reviewer was looking at — 12 of them), the <b>standard</b> it argues from (the rule the reviewer used to turn that observation into a judgment — 12 of them), and the <b>verdict</b> it reaches (negative, positive, mixed, conditional, or uncertain). One real unit, walked through its three labels: <em>“A novel contribution supported by thorough empirical evaluation warrants high marks, even if some clarity issues exist”</em> — its object is <b>novelty</b> (that is what was under inspection), its standard is <b>merit recognition</b> (the rule that strengths are credited to the score), and its verdict is <b>positive</b>. Every ribbon below is thousands of such triples stacked. Both label sets were induced from the reviews themselves, not chosen in advance. The couplings are the content: <b>ribbon thickness is the strength of each bond</b> — how many units tie an object to a standard, and a standard to a verdict — so a thick ribbon is a habit of the discipline and a thin one an exception. Hover a node to trace everything its units touch, upstream and down, <em>and click one to read real units from it</em>; hover any term for its definition, or see <a href="#lexicon">the full list</a>.</div></div>
     </div>
   </div>
@@ -1098,7 +1045,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate II · The Grammar</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 410,586 units · Fig. 2b&#8217;s movement: 2018–2026</div>
     <h2>The law is often borrowed</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">The question</span><div class="cv-body">Plate I showed which objects reviewers inspect and which standards they argue from. Are the two coupled? For each object: how is its criticism argued?</div></div>
     <div class="cv"><span class="cv-lab">What it bears on</span><div class="cv-body">if any standard could be applied to any part of a paper, the standard label would carry no information — which would in turn empty out the later plates that compare reviewers by the rule they invoked. That consequence is a reason to check the coupling, not the reason this plate was built; it is one of the first things we drew. Every row is one object, divided by the standards used on it. A bright diagonal is the discipline judging each thing by its own rule; the off-diagonal cells are where one subject is judged by another subject's standard. One motive for showing nine years of movement this early, in Fig.&nbsp;2b: if these couplings drifted freely year to year, the plates that pool nine years of data later would rest on sand — 2b is the stability check that licenses them.</div></div>
     </div>
@@ -1134,7 +1081,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate III · The Rhetoric</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · 1,009,592 units</div>
     <h2>Each standard has a voice</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">The question</span><div class="cv-body">the two plates before this recorded <em>what</em> a reviewer judged and <em>which rule</em> they judged by. Neither says anything about the shape of the argument — whether the reviewer asserted a norm, reported that a check could not be made, offered a competing explanation, or weighed the evidence the paper offered. Two criticisms can share an object and a standard and still be different acts. So this plate classifies the argument itself: not just <em>which</em> standard fires, but the shape the reviewer's reasoning takes. Six forms, assigned to <em>all 1,009,592 units of the nine-year corpus, 2018–2026</em> (the second of the two readings described above: whole discussions, not single reviews) by a locally-trained classifier (no API, no keywords-only shortcut). The six are defined below the figure title, each with a real unit from the corpus. Where the six come from matters: they are induced from examples, not written in advance. A first pass noticed recurring argument language in real units — <em>without X…, should…, could be an artifact…, compared to prior work…, beyond this setting…</em> — and used those surface markers to draw a stratified sample. The analyst then hand-read 600 of its units and wrote the codebook against the text (eight codes, merged to six), overruling the markers freely: within marker-flagged units the hand code agreed with the marker’s suggestion only 61% of the time, and the corpus’s largest form — on-balance weighing — has no marker at all; it emerged from the unflagged residue. A classifier scales that reading to the full corpus. One defensible carving of the space, not the only one; the caption owns the method and its error.</div></div>
     </div>
   </div>
@@ -1168,7 +1115,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 <div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT II</div><div class="al-t">One Hand</div><div class="al-s">what one reviewer sets down, alone · plates IV–VI</div><span class="al-rule"></span></div>
 
-<section>
+<section id="interlude-windows">
   <div class="plate-head">
     <div class="plate-no">Interlude · The Three Windows</div>
     <h2>One question, three windows</h2>
@@ -1207,7 +1154,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate V · The Itinerary</div>
     <div class="plate-scope">Corpus: ICLR 2026 · prologue: all 410,586 units in written order · itinerary: 192,085 units anchored to their exact line</div>
     <h2>Criticism is written in an order</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">this plate reads the review as a document written in order — in two passes. The <em>prologue</em> takes the widest possible window, the whole review first unit to last; one source of regularity there is known before looking — the ICLR review form itself is ordered, strengths before weaknesses, questions at the end — so much of what the prologue finds is the form&#8217;s script, not the reviewer&#8217;s, and its captions separate the two where the data allows. The <em>itinerary</em> then strips that scaffolding away: in the 2026 reading every unit records the line of the review it came from, so the [weaknesses] section can be isolated and read on its own — a window inside which the form dictates no order at all. Whatever regularity survives there is the community&#8217;s own habit, not the template&#8217;s. One honest limit before reading: this is the order of the written document, not necessarily the order of thinking — a review is composed, and a reviewer may reorder, template, or polish before submitting. What the plate can claim is that the <em>writing</em> has strong conventions. (Plate IV asked the same kind of question of the argument <em>forms</em> and found almost none; here the subject matter is what carries the order.) The quantities, in plain terms. Prologue: for each of the twelve objects, an <em>opening lift</em> and a <em>closing lift</em> — how often that object is a review&#8217;s first (or last) unit, divided by how often it appears anywhere, so a frequently-raised object cannot look like a favourite opening move just by being common — and the <em>verdict arc</em>: each review with three or more units cut into fifths by position, each fifth&#8217;s units sorted by verdict — negative, positive, or <em>hedged</em>, the pooled name used here for conditional, uncertain, and mixed judgments. Itinerary: the <em>bill of faults</em> — a <em>fault</em> is a unit whose cited line falls inside the review&#8217;s [weaknesses] section, and for each subject the chart shows where its faults sit within that section, plus how often the subject is written <em>first</em> against random ordering (<em>asked</em>, beside each row, is the share of the subject&#8217;s units raised in the [questions] section instead) — and the <em>traveling companions</em>: across consecutive units, which subjects follow one another, and which mostly just share a review.</div></div>
     </div>
   </div>
@@ -1299,7 +1246,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate VI · The Early Verdict</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 74,380 rated reviews</div>
     <h2>The score counts the verdicts — it barely reads the topics</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">What was done</span><div class="cv-body">every 2026 review was cut down to its first <i>k</i> units, and a logistic classifier was trained on that stub alone — the objects those units inspect and whether each came out negative or positive — to guess whether the reviewer's rating was 6 or higher. Sweeping <i>k</i> from one unit to fifteen, and scoring each fit by three-fold cross-validation, shows how much of a review you have to read before your guess stops improving. Because half of all reviews run to five units or fewer, the same sweep is run again on the 2,649 reviews that run to ten units or more, where "does the rest add anything?" is a real question rather than an artefact of reviews running out.</div></div>
     <div class="cv cv-longlab"><span class="cv-lab">What would be trivial</span><div class="cv-body">that the opening beats a coin flip is not a finding — 72% of units are negative and the score tracks negativity, and the target is the same writer's own rating, so panel ① below is the expected part, drawn for scale. The findings are the other three panels: <em>where</em> the climb stops, <em>what it is made of</em> — and <em>what one negative weighs</em>.</div></div>
     </div>
@@ -1313,7 +1260,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv-fig"><b>Fig. 6a</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the four panels share one currency: AUC, the chance the classifier ranks a randomly picked 6-or-above review over a randomly picked lower one — 0.5 is a coin flip, and height or length above the coin-flip mark <em>is</em> the signal. ① is the cumulative climb: the horizontal axis is how many units the classifier was allowed to read, the filled area its lead over chance, the dashed line what the whole review achieves. ② is the same sweep differentiated, on the long reviews only: each bar is the AUC <em>gained by reading one more unit</em> — the first unit's +0.23 is off the scale and stated in the corner; bars turn pale where the gain dies. ③ decomposes the whole review's AUC — verdicts alone, then topics added, then a third bar that abandons the unit features entirely and reads every word (TF-IDF over the full text). ④ asks what one negative unit <em>weighs</em>: a logistic fit on whole-review per-topic negative counts, each bar the pull of one negative of that topic on the score, expressed as a multiple of the average negative's pull — the dashed line is ×1, an average negative.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the findings are ③ and ④, read together. The verdicts buy +0.260 of the +0.279 climb and the topics +0.019 (in the long subset, −0.006 — nothing but noise). Yet the tally is genuinely weighted: one novelty negative counts as 2.4 average negatives — six robustness negatives — and the ordering of these weights reproduces the within-paper tariff of Plate XIV almost exactly (Spearman ρ = 0.90): two designs, one price list. (In the model's own units, a novelty negative is −1.04 log-odds toward a sub-6 rating; the method page carries the details.) Both facts hold at once because so little of the <em>between-review</em> variance rides on composition — weighting the tally beats the plain count by just +0.009 AUC. Topic-blind for <em>ranking</em>, priced for <em>each unit</em>. The words themselves reach 0.822 (TF-IDF, so a floor, not a ceiling, on what the text carries) — more than the coarse profile (+0.043) — and even so, a wide residual stays outside every reading here; Plate XXV will show how much of it is the reviewer, not the review. ② the ninth unit still pays a sliver; from the tenth, nothing — even with fifteen units on the page, the tail is redundant with the head (the few-thousandths jitter is cross-validation noise). ① is the expected part, drawn for scale: <button class="hover-bind" data-commit="first-unit">one unit reaches 0.69, two thirds of the way to the 0.78 ceiling</button>; the pooled flattening at six is partly arithmetic — a median review is over by five — which is exactly why ② is computed on the long reviews alone.</div></div>
-    <div class="cv cv-caveat cv-longlab" data-tether="commit-fig:weights:right"><span class="cv-lab">What it shows, and what it does not</span><div class="cv-body">the target is the <em>same reviewer's own</em> rating, so this is the internal consistency of a document with its own summary number, not a prediction of anything external — and it is a statement about the text, not about when the reviewer decided: later units largely restate the first, which is exactly what you would write if the conclusion came first. Provenance: ③'s words bar and all of ④ were added as follow-up analyses during review — declared exploratory, committed to publication whichever way they came out. ④'s weights are descriptive regression coefficients on correlated counts, not causal prices; their agreement with the tariff's independent design is what earns them the reading.</div></div>
+    <div class="cv cv-caveat cv-longlab" data-tether="commit-fig:weights:right"><span class="cv-lab">What it shows, and what it does not</span><div class="cv-body">the target is the <em>same reviewer's own</em> rating, so this is the internal consistency of a document with its own summary number, not a prediction of anything external — and it is a statement about the text, not about when the reviewer decided: later units largely restate the first, which is exactly what you would write if the conclusion came first. Provenance: ③'s words bar and all of ④ were added as follow-up analyses during review — declared exploratory, committed to publication whichever way they came out. ④'s weights are descriptive regression coefficients on correlated counts, not causal prices; their agreement with the tariff's independent design is what earns them the reading. <a class="ruler-ref" href="#sec-tide">&#9878; reviews are not interchangeable draws &#8212; early-filed ones run harsher and longer, uncontrolled throughout &#8212; the tide &#183; overture to act VII</a></div></div>
     </div>
   </div></div>
 </section>
@@ -1578,7 +1525,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     </div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 14a</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each solid point is the regression coefficient for "this review raised at least one negative unit on the object," with each paper's own mean rating subtracted out so only within-paper differences remain, controlling for how many negative units and how many units the review contains overall; whiskers are a 95% interval from resampling whole papers. The hollow point is the naive gap between reviews with and without the objection, papers not held fixed — the distance between the two points is the part explained by <em>which papers</em> attract the objection and by the extra criticism that travels with it. Holding the paper and the criticism volume fixed, <button class="hover-bind" data-tariff="novelty-price">a novelty objection costs −0.43 points</button> on the 2026 rating scale (which runs 2, 4, 6, 8, 10 — even numbers only) — <span class="prov"><button class="stat-door">2.4 times the next charge</button><span class="prov-pop" hidden><b>SOURCE</b> jurisprudence-data.json → tariff.novelty.coef vs. tariff.problem_framing.coef<br><b>DERIVATION</b> novelty's within-paper coefficient is −0.429; the next-largest negative-signed coefficient among objects whose 95% interval excludes zero is problem framing at −0.179 (robustness/compute-cost run positive-signed, a different kind of association, so excluded); 0.429 ÷ 0.179 = 2.40×<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span> — while <button class="hover-bind" data-tariff="next-prices">framing costs −0.18, related work and baselines about −0.15</button>. Robustness and compute-cost objections carry a <em>positive</em> sign: they are the objections of reviewers who found nothing worse to say. Read these as associations, not effects. Nobody assigned the objections at random: a reviewer who is already unconvinced is the one who raises novelty, so the number measures which objection travels with a low score, not what raising it would do.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each solid point is the regression coefficient for "this review raised at least one negative unit on the object," with each paper's own mean rating subtracted out so only within-paper differences remain, controlling for how many negative units and how many units the review contains overall; whiskers are a 95% interval from resampling whole papers. The hollow point is the naive gap between reviews with and without the objection, papers not held fixed — the distance between the two points is the part explained by <em>which papers</em> attract the objection and by the extra criticism that travels with it. Holding the paper and the criticism volume fixed, <button class="hover-bind" data-tariff="novelty-price">a novelty objection costs −0.43 points</button> on the 2026 rating scale (which runs 2, 4, 6, 8, 10 — even numbers only) — <span class="prov"><button class="stat-door">2.4 times the next charge</button><span class="prov-pop" hidden><b>SOURCE</b> jurisprudence-data.json → tariff.novelty.coef vs. tariff.problem_framing.coef<br><b>DERIVATION</b> novelty's within-paper coefficient is −0.429; the next-largest negative-signed coefficient among objects whose 95% interval excludes zero is problem framing at −0.179 (robustness/compute-cost run positive-signed, a different kind of association, so excluded); 0.429 ÷ 0.179 = 2.40×<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span> — while <button class="hover-bind" data-tariff="next-prices">framing costs −0.18, related work and baselines about −0.15</button>. Robustness and compute-cost objections carry a <em>positive</em> sign: they are the objections of reviewers who found nothing worse to say. Read these as associations, not effects. Nobody assigned the objections at random: a reviewer who is already unconvinced is the one who raises novelty, so the number measures which objection travels with a low score, not what raising it would do. <a class="ruler-ref" href="#sec-tide">&#9878; reviews are not interchangeable draws &#8212; early-filed ones run harsher and longer, uncontrolled throughout &#8212; the tide &#183; overture to act VII</a></div></div>
     </div>
     <p class="caption"><b>Fig. 14b</b> — Each object placed by the share of its negative units that arrive with a prescribed repair (horizontal) against its within-paper tariff (vertical). <span id="annot-pricerep-src">Circle area tracks how many criticisms the object drew, fill repeats Fig.&nbsp;14a's color — red = costs rating points, green = travels with higher ones, gray = interval crosses zero — and each label is inked in its circle's color, with a thin line tying the two</span> — novelty alone in white, the plate's finding. The bill collects in one corner: the one objection that rarely comes with a fix — <button class="hover-bind" data-pricerep="novelty-corner">novelty, 64% against 82–92% for everything else</button> — is also by far the costliest. Cheap objections are prescriptions; the expensive one is a sentence. The unlabeled points crowding the near-zero center — <button class="hover-bind" data-pricerep="center-cluster">theory, clarity, statistics, method design, empirical scope</button> — are the objections that neither cost nor spare; hover any point for its numbers.</p>
     <div class="fig-title" style="margin-top:38px">Fig. 14c — Same bench, different law</div>
@@ -1631,7 +1578,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate XV · The Consequence</div>
     <div class="plate-scope">Corpus: ICLR 2026 · decisions joined at display time</div>
     <h2>Which criticism travels with rejection</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">the decisions were deliberately kept out of the reading pipeline, so the units and the outcomes are independent records. Joining them is the first look at <em>decisions</em> — accept or reject, rather than the scores the tariff plates used — and at whether the criticism has anything to do with them.</div></div>
     <div class="cv"><span class="cv-lab">What was done</span><div class="cv-body">of the 19,474 reviewed ICLR 2026 papers, the 13,704 that carry a decision and were not withdrawn are split twelve times over — once per object of scrutiny — into those that drew at least one negative unit on that object and those that drew none, and the acceptance rate of each side is compared. Nothing is held fixed, so this is a comparison between different papers, not within one. The closing figure counts the same join sideways — not <em>which</em> object drew criticism but on <em>how many</em>.</div></div>
     </div>
@@ -1647,7 +1594,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv cv-read"><span class="cv-lab">Where to look</span><div class="cv-body">the top row and the bottom two: <button class="hover-bind" data-trib="widest-none">novelty carries the widest gap, while compute cost and robustness — gray, their intervals crossing zero — carry none at all</button>.</div></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">one row per object; the filled dot is the acceptance rate of the papers that drew at least one negative unit on that object, the hollow dot the acceptance rate of those that drew none, and the bar between them is the gap; the thin bar under each filled dot is its 95% interval.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">novelty shows the largest gap, −10.6 points (95% CI −12.1 to −9.0, resampling whole papers), with <button class="hover-bind" data-trib="runners-up">statistical rigour (−9.5) and baseline complaints (−9.3) behind it</button>; compute cost (CI −1.7 to +1.4) and robustness (−0.9 to +2.4) show no gap at all — papers criticised on those grounds are accepted at the same rate as papers that are not.</div></div>
-    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">association only, and the direction is not established: reviewers raise novelty on papers they are already unconvinced by, so this measures which criticism keeps company with rejection, not which criticism causes it. One thing it is not, though: an artefact of the pipeline. The decisions were never shown to the models that read the reviews, and are joined to the units only here.</div></div>
+    <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">association only, and the direction is not established: reviewers raise novelty on papers they are already unconvinced by, so this measures which criticism keeps company with rejection, not which criticism causes it. One thing it is not, though: an artefact of the pipeline. The decisions were never shown to the models that read the reviews, and are joined to the units only here. <a class="ruler-ref" href="#sec-tide">&#9878; reviews are not interchangeable draws &#8212; early-filed ones run harsher and longer, uncontrolled throughout &#8212; the tide &#183; overture to act VII</a></div></div>
     </div>
     <div class="ruler-ref" style="margin-top:26px">THE SAME JOIN, COUNTED SIDEWAYS — BREADTH OF CRITICISM VS ACCEPTANCE — IS EXPECTED BY CONSTRUCTION, SO ITS FIGURE HANGS IN <a href="#gauntlet-fig" style="color:var(--brass)">THE NULL CABINET ↓</a></div>
   
@@ -1659,12 +1606,36 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 <div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT V</div><div class="al-t">The Encounter</div><div class="al-s">when people meet, does judgment move · plates XVI–XXI</div><span class="al-rule"></span></div>
 
+<section id="sec-season">
+  <div class="plate-head">
+    <div class="plate-no">Overture · The Season</div>
+    <div class="plate-scope">Corpus: ICLR 2026 · every public event, timestamped to the day · Sep 2025 – Mar 2026</div>
+    <h2>One review season, replayed</h2>
+    <p class="lede">Before asking whether judgment moves when people meet, watch the calendar the meetings happen on. Every public act of the ICLR 2026 cycle, on its real calendar day: 19,814 submissions crest at the deadline, 75,859 reviews land in a two-day burst, 180,146 discussion comments answer them, 5,216 papers withdraw — most in the week after the reviews arrive — and on a single day in January, 14,175 decisions fall at once. This overture replays a single season; the plates that follow read nine years of such seasons.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-deck">The withdrawal ribbon rises within days of the reviews becoming readable — and long before any decision exists.</div>
+    <div id="season-ctl" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:8px">
+      <button id="se-play">▶&#8202; replay the season</button>
+      <input id="se-scrub" type="range" min="0" max="1000" value="1000" aria-label="scrub through the season">
+      <span id="se-date">Mar 08</span>
+    </div>
+    <div id="season"></div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 0">BAND HEIGHT = REVIEWS SUBMITTED THAT DAY, &#8730;-SCALED TO EACH BAND&#8217;S OWN PEAK</div>
+    <div id="season-count" class="se-counters"></div>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>The Season</b></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each ribbon is one kind of public event, day by day (square-root vertical scale, so the deadline spike does not flatten everything else); press replay and the season unfolds — the playhead carries the date, sparks mark days with over a thousand events, and the counters accumulate the running totals. The shape worth noticing: <button class="hover-bind" data-season="withdrawals">the withdrawal ribbon rises within days of the review burst and long before any decision is announced</button>. What that timing shows is when withdrawals happen, not why — but it does place most of them after the reviews were readable and before any verdict existed.</div></div>
+    </div>
+  </div></div>
+</section>
+
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XVI · The Shapes of Talk</div>
     <div class="plate-scope">Corpus: 199,031 review threads, 2018–2026 · pure reply structure, no machine reading anywhere</div>
     <h2>Every conversation has a skeleton</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">every other plate depends on a language model having read the text. This one deliberately does not: a reply tree can be counted from timestamps and authorship alone, so whatever it shows is immune to any error in the reading. Beneath every review grows such a tree, and it can be read without reading a word: did the authors answer, did the reviewer ever speak again, did the exchange become a real volley? Classified by turns actually taken, the nine years tell a sharp story — the conversation climbed, unevenly but unmistakably, from 9% reviewer return in 2018 to its <span class="prov"><button class="stat-door">43.8% peak in 2025</button><span class="prov-pop" hidden><b>SOURCE</b> threads-data.json → returns["2025"]<br><b>DERIVATION</b> returned (20,453) ÷ n (46,748) = 43.8% of 2025 review threads where the reviewer wrote again<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>, then collapsed in 2026 — the year submissions grew 70% and the number of reviews grew 62%.</div></div>
     </div>
   </div>
@@ -1691,7 +1662,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<section>
+<section id="interlude-denominators">
   <div class="plate-head">
     <div class="plate-no">Interlude · One Event, Three Denominators</div>
     <h2>One event, counted three ways</h2>
@@ -1993,12 +1964,33 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 <div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VII</div><div class="al-t">The Measure</div><div class="al-s">can a rating be trusted as a measurement · plates XXIV–XXV</div><span class="al-rule"></span></div>
 
+<section id="sec-tide">
+  <div class="plate-head">
+    <div class="plate-no">Overture · The Tide</div>
+    <div class="plate-scope">Corpus: ICLR 2026 &amp; 2025 · every official review, binned by days before the filing peak</div>
+    <h2>The early review is a different document</h2>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-deck">Reviews filed weeks early run harsher and longer than deadline-day reviews — in both years.</div>
+    <div class="arc-grid" style="grid-template-columns:1.1fr .9fr">
+      <div><div id="tide-rating"></div></div>
+      <div><div id="tide-words"></div></div>
+    </div>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>The Tide</b></div>
+    <div class="cv cv-why"><span class="cv-lab">Why this is here</span><div class="cv-body">this act asks whether a rating can be trusted as a measurement, and before its plates listen to what a score sounds like, one property of reviews as documents is worth having in hand: they are not interchangeable draws. When a review was written already goes with how harsh and how long it is, and no plate in this atlas controls for filing time — so this stands as a caveat over the whole atlas, backward as well as forward. It is filed in this act because filing time is a fact about the calendar rather than about the text — a confounder of the measurement, not part of what reviews <em>say</em>. The plates where a score first entered the story (VI, XIV, XV) each carry a pointer back to this one, and the reader&#8217;s note names it before Act I.</div></div>
+    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">every official review of ICLR 2026 and 2025 was placed in a bin by how many days before that year's filing peak — the de-facto deadline — it was first posted, and each bin's mean rating, median length and mean number of units were computed.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the horizontal axis runs from two weeks early, on the left, to after the deadline, on the right. Left: mean rating, shown as the deviation from the same year's deadline-day mean so the two scale regimes never share an axis; whiskers are bootstrap 95% intervals. Right: median length in words. The gradient is monotone and replicates in both years: <button class="hover-bind" data-tide="early">reviews filed two or more weeks early run about half a point (2026: −0.48; 2025: −0.34) harsher and some fifty words longer than deadline-day reviews</button>, and carry more units of logic (5.68 vs 5.40). Read without a causal story — early filing is not randomly assigned: reviewers who finish early may simply be those with the most to say, and a paper that invites a swift, thorough rejection gets one. What this establishes, robustly, is only a correlation: <em>when</em> a review was filed goes together with <em>how harsh and how long</em> it is. <a class="ruler-ref" href="method.html#ruler">&#9878; the scale itself changed four times over these years &#8212; method &#167; 10 &#183; the moving ruler</a></div></div>
+    </div>
+  </div></div>
+</section>
+
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XXIV · The Ladder</div>
     <div class="plate-scope">Corpus: ICLR 2026 · official ratings joined at display time</div>
     <h2>What each score sounds like</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">a question the researcher set down before any number existed: why is a low score low, and why is a high score high? Ratings and units were extracted independently, so joining them can answer it. Some of what follows is near-tautological (a low score has more negative units); the caption marks which findings are not.</div></div>
     <div class="cv"><span class="cv-lab">What was done</span><div class="cv-body">join every 2026 review's official rating — never shown to the extraction pipeline — to its logic units: what a 2 argues about, what an 8 still checks, and where on the ladder the reviewer's own confidence lives.</div></div>
     </div>
@@ -2112,12 +2104,30 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 <div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXVIII</div><span class="al-rule"></span></div>
 
+<section id="field">
+  <div class="plate-head">
+    <div class="plate-no">Overture · The Field</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · OpenReview public record · 52,460 papers</div>
+    <h2>ICLR itself, 2018 → 2026</h2>
+    <p class="lede">Before asking what belongs to an era or a territory, start with the venue itself, apart from any of the review analysis. These are plain counts from ICLR's public record on OpenReview: how many papers were submitted, how many were accepted, how long the reviews ran. <button class="hover-bind" data-field="growth">Submissions have grown twenty-one-fold in nine years</button>, and that growth is the backdrop for everything in this atlas.</p>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-deck">Review length fell for three straight years from its 2022 peak, then held flat; reviews per paper stepped from three to about four in 2021 and stayed.</div>
+    <div id="field-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px"></div>
+    <details class="table-view" style="margin-top:20px"><summary>Full census table</summary><div class="tv-wrap" id="field-table"></div></details>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>Census</b></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">one small chart per quantity — submissions, acceptance rate, reviews per paper, median review length — each plotted against the year, with the full table underneath. Counted directly from the OpenReview record; no machine reading is involved in this plate. Acceptance among decided, non-withdrawn papers; 2019 decisions are not recoverable from the public record and are shown as —. Withdrawn counts are only meaningful from 2025 (earlier years delisted withdrawals). The quiet story: <button class="hover-bind" data-field="words-arc">review length peaked in 2022 at a median 532 words, fell for three straight years to 410 in 2025, and then held flat (412 in 2026)</button> — while the number of reviews a paper receives stepped up from three to about four in 2021 and has stayed there.</div></div>
+    </div>
+  </div></div>
+</section>
+
 <section>
   <div class="plate-head">
     <div class="plate-no">Plate XXVI · The Drift</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · 1,009,592 units</div>
     <h2>Nine years of shifting scrutiny</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">the nine-year corpus was built for this question. Everything else on this page describes reviewing as it is; only a time series can say whether "as it is" is recent.</div></div>
     <div class="cv"><span class="cv-lab">What was done</span><div class="cv-body">the same taxonomy, applied to <em>1,009,592 units from every ICLR review 2018–2026</em>. Share of reviewer attention per year; the four biggest movers are named, the rest recede.</div></div>
     </div>
@@ -2210,7 +2220,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate XXVIII · The Oracle</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 19,474 reviewed papers with a primary area · association, not destiny</div>
     <h2>Choose a field. Face its tribunal.</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">a comparison, not a claim: every paper carries a primary area, so the criticism profiles can be split by field without any further modelling. Nothing here was predicted, and field differences mix what a field submits with how it is judged.</div></div>
     <div class="cv"><span class="cv-lab">How to use it</span><div class="cv-body">pick the primary area a paper would be submitted under, and the panel below recomputes from the real record: how often papers in that field drew at least one negative unit on each object of scrutiny, against the venue-wide baseline. The differences are the field's signature — what its reviewers reach for first.</div></div>
     </div>
@@ -2245,7 +2255,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate XXIX · The Specimens</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 232 sampled reviews</div>
     <h2>Raw reasoning, unretouched</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv cv-longlab"><span class="cv-lab">How these were chosen</span><div class="cv-body">not at random. For each of the twelve objects of scrutiny, up to twenty reviews were taken that contain at least one unit confidently assigned to that object (label similarity 0.75 or better), deduplicated across objects — 232 reviews in all. The sample therefore covers the taxonomy evenly rather than reflecting how often each object occurs, and it is here to be checked against the originals, not to be counted. Each review is shown as its structured logic flow. Filter by object, standard, or verdict; non-matching units dim. Every title links to the paper's OpenReview page, and each review ID opens the exact review — so you can hold the atlas's reading against the original.</div></div>
     </div>
   </div>
@@ -2297,7 +2307,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   <div class="plate-head">
     <div class="plate-no">Appendix III · The Null Cabinet</div>
     <h2>The results that did not survive — kept on purpose</h2>
-    <div class="lede lede-voices"None>
+    <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">not every analysis in a project this size finds something, and a few found things that a harder look deflated — to near-definitional truths, to artifacts of the review form, or to leans too weak to carry a plate. Deleting them would quietly bias the atlas toward its successes; parading them in the main flow would spend the reader&#8217;s trust on weak material. So they live here, each with the claim it once made, the test that deflated it, and where the survivors of that analysis now stand. A null told well is a finding; these are the ones that could not be told well — published anyway.</div></div>
     </div>
   </div>
@@ -3888,7 +3898,7 @@ const TRIBCI = __ISL("TRIBCI");
   });
 })();
 
-// ---------------- the field (prolegomenon) ----------------
+// ---------------- the field (overture to act viii) ----------------
 (function field() {
   const years = FIELD.years, S = FIELD.stats;
   const NS = "http://www.w3.org/2000/svg";
@@ -6472,7 +6482,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 })();
 
 
-// ---------------- the season (Prolegomenon II) ----------------
+// ---------------- the season (overture to act v) ----------------
 (function season() {
   const host = document.getElementById("season");
   if (!host) return;
@@ -9772,7 +9782,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   });
 })();
 
-// ---------------- the tide (Prolegomenon II) ----------------
+// ---------------- the tide (overture to act vii) ----------------
 (function tide() {
   const rHost = document.getElementById("tide-rating");
   if (!rHost || typeof TIDE === "undefined") return;
@@ -11941,7 +11951,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   if (!secs.length) return;
   // group sections by the act-leaf that precedes them in document order
   const groups = [];
-  let cur = { leaf: null, no: "PROLEGOMENA", title: "The Field & the Door", sub: "instrument checks before Act I", items: [] };
+  let cur = { leaf: null, no: "FRONT MATTER", title: "Before the acts", sub: "what was counted, and how", items: [] };
   groups.push(cur);
   let appGroup = null;
   for (const sec of secs) {
@@ -11964,7 +11974,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     }
     const parts = pn.split("\u00b7").map(x => x.trim());
     const h2 = sec.querySelector("h2");
-    cur.items.push({ el: sec, no: (parts[0] || "").replace(/^Plate\s+/, "").replace(/^Prolegomenon\s*/, "Pro.").replace(/^Appendix\s+/, "App."),
+    cur.items.push({ el: sec, no: (parts[0] || "").replace(/^Plate\s+/, "").replace(/^Appendix\s+/, "App."),
       label: parts[1] || parts[0], sub2: h2 ? h2.textContent : "" });
   }
   const ov = document.createElement("div");
