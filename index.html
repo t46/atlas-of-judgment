@@ -209,28 +209,72 @@ html.overture.ov-open .tp-hero { transform: scale(1); transition: transform 1.5s
 .tp-sky { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .tp-sky-inner { position: relative; width: min(96svh, 96vw); flex: none; }
 @media (max-width: 700px) { .tp-sky-inner { width: min(96svh, 128vw); } }
-/* ---- the deep field: WebGL nebula hero; the flat chart stays beneath as the print/fallback plate ---- */
+/* ---- the atlas vertebra: the WebGL hero; the flat chart stays beneath as the print/fallback plate ---- */
 #neb { position: absolute; inset: 0; width: 100%; height: 100%; display: none; cursor: crosshair; }
 html.neb3d #neb { display: block; }
 html.neb3d .tp-sky { visibility: hidden; }
+/* the hero turns to vellum while the bone is on the page; everything below stays as it was */
+html.neb3d .tp-hero { --v-ground: #ece5d3; --v-ink: #33291f; --v-ink-2: #5c4f3d; --v-faded: #8b7c64; --v-brass: #8a6d3a; --v-wax: #8a2f23;
+                      background: var(--v-ground); color: var(--v-ink); }
+html.neb3d .tp-hero .tp-eyebrow { color: var(--v-brass); text-shadow: none; }
+html.neb3d .tp-hero .tp-title-hero { color: #241c12; text-shadow: none; }
+html.neb3d .tp-hero .tp-tag { color: var(--v-ink-2); text-shadow: none; }
+html.neb3d .tp-hero .tp-hero-links a { color: var(--v-ink-2) !important; }
+html.neb3d .tp-hero .tp-hero-links span { color: var(--v-faded) !important; }
+html.neb3d .tp-hero .tp-skycap, html.neb3d .tp-hero .tp-descend { color: var(--v-faded); }
+html.neb3d .tp-hero .tp-descend i { background: linear-gradient(var(--v-brass), transparent); }
+html.neb3d .tp-hero .tp-tour { color: var(--v-ink-2); border-color: rgba(51,41,31,.32); background: rgba(236,229,211,.5); }
+html.neb3d .tp-hero-frame { border-color: rgba(51,41,31,.28); }
+html.neb3d .tp-hero-frame::before, html.neb3d .tp-hero-frame::after { border-color: rgba(51,41,31,.6); }
+html.neb3d .tp-hero .tp-skycap b { color: #8a6d3a; font-weight: 400; }
+html.neb3d .tp-hero .tp-iris, html.neb3d .tp-hero .tp-door { filter: invert(1) brightness(.42); }
 #neb-ui { position: absolute; inset: 0; pointer-events: none; overflow: hidden; display: none; }
 html.neb3d #neb-ui { display: block; }
-#neb-ui::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 130% 100% at 62% 40%, transparent 52%, rgba(10,9,18,.45) 100%); }
-.nl { position: absolute; font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--brass-dim); white-space: nowrap; transform: translate(-50%, -50%); opacity: 0; transition: opacity .4s ease; }
-.nl::before { content: "+"; color: var(--brass-line); margin-right: 7px; font-size: 10px; }
-#neb-pick { position: absolute; width: 26px; height: 26px; border: 1px solid var(--brass); border-radius: 50%; transform: translate(-50%,-50%); opacity: 0; transition: opacity .25s ease;
-            box-shadow: 0 0 18px rgba(201,164,92,.35), inset 0 0 8px rgba(201,164,92,.25); }
+.nl { position: absolute; font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+      color: #5c4f3d; white-space: nowrap; transform: translate(-50%,-50%); opacity: 0; transition: opacity .5s ease; }
+.nl::before { content: "\2014\2014 "; color: #8b7c64; }
+/* the docket: the line the joint is weighing now */
+#neb-docket { position: absolute; right: clamp(20px,4vw,60px); bottom: clamp(70px,13svh,140px); width: min(330px, 70vw); display: none;
+              font-family: var(--mono); font-size: 10.5px; line-height: 1.65; letter-spacing: .02em; color: #5c4f3d;
+              border-top: 1px solid rgba(51,41,31,.35); padding-top: 9px; text-align: left; transition: opacity .7s ease; }
+html.neb3d #neb-docket { display: block; }
+#neb-docket .dv { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: #8a6d3a; display: block; margin-bottom: 4px; }
+#neb-docket .dq { color: #33291f; display: block; min-height: 3.2em; }
+#neb-docket .dw { display: block; margin-top: 4px; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; }
+#neb-docket .dw.no { color: #8a2f23; }
+#neb-docket .dw.yes { color: #4a6a41; }
+/* the plate's own furniture, while the bone is still a printed page */
+#neb-plate { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .7s ease; display: none; }
+html.neb3d #neb-plate { display: block; }
+#neb-plate.on { opacity: 1; }
+#neb-plate.on ~ #neb-docket, #neb-plate.on ~ .tp-skycap { opacity: 0; }
+#neb-plate .pm-no { position: absolute; top: clamp(40px,7svh,74px); left: 50%; transform: translateX(-50%);
+      font-family: var(--display); font-size: 15px; letter-spacing: .34em; text-transform: uppercase; color: #5c4f3d; }
+#neb-plate .pm-cap { position: absolute; bottom: clamp(30px,5svh,54px); left: 50%; transform: translateX(-50%);
+      font-family: var(--display); font-style: italic; font-size: 17px; color: #5c4f3d; text-align: center; line-height: 1.5; }
+#neb-plate .pm-cap small { display: block; font-family: var(--mono); font-style: normal; font-size: 8.5px;
+      letter-spacing: .26em; text-transform: uppercase; color: #8b7c64; margin-top: 8px; }
+#neb-plate .pm-rule { position: absolute; left: 12%; right: 12%; top: clamp(66px,10svh,104px); height: 1px; background: rgba(51,41,31,.3); }
+/* the loupe: the shadow's writing at reading size */
+#neb-loupe { position: absolute; width: 190px; height: 190px; border-radius: 50%; pointer-events: none; opacity: 0; display: none;
+      transition: opacity .3s ease; transform: translate(-50%,-50%); overflow: hidden;
+      border: 1px solid rgba(51,41,31,.55); box-shadow: 0 10px 34px rgba(51,41,31,.28), inset 0 0 26px rgba(51,41,31,.10); }
+html.neb3d #neb-loupe { display: block; }
+#neb-loupe canvas { position: absolute; inset: 0; }
+#neb-loupe::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
+      background: radial-gradient(circle at 34% 28%, rgba(255,252,242,.34), transparent 46%); }
 #neb-card { position: absolute; max-width: 340px; opacity: 0; transition: opacity .25s ease; pointer-events: none; z-index: 3;
             font-family: var(--mono); font-size: 10.5px; line-height: 1.6; letter-spacing: .02em;
-            background: rgba(14,12,24,.88); border: 1px solid var(--brass-faint); border-left: 2px solid var(--brass);
-            padding: 10px 13px; color: var(--ink-2); backdrop-filter: blur(4px); }
+            background: rgba(250,246,235,.94); border: 1px solid rgba(51,41,31,.3); border-left: 2px solid #8a6d3a;
+            padding: 10px 13px; color: #5c4f3d; box-shadow: 0 6px 24px rgba(51,41,31,.18); }
 #neb-card.pin { pointer-events: auto; }
-#neb-card .nc-v { color: var(--brass); letter-spacing: .18em; text-transform: uppercase; font-size: 9px; display: block; margin-bottom: 5px; }
-#neb-card .nc-q { color: var(--ink); display: block; }
-#neb-card .nc-r { display: block; margin-top: 6px; color: var(--muted); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+#neb-card .nc-v { color: #8a6d3a; letter-spacing: .18em; text-transform: uppercase; font-size: 9px; display: block; margin-bottom: 5px; }
+#neb-card .nc-q { color: #33291f; display: block; }
 #neb-card .nc-tags { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px; }
-#neb-card .sc-x { position: absolute; top: 4px; right: 7px; background: none; border: 0; color: var(--muted); font-size: 14px; cursor: pointer; }
-@media print { #neb, #neb-ui, #neb-card { display: none !important; } html.neb3d .tp-sky { visibility: visible; } }
+#neb-card .sc-x { position: absolute; top: 4px; right: 7px; background: none; border: 0; color: #8b7c64; font-size: 14px; cursor: pointer; }
+@media (max-width: 700px) { #neb-docket { display: none !important; } }
+@media print { #neb, #neb-ui, #neb-card, #neb-plate, #neb-loupe, #neb-docket { display: none !important; }
+               html.neb3d .tp-sky { visibility: visible; } html.neb3d .tp-hero { background: none; } }
 .tp-hero-frame { position: absolute; inset: 14px; border: 1px solid var(--brass-faint); pointer-events: none; }
 .tp-hero-frame::before, .tp-hero-frame::after { content: ""; position: absolute; width: 13px; height: 13px; border-color: var(--brass); border-style: solid; }
 .tp-hero-frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
@@ -1015,17 +1059,24 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
       <canvas id="planisphere" aria-label="circular star chart of all logic units; click a star to read its unit" style="width:100%;aspect-ratio:1"></canvas>
       <div id="star-card" hidden></div>
     </div></div>
-    <canvas id="neb" aria-label="deep-field chart of all logic units; click a star to read its unit"></canvas>
-    <div id="neb-ui" aria-hidden="true"><div id="neb-pick"></div></div>
+    <canvas id="neb" aria-label="the atlas vertebra, engraved with 40,000 real units of reviewer reasoning; touch the bone to read them"></canvas>
+    <div id="neb-ui" aria-hidden="true"></div>
+    <div id="neb-plate" aria-hidden="true">
+      <div class="pm-rule"></div>
+      <div class="pm-no">Plate I &nbsp;·&nbsp; Atlas &nbsp;·&nbsp; C1</div>
+      <div class="pm-cap">Vertebra prima, quae Atlas dicitur<small>ex corpore recensionum · MMXXVI · 40,000 unitates</small></div>
+    </div>
+    <div id="neb-loupe" aria-hidden="true"><canvas id="neb-loupe-cv" width="380" height="380"></canvas></div>
+    <div id="neb-docket" aria-hidden="true"><span class="dv">now weighing</span><span class="dq" id="neb-dq">…</span><span class="dw" id="neb-dw"></span></div>
     <div id="neb-card" hidden></div>
     <div class="tp-hero-frame" aria-hidden="true"></div>
     <div class="tp-overlay">
       <div class="tp-eyebrow">Atlas of Judgment</div>
       <h1 class="tp-title-hero"><span class="w"><span style="animation-delay:.55s">How</span></span> <span class="w"><span style="animation-delay:.67s">a</span></span> <span class="w"><span style="animation-delay:.79s">Paper</span></span><br><span class="w"><span style="animation-delay:.97s">is</span></span> <span class="w"><span style="animation-delay:1.12s"><em>Judged</em></span></span></h1>
-      <p class="tp-tag">Every star behind these words is one real unit of reviewer reasoning. This atlas counts all 1,420,178 of them — what reviewers inspect, the rules they argue from, and how the judgment lands.</p>
+      <p class="tp-tag">In 1522, anatomists moved the name <em>atlas</em> from the shoulders to the first vertebra — the joint that lets a head nod yes, or turn away. This one is engraved with 40,000 real units of reviewer reasoning, and it moves as they conclude: mostly, it turns away.</p>
       <div class="tp-hero-links"><a href="about.html" style="color:var(--ink-2);text-decoration:none">About ↗</a><span style="color:var(--muted)"> · </span><a href="method.html" style="color:var(--ink-2);text-decoration:none">Method ↗</a><span style="color:var(--muted)"> · </span><a href="https://github.com/t46/atlas-of-judgment" style="color:var(--ink-2);text-decoration:none">GitHub ↗</a><span style="color:var(--muted)"> · </span><a href="https://huggingface.co/datasets/t46/atlas-of-judgment" style="color:var(--ink-2);text-decoration:none">Data ↗</a></div>
     </div>
-    <div class="tp-skycap">each star: one of 40,000 real units of reviewer logic · brass: praise · the comet walks the typical review’s path · click any star to read it</div>
+    <div class="tp-skycap">the atlas vertebra · c1 — nod: assent, turn: refusal · engraved with 40,000 real units of reviewer reasoning · touch the bone to read them · <span style="letter-spacing:.3em">light of <b id="neb-era">2018</b></span></div>
     <button class="tp-tour" id="tour-start"><span class="tp-iris" aria-hidden="true"></span>guided tour · ten stops</button>
     <button class="tp-tour tp-tour2" id="door-start"><span class="tp-door" aria-hidden="true"></span>i came holding a sentence</button>
     <div class="tp-descend"><span>Descend</span><i></i></div>
@@ -3102,388 +3153,526 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   if (REDUCED) draw(0); else gateRAF(cv, now => { if (window.__neb3dActive) return; plnFrame++; if (!PLN_MOBILE || plnFrame % 2 === 0) draw(now); });
 })();
 
-// ---------------- the deep field: the corpus as a 3D nebula (WebGL2; the planisphere stays as the print/fallback plate) ----------------
-(function deepField() {
-  if (REDUCED) return;
-  const cv = document.getElementById("neb");
-  let gl = null;
-  try { gl = cv.getContext("webgl2", { antialias: false, alpha: true, powerPreference: "high-performance" }); } catch (e) {}
+// ---------------- the atlas vertebra: the joint of judgment (WebGL2; the planisphere stays as the print/fallback plate) ----------------
+(function atlasVertebra() {
+    const cv = document.getElementById("neb");
+  const gl = cv.getContext("webgl2", { antialias: true, alpha: false });
   if (!gl) return;
   document.documentElement.classList.add("neb3d");
   window.__neb3dActive = 1;
   if (window.__plnStill) window.__plnStill();
-
-  const S = 2.3 / 4095;
+  const data = { pts: GALAXY.points.map(p => [p[0], p[1], p[4], p[2], p[5], p[3]]), regions: GALAXY.regions, obj_keys: GALAXY.obj_keys };
+  const pts = data.pts, N = pts.length, RG = data.regions;
   const hash = (i, k) => { let h = (i * 2654435761 + k * 40503) >>> 0; h ^= h >> 13; h = (h * 2246822519) >>> 0; h ^= h >> 16; return (h % 100000) / 100000; };
 
-  // ---------- programs ----------
+  // ---------- the engraving: 40k units wrapped around the ring (theta <- semantic x, band <- semantic y) ----------
+  const ETW = 2048, ETH = 512;
+  const et = document.createElement("canvas");
+  et.width = ETW; et.height = ETH;
+  const ec = et.getContext("2d");
+  ec.fillStyle = "#ffffff"; ec.fillRect(0, 0, ETW, ETH);
+  for (let i = 0; i < N; i++) {
+    const p = pts[i];
+    const x = p[0] / 4096 * ETW;
+    const y = p[1] / 4096 * ETH;
+    const v = p[2], kind = p[3];
+    const a = (kind / 12) * Math.PI - 1.35;
+    const L = 3.2 + hash(i, 3) * 3.4;
+    const al = v === 4 ? 0.85 : v === 0 ? 0.5 : 0.42;
+    ec.strokeStyle = v === 4 ? `rgba(122,86,32,${al})` : `rgba(52,40,28,${al * (0.5 + hash(i,1)*0.5)})`;
+    ec.lineWidth = 0.9 + hash(i, 2) * 0.9;
+    ec.lineCap = "round";
+    const dx = Math.cos(a) * L / 2, dy = Math.sin(a) * L / 2;
+    ec.beginPath(); ec.moveTo(x - dx, y - dy); ec.lineTo(x + dx, y + dy); ec.stroke();
+  }
+
+  // ---------- the shadow's ink: real sentences, developed only where the bone's shadow falls ----------
+  const IKW = 1024, IKH = 1024;
+  const ik = document.createElement("canvas");
+  ik.width = IKW; ik.height = IKH;
+  const ic = ik.getContext("2d");
+  ic.fillStyle = "#ffffff"; ic.fillRect(0, 0, IKW, IKH);
+  ic.fillStyle = "rgba(46,36,26,0.85)";
+  ic.font = "10px 'IBM Plex Mono', monospace";
+  {
+    let row = 0;
+    for (let y = 8; y < IKH; y += 14) {
+      let x = -((row * 137) % 90);
+      while (x < IKW) {
+        const u = (row * 977 + ((x + 1000) | 0)) % N;
+        const line = pts[u][4];
+        ic.fillText(line, x, y);
+        x += ic.measureText(line).width + 26;
+      }
+      row++;
+    }
+  }
+
+  // ---------- shaders ----------
   const mk = (t, src) => { const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s);
     if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(s); return s; };
-  const mkProg = (vs, fs) => { const p = gl.createProgram(); gl.attachShader(p, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p);
-    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw gl.getProgramInfoLog(p); return p; };
-  const prog = mkProg(`#version 300 es
+  const prog = gl.createProgram();
+  gl.attachShader(prog, mk(gl.VERTEX_SHADER, `#version 300 es
+  in vec2 aP; out vec2 vP;
+  void main(){ vP = aP; gl_Position = vec4(aP,0.,1.); }`));
+  gl.attachShader(prog, mk(gl.FRAGMENT_SHADER, `#version 300 es
   precision highp float;
-  in vec3 aPos; in float aSeed; in float aVal; in float aScale; in vec2 aDen;
-  uniform mat4 uMVP; uniform float uT, uAsm, uSizeMul, uPix; uniform vec2 uShift;
-  out float vVal; out float vSeed; out float vHeat; out float vFade; out float vBig; out vec2 vDen;
+  in vec2 vP; out vec4 frag;
+  uniform vec2 uRes; uniform float uT;
+  uniform float uNod, uTurn, uLift, uFlat, uEra, uInkFocus, uSink;
+  uniform vec3 uCamPos, uCamTgt;
+  uniform sampler2D uEtch; uniform sampler2D uInk;
   const float PI = 3.14159265;
-  void main() {
-    vVal = aVal; vSeed = aSeed; vBig = step(2.2, aScale); vDen = aDen;
-    float theta = atan(aPos.y, aPos.x) + PI;
-    float delay = theta / (2.0*PI) * 0.50 + aSeed * 0.32;
-    float p = clamp((uAsm - delay) / max(1.0 - delay, .001) * 2.4, 0.0, 1.0);
-    float e = 1.0 - pow(1.0 - p, 3.0);
-    float land = smoothstep(0.55, 1.0, e);
-    vHeat = land * (1.0 - land) * 4.4 * (0.4 + aSeed * 0.6);
-    float r0 = 2.0 + aSeed * 4.0;
-    vec3 chaos = vec3(normalize(aPos.xy + vec2(1e-4)) * r0, (aSeed - 0.5) * 6.5 - 1.5);
-    vec3 posn = mix(chaos, aPos, e);
-    posn += e * 0.012 * vec3(sin(uT*.62 + aSeed*21.0), cos(uT*.53 + aSeed*37.0), sin(uT*.47 + aSeed*55.0));
-    gl_Position = uMVP * vec4(posn, 1.0);
-    gl_Position.xy += uShift * gl_Position.w;
-    float w = max(gl_Position.w, .0001);
-    float sz = uSizeMul * aScale * uPix * 3.6 / w;
-    if (vBig > 0.5) sz *= 2.6;
-    gl_PointSize = clamp(sz, 0.75, 110.0);
-    float tw = 0.80 + 0.20 * sin(uT * (0.7 + aSeed * 1.9) + aSeed * 43.0);
-    vFade = e * mix(1.0, tw, e);
-  }`, `#version 300 es
-  precision highp float;
-  in float vVal; in float vSeed; in float vHeat; in float vFade; in float vBig; in vec2 vDen;
-  uniform float uAlphaMul; uniform int uMode;
-  out vec4 frag;
-  void main() {
-    vec2 uv = gl_PointCoord - 0.5;
-    float d = length(uv);
-    float a;
-    if (uMode == 2 && vBig > 0.5) {
-      float core = smoothstep(0.32, 0.04, d);
-      float fx = smoothstep(0.5, 0.0, abs(uv.x)) * smoothstep(0.10, 0.0, abs(uv.y));
-      float fy = smoothstep(0.5, 0.0, abs(uv.y)) * smoothstep(0.10, 0.0, abs(uv.x));
-      a = max(core, max(fx, fy));
-    } else {
-      if (d > 0.5) discard;
-      a = smoothstep(0.5, 0.12, d);
-    }
-    a *= vFade * uAlphaMul;
-    vec3 moon  = vec3(0.815, 0.839, 0.933);
-    vec3 brass = vec3(0.867, 0.678, 0.384);
-    vec3 warm  = vec3(0.898, 0.855, 0.760);
-    vec3 c = vVal > 3.5 ? brass : (vVal > 2.5 ? warm : mix(moon, warm, vSeed * 0.4));
-    c *= 0.86 + vSeed * 0.28;
-    if (uMode == 0) {
-      vec3 g = mix(vec3(0.318, 0.302, 0.612), vec3(0.494, 0.376, 0.671), vDen.x);
-      c = mix(g, brass * 1.05, vDen.y * vDen.y * 0.85);
-      a *= 0.18 + 2.6 * vDen.x * vDen.x;
-    }
-    c = mix(c, vec3(1.0, 0.82, 0.58), clamp(vHeat, 0.0, 1.0) * 0.7);
-    a *= 1.0 + vHeat * 2.2;
-    frag = vec4(c * a, a);
-  }`);
-  const U = n => gl.getUniformLocation(prog, n);
-  const uMVP = U("uMVP"), uT = U("uT"), uAsm = U("uAsm"), uSizeMul = U("uSizeMul"),
-        uAlphaMul = U("uAlphaMul"), uPix = U("uPix"), uMode = U("uMode"), uShift = U("uShift");
 
-  // ---------- geometry (rebuilt when the sky deepens from the lite to the full galaxy) ----------
-  const vao = gl.createVertexArray();
-  const bufs = {};
-  const attr = (name, size) => {
-    const loc = gl.getAttribLocation(prog, name);
-    bufs[name] = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufs[name]);
-    gl.enableVertexAttribArray(loc);
-    gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0);
-  };
-  gl.bindVertexArray(vao);
-  attr("aPos", 3); attr("aSeed", 1); attr("aVal", 1); attr("aScale", 1); attr("aDen", 2);
-  const put = (name, arr) => { gl.bindBuffer(gl.ARRAY_BUFFER, bufs[name]); gl.bufferData(gl.ARRAY_BUFFER, arr, gl.STATIC_DRAW); };
+  mat3 rotX(float a){ float c=cos(a),s=sin(a); return mat3(1.,0.,0., 0.,c,-s, 0.,s,c); }
+  mat3 rotY(float a){ float c=cos(a),s=sin(a); return mat3(c,0.,s, 0.,1.,0., -s,0.,c); }
 
-  let pts = [], N = 0, posArr = null, WAY = [];
-  function build(points) {
-    pts = points; N = points.length;
-    posArr = new Float32Array(N * 3);
-    const seed = new Float32Array(N), val = new Float32Array(N), scale = new Float32Array(N);
-    const GR = 96, cellAll = new Float32Array(GR * GR), cellBr = new Float32Array(GR * GR);
-    for (let i = 0; i < N; i++) {
-      const p = points[i];
-      const cx = Math.min(GR - 1, p[0] / 4096 * GR | 0), cy = Math.min(GR - 1, p[1] / 4096 * GR | 0);
-      cellAll[cy * GR + cx]++;
-      if (p[4] === 4) cellBr[cy * GR + cx]++;
-    }
-    let dmax = 1, bmax = 1;
-    for (let i = 0; i < GR * GR; i++) { if (cellAll[i] > dmax) dmax = cellAll[i]; if (cellBr[i] > bmax) bmax = cellBr[i]; }
-    const den = new Float32Array(N * 2);
-    for (let i = 0; i < N; i++) {
-      const p = points[i];
-      const h1 = hash(i, 1), h3 = hash(i, 3);
-      posArr[i*3]   = p[0] * S - 1.15;
-      posArr[i*3+1] = 1.15 - p[1] * S;
-      const g = (h1 + hash(i, 7) + hash(i, 8) - 1.5) / 1.5;
-      posArr[i*3+2] = g * 0.30 + (p[4] === 4 ? 0.04 : 0);
-      seed[i] = hash(i, 2);
-      val[i] = p[4];
-      let sc = 0.5 + h3 * 0.6;
-      if (h3 > 0.9955) sc = 2.6 + (h3 - 0.9955) * 400;
-      else if (h3 > 0.975) sc = 1.5 + (h3 - 0.975) * 40;
-      if (p[4] === 4) sc *= 1.3;
-      scale[i] = sc;
-      const cx = Math.min(GR - 1, p[0] / 4096 * GR | 0), cy = Math.min(GR - 1, p[1] / 4096 * GR | 0);
-      den[i*2]   = Math.sqrt(cellAll[cy * GR + cx] / dmax);
-      den[i*2+1] = Math.sqrt(cellBr[cy * GR + cx] / bmax);
-    }
-    gl.bindVertexArray(vao);
-    put("aPos", posArr); put("aSeed", seed); put("aVal", val); put("aScale", scale); put("aDen", den);
-    // the comet's waypoints: object centroids in the script's canonical order
-    const acc = {};
-    for (const p of points) {
-      const k = GALAXY.obj_keys[p[2]];
-      (acc[k] = acc[k] || [0, 0, 0])[0] += p[0] * S - 1.15;
-      acc[k][1] += 1.15 - p[1] * S; acc[k][2]++;
-    }
-    const ORDER = ["problem_framing", "novelty", "method_design", "empirical_scope", "baselines_ablations", "stats_metrics", "reproducibility"];
-    WAY = ORDER.filter(k => acc[k] && acc[k][2] > 50).map(k => [acc[k][0] / acc[k][2], acc[k][1] / acc[k][2]]);
+  float sdEll(vec3 p, vec3 r){ float k0=length(p/r); float k1=length(p/(r*r)); return k0*(k0-1.0)/k1; }
+  float smin(float a,float b,float k){ float h=clamp(0.5+0.5*(b-a)/k,0.,1.); return mix(b,a,h)-k*h*(1.-h); }
+  float smax(float a,float b,float k){ return -smin(-a,-b,k); }
+
+  // the atlas vertebra, stylized: ring + lateral masses + transverse processes with foramina
+  float sdBone(vec3 q){
+    // ring with angle-varying thickness (thin anterior/posterior arches, massive sides)
+    float theta = atan(q.z, q.x);
+    float lat = pow(abs(cos(theta)), 1.6);
+    float R = 0.98 + 0.06*lat;
+    vec2 t2 = vec2(length(q.xz) - R, q.y*1.25);
+    float ring = length(t2) - (0.115 + 0.145*lat);
+    // lateral masses with concave superior facets
+    vec3 qm = vec3(abs(q.x), q.y, q.z);
+    float mass = sdEll(qm - vec3(0.98, 0.02, 0.04), vec3(0.42, 0.30, 0.50));
+    // kidney-shaped superior articular facet: two overlapping concavities
+    float fa = sdEll(qm - vec3(0.88, 0.40, -0.16), vec3(0.24, 0.18, 0.26));
+    float fb = sdEll(qm - vec3(1.02, 0.40, 0.20), vec3(0.24, 0.18, 0.28));
+    float d = smin(ring, mass, 0.16);
+    d = smax(d, -smin(fa, fb, 0.08), 0.07);
+    // fovea dentis: the dens' polished socket inside the anterior arch
+    float dens = sdEll(q - vec3(0.0, 0.02, -0.86), vec3(0.16, 0.13, 0.12));
+    d = smax(d, -dens, 0.05);
+    // transverse processes, pierced by the transverse foramina
+    float wing = sdEll(qm - vec3(1.52, -0.02, 0.05), vec3(0.34, 0.085, 0.22));
+    d = smin(d, wing, 0.10);
+    vec2 fo = qm.xz - vec2(1.46, 0.05);
+    float hole = length(fo) - 0.085;
+    d = smax(d, -smax(hole, abs(q.y)-0.4, 0.02), 0.045);
+    // posterior tubercle, with the crest that runs forward from it
+    float post = sdEll(q - vec3(0.0, 0.06, 1.16), vec3(0.16, 0.115, 0.15));
+    float crest = sdEll(q - vec3(0.0, 0.12, 0.92), vec3(0.055, 0.075, 0.30));
+    float ant  = sdEll(q - vec3(0.0, -0.01, -1.10), vec3(0.135, 0.10, 0.105));
+    d = smin(d, post, 0.09);
+    d = smin(d, crest, 0.10);
+    d = smin(d, ant, 0.09);
+    // sulcus arteriae vertebralis: the groove the artery cuts across the posterior arch
+    vec3 qg = vec3(abs(q.x), q.y, q.z);
+    float groove = sdEll(qg - vec3(0.60, 0.34, 0.78), vec3(0.28, 0.105, 0.18));
+    d = smax(d, -groove, 0.05);
+    // inferior articular facets: shallow flats beneath the lateral masses
+    float inf = sdEll(qm - vec3(0.96, -0.44, 0.02), vec3(0.24, 0.115, 0.27));
+    d = smax(d, -inf, 0.05);
+    return d;
   }
-  build(GALAXY.points);
-  const prevUpgrade = window.__skyUpgrade;
-  window.__skyUpgrade = fp => { if (prevUpgrade) prevUpgrade(fp); build(fp); };
 
-  // ---------- armillary rings ----------
-  const rprog = mkProg(`#version 300 es
-  precision highp float;
-  in vec3 aPos; uniform mat4 uMVP; uniform vec2 uShift;
-  void main() { gl_Position = uMVP * vec4(aPos, 1.0); gl_Position.xy += uShift * gl_Position.w; }`,
-  `#version 300 es
-  precision highp float;
-  uniform float uA; out vec4 frag;
-  void main() { frag = vec4(vec3(0.788, 0.643, 0.361) * uA, uA); }`);
-  const rsegs = [];
-  const rpt = (R, a, tx, tz) => {
-    let x = Math.cos(a) * R, y = Math.sin(a) * R, z = 0;
-    const y2 = y * Math.cos(tx) - z * Math.sin(tx), z2 = y * Math.sin(tx) + z * Math.cos(tx);
-    return [x * Math.cos(tz) - y2 * Math.sin(tz), x * Math.sin(tz) + y2 * Math.cos(tz), z2];
-  };
-  const addRing = (R, tx, tz) => { for (let i = 0; i < 360; i++) rsegs.push(...rpt(R, i / 360 * 6.2832, tx, tz), ...rpt(R, (i + 1) / 360 * 6.2832, tx, tz)); };
-  addRing(1.46, 0, 0);
-  addRing(1.46, Math.PI / 2 * 0.92, 0.35);
-  for (let i = 0; i < 60; i++) { const a = i / 60 * 6.2832; rsegs.push(...rpt(1.46, a, 0, 0), ...rpt(i % 5 === 0 ? 1.52 : 1.495, a, 0, 0)); }
-  const rverts = new Float32Array(rsegs);
-  const rvao = gl.createVertexArray();
-  gl.bindVertexArray(rvao);
-  { const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, rverts, gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(rprog, "aPos"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 3, gl.FLOAT, false, 0, 0); }
-  const rU = n => gl.getUniformLocation(rprog, n);
+  float map(vec3 p){
+    vec3 q = rotY(-uTurn) * rotX(-uNod) * (p - vec3(0.0, mix(-0.55, 0.0, uLift), 0.0));
+    float bone = sdBone(q);
+    float ground = p.y + 0.92;
+    return min(bone, ground);
+  }
+  bool isGround(vec3 p){ return p.y + 0.92 < 0.002; }
 
-  // ---------- comet ----------
-  const TRAIL = 110;
-  const cPos = new Float32Array(TRAIL * 3), cAge = new Float32Array(TRAIL);
-  for (let i = 0; i < TRAIL; i++) cAge[i] = i / (TRAIL - 1);
-  const cprog = mkProg(`#version 300 es
-  precision highp float;
-  in vec3 aPos; in float aAge;
-  uniform mat4 uMVP; uniform vec2 uShift; uniform float uPix, uOn;
-  out float vAge;
-  void main() {
-    vAge = aAge;
-    gl_Position = uMVP * vec4(aPos, 1.0);
-    gl_Position.xy += uShift * gl_Position.w;
-    float w = max(gl_Position.w, .0001);
-    gl_PointSize = clamp((1.0 - aAge) * 16.0 * uPix / w + 2.0, 1.0, 40.0) * uOn;
-  }`, `#version 300 es
-  precision highp float;
-  in float vAge; uniform float uOn; out vec4 frag;
-  void main() {
-    vec2 uv = gl_PointCoord - 0.5;
-    float d = length(uv);
-    if (d > 0.5) discard;
-    float a = smoothstep(0.5, 0.05, d) * pow(1.0 - vAge, 1.7) * 0.9 * uOn;
-    vec3 c = mix(vec3(0.99, 0.93, 0.80), vec3(0.867, 0.678, 0.384), vAge);
-    frag = vec4(c * a, a);
-  }`);
-  const cvao = gl.createVertexArray();
-  gl.bindVertexArray(cvao);
-  const cPosBuf = gl.createBuffer();
-  { gl.bindBuffer(gl.ARRAY_BUFFER, cPosBuf); gl.bufferData(gl.ARRAY_BUFFER, cPos, gl.DYNAMIC_DRAW);
-    const l1 = gl.getAttribLocation(cprog, "aPos"); gl.enableVertexAttribArray(l1); gl.vertexAttribPointer(l1, 3, gl.FLOAT, false, 0, 0);
-    const b2 = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b2); gl.bufferData(gl.ARRAY_BUFFER, cAge, gl.STATIC_DRAW);
-    const l2 = gl.getAttribLocation(cprog, "aAge"); gl.enableVertexAttribArray(l2); gl.vertexAttribPointer(l2, 1, gl.FLOAT, false, 0, 0); }
-  const cU = n => gl.getUniformLocation(cprog, n);
-  const cometAt = t => {
-    const L2 = WAY.length, u = (t / 44) % 1 * L2;
-    const i1 = Math.floor(u), f = u - i1;
-    const g = k => WAY[(k % L2 + L2) % L2];
-    const p0 = g(i1 - 1), p1 = g(i1), p2 = g(i1 + 1), p3 = g(i1 + 2);
-    const cr = (a, b, c2, d2) => 0.5 * ((2 * b) + (-a + c2) * f + (2 * a - 5 * b + 4 * c2 - d2) * f * f + (-a + 3 * b - 3 * c2 + d2) * f * f * f);
-    return [cr(p0[0], p1[0], p2[0], p3[0]), cr(p0[1], p1[1], p2[1], p3[1]), 0.10 * Math.sin(u * 2.4)];
-  };
+  vec3 normalAt(vec3 p){
+    vec2 e = vec2(0.0015, 0.);
+    return normalize(vec3(map(p+e.xyy)-map(p-e.xyy), map(p+e.yxy)-map(p-e.yxy), map(p+e.yyx)-map(p-e.yyx)));
+  }
+  float shadow(vec3 ro, vec3 rd){
+    float res = 1.0, t = 0.02;
+    for (int i = 0; i < 40; i++){
+      float h = map(ro + rd*t);
+      res = min(res, 9.0*h/t);
+      t += clamp(h, 0.01, 0.2);
+      if (res < 0.005 || t > 5.0) break;
+    }
+    return clamp(res, 0., 1.);
+  }
+  float ao(vec3 p, vec3 n){
+    float occ = 0., sca = 1.;
+    for (int i = 1; i <= 5; i++){
+      float hr = 0.02 + 0.12*float(i)/5.0;
+      occ += (hr - map(p + n*hr)) * sca;
+      sca *= 0.72;
+    }
+    return clamp(1.0 - 2.6*occ, 0., 1.);
+  }
 
-  gl.enable(gl.BLEND);
-  gl.clearColor(0, 0, 0, 0);
+  void main(){
+    vec2 uv = vP;
+    uv.x *= uRes.x / uRes.y;
+    // camera
+    vec3 ro = uCamPos;
+    vec3 ww = normalize(uCamTgt - ro);
+    vec3 uu = normalize(cross(ww, vec3(0.,1.,0.)));
+    vec3 vv = cross(uu, ww);
+    vec3 rd = normalize(uv.x*uu + uv.y*vv + 1.9*ww);
+    // vellum ground sky
+    vec3 vell = mix(vec3(0.905,0.868,0.792), vec3(0.845,0.800,0.700), clamp(vP.y*0.5+0.5, 0., 1.));
+    // march
+    float t = 0.0; float d = 0.0; bool hit = false; vec3 p;
+    for (int i = 0; i < 110; i++){
+      p = ro + rd*t;
+      d = map(p);
+      if (d < 0.0012){ hit = true; break; }
+      t += d*0.9;
+      if (t > 12.0) break;
+    }
+    vec3 col = vell;
+    if (hit){
+      vec3 n = normalAt(p);
+      // the light of the era: 2018 rakes low from the left, 2026 stands high
+      float ea = mix(0.30, 0.92, uEra);
+      vec3 key = normalize(vec3(-0.78 + 0.30*uEra, ea, -0.62 + 0.22*uEra));
+      float dif = clamp(dot(n, key), 0., 1.);
+      float sh = shadow(p + n*0.01, key);
+      float occ = ao(p, n);
+      float fil = clamp(dot(n, normalize(vec3(0.6, 0.2, 0.7))), 0., 1.);
+      float sky = clamp(0.5 + 0.5*n.y, 0., 1.);
+      if (isGround(p)){
+        vec3 g = mix(vec3(0.88,0.845,0.762), vec3(0.828,0.780,0.678), clamp(t*0.10, 0., 1.));
+        // (vellum texture parked — to be built properly later; keep the ground quiet for now)
+        float press = 0.5 + 0.5*sin(p.x*1.7 + 1.1) * sin(p.z*1.3 - 0.4);
+        float gr2 = fract(sin(dot(floor(p.xz*680.0), vec2(21.7, 91.3))) * 47531.0);
+        g *= 1.0 + 0.010*(press - 0.5);
+        g += vec3(0.045, 0.037, 0.026) * smoothstep(0.994, 1.0, gr2);
+        // the act casts the archive: where the bone shades the page, the writing develops
+        float shade = 1.0 - dif*sh;
+        vec2 iuv = p.xz * 0.34 + 0.5;
+        vec3 ink = texture(uInk, fract(iuv)).rgb;
+        float near = exp(-dot(p.xz, p.xz) * 0.16);
+        float develop = mix(smoothstep(0.62, 0.95, shade) * uLift * near, 0.55 + 0.35*near, uSink);
+        // the line now being weighed is written brightest, on its own row of the page
+        float row = fract(iuv.y * 1.0);
+        float band = exp(-pow((row - fract(uInkFocus)) * 26.0, 2.0));
+        vec3 dark = mix(vec3(1.0), ink, 0.9);
+        vec3 hot  = mix(vec3(1.0), ink, 1.0) * mix(1.0, 0.62, band);
+        g = mix(g, g * mix(dark, hot, band), develop);
+        col = g * (0.55 + 0.45*dif*sh) * (0.65 + 0.35*occ);
+      } else {
+        // bone in object space for engraving lookup
+        vec3 q = rotY(-uTurn) * rotX(-uNod) * (p - vec3(0.0, mix(-0.55, 0.0, uLift), 0.0));
+        float theta = atan(q.z, q.x);
+        float u2 = fract(theta / (2.0*PI) + 0.5);
+        vec2 tq = vec2(length(q.xz) - 0.98, q.y*1.25);
+        float phi = atan(tq.y, tq.x);
+        float v2 = clamp(phi / PI * 0.5 + 0.5, 0., 1.);
+        vec3 etch = texture(uEtch, vec2(u2, v2)).rgb;
+        vec3 bone = vec3(0.93, 0.895, 0.815);
+        bone *= mix(vec3(1.0), etch, 0.85);
+        float spec = pow(clamp(dot(reflect(-key, n), -rd), 0., 1.), 24.0) * 0.18;
+        // waxy subsurface warmth on thin rim light
+        float rim = pow(1.0 - clamp(dot(n, -rd), 0., 1.), 2.5);
+        // thin bone lets the light through at the arch edges
+        float thin = pow(clamp(dot(-n, key), 0., 1.), 1.6) * pow(rim, 0.6);
+        vec3 lit = bone * (0.30 + 0.78*dif*sh + 0.22*fil + 0.12*sky) * (0.5 + 0.5*occ)
+            + vec3(1.0, 0.92, 0.78) * spec * sh
+            + vec3(0.42, 0.30, 0.18) * rim * 0.16
+            + vec3(0.72, 0.50, 0.30) * thin * 0.30;
+        // before the plate rises, it is a printed engraving: flat paper + strokes, no light
+        vec3 print = mix(vec3(0.905,0.868,0.792), vec3(0.32,0.26,0.19), (1.0 - etch.r) * 1.4);
+        col = mix(lit, print, uFlat);
+      }
+      // atmosphere back into the vellum
+      col = mix(col, vell, clamp(1.0 - exp(-0.05*(t-2.0)), 0., 1.) * 0.5);
+    }
+    // paper grain + vignette
+    float gr = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898,78.233))) * 43758.5453);
+    col += (gr - 0.5) * 0.018;
+    float vig = 1.0 - 0.22*dot(vP*vec2(0.7,0.9), vP*vec2(0.7,0.9));
+    col *= vig;
+    frag = vec4(col, 1.0);
+  }`));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw gl.getProgramInfoLog(prog);
+  gl.useProgram(prog);
+  const quad = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  const la = gl.getAttribLocation(prog, "aP");
+  gl.enableVertexAttribArray(la); gl.vertexAttribPointer(la, 2, gl.FLOAT, false, 0, 0);
+  const tex = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, et);
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+  const inkTex = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE1);
+  gl.bindTexture(gl.TEXTURE_2D, inkTex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, ik);
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+  const U = n => gl.getUniformLocation(prog, n);
 
-  // ---------- camera ----------
-  const M = new Float32Array(16);
-  const FOV = 38 * Math.PI / 180;
-  let W = 0, H = 0, shiftX = 0.30, shiftY = -0.05, distBase = 3.2;
+  let W = 0, H = 0;
   function size() {
-    const DPR = Math.min(devicePixelRatio || 1, matchMedia("(pointer: coarse)").matches ? 1.5 : 2);
+    const DPR = Math.min(devicePixelRatio || 1, matchMedia("(pointer: coarse)").matches ? 1.25 : 1.6);
     W = cv.clientWidth; H = cv.clientHeight;
     cv.width = W * DPR; cv.height = H * DPR;
     gl.viewport(0, 0, cv.width, cv.height);
-    if (W < 700 || H > W * 1.1) { shiftX = 0; shiftY = 0.34; distBase = 6.0; }
-    else { shiftX = 0.30; shiftY = -0.05; distBase = 3.2; }
   }
   size(); addEventListener("resize", size);
-  function mvp(t, mx, my) {
-    const asp = W / H, near = 0.1, far = 30;
-    const f = 1 / Math.tan(FOV / 2), nf = 1 / (near - far);
-    const yaw = Math.sin(t * 0.09) * 0.075 + mx * 0.11;
-    const pitch = -0.30 + my * 0.085;
-    const dist = distBase;
-    const cy = Math.cos(yaw), sy = Math.sin(yaw), cx = Math.cos(pitch), sx = Math.sin(pitch);
-    const r00 = cy, r02 = sy, r10 = sx * sy, r11 = cx, r12 = -sx * cy, r20 = -cx * sy, r21 = sx, r22 = cx * cy;
-    const p00 = f / asp, p11 = f, p22 = (far + near) * nf, p23 = 2 * far * near * nf;
-    M[0] = p00 * r00; M[4] = 0; M[8] = p00 * r02; M[12] = 0;
-    M[1] = p11 * r10; M[5] = p11 * r11; M[9] = p11 * r12; M[13] = 0;
-    M[2] = p22 * r20; M[6] = p22 * r21; M[10] = p22 * r22; M[14] = p22 * (-dist) + p23;
-    M[3] = -r20; M[7] = -r21; M[11] = -r22; M[15] = dist;
-    return { yaw, pitch, dist };
+
+  // ---------- the joint's verdict machine: real draws decide nod or refusal ----------
+  // dwell honesty: sample real units; negative/uncertain -> turn away; conditional/positive -> nod; mixed -> hesitate
+  let nod = 0, turn = 0, nodT = 0, turnT = 0, pend = null;   // current, target, and committed gesture
+  let currentUnit = -1, nextDraw = REDUCED ? 1e12 : 4.2;
+  const dq = document.getElementById("neb-dq"), dw = document.getElementById("neb-dw"), eraEl = document.getElementById("neb-era");
+  const VAL_WORD = ["turned away — an objection", "turned away — uncertainty", "hesitating — mixed", "a slow nod — conditional", "a nod — praise"];
+  let anticT = 0, inkFocus = 0.5, ease = 0.03;
+  function draw(t) {
+    currentUnit = (Math.random() * N) | 0;
+    const v = pts[currentUnit][2];
+    // the page turns to the line being weighed: the shadow writes it brightest
+    inkFocus = ((currentUnit * 0.61803398875) % 1);
+    // hesitate: lean a breath the wrong way, then commit
+    anticT = t + 0.5;
+    // the weight of a refusal: a flat objection swings furthest and returns slowest
+    const heft = v === 0 ? 1 : v === 1 ? 0.72 : v === 2 ? 0.42 : v === 3 ? 0.62 : 1;
+    ease = v <= 1 ? 0.020 + 0.012 * (1 - heft) : 0.042;
+    if (v <= 1) { turnT = -0.05 * heft; nodT = 0.05; pend = [(0.22 + Math.random() * 0.08) + 0.20 * heft, -0.06 * heft]; }
+    else if (v === 2) { turnT = 0.05; nodT = -0.02; pend = [0.13, 0.05]; }
+    else { turnT = 0.06; nodT = -0.05; pend = [-0.02 + Math.random() * 0.04, (0.14 + Math.random() * 0.05) + 0.12 * heft]; }
+    dq.textContent = "“" + pts[currentUnit][4] + "…”";
+    dw.textContent = VAL_WORD[v];
+    dw.className = "dw " + (v <= 1 ? "no" : v >= 3 ? "yes" : "");
+    // the corpus decides how long the joint dwells before the next case
+    nextDraw = t + (v <= 1 ? 4.6 : 3.4) + Math.random() * 1.6;
   }
-  // ---------- constellation labels (proximity-revealed) ----------
-  const ui = document.getElementById("neb-ui");
-  const labels = (GALAXY.regions || []).map(r => {
+
+  // ---------- labels on the bone's rim ----------
+  const labelHost = document.getElementById("neb-ui");
+  const labels = RG.slice(0, 9).map(r => {
     const d = document.createElement("div");
-    d.className = "nl"; d.textContent = r.name;
-    ui.appendChild(d);
-    return { el: d, x: r.x * S - 1.15, y: 1.15 - r.y * S };
+    d.className = "nl"; d.textContent = r.name.split("·")[0].trim();
+    labelHost.appendChild(d);
+    return { el: d, theta: (r.x / 4096 - 0.5) * 2 * Math.PI };
   });
 
-  // ---------- pick + card ----------
-  const pickEl = document.getElementById("neb-pick"), card = document.getElementById("neb-card");
-  let mouseX = -1, mouseY = -1, mxN = 0, myN = 0, pinned = false;
-  const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-  cv.addEventListener("pointermove", e => {
+  // hover: trace a simplified bone in JS, map hit to the semantic wrap, find nearest unit
+  const card = document.getElementById("neb-card");
+  const CVAL = ["an objection", "uncertainty", "a mixed judgment", "conditional approval", "praise"];
+  let mx = -1, my = -1, mxN = 0, myN = 0;
+  addEventListener("pointermove", e => {
     const r = cv.getBoundingClientRect();
-    mouseX = e.clientX - r.left; mouseY = e.clientY - r.top;
-    mxN = (mouseX / W - 0.5) * 2; myN = (mouseY / H - 0.5) * 2;
+    mx = e.clientX - r.left; my = e.clientY - r.top;
+    mxN = (mx / W - 0.5) * 2; myN = (my / H - 0.5) * 2;
   });
-  cv.addEventListener("pointerleave", () => { mouseX = -1; if (!pinned) { pickEl.style.opacity = 0; card.hidden = true; card.style.opacity = 0; } });
-  function nearest(cam) {
-    let best = -1, bd = 13 * 13;
-    for (let i = 0; i < N; i++) {
-      const [sx2, sy2] = proj2(posArr[i * 3], posArr[i * 3 + 1], posArr[i * 3 + 2], cam);
-      const dx = sx2 - mouseX, dy = sy2 - mouseY;
-      if (dx * dx + dy * dy < bd) { bd = dx * dx + dy * dy; best = i; }
+  const grid = new Map();
+  for (let i = 0; i < N; i++) {
+    const k = ((pts[i][0] / 4096 * 64) | 0) + ":" + ((pts[i][1] / 4096 * 16) | 0);
+    if (!grid.has(k)) grid.set(k, []);
+    grid.get(k).push(i);
+  }
+  function sdApprox(q, nodA, turnA) {
+    // inverse-rotate
+    const cy = Math.cos(turnA), sy = Math.sin(turnA);
+    let x = cy * q[0] - sy * q[2], z = sy * q[0] + cy * q[2], y = q[1];
+    const cx2 = Math.cos(nodA), sx2 = Math.sin(nodA);
+    const y2 = cx2 * y - sx2 * z, z2 = sx2 * y + cx2 * z;
+    const theta = Math.atan2(z2, x);
+    const lat = Math.pow(Math.abs(Math.cos(theta)), 1.6);
+    const R = 0.98 + 0.06 * lat;
+    const rx = Math.hypot(x, z2) - R, ry = y2 * 1.25;
+    return { d: Math.hypot(rx, ry) - (0.13 + 0.16 * lat), theta, phi: Math.atan2(ry, rx) };
+  }
+  function camPose(t, entrance) {
+    const e = Math.min(1, Math.max(0, entrance));
+    const ee = 1 - Math.pow(1 - e, 3);
+    const orbit = (REDUCED ? 0 : Math.sin(t * 0.11) * 0.10) + mxN * 0.16;
+    const portrait = W < 700 || H > W * 1.1;
+    const az = -0.85 + orbit + (1 - ee) * 0.55;
+    const el = 1.35 - ee * 0.89 + myN * 0.07;   // from straight above the printed plate down to the specimen view
+    const dist = portrait ? 5.4 + ee * 1.7 : 6.4 - ee * 1.25;
+    const cx2 = Math.cos(el), tx = Math.sin(az) * cx2, ty = Math.sin(el), tz = Math.cos(az) * cx2;
+    // the bone stays at the origin; the gaze drifts aside as we retreat, so the bone settles off-centre
+    const gx2 = portrait ? 0 : -1.3 - (1 - ee) * 0.55;
+    const gy2 = portrait ? -0.05 - 1.15 * ee : -0.05 - 0.1 * ee;
+    return { pos: [tx * dist, ty * dist - 0.05, tz * dist], tgt: [gx2, gy2, 0] };
+  }
+  function pickAndLabels(t, entrance) {
+    const cam = camPose(t, entrance);
+    // project labels: rim point at each theta, rotated by current pose
+    const ww = norm3(sub3(cam.tgt, cam.pos));
+    const uu = norm3(cross3(ww, [0, 1, 0]));
+    const vv = cross3(uu, ww);
+    const proj = pt => {
+      const d = sub3(pt, cam.pos);
+      const zc = dot3(d, ww);
+      if (zc < 0.05) return null;
+      const xc = dot3(d, uu) / zc * 1.9, yc = dot3(d, vv) / zc * 1.9;
+      return [(xc / (W / H) * 0.5 + 0.5) * W, (0.5 - yc * 0.5) * H, zc];
+    };
+    const cy = Math.cos(turn), sy = Math.sin(turn), cx2 = Math.cos(nod), sx2 = Math.sin(nod);
+    const rot = q => {
+      const y = cx2 * q[1] + sx2 * q[2], z = -sx2 * q[1] + cx2 * q[2];
+      return [cy * q[0] + sy * z, y, -sy * q[0] + cy * z];
+    };
+    for (const L of labels) {
+      const R2 = 1.30;
+      const wp = rot([Math.cos(L.theta) * R2, 0.16, Math.sin(L.theta) * R2]);
+      const s2 = proj(wp);
+      if (!s2 || entrance < 1) { L.el.style.opacity = 0; continue; }
+      // hide far-side labels
+      const facing = dot3(norm3(wp), norm3(cam.pos));
+      L.el.style.left = s2[0] + "px"; L.el.style.top = s2[1] + "px";
+      L.el.style.opacity = facing > 0.15 ? 0.85 : 0;
     }
-    return best;
+    // hover picking
+    if (mx >= 0 && entrance >= 1) {
+      const ndx = (mx / W * 2 - 1) * (W / H), ndy = 1 - my / H * 2;
+      let rd = norm3(add3(add3(scale3(uu, ndx), scale3(vv, ndy)), scale3(ww, 1.9)));
+      let t2 = 0, hit = null;
+      for (let s3 = 0; s3 < 48; s3++) {
+        const p = [cam.pos[0] + rd[0] * t2, cam.pos[1] + rd[1] * t2, cam.pos[2] + rd[2] * t2];
+        const r = sdApprox(p, nod, turn);
+        if (r.d < 0.004) { hit = r; break; }
+        t2 += Math.max(r.d * 0.9, 0.004);
+        if (t2 > 8) break;
+      }
+      // the loupe: over the page's shadow, the writing comes to reading size
+      if (!hit && entrance >= 1) {
+        // intersect the ground plane y = -0.92
+        const dy = rd[1];
+        if (dy < -1e-4) {
+          const tg = (-0.92 - cam.pos[1]) / dy;
+          if (tg > 0 && tg < 14) {
+            const wxp = cam.pos[0] + rd[0] * tg, wzp = cam.pos[2] + rd[2] * tg;
+            const near = Math.exp(-(wxp * wxp + wzp * wzp) * 0.16);
+            if (near > 0.16) {
+              drawLoupe(mx, my, wxp, wzp);
+              if (!loupeShown) { loupe.style.opacity = 1; loupeShown = true; }
+            } else if (loupeShown) { loupe.style.opacity = 0; loupeShown = false; }
+          }
+        }
+      } else if (loupeShown) { loupe.style.opacity = 0; loupeShown = false; }
+      if (hit) {
+        const sx3 = (hit.theta / (2 * Math.PI) + 0.5) % 1;
+        const sy3 = Math.min(0.999, Math.max(0, hit.phi / Math.PI * 0.5 + 0.5));
+        const gx = (sx3 * 64) | 0, gy = (sy3 * 16) | 0;
+        let best = -1, bd = 1e18;
+        for (let a = gx - 1; a <= gx + 1; a++) for (let b = gy - 1; b <= gy + 1; b++) {
+          const cell = grid.get(((a + 64) % 64) + ":" + b);
+          if (!cell) continue;
+          for (const i of cell) {
+            const dx = pts[i][0] / 4096 - sx3, dy = pts[i][1] / 4096 - sy3;
+            const d2 = dx * dx + dy * dy * 0.4;
+            if (d2 < bd) { bd = d2; best = i; }
+          }
+        }
+        if (best >= 0 && bd < 0.0016) {
+          const p = pts[best];
+          const vKey = GALAXY.val_order[p[2]];
+          card.innerHTML = '<span class="nc-v">' + CVAL[p[2]] + '</span><span class="nc-q">\u201c' + p[4].replace(/&/g, "&amp;").replace(/</g, "&lt;") + '\u201d</span>'
+            + '<div class="nc-tags"><span class="chip">' + objLabel[GALAXY.obj_keys[p[3]]] + '</span><span class="chip">' + reaLabel[GALAXY.rea_keys[p[5]]] + '</span>'
+            + '<span class="chip" style="border-color:' + VAL_COLOR[vKey] + ';color:' + VAL_COLOR[vKey] + '">' + vKey + '</span></div>';
+          card.style.left = Math.min(mx + 18, W - 350) + "px";
+          card.style.top = Math.min(my + 14, H - 120) + "px";
+          card.style.opacity = 1;
+        } else card.style.opacity = 0;
+      } else card.style.opacity = 0;
+    } else { card.style.opacity = 0; if (loupeShown) { loupe.style.opacity = 0; loupeShown = false; } }
+    return cam;
   }
-  function fillCard(i, pin, cam) {
-    const p = pts[i];
-    const [sx2, sy2] = proj2(posArr[i * 3], posArr[i * 3 + 1], posArr[i * 3 + 2], cam);
-    pickEl.style.left = sx2 + "px"; pickEl.style.top = sy2 + "px"; pickEl.style.opacity = 1;
-    const vKey = GALAXY.val_order[p[4]];
-    let cname = "", cd = 1e9;
-    for (const L of labels) { const dx = L.x - posArr[i * 3], dy = L.y - posArr[i * 3 + 1]; const d2 = dx * dx + dy * dy; if (d2 < cd) { cd = d2; cname = L.el.textContent; } }
-    card.innerHTML = (pin ? '<button class="sc-x" aria-label="close">×</button>' : "")
-      + '<span class="nc-v">' + vKey + ' · unit of reviewer logic</span>'
-      + '<span class="nc-q">“' + esc(p[5]) + '”</span>'
-      + '<div class="nc-tags"><span class="chip">' + objLabel[GALAXY.obj_keys[p[2]]] + '</span><span class="chip">' + reaLabel[GALAXY.rea_keys[p[3]]] + '</span><span class="chip" style="border-color:' + VAL_COLOR[vKey] + ';color:' + VAL_COLOR[vKey] + '">' + vKey + '</span></div>'
-      + '<span class="nc-r">constellation: ' + esc(cname) + '</span>';
-    card.style.left = Math.min(sx2 + 22, W - 360) + "px";
-    card.style.top = Math.min(sy2 + 18, H - 150) + "px";
-    card.hidden = false; card.style.opacity = 1;
-    card.classList.toggle("pin", pin);
-    if (pin) card.querySelector(".sc-x").addEventListener("click", ev => { ev.stopPropagation(); unpin(); });
-  }
-  function unpin() { pinned = false; card.hidden = true; card.style.opacity = 0; card.classList.remove("pin"); pickEl.style.opacity = 0; }
-  addEventListener("keydown", e => { if (e.key === "Escape" && pinned) unpin(); });
-  let camNow = null;
-  cv.addEventListener("click", () => {
-    if (!camNow) return;
-    const i = nearest(camNow);
-    if (i >= 0) { pinned = true; fillCard(i, true, camNow); } else unpin();
-  });
+  const sub3 = (a, b) => [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
+  const add3 = (a, b) => [a[0]+b[0], a[1]+b[1], a[2]+b[2]];
+  const scale3 = (a, s) => [a[0]*s, a[1]*s, a[2]*s];
+  const dot3 = (a, b) => a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+  const cross3 = (a, b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+  const norm3 = a => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; };
 
-  // proj2: world -> hero CSS px (same math as the vertex shader)
-  function proj2(x, y, z, cam) {
-    const { yaw, pitch, dist } = cam;
-    const cy = Math.cos(yaw), sy = Math.sin(yaw), cx = Math.cos(pitch), sx = Math.sin(pitch);
-    const X = cy * x + sy * z, Y = sx * sy * x + cx * y - sx * cy * z, Z = -cx * sy * x + sx * y + cx * cy * z - dist;
-    const f = 1 / Math.tan(FOV / 2);
-    const px = (f / (W / H)) * X / -Z + shiftX, py = f * Y / -Z + shiftY;
-    return [(px * 0.5 + 0.5) * W, (0.5 - py * 0.5) * H];
+  // ---------- (b) the loupe: the shadow's writing, at reading size ----------
+  const loupe = document.getElementById("neb-loupe"), lcv = document.getElementById("neb-loupe-cv");
+  const lctx = lcv.getContext("2d");
+  const plateMark = document.getElementById("neb-plate");
+  let loupeShown = false;
+  function drawLoupe(px2, py2, worldX, worldZ) {
+    // the same uv the shader reads: p.xz * 0.34 + 0.5, wrapped
+    const u = ((worldX * 0.34 + 0.5) % 1 + 1) % 1, v = ((worldZ * 0.34 + 0.5) % 1 + 1) % 1;
+    const SRC = 132;                       // source px sampled from the 1024 ink page
+    lctx.fillStyle = "#ddd2b4";
+    lctx.fillRect(0, 0, 380, 380);
+    lctx.imageSmoothingEnabled = true;
+    lctx.globalAlpha = 0.92;
+    // 3x3 wrap-safe blit
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      lctx.drawImage(ik, u * IKW - SRC / 2 + dx * IKW, v * IKH - SRC / 2 + dy * IKH, SRC, SRC,
+                     dx * 380, dy * 380, 380, 380);
+    }
+    lctx.globalAlpha = 1;
+    // the paper warms under glass
+    const g2 = lctx.createRadialGradient(190, 190, 40, 190, 190, 200);
+    g2.addColorStop(0, "rgba(255,250,236,0)");
+    g2.addColorStop(1, "rgba(104,86,60,0.30)");
+    lctx.fillStyle = g2; lctx.fillRect(0, 0, 380, 380);
+    loupe.style.left = px2 + "px"; loupe.style.top = py2 + "px";
   }
-
-  // ---------- assembly: driven by the overture's dome, or self-timed when the dome is skipped ----------
-  let sweepT0 = null;
-  const prevAssemble = window.__skyAssemble;
-  window.__skyAssemble = k => { if (prevAssemble) prevAssemble(k); if (k > 0.03 && sweepT0 === null) sweepT0 = performance.now(); };
-  if (!document.documentElement.classList.contains("overture")) sweepT0 = performance.now() + 300;
 
   // ---------- loop ----------
-  let trailN = 0, frame = 0, t0 = performance.now();
-  gateRAF(cv, () => {
-    const now = performance.now();
+  let t0 = performance.now() + (REDUCED ? 0 : 350);
+  const prevAssemble = window.__skyAssemble;
+  let domeSynced = !document.documentElement.classList.contains("overture");
+  window.__skyAssemble = k => { if (prevAssemble) prevAssemble(k); if (!domeSynced && k > 0.03) { domeSynced = true; t0 = performance.now(); } };
+  let scrollK = 0;
+  addEventListener("scroll", () => {
+    const h = (document.querySelector(".tp-hero") || {}).offsetHeight || innerHeight;
+    scrollK = Math.min(1, Math.max(0, scrollY / (h * 0.85)));
+  }, { passive: true });
+
+  function tick(now) {
+    now = now || performance.now();
     const t = (now - t0) / 1000;
-    const asm = sweepT0 === null ? 0 : Math.min(1, Math.max(0, (now - sweepT0) / 3100));
-    const cam = mvp(t, mxN, myN);
-    camNow = cam;
+    // stage 1 (0-1.6s): the printed plate, seen flat on the page. stage 2 (1.6-4.4s): light arrives, the plate rises.
+    const entrance = REDUCED ? 1 : Math.min(1, Math.max(0, (t - 1.6) / 2.8));
+    if (!REDUCED && t > nextDraw) draw(t);
+    if (!REDUCED && pend && t > anticT) { turnT = pend[0]; nodT = pend[1]; pend = null; }
+    if (REDUCED) { turnT = 0.30; nodT = -0.04; }
+    // damped approach — the heavier the verdict, the slower the joint yields
+    nod += (nodT - nod) * (ease * 1.15);
+    turn += (turnT - turn) * ease;
+    const breathe = REDUCED ? 0 : Math.sin(t * 0.9) * 0.006;
 
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    const ringA = asm >= 1 ? Math.min(1, (now - sweepT0 - 3100) / 2200) : 0;
-    if (ringA > 0) {
-      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-      gl.useProgram(rprog); gl.bindVertexArray(rvao);
-      gl.uniformMatrix4fv(rU("uMVP"), false, M);
-      gl.uniform2f(rU("uShift"), shiftX, shiftY);
-      gl.uniform1f(rU("uA"), 0.15 * ringA);
-      gl.drawArrays(gl.LINES, 0, rverts.length / 3);
+    if (!REDUCED) {
+      const showPlate = t < 2.1;
+      if (showPlate !== plateMark.classList.contains("on")) plateMark.classList.toggle("on", showPlate);
     }
-    gl.useProgram(prog); gl.bindVertexArray(vao);
-    gl.uniformMatrix4fv(uMVP, false, M);
-    gl.uniform1f(uT, t); gl.uniform1f(uAsm, asm);
-    gl.uniform1f(uPix, cv.height / 1000);
-    gl.uniform2f(uShift, shiftX, shiftY);
-    gl.blendFunc(gl.ONE, gl.ONE);
-    gl.uniform1i(uMode, 0); gl.uniform1f(uSizeMul, 20.0); gl.uniform1f(uAlphaMul, 0.013);
-    gl.drawArrays(gl.POINTS, 0, N);
-    gl.uniform1i(uMode, 1); gl.uniform1f(uSizeMul, 4.6); gl.uniform1f(uAlphaMul, 0.055);
-    gl.drawArrays(gl.POINTS, 0, N);
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-    gl.uniform1i(uMode, 2); gl.uniform1f(uSizeMul, 1.0); gl.uniform1f(uAlphaMul, 0.95);
-    gl.drawArrays(gl.POINTS, 0, N);
-
-    if (asm >= 1 && WAY.length > 2) {
-      const head = cometAt(t);
-      if (trailN < TRAIL) trailN++;
-      cPos.copyWithin(3, 0, (TRAIL - 1) * 3);
-      cPos[0] = head[0]; cPos[1] = head[1]; cPos[2] = head[2];
-      gl.useProgram(cprog); gl.bindVertexArray(cvao);
-      gl.bindBuffer(gl.ARRAY_BUFFER, cPosBuf);
-      gl.bufferSubData(gl.ARRAY_BUFFER, 0, cPos);
-      gl.uniformMatrix4fv(cU("uMVP"), false, M);
-      gl.uniform2f(cU("uShift"), shiftX, shiftY);
-      gl.uniform1f(cU("uPix"), cv.height / 1000);
-      gl.uniform1f(cU("uOn"), Math.min(1, (now - sweepT0 - 3400) / 1000));
-      gl.drawArrays(gl.POINTS, 0, trailN);
-    }
-
-    for (const L of labels) {
-      const [lx, ly] = proj2(L.x, L.y, 0, cam);
-      L.el.style.left = lx + "px"; L.el.style.top = ly + "px";
-      let o2 = 0;
-      if (asm >= 1 && W >= 700 && mouseX >= 0) {
-        const dx = lx - mouseX, dy = ly - mouseY;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        o2 = Math.max(0, Math.min(1, (170 - d) / 110)) * 0.9;
-      }
-      L.el.style.opacity = o2;
-    }
-
-    if (!pinned && (frame++ & 3) === 0 && asm >= 1 && mouseX >= 0) {
-      const i = nearest(cam);
-      if (i >= 0) fillCard(i, false, cam);
-      else { pickEl.style.opacity = 0; card.hidden = true; card.style.opacity = 0; }
-    }
-  });
+    const cam = pickAndLabels(t, entrance);
+    const ee2 = 1 - Math.pow(1 - entrance, 3);
+    gl.uniform2f(U("uRes"), cv.width, cv.height);
+    gl.uniform1f(U("uT"), t);
+    gl.uniform1f(U("uNod"), nod + breathe);
+    gl.uniform1f(U("uTurn"), turn);
+    // scroll sinks the bone back into the page; its shadow's writing stays and becomes the text below
+    gl.uniform1f(U("uLift"), REDUCED ? 1 : ee2 * (1 - scrollK * 0.92));
+    gl.uniform1f(U("uSink"), scrollK);
+    gl.uniform1f(U("uFlat"), REDUCED ? 0 : Math.max(0, 1 - entrance * 2.2));
+    // the sun of the era: one full pass 2018 -> 2026 every 40s, marked in the rail
+    const era = REDUCED ? 0.55 : (t / 40) % 1;
+    gl.uniform1f(U("uEra"), era);
+    gl.uniform1f(U("uInkFocus"), inkFocus);
+    const yr = 2018 + Math.round(era * 8);
+    if (eraEl && eraEl.dataset.y !== String(yr)) { eraEl.dataset.y = String(yr); eraEl.textContent = yr; }
+    gl.uniform3f(U("uCamPos"), cam.pos[0], cam.pos[1], cam.pos[2]);
+    gl.uniform3f(U("uCamTgt"), cam.tgt[0], cam.tgt[1], cam.tgt[2]);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, inkTex);
+    gl.uniform1i(U("uEtch"), 0);
+    gl.uniform1i(U("uInk"), 1);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  if (!REDUCED) draw(4.2);
+  gateRAF(cv, tick);
 })();
 
 // ---------------- the overture: dome-opening sequence (skippable, session-once) ----------------
