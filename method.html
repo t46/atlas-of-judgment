@@ -45,9 +45,9 @@ td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
 .callout { border: 1px solid var(--brass-line); background: rgba(248,241,224,0.6); padding: 16px 20px; margin-top: 18px; font-size: 13.5px; color: var(--ink-2); }
 .callout b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); display: block; margin-bottom: 6px; }
 .toc { columns: 2; gap: 40px; margin-top: 20px; font-size: 13.5px; }
-.toc a { display: block; border: none; color: var(--ink-2); padding: 3px 0; }
+.toc a { display: grid; grid-template-columns: 24px minmax(0, 1fr); border: none; color: var(--ink-2); padding: 3px 0; }
 .toc a:hover { color: var(--brass); }
-.toc .tno { font-family: var(--mono); font-size: 10px; color: var(--brass); margin-right: 8px; }
+.toc .tno { font-family: var(--mono); font-size: 10px; color: var(--brass); padding-top: 3px; }
 @media (max-width: 700px) { .toc { columns: 1; } }
 .diagram { border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.55); padding: 20px 18px; margin-top: 22px; }
 .diagram .cap { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 14px 2px; }
@@ -56,7 +56,7 @@ td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
 .fm-box .t { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--ink); }
 .fm-box .s { font-family: var(--mono); font-size: 9px; color: var(--muted); line-height: 1.8; margin-top: 3px; }
 .fm-arrow { font-family: var(--mono); color: var(--brass); text-align: center; align-self: center; font-size: 14px; }
-.fm-arrow .lbl { display: block; font-size: 8.5px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+.fm-arrow .lbl { display: block; font-size: 7.5px; letter-spacing: 0.02em; color: var(--muted); text-transform: uppercase; }
 .fm-row { display: grid; grid-template-columns: 1fr 44px 1fr 44px 1fr; gap: 6px; align-items: stretch; }
 .fm-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
 .fm-col { display: flex; flex-direction: column; gap: 0; }
@@ -86,6 +86,11 @@ td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
   td code { white-space: normal; overflow-wrap: anywhere; }
   td:last-child { border-bottom: none; }
   td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
+  /* A cell that mixes running text with inline <code>/<em> shatters into vertical
+     columns under the flex rule above — every anonymous text run becomes its own
+     flex item. Those cells, and any long one, stack as blocks with the label over. */
+  td.td-rich { display: block; text-align: left; }
+  td.td-rich::before { display: block; margin-bottom: 3px; padding-top: 0; }
 }
 footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display: flex; flex-direction: column; align-items: center; gap: 11px; text-align: center; }
 .col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
@@ -119,6 +124,55 @@ h1 { clip-path: inset(100% 0 0 0); transform: translateY(14px); animation: pgH1 
   .eyebrow { animation: none; opacity: 1; letter-spacing: 0.34em; }
   h1 { animation: none; clip-path: none; transform: none; }
 }
+
+/* ---- the four parts: the page is a preparation room, not a list of steps ---- */
+.part { margin: 104px 0 0; padding: 30px 0 26px; border-top: 1px solid var(--brass-line);
+  border-bottom: 1px solid var(--brass-faint); position: relative; }
+.part::after { content: ""; position: absolute; right: 0; bottom: -1px; width: 34px; height: 1px; background: var(--brass); }
+.part-rule { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); }
+.part-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-faint); }
+.part-name { font-size: clamp(30px, 4vw, 46px); line-height: 1.06; margin-top: 12px; }
+.part-lat { font-style: italic; font-size: 14px; color: var(--ink-2); margin-top: 6px; }
+.part-sub { font-size: 13.5px; color: var(--muted); margin-top: 8px; max-width: 56ch; }
+.part + .no { margin-top: 46px; }
+
+/* ---- the contents, grouped the way the page now is ---- */
+.toc { columns: 2; gap: 40px; margin-top: 22px; font-size: 13.5px; }
+.toc-part { break-inside: avoid; margin-bottom: 18px; }
+.toc-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); padding-bottom: 5px; margin-bottom: 4px; border-bottom: 1px solid var(--brass-faint); }
+.toc-h b { color: var(--brass); font-weight: 500; }
+
+/* ---- the yield: every stage's intake, and the tail that never came out ---- */
+.yl-note { font-size: 12px; font-style: italic; color: var(--muted); margin: 0 0 16px; line-height: 1.6; }
+.yl-gh { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brass); margin: 18px 0 8px; padding-bottom: 5px; border-bottom: 1px solid var(--brass-faint); }
+.yl-gh:first-of-type { margin-top: 4px; }
+.yl-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 320px) 96px;
+  gap: 14px; align-items: center; padding: 5px 0; }
+.yl-lab { font-size: 13px; color: var(--ink); }
+.yl-lab .s { display: block; font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.06em; }
+.yl-bar { height: 15px; display: flex; border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.6); }
+.yl-bar i { display: block; height: 100%; transform: scaleX(0); transform-origin: left center;
+  transition: transform 1s cubic-bezier(0.2, 0.7, 0.15, 1); }
+.yield.in .yl-bar i { transform: scaleX(1); }
+.yl-bar i.keep { background: rgba(36,28,20,0.58); }
+.yl-bar i.lost { background: repeating-linear-gradient(45deg, rgba(111,31,69,0.60) 0 1.5px, transparent 1.5px 4px);
+  border-left: 1px solid rgba(111,31,69,0.55); transition-delay: 0.35s; }
+.yl-n { font-family: var(--mono); font-size: 11.5px; color: var(--ink); text-align: right;
+  font-variant-numeric: tabular-nums; }
+.yl-n .l { display: block; font-size: 9px; color: #6f1f45; letter-spacing: 0.04em; }
+.yl-sum { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-top: 18px;
+  padding-top: 12px; border-top: 1px solid var(--brass-line); }
+.yl-sum .k { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.yl-sum .v { font-family: var(--display); font-size: 30px; color: var(--ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) {
+  .yl-row { grid-template-columns: minmax(0, 1fr) 84px; }
+  .yl-bar { grid-column: 1 / -1; order: 3; }
+  .yl-n { text-align: right; }
+}
+@media (prefers-reduced-motion: reduce) { .yl-bar i { transform: none !important; transition: none !important; } }
 </style>
 
 <div class="shell" id="top">
@@ -141,18 +195,89 @@ h1 { clip-path: inset(100% 0 0 0); transform: translateY(14px); animation: pgH1 
 <div class="callout"><b>The finished data is public</b>
 Both labeled unit databases (410,586 review-level units, ICLR 2026 · 1,009,592 forum-level units, 2018–2026), the taxonomy definitions, and the 600 analyst-labeled rhetoric units are published as parquet on HuggingFace under CC BY 4.0: <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">huggingface.co/datasets/t46/atlas-of-judgment</a>. Everything below documents how that data was made.</div>
 
+<p>This is the room next door to the atlas — the bench where the specimens were prepared, with the jars still labelled. It is in four parts: <b>the build</b>, which is everything needed to make the data again; <b>the instrument tested</b>, which is how well the reading reads and where it cannot be trusted; <b>the record</b>, which is what was actually done, in what order, and on whose prompting; and <b>the bill</b>.</p>
+
 <div class="toc">
-  <a href="#s0"><span class="tno">00</span>Prerequisites &amp; environment</a>
-  <a href="#s1"><span class="tno">01</span>Collection — OpenReview → raw SQLite</a>
-  <a href="#s2"><span class="tno">02</span>Normalization — provenance only</a>
-  <a href="#s3"><span class="tno">03</span>Layer II — DeepSeek analytic memos</a>
-  <a href="#s4"><span class="tno">04</span>Layer III — Qwen structured units</a>
-  <a href="#s5"><span class="tno">05</span>Retries, merging, and the failure tail</a>
-  <a href="#s6"><span class="tno">06</span>Unit extraction &amp; the induced taxonomy</a>
-  <a href="#s7"><span class="tno">07</span>The actual path — pilots, failures, decisions</a>
-  <a href="#s8"><span class="tno">08</span>What cannot be reproduced</a>
-  <a href="#s9"><span class="tno">09</span>Cost ledger</a>
-  <a href="#s10"><span class="tno">10</span>Instrument checks — reading the reader</a>
+  <div class="toc-part">
+    <div class="toc-h"><b>Part I</b> The build</div>
+    <a href="#s0"><span class="tno">00</span>Prerequisites &amp; environment</a>
+    <a href="#s1"><span class="tno">01</span>Collection — OpenReview → raw SQLite</a>
+    <a href="#s2"><span class="tno">02</span>Normalization — provenance only</a>
+    <a href="#s3"><span class="tno">03</span>Layer II — DeepSeek analytic memos</a>
+    <a href="#s4"><span class="tno">04</span>Layer III — Qwen structured units</a>
+    <a href="#s5"><span class="tno">05</span>Retries, merging, and the failure tail</a>
+    <a href="#s6"><span class="tno">06</span>Unit extraction &amp; the induced taxonomy</a>
+  </div>
+  <div class="toc-part">
+    <div class="toc-h"><b>Part II</b> The instrument tested</div>
+    <a href="#s7"><span class="tno">07</span>Instrument checks — reading the reader</a>
+    <a href="#s8"><span class="tno">08</span>What cannot be reproduced</a>
+  </div>
+  <div class="toc-part">
+    <div class="toc-h"><b>Part III</b> The record</div>
+    <a href="#s9"><span class="tno">09</span>The actual path — pilots, failures, decisions</a>
+    <a href="#s10"><span class="tno">10</span>The order of the plates is not the order of the work</a>
+    <a href="#s11"><span class="tno">11</span>Where each plate came from</a>
+    <a href="#s12"><span class="tno">12</span>Notes for the nine added plates</a>
+    <a href="#s13"><span class="tno">13</span>Instrument extensions — the 2026-08-24 review pass</a>
+    <a href="#s14"><span class="tno">14</span>The long rule and the cast shadow — instruments, not plates</a>
+  </div>
+  <div class="toc-part">
+    <div class="toc-h"><b>Part IV</b> The bill</div>
+    <a href="#s15"><span class="tno">15</span>Cost ledger</a>
+  </div>
+</div>
+
+<div class="diagram yield" id="yield"><p class="cap">The yield — what was put to the reader, and what never came back out</p>
+<p class="yl-note">Both tails are drawn ten times wider than they are, or they would be invisible at this scale; the true share is printed beside each. The tail is documented in §05, and its correlation with topic is unverified.</p>
+
+<div class="yl-gh">Layer I · the record — collected once, then never written again</div>
+<div class="yl-row">
+  <div class="yl-lab">forums collected<span class="s">OpenReview API v1/v2 · ICLR 2018–2026</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">52,460</div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">forum messages<span class="s">reviews, rebuttals, meta-reviews, comments</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">792,703</div>
+</div>
+
+<div class="yl-gh">Track A · ICLR 2026, review-level — the high-resolution cut</div>
+<div class="yl-row">
+  <div class="yl-lab">reviews put to the reader<span class="s">three-stage layered memo each</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">75,859</div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">reviews structured into units<span class="s">after retries; the rest are parse failures and provider refusals</span></div>
+  <div class="yl-bar"><i class="keep" style="width:80.5%"></i><i class="lost" style="width:19.5%"></i></div>
+  <div class="yl-n">74,380<span class="l">−1,479 · 1.95%</span></div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">logic units yielded<span class="s">5.5 per review, median 5</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">410,586</div>
+</div>
+
+<div class="yl-gh">Track B · 2018–2026, forum-level — the nine-year cut</div>
+<div class="yl-row">
+  <div class="yl-lab">forums put to the reader<span class="s">one direct memo over the whole thread</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">51,813</div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">forums structured into units<span class="s">including the 24k/32k truncation retries</span></div>
+  <div class="yl-bar"><i class="keep" style="width:81.6%"></i><i class="lost" style="width:18.4%"></i></div>
+  <div class="yl-n">50,861<span class="l">−952 · 1.84%</span></div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">logic units yielded<span class="s">with temporal fields: before/after rebuttal, judgment change</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">1,009,592</div>
+</div>
+
+<div class="yl-sum"><span class="k">in both databases</span><span class="v">1,420,178 units</span></div>
 </div>
 
 <div class="diagram"><p class="cap">The pipeline at a glance — three layers, two tracks, one taxonomy</p>
@@ -188,6 +313,12 @@ Both labeled unit databases (410,586 review-level units, ICLR 2026 · 1,009,592 
 </div>
 </div>
 
+<div class="part" id="pi">
+  <div class="part-rule"><span>Part I</span></div>
+  <h2 class="part-name">The build</h2>
+  <div class="part-lat">officina — the workshop</div>
+  <p class="part-sub">everything needed to make the data again</p>
+</div>
 <div class="no" id="s0">00</div>
 <h2>Prerequisites &amp; environment</h2>
 <ul>
@@ -309,64 +440,12 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 </ul>
 <p>Everything downstream of these two labeled databases — aggregation files and the atlas's plates — is a separate, continuously evolving layer, documented in the <a href="index.html">atlas</a> appendix itself.</p>
 
-<div class="no" id="s7">07</div>
-<h2>The actual path — pilots, failures, decisions</h2>
-<p>The raw, sanitized session history behind this chronicle — every command and decision as it happened, 21,386 events — is published in <a href="https://github.com/t46/atlas-of-judgment">the project repository</a> (<code>codex-history/</code>), alongside the full pipeline code and these pages. The sections above describe the pipeline as it finally ran. This section records how it actually got there — the small trials, dead ends, and mid-course corrections, in order. Nothing here is retrospective varnish; each item is backed by an artifact directory or manifest still on disk.</p>
-<h3>Every production stage was piloted first</h3>
-<ul>
-  <li>Nothing ran at full scale untried. Pilot ledgers (all read-only verifiable): initial_blind <b>395 pilot jobs</b> ($0.33), trajectory 327 ($0.51), paper_synthesis 100 ($0.52), forum_direct 100 ($0.32), and a dedicated 100-forum method-comparison run ($0.40).</li>
-  <li><b>The method fork</b>: Layered (3 DeepSeek calls per review chain) vs Direct (whole forum in one call) were compared head-to-head on 100 forums, judged blind by the same model — <b>Layered won 69–31</b>. Direct was chosen anyway for the nine-year corpus, on cost and because layered errors propagate downstream. The quality trade was accepted knowingly and recorded, not hidden; Layered still powers the high-resolution 2026 track.</li>
-</ul>
-<h3>The episode detour (a productive failure)</h3>
-<ul>
-  <li>An intermediate "evaluation episode" schema (v0.1, then a leaner v0.2 Lite/Deep) was designed and validated on curated sets: 1,000 stratified reviews (selection seed 20260816) plus 63 deep extractions — both kept as calibration assets.</li>
-  <li>Scaling it to all 75,859 reviews failed three ways in sequence: a first full run was rejected for shallow extraction; a v2 was rejected for templated, copy-paste fields; three calibration configs were then run head-to-head (r5-low, r15-medium, r8-medium-v3) and <b>r8-medium-v3 adopted</b> — but the projected wall-clock for the full corpus was roughly a week, and the run was deliberately stopped mid-flight (~9,774 shards planned).</li>
-  <li>The agentic Luna engine itself was then retired for this job: it had completed 876 of 75,859 with 186 failures when it was stopped "safely" and the whole extraction was re-designed around a lighter compact schema on Qwen. The 876 Luna outputs were kept as a comparison baseline, not merged.</li>
-</ul>
-<h3>The Qwen gauntlet (compact track)</h3>
-<ul>
-  <li>Batch API first: <b>0 of 27 pilot requests succeeded</b> (<code>model_not_found</code> on the batch endpoint). Switched to the realtime endpoint: 22/27. Two single-review control runs followed (46/54, then 53/54), a two-reviews-per-request packing was tried and <b>rejected for coverage loss</b>, and a 206-request load test (203 ok) served as the final go/no-go gate before the 75,859-request production run.</li>
-</ul>
-<h3>Direct-track fits and starts</h3>
-<ul>
-  <li>Pilot v1: <b>0/90</b> — a dead end. v2 stalled with most requests stuck in <code>prepared</code>. v3 completed exactly one forum. v4 reached 79/90 and froze the method; only then did the 51,813-forum production run launch.</li>
-</ul>
-<h3>The truncation ladder</h3>
-<ul>
-  <li>The first full pass (16k output tokens) left <b>7,166 truncated responses</b>. A retry round at 24k re-ran 7,270 eligible rows and recovered 6,223. The 959 still failing were retried at 32k, recovering 812 more. <b>107 rows never parsed at any budget</b> and remain excluded.</li>
-  <li>A separate cluster of <b>32 rows failed identically at 16k, 24k, and 32k</b> with the provider's content-policy refusal (<code>DataInspectionFailed</code>, HTTP 400) — proof this failure mode has nothing to do with token budgets. They were not retried further; only successes were merged, each merge preceded by an automatic online-backup snapshot of the target database.</li>
-  <li>Semantic-validation failures (813 rows with valid JSON that failed local evidence/schema checks) were deliberately <em>excluded</em> from every retry round — re-billing the API cannot fix a local validation rule; that exclusion is enforced by a unit test.</li>
-</ul>
-<h3>Small scars, recorded</h3>
-<ul>
-  <li>The 32k retry's supervisor shell script crashed <em>after</em> all 959 rows were committed — it used <code>status</code>, a reserved zsh variable, as a local. Renamed to <code>exit_status</code>; zero data impact, but the lesson is written down.</li>
-  <li>Two one-off manual repairs patched earlier pilot artifacts (28 malformed episode IDs migrated via a hardcoded table; 7 placeholder chain-templates restored by hand). Both are irreproducible-by-construction and flagged in §08.</li>
-  <li>The taxonomy stage had its own iteration: reasoning-side clustering came back with 61.5% noise (vs 37.6% for objects), so the standard taxonomy was accepted as a skeleton induced from the clusterable ~40% — reported as a limitation rather than silently smoothed over.</li>
-</ul>
-
-<div class="no" id="s8">08</div>
-<h2>What cannot be reproduced</h2>
-<ul>
-  <li><b>LLM sampling</b>: DeepSeek runs at temperature 0.4 without a seed; Qwen sets neither temperature nor seed. Re-running regenerates structurally similar but textually different memos and units. Every <code>seed</code> in the project governs <em>input selection</em>, not model output.</li>
-  <li><b>One-off manual repairs</b>: two hardcoded fix scripts (28 episode IDs; 7 chain templates) patched earlier pilot artifacts and would need conscious re-application after any from-scratch rerun.</li>
-  <li><b>Human judgment points</b>: prompt-freeze timing, calibration-config adoption, and stop decisions are documented but not mechanically reproducible.</li>
-  <li><b>Upstream drift</b>: OpenReview does not expose full edit history; the raw snapshot cannot detect post-collection changes on the platform.</li>
-  <li><b>Hash coverage</b>: protocol/schema SHA-256 pinning covers the Qwen-era runs (16 manifests); older pilot artifacts rely on documentary cross-reference only.</li>
-</ul>
-
-<div class="no" id="s9">09</div>
-<h2>Cost ledger</h2>
-<div class="tw"><table>
-  <tr><th>Stage</th><th>Cost (USD)</th></tr>
-  <tr><td>Collection + normalization</td><td class="n">0 (API-free)</td></tr>
-  <tr><td>DeepSeek Full Layered memos (151,193)</td><td class="n">314.416569</td></tr>
-  <tr><td>DeepSeek Direct memos (51,813)</td><td class="n">194.753528</td></tr>
-  <tr><td>Qwen Direct track incl. both retries</td><td class="n">74.795158</td></tr>
-  <tr><td>Qwen Compact 2026 track</td><td class="n">28.793265</td></tr>
-  <tr><td>Unit extraction, taxonomy, assignment (local)</td><td class="n">0</td></tr>
-</table></div>
-<p style="font-size:13px">Pilot-phase spend (episode schemas, calibrations, judge comparisons) is additional and itemized in the project's internal provenance ledger; there is deliberately no single "grand total" field — sums must be composed explicitly from the stages used.</p>
-
+<div class="part" id="pii">
+  <div class="part-rule"><span>Part II</span></div>
+  <h2 class="part-name">The instrument tested</h2>
+  <div class="part-lat">probatio instrumenti — the testing of the instrument</div>
+  <p class="part-sub">how well the reading reads, and where it cannot</p>
+</div>
 <!-- METHOD-EXTRAS BEGIN (generated by scripts/build_method_extras.py) -->
 
 <style>
@@ -416,7 +495,7 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 @media (prefers-reduced-motion: reduce) { .unit-fold, .unit-toggle .arr { transition: none !important; } .spec-in { animation: none !important; } }
 </style>
 
-<div class="no" id="s10">10</div>
+<div class="no" id="s7">07</div>
 <h2>Instrument checks — reading the reader</h2>
 <p>Everything above describes how the data was made; this section asks how far the machine reading can be trusted. Two checks, both computed from the shipped unit databases. They are also shown in the atlas, but they belong here: they are statements about the instrument, not findings about reviewers.</p>
 
@@ -493,8 +572,59 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 })();
 </script>
 <!-- METHOD-EXTRAS END -->
+<div class="no" id="s8">08</div>
+<h2>What cannot be reproduced</h2>
+<ul>
+  <li><b>LLM sampling</b>: DeepSeek runs at temperature 0.4 without a seed; Qwen sets neither temperature nor seed. Re-running regenerates structurally similar but textually different memos and units. Every <code>seed</code> in the project governs <em>input selection</em>, not model output.</li>
+  <li><b>One-off manual repairs</b>: two hardcoded fix scripts (28 episode IDs; 7 chain templates) patched earlier pilot artifacts and would need conscious re-application after any from-scratch rerun.</li>
+  <li><b>Human judgment points</b>: prompt-freeze timing, calibration-config adoption, and stop decisions are documented but not mechanically reproducible.</li>
+  <li><b>Upstream drift</b>: OpenReview does not expose full edit history; the raw snapshot cannot detect post-collection changes on the platform.</li>
+  <li><b>Hash coverage</b>: protocol/schema SHA-256 pinning covers the Qwen-era runs (16 manifests); older pilot artifacts rely on documentary cross-reference only.</li>
+</ul>
 
-<h3 id="order-of-work">The order of the plates is not the order of the work</h3>
+<div class="part" id="piii">
+  <div class="part-rule"><span>Part III</span></div>
+  <h2 class="part-name">The record</h2>
+  <div class="part-lat">acta — what was done</div>
+  <p class="part-sub">what was actually done, in what order, and on whose prompting</p>
+</div>
+<div class="no" id="s9">09</div>
+<h2>The actual path — pilots, failures, decisions</h2>
+<p>The raw, sanitized session history behind this chronicle — every command and decision as it happened, 21,386 events — is published in <a href="https://github.com/t46/atlas-of-judgment">the project repository</a> (<code>codex-history/</code>), alongside the full pipeline code and these pages. The sections above describe the pipeline as it finally ran. This section records how it actually got there — the small trials, dead ends, and mid-course corrections, in order. Nothing here is retrospective varnish; each item is backed by an artifact directory or manifest still on disk.</p>
+<h3>Every production stage was piloted first</h3>
+<ul>
+  <li>Nothing ran at full scale untried. Pilot ledgers (all read-only verifiable): initial_blind <b>395 pilot jobs</b> ($0.33), trajectory 327 ($0.51), paper_synthesis 100 ($0.52), forum_direct 100 ($0.32), and a dedicated 100-forum method-comparison run ($0.40).</li>
+  <li><b>The method fork</b>: Layered (3 DeepSeek calls per review chain) vs Direct (whole forum in one call) were compared head-to-head on 100 forums, judged blind by the same model — <b>Layered won 69–31</b>. Direct was chosen anyway for the nine-year corpus, on cost and because layered errors propagate downstream. The quality trade was accepted knowingly and recorded, not hidden; Layered still powers the high-resolution 2026 track.</li>
+</ul>
+<h3>The episode detour (a productive failure)</h3>
+<ul>
+  <li>An intermediate "evaluation episode" schema (v0.1, then a leaner v0.2 Lite/Deep) was designed and validated on curated sets: 1,000 stratified reviews (selection seed 20260816) plus 63 deep extractions — both kept as calibration assets.</li>
+  <li>Scaling it to all 75,859 reviews failed three ways in sequence: a first full run was rejected for shallow extraction; a v2 was rejected for templated, copy-paste fields; three calibration configs were then run head-to-head (r5-low, r15-medium, r8-medium-v3) and <b>r8-medium-v3 adopted</b> — but the projected wall-clock for the full corpus was roughly a week, and the run was deliberately stopped mid-flight (~9,774 shards planned).</li>
+  <li>The agentic Luna engine itself was then retired for this job: it had completed 876 of 75,859 with 186 failures when it was stopped "safely" and the whole extraction was re-designed around a lighter compact schema on Qwen. The 876 Luna outputs were kept as a comparison baseline, not merged.</li>
+</ul>
+<h3>The Qwen gauntlet (compact track)</h3>
+<ul>
+  <li>Batch API first: <b>0 of 27 pilot requests succeeded</b> (<code>model_not_found</code> on the batch endpoint). Switched to the realtime endpoint: 22/27. Two single-review control runs followed (46/54, then 53/54), a two-reviews-per-request packing was tried and <b>rejected for coverage loss</b>, and a 206-request load test (203 ok) served as the final go/no-go gate before the 75,859-request production run.</li>
+</ul>
+<h3>Direct-track fits and starts</h3>
+<ul>
+  <li>Pilot v1: <b>0/90</b> — a dead end. v2 stalled with most requests stuck in <code>prepared</code>. v3 completed exactly one forum. v4 reached 79/90 and froze the method; only then did the 51,813-forum production run launch.</li>
+</ul>
+<h3>The truncation ladder</h3>
+<ul>
+  <li>The first full pass (16k output tokens) left <b>7,166 truncated responses</b>. A retry round at 24k re-ran 7,270 eligible rows and recovered 6,223. The 959 still failing were retried at 32k, recovering 812 more. <b>107 rows never parsed at any budget</b> and remain excluded.</li>
+  <li>A separate cluster of <b>32 rows failed identically at 16k, 24k, and 32k</b> with the provider's content-policy refusal (<code>DataInspectionFailed</code>, HTTP 400) — proof this failure mode has nothing to do with token budgets. They were not retried further; only successes were merged, each merge preceded by an automatic online-backup snapshot of the target database.</li>
+  <li>Semantic-validation failures (813 rows with valid JSON that failed local evidence/schema checks) were deliberately <em>excluded</em> from every retry round — re-billing the API cannot fix a local validation rule; that exclusion is enforced by a unit test.</li>
+</ul>
+<h3>Small scars, recorded</h3>
+<ul>
+  <li>The 32k retry's supervisor shell script crashed <em>after</em> all 959 rows were committed — it used <code>status</code>, a reserved zsh variable, as a local. Renamed to <code>exit_status</code>; zero data impact, but the lesson is written down.</li>
+  <li>Two one-off manual repairs patched earlier pilot artifacts (28 malformed episode IDs migrated via a hardcoded table; 7 placeholder chain-templates restored by hand). Both are irreproducible-by-construction and flagged in §08.</li>
+  <li>The taxonomy stage had its own iteration: reasoning-side clustering came back with 61.5% noise (vs 37.6% for objects), so the standard taxonomy was accepted as a skeleton induced from the clusterable ~40% — reported as a limitation rather than silently smoothed over.</li>
+</ul>
+
+<div class="no" id="s10">10</div>
+<h2 id="order-of-work">The order of the plates is not the order of the work</h2>
 <p>A page like this can read as though every analysis had been foreseen and each plate had waited for the one before it. It did not happen that way, and saying otherwise would be a research practice worth naming: inventing the motivation after seeing the result. So, plainly:</p>
 <ul>
 <li><b>The sequence is editorial, and it was imposed after the fact.</b> The analyses were built over weeks in the order questions occurred to us; the plates were then grouped into acts and ordered for reading. That arrangement has now been revised three times — from a loose sequence into six acts; split into seven when the act on judgment was carrying two different questions; and regrouped again so that each act opens with the question its plates share (the current form). None of these rearrangements changed any analysis. No plate's position is evidence that it was done for the plate before it.</li>
@@ -505,7 +635,8 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 </ul>
 
 
-<h3 id="provenance-ledger">Where each plate came from</h3>
+<div class="no" id="s11">11</div>
+<h2 id="provenance-ledger">Where each plate came from</h2>
 <p>The table below records, for every plate, the question it answers and what we can honestly say about when that question was formed. It exists so that a reader can tell the difference between a question we asked and then answered, and a description we produced and then found interesting. "Not recorded" is a real answer and appears where it appears honestly. Where a record exists, it was recovered from the project's own working history — the full conversation log between the researcher and the assistant, timestamped — not from memory; the log itself is slated for publication alongside the code history once it has been scrubbed of sensitive material. Reconstructing a motive with no record would be exactly the practice this table is meant to prevent.</p>
 <ul class="pv-key"><li><b>stated first</b> — the question was written down before the numbers existed</li><li><b>foundational</b> — built together with the taxonomy itself; no separate hypothesis</li><li><b>exploratory</b> — run because the data allowed the description; nothing predicted</li><li><b>part stated</b> — partly specified in advance, partly added afterwards</li><li><b>not recorded</b> — we do not have a reliable record of what prompted it, and are not going to invent one</li></ul>
 <div class="pv-wrap"><table class="pv-table">
@@ -554,14 +685,19 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 .pv-table td { padding: 7px 10px 7px 0; border-bottom: 1px solid rgba(36,28,20,.05); vertical-align: top; }
 .pv-table td:first-child { color: var(--ink); }
 .pv-st { color: #356b43; } .pv-fo { color: #8a5a1f; } .pv-ex { color: #6b5d94; } .pv-ps { color: #7c5f10; } .pv-nr { color: var(--muted); }
+/* on a phone the ledger stacks like every other table on this page, rather than
+   hiding two of its four columns behind a sideways scroll nobody discovers */
+@media (max-width: 640px) {
+  .pv-wrap { overflow-x: visible; }
+  .pv-table { min-width: 0; }
+  .pv-table td { padding: 5px 0; }
+  .pv-table td:nth-child(1), .pv-table td:nth-child(2), .pv-table td:nth-child(3), .pv-table td:nth-child(4) { width: auto; white-space: normal; }
+  .pv-table td:empty { display: none; }
+}
 </style>
 
-<h3 id="nav-instruments">The long rule and the cast shadow — instruments, not plates</h3>
-<p>Two persistent graphics recur across the atlas and are neither plates nor ledger entries. They are editorial apparatus, and the honest thing is to say so here rather than let a reader mistake them for figures: neither claims anything about the corpus. Each has exactly one real dependency on the data, and it is named below.</p>
-<p><b>The long rule</b>, a folding rule in the right margin, is built from the document itself: its hinges mark the act boundaries, its segment lengths are proportional to each act's plate count &#8212; counted at runtime from the page, not hand-tuned &#8212; and its graduations are one per plate, each one clickable. What is engraved along it is a vocabulary of magnifications (SENTENCE &#183; REVIEW &#183; CLAIM &#183; COST &#183; ROOM &#183; COURT &#183; RATING &#183; YEARS &#183; RECORD), one word per act, naming the size of the object that act holds under the lens. That vocabulary is editorial: it is the authors' own description of the book's structure, not a measurement of anything, and it should be read the way a table of contents is read, not the way a plate is read.</p>
-<p><b>The cast shadow</b> is a shadow thrown across the page when a heading arrives, inside which real sentences from the corpus develop and fade. It is decorative. The sentences are genuine corpus text &#8212; that much is a real data dependency &#8212; but nothing is claimed by which ones appear; no frequency, ranking or representativeness should be read into the selection. The whole layer is absent under <code>prefers-reduced-motion</code> and in print, which is itself a statement that it carries no content the page depends on.</p>
-
-<h3 id="new-instruments">Notes for the nine added plates</h3>
+<div class="no" id="s12">12</div>
+<h2 id="new-instruments">Notes for the nine added plates</h2>
 <p>Nine plates were added in the seven-act revision (the Syntax, the Early Verdict, the Combination Clause, the Unnamed Precedent, the Law&#8217;s Price, the Charge Sheet, the Moves, the Borrowed Verdict, the Unamended Code), plus the Door, which is navigation and makes no claims. (In the 2026-08-24 restructure the Law's Price merged into the Price plate, the Gauntlet into the Consequence, and the Script into the Itinerary as its prologue; their instruments are unchanged.) Their instruments, and where each can mislead:</p>
 <ul>
 <li><b>The Syntax</b> — form labels come from the Plate III classifier (5-fold CV accuracy 0.685, macro-F1 in the file); transitions are compared against a null that shuffles each review internally, so the reported lifts are within-review order effects only, and they are small — the plate says so rather than dressing them up.</li>
@@ -574,7 +710,8 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 <li><b>The Unamended Code</b> — the timelessness claim is calibrated by a split-half control (a code fitted on half of 2026, held-out half at 0.152); every year sits within 0.008 of it. Two resolution limits are owned in the caption: sentence embeddings can miss register-preserving semantic shifts, and the transfer clause rides on the code&#8217;s one genuinely mixed cluster (majority register transfer; differentiation a defensible second reading), so its 5&#8211;7% band is the least certain of the six. The reverse fit (a 2018&#8211;19 code applied forward) uses k=6 over only 417 sentences and is reported as weak corroboration, not evidence.</li>
 </ul>
 
-<h3 id="instrument-extensions">Instrument extensions (2026-08-24 review pass)</h3>
+<div class="no" id="s13">13</div>
+<h2 id="instrument-extensions">Instrument extensions (2026-08-24 review pass)</h2>
 <p>During the plate-by-plate review, several caption claims turned out to live only in a builder&#8217;s one-off print output — verifiable at the time, unverifiable once the run scrolled away. The rule adopted: any number in a caption or stat rail must either sit in the shipped JSON or be recomputable by a named script. The following were persisted accordingly:</p>
 <ul class="ni-list">
 <li><b>build_acecho_data.py</b> — now emits <code>gap_by_cutoff</code>: per-valence shares of meta-review units at nearest-neighbor cosine &ge; 0.70 / 0.75 / 0.80, backing the Borrowed Verdict&#8217;s claim that criticism is echoed more than praise at every cutoff (+7.0 / +6.6 / +3.3 pp).</li>
@@ -588,6 +725,31 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 </ul>
 <p>Naming provenance for the added plates: the novelty direct-track clause map and the combination sub-cluster names follow the same workflow as the eleven-docket elements — machine-drafted over exemplars, analyst-reviewed (one contested cluster, the transfer/differentiation mixture, is flagged in both the map file and the caption). All raw cluster exports, per-unit assignments, and the builders that made them ship with the repository and the HF dataset.</p>
 
+
+<div class="no" id="s14">14</div>
+<h2 id="nav-instruments">The long rule and the cast shadow — instruments, not plates</h2>
+<p>Two persistent graphics recur across the atlas and are neither plates nor ledger entries. They are editorial apparatus, and the honest thing is to say so here rather than let a reader mistake them for figures: neither claims anything about the corpus. Each has exactly one real dependency on the data, and it is named below.</p>
+<p><b>The long rule</b>, a folding rule in the right margin, is built from the document itself: its hinges mark the act boundaries, its segment lengths are proportional to each act's plate count &#8212; counted at runtime from the page, not hand-tuned &#8212; and its graduations are one per plate, each one clickable. What is engraved along it is a vocabulary of magnifications (SENTENCE &#183; REVIEW &#183; CLAIM &#183; COST &#183; ROOM &#183; COURT &#183; RATING &#183; YEARS &#183; RECORD), one word per act, naming the size of the object that act holds under the lens. That vocabulary is editorial: it is the authors' own description of the book's structure, not a measurement of anything, and it should be read the way a table of contents is read, not the way a plate is read.</p>
+<p><b>The cast shadow</b> is a shadow thrown across the page when a heading arrives, inside which real sentences from the corpus develop and fade. It is decorative. The sentences are genuine corpus text &#8212; that much is a real data dependency &#8212; but nothing is claimed by which ones appear; no frequency, ranking or representativeness should be read into the selection. The whole layer is absent under <code>prefers-reduced-motion</code> and in print, which is itself a statement that it carries no content the page depends on.</p>
+
+<div class="part" id="piv">
+  <div class="part-rule"><span>Part IV</span></div>
+  <h2 class="part-name">The bill</h2>
+  <div class="part-lat">ratio impensarum — the account of expenses</div>
+  <p class="part-sub">what it cost, itemized</p>
+</div>
+<div class="no" id="s15">15</div>
+<h2>Cost ledger</h2>
+<div class="tw"><table>
+  <tr><th>Stage</th><th>Cost (USD)</th></tr>
+  <tr><td>Collection + normalization</td><td class="n">0 (API-free)</td></tr>
+  <tr><td>DeepSeek Full Layered memos (151,193)</td><td class="n">314.416569</td></tr>
+  <tr><td>DeepSeek Direct memos (51,813)</td><td class="n">194.753528</td></tr>
+  <tr><td>Qwen Direct track incl. both retries</td><td class="n">74.795158</td></tr>
+  <tr><td>Qwen Compact 2026 track</td><td class="n">28.793265</td></tr>
+  <tr><td>Unit extraction, taxonomy, assignment (local)</td><td class="n">0</td></tr>
+</table></div>
+<p style="font-size:13px">Pilot-phase spend (episode schemas, calibrations, judge comparisons) is additional and itemized in the project's internal provenance ledger; there is deliberately no single "grand total" field — sums must be composed explicitly from the stages used.</p>
 
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
@@ -605,7 +767,10 @@ for (const table of document.querySelectorAll("table")) {
   if (!heads.length) continue;
   const rows = table.querySelectorAll("tr");
   for (let i = 1; i < rows.length; i++) {
-    rows[i].querySelectorAll("td").forEach((td, j) => { if (heads[j]) td.setAttribute("data-label", heads[j]); });
+    rows[i].querySelectorAll("td").forEach((td, j) => {
+      if (heads[j]) td.setAttribute("data-label", heads[j]);
+      if (td.children.length || td.textContent.trim().length > 90) td.classList.add("td-rich");
+    });
   }
   const first = table.querySelector("tr");
   if (first && first.querySelector("th")) { const thead = document.createElement("thead"); thead.appendChild(first); table.prepend(thead); }
@@ -637,6 +802,9 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
 #meridian .m-fill { position: absolute; right: 6px; top: -14px; width: 1px; background: var(--brass); }
 #meridian button { position: relative; display: block; width: 13px; height: 2px; padding: 0; background: rgba(138,90,31,0.35); border: none; cursor: pointer; transition: width 0.25s ease, background 0.25s ease; }
 #meridian button:hover, #meridian button.cur { width: 22px; background: var(--brass); }
+#meridian button.m-part { width: 20px; height: 1px; margin: 5px 0; background: var(--brass); }
+#meridian button.m-part:hover, #meridian button.m-part.cur { width: 28px; }
+#meridian button.m-part .m-lab { color: var(--brass); }
 #meridian button .m-lab { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; background: rgba(239,228,201,0.9); padding: 3px 7px; border: 1px solid var(--brass-faint); }
 #meridian button:hover .m-lab, #meridian button.cur .m-lab { opacity: 1; }
 #meridian button.cur .m-lab { color: var(--ink-2); border-color: transparent; background: none; }
@@ -729,16 +897,23 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
   const topbar = document.getElementById("topbar");
   const rail = document.getElementById("meridian");
   const fill = document.getElementById("m-fill");
-  const marks = [...document.querySelectorAll(".no")].map(no => {
-    let h = no.nextElementSibling;
+  // the rail is the cabinet: four drawers, and the sections filed in each. Parts and
+  // sections are collected in document order so the rail cannot drift from the page.
+  const marks = [...document.querySelectorAll(".part, .no")].map(el => {
+    if (el.classList.contains("part")) {
+      const nm = el.querySelector(".part-name"), rl = el.querySelector(".part-rule span");
+      return { el, part: true, lab: (rl ? rl.textContent.trim() + " · " : "") + (nm ? nm.textContent.trim() : "") };
+    }
+    let h = el.nextElementSibling;
     while (h && !/^H[23]$/.test(h.tagName)) h = h.nextElementSibling;
-    return { el: no, lab: h ? h.textContent.trim().slice(0, 26) : no.textContent.trim() };
+    return { el, lab: h ? h.textContent.trim().slice(0, 26) : el.textContent.trim() };
   });
   const pct = document.createElement("div"); pct.className = "m-pct"; pct.textContent = "000%";
   const entries = [{ el: shell, lab: "Top" }].concat(marks);
   for (const en of entries) {
     const b = document.createElement("button");
     b.innerHTML = `<span class="m-lab">${en.lab}</span>`;
+    if (en.part) b.classList.add("m-part");
     b.addEventListener("click", () => en.el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
     rail.appendChild(b); en.btn = b;
   }
@@ -750,6 +925,10 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
     fill.style.height = (p * 100).toFixed(2) + "%";
     pct.textContent = String(Math.round(p * 100)).padStart(3, "0") + "%";
     topbar.classList.toggle("show", scrollY > 420);
+    // a fast flick can jump a block clean over the observer's window; anything the
+    // reader has already scrolled past is revealed unconditionally rather than left blank
+    for (const el of document.querySelectorAll(".mv:not(.in)"))
+      if (el.getBoundingClientRect().top < innerHeight) el.classList.add("in");
     let best = 0;
     entries.forEach((en, i) => { if (en.el.getBoundingClientRect().top <= innerHeight * 0.4) best = i; });
     if (best !== cur) { cur = best; entries.forEach((en, i) => en.btn.classList.toggle("cur", i === best)); }

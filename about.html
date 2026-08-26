@@ -150,6 +150,8 @@ td:last-child { text-align: right; font-family: var(--mono); font-size: 11.5px; 
   td:last-child { border-bottom: none; }
   td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
     text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
+  td.td-rich { display: block; text-align: left; }
+  td.td-rich::before { display: block; margin-bottom: 3px; padding-top: 0; }
 }
 
 /* ------------------------------------------------------------- the furniture */
@@ -785,6 +787,10 @@ void main() {
     const p = dh > 0 ? Math.min(1, Math.max(0, scrollY / dh)) : 0;
     fill.style.height = (p * 100).toFixed(2) + "%";
     topbar.classList.toggle("show", scrollY > innerHeight * 0.7);
+    // a fast flick can jump a block clean over the observer's window; anything the
+    // reader has already scrolled past is revealed unconditionally rather than left blank
+    for (const el of document.querySelectorAll(".rv:not(.in), .gap:not(.in)"))
+      if (el.getBoundingClientRect().top < innerHeight) el.classList.add("in");
     let best = -1;
     gaps.forEach((g, i) => { if (g.getBoundingClientRect().top <= innerHeight * 0.55) best = i; });
     if (best !== cur) { cur = best; gaps.forEach((g, i) => g._btn.classList.toggle("cur", i === best)); }
@@ -811,7 +817,12 @@ void main() {
     const heads = [...table.querySelectorAll("tr:first-child th, tr:first-child td")].map(h => h.textContent.trim());
     const rows = table.querySelectorAll("tr");
     for (let i = 1; i < rows.length; i++)
-      rows[i].querySelectorAll("td").forEach((td, j) => { if (heads[j]) td.setAttribute("data-label", heads[j]); });
+      rows[i].querySelectorAll("td").forEach((td, j) => {
+        if (heads[j]) td.setAttribute("data-label", heads[j]);
+        // a cell mixing running text with inline elements shatters into columns under
+        // the flex stacking rule below; those cells stack as blocks instead
+        if (td.children.length || td.textContent.trim().length > 90) td.classList.add("td-rich");
+      });
     const first = table.querySelector("tr");
     if (first && first.querySelector("th")) { const thead = document.createElement("thead"); thead.appendChild(first); table.prepend(thead); }
   }
