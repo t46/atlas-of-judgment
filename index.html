@@ -245,6 +245,17 @@ body::after {
 /* ---- the atlas vertebra: the WebGL hero; the flat chart stays beneath as the print/fallback plate ---- */
 #neb { position: absolute; inset: 0; width: 100%; height: 100%; display: none; cursor: crosshair; }
 html.neb3d #neb { display: block; }
+/* the table outlives the hero: the bone lies down on it, is engraved, and is then
+   covered by the next sheet — at which point there is nothing left to draw. */
+html.neb3d #neb, html.neb3d #neb-ui, html.neb3d #neb-plate, html.neb3d #neb-docket, html.neb3d #neb-loupe { position: fixed; }
+html.neb3d #neb { top: 0; left: 0; width: 100vw; height: 100svh; transition: opacity .45s var(--ease-settle); }
+html.plate-done #neb, html.plate-done #neb-ui, html.plate-done #neb-plate, html.plate-done #neb-docket { opacity: 0; pointer-events: none; }
+html.plate-done #neb { visibility: hidden; }
+.tp-table { position: relative; z-index: 2; min-height: 74svh; display: flex; align-items: flex-end; padding-bottom: clamp(96px, 12svh, 130px); pointer-events: none; }
+@media (max-width: 760px) { .tp-table { min-height: 66svh; padding-bottom: 132px; } .tp-table .tq { max-width: none; } }
+.tp-table .tq { margin: 0; max-width: 24ch; }
+.tp-sheet { position: relative; z-index: 3; background: var(--ground); box-shadow: 0 -26px 56px rgba(61,44,20,.20), 0 -1px 0 var(--brass-faint); }
+@media (prefers-reduced-motion: reduce) { .tp-table { min-height: 0; padding-bottom: 34px; } }
 html.neb3d .tp-sky { visibility: hidden; }
 /* the hero turns to vellum while the bone is on the page; everything below stays as it was */
 html.neb3d .tp-hero { --v-ground: #ece5d3; --v-ink: #33291f; --v-ink-2: #5c4f3d; --v-faded: #8b7c64; --v-brass: var(--brass); --v-wax: var(--v-negative);
@@ -1199,8 +1210,10 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <button class="tp-tour tp-tour2" id="door-start"><span class="tp-door" aria-hidden="true"></span>i came holding a sentence</button>
     <div class="tp-descend"><span>Descend</span><i></i></div>
   </div>
-  <div class="shell tp-below">
+  <div class="tp-table"><div class="shell">
     <h2 class="tq">What do peer reviewers actually <em>look at</em> — and how do they <em>decide</em>?</h2>
+  </div></div>
+  <div class="tp-sheet"><div class="shell tp-below">
     <div class="tp-below-grid">
       <p class="tp-sub" style="max-width:none">To find out, open-weight language models read every public ICLR review and split each one into its separate pieces of reasoning. One piece — a <em>unit</em> — records four things: what the reviewer inspected, what they observed, the standard they judged it by, and what they concluded. This page counts 410,586 units from ICLR 2026 (98% of its reviews), read one review at a time, and 1,009,592 units from 2018–2026, read a second way that takes in each paper's whole discussion — rebuttal replies and the area chair included. Every number below is a count of units. The reading is a machine's, not a human's; the note below explains what that costs, and every plate links back to the original reviews.</p>
       <div class="docket">
@@ -1211,6 +1224,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
         the sky behind this page drifts in the corpus's true verdict proportions</div>
       </div>
     </div>
+  </div>
   </div>
 </div>
 
@@ -3486,7 +3500,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   precision highp float;
   in vec2 vP; out vec4 frag;
   uniform vec2 uRes; uniform float uT;
-  uniform float uNod, uTurn, uLift, uFlat, uEra, uInkFocus, uSink;
+  uniform float uNod, uTurn, uLift, uFlat, uEra, uInkFocus, uSink, uPlate;
   uniform vec3 uCamPos, uCamTgt;
   uniform sampler2D uEtch; uniform sampler2D uInk;
   const float PI = 3.14159265;
@@ -3572,6 +3586,28 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     return clamp(1.0 - 2.6*occ, 0., 1.);
   }
 
+
+  // ---- the burin: what is left of a body once the light is spent ----
+  // four plates of ruling; each enters as the tone deepens, and each stroke swells
+  // where the tone is darkest, the way a burin cuts wider as the hand presses.
+  float ruling(vec2 sp, float ang, float freq){
+    float s = sp.x*cos(ang) + sp.y*sin(ang);
+    return abs(fract(s*freq) - 0.5) * 2.0;
+  }
+  float engraveInk(vec2 a, vec2 b, float lum){
+    float T[4] = float[4](0.86, 0.66, 0.46, 0.24);
+    float ink = 0.0;
+    for (int i = 0; i < 4; i++){
+      float w = smoothstep(T[i] + 0.12, T[i] - 0.12, lum);
+      if (w <= 0.001) continue;
+      vec2 sp = (i == 1 || i == 3) ? b : a;
+      float ang = i == 0 ? 0.0 : i == 1 ? 1.25 : i == 2 ? 0.62 : 2.05;
+      float d = ruling(sp, ang, i == 0 ? 1.0 : i == 1 ? 1.35 : i == 2 ? 2.1 : 2.7);
+      ink = max(ink, w * smoothstep(0.26 + 0.30*(1.0 - w), 0.02, d));
+    }
+    return ink;
+  }
+
   void main(){
     vec2 uv = vP;
     uv.x *= uRes.x / uRes.y;
@@ -3615,7 +3651,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         vec2 iuv = p.xz * 0.34 + 0.5;
         vec3 ink = texture(uInk, fract(iuv)).rgb;
         float near = exp(-dot(p.xz, p.xz) * 0.16);
-        float develop = mix(smoothstep(0.62, 0.95, shade) * uLift * near, 0.55 + 0.35*near, uSink);
+        float develop = mix(smoothstep(0.62, 0.95, shade) * uLift * near, (0.22 + 0.62*near) * near, uSink);
         // the line now being weighed is written brightest, on its own row of the page
         float row = fract(iuv.y * 1.0);
         float band = exp(-pow((row - fract(uInkFocus)) * 26.0, 2.0));
@@ -3623,6 +3659,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         vec3 hot  = mix(vec3(1.0), ink, 1.0) * mix(1.0, 0.62, band);
         g = mix(g, g * mix(dark, hot, band), develop);
         col = g * (0.55 + 0.45*dif*sh) * (0.65 + 0.35*occ);
+        // the table itself stays paper. Only what the bone casts is cut into it —
+        // an engraver rules a shadow; he does not rule the sheet.
+        float engG = max(uFlat, uPlate);
+        if (engG > 0.001){
+          float lumG = clamp(mix(0.30, 1.04, sh), 0., 1.);
+          float inkG = engraveInk(p.xz * 13.0, p.xz * vec2(11.0, 15.4) + 3.1, lumG);
+          vec3 printG = mix(g * 1.03, vec3(0.28, 0.23, 0.17), inkG * 0.64);
+          printG = mix(printG, printG * mix(vec3(1.0), ink, 0.9), develop * 0.9);
+          col = mix(col, printG, engG);
+        }
       } else {
         // bone in object space for engraving lookup
         vec3 q = rotY(-uTurn) * rotX(-uNod) * (p - vec3(0.0, mix(-0.55, 0.0, uLift), 0.0));
@@ -3643,17 +3689,27 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
             + vec3(1.0, 0.92, 0.78) * spec * sh
             + vec3(0.42, 0.30, 0.18) * rim * 0.16
             + vec3(0.72, 0.50, 0.30) * thin * 0.30;
-        // before the plate rises, it is a printed engraving: flat paper + strokes, no light
-        vec3 print = mix(vec3(0.905,0.868,0.792), vec3(0.32,0.26,0.19), (1.0 - etch.r) * 1.4);
-        col = mix(lit, print, uFlat);
+        // before the plate rises — and again after it lies back down — the bone is a
+        // printed engraving: flat paper, and strokes that follow the form they describe.
+        float eng = max(uFlat, uPlate);
+        if (eng > 0.001){
+          float lum = clamp(dot(lit, vec3(0.35, 0.42, 0.23)) * 1.12, 0., 1.);
+          vec2 ra = vec2(u2 * 46.0, v2 * 13.0);            // ruling rides the bone's own wrap
+          vec2 rb = vec2(q.x + q.z, q.y * 1.8 + q.z * 0.4) * 26.0;
+          float ink = engraveInk(ra, rb, lum);
+          ink = max(ink, (1.0 - etch.r) * 0.55);              // the corpus, still cut into the plate
+          ink = max(ink, smoothstep(0.62, 0.97, rim) * 0.92); // and the contour that separates it from the sheet
+          vec3 print = mix(vec3(0.906,0.868,0.790), vec3(0.161,0.126,0.086), ink);
+          col = mix(lit, print, eng);
+        } else col = lit;
       }
       // atmosphere back into the vellum
-      col = mix(col, vell, clamp(1.0 - exp(-0.05*(t-2.0)), 0., 1.) * 0.5);
+      col = mix(col, vell, clamp(1.0 - exp(-0.05*(t-2.0)), 0., 1.) * 0.5 * (1.0 - 0.75*uPlate));
     }
     // paper grain + vignette
     float gr = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898,78.233))) * 43758.5453);
     col += (gr - 0.5) * 0.018;
-    float vig = 1.0 - 0.22*dot(vP*vec2(0.7,0.9), vP*vec2(0.7,0.9));
+    float vig = 1.0 - 0.22*dot(vP*vec2(0.7,0.9), vP*vec2(0.7,0.9)) * (1.0 - 0.8*uPlate);
     col *= vig;
     frag = vec4(col, 1.0);
   }`));
@@ -3759,14 +3815,20 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const ee = 1 - Math.pow(1 - e, 3);
     const orbit = (REDUCED ? 0 : Math.sin(t * 0.11) * 0.10) + mxN * 0.16;
     const portrait = W < 700 || H > W * 1.1;
-    const az = -0.85 + orbit + (1 - ee) * 0.55;
-    const el = 1.35 - ee * 0.89 + myN * 0.07;   // from straight above the printed plate down to the specimen view
-    const dist = portrait ? 5.4 + ee * 1.7 : 6.4 - ee * 1.25;
+    const pk2 = (window.__plateK || 0), pke = pk2 * pk2 * (3 - 2 * pk2);
+    const az = -0.85 + orbit * (1 - pke) + (1 - ee) * 0.55 + pke * 0.30;
+    // from straight above the printed plate, down to the specimen — and back up, because a plate is read face-on
+    const el = (1.35 - ee * 0.89 + myN * 0.07) * (1 - pke) + 1.30 * pke;
+    const dist = (portrait ? 5.4 + ee * 1.7 : 6.4 - ee * 1.25) * (1 - pke) + (portrait ? 7.6 : 7.4) * pke;
     const cx2 = Math.cos(el), tx = Math.sin(az) * cx2, ty = Math.sin(el), tz = Math.cos(az) * cx2;
     // the bone stays at the origin; the gaze drifts aside as we retreat, so the bone settles off-centre
-    const gx2 = portrait ? 0 : -1.3 - (1 - ee) * 0.55;
-    const gy2 = portrait ? -0.05 - 1.15 * ee : -0.05 - 0.1 * ee;
-    return { pos: [tx * dist, ty * dist - 0.05, tz * dist], tgt: [gx2, gy2, 0] };
+    // the finished plate sits high and to the right; the question is printed to its left
+    // the camera is nearly overhead at the end, so what places the plate on screen is the
+    // gaze in x and z (solved for the plate sitting upper-right of the printed question)
+    const gx2 = (portrait ? 0 : -1.3 - (1 - ee) * 0.55) * (1 - pke) + (portrait ? -0.88 : -1.06) * pke;
+    const gy2 = (portrait ? -0.05 - 1.15 * ee : -0.05 - 0.1 * ee) * (1 - pke) + (-0.30) * pke;
+    const gz2 = (portrait ? 1.44 : 1.64) * pke;
+    return { pos: [tx * dist, ty * dist - 0.05, tz * dist], tgt: [gx2, gy2, gz2] };
   }
   function pickAndLabels(t, entrance) {
     const cam = camPose(t, entrance);
@@ -3923,13 +3985,26 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const prevAssemble = window.__skyAssemble;
   let domeSynced = !document.documentElement.classList.contains("overture");
   window.__skyAssemble = k => { if (prevAssemble) prevAssemble(k); if (!domeSynced && k > 0.03) { domeSynced = true; t0 = performance.now(); } };
-  let scrollK = 0;
+  let scrollK = 0, plateK = 0;
+  const htmlEl = document.documentElement;
   addEventListener("scroll", () => {
     const h = (document.querySelector(".tp-hero") || {}).offsetHeight || innerHeight;
     scrollK = Math.min(1, Math.max(0, scrollY / (h * 0.85)));
+    // the second screen is a plate: the light drains out of the bone, the strokes take
+    // over, and the drawing is finished by the time the next sheet is laid over it.
+    plateK = Math.min(1, Math.max(0, (scrollY - h * 0.18) / (h * 0.62)));
+    window.__plateK = plateK;
+    // once the sheet covers the table there is nothing left to draw
+    const done = scrollY > h * 1.80;   // the sheet (hero + 74svh of table) has covered the plate
+    if (done !== window.__plateDone) {
+      window.__plateDone = done;
+      htmlEl.classList.toggle("plate-done", done);
+      if (!done) requestAnimationFrame(tick);
+    }
   }, { passive: true });
 
   function tick(now) {
+    if (window.__plateDone) return;
     now = now || performance.now();
     const t = (now - t0) / 1000;
     // stage 1 (0-1.6s): the printed plate, seen flat on the page. stage 2 (1.6-4.4s): light arrives, the plate rises.
@@ -3943,21 +4018,27 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const breathe = REDUCED ? 0 : Math.sin(t * 0.9) * 0.006;
 
     if (!REDUCED) {
-      const showPlate = t < 2.1;
+      const showPlate = t < 2.1 || plateK > 0.70;
       if (showPlate !== plateMark.classList.contains("on")) plateMark.classList.toggle("on", showPlate);
     }
     const cam = pickAndLabels(t, entrance);
     const ee2 = 1 - Math.pow(1 - entrance, 3);
     gl.uniform2f(U("uRes"), cv.width, cv.height);
     gl.uniform1f(U("uT"), t);
-    gl.uniform1f(U("uNod"), nod + breathe);
-    gl.uniform1f(U("uTurn"), turn);
+    // a drawing does not weigh anything: as the plate sets, the joint stops moving
+    const pk = plateK * plateK * (3 - 2 * plateK);
+    gl.uniform1f(U("uNod"), (nod + breathe) * (1 - pk) + (-0.10) * pk);
+    gl.uniform1f(U("uTurn"), turn * (1 - pk) + 0.30 * pk);
     // scroll sinks the bone back into the page; its shadow's writing stays and becomes the text below
-    gl.uniform1f(U("uLift"), REDUCED ? 1 : ee2 * (1 - scrollK * 0.92));
+    // sinking is for a body; a drawing lies on the sheet, not in it
+    gl.uniform1f(U("uLift"), REDUCED ? 1 : (ee2 * (1 - scrollK * 0.92)) * (1 - pk) + 0.62 * pk);
     gl.uniform1f(U("uSink"), scrollK);
     gl.uniform1f(U("uFlat"), REDUCED ? 0 : Math.max(0, 1 - entrance * 2.2));
+    gl.uniform1f(U("uPlate"), REDUCED ? 1 : plateK * plateK * (3 - 2 * plateK));
     // the sun of the era: one full pass 2018 -> 2026 every 40s, marked in the rail
-    const era = REDUCED ? 0.55 : (t / 40) % 1;
+    // the light of the era walks while the bone lives; once the plate is cut it stops,
+    // raking, because a printed plate carries its own fixed light
+    const era = REDUCED ? 0.55 : ((t / 40) % 1) * (1 - pk) + 0.16 * pk;
     gl.uniform1f(U("uEra"), era);
     gl.uniform1f(U("uInkFocus"), inkFocus);
     const yr = 2018 + Math.round(era * 8);
@@ -4061,6 +4142,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const sky = document.querySelector(".tp-sky");
   const ov = document.querySelector(".tp-overlay");
   const cue = document.querySelector(".tp-descend");
+  const frame = document.querySelector(".tp-hero-frame");
   if (!hero || !sky) return;
   let raf = null;
   const tick = () => {
@@ -4071,10 +4153,14 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     if (!MOBILE_FX) sky.style.filter = `brightness(${(1 + k * 0.16).toFixed(3)})`;
     sky.style.opacity = String(Math.max(0, 1 - k * 1.15));
     const neb = document.getElementById("neb"), nebui = document.getElementById("neb-ui");
-    if (neb) { neb.style.transform = `scale(${1 + k * 0.35})`; neb.style.opacity = String(Math.max(0, 1 - k * 1.15)); }
+    // the table does not leave with the hero — the bone lies down on it and is engraved,
+    // and only then is it covered. Only the hero's own furniture departs.
+    if (neb && !window.__neb3dActive) { neb.style.transform = `scale(${1 + k * 0.35})`; neb.style.opacity = String(Math.max(0, 1 - k * 1.15)); }
     if (nebui) nebui.style.opacity = String(Math.max(0, 1 - k * 1.6));
+    if (frame) frame.style.opacity = String(Math.max(0, 1 - k * 1.6));
     if (ov) { ov.style.transform = `translateY(${(-k * h * 0.28).toFixed(1)}px)`; ov.style.opacity = String(Math.max(0, 1 - k * 1.6)); }
     if (cue) cue.style.opacity = String(Math.max(0, 1 - k * 3));
+    for (const b of document.querySelectorAll(".tp-tour")) b.style.opacity = String(Math.max(0, 1 - k * 2.4));
   };
   addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
   tick();
