@@ -3662,27 +3662,36 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 
 
   // ---- the burin: what is left of a body once the light is spent ----
-  // four plates of ruling; each enters as the tone deepens, and each stroke swells
-  // where the tone is darkest, the way a burin cuts wider as the hand presses.
-  float ruling(vec2 sp, float ang, float freq){
+  // A burin does not switch between four plates of ruling as the tone deepens — that
+  // banded, and the bands are what made this read as a net laid over a solid. It cuts
+  // ONE set of strokes that follow the form, swelling where the tone is dark, lifting
+  // off the paper entirely where it is light, and crossing itself only where a single
+  // pass can no longer hold the dark. The tone lives in the width of the line and in
+  // nothing else: there is no fill anywhere in an engraving.
+  float hand(vec2 sp, float ang, float freq){
+    // line-to-line variation: a plate is cut by a hand, and no two rulings are equal
     float s = sp.x*cos(ang) + sp.y*sin(ang);
-    return abs(fract(s*freq) - 0.5) * 2.0;
+    return fract(sin(floor(s*freq) * 12.9898 + ang * 7.31) * 43758.5453);
+  }
+  float stroke(vec2 sp, float ang, float freq, float weight){
+    float s = sp.x*cos(ang) + sp.y*sin(ang);
+    float d = abs(fract(s*freq) - 0.5) * 2.0;          // 0 on the line, 1 midway between
+    float w = clamp(weight * (0.80 + 0.40*hand(sp, ang, freq)), 0.0, 0.98);
+    // the stroke also swells and thins ALONG its length, as the hand presses and eases
+    float along = sp.x*(-sin(ang)) + sp.y*cos(ang);
+    w *= 0.90 + 0.10 * sin(along * 5.3 + s * 3.1);
+    return smoothstep(w, w * 0.30, d);
   }
   float engraveInk(vec2 a, vec2 b, float lum){
-    float T[4] = float[4](0.86, 0.66, 0.46, 0.24);
-    float ink = 0.0;
-    for (int i = 0; i < 4; i++){
-      float w = smoothstep(T[i] + 0.12, T[i] - 0.12, lum);
-      if (w <= 0.001) continue;
-      vec2 sp = (i == 1 || i == 3) ? b : a;
-      // The base tier must run ALONG the form, not across it: at angle 0 it ruled bands
-      // of constant wrap, which came out as a row of perpendicular ticks — a zipper, not
-      // an engraving. A burin follows the surface it describes and only crosses itself
-      // in the darks, which is what the three tiers above it are for.
-      float ang = i == 0 ? 1.5708 : i == 1 ? 1.25 : i == 2 ? 0.62 : 2.05;
-      float d = ruling(sp, ang, i == 0 ? 1.6 : i == 1 ? 1.35 : i == 2 ? 2.1 : 2.7);
-      ink = max(ink, w * smoothstep(0.26 + 0.30*(1.0 - w), 0.02, d));
-    }
+    // raised toward the middle: a plate models its lights with thin rulings and keeps
+    // bare paper for the highlight alone, so the mid range has to be where most of it lives
+    float tone = pow(1.0 - clamp(lum, 0.0, 1.0), 0.70);
+    float t1 = smoothstep(0.04, 0.95, tone);
+    float ink = stroke(a, 1.5708, 2.3, t1 * 0.86);     // the one pass, along the form
+    float t2 = smoothstep(0.50, 1.00, tone);           // a second only where one cannot hold
+    if (t2 > 0.002) ink = max(ink, stroke(b, 1.25, 1.90, t2 * 0.78));
+    float t3 = smoothstep(0.80, 1.00, tone);           // a third in the deepest darks alone
+    if (t3 > 0.002) ink = max(ink, stroke(a, 0.62, 3.00, t3 * 0.72));
     return ink;
   }
 
@@ -3743,7 +3752,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         if (engG > 0.001){
           float lumG = clamp(mix(0.30, 1.04, sh), 0., 1.);
           float inkG = engraveInk(p.xz * 13.0, p.xz * vec2(11.0, 15.4) + 3.1, lumG);
-          vec3 printG = mix(g * 1.03, vec3(0.28, 0.23, 0.17), inkG * 0.64);
+          // the cast shadow is a light tone on a plate, never heavier than the figure
+          vec3 printG = mix(g * 1.03, vec3(0.28, 0.23, 0.17), inkG * 0.44);
           printG = mix(printG, printG * mix(vec3(1.0), ink, 0.9), develop * 0.9);
           col = mix(col, printG, engG);
         }
@@ -3775,7 +3785,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         float rim = pow(1.0 - clamp(dot(n, -rd), 0., 1.), 2.5);
         // thin bone lets the light through at the arch edges
         float thin = pow(clamp(dot(-n, key), 0., 1.), 1.6) * pow(rim, 0.6);
-        vec3 lit = bone * (0.30 + 0.78*difB*sh + 0.22*fil + 0.12*sky) * (0.5 + 0.5*occ) * aoCut
+        // one shading term, used twice: it lights the body, and it is the tone the burin
+        // reads. Taking the tone off the finished colour instead let the specular and the
+        // rim count as light, so almost the whole bone registered as highlight and the
+        // plate came out as an outline with an empty middle.
+        float shade = (0.30 + 0.78*difB*sh + 0.22*fil + 0.12*sky) * (0.5 + 0.5*occ) * aoCut;
+        vec3 lit = bone * shade
             + vec3(1.0, 0.92, 0.78) * spec * sh
             + vec3(0.42, 0.30, 0.18) * rim * 0.16
             + vec3(0.72, 0.50, 0.30) * thin * 0.30;
@@ -3791,16 +3806,19 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         if (eng > 0.001){
           float drain = smoothstep(0.0, 0.55, eng);        // the light goes out first,
           float burin = smoothstep(0.46, 1.0, eng);        // and only then is anything cut
-          vec3 wash = mix(lit, vec3(0.906, 0.868, 0.790), drain * 0.84);
-          float lum = clamp(dot(lit, vec3(0.35, 0.42, 0.23)) * 1.12, 0., 1.);
+          // The wash cannot be the lit render faded toward paper: that carries the
+          // specular and the subsurface warmth into the plate, and gloss on a printed
+          // sheet is exactly the thing that read as CG. Build the ground from paper and
+          // a whisper of the plate's own tone, and let the lines do all the describing.
+          vec3 paper = vec3(0.906, 0.868, 0.790);
+          vec3 matte = mix(paper, paper * 0.972, clamp(1.0 - difB * sh, 0., 1.));
+          vec3 wash = mix(lit, matte, drain);
+          float lum = clamp(shade / 1.15, 0., 1.);
           vec2 ra = vec2(u2 * 46.0, v2 * 13.0);            // ruling rides the bone's own wrap
           vec2 rb = vec2(q.x + q.z, q.y * 1.8 + q.z * 0.4) * 26.0;
           float ink = engraveInk(ra, rb, lum);
           ink = max(ink, cut * 0.55);                        // the corpus, still cut into the plate
-          ink = max(ink, smoothstep(0.62, 0.97, rim) * 0.92); // and the contour against the sheet
-          // paper has tooth: a stroke laid on it breaks, it does not print like vector art
-          float tooth = fract(sin(dot(floor(q.xz * 250.0 + q.y * 170.0), vec2(21.7, 91.3))) * 47531.0);
-          ink *= 0.78 + 0.22 * tooth;
+          ink = max(ink, smoothstep(0.74, 0.99, rim) * 0.95); // and the contour against the sheet
           col = mix(wash, vec3(0.161, 0.126, 0.086), clamp(ink, 0., 1.) * burin);
         } else col = lit;
       }
@@ -4148,7 +4166,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     // nearly the whole scroll to reach them, and a curve with a flatter peak.
     const pv = Math.min(1, plateK / 0.92), pk = 0.34 * pv + 0.66 * (pv * pv * (3 - 2 * pv));
     const pi = Math.max(0, (plateK - 0.10) / 0.90), pkInk = pi * pi * (3 - 2 * pi);
-    gl.uniform1f(U("uNod"), (nod + breathe) * (1 - pk) + (-0.10) * pk);
+    // a figure in an atlas is not tilted: the specimen lies flat and is read square on
+    gl.uniform1f(U("uNod"), (nod + breathe) * (1 - pk));
     gl.uniform1f(U("uTurn"), turn * (1 - pk) + 0.30 * pk);
     // scroll sinks the bone back into the page; its shadow's writing stays and becomes the text below
     // sinking is for a body; a drawing lies on the sheet, not in it
