@@ -155,28 +155,61 @@ svg.bander-lines polyline { stroke: var(--brass-dim); stroke-width: 1; fill: non
 .dk-more { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; line-height: 2.1; margin-top: 4px; padding-top: 14px; border-top: 1px solid var(--brass-faint); }
 .dk-more b { color: var(--brass); font-weight: 500; }
 @media (max-width: 860px) { .docket { border-left: none; border-top: 1px solid var(--brass-line); padding: 22px 0 0; margin-top: 6px; flex-direction: row; flex-wrap: wrap; gap: 14px 34px; align-items: baseline; } .dk-more { flex-basis: 100%; border-top: none; padding-top: 2px; } }
-.sp-frame { border: 1px solid var(--brass-line); background: rgba(36,28,20,0.011); padding: 30px 34px 26px; }
-.sp-eyebrow { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); margin-bottom: 24px; }
-.sp-no { color: var(--muted); letter-spacing: 0.18em; }
-.sp-quote { font-family: var(--display); font-style: italic; font-size: clamp(21px, 2.7vw, 30px); line-height: 1.45; color: var(--ink); margin: 0; text-wrap: pretty; transition: text-shadow 0.5s var(--ease-settle); }
-.sp-quote.glow { text-shadow: 0 0 22px rgba(138,90,31,0.35); }
+/* ---- Plate 0: one unit, opened. An anatomical plate, not a table of fields:
+   the sentence is the specimen, the margins carry the four parts, and a leader
+   runs from each part to the words it was read out of — except the third, whose
+   leader ends in the air, because the standard is written nowhere. ---- */
+.pz-plate { position: relative; border: 1px solid var(--brass-line); padding: 9px; background: rgba(248,241,224,0.42); }
+.pz-plate::before, .pz-plate::after { content: ""; position: absolute; width: 12px; height: 12px; border-color: var(--brass); border-style: solid; }
+.pz-plate::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.pz-plate::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.pz-inner { border: 1px solid var(--brass-faint); padding: clamp(22px, 3.4vw, 44px) clamp(18px, 3vw, 40px) clamp(20px, 2.6vw, 32px); }
+.pz-mark { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 22px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); }
+.pz-no { color: var(--muted); letter-spacing: 0.18em; }
+.pz-stage { position: relative; display: grid; grid-template-columns: minmax(148px, 0.82fr) minmax(0, 1.6fr) minmax(148px, 0.82fr);
+  gap: clamp(26px, 3.6vw, 62px); align-items: center; margin: clamp(26px, 4svh, 46px) 0 clamp(20px, 3svh, 34px); }
+.pz-leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.pz-leaders path { fill: none; stroke: var(--brass-line); stroke-width: 1; transition: stroke .35s var(--ease-settle), stroke-width .35s var(--ease-settle); }
+.pz-leaders path.void { stroke-dasharray: 3 4; }
+.pz-leaders circle { fill: var(--brass); opacity: .55; transition: opacity .35s var(--ease-settle); }
+.pz-leaders circle.ring { fill: none; stroke: var(--brass-line); stroke-width: 1; }
+.pz-leaders .on path, .pz-leaders g.on path { stroke: var(--brass); stroke-width: 1.4; }
+.pz-leaders g.on circle { opacity: 1; }
+.pz-leaders g.on circle.ring { stroke: var(--brass); }
+.pz-margin { display: flex; flex-direction: column; gap: clamp(24px, 4svh, 46px); }
+.pz-right { text-align: right; }
+.pz-quote { font-family: var(--display); font-style: italic; font-size: clamp(20px, 2.5vw, 29px); line-height: 1.5; color: var(--ink); margin: 0; text-wrap: pretty; text-align: center;
+  transition: text-shadow 0.5s var(--ease-settle); }
+.pz-quote.glow { text-shadow: 0 0 22px rgba(138,90,31,0.35); }
 .sq { border-bottom: 1px dashed transparent; padding-bottom: 2px; transition: border-color 0.35s var(--ease-settle); }
 .sq.on { border-bottom-color: var(--brass); }
-.sp-src { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); margin-top: 14px; }
-.sp-src a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid rgba(36,28,20,0.147); }
-.sp-src a:hover { color: var(--brass); border-bottom-color: var(--brass); }
-.sp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 26px; border-top: 1px solid var(--brass-line); }
-.sp-cell { padding: 16px 20px 15px 0; margin-right: 20px; border-top: 2px solid transparent; margin-top: -1px; cursor: default; transition: border-color 0.35s var(--ease-settle); }
-.sp-cell:hover, .sp-cell.lit { border-top-color: var(--brass); }
-.sp-lab { font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); margin-bottom: 9px; }
-.sp-val { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); }
-.sp-val b { color: var(--ink); font-weight: 500; }
-.sp-imp { color: var(--muted); font-style: italic; }
-.sp-chip { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--v-negative); border: 1px solid rgba(208,104,92,0.45); border-radius: 2px; padding: 2px 7px; margin-left: 7px; white-space: nowrap; }
-.sp-foot { margin-top: 6px; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); border-top: 1px solid var(--brass-faint); padding-top: 16px; }
-@media (max-width: 1000px) { .sp-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 640px) { .sp-grid { grid-template-columns: 1fr; } .sp-cell { margin-right: 0; padding-right: 0; } .sp-frame { padding: 22px 18px 20px; } }
-@media print { .sp-cell { border-top-color: var(--brass-line); } }
+.pz-cell { cursor: default; }
+.pz-lab { font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); margin-bottom: 8px; transition: color .35s var(--ease-settle); }
+.pz-cell.lit .pz-lab { color: var(--ink); }
+.pz-val { font-size: 13px; line-height: 1.62; color: var(--ink-2); }
+.pz-val b { color: var(--ink); font-weight: 500; }
+.pz-imp { display: block; margin-top: 6px; color: var(--muted); font-style: italic; font-size: 12.5px; }
+.pz-air { font-weight: 400; color: var(--brass-dim); }
+.pz-chip { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--v-negative); border: 1px solid rgba(111,31,69,0.42); border-radius: 2px; padding: 2px 7px; margin-left: 7px; white-space: nowrap; }
+.pz-cap { text-align: center; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--ink-2); border-top: 1px solid var(--brass-faint); padding-top: 15px; }
+.pz-cap small { display: block; font-family: var(--mono); font-style: normal; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 1.9; margin-top: 7px; }
+.pz-cap a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid rgba(36,28,20,0.147); }
+.pz-cap a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+.pz-foot { margin-top: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); max-width: 76ch; }
+@media (max-width: 900px) {
+  /* no leaders to draw on a narrow sheet, so the parts run in their own order */
+  .pz-stage { grid-template-columns: 1fr; gap: 22px; }
+  .pz-leaders, .pz-air { display: none; }
+  .pz-margin { display: contents; }
+  .pz-quote { order: 1; text-align: left; }
+  .pz-right { text-align: left; }
+  .pz-cell { border-left: 1px solid var(--brass-faint); padding-left: 14px; text-align: left; }
+  .pz-cell[data-f="inspected"] { order: 2; }
+  .pz-cell[data-f="observed"] { order: 3; }
+  .pz-cell[data-f="standard"] { order: 4; }
+  .pz-cell[data-f="verdict"] { order: 5; }
+}
+@media print { .pz-leaders { display: none; } }
 #planisphere { width: 100%; max-width: 520px; aspect-ratio: 1; justify-self: center; cursor: crosshair; }
 #star-card { position: absolute; left: 6px; right: 6px; bottom: 6px; background: rgba(239,228,201,0.94); backdrop-filter: blur(6px); border: 1px solid var(--brass-line); padding: 12px 34px 12px 14px; animation: specIn 0.35s ease both; }
 #star-card .sc-q { font-size: 12.5px; line-height: 1.55; color: var(--ink); font-style: italic; }
@@ -1230,19 +1263,24 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 <main class="shell">
 
-<section id="specimen" style="padding-top:50px">
-  <div class="sp-frame">
-    <div class="sp-eyebrow"><span>One unit, dissected — hover or tap a field to find it in the sentence</span><span class="sp-no">specimen № 335 of 410,586</span></div>
-    <blockquote class="sp-quote" id="sp-quote">&#8220;<span class="sq" data-f="inspected">Limited novelty</span>: Core idea&#8202;&#8212;&#8202;early-commitment to promising partial solutions&#8202;&#8212;&#8202;<span class="sq" data-f="observed">closely resembles existing beam/pruning and adaptive-consistency techniques</span>; <span class="sq" data-f="verdict">incremental contribution</span>.&#8221;</blockquote>
-    <div class="sp-src">the sentence as filed — one weakness from <a href="https://openreview.net/forum?id=hPUjTTj64O&amp;noteId=03ETTo7ue7" target="_blank" rel="noopener">an official review of ICLR 2026 submission hPUjTTj64O ↗</a> · matched verbatim to the raw OpenReview record, 2026-08-25</div>
-    <div class="sp-grid" id="sp-grid">
-      <div class="sp-cell" data-f="inspected"><div class="sp-lab">① inspected</div><div class="sp-val">the <b>novelty of the method&#8217;s early-commitment mechanism</b> — the part of the paper this judgment is about</div></div>
-      <div class="sp-cell" data-f="observed"><div class="sp-lab">② observed</div><div class="sp-val">the core idea <b>resembles existing beam/pruning and adaptive-consistency techniques</b> — what the reviewer saw there</div></div>
-      <div class="sp-cell" data-f="standard"><div class="sp-lab">③ standard</div><div class="sp-val">the norm the reviewer holds: <b>novelty requires a new mechanism</b>, not just a re-packaging of known search strategies <span class="sp-imp">— written nowhere in the sentence; most standards are implicit, and the machine&#8217;s reading names them</span></div></div>
-      <div class="sp-cell" data-f="verdict"><div class="sp-lab">④ verdict</div><div class="sp-val"><b>the contribution is incremental</b> <span class="sp-chip">negative</span></div></div>
+<section id="specimen" style="padding-top:56px">
+  <div class="pz-plate"><div class="pz-inner">
+    <div class="pz-mark"><span>Plate 0 &#183; one unit, opened &#8212; hover or tap a part to find it in the sentence</span><span class="pz-no">specimen &#8470; 335 of 410,586</span></div>
+    <div class="pz-stage" id="pz-stage">
+      <svg class="pz-leaders" id="pz-leaders" aria-hidden="true"></svg>
+      <div class="pz-margin pz-left">
+        <div class="pz-cell" data-f="inspected"><div class="pz-lab">&#9312; inspected</div><div class="pz-val">the <b>novelty of the method&#8217;s early-commitment mechanism</b> &#8212; the part of the paper this judgment is about</div></div>
+        <div class="pz-cell" data-f="standard"><div class="pz-lab">&#9314; standard</div><div class="pz-val">the norm the reviewer holds: <b>novelty requires a new mechanism</b>, not just a re-packaging of known search strategies<span class="pz-imp"><b class="pz-air">its leader ends in the air:</b> this is written nowhere in the sentence. Most standards are implicit, and the machine&#8217;s reading names them.</span></div></div>
+      </div>
+      <blockquote class="pz-quote" id="pz-quote">&#8220;<span class="sq" data-f="inspected">Limited novelty</span>: Core idea&#8202;&#8212;&#8202;early-commitment to promising partial solutions&#8202;&#8212;&#8202;<span class="sq" data-f="observed">closely resembles existing beam/pruning and adaptive-consistency techniques</span>; <span class="sq" data-f="verdict">incremental contribution</span>.&#8221;</blockquote>
+      <div class="pz-margin pz-right">
+        <div class="pz-cell" data-f="observed"><div class="pz-lab">&#9313; observed</div><div class="pz-val">the core idea <b>resembles existing beam/pruning and adaptive-consistency techniques</b> &#8212; what the reviewer saw there</div></div>
+        <div class="pz-cell" data-f="verdict"><div class="pz-lab">&#9315; verdict</div><div class="pz-val"><b>the contribution is incremental</b> <span class="pz-chip">negative</span></div></div>
+      </div>
     </div>
-    <div class="sp-foot">Four fields, one unit. This exact dissection was performed 410,586 times on ICLR 2026, and a million more across nine years of discussion — every figure below is a count of these. The note that follows says what a machine&#8217;s reading costs, and how to check it.</div>
-  </div>
+    <div class="pz-cap">Unitas judicii, quattuor partibus aperta<small>one weakness from <a href="https://openreview.net/forum?id=hPUjTTj64O&amp;noteId=03ETTo7ue7" target="_blank" rel="noopener">an official review of ICLR 2026 submission hPUjTTj64O &#8599;</a> &#183; matched verbatim to the raw OpenReview record, 2026-08-25</small></div>
+  </div></div>
+  <p class="pz-foot">Four parts, one unit. This exact dissection was performed 410,586 times on ICLR 2026, and a million more across nine years of discussion &#8212; every figure below is a count of these. The note that follows says what a machine&#8217;s reading costs, and how to check it.</p>
 </section>
 
 <section id="readers-note" style="padding-top:34px">
@@ -6583,42 +6621,104 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   }
 })();
 
-// ---------------- the specimen: one unit, dissected ----------------
+// ---------------- Plate 0: one unit, opened, with leaders to the words it came from ----------------
 (function specimen() {
-  const grid = document.getElementById("sp-grid"), quote = document.getElementById("sp-quote");
-  if (!grid || !quote) return;
+  const stage = document.getElementById("pz-stage"), quote = document.getElementById("pz-quote");
+  if (!stage || !quote) return;
+  const svg = document.getElementById("pz-leaders");
+  const cells = [...stage.querySelectorAll(".pz-cell")];
   const seg = f => quote.querySelector(`.sq[data-f="${f}"]`);
+  const NS = "http://www.w3.org/2000/svg";
+  let groups = {};
+
+  function draw() {
+    if (!svg) return;
+    groups = {};
+    svg.textContent = "";
+    if (innerWidth < 900) return;
+    const sr = stage.getBoundingClientRect();
+    if (!sr.width) return;
+    svg.setAttribute("viewBox", `0 0 ${sr.width.toFixed(1)} ${sr.height.toFixed(1)}`);
+    const qr = quote.getBoundingClientRect();
+    for (const cell of cells) {
+      const f = cell.dataset.f;
+      const cr = cell.getBoundingClientRect();
+      const left = (cr.left + cr.right) / 2 < (sr.left + sr.right) / 2;
+      const dir = left ? 1 : -1;
+      const lab = cell.querySelector(".pz-lab").getBoundingClientRect();
+      const x0 = (left ? cr.right : cr.left) - sr.left;
+      const y0 = lab.top + lab.height / 2 - sr.top;
+      let x1, y1;
+      const isVoid = f === "standard";
+      if (isVoid) {
+        // the standard's leader runs the full distance and then stops in open paper:
+        // there is no word in the sentence for it to land on
+        x1 = qr.left + qr.width * (left ? 0.34 : 0.66) - sr.left;
+        y1 = qr.bottom + 26 - sr.top;
+      } else {
+        const target = seg(f);
+        if (!target) continue;
+        const rects = [...target.getClientRects()];
+        if (!rects.length) continue;
+        const r = left ? rects[0] : rects[rects.length - 1];
+        x1 = (left ? r.left : r.right) - sr.left;
+        y1 = r.top + r.height / 2 - sr.top;
+      }
+      const g = document.createElementNS(NS, "g");
+      const path = document.createElementNS(NS, "path");
+      const sx = x0 + dir * 11, ex = x1 - dir * (isVoid ? 6.5 : 5);
+      path.setAttribute("d", `M${x0.toFixed(1)},${y0.toFixed(1)} H${sx.toFixed(1)} L${ex.toFixed(1)},${y1.toFixed(1)}`);
+      if (isVoid) path.setAttribute("class", "void");
+      g.appendChild(path);
+      const dot = document.createElementNS(NS, "circle");
+      dot.setAttribute("cx", x1.toFixed(1)); dot.setAttribute("cy", y1.toFixed(1));
+      dot.setAttribute("r", isVoid ? "4.6" : "2.5");
+      if (isVoid) dot.setAttribute("class", "ring");
+      g.appendChild(dot);
+      svg.appendChild(g);
+      groups[f] = g;
+    }
+  }
+
   const light = (f, on) => {
-    const cell = grid.querySelector(`.sp-cell[data-f="${f}"]`);
+    const cell = stage.querySelector(`.pz-cell[data-f="${f}"]`);
     if (cell) cell.classList.toggle("lit", on);
-    if (f === "standard") quote.classList.toggle("glow", on); // the standard has no words of its own — it is read out of the whole sentence
-    else { const s = seg(f); if (s) s.classList.toggle("on", on); }
+    if (groups[f]) groups[f].classList.toggle("on", on);
+    if (f === "standard") quote.classList.toggle("glow", on); // no words of its own — read out of the whole sentence
+    else { const t = seg(f); if (t) t.classList.toggle("on", on); }
   };
-  for (const cell of grid.querySelectorAll(".sp-cell")) {
+  for (const cell of cells) {
     cell.addEventListener("mouseenter", () => light(cell.dataset.f, true));
     cell.addEventListener("mouseleave", () => light(cell.dataset.f, false));
     cell.addEventListener("focus", () => light(cell.dataset.f, true));
     cell.addEventListener("blur", () => light(cell.dataset.f, false));
     cell.tabIndex = 0;
   }
-  for (const s of quote.querySelectorAll(".sq")) {
-    s.addEventListener("mouseenter", () => light(s.dataset.f, true));
-    s.addEventListener("mouseleave", () => light(s.dataset.f, false));
+  for (const t of quote.querySelectorAll(".sq")) {
+    t.addEventListener("mouseenter", () => light(t.dataset.f, true));
+    t.addEventListener("mouseleave", () => light(t.dataset.f, false));
   }
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  draw();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  if (window.ResizeObserver) new ResizeObserver(() => draw()).observe(stage);
+  else addEventListener("resize", draw);
+
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const order = ["inspected", "observed", "standard", "verdict"];
   let played = false;
   const io = new IntersectionObserver(ens => {
     for (const en of ens) {
       if (!en.isIntersecting || played) continue;
       played = true; io.disconnect();
-      order.forEach((f, i) => {
-        setTimeout(() => light(f, true), 500 + i * 620);
-        setTimeout(() => light(f, false), 500 + i * 620 + 560);
+      draw();
+      order.forEach((f, k) => {
+        setTimeout(() => light(f, true), 500 + k * 620);
+        setTimeout(() => light(f, false), 500 + k * 620 + 560);
       });
     }
-  }, { threshold: 0.55 });
-  io.observe(grid);
+  }, { threshold: 0.35 });
+  io.observe(stage);
 })();
 
 // ---------------- the long rule: the argument's own instrument ----------------
