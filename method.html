@@ -92,7 +92,7 @@ td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
   td.td-rich { display: block; text-align: left; }
   td.td-rich::before { display: block; margin-bottom: 3px; padding-top: 0; }
 }
-footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display: flex; flex-direction: column; align-items: center; gap: 11px; text-align: center; }
+footer.colophon { position: relative; z-index: 3; background: var(--ground); margin-top: 0; padding: clamp(56px, 8vh, 96px) 20px 84px; border: none; display: flex; flex-direction: column; align-items: center; gap: 11px; text-align: center; }
 .col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
 .col-rule::before, .col-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-line); }
 .col-rule svg { display: block; }
@@ -173,23 +173,80 @@ h1 { clip-path: inset(100% 0 0 0); transform: translateY(14px); animation: pgH1 
   .yl-n { text-align: right; }
 }
 @media (prefers-reduced-motion: reduce) { .yl-bar i { transform: none !important; transition: none !important; } }
+
+/* ---------------------------------------------------------- the officina --
+   The cabinet stands behind the whole page; the reading sheets are opaque paper
+   laid over it, and only the header and the four part dividers cut a window
+   through to it. Body text never competes with the engraving. */
+#cabinet { position: fixed; top: 0; left: 0; width: 100vw; height: 100svh; z-index: 0; display: block; }
+#cvig { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse 82% 66% at 50% 46%, transparent 46%, rgba(120,96,58,0.18) 100%); }
+main { position: relative; z-index: 3; }
+.sheet { position: relative; z-index: 3; background: var(--ground);
+  box-shadow: 0 -20px 44px rgba(61,44,20,0.13), 0 20px 44px rgba(61,44,20,0.13); }
+.sheet > .shell { padding-top: clamp(40px, 6vh, 68px); padding-bottom: clamp(48px, 7vh, 80px); }
+.sheet:first-of-type > .shell { padding-top: clamp(28px, 4vh, 46px); }
+
+.mhero { height: 100svh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 0 20px; position: relative; }
+.mhero::before { content: ""; position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%);
+  width: min(880px, 96vw); height: min(430px, 48svh); pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.94) 0%, rgba(239,228,201,0.80) 40%,
+    rgba(239,228,201,0.34) 62%, transparent 78%); }
+.mhero > * { position: relative; z-index: 1; }
+.mhero h1 { font-size: clamp(44px, 7.4vw, 96px); line-height: 1; margin-top: 16px; }
+.mhero-lat { font-style: italic; font-size: clamp(13px, 2vw, 16px); color: var(--ink-2); margin-top: 11px;
+  opacity: 0; animation: mfade 1s ease 1.1s forwards; }
+.mhero-cue { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--ink-2); opacity: 0; animation: mfade 1s ease 1.9s forwards; display: flex;
+  flex-direction: column; align-items: center; gap: 8px; padding: 7px 20px 9px;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.90) 0%, rgba(239,228,201,0.55) 55%, transparent 82%); }
+.mhero-cue i { display: block; width: 1px; height: 30px; background: linear-gradient(var(--brass-line), transparent); }
+.mhero-cue .cue-s { display: none; }
+@keyframes mfade { to { opacity: 1; } }
+
+/* a window: the bay of the cabinet this part lives in, with its label beside it */
+.pwin { height: 78svh; display: flex; align-items: center; position: relative;
+  padding: 0 clamp(20px, 4vw, 36px); pointer-events: none; }
+/* the clearing rides the card's own box: an oversized ::before pushed the page
+   sideways at 390px, where the card is full width */
+.pwin-card { max-width: 34ch; position: relative; opacity: 0; transform: translateY(16px);
+  padding: 30px 34px; transition: opacity 0.9s var(--ease-settle), transform 0.9s var(--ease-settle);
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.97) 0%, rgba(239,228,201,0.91) 38%,
+    rgba(239,228,201,0.62) 60%, rgba(239,228,201,0.18) 78%, transparent 92%); }
+.pwin.in .pwin-card { opacity: 1; transform: none; }
+.pwin .part-name { font-family: var(--display); font-weight: 500; font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.04; margin-top: 12px; }
+.pclose { height: 92svh; justify-content: center; text-align: center; }
+.pclose .pwin-card { max-width: 52ch; }
+.pclose .part-rule { justify-content: center; } .pclose .part-rule::after { display: none; }
+.pclose .part-sub { margin-left: auto; margin-right: auto; }
+@media (max-width: 900px) { .pwin { height: 66svh; justify-content: center; text-align: center; }
+  .pwin-card { max-width: none; } .pwin .part-rule::after { display: none; } }
+
+/* the old flat divider styling is superseded by the windows above */
+.part, .part + .no { margin-top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mhero-lat, .mhero-cue { animation: none; opacity: 1; }
+  .mhero-cue .cue-m { display: none; } .mhero-cue .cue-s { display: inline; }
+  .pwin-card { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .pwin { height: 44svh; }
+  #cabinet { opacity: 0.5; }
+}
 </style>
+<canvas id="cabinet" aria-hidden="true"></canvas>
+<div id="cvig" aria-hidden="true"></div>
+<main id="top">
+<section class="mhero">
+  <div class="eyebrow">Atlas of Judgment · Reproduction Record</div>
+  <h1>How the data <em style="font-style:italic">was made</em></h1>
+  <div class="mhero-lat">officina — the room next door to the atlas</div>
+  <div class="mhero-cue"><i></i><span class="cue-m">open the cabinet</span><span class="cue-s">four parts, sixteen sections</span></div>
+</section>
+<div class="sheet"><div class="shell">
 
-<div class="shell" id="top">
-<nav id="topbar" aria-label="site">
-  <a class="tb-mark" href="index.html">Atlas of Judgment</a>
-  <div class="tb-links">
-    <a href="index.html">The Atlas</a>
-    <a href="about.html">About</a>
-    <a class="here" href="#">Method</a>
-    <a href="https://github.com/t46/atlas-of-judgment">GitHub</a>
-    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Data</a>
-  </div>
-</nav>
-<div style="height:54px"></div>
-
-<div class="eyebrow">Atlas of Judgment · Reproduction Record</div>
-<h1>How the data <em style="font-style:italic">was made</em></h1>
 <p style="font-size:16.5px;margin-top:22px">Every stage from raw collection to the labeled unit databases that all atlas figures are computed from — scripts, models, parameters, seeds, counts, costs, failure modes, and the exact commands. Scope ends at the data layer; the visualizations downstream evolve continuously and are documented in the atlas itself. All counts verified 2026-08-18 by read-only queries.</p>
 
 <div class="callout"><b>The finished data is public</b>
@@ -313,12 +370,16 @@ Both labeled unit databases (410,586 review-level units, ICLR 2026 · 1,009,592 
 </div>
 </div>
 
-<div class="part" id="pi">
-  <div class="part-rule"><span>Part I</span></div>
-  <h2 class="part-name">The build</h2>
-  <div class="part-lat">officina — the workshop</div>
-  <p class="part-sub">everything needed to make the data again</p>
+</div></div>
+<div class="pwin" id="pi" data-bay="0">
+  <div class="pwin-card">
+    <div class="part-rule"><span>Part I</span></div>
+    <h2 class="part-name">The build</h2>
+    <div class="part-lat">officina — the workshop</div>
+    <p class="part-sub">everything needed to make the data again</p>
+  </div>
 </div>
+<div class="sheet"><div class="shell">
 <div class="no" id="s0">00</div>
 <h2>Prerequisites &amp; environment</h2>
 <ul>
@@ -440,12 +501,16 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 </ul>
 <p>Everything downstream of these two labeled databases — aggregation files and the atlas's plates — is a separate, continuously evolving layer, documented in the <a href="index.html">atlas</a> appendix itself.</p>
 
-<div class="part" id="pii">
-  <div class="part-rule"><span>Part II</span></div>
-  <h2 class="part-name">The instrument tested</h2>
-  <div class="part-lat">probatio instrumenti — the testing of the instrument</div>
-  <p class="part-sub">how well the reading reads, and where it cannot</p>
+</div></div>
+<div class="pwin" id="pii" data-bay="1">
+  <div class="pwin-card">
+    <div class="part-rule"><span>Part II</span></div>
+    <h2 class="part-name">The instrument tested</h2>
+    <div class="part-lat">probatio instrumenti — the testing of the instrument</div>
+    <p class="part-sub">how well the reading reads, and where it cannot</p>
+  </div>
 </div>
+<div class="sheet"><div class="shell">
 <!-- METHOD-EXTRAS BEGIN (generated by scripts/build_method_extras.py) -->
 
 <style>
@@ -582,12 +647,16 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
   <li><b>Hash coverage</b>: protocol/schema SHA-256 pinning covers the Qwen-era runs (16 manifests); older pilot artifacts rely on documentary cross-reference only.</li>
 </ul>
 
-<div class="part" id="piii">
-  <div class="part-rule"><span>Part III</span></div>
-  <h2 class="part-name">The record</h2>
-  <div class="part-lat">acta — what was done</div>
-  <p class="part-sub">what was actually done, in what order, and on whose prompting</p>
+</div></div>
+<div class="pwin" id="piii" data-bay="2">
+  <div class="pwin-card">
+    <div class="part-rule"><span>Part III</span></div>
+    <h2 class="part-name">The record</h2>
+    <div class="part-lat">acta — what was done</div>
+    <p class="part-sub">what was actually done, in what order, and on whose prompting</p>
+  </div>
 </div>
+<div class="sheet"><div class="shell">
 <div class="no" id="s9">09</div>
 <h2>The actual path — pilots, failures, decisions</h2>
 <p>The raw, sanitized session history behind this chronicle — every command and decision as it happened, 21,386 events — is published in <a href="https://github.com/t46/atlas-of-judgment">the project repository</a> (<code>codex-history/</code>), alongside the full pipeline code and these pages. The sections above describe the pipeline as it finally ran. This section records how it actually got there — the small trials, dead ends, and mid-course corrections, in order. Nothing here is retrospective varnish; each item is backed by an artifact directory or manifest still on disk.</p>
@@ -732,12 +801,16 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 <p><b>The long rule</b>, a folding rule in the right margin, is built from the document itself: its hinges mark the act boundaries, its segment lengths are proportional to each act's plate count &#8212; counted at runtime from the page, not hand-tuned &#8212; and its graduations are one per plate, each one clickable. What is engraved along it is a vocabulary of magnifications (SENTENCE &#183; REVIEW &#183; CLAIM &#183; COST &#183; ROOM &#183; COURT &#183; RATING &#183; YEARS &#183; RECORD), one word per act, naming the size of the object that act holds under the lens. That vocabulary is editorial: it is the authors' own description of the book's structure, not a measurement of anything, and it should be read the way a table of contents is read, not the way a plate is read.</p>
 <p><b>The cast shadow</b> is a shadow thrown across the page when a heading arrives, inside which real sentences from the corpus develop and fade. It is decorative. The sentences are genuine corpus text &#8212; that much is a real data dependency &#8212; but nothing is claimed by which ones appear; no frequency, ranking or representativeness should be read into the selection. The whole layer is absent under <code>prefers-reduced-motion</code> and in print, which is itself a statement that it carries no content the page depends on.</p>
 
-<div class="part" id="piv">
-  <div class="part-rule"><span>Part IV</span></div>
-  <h2 class="part-name">The bill</h2>
-  <div class="part-lat">ratio impensarum — the account of expenses</div>
-  <p class="part-sub">what it cost, itemized</p>
+</div></div>
+<div class="pwin" id="piv" data-bay="3">
+  <div class="pwin-card">
+    <div class="part-rule"><span>Part IV</span></div>
+    <h2 class="part-name">The bill</h2>
+    <div class="part-lat">ratio impensarum — the account of expenses</div>
+    <p class="part-sub">what it cost, itemized</p>
+  </div>
 </div>
+<div class="sheet"><div class="shell">
 <div class="no" id="s15">15</div>
 <h2>Cost ledger</h2>
 <div class="tw"><table>
@@ -751,6 +824,15 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 </table></div>
 <p style="font-size:13px">Pilot-phase spend (episode schemas, calibrations, judge comparisons) is additional and itemized in the project's internal provenance ledger; there is deliberately no single "grand total" field — sums must be composed explicitly from the stages used.</p>
 
+</div></div>
+<div class="pwin pclose" id="pclose">
+  <div class="pwin-card">
+    <div class="part-rule"><span>The cabinet</span></div>
+    <h2 class="part-name">Drawn from the page it stands behind</h2>
+    <div class="part-lat">index sui — its own index</div>
+    <p class="part-sub">Four bays are the four parts; sixteen drawers are the sixteen sections; each drawer is as deep as its section is long, measured off this page when it loads rather than set by hand, and the card on each front is ruled from that section's own title. Like the atlas's long rule, it is apparatus: it claims nothing about the corpus, and the page reads without it.</p>
+  </div>
+</div>
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
   <div class="col-mark">Atlas of Judgment</div>
@@ -759,7 +841,7 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
   <div class="col-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a></div>
   <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
 </footer>
-</div>
+</main>
 
 <script>
 for (const table of document.querySelectorAll("table")) {
@@ -883,12 +965,14 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
   } else { document.getElementById("ether").remove(); }
   // ---- block reveals ----
   const shell = document.querySelector(".shell");
-  const blocks = [...shell.children].filter(el => !/^(NAV|SCRIPT|STYLE)$/.test(el.tagName));
+  const blocks = [...document.querySelectorAll(".shell")]
+    .flatMap(sh => [...sh.children]).filter(el => !/^(NAV|SCRIPT|STYLE)$/.test(el.tagName));
   const io = new IntersectionObserver(en => {
     for (const e of en) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }, { threshold: 0.08 });
   for (const el of blocks) { el.classList.add("mv"); io.observe(el); }
   for (const el of document.querySelectorAll(".diagram, .hm")) io.observe(el);
+  for (const w of document.querySelectorAll(".pwin")) io.observe(w);
   document.querySelectorAll(".hm").forEach(hm => {
     [...hm.querySelectorAll(".cell")].forEach((c, i) => c.style.transitionDelay = Math.min(i * 4, 800) + "ms");
   });
@@ -899,8 +983,8 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
   const fill = document.getElementById("m-fill");
   // the rail is the cabinet: four drawers, and the sections filed in each. Parts and
   // sections are collected in document order so the rail cannot drift from the page.
-  const marks = [...document.querySelectorAll(".part, .no")].map(el => {
-    if (el.classList.contains("part")) {
+  const marks = [...document.querySelectorAll(".pwin, .no")].map(el => {
+    if (el.classList.contains("pwin")) {
       const nm = el.querySelector(".part-name"), rl = el.querySelector(".part-rule span");
       return { el, part: true, lab: (rl ? rl.textContent.trim() + " · " : "") + (nm ? nm.textContent.trim() : "") };
     }
@@ -924,7 +1008,7 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
     const p = dh ? scrollY / dh : 0;
     fill.style.height = (p * 100).toFixed(2) + "%";
     pct.textContent = String(Math.round(p * 100)).padStart(3, "0") + "%";
-    topbar.classList.toggle("show", scrollY > 420);
+    topbar.classList.toggle("show", scrollY > innerHeight * 0.7);
     // a fast flick can jump a block clean over the observer's window; anything the
     // reader has already scrolled past is revealed unconditionally rather than left blank
     for (const el of document.querySelectorAll(".mv:not(.in)"))
@@ -955,3 +1039,288 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
 })();
 </script>
 <!-- PAGE-MOTION END -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   The officina: a raw-WebGL2 line engraving of a specimen cabinet, standing
+   behind the page. Four bays are the page's four parts; sixteen drawers are its
+   sixteen sections; each drawer is as deep as its section is long, measured off
+   the live DOM rather than hand-tuned — the same rule the atlas's long rule
+   follows. Scrolling walks the cabinet: the hero shows it whole, and each part
+   window opens that part's bay.
+   ═════════════════════════════════════════════════════════════════════════ */
+(function officina() {
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cv = document.getElementById("cabinet");
+  const gl = cv && cv.getContext("webgl2", { antialias: true, alpha: true, powerPreference: "low-power" });
+  if (!gl) { if (cv) cv.remove(); const v = document.getElementById("cvig"); if (v) v.remove();
+    document.documentElement.classList.add("no-cabinet"); return; }
+
+  // ---- the page measures itself: one drawer per section, sized by its length
+  const wins = [...document.querySelectorAll(".pwin")];   // the last of them is the elevation
+  const marks = [...document.querySelectorAll('.no[id^="s"]')];
+  const SEC = marks.map(no => {
+    let h = no.nextElementSibling;
+    while (h && !/^H2$/.test(h.tagName)) h = h.nextElementSibling;
+    let n = 0, el = no.nextElementSibling;
+    while (el && !el.classList.contains("no")) {
+      n += el.querySelectorAll("p, li, tr").length + (/^(P|LI|TR)$/.test(el.tagName) ? 1 : 0);
+      el = el.nextElementSibling;
+    }
+    return { el: no, title: h ? h.textContent.trim() : no.textContent.trim(), n: Math.max(2, n) };
+  });
+  const BAYS = [7, 2, 6, 1];
+  if (SEC.length !== BAYS.reduce((a, b) => a + b, 0)) BAYS.length = 0;   // page changed: fail soft
+  if (!BAYS.length || !wins.length) { cv.remove(); document.getElementById("cvig").remove(); return; }
+  const NMAX = Math.max(...SEC.map(s => s.n));
+
+  // ---- geometry ------------------------------------------------------------
+  const A = [], B = [], SIDE = [], ENDV = [], INK = [], WID = [], COL = [], DR = [], VIS = [];
+  const Q = [[0,-1],[0,1],[1,-1],[1,-1],[0,1],[1,1]];
+  const INKC = [0.141,0.110,0.078], BR = [0.404,0.290,0.106];
+  let dr = -1, vis = 0;
+  function seg(a, b, ink, w, col) {
+    for (const [e, s] of Q) { A.push(a[0],a[1],a[2]); B.push(b[0],b[1],b[2]); SIDE.push(s); ENDV.push(e);
+      INK.push(ink); WID.push(w); COL.push(col[0],col[1],col[2]); DR.push(dr); VIS.push(vis); }
+  }
+  const rect = (x0,y0,x1,y1,z,ink,w,col) => {
+    seg([x0,y0,z],[x1,y0,z],ink,w,col); seg([x1,y0,z],[x1,y1,z],ink,w,col);
+    seg([x1,y1,z],[x0,y1,z],ink,w,col); seg([x0,y1,z],[x0,y0,z],ink,w,col); };
+
+  const WD = 2.00, PITCH = 2.30, STILE = (PITCH - WD) / 2, H = 4.32, DEPTH = 0.86, GAP = 0.035;
+  const X0 = -PITCH * BAYS.length / 2, XR = X0 + PITCH * BAYS.length;
+  const BAY0 = 0.16, BAY1 = H - 0.16;
+  const dh = n => 0.30 + 0.62 * Math.pow(n / NMAX, 0.55);
+  const drawers = []; let si = 0;
+  for (let bi = 0; bi < BAYS.length; bi++) {
+    const bx = X0 + bi * PITCH + STILE, n = BAYS[bi];
+    const raw = []; for (let k = 0; k < n; k++) raw.push(dh(SEC[si + k].n));
+    const scale = ((BAY1 - BAY0) - GAP * (n - 1)) / raw.reduce((a, b) => a + b, 0);
+    let y = BAY1;
+    for (let k = 0; k < n; k++, si++) {
+      const h = raw[k] * scale;
+      drawers.push({ i: si, bay: bi, x0: bx, x1: bx + WD, y0: y - h, y1: y, title: SEC[si].title, n: SEC[si].n });
+      y -= h + GAP;
+    }
+  }
+  // the carcass
+  rect(X0, 0, XR, H, 0, 1.0, 1.45, INKC);
+  for (let bi = 0; bi < BAYS.length; bi++) {
+    const bx = X0 + bi * PITCH + STILE;
+    rect(bx - 0.045, BAY0 - 0.045, bx + WD + 0.045, BAY1 + 0.045, 0.005, 0.55, 1.05, INKC);
+    seg([bx-0.045, BAY0-0.045, 0.005], [bx-0.045, BAY0-0.045, -DEPTH], 0.20, 1.0, INKC);
+    seg([bx+WD+0.045, BAY0-0.045, 0.005], [bx+WD+0.045, BAY0-0.045, -DEPTH], 0.20, 1.0, INKC);
+    for (let k = 0; k < 4; k++) { const x = bx - 0.045 - STILE * 0.72 * k / 4;
+      seg([x, BAY0-0.045, 0.004], [x, BAY1+0.045, 0.004], 0.13, 1.0, INKC); }
+  }
+  for (const x of [X0, XR]) { seg([x,0,0],[x,0,-DEPTH],0.45,1.0,INKC); seg([x,H,0],[x,H,-DEPTH],0.45,1.0,INKC);
+    seg([x,0,-DEPTH],[x,H,-DEPTH],0.26,1.0,INKC);
+    for (let k = 1; k < 9; k++) { const z = -DEPTH * k / 9; seg([x,0,z],[x,H,z],0.10,1.0,INKC); } }
+  for (const y of [0, H]) seg([X0,y,-DEPTH],[XR,y,-DEPTH],0.30,1.0,INKC);
+  rect(X0-0.10, H, XR+0.10, H+0.16, 0, 0.95, 1.4, INKC);        // cornice
+  rect(X0-0.10, -0.22, XR+0.10, 0, 0, 0.95, 1.4, INKC);          // plinth
+  for (let k = 0; k < 5; k++) { const x = X0-0.10 + (XR-X0+0.20)*k/4; seg([x,-0.22,0],[x,-0.52,0],0.6,1.0,INKC); }
+  seg([X0-2.2,-0.52,0],[XR+2.2,-0.52,0],0.85,1.3,INKC);
+  // the cast shadow, ruled — the atlas's own instrument, and like it there it claims nothing
+  for (let k = 0; k < 80; k++) { const t = k/79, x = X0-0.14 + (XR-X0+0.28)*t;
+    seg([x,-0.52,0.015],[x-0.72,-0.52,0.86], 0.30*(1-t*0.40), 1.0, INKC); }
+  for (let k = 1; k < 5; k++) { const u = k/5, z = 0.86*u;
+    seg([X0-0.14-0.72*u,-0.52,z],[XR+0.14-0.72*u,-0.52,z], 0.16*(1-u*0.7), 1.0, INKC); }
+  for (let k = 0; k < 16; k++) { const z = 0.95 + k*0.16;
+    seg([X0-2.2+z*0.30,-0.52,z],[XR+2.2+z*0.30,-0.52,z], 0.10, 1.0, INKC); }
+  // the recess each drawer leaves behind it — drawn only once the drawer is out
+  for (const d of drawers) {
+    dr = d.i; vis = 1;
+    rect(d.x0, d.y0, d.x1, d.y1, -0.02, 0.5, 1.0, INKC);
+    const n = Math.max(3, Math.round((d.y1-d.y0)/0.055));
+    for (let k = 1; k < n; k++) { const y = d.y0 + (d.y1-d.y0)*k/n; seg([d.x0,y,-0.02],[d.x1,y,-0.02],0.16,1.0,INKC); }
+  }
+  // the drawers
+  for (const d of drawers) {
+    dr = d.i; vis = 0;
+    const h = d.y1 - d.y0;
+    rect(d.x0+0.012, d.y0+0.012, d.x1-0.012, d.y1-0.012, 0.02, 0.95, 1.25, INKC);
+    rect(d.x0+0.075, d.y0+0.075, d.x1-0.075, d.y1-0.075, 0.02, 0.32, 1.0, INKC);
+    for (let y = d.y0+0.11; y < d.y1-0.10; y += 0.042) seg([d.x0+0.10,y,0.019],[d.x1-0.10,y,0.019],0.085,1.0,INKC);
+    // the label card, with the section's own title ruled on it word by word
+    const lx0 = d.x0+0.16, lx1 = d.x0+0.16+WD*0.46, ly1 = d.y1-0.10, ly0 = Math.max(d.y0+0.09, ly1-0.24);
+    rect(lx0, ly0, lx1, ly1, 0.025, 0.72, 1.1, BR);
+    { const words = d.title.split(/\s+/).filter(w => w.length > 1);
+      let x = lx0+0.045, y = ly1-0.075; const maxx = lx1-0.045, lead = 0.062;
+      for (const w of words) {
+        const len = Math.min(w.length*0.019, maxx-lx0-0.09);
+        if (x + len > maxx) { x = lx0+0.045; y -= lead; if (y < ly0+0.045) break; }
+        seg([x,y,0.026],[x+len,y,0.026],0.62,1.0,INKC); x += len + 0.022;
+      } }
+    const cx = (d.x0+d.x1)/2 + WD*0.26, cy = (d.y0+d.y1)/2;
+    for (let k = 0; k < 14; k++) { const t0 = k/14*6.283, t1 = (k+1)/14*6.283;
+      seg([cx+Math.cos(t0)*0.055, cy+Math.sin(t0)*0.055, 0.03],
+          [cx+Math.cos(t1)*0.055, cy+Math.sin(t1)*0.055, 0.03], 0.9, 1.15, BR); }
+    seg([cx-0.10,cy-0.105,0.028],[cx+0.10,cy-0.105,0.028],0.5,1.0,INKC);
+    vis = 1;                                          // what is inside, seen only when open
+    const rows = Math.min(d.n, Math.max(2, Math.floor(h/0.075))), per = Math.ceil(d.n/rows);
+    for (let r = 0; r < rows; r++) {
+      const y = d.y1 - 0.09 - r*(h-0.16)/Math.max(1, rows-1)*0.94;
+      if (y < d.y0 + 0.05) break;
+      for (let c = 0; c < per; c++) {
+        if (r*per + c >= d.n) break;
+        const cxx = d.x0 + 0.10 + c*((WD-0.22)/per);
+        seg([cxx,y,0],[cxx+(WD-0.30)/per,y,0],0.55,1.0,INKC);
+        seg([cxx,y,0],[cxx,y-0.030,0],0.30,1.0,INKC);
+      }
+    }
+    for (const x of [d.x0+0.012, d.x1-0.012]) {
+      seg([x,d.y0+0.012,0.02],[x,d.y0+0.012,0.02-DEPTH*0.62],0.34,1.0,INKC);
+      seg([x,d.y1-0.012,0.02],[x,d.y1-0.012,0.02-DEPTH*0.62],0.34,1.0,INKC);
+    }
+    seg([d.x0+0.012,d.y0+0.012,0.02-DEPTH*0.62],[d.x1-0.012,d.y0+0.012,0.02-DEPTH*0.62],0.34,1.0,INKC);
+  }
+  dr = -1; vis = 0;
+
+  // ---- program -------------------------------------------------------------
+  const NV = SIDE.length;
+  const VS = `#version 300 es
+precision highp float;
+in vec3 aA, aB, aCol; in float aSide, aEnd, aInk, aW, aDr, aVis;
+uniform mat4 uVP; uniform vec2 uRes; uniform float uW; uniform float uOpen[16];
+out float vInk; out float vD; out vec3 vCol;
+void main() {
+  float o = aDr < 0.0 ? 0.0 : uOpen[int(aDr)];
+  vec4 ca = uVP * vec4(aA + vec3(0., 0., o), 1.), cb = uVP * vec4(aB + vec3(0., 0., o), 1.);
+  if (ca.w <= 0.02 || cb.w <= 0.02) { gl_Position = vec4(0., 0., 2., 1.); vInk = 0.; vD = 1.; vCol = aCol; return; }
+  vec2 h = uRes * 0.5;
+  vec2 sa = ca.xy / ca.w * h, sb = cb.xy / cb.w * h;
+  vec2 d = sb - sa; float L = length(d);
+  vec2 dir = L > 0.0001 ? d / L : vec2(1., 0.);
+  vec4 c = mix(ca, cb, aEnd);
+  vec2 s = mix(sa, sb, aEnd) + vec2(-dir.y, dir.x) * aSide * aW * uW * 0.5;
+  gl_Position = vec4(s / h * c.w, c.z, c.w);
+  vInk = aInk * (aVis < 0.5 ? 1.0 : smoothstep(0.10, 0.75, o / 0.62));
+  vD = c.w; vCol = aCol;
+}`;
+  const FS = `#version 300 es
+precision highp float;
+in float vInk; in float vD; in vec3 vCol;
+uniform float uHaze, uD0;
+out vec4 o;
+void main() {
+  float f = exp(-max(vD / uD0 - 0.75, 0.) * uHaze);
+  // an engraving carries half-tone as well as outline: lift the faint rulings far
+  // more than the strong ones, or the object reads as a pencil rough
+  o = vec4(vCol, clamp(pow(vInk, 0.62) * f * 1.20, 0., 1.));
+}`;
+  const sh = (t, s) => { const x = gl.createShader(t); gl.shaderSource(x, s); gl.compileShader(x); return x; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    cv.remove(); document.getElementById("cvig").remove();
+    document.documentElement.classList.add("no-cabinet"); return;
+  }
+  gl.useProgram(prog);
+  gl.bindVertexArray(gl.createVertexArray());
+  const vbo = (arr, size, name) => {
+    const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+    const l = gl.getAttribLocation(prog, name);
+    gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, size, gl.FLOAT, false, 0, 0);
+  };
+  vbo(A,3,"aA"); vbo(B,3,"aB"); vbo(SIDE,1,"aSide"); vbo(ENDV,1,"aEnd");
+  vbo(INK,1,"aInk"); vbo(WID,1,"aW"); vbo(COL,3,"aCol"); vbo(DR,1,"aDr"); vbo(VIS,1,"aVis");
+  const U = n => gl.getUniformLocation(prog, n);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ---- matrices ------------------------------------------------------------
+  function mul(a, b) { const o = new Float32Array(16);
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { let s = 0;
+      for (let k = 0; k < 4; k++) s += a[k*4+j] * b[i*4+k]; o[i*4+j] = s; } return o; }
+  const persp = (f, ar, n, fa) => { const t = 1 / Math.tan(f/2);
+    return new Float32Array([t/ar,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0]); };
+  function look(e, c) {
+    const z = [e[0]-c[0], e[1]-c[1], e[2]-c[2]]; let l = Math.hypot(z[0],z[1],z[2]) || 1;
+    z[0]/=l; z[1]/=l; z[2]/=l;
+    let x = [z[2], 0, -z[0]]; l = Math.hypot(x[0], x[2]);
+    if (l < 1e-4) { x = [1,0,0]; l = 1; } x[0]/=l; x[2]/=l;
+    const y = [z[1]*x[2]-z[2]*x[1], z[2]*x[0]-z[0]*x[2], z[0]*x[1]-z[1]*x[0]];
+    return new Float32Array([x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+      -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1]);
+  }
+  const lerp = (a,b,t) => a + (b-a)*t, ease = t => t*t*(3-2*t), cl = t => Math.min(1, Math.max(0, t));
+  const bayX = bi => X0 + bi*PITCH + STILE + WD/2;
+
+  // ---- the walk ------------------------------------------------------------
+  // Station 0 is the whole cabinet; stations 1..4 are the four bays; the last is
+  // the flat elevation the page closes on. Which station the camera is at, and
+  // how far between two, is read off where the part windows are on screen.
+  function station(i, t, portrait) {
+    // a tall frame stands further off and holds the object higher, or the bay floats in
+    // the top third with a screenful of floor under it
+    const sp = Math.sin(t * 0.11) * 0.05, wide = portrait ? 1.28 : 1.0, up = portrait ? 0.45 : 0;
+    if (i === 0) return { eye: [-4.1*wide + sp, 4.1, 8.8*wide], tgt: [0, 1.80 + up, 0.2], fov: 0.80 };
+    if (i <= BAYS.length) { const bi = i - 1;
+      return { eye: [bayX(bi) - 2.9*wide + sp, 3.5, 7.2*wide], tgt: [bayX(bi) + 0.10, 2.10 + up, 0.15], fov: 0.78 }; }
+    return { eye: [0.15 + sp, 2.16, 12.2 * (portrait ? 1.75 : 1)], tgt: [0, 2.16, 0], fov: 0.70 };
+  }
+  function stationAt() {
+    // Each window contributes its own 0..1 as it crosses the screen; the windows do not
+    // overlap, so the sum is the station. A max() here would read an unreached window's
+    // index as progress already made.
+    let s = 0;
+    for (const w of wins) {
+      const r = w.getBoundingClientRect();
+      s += Math.min(1, cl((innerHeight * 0.86 - r.top) / (r.height + innerHeight * 0.52)) * 1.35);
+    }
+
+    return s;
+  }
+  function pose(s, t, portrait) {
+    const i = Math.min(Math.floor(s), BAYS.length), u = ease(cl(s - i));
+    const a = station(i, t, portrait), b = station(Math.min(i + 1, BAYS.length + 1), t, portrait);
+    return { eye: [lerp(a.eye[0],b.eye[0],u), lerp(a.eye[1],b.eye[1],u), lerp(a.eye[2],b.eye[2],u)],
+             tgt: [lerp(a.tgt[0],b.tgt[0],u), lerp(a.tgt[1],b.tgt[1],u), lerp(a.tgt[2],b.tgt[2],u)],
+             fov: lerp(a.fov, b.fov, u) };
+  }
+
+  const open = new Float32Array(16);
+  let st = 0, stT = 0, t0 = performance.now(), portrait = false;
+  function size() {
+    const d = Math.min(devicePixelRatio || 1, 2);
+    cv.width = Math.round(innerWidth * d); cv.height = Math.round(innerHeight * d);
+    cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
+    portrait = innerWidth < innerHeight * 0.95;
+  }
+  size();
+  addEventListener("resize", () => { size(); if (REDUCED) requestAnimationFrame(draw); }, { passive: true });
+  addEventListener("scroll", () => { stT = stationAt(); }, { passive: true });
+  stT = st = stationAt();
+
+  function draw(now) {
+    const t = REDUCED ? 6 : (now - t0) / 1000;
+    st += (stT - st) * 0.09;
+    const S = REDUCED ? 0 : st;          // reduced motion holds one composed frame
+    const bay = Math.round(S) - 1;
+    for (let i = 0; i < 16; i++) {
+      let want = 0;
+      if (bay >= 0 && bay < BAYS.length) {
+        let lo = 0; for (let b = 0; b < bay; b++) lo += BAYS[b];
+        if (i >= lo && i < lo + BAYS[bay]) want = 0.62 * Math.max(0, 1 - Math.abs(S - 1 - bay) * 1.6);
+      } else if (S < 0.55 && i === 0) {
+        want = 0.62 * Math.min(1, Math.max(0, (t - 1.2) * 0.7)) * (1 - cl(S / 0.6));
+      }
+      open[i] = REDUCED ? want : open[i] + (want - open[i]) * 0.07;
+    }
+    const p = pose(S, t, portrait);
+    gl.viewport(0, 0, cv.width, cv.height);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniformMatrix4fv(U("uVP"), false, mul(persp(p.fov, cv.width/cv.height, 0.05, 90), look(p.eye, p.tgt)));
+    gl.uniform2f(U("uRes"), cv.width, cv.height);
+    gl.uniform1f(U("uW"), Math.min(devicePixelRatio || 1, 2));
+    gl.uniform1f(U("uHaze"), 0.85);
+    gl.uniform1f(U("uD0"), Math.max(4.0, Math.hypot(p.eye[0]-p.tgt[0], p.eye[1]-p.tgt[1], p.eye[2]-p.tgt[2])));
+    gl.uniform1fv(U("uOpen"), open);
+    gl.drawArrays(gl.TRIANGLES, 0, NV);
+  }
+  if (REDUCED) requestAnimationFrame(draw);
+  else (function loop(now) { requestAnimationFrame(loop); if (!document.hidden) draw(now); })(t0);
+})();
+</script>
