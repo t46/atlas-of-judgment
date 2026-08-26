@@ -4055,16 +4055,16 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const prevAssemble = window.__skyAssemble;
   let domeSynced = !document.documentElement.classList.contains("overture");
   window.__skyAssemble = k => { if (prevAssemble) prevAssemble(k); if (!domeSynced && k > 0.03) { domeSynced = true; t0 = performance.now(); } };
-  let scrollK = 0, plateK = 0;
+  // The wheel delivers scroll in notch-sized jumps, so a bone that follows scrollY
+  // directly teleports a notch at a time. These are targets; tick() eases toward them.
+  let scrollT = 0, plateT = 0, scrollK = 0, plateK = 0, lastNow = 0, primed = false, lastTqk = -1;
   const htmlEl = document.documentElement;
   addEventListener("scroll", () => {
     const h = (document.querySelector(".tp-hero") || {}).offsetHeight || innerHeight;
-    scrollK = Math.min(1, Math.max(0, scrollY / (h * 0.85)));
+    scrollT = Math.min(1, Math.max(0, scrollY / (h * 0.85)));
     // the second screen is a plate: the light drains out of the bone, the strokes take
     // over, and the drawing is finished by the time the next sheet is laid over it.
-    plateK = Math.min(1, Math.max(0, (scrollY - h * 0.18) / (h * 0.62)));
-    window.__plateK = plateK;
-    htmlEl.style.setProperty("--tqk", plateK.toFixed(3));   // the question is cut as the plate sets
+    plateT = Math.min(1, Math.max(0, (scrollY - h * 0.18) / (h * 0.62)));
     // once the sheet covers the table there is nothing left to draw
     const done = scrollY > h * 1.80;   // the sheet (hero + 74svh of table) has covered the plate
     if (done !== window.__plateDone) {
@@ -4081,9 +4081,18 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     if (window.__plateDone) return;
     now = now || performance.now();
     const t = (now - t0) / 1000;
+    // ~120ms time constant, computed from the real frame delta so the feel does not
+    // change with the refresh rate. The eased value is what everything downstream sees.
+    const dt = Math.min(0.1, (now - lastNow) / 1000); lastNow = now;
+    if (!primed) { primed = true; plateK = plateT; scrollK = scrollT; }
+    else { const lag = 1 - Math.exp(-dt / 0.12); plateK += (plateT - plateK) * lag; scrollK += (scrollT - scrollK) * lag; }
+    window.__plateK = plateK;
+    if (Math.abs(plateK - lastTqk) > 0.002) { lastTqk = plateK; htmlEl.style.setProperty("--tqk", plateK.toFixed(3)); }
     // stage 1 (0-1.6s): the printed plate, seen flat on the page. stage 2 (1.6-4.4s): light arrives, the plate rises.
     const entrance = REDUCED ? 1 : Math.min(1, Math.max(0, (t - 1.6) / 2.8));
-    if (!REDUCED && t > nextDraw) draw(t);
+    // once the descent starts the bone is being laid down, not weighing: beginning a
+    // fresh nod here fought the fall and was the other half of the stutter
+    if (!REDUCED && t > nextDraw && plateT < 0.02) draw(t);
     if (!REDUCED && pend && t > anticT) { turnT = pend[0]; nodT = pend[1]; pend = null; }
     if (REDUCED) { turnT = 0.30; nodT = -0.04; }
     // damped approach — the heavier the verdict, the slower the joint yields
