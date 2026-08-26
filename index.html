@@ -287,6 +287,26 @@ html.plate-done #neb { visibility: hidden; }
 .tp-table { position: relative; z-index: 2; min-height: 74svh; display: flex; align-items: flex-end; padding-bottom: clamp(96px, 12svh, 130px); pointer-events: none; }
 @media (max-width: 760px) { .tp-table { min-height: 66svh; padding-bottom: 132px; } .tp-table .tq { max-width: none; } }
 .tp-table .tq { margin: 0; max-width: 24ch; }
+/* The question is read against an engraving, so it needs a clearing of its own; and it
+   is cut into the plate by the same scroll that converts the bone — the mask runs only
+   under .neb3d, so without the 3D hero the heading is simply there. */
+.tq-block { position: relative; display: inline-block; padding: 34px 58px 40px; margin-left: -58px;
+  background: radial-gradient(ellipse farthest-side at 46% 54%, rgba(239,228,201,0.96) 0%,
+    rgba(239,228,201,0.91) 32%, rgba(239,228,201,0.68) 54%, rgba(239,228,201,0.28) 74%,
+    rgba(239,228,201,0.06) 90%, transparent 100%); }
+.tq-eye { display: flex; align-items: center; gap: 13px; font-family: var(--mono); font-size: 9.5px;
+  letter-spacing: 0.30em; text-transform: uppercase; color: var(--brass); margin-bottom: 15px; }
+.tq-eye i { display: block; width: clamp(22px, 5vw, 56px); height: 1px; background: var(--brass-line); }
+html.neb3d .tp-table .tq {
+  -webkit-mask-image: linear-gradient(to right, #000 40%, rgba(0,0,0,0.45) 48%, transparent 56%);
+  mask-image: linear-gradient(to right, #000 40%, rgba(0,0,0,0.45) 48%, transparent 56%);
+  -webkit-mask-size: 200% 100%; mask-size: 200% 100%;
+  -webkit-mask-position: calc(100% - var(--tqk, 1) * 100%) 0;
+  mask-position: calc(100% - var(--tqk, 1) * 100%) 0; }
+@media (max-width: 760px) { .tq-block { margin-left: -18px; padding: 26px 24px 30px; display: block; } }
+@media (prefers-reduced-motion: reduce) {
+  html.neb3d .tp-table .tq { -webkit-mask-image: none !important; mask-image: none !important; } }
+@media print { html.neb3d .tp-table .tq { -webkit-mask-image: none !important; mask-image: none !important; } }
 .tp-sheet { position: relative; z-index: 3; background: var(--ground); box-shadow: 0 -26px 56px rgba(61,44,20,.20), 0 -1px 0 var(--brass-faint); }
 @media (prefers-reduced-motion: reduce) { .tp-table { min-height: 0; padding-bottom: 34px; } }
 html.neb3d .tp-sky { visibility: hidden; }
@@ -326,11 +346,15 @@ html.neb3d #neb-plate { display: block; }
 #neb-plate.on ~ #neb-docket, #neb-plate.on ~ .tp-skycap { opacity: 0; }
 #neb-plate .pm-no { position: absolute; top: clamp(40px,7svh,74px); left: 50%; transform: translateX(-50%);
       font-family: var(--display); font-size: 15px; letter-spacing: .34em; text-transform: uppercase; color: #5c4f3d; }
-#neb-plate .pm-cap { position: absolute; bottom: clamp(30px,5svh,54px); left: 50%; transform: translateX(-50%);
-      font-family: var(--display); font-style: italic; font-size: 17px; color: #5c4f3d; text-align: center; line-height: 1.5; }
+#neb-plate .pm-cap { position: absolute; bottom: clamp(34px,6svh,64px); right: clamp(20px,4vw,60px); text-align: right;
+      font-family: var(--display); font-style: italic; font-size: 17px; color: #5c4f3d; line-height: 1.5; max-width: min(52ch, 56vw); }
 #neb-plate .pm-cap small { display: block; font-family: var(--mono); font-style: normal; font-size: 8.5px;
       letter-spacing: .26em; text-transform: uppercase; color: #8b7c64; margin-top: 8px; }
 #neb-plate .pm-rule { position: absolute; left: 12%; right: 12%; top: clamp(66px,10svh,104px); height: 1px; background: rgba(51,41,31,.3); }
+/* On a narrow sheet the figure fills the frame and the question owns the foot: there is
+   no band left for the Latin caption, and laying it over the bone is worse than dropping
+   it. The plate mark above still names the figure, and print and wide sheets keep it. */
+@media (max-width: 760px) { #neb-plate .pm-cap { display: none; } }
 /* the loupe: the shadow's writing at reading size */
 /* a lens, not a cut-out circle: a brass collar, a bevel, and a shadow so it sits above the sheet */
 #neb-loupe { position: absolute; width: 196px; height: 196px; border-radius: 50%; pointer-events: none; opacity: 0; display: none;
@@ -1244,7 +1268,10 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="tp-descend"><span>Descend</span><i></i></div>
   </div>
   <div class="tp-table"><div class="shell">
-    <h2 class="tq">What do peer reviewers actually <em>look at</em> — and how do they <em>decide</em>?</h2>
+    <div class="tq-block">
+      <div class="tq-eye"><i></i>the question this atlas asks</div>
+      <h2 class="tq">What do peer reviewers actually <em>look at</em> — and how do they <em>decide</em>?</h2>
+    </div>
   </div></div>
   <div class="tp-sheet"><div class="shell tp-below">
     <div class="tp-below-grid">
@@ -3699,7 +3726,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         col = g * (0.55 + 0.45*dif*sh) * (0.65 + 0.35*occ);
         // the table itself stays paper. Only what the bone casts is cut into it —
         // an engraver rules a shadow; he does not rule the sheet.
-        float engG = max(uFlat, uPlate);
+        float engG = max(uFlat, smoothstep(0.35, 0.95, uPlate));
         if (engG > 0.001){
           float lumG = clamp(mix(0.30, 1.04, sh), 0., 1.);
           float inkG = engraveInk(p.xz * 13.0, p.xz * vec2(11.0, 15.4) + 3.1, lumG);
@@ -3729,7 +3756,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
             + vec3(0.72, 0.50, 0.30) * thin * 0.30;
         // before the plate rises — and again after it lies back down — the bone is a
         // printed engraving: flat paper, and strokes that follow the form they describe.
-        float eng = max(uFlat, uPlate);
+        // The burin travels. Dissolving the whole bone into ink at once leaves it half
+        // lit and half cut through the middle of the move, which reads as a fault rather
+        // than a transformation; sweeping the conversion around the bone's own wrap keeps
+        // every point either flesh or line, and never a blend of the two.
+        float front = uPlate * 1.75 - 0.36;
+        float eng = max(uFlat, 1.0 - smoothstep(front - 0.34, front, 1.0 - u2));
         if (eng > 0.001){
           float lum = clamp(dot(lit, vec3(0.35, 0.42, 0.23)) * 1.12, 0., 1.);
           vec2 ra = vec2(u2 * 46.0, v2 * 13.0);            // ruling rides the bone's own wrap
@@ -3853,7 +3885,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const ee = 1 - Math.pow(1 - e, 3);
     const orbit = (REDUCED ? 0 : Math.sin(t * 0.11) * 0.10) + mxN * 0.16;
     const portrait = W < 700 || H > W * 1.1;
-    const pk2 = (window.__plateK || 0), pke = pk2 * pk2 * (3 - 2 * pk2);
+    const pk2 = Math.min(1, (window.__plateK || 0) / 0.58), pke = pk2 * pk2 * (3 - 2 * pk2);
     const az = -0.85 + orbit * (1 - pke) + (1 - ee) * 0.55 + pke * 0.30;
     // from straight above the printed plate, down to the specimen — and back up, because a plate is read face-on
     const el = (1.35 - ee * 0.89 + myN * 0.07) * (1 - pke) + 1.30 * pke;
@@ -4032,6 +4064,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     // over, and the drawing is finished by the time the next sheet is laid over it.
     plateK = Math.min(1, Math.max(0, (scrollY - h * 0.18) / (h * 0.62)));
     window.__plateK = plateK;
+    htmlEl.style.setProperty("--tqk", plateK.toFixed(3));   // the question is cut as the plate sets
     // once the sheet covers the table there is nothing left to draw
     const done = scrollY > h * 1.80;   // the sheet (hero + 74svh of table) has covered the plate
     if (done !== window.__plateDone) {
@@ -4059,7 +4092,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const breathe = REDUCED ? 0 : Math.sin(t * 0.9) * 0.006;
 
     if (!REDUCED) {
-      const showPlate = t < 2.1 || plateK > 0.70;
+      const showPlate = t < 2.1 || plateK > 0.52;
       if (showPlate !== plateMark.classList.contains("on")) plateMark.classList.toggle("on", showPlate);
     }
     const cam = pickAndLabels(t, entrance);
@@ -4067,7 +4100,10 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     gl.uniform2f(U("uRes"), cv.width, cv.height);
     gl.uniform1f(U("uT"), t);
     // a drawing does not weigh anything: as the plate sets, the joint stops moving
-    const pk = plateK * plateK * (3 - 2 * plateK);
+    // The bone was moving into place and converting to line at the same time, and that
+    // overlap is what read as a stumble. The pose lands first; the burin follows it.
+    const pv = Math.min(1, plateK / 0.58), pk = pv * pv * (3 - 2 * pv);
+    const pi = Math.max(0, (plateK - 0.28) / 0.72), pkInk = pi * pi * (3 - 2 * pi);
     gl.uniform1f(U("uNod"), (nod + breathe) * (1 - pk) + (-0.10) * pk);
     gl.uniform1f(U("uTurn"), turn * (1 - pk) + 0.30 * pk);
     // scroll sinks the bone back into the page; its shadow's writing stays and becomes the text below
@@ -4075,7 +4111,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     gl.uniform1f(U("uLift"), REDUCED ? 1 : (ee2 * (1 - scrollK * 0.92)) * (1 - pk) + 0.62 * pk);
     gl.uniform1f(U("uSink"), scrollK);
     gl.uniform1f(U("uFlat"), REDUCED ? 0 : Math.max(0, 1 - entrance * 2.2));
-    gl.uniform1f(U("uPlate"), REDUCED ? 1 : plateK * plateK * (3 - 2 * plateK));
+    gl.uniform1f(U("uPlate"), REDUCED ? 1 : pkInk);
     // the sun of the era: one full pass 2018 -> 2026 every 40s, marked in the rail
     // the light of the era walks while the bone lives; once the plate is cut it stops,
     // raking, because a printed plate carries its own fixed light
