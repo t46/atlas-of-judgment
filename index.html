@@ -282,7 +282,7 @@ html.neb3d #neb { display: block; }
    covered by the next sheet — at which point there is nothing left to draw. */
 html.neb3d #neb, html.neb3d #neb-ui, html.neb3d #neb-plate, html.neb3d #neb-docket, html.neb3d #neb-loupe { position: fixed; }
 html.neb3d #neb { top: 0; left: 0; width: 100vw; height: 100svh; transition: opacity .45s var(--ease-settle); }
-html.plate-done #neb, html.plate-done #neb-ui, html.plate-done #neb-plate, html.plate-done #neb-docket { opacity: 0; pointer-events: none; }
+html.plate-done #neb, html.plate-done #neb-ui, html.plate-done #neb-plate, html.plate-done #neb-docket, html.plate-done #neb-loupe { opacity: 0 !important; pointer-events: none; }
 html.plate-done #neb { visibility: hidden; }
 .tp-table { position: relative; z-index: 2; min-height: 74svh; display: flex; align-items: flex-end; padding-bottom: clamp(96px, 12svh, 130px); pointer-events: none; }
 @media (max-width: 760px) { .tp-table { min-height: 66svh; padding-bottom: 132px; } .tp-table .tq { max-width: none; } }
@@ -4037,6 +4037,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     if (done !== window.__plateDone) {
       window.__plateDone = done;
       htmlEl.classList.toggle("plate-done", done);
+      // the loop stops when the sheet covers the table, so the loupe would otherwise
+      // freeze open over whatever the reader scrolled to next — put it away by hand
+      if (done && loupeShown) { loupe.style.opacity = 0; loupeShown = false; htmlEl.classList.remove("loupe-held"); }
       if (!done) requestAnimationFrame(tick);
     }
   }, { passive: true });
