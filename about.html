@@ -46,6 +46,8 @@ main { position: relative; z-index: 3; }
   background: radial-gradient(ellipse at center, rgba(239,228,201,0.94) 0%, rgba(239,228,201,0.80) 40%,
     rgba(239,228,201,0.36) 62%, transparent 78%); }
 .hero > * { position: relative; z-index: 1; }
+html.no-room .hero::before { display: none; }
+html.no-room .band { background: var(--ground); }
 .hero .eb { font-family: var(--mono); font-size: clamp(8.5px, 1.5vw, 10.5px); letter-spacing: 0.42em;
   text-transform: uppercase; color: var(--brass); opacity: 0; animation: eyeIn 1.4s var(--ease-settle) 0.2s forwards; }
 @keyframes eyeIn { from { letter-spacing: 0.9em; opacity: 0; } 45% { opacity: 1; } to { letter-spacing: 0.42em; opacity: 1; } }
@@ -170,7 +172,7 @@ td:last-child { text-align: right; font-family: var(--mono); font-size: 11.5px; 
   #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
 
 /* the rail is a section through the room: nine tiers, and the reader's height in it */
-.gap:last-of-type { height: 96svh; }
+.gap.gap-last { height: 96svh; }   /* the closing plan wants a screen of its own */
 #tiers { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 50;
   display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 9px; }
 #tiers .tk { position: absolute; right: 5px; top: -16px; bottom: -16px; width: 1px; background: rgba(138,90,31,0.16); }
@@ -466,7 +468,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 </section>
 
 <!-- ═══════════════════════════════════════════════════ IX · the colophon ═══ -->
-<div class="gap" data-tier="8" id="t9"><div class="plate-cap">
+<div class="gap gap-last" data-tier="8" id="t9"><div class="plate-cap">
   <div class="rn">Tier IX</div>
   <h2>The colophon</h2>
   <div class="lat">sub finem — at the end, the terms</div>
@@ -614,7 +616,16 @@ void main() {
   function sh(t, src) { const x = gl.createShader(t); gl.shaderSource(x, src); gl.compileShader(x); return x; }
   const prog = gl.createProgram();
   gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
-  gl.linkProgram(prog); gl.useProgram(prog);
+  gl.linkProgram(prog);
+  // a driver that refuses the shaders must not leave a dead program bound: every frame
+  // would then call enableVertexAttribArray(-1) and raise INVALID_VALUE forever. The page
+  // is written to read without the room, so put the room away and carry on.
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    cv.remove(); document.getElementById("vig").remove();
+    document.documentElement.classList.add("no-room");
+    return;
+  }
+  gl.useProgram(prog);
   const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
   function vbo(arr, size, name) {
     const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
@@ -692,7 +703,8 @@ void main() {
     cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
     portrait = innerWidth < innerHeight * 0.95;
   }
-  size(); addEventListener("resize", size, { passive: true });
+  size();
+  addEventListener("resize", () => { size(); if (REDUCED) requestAnimationFrame(draw); }, { passive: true });
   function progress() {
     const dh = document.documentElement.scrollHeight - innerHeight;
     return dh > 0 ? cl(scrollY / dh) : 0;
@@ -727,7 +739,8 @@ void main() {
     const byVal = {}; for (const w of WIT) (byVal[w.v] = byVal[w.v] || []).push(w);
     let shown = null, hide = 0;
     addEventListener("mousemove", e => {
-      if (progress() > 0.30 || e.target.closest("main .band, footer, nav")) {
+      const tgt = e.target instanceof Element ? e.target : null;
+      if (progress() > 0.30 || !tgt || tgt.closest("main .band, footer, nav")) {
         if (shown) { wbox.classList.remove("on"); document.documentElement.classList.remove("wit-on"); shown = null; } return;
       }
       if (!lastPose) return;
