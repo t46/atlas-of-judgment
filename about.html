@@ -6,373 +6,814 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root {
-  --ground: #efe4c9; --raise: #f8f1e0;
+  --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
   --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
   --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
   --v-negative: #6f1f45; --v-positive: #356b43; --v-conditional: #7c5f10;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
   --display: "Cormorant Garamond", Georgia, serif;
   --serif: "Source Serif 4", Georgia, serif;
+  --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15.5px; line-height: 1.75;
-  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(138,90,31,0.05), transparent 60%); }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif);
+  font-size: 15.5px; line-height: 1.75; overflow-x: hidden; }
 a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(138,90,31,0.45); }
-.shell { max-width: 840px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 36px) 90px; }
-h1, h2 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
-h1 { font-size: clamp(46px, 6.5vw, 76px); line-height: 1.02; }
-h2 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15; margin-top: 70px; }
-.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); margin-bottom: 16px; }
-.no { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.32em; color: var(--brass); margin: 66px 0 -56px; text-transform: uppercase; }
-.no::before { content: ""; width: 30px; height: 1px; background: var(--brass-line); }
-p { margin: 14px 0 0; color: var(--ink-2); }
-p b, p strong { color: var(--ink); font-weight: 600; }
+a:hover { border-bottom-style: solid; }
 em { color: var(--ink); }
-.nav { display: flex; gap: 22px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; padding: 26px 0 60px; }
-.nav a { border: none; color: var(--ink-2); } .nav a:hover { color: var(--brass); }
-.nav .here { color: var(--brass); }
-.frame { position: relative; border: 1px solid var(--brass-line); padding: 8px; margin-top: 26px; background: rgba(248,241,224,0.5); }
+code { font-family: var(--mono); font-size: 12px; }
+
+/* ---------------------------------------------------------------- the room */
+#theatre { position: fixed; top: 0; left: 0; width: 100vw; height: 100svh; z-index: 0; display: block; }
+#vig { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse 80% 64% at 50% 46%, transparent 44%, rgba(120,96,58,0.18) 100%); }
+#grain { position: fixed; inset: 0; z-index: 2400; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'%20opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px; }
+
+/* ------------------------------------------------------------ the scaffold */
+main { position: relative; z-index: 3; }
+.shell { max-width: 840px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 36px); }
+
+/* the hero: the reader is on the table, and the room is looking down */
+.hero { height: 100svh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 0 20px; position: relative; }
+/* the light that falls on the table: a clearing in the crowd for the title to sit in */
+.hero::before { content: ""; position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%);
+  width: min(820px, 96vw); height: min(430px, 48svh); pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.94) 0%, rgba(239,228,201,0.80) 40%,
+    rgba(239,228,201,0.36) 62%, transparent 78%); }
+.hero > * { position: relative; z-index: 1; }
+.hero .eb { font-family: var(--mono); font-size: clamp(8.5px, 1.5vw, 10.5px); letter-spacing: 0.42em;
+  text-transform: uppercase; color: var(--brass); opacity: 0; animation: eyeIn 1.4s var(--ease-settle) 0.2s forwards; }
+@keyframes eyeIn { from { letter-spacing: 0.9em; opacity: 0; } 45% { opacity: 1; } to { letter-spacing: 0.42em; opacity: 1; } }
+.hero h1 { font-family: var(--display); font-weight: 500; font-size: clamp(48px, 8.2vw, 104px);
+  line-height: 0.98; margin: 18px 0 0; text-wrap: balance;
+  clip-path: inset(100% 0 0 0); transform: translateY(16px); animation: h1In 1.1s var(--ease-settle) 0.45s forwards; }
+@keyframes h1In { to { clip-path: inset(-14% 0 -10% 0); transform: none; } }
+.hero .lat { font-style: italic; font-size: clamp(13px, 2vw, 16px); color: var(--ink-2); margin-top: 12px;
+  opacity: 0; animation: fadeUp 1s ease 1.1s forwards; }
+.hero .cue { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--ink-2); opacity: 0; animation: cueIn 1s ease 1.9s forwards; display: flex; flex-direction: column;
+  align-items: center; gap: 8px; padding: 7px 20px 9px;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.90) 0%, rgba(239,228,201,0.55) 55%, transparent 82%); }
+.hero .cue .cue-s { display: none; }
+.hero .cue i { display: block; width: 1px; height: 30px; background: linear-gradient(var(--brass-line), transparent); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes cueIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* a gap is a breath: the room at full strength, with the tier named */
+.gap { height: 62svh; display: flex; align-items: center; justify-content: center; position: relative;
+  pointer-events: none; }
+.gap .plate-cap { text-align: center; opacity: 0; transform: translateY(14px);
+  transition: opacity 0.9s var(--ease-settle), transform 0.9s var(--ease-settle); }
+.gap.in .plate-cap { opacity: 1; transform: none; }
+.gap .rn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase;
+  color: var(--brass); display: flex; align-items: center; justify-content: center; gap: 12px; }
+.gap .rn::before, .gap .rn::after { content: ""; width: clamp(24px, 6vw, 52px); height: 1px; background: var(--brass-line); }
+.gap h2 { font-family: var(--display); font-weight: 500; font-size: clamp(28px, 4.6vw, 46px);
+  line-height: 1.1; margin: 14px 0 0; text-wrap: balance; }
+.gap .lat { font-style: italic; font-size: 13.5px; color: var(--ink-2); margin-top: 8px; }
+
+/* a band is the page proper: vellum laid over the room, near enough opaque to read on */
+.band { position: relative; background: rgba(243, 234, 210, 0.955);
+  border-top: 1px solid var(--brass-faint); border-bottom: 1px solid var(--brass-faint);
+  box-shadow: 0 -22px 48px rgba(61,44,20,0.10), 0 22px 48px rgba(61,44,20,0.10); }
+.band > .shell { padding-top: clamp(46px, 7vh, 76px); padding-bottom: clamp(52px, 8vh, 86px); }
+p { margin: 15px 0 0; color: var(--ink-2); }
+p b, p strong { color: var(--ink); font-weight: 600; }
+.lede { font-size: 17.5px; line-height: 1.68; color: var(--ink); }
+.lede em { font-style: italic; }
+h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--brass); font-weight: 500; margin: 44px 0 0; }
+.drop::first-letter { font-family: var(--display); font-size: 3.4em; line-height: 0.86; float: left;
+  padding: 0.06em 0.1em 0 0; color: var(--ink); }
+
+.spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--muted);
+  text-transform: uppercase; line-height: 2.1; margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--brass-faint); }
+.spec b { color: var(--brass); font-weight: 500; }
+
+.frame { position: relative; border: 1px solid var(--brass-line); padding: 8px; margin-top: 26px;
+  background: rgba(248,241,224,0.62); }
 .frame-inner { border: 1px solid var(--brass-faint); padding: 24px 26px; }
-.frame::before, .frame-inner::after { content: ""; position: absolute; width: 9px; height: 9px; border-color: var(--brass); border-style: solid; }
+.frame::before, .frame-inner::after { content: ""; position: absolute; width: 9px; height: 9px;
+  border-color: var(--brass); border-style: solid; }
 .frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
 .frame-inner::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
-.spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; line-height: 2.1; margin-top: 26px; }
-.spec b { color: var(--brass); font-weight: 500; }
-.layers { display: flex; flex-direction: column; gap: 0; margin-top: 10px; }
-.layer { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 15px 0; border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; color: var(--ink-2); }
-.layer .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--brass); padding-top: 3px; }
-.layer b { color: var(--ink); font-weight: 600; }
 .unit-demo { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 6px; }
 .step { padding: 4px 16px 0; border-left: 1px solid var(--brass-faint); font-size: 12.5px; line-height: 1.6; color: var(--ink); }
 .step:first-child { border-left: none; padding-left: 0; }
-.step .sl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
-@media (max-width: 760px) { .unit-demo { grid-template-columns: 1fr; gap: 12px; } .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 0 0; } .step:first-child { border-top: none; } }
-ul.findings { margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 13px; }
+.step .sl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 5px; }
+@media (max-width: 760px) { .unit-demo { grid-template-columns: 1fr; gap: 12px; }
+  .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 0 0; }
+  .step:first-child { border-top: none; } }
+.fig-cap { font-size: 12px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.65; }
+
+.layers { display: flex; flex-direction: column; margin-top: 14px; }
+.layer { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 15px 0;
+  border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; color: var(--ink-2); }
+.layer .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--brass); padding-top: 3px; }
+.layer b { color: var(--ink); font-weight: 600; }
+@media (max-width: 560px) { .layer { grid-template-columns: 1fr; gap: 5px; } }
+
+ul.findings { margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
 ul.findings li { display: grid; grid-template-columns: 120px 1fr; gap: 16px; font-size: 14px; color: var(--ink-2); }
-ul.findings .v { font-family: var(--display); font-size: 25px; line-height: 1.1; color: var(--brass); text-align: right; }
+ul.findings .v { font-family: var(--display); font-size: 26px; line-height: 1.05; color: var(--brass);
+  text-align: right; font-variant-numeric: tabular-nums; }
 ul.findings b { color: var(--ink); font-weight: 600; }
-table { border-collapse: collapse; margin-top: 18px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { ul.findings li { grid-template-columns: 1fr; gap: 2px; }
+  ul.findings .v { text-align: left; font-size: 23px; } }
+
+.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px;
+  margin-top: 24px; background: var(--brass-faint); border: 1px solid var(--brass-faint); }
+.doors a { display: block; background: rgba(248,241,224,0.75); padding: 16px 18px; border: none; color: var(--ink); }
+.doors a:hover { background: var(--paper); }
+.doors .dk { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); }
+.doors .dt { font-family: var(--display); font-size: 21px; line-height: 1.2; margin-top: 4px; }
+.doors .dd { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; line-height: 1.55; }
+
+table { border-collapse: collapse; margin-top: 20px; font-size: 12.5px; font-variant-numeric: tabular-nums; width: 100%; }
 th, td { border: 1px solid var(--brass-faint); padding: 7px 12px; text-align: left; color: var(--ink-2); }
 th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 td:last-child { text-align: right; font-family: var(--mono); font-size: 11.5px; }
-
-.nav { flex-wrap: wrap; row-gap: 6px; }
-@media (max-width: 700px) { body { overflow-x: hidden; } }
 @media (max-width: 640px) {
   table, tbody { display: block; }
   thead { display: none; }
   tr { display: block; border: 1px solid var(--brass-faint); margin-top: 10px; padding: 4px 0; }
-  td { display: flex; justify-content: space-between; gap: 14px; border: none; border-bottom: 1px solid rgba(138,90,31,0.07); text-align: right; }
+  td { display: flex; justify-content: space-between; gap: 14px; border: none;
+    border-bottom: 1px solid rgba(138,90,31,0.07); text-align: right; }
   td:last-child { border-bottom: none; }
-  td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
+  td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
 }
-footer.colophon { margin-top: 130px; padding: 0 20px 84px; border: none; display: flex; flex-direction: column; align-items: center; gap: 11px; text-align: center; }
+
+/* ------------------------------------------------------------- the furniture */
+#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center;
+  justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px);
+  background: rgba(239,228,201,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint);
+  transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.15, 1); }
+#topbar.show { transform: translateY(0); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links a:hover, #topbar .tb-links a.tb-here, #topbar .tb-links a.tb-live { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; }
+  #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+
+/* the rail is a section through the room: nine tiers, and the reader's height in it */
+.gap:last-of-type { height: 96svh; }
+#tiers { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 50;
+  display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 9px; }
+#tiers .tk { position: absolute; right: 5px; top: -16px; bottom: -16px; width: 1px; background: rgba(138,90,31,0.16); }
+#tiers .tf { position: absolute; right: 5px; bottom: -16px; width: 1px; background: var(--brass); }
+#tiers button { position: relative; display: block; height: 2px; padding: 0; border: none; cursor: pointer;
+  background: rgba(138,90,31,0.34); transition: width 0.3s var(--ease-settle), background 0.3s ease; }
+#tiers button:hover, #tiers button.cur { background: var(--brass); }
+#tiers .lb { position: absolute; right: 26px; top: 50%; transform: translateY(-50%); font-family: var(--mono);
+  font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass); white-space: nowrap;
+  opacity: 0; transition: opacity 0.25s ease; pointer-events: none; background: rgba(239,228,201,0.92);
+  padding: 3px 7px; border: 1px solid var(--brass-faint); }
+#tiers button:hover .lb, #tiers button.cur .lb { opacity: 1; }
+#tiers button.cur .lb { color: var(--ink-2); border-color: transparent; background: none; }
+@media (max-width: 1180px) { #tiers { display: none; } }
+
+#reticle { position: fixed; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px;
+  pointer-events: none; z-index: 200; opacity: 0; transition: opacity 0.3s ease; }
+#reticle::before { content: ""; position: absolute; inset: 0; border: 1px solid rgba(138,90,31,0.55);
+  border-radius: 50%; transition: transform 0.3s cubic-bezier(0.3,0.6,0.2,1), border-color 0.3s ease; }
+#reticle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 2px; height: 2px;
+  margin: -1px 0 0 -1px; background: var(--brass); border-radius: 50%; }
+#reticle.hot::before { transform: scale(1.7); border-color: var(--brass); }
+
+/* the loupe on the crowd: one mark, one real sentence of the kind it stands for */
+#witness { position: fixed; left: 50%; transform: translateX(-50%) translateY(8px); bottom: 26px; z-index: 60;
+  width: min(560px, calc(100vw - 40px)); text-align: center; opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s var(--ease-settle); }
+#witness.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+#witness .wl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--brass); display: inline-block; padding: 3px 12px;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.92) 0%, rgba(239,228,201,0.55) 60%, transparent 84%); }
+/* the loupe and the scroll cue share the foot of the hero: only one may speak */
+html.wit-on .hero .cue { opacity: 0; transition: opacity 0.3s ease; }
+#witness .ws { font-size: 13px; font-style: italic; line-height: 1.7; color: var(--ink); margin-top: 6px;
+  background: rgba(239,228,201,0.88); padding: 8px 14px; border-top: 1px solid var(--brass-faint);
+  border-bottom: 1px solid var(--brass-faint); }
+@media (max-width: 700px) { #witness { display: none; } }
+
+/* --------------------------------------------------------------- colophon */
+footer.colophon { position: relative; z-index: 3; background: var(--ground); border-top: 1px solid var(--brass-faint);
+  padding: clamp(60px, 9vh, 96px) 20px 90px; display: flex; flex-direction: column; align-items: center;
+  gap: 11px; text-align: center; }
 .col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
 .col-rule::before, .col-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-line); }
 .col-rule svg { display: block; }
 .col-mark { font-family: var(--display); font-size: 27px; color: var(--ink); letter-spacing: 0.03em; margin-top: 4px; }
 .col-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--ink-2); }
-.col-stats { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-top: 6px; line-height: 2; }
+.col-by { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-2); margin-top: 4px; }
+.col-by a { border: none; }
+.col-stats { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-top: 6px; line-height: 2; }
 .col-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 8px; }
-.col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; }
+.col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; }
 .col-links a:hover { color: var(--ink); }
 .col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
 
-/* ---- unified furniture: motion tokens, grain, fixed topbar, entrance ---- */
-:root { --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1); --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1); }
-body::before { content: ""; position: fixed; inset: 0; z-index: 2500; pointer-events: none; opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'%20opacity='0.5'/%3E%3C/svg%3E");
-  background-size: 160px 160px; }
-#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(239,228,201,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); }
-#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; white-space: nowrap; border: none; }
-#topbar .tb-links { display: flex; gap: clamp(10px, 2.4vw, 26px); }
-#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; }
-#topbar .tb-links a:hover { color: var(--brass); }
-#topbar .tb-links a.here { color: var(--brass); }
-@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.16em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
-.eyebrow { letter-spacing: 0.9em; opacity: 0; animation: pgEye 1.2s var(--ease-settle) .1s forwards; }
-@keyframes pgEye { 40% { opacity: 1; } to { opacity: 1; letter-spacing: 0.34em; } }
-h1 { clip-path: inset(100% 0 0 0); transform: translateY(14px); animation: pgH1 1s var(--ease-settle) .3s forwards; }
-@keyframes pgH1 { to { clip-path: inset(0 0 0 0); transform: none; } }
+/* ------------------------------------------------------------ reveals */
+.rv { opacity: 0; transform: translateY(15px); transition: opacity 0.7s ease, transform 0.8s var(--ease-settle); }
+.rv.in { opacity: 1; transform: none; }
+.band h2.hd { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.12; margin: 0 0 4px; text-wrap: balance; }
+.band .hdl { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); margin-bottom: 12px; }
+
 @media (prefers-reduced-motion: reduce) {
-  .eyebrow { animation: none; opacity: 1; letter-spacing: 0.34em; }
-  h1 { animation: none; clip-path: none; transform: none; }
+  html { scroll-behavior: auto; }
+  .hero .eb, .hero h1, .hero .lat, .hero .cue { animation: none !important; opacity: 1 !important;
+    clip-path: none !important; transform: none !important; letter-spacing: 0.42em; }
+  .hero .cue { transform: translateX(-50%) !important; }
+  .hero h1 { letter-spacing: normal; }
+  .rv, .gap .plate-cap { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .gap { height: 34svh; }
+  .band { background: var(--ground); }
+  #theatre { opacity: 0.42; }
+  .hero .cue .cue-m { display: none; }
+  .hero .cue .cue-s { display: inline; }
+  #topbar, #reticle, #witness { transition: none; }
 }
 </style>
 
-<div class="shell" id="top">
+<canvas id="theatre" aria-hidden="true"></canvas>
+<div id="vig" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+
 <nav id="topbar" aria-label="site">
-  <a class="tb-mark" href="index.html">Atlas of Judgment</a>
+  <a class="tb-mark" href="#top">Atlas of Judgment</a>
   <div class="tb-links">
-    <a href="index.html">The Atlas</a>
-    <a class="here" href="#">About</a>
+    <a href="#top" class="tb-here">About</a>
     <a href="method.html">Method</a>
+    <a href="index.html">The Atlas</a>
     <a href="https://github.com/t46/atlas-of-judgment">GitHub</a>
     <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Data</a>
+    
   </div>
 </nav>
-<div style="height:54px"></div>
+<nav id="tiers" aria-label="tiers"><div class="tk"></div><div class="tf" id="tf"></div></nav>
+<div id="reticle" aria-hidden="true"></div>
+<div id="witness" aria-live="off"><div class="wl"></div><div class="ws"></div></div>
 
-<div class="eyebrow">Atlas of Judgment · Companion</div>
-<h1>What this <em style="font-style:italic">is</em></h1>
-<p style="font-size:17px;margin-top:22px">The <a href="index.html">Atlas of Judgment</a> is a metascience instrument: every public peer review of ICLR — the International Conference on Learning Representations — decomposed into atomic units of evaluative logic and mapped at scale. Not <em>what did reviewers decide</em>, but <em>how did they think</em>.</p>
-<div class="spec"><b>410,586</b> units (ICLR 2026, review-level) · <b>1,009,592</b> units (2018–2026, forum-level) · <b>52,460</b> submissions collected · verified 2026-08-18</div>
+<main id="top">
 
-<div class="no">01</div>
-<h2>The question</h2>
-<p>The project's research question, fixed early and verbatim in its design documents: not whether a paper was accepted, nor whether a review was favorable, but — <em>what do reviewers inspect, and through which criteria, comparisons, assumptions, and inferences does that observation become a judgment?</em></p>
-<p>Peer review is the quality-control mechanism of science, yet the reasoning inside it is rarely studied as an object in its own right. Reviews are usually reduced to scores, sentiment, or accept/reject outcomes. This project treats the <b>reasoning itself</b> as the data.</p>
+<section class="hero">
+  <div class="eb">Atlas of Judgment · the companion</div>
+  <h1>What this <em>is</em></h1>
+  <div class="lat">theatrum judicii — the theatre of judgment</div>
+  <div class="cue"><i></i><span class="cue-m">rise through the tiers</span><span class="cue-s">nine tiers, and a colophon</span></div>
+</section>
 
-<div class="no">02</div>
-<h2>Why ICLR</h2>
-<p>One property makes ICLR nearly unique among top machine-learning venues: it publishes the reviews of <b>rejected papers</b>. ICML and NeurIPS mostly expose reviews only for accepted work, which biases any study of judgment toward papers that survived it. ICLR's OpenReview forums carry the full distribution — every submission, every review, every rebuttal, every verdict — for nine consecutive years, 2018 through 2026. That is 52,460 submissions and 792,703 forum messages, all from a single source with a single collection path.</p>
-
-<div class="no">03</div>
-<h2>The atom: a logic unit</h2>
-<p>The unit of analysis is one complete movement of a reviewer's mind — from a thing inspected, through an observation, through the standard invoked, to a judgment. A real unit from the corpus:</p>
-<div class="frame"><div class="frame-inner">
-  <div class="unit-demo">
-    <div class="step"><div class="sl">Inspected</div>The paper's notation system and formatting consistency.</div>
-    <div class="step"><div class="sl">→ Observed</div>The reviewer finds the notation "difficult to follow" due to inconsistencies in subscript/superscript usage.</div>
-    <div class="step"><div class="sl">→ Reasoned</div>Clear notation is a prerequisite for verifying correctness; ambiguity here creates a barrier to evaluating technical soundness.</div>
-    <div class="step"><div class="sl">→ Judged</div>The presentation quality is insufficiently rigorous — a formal weakness that hinders scrutiny.</div>
-  </div>
+<!-- ═══════════════════════════════════════════════════ I · the project ═══ -->
+<div class="gap" data-tier="0" id="t1"><div class="plate-cap">
+  <div class="rn">Tier I</div>
+  <h2>The project</h2>
+  <div class="lat">theatrum — the room this is modelled on</div>
 </div></div>
-<p>Each unit also carries a verdict polarity (negative / positive / conditional / uncertain / mixed), a suggested fix when the reviewer offered one, line-level citations back to the source review, and a flag recording whether it is grounded in the reviewer's explicit words or inferred by the analysis layer.</p>
 
-<div class="no">04</div>
-<h2>The three layers</h2>
-<p>The atlas does not read raw reviews directly. It stands on a three-layer pipeline, and honesty about the layers is part of the design:</p>
-<div class="layers">
-  <div class="layer"><span class="k">Layer I</span><span><b>Human reviews</b> — the raw OpenReview record, collected once and kept immutable. No anonymization is applied; the data is already public.</span></div>
-  <div class="layer"><span class="k">Layer II</span><span><b>Analytic memos</b> — a DeepSeek model reads each review (or forum) and writes a free-text metascientific analysis, under prompts that forbid re-reviewing the paper, require line-ID citations, and deliberately hide outcomes and other reviews at the initial stage.</span></div>
-  <div class="layer"><span class="k">Layer III</span><span><b>Structured logic units</b> — a Qwen model normalizes each memo into schema-constrained JSON. It never sees the raw review; it is a normalization layer over Layer II, not a second opinion.</span></div>
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">I · what it is</div>
+  <h2 class="hd rv">A description of peer review, at the resolution of a single thought</h2>
+  <p class="lede rv">The <a href="index.html">Atlas of Judgment</a> is a metascience instrument: every public peer review of ICLR — the International Conference on Learning Representations — decomposed into atomic units of evaluative logic and mapped at scale. Not <em>what did reviewers decide</em>, but <em>how did they think</em>.</p>
+  <p class="rv drop">Peer review decides what counts as knowledge in machine learning. It runs on the unpaid attention of tens of thousands of people, it is argued about constantly, and remarkably little is known about its interior. What is visible from outside is the output — a score, an accept, a reject — the way a verdict is visible while the deliberation behind it is not. This project is an attempt to open the deliberation and describe it.</p>
+  <p class="rv">The result is 1,420,178 atomic units of reviewer reasoning, drawn from nine years of ICLR and arranged into thirty-two plates. It is not an argument about peer review. It is a description of it, and it was built so that any part of the description can be taken apart by someone who doubts it.</p>
+  <h3 class="rv">Why a theatre</h3>
+  <p class="rv">The shape of this page is borrowed from a building. In 1594 the university at Leiden raised a <em>theatrum anatomicum</em>: tiers of standing room in a tight ring, so that one body could be opened in front of witnesses and drawn. Peer review is that room with a paper on the table — a thing examined in public, by people who will say what they saw. This project is the same room turned one quarter further: the instrument pointed back at the hands that hold it.</p>
+  <p class="rv">The crowd in the tiers above is not decoration. Each mark is one unit of reviewer reasoning, roughly one in every hundred the atlas holds, and the colours are their verdicts in the true proportion — overwhelmingly ink, because the corpus is overwhelmingly critical. Section <b>VI</b> explains how much of that is peer review and how much is the instrument.</p>
+  <div class="spec rv"><b>410,586</b> units (ICLR 2026, review-level) · <b>1,009,592</b> units (2018–2026, forum-level) · <b>52,460</b> submissions collected · verified 2026-08-18</div>
 </div>
-<p><b>What this is not:</b> a direct measurement of human reviewers. Every unit is a two-stage machine reading. The <code style="font-family:var(--mono);font-size:12px">support_status</code> flag (explicit vs. inferred) and a per-category reliability grid in the atlas appendix exist so that every claim can be read against the instrument's own error.</p>
+</section>
 
-<div class="no">05</div>
-<h2>Two tracks, one taxonomy</h2>
-<p>Two independent extraction tracks cover complementary views. The <b>2026 track</b> works review-by-review at high resolution: 74,380 reviews → 410,586 units. The <b>2018–2026 track</b> works forum-by-forum across nine years: 50,861 forums → 1,009,592 units, with temporal fields (before/after rebuttal, judgment change) that power the drift and rebuttal analyses.</p>
-<p>Both tracks share one taxonomy — <b>12 objects of scrutiny × 12 reasoning standards</b> — induced from the data itself: a 12,000-unit sample was embedded and clustered with no seeding from prior schemes, the clusters were read and named by hand, and every unit in both tracks was then assigned to its nearest category. Definitions for every term are in the atlas <a href="index.html">lexicon</a>, and on hover throughout.</p>
+<!-- ═══════════════════════════════════════════════════ II · the motive ═══ -->
+<div class="gap" data-tier="1" id="t2"><div class="plate-cap">
+  <div class="rn">Tier II</div>
+  <h2>The motive</h2>
+  <div class="lat">cur ratio, non numerus — why the reasoning, not the number</div>
+</div></div>
 
-<div class="no">06</div>
-<h2>What the atlas found</h2>
-<ul class="findings">
-  <li><span class="v">71.8%</span><span>of all units resolve <b>negative</b> — the memo layer articulates the logic of criticism far more often than praise (a property of the instrument as much as of reviewers).</span></li>
-  <li><span class="v">1.9×</span><span><b>the grammar</b>: each object of scrutiny has a canonical standard — novelty is judged by the novelty standard, cost by cost-benefit; theory chains into theory at 1.9× chance.</span></li>
-  <li><span class="v">26→6→13%</span><span><b>the script</b>: reviews open conceptually (framing 1.9× base rate) and close with hygiene (reproducibility 1.4×); praise collapses mid-review and returns at the close.</span></li>
-  <li><span class="v">4.6%</span><span><b>the rebuttal</b>: of 130,650 post-response units, only 5.6% weaken or reverse (4.6% weakened, 1.0% reversed); even fresh experiments strengthen the original judgment ~3× more often than they soften it.</span></li>
-  <li><span class="v">−10.6pp</span><span><b>the tribunal</b>: novelty criticism shows the largest acceptance gap (association only, not causation); compute-cost and robustness criticism show none at all.</span></li>
-  <li><span class="v">69→27%</span><span><b>the gauntlet</b>: acceptance falls almost linearly with each additional front of criticism, from two fronts to nine or more.</span></li>
-  <li><span class="v">38.6%</span><span><b>dissent</b>: reviewers of the same paper split most on problem framing — whether the question matters — and least on robustness, where evidence speaks.</span></li>
-  <li><span class="v">−13.7pp</span><span><b>the kinder judge</b>: meta-reviewers run 13.7 points less negative and 10.5 points more positive than the panels they summarize.</span></li>
-  <li><span class="v">+3.2pp</span><span><b>the drift</b>: 2018→2026, scrutiny moved from theory and clarity toward compute cost, statistical rigor, and reproducibility — from <em>what is this idea</em> toward <em>what does the evidence cost</em>.</span></li>
-</ul>
-<p>Every figure above is interactive in the <a href="index.html">atlas</a>, with counts, definitions, and raw specimen units behind it.</p>
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">II · why the reasoning, and not the score</div>
+  <h2 class="hd rv">A score is a judgment with the reasons thrown away</h2>
+  <p class="rv drop">Two reviewers write 5. One means <em>the idea is not new</em>. The other means <em>the experiments do not support the claim</em>. Averaged into a panel statistic, the difference disappears — and the difference was the whole of what happened. A score is a compression, and what it compresses away is precisely the part that could be argued with, learned from, or improved.</p>
+  <p class="rv">The project's research question was fixed early, and verbatim, in its design documents: not whether a paper was accepted, nor whether a review was favorable, but — <em>what do reviewers inspect, and through which criteria, comparisons, assumptions, and inferences does that observation become a judgment?</em></p>
+  <p class="rv">Peer review is the quality-control mechanism of science, yet the reasoning inside it is rarely studied as an object in its own right. Reviews are usually reduced to scores, sentiment, or accept/reject outcomes. This project treats the <b>reasoning itself</b> as the data.</p>
+  <p class="rv">That choice sets the shape of everything downstream. Sentiment analysis would have counted how reviewers felt. Outcome modelling would have predicted what became of the paper. Neither says what was being <em>weighed</em>. The atlas is built for a narrower and more stubborn question: which part of a paper was looked at, and which standard was held against it.</p>
+</div>
+</section>
 
-<div class="no">07</div>
-<h2>How much to trust it</h2>
-<p>Read the atlas with four caveats. <b>(1)</b> It measures a machine reading of reviews, not reviewers directly; the reliability grid shows where inference substitutes for quotation. <b>(2)</b> The negative share reflects the memo prompts' bias toward articulating criticism — it is not a sentiment ratio. <b>(3)</b> Coverage is 98.1–98.2% on both tracks; the missing tail (parse failures, provider content-policy refusals) is documented and its topic correlation unverified. <b>(4)</b> Decision-linked plates (the Consequence) are associations: outcomes were never shown to the extraction pipeline, but criticism breadth and paper quality are entangled by design.</p>
+<!-- ════════════════════════════════════════════════════ III · the venue ═══ -->
+<div class="gap" data-tier="2" id="t3"><div class="plate-cap">
+  <div class="rn">Tier III</div>
+  <h2>The venue</h2>
+  <div class="lat">unum forum — one forum, and only one</div>
+</div></div>
 
-<div class="no">08</div>
-<h2>The ledger</h2>
-<table>
-  <tr><th>Stage</th><th>Scale</th><th>Cost (USD)</th></tr>
-  <tr><td>Collection + normalization (OpenReview)</td><td>52,460 forums · 792,703 messages</td><td>0</td></tr>
-  <tr><td>DeepSeek memos — Full Layered (2026)</td><td>151,193 memos</td><td>314.42</td></tr>
-  <tr><td>DeepSeek memos — Direct (2018–2026)</td><td>51,813 memos</td><td>194.75</td></tr>
-  <tr><td>Qwen structuring — both tracks, incl. retries</td><td>~1.42M units emitted</td><td>103.59</td></tr>
-  <tr><td>Taxonomy, embeddings, aggregation, atlas</td><td>local compute only</td><td>0</td></tr>
-</table>
-<p style="font-size:13px">Pilot-phase exploration (episode schemas, atlas cards, calibration runs) is additional and itemized in the project's provenance ledger; the figures above are the production spine.</p>
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">III · why ICLR</div>
+  <h2 class="hd rv">The one venue that publishes the reviews of the papers it rejects</h2>
+  <p class="rv drop">One property makes ICLR nearly unique among top machine-learning venues: it publishes the reviews of <b>rejected papers</b>. ICML and NeurIPS mostly expose reviews only for accepted work, which biases any study of judgment toward papers that survived it. ICLR's OpenReview forums carry the full distribution — every submission, every review, every rebuttal, every verdict — for nine consecutive years, 2018 through 2026. That is 52,460 submissions and 792,703 forum messages, all from a single source with a single collection path.</p>
+  <p class="rv">The choice is a constraint, not an endorsement. ICLR is one venue, in one field, with one culture and a review form that changed four times across the nine years. Everything in the atlas describes ICLR; nothing in it should be read as a fact about peer review in general unless the plate says so, and none of them do.</p>
+</div>
+</section>
 
-<div class="no">09</div>
-<h2>Reproduce it</h2>
-<p>The companion page, <a href="method.html">The Atlas Method</a>, records the full pipeline — every script, model, parameter, seed, cost, failure mode, and the exact commands — at the level of detail needed to rerun it, along with an honest account of what cannot be reproduced (LLM sampling nondeterminism, a handful of one-off manual repairs, and upstream drift in OpenReview itself).</p>
+<!-- ═════════════════════════════════════════════════════ IV · the atom ═══ -->
+<div class="gap" data-tier="3" id="t4"><div class="plate-cap">
+  <div class="rn">Tier IV</div>
+  <h2>The atom</h2>
+  <div class="lat">unitas judicii — one unit of judgment</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">IV · the unit of analysis</div>
+  <h2 class="hd rv">One complete movement of a reviewer's mind</h2>
+  <p class="rv drop">The unit of analysis is one complete movement of a reviewer's mind — from a thing inspected, through an observation, through the standard invoked, to a judgment. A real unit from the corpus:</p>
+  <div class="frame rv"><div class="frame-inner">
+    <div class="unit-demo">
+      <div class="step"><div class="sl">Inspected</div>The paper's notation system and formatting consistency.</div>
+      <div class="step"><div class="sl">→ Observed</div>The reviewer finds the notation "difficult to follow" due to inconsistencies in subscript/superscript usage.</div>
+      <div class="step"><div class="sl">→ Reasoned</div>Clear notation is a prerequisite for verifying correctness; ambiguity here creates a barrier to evaluating technical soundness.</div>
+      <div class="step"><div class="sl">→ Judged</div>The presentation quality is insufficiently rigorous — a formal weakness that hinders scrutiny.</div>
+    </div>
+  </div></div>
+  <p class="fig-cap rv">Specimen № 335 of 410,586, from ICLR 2026 submission <code>hPUjTTj64O</code>. The same unit is opened part-by-part on the atlas's own Plate 0.</p>
+  <p class="rv">Each unit also carries a verdict polarity (negative / positive / conditional / uncertain / mixed), a suggested fix when the reviewer offered one, line-level citations back to the source review, and a flag recording whether it is grounded in the reviewer's explicit words or inferred by the analysis layer.</p>
+  <p class="rv">Everything in the atlas is a count of these. No plate holds anything that is not, at bottom, a pile of units — which is why every figure can be opened until a sentence written by an actual reviewer is showing. A number here is a door, not a conclusion.</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ V · the making ═══ -->
+<div class="gap" data-tier="4" id="t5"><div class="plate-cap">
+  <div class="rn">Tier V</div>
+  <h2>The making</h2>
+  <div class="lat">manus artificis — the maker's hand, shown</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">V · how it was made</div>
+  <h2 class="hd rv">Three layers, kept separate on purpose</h2>
+  <p class="rv drop">No one can read 792,703 forum messages. The scale that makes the question answerable is exactly the scale that puts a machine between the reader and the reviewer. The honest way to handle that is not to hide the machine but to name the layers and keep them apart, so that a claim can always be traced to the layer that produced it.</p>
+  <div class="layers rv">
+    <div class="layer"><span class="k">Layer I</span><span><b>Human reviews</b> — the raw OpenReview record, collected once and kept immutable. No anonymization is applied; the data is already public.</span></div>
+    <div class="layer"><span class="k">Layer II</span><span><b>Analytic memos</b> — a DeepSeek model reads each review (or forum) and writes a free-text metascientific analysis, under prompts that forbid re-reviewing the paper, require line-ID citations, and deliberately hide outcomes and other reviews at the initial stage.</span></div>
+    <div class="layer"><span class="k">Layer III</span><span><b>Structured logic units</b> — a Qwen model normalizes each memo into schema-constrained JSON. It never sees the raw review; it is a normalization layer over Layer II, not a second opinion.</span></div>
+  </div>
+  <h3 class="rv">Two tracks, one taxonomy</h3>
+  <p class="rv">Two independent extraction tracks cover complementary views. The <b>2026 track</b> works review-by-review at high resolution: 74,380 reviews → 410,586 units. The <b>2018–2026 track</b> works forum-by-forum across nine years: 50,861 forums → 1,009,592 units, with temporal fields (before/after rebuttal, judgment change) that power the drift and rebuttal analyses.</p>
+  <p class="rv">Both tracks share one taxonomy — <b>12 objects of scrutiny × 12 reasoning standards</b> — induced from the data itself: a 12,000-unit sample was embedded and clustered with no seeding from prior schemes, the clusters were read and named by hand, and every unit in both tracks was then assigned to its nearest category. Definitions for every term are in the atlas <a href="index.html">lexicon</a>, and on hover throughout.</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ VI · the limits ═══ -->
+<div class="gap" data-tier="5" id="t6"><div class="plate-cap">
+  <div class="rn">Tier VI</div>
+  <h2>The limits</h2>
+  <div class="lat">quod non est — what it is not</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">VI · what this is not</div>
+  <h2 class="hd rv">A machine reading of reviews, not a measurement of reviewers</h2>
+  <p class="rv drop"><b>What this is not:</b> a direct measurement of human reviewers. Every unit is a two-stage machine reading. The <code>support_status</code> flag (explicit vs. inferred) and a per-category reliability grid in the atlas appendix exist so that every claim can be read against the instrument's own error.</p>
+  <p class="rv">Read the atlas with four caveats. <b>(1)</b> It measures a machine reading of reviews, not reviewers directly; the reliability grid shows where inference substitutes for quotation. <b>(2)</b> The negative share reflects the memo prompts' bias toward articulating criticism — it is not a sentiment ratio. <b>(3)</b> Coverage is 98.1–98.2% on both tracks; the missing tail (parse failures, provider content-policy refusals) is documented and its topic correlation unverified. <b>(4)</b> Decision-linked plates (the Consequence) are associations: outcomes were never shown to the extraction pipeline, but criticism breadth and paper quality are entangled by design.</p>
+  <p class="rv">A caveat kept in an appendix is a caveat that has been hidden. These ride at the same weight as the findings, on the plates themselves as well as here — and the atlas's third appendix is given over entirely to results that <em>failed</em>: patterns that looked real, were tested against a null, and did not survive it.</p>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ VII · the atlas ═══ -->
+<div class="gap" data-tier="6" id="t7"><div class="plate-cap">
+  <div class="rn">Tier VII</div>
+  <h2>The atlas</h2>
+  <div class="lat">tabulae XXXII — thirty-two plates</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">VII · how to read it</div>
+  <h2 class="hd rv">Eight acts, a coda, three appendices</h2>
+  <p class="rv drop">The atlas proper is one continuous instrument, read by scrolling: <em>The Instrument</em>, <em>One Hand</em>, <em>The Law</em>, <em>The Tariff</em>, <em>The Encounter</em>, <em>The Higher Court</em>, <em>The Measure</em>, <em>Eras &amp; Territories</em>, a coda in the archive, and three appendices — thirty-two plates in all. Each plate asks one question, answers it with one figure, and states in its own caption what it cannot answer.</p>
+  <p class="rv">Three habits make it read faster. Every technical term is defined on hover. Every number opens: click into a figure and it will keep going down until a real reviewer sentence, with a link to the OpenReview thread it came from, is on screen. And every plate has a machine-readable deposition — the same claim in JSON, with its counts, at <code>/api/v1/plates/</code>.</p>
+  <h3 class="rv">Some of what the plates hold</h3>
+  <ul class="findings rv">
+    <li><span class="v">71.8%</span><span>of all units resolve <b>negative</b> — the memo layer articulates the logic of criticism far more often than praise (a property of the instrument as much as of reviewers).</span></li>
+    <li><span class="v">1.9×</span><span><b>the grammar</b>: each object of scrutiny has a canonical standard — novelty is judged by the novelty standard, cost by cost-benefit; theory chains into theory at 1.9× chance.</span></li>
+    <li><span class="v">26→6→13%</span><span><b>the script</b>: reviews open conceptually (framing 1.9× base rate) and close with hygiene (reproducibility 1.4×); praise collapses mid-review and returns at the close.</span></li>
+    <li><span class="v">4.6%</span><span><b>the rebuttal</b>: of 130,650 post-response units, only 5.6% weaken or reverse (4.6% weakened, 1.0% reversed); even fresh experiments strengthen the original judgment ~3× more often than they soften it.</span></li>
+    <li><span class="v">−10.6pp</span><span><b>the tribunal</b>: novelty criticism shows the largest acceptance gap (association only, not causation); compute-cost and robustness criticism show none at all.</span></li>
+    <li><span class="v">69→27%</span><span><b>the gauntlet</b>: acceptance falls almost linearly with each additional front of criticism, from two fronts to nine or more.</span></li>
+    <li><span class="v">38.6%</span><span><b>dissent</b>: reviewers of the same paper split most on problem framing — whether the question matters — and least on robustness, where evidence speaks.</span></li>
+    <li><span class="v">−13.7pp</span><span><b>the kinder judge</b>: meta-reviewers run 13.7 points less negative and 10.5 points more positive than the panels they summarize.</span></li>
+    <li><span class="v">+3.2pp</span><span><b>the drift</b>: 2018→2026, scrutiny moved from theory and clarity toward compute cost, statistical rigor, and reproducibility — from <em>what is this idea</em> toward <em>what does the evidence cost</em>.</span></li>
+  </ul>
+  <p class="rv">Every figure above is interactive in the <a href="index.html">atlas</a>, with counts, definitions, and raw specimen units behind it. None of them is the point of the page you are reading; they are here so that you know what kind of thing is on the other side of the door.</p>
+</div>
+</section>
+
+<!-- ═════════════════════════════════════════════════ VIII · the open door ═══ -->
+<div class="gap" data-tier="7" id="t8"><div class="plate-cap">
+  <div class="rn">Tier VIII</div>
+  <h2>The open door</h2>
+  <div class="lat">janua aperta — everything that is public</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">VIII · everything that is public</div>
+  <h2 class="hd rv">Nothing here is behind anything</h2>
+  <p class="rv drop">The corpus was public before this project touched it, the derived data is public now, and so is every step in between. There is no private supplement, no held-back table, no "results available on request".</p>
+  <div class="doors rv">
+    <a href="method.html"><div class="dk">Method</div><div class="dt">The Atlas Method</div><div class="dd">Every script, model, parameter, seed, cost and failure mode, at the level of detail needed to rerun it.</div></a>
+    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">Code</div><div class="dt">GitHub</div><div class="dd">The pipeline, the taxonomy induction, the aggregations, and the source of the atlas itself.</div></a>
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">Data</div><div class="dt">Hugging Face</div><div class="dd">The derived units and their labels, released CC BY 4.0.</div></a>
+    <a href="/api/"><div class="dk">Machine readers</div><div class="dt">The API layer</div><div class="dd">Per-plate depositions and every data island as JSON, with <code>llms.txt</code> and an OpenAPI schema.</div></a>
+  </div>
+  <h3 class="rv">The ledger</h3>
+  <p class="rv">What it cost to build, in full. The bill is small enough to be worth stating exactly, because the point of stating it is that anyone could pay it.</p>
+  <table class="rv">
+    <tr><th>Stage</th><th>Scale</th><th>Cost (USD)</th></tr>
+    <tr><td>Collection + normalization (OpenReview)</td><td>52,460 forums · 792,703 messages</td><td>0</td></tr>
+    <tr><td>DeepSeek memos — Full Layered (2026)</td><td>151,193 memos</td><td>314.42</td></tr>
+    <tr><td>DeepSeek memos — Direct (2018–2026)</td><td>51,813 memos</td><td>194.75</td></tr>
+    <tr><td>Qwen structuring — both tracks, incl. retries</td><td>~1.42M units emitted</td><td>103.59</td></tr>
+    <tr><td>Taxonomy, embeddings, aggregation, atlas</td><td>local compute only</td><td>0</td></tr>
+  </table>
+  <p class="fig-cap rv">Pilot-phase exploration (episode schemas, atlas cards, calibration runs) is additional and itemized in the project's provenance ledger; the figures above are the production spine.</p>
+  <h3 class="rv">Reproduce it</h3>
+  <p class="rv">The companion page, <a href="method.html">The Atlas Method</a>, records the full pipeline — every script, model, parameter, seed, cost, failure mode, and the exact commands — at the level of detail needed to rerun it, along with an honest account of what cannot be reproduced (LLM sampling nondeterminism, a handful of one-off manual repairs, and upstream drift in OpenReview itself).</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ IX · the colophon ═══ -->
+<div class="gap" data-tier="8" id="t9"><div class="plate-cap">
+  <div class="rn">Tier IX</div>
+  <h2>The colophon</h2>
+  <div class="lat">sub finem — at the end, the terms</div>
+</div></div>
 
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
   <div class="col-mark">Atlas of Judgment</div>
   <div class="col-sub">the companion — what this is, and why ICLR</div>
+  <div class="col-by">Made by Shiro Takagi at UNKTOK</div>
   <div class="col-stats">1,420,178 units of reviewer logic · 52,460 forums · nine years of ICLR · engraved MMXXVI</div>
-  <div class="col-links"><a href="index.html">The Atlas</a><a href="method.html">Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a></div>
+  <div class="col-links"><a href="index.html">The Atlas</a><a href="method.html">Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a><a href="/api/">API</a></div>
   <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
 </footer>
-</div>
 
-<script>
-for (const table of document.querySelectorAll("table")) {
-  const heads = [...table.querySelectorAll("tr:first-child th, tr:first-child td")].map(h => h.textContent.trim());
-  const rows = table.querySelectorAll("tr");
-  for (let i = 1; i < rows.length; i++) {
-    rows[i].querySelectorAll("td").forEach((td, j) => { if (heads[j]) td.setAttribute("data-label", heads[j]); });
-  }
-  const first = table.querySelector("tr");
-  if (first && first.querySelector("th")) { const thead = document.createElement("thead"); thead.appendChild(first); table.prepend(thead); }
-}
-</script>
+</main>
 
-<!-- PAGE-MOTION BEGIN (generated by scripts/add_page_motion.py) -->
-<style>
-#ether { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
-.mv { opacity: 0; transform: translateY(14px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.mv.in { opacity: 1; transform: none; }
-/* the engraving wipe rides a MASK, not clip-path: a fully clipped element reports no
-   intersection at all, so the observer that would reveal it never fires (the headings
-   were invisible on both companion pages until 2026-08-26). A mask is paint-only. */
-h2.mv { -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 50%); mask-image: linear-gradient(to right, #000 50%, transparent 50%);
-  -webkit-mask-size: 200% 100%; mask-size: 200% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0;
-  transition: opacity 0.5s ease, transform 0.7s ease, -webkit-mask-position 1.1s cubic-bezier(0.3, 0.6, 0.2, 1) 0.1s, mask-position 1.1s cubic-bezier(0.3, 0.6, 0.2, 1) 0.1s; }
-h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
-#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(239,228,201,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.15, 1); }
-#topbar.show { transform: translateY(0); }
-#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
-#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
-#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
-#topbar .tb-links a:hover { color: var(--brass); }
-#topbar .tb-links a.tb-live, #topbar .tb-links a.tb-here { color: var(--brass); }
-@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
-#meridian { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
-#meridian .m-track { position: absolute; right: 6px; top: -14px; bottom: -14px; width: 1px; background: rgba(138,90,31,0.14); }
-#meridian .m-fill { position: absolute; right: 6px; top: -14px; width: 1px; background: var(--brass); }
-#meridian button { position: relative; display: block; width: 13px; height: 2px; padding: 0; background: rgba(138,90,31,0.35); border: none; cursor: pointer; transition: width 0.25s ease, background 0.25s ease; }
-#meridian button:hover, #meridian button.cur { width: 22px; background: var(--brass); }
-#meridian button .m-lab { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; background: rgba(239,228,201,0.9); padding: 3px 7px; border: 1px solid var(--brass-faint); }
-#meridian button:hover .m-lab, #meridian button.cur .m-lab { opacity: 1; }
-#meridian button.cur .m-lab { color: var(--ink-2); border-color: transparent; background: none; }
-#meridian .m-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; color: var(--muted); margin-top: 6px; }
-@media (max-width: 1180px) { #meridian { display: none; } }
-#reticle { position: fixed; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; pointer-events: none; z-index: 200; opacity: 0; transition: opacity 0.3s ease; }
-#reticle::before { content: ""; position: absolute; inset: 0; border: 1px solid rgba(138,90,31,0.55); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.3, 0.6, 0.2, 1), border-color 0.3s ease; }
-#reticle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 2px; height: 2px; margin: -1px 0 0 -1px; background: var(--brass); border-radius: 50%; }
-#reticle.hot::before { transform: scale(1.7); border-color: var(--brass); }
-.fm-box { opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.diagram.in .fm-box { opacity: 1; transform: none; }
-.fun-bar { transform-origin: left center; transform: scaleX(0); transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.15, 1); }
-.diagram.in .fun-bar { transform: scaleX(1); }
-.hm .cell { opacity: 0; transition: opacity 0.45s ease; }
-.hm.in .cell { opacity: 1; }
-@media (prefers-reduced-motion: reduce) {
-  .mv, h2.mv, .fm-box, .fun-bar, .hm .cell { opacity: 1 !important; transform: none !important; transition: none !important; clip-path: none !important; -webkit-mask-image: none !important; mask-image: none !important; }
-  #topbar, #reticle { transition: none; }
-}
-</style>
-<canvas id="ether" aria-hidden="true"></canvas>
-<nav id="topbar" aria-label="site"><a class="tb-mark" href="#top">Atlas of Judgment</a><div class="tb-links"><a href="#top" class="tb-here">About</a><a href="method.html">Method</a><a href="index.html">The Atlas</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Data</a></div></nav>
-<nav id="meridian" aria-label="sections"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
-<div id="reticle" aria-hidden="true"></div>
+<script id="wit" type="application/json">[{"j": "The core contribution is underwhelming relative to its claims; the effect size does not support a high contribution rating.", "v": "negative"}, {"j": "Design coherence is violated; the distinction between real and synthetic regimes is incomplete.", "v": "negative"}, {"j": "Positive evaluation of the method's geometric flexibility and capability.", "v": "positive"}, {"j": "The presentation quality is deficient, contributing to a negative assessment of rigor.", "v": "negative"}, {"j": "The method's portability and integration potential are weak due to hardware/framework constraints.", "v": "negative"}, {"j": "The fairness component lacks sufficient justification relative to field norms for metric selection.", "v": "negative"}, {"j": "Low presentation quality due to minor but noticeable errors that affect professionalism and ease of use.", "v": "negative"}, {"j": "The robustness of the method across different encoder qualities is unverified.", "v": "negative"}, {"j": "Minor presentation flaw indicating a lack of polish in expository ordering.", "v": "negative"}, {"j": "Negative assessment due to a basic formal defect.", "v": "negative"}, {"j": "The methodology is incomplete because it lacks a decision procedure for tool selection.", "v": "negative"}, {"j": "The use of a universal baseline is an assumption that risks overgeneralization and inaccurate relative ranking.", "v": "negative"}, {"j": "Major concern regarding consistency with scalability narrative.", "v": "negative"}, {"j": "Limited innovation due to derivative components.", "v": "negative"}, {"j": "The experimental comparison is potentially unfair due to unequal capacity constraints between the proposed method and the baseline.", "v": "negative"}, {"j": "The scope of the contribution is currently limited and unverified outside of mathematical tasks, creating an unanswered empirical question.", "v": "negative"}, {"j": "Positive assessment of the methodological rigor in isolating failure modes.", "v": "positive"}, {"j": "Neutral inquiry into reproducibility plans.", "v": "positive"}, {"j": "The estimator is accepted based on stated theoretical guarantees without scrutiny of implementation details or practical translation.", "v": "positive"}, {"j": "Uncertainty regarding whether the paper has sufficiently articulated the scope conditions of its design.", "v": "negative"}, {"j": "The motivational framing provided by this comparison is conceptually weak.", "v": "negative"}, {"j": "The reviewer finds the current demonstration of utility insufficient.", "v": "negative"}, {"j": "Presentation quality is diminished by avoidable stylistic and typographical errors.", "v": "negative"}, {"j": "Practical utility is uncertain without quantified efficiency metrics beyond parameter count.", "v": "negative"}, {"j": "Negative judgment on experimental validity; potential threat to the central empirical claim due to unclear baseline implementation.", "v": "negative"}, {"j": "The method's practical viability is currently unverified due to unclear scalability characteristics.", "v": "uncertain"}, {"j": "The presentation obscures the contribution and detracts from the paper's perceived professionalism and clarity.", "v": "negative"}, {"j": "Serious concern regarding the fidelity of the paper's engagement with foundational literature.", "v": "negative"}, {"j": "Uncertainty: The evaluation metrics might be too narrow to fully assess framework performance.", "v": "conditional"}, {"j": "The rationale for the specific encoder choice is unexplained, reducing the perceived incremental value/insight.", "v": "negative"}, {"j": "The operationalization is insufficiently comprehensive and precise.", "v": "negative"}, {"j": "The dataset fails to authentically represent the claimed domain, undermining its specific contribution.", "v": "negative"}, {"j": "The core attack mechanism is viewed as temporally fragile and potentially time-limited in its value.", "v": "negative"}, {"j": "The masking mechanism presents a significant, unaddressed risk profile regarding the integrity of learned knowledge.", "v": "negative"}, {"j": "The paper lacks sufficient novelty and comprehensiveness to constitute a strong contribution.", "v": "negative"}, {"j": "Experimental scope is insufficient to validate generalization claims.", "v": "negative"}, {"j": "The empirical results are extensive and demonstrate consistent improvement.", "v": "positive"}, {"j": "The proposition is evaluated as genuinely novel and theoretically significant.", "v": "positive"}, {"j": "The estimator's lack of statistical examination raises concerns about its validity in critical training regimes.", "v": "negative"}, {"j": "The theoretical foundation lacks sufficient motivation and clarity.", "v": "negative"}, {"j": "The specific mechanistic or architectural novelty relative to existing literature is not sufficiently articulated.", "v": "negative"}, {"j": "The paper needs to clarify its competitive positioning against non-sparse acceleration techniques.", "v": "conditional"}, {"j": "The claimed practical benefit is not demonstrated.", "v": "negative"}, {"j": "The method description is coherent and correctly described.", "v": "positive"}, {"j": "The terminology appears to potentially obscure the lack of novelty in the loss formulation.", "v": "negative"}, {"j": "The paper has not engaged with a relevant class of counterexamples, challenging the generality of its claims.", "v": "negative"}, {"j": "Substantive concern regarding novelty; the claimed contribution is viewed as insufficiently distinct from nearest predecessors.", "v": "negative"}, {"j": "The contribution is incremental and lacks transformative novelty.", "v": "negative"}, {"j": "There is an unresolved risk that models are exploiting data artifacts rather than learning tool-use competence.", "v": "negative"}, {"j": "Weakness: The literature review is outdated and insufficient for establishing methodological novelty.", "v": "negative"}, {"j": "The problem framing is strong and well-positioned.", "v": "positive"}, {"j": "The core motivation is valid but does not constitute a significant novelty driver because the problem itself is widely recognized.", "v": "mixed"}, {"j": "The claim of being a 'metric' is an overclaim requiring correction, though the issue is considered marginal.", "v": "negative"}, {"j": "Negative assessment of novelty, viewing the contribution as an additive combination of standard techniques rather than a transformative one.", "v": "negative"}, {"j": "The comparison is not a solid contribution because it lacks informative failure modes or plausible competitive baselines.", "v": "negative"}, {"j": "The incomplete literature review undermines confidence in the paper's understanding of the current state-of-the-art.", "v": "negative"}, {"j": "Limited novelty due to reliance on established observations and techniques.", "v": "negative"}, {"j": "Presentation barrier: the document is not optimally organized for reader comprehension.", "v": "negative"}, {"j": "The paper presents a sound, internally coherent argument.", "v": "positive"}, {"j": "The literature engagement is deficient/incomplete.", "v": "negative"}, {"j": "The SDD metric lacks sufficient novelty due to inadequate citation of prior art, raising concerns about attribution and framing.", "v": "negative"}, {"j": "The validity of the performance metrics is uncertain due to ambiguous splitting strategy.", "v": "uncertain"}, {"j": "The paradigm's core assumption may not hold for complex, integrated knowledge domains, creating practical barriers.", "v": "negative"}, {"j": "This is a minor but crucial literature gap requiring citation.", "v": "negative"}, {"j": "The algorithmic contribution lacks necessary theoretical justification regarding its efficiency.", "v": "negative"}, {"j": "Positive assessment of the analytical depth beyond ranking.", "v": "positive"}, {"j": "The reviewer finds the current level of explanation insufficient for understanding the underlying mechanics.", "v": "negative"}, {"j": "The evaluation lacks a critical reference point for real-world applicability.", "v": "negative"}, {"j": "Concern that methodological independence is compromised, making it hard to attribute observed patterns solely to the dataset.", "v": "negative"}, {"j": "Uncertainty regarding the practical viability and robustness of the method under realistic budget constraints due to unverified burn-in sensitivity.", "v": "conditional"}, {"j": "Absence of failure cases limits the diagnostic value of qualitative results.", "v": "negative"}, {"j": "Hedged concern about the paper's real-world impact due to the subject's current standing.", "v": "negative"}, {"j": "The presentation is poor, hindering any meaningful engagement with the method's logic.", "v": "negative"}, {"j": "Uncertainty regarding the specific empirical measurement shown.", "v": "uncertain"}, {"j": "The computational efficiency claim is unsubstantiated.", "v": "negative"}, {"j": "The empirical base provides credible support for the existence of the described phenomena.", "v": "positive"}, {"j": "The contribution is limited by the small magnitude of improvement relative to the complexity/cost.", "v": "negative"}, {"j": "It is hard to identify the novelty of this paper's technical design.", "v": "negative"}, {"j": "The fairness of the comparative evaluation is uncertain due to ambiguous parameter accounting.", "v": "uncertain"}, {"j": "Empirical evidence is insufficient to support general claims of optimization improvement.", "v": "negative"}, {"j": "Deflation of novelty claim because the method appears to be a re-packaging of known distillation techniques without sufficient differentiation.", "v": "negative"}, {"j": "The explanatory depth is incomplete, limiting the paper's utility beyond mere demonstration.", "v": "negative"}, {"j": "Unproven value proposition of the complex system architecture.", "v": "negative"}, {"j": "Negative concern regarding lack of practical grounding for the model.", "v": "negative"}, {"j": "The scope of safety-related claims is unsupported due to narrow empirical evidence.", "v": "negative"}, {"j": "Methodological ambiguity exists regarding the computation of key metrics.", "v": "uncertain"}, {"j": "Negative evaluation regarding the lack of explanatory depth for empirical findings.", "v": "negative"}, {"j": "The statistical significance of the top-k improvement is unverified and potentially weak.", "v": "negative"}, {"j": "The central claim of data-efficiency is currently unsupported by the presented evidence, casting doubt on the paper's fundamental framing.", "v": "negative"}, {"j": "The approach has high value and novelty due to its economic efficiency and radical nature.", "v": "positive"}, {"j": "Absolute rejection of the paper's suitability for the venue.", "v": "negative"}, {"j": "The paper has significant potential to enable future work on two-layer net training, though this connection was not made by the authors.", "v": "positive"}, {"j": "The method's design rationale is unclear and potentially fragile.", "v": "conditional"}, {"j": "The necessity and distinct contribution of the two-stage design are unclear due to ablation ambiguity.", "v": "uncertain"}, {"j": "The presentation contains minor mechanical flaws that reduce polish.", "v": "negative"}, {"j": "The comparison landscape includes outdated baselines, weakening the empirical validation.", "v": "negative"}, {"j": "The method lacks economic viability under realistic adversarial scaling scenarios.", "v": "negative"}, {"j": "Positive evaluation of the framework's comprehensive scope and engineering output.", "v": "positive"}, {"j": "The paper has minor presentation failures.", "v": "negative"}, {"j": "The proposed solution does not adequately address the economic and operational realities of multi-setup manufacturing workflows.", "v": "negative"}, {"j": "The paper exhibits presentation errors that undermine its professional polish.", "v": "negative"}, {"j": "Uncertainty remains regarding the method's ability to handle unseen classes or broader vocabularies.", "v": "uncertain"}, {"j": "The limited temporal scope is insufficient to support broad claims about the method's utility for physical simulation.", "v": "negative"}, {"j": "Empirical evidence is promising and demonstrates good experimental design in probing causal reliance.", "v": "positive"}, {"j": "The algorithmic presentation is ambiguous and potentially misleading.", "v": "negative"}, {"j": "The claimed effect of compression prompts is likely exaggerated.", "v": "negative"}, {"j": "There is a potential internal inconsistency between the theoretical mechanism and reported outcomes.", "v": "negative"}, {"j": "Negative: Potential numerical instability poses a risk to the safe deployment of the method.", "v": "negative"}, {"j": "Solid instrumental value with limited conceptual novelty.", "v": "positive"}, {"j": "The PCA interpretation requires justification to support the paper's claims about semantic structures.", "v": "conditional"}, {"j": "Critical omission of safety mechanisms renders the current design potentially unsafe for physical deployment.", "v": "negative"}, {"j": "The core conceptual idea is compelling and theoretically sound.", "v": "positive"}, {"j": "Negative judgment regarding the interpretability and causal validity of the mechanism.", "v": "negative"}, {"j": "The choice of expert policy is questionable and may constrain the method's effectiveness.", "v": "conditional"}, {"j": "Factual clarification needed to assess scope of applicability.", "v": "uncertain"}, {"j": "The presentation quality is diminished by preventable errors.", "v": "negative"}, {"j": "The contribution of the complex model is diminished if simpler baselines suffice.", "v": "negative"}, {"j": "There is a potential confound in the comparison due to ambiguous regularization implementation.", "v": "negative"}, {"j": "The defense contribution is conceptually fragile and potentially accidental.", "v": "negative"}, {"j": "Over-claimed novelty; integration does not equal significant scientific advance.", "v": "negative"}, {"j": "Internal inconsistency between claimed unified synergy and implemented conflicting objectives.", "v": "negative"}, {"j": "The increase in complexity is a concern for practical deployment and optimization.", "v": "negative"}, {"j": "The positioning claim is substantively weak due to lack of distinct motivation.", "v": "negative"}, {"j": "Concern about practical deployment feasibility and computational scalability.", "v": "negative"}, {"j": "Preprocessing degrades the quality of the input data by removing scale-sensitive features essential for the target phenomena.", "v": "negative"}, {"j": "The presentation style creates a barrier to understanding and evaluating the method's core contributions.", "v": "negative"}, {"j": "The novelty claim is real but not sufficiently communicated or contextualized within the broader field.", "v": "conditional"}, {"j": "The comparative advantage regarding independence assumptions is unverified.", "v": "negative"}, {"j": "The mechanistic explanations are unsupported by rigorous data.", "v": "negative"}, {"j": "The benchmark has potential value but is hedged due to uncertainty about its robustness against simultaneous gaming of training data and benchmark.", "v": "conditional"}, {"j": "The paper has plausible but unverified causal claims, leading to a low soundness assessment.", "v": "negative"}, {"j": "The comparative evidence is weak because it does not resolve the efficiency-performance trade-off.", "v": "negative"}, {"j": "Anomalous behavior in specific models challenges the universality of the Bayesian interpretation.", "v": "negative"}, {"j": "Dissatisfaction with the rigor and rationale of the comparative evaluation.", "v": "negative"}, {"j": "Uncertainty remains about the fairness and transparency of the sample-efficiency claims.", "v": "conditional"}, {"j": "The documentation for the key robustness experiment is inadequate.", "v": "negative"}, {"j": "The design and execution of the framework is considered 'well done' and convincing.", "v": "positive"}, {"j": "The unspecified construction is a potential source of unsoundness or degraded performance if not handled carefully.", "v": "negative"}, {"j": "Positive assessment of the problem definition and motivation.", "v": "positive"}, {"j": "The problem is significant, but this does not compensate for weaknesses in method justification and presentation.", "v": "positive"}, {"j": "A specific design parameter appears arbitrary and unsupported by explanation.", "v": "negative"}, {"j": "The preliminary exposition lacks novelty and could be condensed.", "v": "negative"}, {"j": "The practical deployability of the pipeline is unclear due to missing performance metrics on the reconstruction step.", "v": "uncertain"}, {"j": "The baseline set is incomplete, preventing a full assessment of the proposed framework's advantages over contemporary deep anomaly detection methods.", "v": "negative"}, {"j": "Concern about architectural incompatibility and undefined interaction effects between the proposed plug-in and existing logit-level constraints.", "v": "negative"}, {"j": "Important methodological details are inadequately presented in the main text.", "v": "negative"}, {"j": "The formalization is strong and has potential broader impact.", "v": "positive"}, {"j": "Presentation is insufficiently precise and repetitive.", "v": "negative"}, {"j": "The paper fails to properly cite relevant literature for key concepts.", "v": "negative"}, {"j": "Insufficient clarity to assess experimental validity.", "v": "negative"}]</script>
 <script>
-(function pageMotion() {
+/* ═══════════════════════════════════════════════════════════════════════════
+   The theatrum: a raw-WebGL2 line engraving of an anatomical theatre, drawn
+   once into a static buffer and flown through by the scroll. Every stroke is a
+   screen-space quad so the hairlines keep an engraver's constant weight at any
+   distance; depth is carried by aerial fade alone, normalised by the camera's
+   stand-off so the plate holds its tonal range inside the room and above it.
+   ═════════════════════════════════════════════════════════════════════════ */
+(function theatrum() {
   const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // ---- ether ----
-  if (!REDUCED) {
-    const cv = document.getElementById("ether");
-    const ctx = cv.getContext("2d");
-    let W = 0, H = 0, motes = [], meteor = null, nextMeteor = performance.now() + 9000 + Math.random() * 14000;
-    function size() {
-      W = innerWidth; H = innerHeight;
-      const dpr = Math.min(devicePixelRatio || 1, 1.5);
-      cv.width = W * dpr; cv.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const N = Math.min(150, Math.round(W * H / 9000));
-      motes = [];
-      for (let i = 0; i < N; i++) motes.push({ x: Math.random() * W, y: Math.random() * H,
-        vy: -(0.03 + Math.random() * 0.09), ph: Math.random() * 6.283,
-        sz: 0.7 + Math.random() * 1.2, brass: Math.random() < 0.2, a: 0.07 + Math.random() * 0.13 });
+  const cv = document.getElementById("theatre");
+  const gl = cv.getContext("webgl2", { antialias: true, alpha: true, powerPreference: "low-power" });
+  if (!gl) { cv.remove(); document.getElementById("vig").remove(); return; }
+
+  const WIT = JSON.parse(document.getElementById("wit").textContent);
+  const VAL = { negative: [0.435,0.122,0.271], positive: [0.208,0.420,0.263],
+                conditional: [0.486,0.373,0.063], uncertain: [0.45,0.40,0.33], mixed: [0.40,0.30,0.36] };
+  // the true verdict shares of the 410,586-unit track, so the crowd is the corpus
+  const SHARE = [["negative",0.7184],["positive",0.1372],["conditional",0.0944],["uncertain",0.0429],["mixed",0.0071]];
+  let _s = 20260826;                       // a fixed seed: this is a plate, not a lava lamp
+  const rnd = () => (_s = (_s * 1664525 + 1013904223) >>> 0) / 4294967296;
+  function pickVal() { let x = rnd(), a = 0; for (const [k, p] of SHARE) { a += p; if (x < a) return k; } return "negative"; }
+
+  // ---- geometry -----------------------------------------------------------
+  const A = [], B = [], SIDE = [], ENDV = [], INK = [], WID = [], COL = [];
+  const marks = [];
+  const QUAD = [[0,-1],[0,1],[1,-1],[1,-1],[0,1],[1,1]];
+  function seg(a, b, ink, w, col) {
+    for (const [e, s] of QUAD) {
+      A.push(a[0],a[1],a[2]); B.push(b[0],b[1],b[2]); SIDE.push(s); ENDV.push(e);
+      INK.push(ink); WID.push(w); COL.push(col[0],col[1],col[2]);
     }
-    let last = performance.now();
-    (function tick(now) {
-      requestAnimationFrame(tick);
-      if (document.hidden) { last = now; return; }
-      const dt = Math.min(now - last, 50) / 16.7; last = now;
-      ctx.clearRect(0, 0, W, H);
-      for (const m of motes) {
-        m.y += m.vy * dt; m.x += Math.sin(now / 4200 + m.ph) * 0.05 * dt;
-        if (m.y < -4) { m.y = H + 4; m.x = Math.random() * W; }
-        const a = m.a * (0.7 + 0.3 * Math.sin(now / 1500 + m.ph));
-        ctx.fillStyle = m.brass ? `rgba(138,90,31,${a.toFixed(3)})` : `rgba(220,225,240,${a.toFixed(3)})`;
-        ctx.fillRect(m.x, m.y, m.sz, m.sz);
+  }
+  const INKC = [0.141,0.110,0.078];
+  // a theatrum anatomicum is a well, not a bowl: the tiers barely widen and climb
+  // hard, so a body on the floor lies at the bottom of a shaft of witnesses
+  const TIERS = 9;
+  const tierR = i => 2.15 + i * 0.46;
+  const tierY = i => 0.48 + i * 1.08;
+  function ring(r, y, ink, w, col, n) {
+    n = n || 160; let px = r, pz = 0;
+    for (let i = 1; i <= n; i++) { const t = i / n * Math.PI * 2, x = Math.cos(t) * r, z = Math.sin(t) * r;
+      seg([px,y,pz], [x,y,z], ink, w, col); px = x; pz = z; }
+  }
+  for (let i = 0; i < TIERS; i++) {
+    const r = tierR(i), y = tierY(i);
+    ring(r, y, 0.92, 1.25, INKC, 200);                      // the balustrade
+    ring(r - 0.20, y - 0.08, 0.34, 1.0, INKC, 150);         // the step behind it
+    const nr = Math.round(2 * Math.PI * r / 0.30);          // the riser, ruled
+    for (let k = 0; k < nr; k++) { const t = k / nr * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+      seg([x*r, y, z*r], [x*(r-0.20), y-0.94, z*(r-0.20)], 0.22, 1.0, INKC); }
+    for (let row = 0; row < 2; row++) {                     // two rows of witnesses to a tier
+      const rr0 = r + 0.02 + row * 0.19, nw = Math.round(2 * Math.PI * rr0 / 0.115);
+      for (let k = 0; k < nw; k++) {
+        const t = (k + rnd() * 0.6) / nw * Math.PI * 2, rr = rr0 + (rnd() - 0.5) * 0.06;
+        const h = 0.30 + rnd() * 0.13, lean = 0.055 + rnd() * 0.05, yy = y + row * 0.30;
+        const x = Math.cos(t) * rr, z = Math.sin(t) * rr;
+        const v = pickVal(), c = VAL[v], m = v === "negative" ? 0.0 : 0.62;
+        const col = [INKC[0]*(1-m)+c[0]*m, INKC[1]*(1-m)+c[1]*m, INKC[2]*(1-m)+c[2]*m];
+        const ink = 0.62 + rnd() * 0.34;
+        const a = [x, yy, z], b = [x - Math.cos(t)*lean, yy + h, z - Math.sin(t)*lean];
+        seg(a, b, ink, 1.0, col);                                                        // the body
+        seg(b, [b[0]-Math.cos(t)*0.03, b[1]+0.055, b[2]-Math.sin(t)*0.03], ink, 1.6, col); // the head
+        marks.push({ p: b, v: v });
       }
-      if (!meteor && now > nextMeteor) {
-        const L = Math.random() < 0.5;
-        meteor = { x0: L ? -60 : W + 60, y0: Math.random() * H * 0.55, dx: (L ? 1 : -1) * (0.55 + Math.random() * 0.3), dy: 0.22 + Math.random() * 0.18, born: now };
-        nextMeteor = now + 16000 + Math.random() * 22000;
+    }
+  }
+  for (let k = 0; k < 8; k++) {                             // eight aisles, climbing
+    const t = (k + 0.5) / 8 * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+    for (let i = 0; i < TIERS; i++) {
+      const r0 = tierR(i) - 0.20, y0 = tierY(i) - 0.94, r1 = tierR(i), y1 = tierY(i);
+      seg([x*r0,y0,z*r0], [x*r1,y0,z*r1], 0.5, 1.0, INKC);
+      seg([x*r1,y0,z*r1], [x*r1,y1,z*r1], 0.5, 1.0, INKC);
+    }
+  }
+  {                                                          // the cornice and the oculus
+    const yC = tierY(TIERS-1) + 0.86, yTop = tierY(TIERS-1) + 1.75, rTop = tierR(TIERS-1) + 0.26, rOc = 1.55;
+    ring(rTop, yC, 0.80, 1.25, INKC, 200);
+    ring(rTop - 0.16, yC + 0.16, 0.34, 1.0, INKC, 160);
+    ring(rOc, yTop, 0.85, 1.35, INKC, 150);
+    ring(rOc * 0.86, yTop + 0.10, 0.30, 1.0, INKC, 120);
+    for (let k = 0; k < 40; k++) { const t = k / 40 * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+      seg([x*rTop, yC, z*rTop], [x*rOc, yTop, z*rOc], 0.12, 1.0, INKC); }
+  }
+  ring(0.66, 0.02, 1.0, 1.6, INKC, 120); ring(0.50, 0.02, 0.55, 1.0, INKC, 90);
+  ring(1.30, 0.0, 0.55, 1.1, INKC, 140); ring(1.52, 0.0, 0.26, 1.0, INKC, 140);
+  for (let k = 0; k < 64; k++) { const t = k / 64 * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+    seg([x*0.72, 0, z*0.72], [x*1.30, 0, z*1.30], 0.24, 1.0, INKC); }
+  for (let k = 0; k < 7; k++) {                              // the specimen on the table: a spine
+    const zz = -0.30 + k * 0.10, rr = 0.030 + 0.028 * Math.sin(k / 6 * Math.PI);
+    ring(rr, 0.075, 0.95, 1.0, INKC, 22);
+    seg([0, 0.075, zz], [0, 0.075, zz + 0.10], 0.8, 1.2, INKC);
+  }
+  seg([-0.30, 0.055, -0.34], [-0.30, 0.055, 0.34], 0.45, 1.0, INKC);
+  seg([ 0.30, 0.055, -0.34], [ 0.30, 0.055, 0.34], 0.45, 1.0, INKC);
+
+  // ---- program ------------------------------------------------------------
+  const VS = `#version 300 es
+precision highp float;
+in vec3 aA, aB, aCol; in float aSide, aEnd, aInk, aW;
+uniform mat4 uVP; uniform vec2 uRes; uniform float uW;
+out float vInk; out float vD; out vec3 vCol;
+void main() {
+  vec4 ca = uVP * vec4(aA, 1.), cb = uVP * vec4(aB, 1.);
+  if (ca.w <= 0.02 || cb.w <= 0.02) { gl_Position = vec4(0., 0., 2., 1.); vInk = 0.; vD = 1.; vCol = aCol; return; }
+  vec2 h = uRes * 0.5;
+  vec2 sa = ca.xy / ca.w * h, sb = cb.xy / cb.w * h;
+  vec2 d = sb - sa; float L = length(d);
+  vec2 dir = L > 0.0001 ? d / L : vec2(1., 0.);
+  vec2 nrm = vec2(-dir.y, dir.x);
+  vec4 c = mix(ca, cb, aEnd);
+  vec2 s = mix(sa, sb, aEnd) + nrm * aSide * aW * uW * 0.5;
+  gl_Position = vec4(s / h * c.w, c.z, c.w);
+  vInk = aInk; vD = c.w; vCol = aCol;
+}`;
+  const FS = `#version 300 es
+precision highp float;
+in float vInk; in float vD; in vec3 vCol;
+uniform float uHaze, uD0, uDim;
+out vec4 o;
+void main() {
+  // aerial distance, normalised by how far the camera stands off, so the plate keeps
+  // the same tonal range whether we are inside the room or above its roof
+  float fade = exp(-max(vD / uD0 - 0.75, 0.) * uHaze);
+  o = vec4(vCol, clamp(vInk * fade, 0., 1.) * uDim);
+}`;
+  function sh(t, src) { const x = gl.createShader(t); gl.shaderSource(x, src); gl.compileShader(x); return x; }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+  function vbo(arr, size, name) {
+    const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+    const l = gl.getAttribLocation(prog, name);
+    gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, size, gl.FLOAT, false, 0, 0);
+  }
+  vbo(A,3,"aA"); vbo(B,3,"aB"); vbo(SIDE,1,"aSide"); vbo(ENDV,1,"aEnd");
+  vbo(INK,1,"aInk"); vbo(WID,1,"aW"); vbo(COL,3,"aCol");
+  const N = SIDE.length, U = n => gl.getUniformLocation(prog, n);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ---- matrices -----------------------------------------------------------
+  function mul(a, b) { const o = new Float32Array(16);
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { let s = 0;
+      for (let k = 0; k < 4; k++) s += a[k*4+j] * b[i*4+k]; o[i*4+j] = s; } return o; }
+  function persp(f, ar, n, fa) { const t = 1 / Math.tan(f / 2);
+    return new Float32Array([t/ar,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0]); }
+  function look(e, c) {
+    const z = [e[0]-c[0], e[1]-c[1], e[2]-c[2]]; let l = Math.hypot(z[0],z[1],z[2]) || 1;
+    z[0]/=l; z[1]/=l; z[2]/=l;
+    let x = [z[2], 0, -z[0]]; l = Math.hypot(x[0],x[2]);
+    if (l < 1e-4) { x = [1,0,0]; l = 1; }                      // straight down: pick a meridian
+    x[0]/=l; x[2]/=l;
+    const y = [z[1]*x[2]-z[2]*x[1], z[2]*x[0]-z[0]*x[2], z[0]*x[1]-z[1]*x[0]];
+    return new Float32Array([x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+      -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1]);
+  }
+  const lerp = (a,b,t) => a + (b-a) * t, ease = t => t*t*(3-2*t), cl = t => Math.min(1, Math.max(0, t));
+
+  // ---- the arc ------------------------------------------------------------
+  // s = 0 on the table, looking up; s ≈ 0.8 at the top tier; s = 1 the ground plan.
+  function pose(s, t, portrait) {
+    const spin = t * 0.022;
+    let eye, tgt, fov;
+    if (s < 0.09) {                                   // at the table's edge, the room over you
+      const u = ease(s / 0.09);
+      eye = [Math.cos(spin) * 0.95, lerp(0.22, 1.5, u), Math.sin(spin) * 0.95];
+      tgt = [Math.cos(spin + Math.PI) * lerp(2.2, 3.4, u), lerp(6.4, 5.4, u), Math.sin(spin + Math.PI) * lerp(2.2, 3.4, u)];
+      fov = lerp(1.30, 1.22, u);
+    } else if (s < 0.72) {                            // the climb: one tier to a chapter
+      const u = (s - 0.09) / 0.63;
+      const az = spin + u * 3.1, d = lerp(1.1, 2.0, u);
+      const y = lerp(1.5, tierY(TIERS - 1) + 0.5, u);
+      eye = [Math.cos(az) * d, y, Math.sin(az) * d];
+      // the gaze swings between the roof and the table as the reader climbs
+      const swing = 0.5 - 0.5 * Math.cos(u * Math.PI * 2.6);
+      tgt = [Math.cos(az + Math.PI) * lerp(4.6, 2.4, swing), lerp(y + 4.2, 0.3, swing), Math.sin(az + Math.PI) * lerp(4.6, 2.4, swing)];
+      fov = 1.22;
+    } else if (s < 0.88) {                            // out through the cornice: the whole room
+      const u = ease((s - 0.72) / 0.16), q = Math.pow(u, 0.6);
+      const az = spin + 3.1 + 0.7 * u, d = lerp(2.0, portrait ? 26.0 : 18.0, q), h = lerp(tierY(TIERS-1) + 0.5, 10.0, q);
+      eye = [Math.cos(az) * d, h, Math.sin(az) * d];
+      tgt = [0, lerp(tierY(TIERS-1) + 0.5, 5.0, q), 0];
+      fov = lerp(1.22, 0.78, q);
+    } else {                                          // the ground plan: the room becomes a plate
+      const u = ease(cl((s - 0.88) / 0.08));
+      const az = spin + 3.8, d = lerp(portrait ? 26.0 : 18.0, 1.4, u), h = lerp(10.0, portrait ? 34.0 : 25.0, u);
+      eye = [Math.cos(az) * d, h, Math.sin(az) * d];
+      tgt = [0, lerp(5.0, 0.35, u), 0];
+      fov = lerp(0.78, portrait ? 0.62 : 0.52, u);
+    }
+    if (portrait && s < 0.72) {          // a tall frame sees too much empty roof: drop the gaze
+      tgt[1] = eye[1] + (tgt[1] - eye[1]) * 0.42;
+      fov *= 0.93;
+    }
+    return { eye, tgt, fov };
+  }
+
+  // ---- the loop -----------------------------------------------------------
+  let s = 0, sT = 0, t0 = performance.now(), portrait = false;
+  function size() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = Math.round(innerWidth * dpr); cv.height = Math.round(innerHeight * dpr);
+    cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
+    portrait = innerWidth < innerHeight * 0.95;
+  }
+  size(); addEventListener("resize", size, { passive: true });
+  function progress() {
+    const dh = document.documentElement.scrollHeight - innerHeight;
+    return dh > 0 ? cl(scrollY / dh) : 0;
+  }
+  addEventListener("scroll", () => { sT = progress(); }, { passive: true });
+
+  let lastPose = null;
+  function draw(now) {
+    const t = REDUCED ? 0 : (now - t0) / 1000;
+    s += (sT - s) * 0.10;                              // the camera lags the scroll a little
+    const p = lastPose = pose(REDUCED ? 0.86 : s, t, portrait);
+    gl.viewport(0, 0, cv.width, cv.height);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    const VP = mul(persp(p.fov, cv.width / cv.height, 0.05, 160), look(p.eye, p.tgt));
+    gl.uniformMatrix4fv(U("uVP"), false, VP);
+    gl.uniform2f(U("uRes"), cv.width, cv.height);
+    gl.uniform1f(U("uW"), Math.min(devicePixelRatio || 1, 2));
+    gl.uniform1f(U("uHaze"), 1.05);
+    // the stand-off cannot fall below the room's own size, or everything past the
+    // target — the far wall, seen from inside — fades to nothing before it is drawn
+    gl.uniform1f(U("uD0"), Math.max(6.5, Math.hypot(p.eye[0]-p.tgt[0], p.eye[1]-p.tgt[1], p.eye[2]-p.tgt[2])));
+    gl.uniform1f(U("uDim"), 1.0);
+    gl.drawArrays(gl.TRIANGLES, 0, N);
+  }
+  if (REDUCED) { requestAnimationFrame(draw); }
+  else { (function loop(now) { requestAnimationFrame(loop); if (!document.hidden) draw(now); })(t0); }
+
+  // ---- one mark, one real sentence of the kind it stands for --------------
+  const wbox = document.getElementById("witness");
+  if (!REDUCED && WIT.length && matchMedia("(pointer: fine)").matches) {
+    const wl = wbox.querySelector(".wl"), ws = wbox.querySelector(".ws");
+    const byVal = {}; for (const w of WIT) (byVal[w.v] = byVal[w.v] || []).push(w);
+    let shown = null, hide = 0;
+    addEventListener("mousemove", e => {
+      if (progress() > 0.30 || e.target.closest("main .band, footer, nav")) {
+        if (shown) { wbox.classList.remove("on"); document.documentElement.classList.remove("wit-on"); shown = null; } return;
       }
-      if (meteor) {
-        const age = now - meteor.born;
-        if (age > 900) meteor = null;
-        else {
-          const x = meteor.x0 + meteor.dx * age, y = meteor.y0 + meteor.dy * age, fade = Math.sin(age / 900 * Math.PI);
-          const g = ctx.createLinearGradient(x - meteor.dx * 90, y - meteor.dy * 90, x, y);
-          g.addColorStop(0, "rgba(138,90,31,0)");
-          g.addColorStop(1, `rgba(236,231,220,${(0.35 * fade).toFixed(3)})`);
-          ctx.strokeStyle = g; ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(x - meteor.dx * 90, y - meteor.dy * 90); ctx.lineTo(x, y); ctx.stroke();
-        }
+      if (!lastPose) return;
+      const p = lastPose, ar = cv.width / cv.height;
+      const VP = mul(persp(p.fov, ar, 0.05, 160), look(p.eye, p.tgt));
+      const mx = e.clientX, my = e.clientY;
+      let best = null, bd = 34 * 34;
+      for (let i = 0; i < marks.length; i += 2) {       // every other mark is plenty to aim at
+        const m = marks[i].p;
+        const w = VP[3]*m[0] + VP[7]*m[1] + VP[11]*m[2] + VP[15];
+        if (w <= 0.05) continue;
+        const cx = (VP[0]*m[0] + VP[4]*m[1] + VP[8]*m[2] + VP[12]) / w;
+        const cy = (VP[1]*m[0] + VP[5]*m[1] + VP[9]*m[2] + VP[13]) / w;
+        const sx = (cx * 0.5 + 0.5) * innerWidth, sy = (0.5 - cy * 0.5) * innerHeight;
+        const d = (sx - mx) * (sx - mx) + (sy - my) * (sy - my);
+        if (d < bd) { bd = d; best = marks[i]; }
       }
-    })(last);
-    size(); addEventListener("resize", size);
-  } else { document.getElementById("ether").remove(); }
-  // ---- block reveals ----
-  const shell = document.querySelector(".shell");
-  const blocks = [...shell.children].filter(el => !/^(NAV|SCRIPT|STYLE)$/.test(el.tagName));
+      clearTimeout(hide);
+      if (!best) { hide = setTimeout(() => { wbox.classList.remove("on");
+        document.documentElement.classList.remove("wit-on"); shown = null; }, 220); return; }
+      const pool = byVal[best.v] || WIT;
+      const pick = pool[(marks.indexOf(best) * 7919) % pool.length];
+      if (pick !== shown) {
+        shown = pick;
+        wl.textContent = best.v + " · one such unit, verbatim";
+        ws.textContent = "“" + pick.j + "”";
+      }
+      wbox.classList.add("on"); document.documentElement.classList.add("wit-on");
+    }, { passive: true });
+  } else { wbox.remove(); }
+})();
+
+/* ═══════════════════════ the page: reveals, rail, top bar, reticle ═══════ */
+(function furniture() {
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const io = new IntersectionObserver(en => {
     for (const e of en) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-  }, { threshold: 0.08 });
-  for (const el of blocks) { el.classList.add("mv"); io.observe(el); }
-  for (const el of document.querySelectorAll(".diagram, .hm")) io.observe(el);
-  document.querySelectorAll(".hm").forEach(hm => {
-    [...hm.querySelectorAll(".cell")].forEach((c, i) => c.style.transitionDelay = Math.min(i * 4, 800) + "ms");
-  });
-  document.querySelectorAll(".diagram .fm-box").forEach((b, i) => b.style.transitionDelay = (i * 90) + "ms");
-  // ---- top bar + meridian ----
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".rv, .gap").forEach(el => io.observe(el));
+
   const topbar = document.getElementById("topbar");
-  const rail = document.getElementById("meridian");
-  const fill = document.getElementById("m-fill");
-  const marks = [...document.querySelectorAll(".no")].map(no => {
-    let h = no.nextElementSibling;
-    while (h && !/^H[23]$/.test(h.tagName)) h = h.nextElementSibling;
-    return { el: no, lab: h ? h.textContent.trim().slice(0, 26) : no.textContent.trim() };
-  });
-  const pct = document.createElement("div"); pct.className = "m-pct"; pct.textContent = "000%";
-  const entries = [{ el: shell, lab: "Top" }].concat(marks);
-  for (const en of entries) {
+  const rail = document.getElementById("tiers"), fill = document.getElementById("tf");
+  const gaps = [...document.querySelectorAll(".gap")];
+  const LABS = ["I · the project","II · the motive","III · the venue","IV · the atom","V · the making",
+                "VI · the limits","VII · the atlas","VIII · the open door","IX · the colophon"];
+  gaps.forEach((g, i) => {
     const b = document.createElement("button");
-    b.innerHTML = `<span class="m-lab">${en.lab}</span>`;
-    b.addEventListener("click", () => en.el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
-    rail.appendChild(b); en.btn = b;
-  }
-  rail.appendChild(pct);
+    b.style.width = (11 + (i % 3) * 3) + "px";
+    b.innerHTML = `<span class="lb">${LABS[i]}</span>`;
+    b.setAttribute("aria-label", LABS[i].replace(/ · /, ", "));
+    b.addEventListener("click", () => g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
+    rail.appendChild(b); g._btn = b;
+  });
   let cur = -1;
   function onScroll() {
     const dh = document.documentElement.scrollHeight - innerHeight;
-    const p = dh ? scrollY / dh : 0;
+    const p = dh > 0 ? Math.min(1, Math.max(0, scrollY / dh)) : 0;
     fill.style.height = (p * 100).toFixed(2) + "%";
-    pct.textContent = String(Math.round(p * 100)).padStart(3, "0") + "%";
-    topbar.classList.toggle("show", scrollY > 420);
-    let best = 0;
-    entries.forEach((en, i) => { if (en.el.getBoundingClientRect().top <= innerHeight * 0.4) best = i; });
-    if (best !== cur) { cur = best; entries.forEach((en, i) => en.btn.classList.toggle("cur", i === best)); }
+    topbar.classList.toggle("show", scrollY > innerHeight * 0.7);
+    let best = -1;
+    gaps.forEach((g, i) => { if (g.getBoundingClientRect().top <= innerHeight * 0.55) best = i; });
+    if (best !== cur) { cur = best; gaps.forEach((g, i) => g._btn.classList.toggle("cur", i === best)); }
   }
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
-  // ---- reticle ----
+
+  const ret = document.getElementById("reticle");
   if (!REDUCED && matchMedia("(pointer: fine)").matches) {
-    const ret = document.getElementById("reticle");
     let mx = -100, my = -100, rx = -100, ry = -100, seen = false;
     addEventListener("mousemove", e => {
       mx = e.clientX; my = e.clientY;
       if (!seen) { seen = true; ret.style.opacity = 1; rx = mx; ry = my; }
       const el = e.target instanceof Element ? e.target : null;
-      ret.classList.toggle("hot", !!(el && el.closest("a, button, summary, select, code, .fbar")));
+      ret.classList.toggle("hot", !!(el && el.closest("a, button, summary, code")));
     }, { passive: true });
     document.documentElement.addEventListener("mouseleave", () => { ret.style.opacity = 0; seen = false; });
-    (function loop() {
-      requestAnimationFrame(loop);
+    (function loop() { requestAnimationFrame(loop);
       rx += (mx - rx) * 0.22; ry += (my - ry) * 0.22;
-      ret.style.transform = `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px)`;
-    })();
-  } else { document.getElementById("reticle").remove(); }
+      ret.style.transform = `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px)`; })();
+  } else { ret.remove(); }
+
+  for (const table of document.querySelectorAll("table")) {
+    const heads = [...table.querySelectorAll("tr:first-child th, tr:first-child td")].map(h => h.textContent.trim());
+    const rows = table.querySelectorAll("tr");
+    for (let i = 1; i < rows.length; i++)
+      rows[i].querySelectorAll("td").forEach((td, j) => { if (heads[j]) td.setAttribute("data-label", heads[j]); });
+    const first = table.querySelector("tr");
+    if (first && first.querySelector("th")) { const thead = document.createElement("thead"); thead.appendChild(first); table.prepend(thead); }
+  }
 })();
 </script>
-<!-- PAGE-MOTION END -->
