@@ -286,14 +286,23 @@ html.plate-done #neb, html.plate-done #neb-ui, html.plate-done #neb-plate, html.
 html.plate-done #neb { visibility: hidden; }
 .tp-table { position: relative; z-index: 2; min-height: 74svh; display: flex; align-items: flex-end; padding-bottom: clamp(96px, 12svh, 130px); pointer-events: none; }
 @media (max-width: 760px) { .tp-table { min-height: 66svh; padding-bottom: 132px; } .tp-table .tq { max-width: none; } }
-.tp-table .tq { margin: 0; max-width: 24ch; }
+.tp-table .tq { margin: 0; max-width: 23ch; font-size: clamp(38px, 5.7vw, 70px); }
 /* The question is read against an engraving, so it needs a clearing of its own; and it
    is cut into the plate by the same scroll that converts the bone — the mask runs only
    under .neb3d, so without the 3D hero the heading is simply there. */
-.tq-block { position: relative; display: inline-block; padding: 34px 58px 40px; margin-left: -58px;
-  background: radial-gradient(ellipse farthest-side at 46% 54%, rgba(239,228,201,0.96) 0%,
-    rgba(239,228,201,0.91) 32%, rgba(239,228,201,0.68) 54%, rgba(239,228,201,0.28) 74%,
-    rgba(239,228,201,0.06) 90%, transparent 100%); }
+/* The question is the page's one sentence, so it gets a leaf of tissue over the plate:
+   the engraving behind it is thrown out of focus and washed toward vellum, and both the
+   blur and the wash are masked to the same soft ellipse so neither shows a box edge. */
+.tq-block { position: relative; display: inline-block; padding: 34px 58px 40px; margin-left: -58px; }
+.tq-block::before { content: ""; position: absolute; inset: -12px; z-index: -1; pointer-events: none;
+  -webkit-backdrop-filter: blur(9px) saturate(0.84); backdrop-filter: blur(9px) saturate(0.84);
+  background: radial-gradient(ellipse farthest-side at 46% 54%, rgba(239,228,201,0.93) 0%,
+    rgba(239,228,201,0.87) 32%, rgba(239,228,201,0.64) 54%, rgba(239,228,201,0.26) 74%,
+    rgba(239,228,201,0.05) 90%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse farthest-side at 46% 54%, #000 0%, #000 44%,
+    rgba(0,0,0,0.55) 68%, rgba(0,0,0,0.12) 86%, transparent 100%);
+  mask-image: radial-gradient(ellipse farthest-side at 46% 54%, #000 0%, #000 44%,
+    rgba(0,0,0,0.55) 68%, rgba(0,0,0,0.12) 86%, transparent 100%); }
 .tq-eye { display: flex; align-items: center; gap: 13px; font-family: var(--mono); font-size: 9.5px;
   letter-spacing: 0.30em; text-transform: uppercase; color: var(--brass); margin-bottom: 15px; }
 .tq-eye i { display: block; width: clamp(22px, 5vw, 56px); height: 1px; background: var(--brass-line); }
@@ -3666,8 +3675,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       float w = smoothstep(T[i] + 0.12, T[i] - 0.12, lum);
       if (w <= 0.001) continue;
       vec2 sp = (i == 1 || i == 3) ? b : a;
-      float ang = i == 0 ? 0.0 : i == 1 ? 1.25 : i == 2 ? 0.62 : 2.05;
-      float d = ruling(sp, ang, i == 0 ? 1.0 : i == 1 ? 1.35 : i == 2 ? 2.1 : 2.7);
+      // The base tier must run ALONG the form, not across it: at angle 0 it ruled bands
+      // of constant wrap, which came out as a row of perpendicular ticks — a zipper, not
+      // an engraving. A burin follows the surface it describes and only crosses itself
+      // in the darks, which is what the three tiers above it are for.
+      float ang = i == 0 ? 1.5708 : i == 1 ? 1.25 : i == 2 ? 0.62 : 2.05;
+      float d = ruling(sp, ang, i == 0 ? 1.6 : i == 1 ? 1.35 : i == 2 ? 2.1 : 2.7);
       ink = max(ink, w * smoothstep(0.26 + 0.30*(1.0 - w), 0.02, d));
     }
     return ink;
@@ -3743,34 +3756,52 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         float phi = atan(tq.y, tq.x);
         float v2 = clamp(phi / PI * 0.5 + 0.5, 0., 1.);
         vec3 etch = texture(uEtch, vec2(u2, v2)).rgb;
-        vec3 bone = vec3(0.93, 0.895, 0.815);
-        bone *= mix(vec3(1.0), etch, 0.85);
-        float spec = pow(clamp(dot(reflect(-key, n), -rd), 0., 1.), 24.0) * 0.18;
+        // The writing is an incision, not a decal. Read the etch as a depth field: bend
+        // the normal along its gradient so the grooves take the era's light as it moves,
+        // sit the groove floor in its own occlusion, and let the lit lip catch a
+        // highlight. Multiplying it flat into albedo is what made it read as painted-on.
+        vec2 tx = vec2(1.5/2048.0, 1.5/512.0);
+        float ex = texture(uEtch, vec2(u2 + tx.x, v2)).r - texture(uEtch, vec2(u2 - tx.x, v2)).r;
+        float ey = texture(uEtch, vec2(u2, v2 + tx.y)).r - texture(uEtch, vec2(u2, v2 - tx.y)).r;
+        float cut = clamp(1.0 - etch.r, 0., 1.);            // 1 inside a stroke
+        vec3 tang = normalize(cross(n, vec3(0.0, 1.0, 0.0)) + vec3(1e-5));
+        vec3 bit  = normalize(cross(n, tang));
+        vec3 nb = normalize(n - (tang * ex + bit * ey) * 1.7);
+        float difB = clamp(dot(nb, key), 0., 1.);
+        float aoCut = 1.0 - cut * 0.42;                     // the floor of the cut is shaded
+        vec3 bone = vec3(0.93, 0.895, 0.815) * mix(1.0, 0.74, cut);
+        float spec = pow(clamp(dot(reflect(-key, nb), -rd), 0., 1.), 24.0) * 0.18;
         // waxy subsurface warmth on thin rim light
         float rim = pow(1.0 - clamp(dot(n, -rd), 0., 1.), 2.5);
         // thin bone lets the light through at the arch edges
         float thin = pow(clamp(dot(-n, key), 0., 1.), 1.6) * pow(rim, 0.6);
-        vec3 lit = bone * (0.30 + 0.78*dif*sh + 0.22*fil + 0.12*sky) * (0.5 + 0.5*occ)
+        vec3 lit = bone * (0.30 + 0.78*difB*sh + 0.22*fil + 0.12*sky) * (0.5 + 0.5*occ) * aoCut
             + vec3(1.0, 0.92, 0.78) * spec * sh
             + vec3(0.42, 0.30, 0.18) * rim * 0.16
             + vec3(0.72, 0.50, 0.30) * thin * 0.30;
-        // before the plate rises — and again after it lies back down — the bone is a
-        // printed engraving: flat paper, and strokes that follow the form they describe.
-        // The burin travels. Dissolving the whole bone into ink at once leaves it half
-        // lit and half cut through the middle of the move, which reads as a fault rather
-        // than a transformation; sweeping the conversion around the bone's own wrap keeps
-        // every point either flesh or line, and never a blend of the two.
-        float front = uPlate * 1.75 - 0.36;
-        float eng = max(uFlat, 1.0 - smoothstep(front - 0.34, front, 1.0 - u2));
+        // An engraver lays tone first and rules over it, so that is the order here.
+        // Cross-dissolving lit into print left the middle neither one nor the other; a
+        // hard sweep front replaced that mush with a seam, one half flesh and one half
+        // line. Both were wrong. Now the light drains out of the whole bone at once
+        // toward paper, and the rulings grow out of that wash — every point is in the
+        // same state at the same time, so there is nothing to stitch. A gentle lead
+        // around the wrap keeps the burin travelling, with no edge to see.
+        float lead = clamp(uPlate * 1.20 - 0.18 * (1.0 - u2), 0.0, 1.0);
+        float eng = max(uFlat, lead);
         if (eng > 0.001){
+          float drain = smoothstep(0.0, 0.55, eng);        // the light goes out first,
+          float burin = smoothstep(0.46, 1.0, eng);        // and only then is anything cut
+          vec3 wash = mix(lit, vec3(0.906, 0.868, 0.790), drain * 0.84);
           float lum = clamp(dot(lit, vec3(0.35, 0.42, 0.23)) * 1.12, 0., 1.);
           vec2 ra = vec2(u2 * 46.0, v2 * 13.0);            // ruling rides the bone's own wrap
           vec2 rb = vec2(q.x + q.z, q.y * 1.8 + q.z * 0.4) * 26.0;
           float ink = engraveInk(ra, rb, lum);
-          ink = max(ink, (1.0 - etch.r) * 0.55);              // the corpus, still cut into the plate
-          ink = max(ink, smoothstep(0.62, 0.97, rim) * 0.92); // and the contour that separates it from the sheet
-          vec3 print = mix(vec3(0.906,0.868,0.790), vec3(0.161,0.126,0.086), ink);
-          col = mix(lit, print, eng);
+          ink = max(ink, cut * 0.55);                        // the corpus, still cut into the plate
+          ink = max(ink, smoothstep(0.62, 0.97, rim) * 0.92); // and the contour against the sheet
+          // paper has tooth: a stroke laid on it breaks, it does not print like vector art
+          float tooth = fract(sin(dot(floor(q.xz * 250.0 + q.y * 170.0), vec2(21.7, 91.3))) * 47531.0);
+          ink *= 0.78 + 0.22 * tooth;
+          col = mix(wash, vec3(0.161, 0.126, 0.086), clamp(ink, 0., 1.) * burin);
         } else col = lit;
       }
       // atmosphere back into the vellum
@@ -3885,7 +3916,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const ee = 1 - Math.pow(1 - e, 3);
     const orbit = (REDUCED ? 0 : Math.sin(t * 0.11) * 0.10) + mxN * 0.16;
     const portrait = W < 700 || H > W * 1.1;
-    const pk2 = Math.min(1, (window.__plateK || 0) / 0.58), pke = pk2 * pk2 * (3 - 2 * pk2);
+    const pk2 = Math.min(1, (window.__plateK || 0) / 0.92);
+    const pke = 0.34 * pk2 + 0.66 * (pk2 * pk2 * (3 - 2 * pk2));   // flatter peak: the camera must not lurch either
     const az = -0.85 + orbit * (1 - pke) + (1 - ee) * 0.55 + pke * 0.30;
     // from straight above the printed plate, down to the specimen — and back up, because a plate is read face-on
     const el = (1.35 - ee * 0.89 + myN * 0.07) * (1 - pke) + 1.30 * pke;
@@ -4111,8 +4143,11 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     // a drawing does not weigh anything: as the plate sets, the joint stops moving
     // The bone was moving into place and converting to line at the same time, and that
     // overlap is what read as a stumble. The pose lands first; the burin follows it.
-    const pv = Math.min(1, plateK / 0.58), pk = pv * pv * (3 - 2 * pv);
-    const pi = Math.max(0, (plateK - 0.28) / 0.72), pkInk = pi * pi * (3 - 2 * pi);
+    // The turn read as a lurch because the whole of it was spent in the first 58% of
+    // the descent on a smoothstep, whose peak rate is 1.5x its average. Same endpoints,
+    // nearly the whole scroll to reach them, and a curve with a flatter peak.
+    const pv = Math.min(1, plateK / 0.92), pk = 0.34 * pv + 0.66 * (pv * pv * (3 - 2 * pv));
+    const pi = Math.max(0, (plateK - 0.10) / 0.90), pkInk = pi * pi * (3 - 2 * pi);
     gl.uniform1f(U("uNod"), (nod + breathe) * (1 - pk) + (-0.10) * pk);
     gl.uniform1f(U("uTurn"), turn * (1 - pk) + 0.30 * pk);
     // scroll sinks the bone back into the page; its shadow's writing stays and becomes the text below
