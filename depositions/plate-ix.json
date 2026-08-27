@@ -13,7 +13,7 @@
     {
       "id": "fig-9a",
       "title": "Of every 100 novelty objections: who names the prior?",
-      "deck": "12 name a specific work. 25 wave at \"prior work.\" 63 assert un-novelty with no referent at all — and the naming rate has halved since 2018, under both instruments tried.",
+      "deck": "12 name a specific work. 25 gesture at \"prior work.\" 63 assert un-novelty with no referent at all — and the naming rate has halved since 2018, under both instruments tried.",
       "dom_host": "#canon-fig",
       "claims": [
         {
@@ -39,7 +39,7 @@
         },
         {
           "id": "9a-100-breakdown",
-          "statement": "Of every 100 novelty objections whose charge could be located: 12 name a specific work, 25 wave at \"prior work\" with no extractable citation, and 63 assert un-novelty with no referent at all.",
+          "statement": "Of every 100 novelty objections whose charge could be located: 12 name a specific work, 25 gesture at \"prior work\" with no extractable citation, and 63 assert un-novelty with no referent at all.",
           "value": {
             "quantity": [
               0.1246,

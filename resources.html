@@ -12,6 +12,7 @@
   --mono: "IBM Plex Mono", ui-monospace, monospace;
   --display: "Cormorant Garamond", Georgia, serif;
   --serif: "Source Serif 4", Georgia, serif;
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -36,13 +37,55 @@ main { position: relative; z-index: 3; }
 @media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; }
   #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
 
-/* --------------------------------------------------------------- quiet header (no hero theatrics) */
-.page-head { padding: clamp(46px, 8vh, 82px) 0 clamp(28px, 5vh, 44px); text-align: left; }
-.page-head .eb { font-family: var(--mono); font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
-  color: var(--brass); }
-.page-head h1 { font-family: var(--display); font-weight: 500; font-size: clamp(34px, 5.4vw, 52px);
-  line-height: 1.05; margin: 12px 0 0; text-wrap: balance; }
-.page-head .sub { font-size: 15.5px; color: var(--ink-2); max-width: 62ch; margin-top: 12px; }
+/* ---- the hero: the storeroom — same family as the theatre (about) and the officina (method) ---- */
+.rhero { min-height: calc(100svh - 50px); display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 0 20px 40px; position: relative; }
+.rhero::before { content: ""; position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%);
+  width: min(820px, 96vw); height: min(420px, 48svh); pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.94) 0%, rgba(239,228,201,0.80) 40%,
+    rgba(239,228,201,0.34) 62%, transparent 78%); }
+.rhero > * { position: relative; z-index: 1; }
+.rhero .eb { font-family: var(--mono); font-size: clamp(8.5px, 1.5vw, 10.5px); letter-spacing: 0.9em;
+  text-transform: uppercase; color: var(--brass); opacity: 0;
+  animation: rEye 1.2s var(--ease-settle) 0.1s forwards; }
+@keyframes rEye { 40% { opacity: 1; } to { opacity: 1; letter-spacing: 0.32em; } }
+.rhero h1 { font-family: var(--display); font-weight: 500; font-size: clamp(44px, 7.4vw, 96px);
+  line-height: 1; margin: 14px 0 0; clip-path: inset(100% 0 0 0); transform: translateY(14px);
+  animation: rH1 1s var(--ease-settle) 0.3s forwards; }
+@keyframes rH1 { to { clip-path: inset(-12% 0 -10% 0); transform: none; } }
+/* the shelf: a rule inks in and the holdings settle onto it — the instrument below, in miniature */
+.rhero .shelf { display: block; margin: 20px auto 0; width: min(340px, 66vw); height: auto; overflow: visible; }
+.rhero .shelf .sh-l { stroke: var(--brass-line); stroke-width: 1; stroke-dasharray: 340;
+  stroke-dashoffset: 340; animation: rInk 0.9s ease 0.85s forwards; }
+@keyframes rInk { to { stroke-dashoffset: 0; } }
+.rhero .shelf .sh-c { fill: rgba(248,241,224,0.9); stroke: var(--brass); stroke-width: 1;
+  transform-box: fill-box; transform-origin: 50% 100%; transform: scale(0);
+  animation: rBead 0.7s var(--ease-settle) forwards; }
+.rhero .shelf .sh-c:nth-child(2) { animation-delay: 1.15s; }
+.rhero .shelf .sh-c:nth-child(3) { animation-delay: 1.24s; }
+.rhero .shelf .sh-c:nth-child(4) { animation-delay: 1.32s; }
+.rhero .shelf .sh-c:nth-child(5) { animation-delay: 1.39s; }
+.rhero .shelf .sh-c:nth-child(6) { animation-delay: 1.45s; }
+.rhero .shelf .sh-c:nth-child(7) { animation-delay: 1.50s; }
+@keyframes rBead { to { transform: scale(1); } }
+.rhero .lat { font-style: italic; font-size: clamp(13px, 2vw, 16px); color: var(--ink-2); margin-top: 14px;
+  opacity: 0; animation: rFade 1s ease 1.55s forwards; }
+.rhero .cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--ink-2); opacity: 0; animation: rFade 1s ease 2.1s forwards; display: flex;
+  flex-direction: column; align-items: center; gap: 9px; }
+.rhero .cue i { display: block; width: 1px; height: 30px; background: linear-gradient(var(--brass-line), transparent); }
+.rhero .cue .cue-s { display: none; }
+@keyframes rFade { to { opacity: 1; } }
+@media (max-width: 560px) { .rhero .cue .cue-m { display: none; } .rhero .cue .cue-s { display: inline; } }
+@media (prefers-reduced-motion: reduce) {
+  .rhero .eb, .rhero h1, .rhero .lat, .rhero .cue { animation: none; opacity: 1; }
+  .rhero .eb { letter-spacing: 0.32em; }
+  .rhero h1 { clip-path: none; transform: none; }
+  .rhero .shelf .sh-l { animation: none; stroke-dashoffset: 0; }
+  .rhero .shelf .sh-c { animation: none; transform: scale(1); }
+}
+.page-lead { font-size: 15.5px; color: var(--ink-2); max-width: 62ch; margin: 0 0 26px; }
 
 /* ------------------------------------------------------------------------------ page proper */
 .band { position: relative; background: rgba(243, 234, 210, 0.955);
@@ -133,7 +176,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; }
 .holdings.on .isl { transform: scale(1); opacity: 1; }
 .holdings .isl-base { transition: stroke-dashoffset 1.4s ease 0.1s; }
-.holdings .isl-note { opacity: 0; transition: opacity 0.7s ease 0.9s; }
+.holdings .isl-note { opacity: 0; transition: opacity 0.7s ease 1.5s; }
 .holdings.on .isl-note { opacity: 1; }
 .holdings a { border: none; }
 @media (prefers-reduced-motion: reduce) {
@@ -144,6 +187,13 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 
 /* --------------------------------------------------------------------------------- print */
 @media print {
+  .rhero { min-height: auto; padding: 42px 0 8px; }
+  .rhero .cue { display: none; }
+  .rhero .eb, .rhero h1, .rhero .lat { animation: none !important; opacity: 1 !important; }
+  .rhero .eb { letter-spacing: 0.32em; }
+  .rhero h1 { clip-path: none !important; transform: none !important; }
+  .rhero .shelf .sh-l { animation: none !important; stroke-dashoffset: 0 !important; }
+  .rhero .shelf .sh-c { animation: none !important; transform: scale(1) !important; }
   .holdings .isl { transform: none !important; opacity: 1 !important; }
   .holdings .isl-note { opacity: 1 !important; }
   .holdings .isl-base { stroke-dashoffset: 0 !important; }
@@ -166,15 +216,26 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 </nav>
 
 <main id="top">
-<div class="shell page-head">
-  <div class="eb">Atlas of Judgment</div>
+<section class="rhero">
+  <div class="eb">Atlas of Judgment · the storeroom</div>
   <h1>Resources</h1>
-  <p class="sub">Every link to the source code, the underlying data, and the machine-reader API,
-  gathered in one place — plus how to cite the atlas and what you may do with what's here.</p>
-</div>
+  <svg class="shelf" viewBox="0 0 340 24" aria-hidden="true">
+    <line class="sh-l" x1="0" y1="20" x2="340" y2="20"/>
+    <circle class="sh-c" cx="74" cy="12" r="8"/>
+    <circle class="sh-c" cx="92" cy="15" r="5"/>
+    <circle class="sh-c" cx="104" cy="16.5" r="3.5"/>
+    <circle class="sh-c" cx="113" cy="17.5" r="2.5"/>
+    <circle class="sh-c" cx="120.5" cy="18" r="2"/>
+    <circle class="sh-c" cx="126.6" cy="18.4" r="1.6"/>
+  </svg>
+  <div class="lat">armarium — where the atlas keeps its holdings</div>
+  <div class="cue"><i></i><span class="cue-m">descend to the shelves</span><span class="cue-s">code · data · api · citation · licence</span></div>
+</section>
 
 <section class="band">
 <div class="shell">
+  <p class="page-lead">Every link to the source code, the underlying data, and the machine-reader API,
+  gathered in one place — plus how to cite the atlas and what you may do with what's here.</p>
   <div class="hdl">Source code</div>
   <h2 class="hd">The pipeline that built this</h2>
   <p>Collection, normalization, the DeepSeek/Qwen labeling pipeline, taxonomy induction, and every
@@ -429,7 +490,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
       var a = el("a", { href: d.href }, svg);
       var g = el("g", { "class": "isl" }, a);
       g.style.transformOrigin = cx + "px " + baseY + "px";
-      g.style.transitionDelay = shown ? "0s" : Math.min(1.3, 0.05 + j * 0.028).toFixed(3) + "s";
+      /* baseline inks first (0.1s); beads begin rising at 0.35s, largest first */
+      g.style.transitionDelay = shown ? "0s" : Math.min(1.7, 0.35 + j * 0.045).toFixed(3) + "s";
       var attrs = { cx: cx, cy: cy, r: r, fill: "rgba(248,241,224,0.85)",
         stroke: BRASS, "stroke-width": r > 30 ? 1.1 : 0.9 };
       if (d.orphan) { attrs["stroke-dasharray"] = "3 2.5"; attrs.stroke = INK2; }
@@ -496,7 +558,12 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
         if (entries[i].isIntersecting) { turnOn(); io.disconnect(); break; }
     }, { threshold: 0.25 });
     io.observe(fig);
-    setTimeout(turnOn, 6000);
+    /* fallback only if the observer never fires while the figure is truly on screen */
+    var guard = setInterval(function () {
+      if (shown) { clearInterval(guard); return; }
+      var r = fig.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) { turnOn(); clearInterval(guard); }
+    }, 700);
   } else { turnOn(); }
   window.addEventListener("beforeprint", turnOn);
 

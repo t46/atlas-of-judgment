@@ -1015,6 +1015,94 @@ body.tour-on #spec-dock { display: none !important; }
 #atlas-nav .sp-read { font-family: var(--serif); font-size: clamp(13.5px, 1.5vw, 15px); line-height: 1.62; color: var(--ink-2); border-top: 1px solid var(--brass-faint); padding-top: 13px; margin-top: 14px; min-height: 4.4em; }
 #atlas-nav .sp-read b { font-family: var(--mono); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); font-weight: 500; display: block; margin-bottom: 7px; }
 #atlas-nav .sp-cap { font-family: var(--mono); font-size: 8.5px; letter-spacing: .15em; color: var(--muted); text-transform: uppercase; margin: 10px 0 34px; line-height: 1.85; }
+/* ---- the course: the conspectus and the order of the acts, before Act I ---- */
+#course { padding-top: 50px; }
+#course .plate-inner { padding: clamp(20px, 3vw, 34px) clamp(14px, 3vw, 38px) clamp(18px, 2.6vw, 30px); }
+.co-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-align: center; }
+.co-lat { font-style: italic; font-size: 12px; color: var(--ink-2); text-align: center; margin-top: 4px; }
+/* band one: the conspectus, full size */
+.cd-flow { display: flex; align-items: stretch; justify-content: center; gap: 2px; margin-top: 22px; }
+.cd-st { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 4px; }
+.cd-g { width: 84px; height: 84px; display: block; }
+.cd-k { font-family: var(--display); font-size: 19px; color: var(--ink); margin-top: 9px; line-height: 1.1; }
+.cd-d { font-size: 11.5px; color: var(--ink-2); line-height: 1.55; margin-top: 5px; max-width: 24ch; }
+.cd-n { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; color: var(--brass); margin-top: 8px; text-transform: uppercase; line-height: 1.9; }
+.cd-arr { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 36px; width: 54px; }
+.cd-arr span { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.cd-arr .cd-ah { width: 38px; height: 10px; display: block; }
+.cd-arr .cd-av { display: none; width: 10px; height: 24px; }
+.cd-ln  { fill: none; stroke: rgba(36,28,20,0.62); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.cd-lnf { fill: none; stroke: rgba(36,28,20,0.30); stroke-width: 1; stroke-linecap: round; }
+.cd-br  { fill: none; stroke: var(--brass); stroke-width: 1.2; stroke-linecap: round; }
+.cd-cell   { fill: rgba(138,90,31,0.68); }
+.cd-cell-f { fill: rgba(138,90,31,0.22); }
+.cd-page   { fill: rgba(248,241,224,0.9); }
+.cd-t { font: 500 7px var(--mono); fill: var(--muted); text-anchor: middle; letter-spacing: 0.05em; }
+/* the strip engraves itself once the plate is witnessed */
+#course .cd-draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s var(--ease-settle); }
+#course .plate.in .cd-draw { stroke-dashoffset: 0; }
+#course .cd-fade { opacity: 0; transition: opacity 0.8s ease; }
+#course .plate.in .cd-fade { opacity: 1; }
+#course .cd-arr { opacity: 0; transition: opacity 0.6s ease; }
+#course .plate.in .cd-arr { opacity: 1; }
+.cd-flow > :nth-child(1) .cd-draw { transition-delay: .15s } .cd-flow > :nth-child(3) .cd-draw { transition-delay: .55s }
+.cd-flow > :nth-child(5) .cd-draw { transition-delay: .95s } .cd-flow > :nth-child(7) .cd-draw { transition-delay: 1.35s }
+.cd-flow > :nth-child(1) .cd-fade { transition-delay: .7s } .cd-flow > :nth-child(3) .cd-fade { transition-delay: 1.1s }
+.cd-flow > :nth-child(5) .cd-fade { transition-delay: 1.5s } .cd-flow > :nth-child(7) .cd-fade { transition-delay: 1.9s }
+.cd-flow > :nth-child(2) { transition-delay: .5s } .cd-flow > :nth-child(4) { transition-delay: .9s } .cd-flow > :nth-child(6) { transition-delay: 1.3s }
+/* the fourth station opens downward into the course */
+.co-drop { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 8px 0 2px; opacity: 0; transition: opacity .6s ease 1.7s; }
+#course .plate.in .co-drop { opacity: 1; }
+.co-drop span { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.co-drop svg { width: 10px; height: 24px; }
+.co-rail-eye { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass-dim); text-align: center; margin: 10px 0 14px; }
+/* band two: the course of the acts */
+.co-rail { position: relative; max-width: 880px; margin: 0 auto; }
+.co-wedge { position: absolute; top: 0; left: 128px; width: 44px; height: 100%; pointer-events: none; }
+.co-row { position: relative; display: grid; grid-template-columns: 128px 44px 1fr; align-items: stretch; text-decoration: none; padding: 11px 6px 11px 0; }
+.co-row:hover { background: rgba(138,90,31,0.06); }
+.co-row:focus-visible { outline: 1px dashed var(--brass); outline-offset: 2px; }
+.co-mag { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; text-align: right; padding-right: 12px; align-self: center; }
+.co-node { position: relative; }
+.co-node::before { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; transform: translate(-50%, -50%); border-radius: 50%; background: var(--paper); border: 1.2px solid var(--brass); }
+.co-body { min-width: 0; padding-left: 14px; }
+.co-l1 { display: flex; align-items: baseline; gap: 10px; }
+.co-no { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.24em; color: var(--brass); font-weight: 400; }
+.co-title { font-family: var(--display); font-size: 20px; color: var(--ink); line-height: 1.1; }
+.co-row:hover .co-title { color: var(--brass); }
+.co-pl { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; color: var(--muted); margin-left: auto; text-transform: uppercase; white-space: nowrap; }
+.co-q { display: block; font-family: var(--serif); font-style: italic; font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
+.co-find { display: block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.05em; color: var(--muted); margin-top: 4px; }
+.co-find b { font-family: var(--display); font-weight: 600; font-size: 13.5px; color: var(--brass); letter-spacing: 0; margin-right: 4px; }
+/* the doors */
+.co-doors { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; justify-content: center; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--brass-faint); opacity: 0; transition: opacity .7s ease .4s; }
+#course .plate.in .co-doors { opacity: 1; }
+.co-d-lab { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass-dim); }
+.co-doors a { font-family: var(--serif); font-style: italic; font-size: 12.5px; color: var(--ink-2); text-decoration: none; border-bottom: 1px dotted var(--brass); padding-bottom: 1px; }
+.co-doors a:hover, .co-doors a:focus-visible { color: var(--brass); }
+.act-leaf { scroll-margin-top: 30px; }
+@media (max-width: 760px) {
+  .cd-flow { flex-direction: column; align-items: center; gap: 14px; margin-top: 16px; }
+  .cd-st { padding: 0; }
+  .cd-arr { padding-top: 0; width: auto; }
+  .cd-arr .cd-ah { display: none; }
+  .cd-arr .cd-av { display: block; }
+  .co-wedge { left: 0; width: 22px; }
+  .co-row { grid-template-columns: 22px 1fr; grid-template-areas: "node mag" "node body"; padding: 10px 4px 10px 0; }
+  .co-mag { grid-area: mag; text-align: left; padding: 0 0 2px 14px; }
+  .co-node { grid-area: node; }
+  .co-body { grid-area: body; }
+  .co-l1 { flex-wrap: wrap; gap: 4px 10px; }
+  .co-pl { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #course .cd-draw { stroke-dashoffset: 0 !important; transition: none !important; }
+  #course .cd-fade, #course .cd-arr, #course .co-drop, #course .co-doors { opacity: 1 !important; transition: none !important; }
+}
+@media print {
+  #course .cd-draw { stroke-dashoffset: 0 !important; }
+  #course .cd-fade, #course .cd-arr, #course .co-drop, #course .co-doors, #course .cellfade { opacity: 1 !important; }
+}
 /* ---- the chart: full-screen contents navigator ---- */
 #atlas-nav { position: fixed; inset: 0; z-index: 2550; background: rgba(248,241,224,0.96); overflow-y: auto; overscroll-behavior: contain;
   opacity: 0; pointer-events: none; transition: opacity .22s var(--ease-out-expo); }
@@ -1455,10 +1543,173 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
+<section id="course">
+  <div class="plate"><div class="plate-inner" role="figure" aria-label="The course of the atlas: the public record is dissected into four-part units, classified into a 12 by 12 taxonomy, and drawn as plates arranged in eight acts and a coda. Each act stands one step farther from the sentence; every row links to its act.">
+    <div class="co-head">
+      <div class="co-eyebrow">The whole instrument, and the order it is shown</div>
+      <div class="co-lat">conspectus et cursus operis</div>
+    </div>
+    <div class="cd-flow">
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="22" y="10" width="42" height="56"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="19" y="14" width="42" height="56"/>
+            <rect class="cd-ln cd-page cd-draw" pathLength="1" x="16" y="18" width="42" height="56"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M21 28H53M21 35H53M21 42H53M21 56H53M21 63H53"/>
+            <path class="cd-br cd-draw" pathLength="1" d="M21 49H53"/>
+          </svg>
+          <div class="cd-k">The record</div>
+          <div class="cd-d">Nine years of ICLR, public on OpenReview &#8212; every review, rebuttal, and verdict, rejected papers included.</div>
+          <div class="cd-n">74,380 reviews &#183; 19,474 papers<br>in 2026 alone</div>
+        </div>
+        <div class="cd-arr"><span>dissected</span><svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg><svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg></div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <path class="cd-br cd-draw" pathLength="1" d="M10 16H74"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M15 20V41M33 20V41M51 20V41M69 20V41"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="15" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="33" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="51" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="69" cy="48" r="5.5"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M22 45l3.5 3-3.5 3M40 45l3.5 3-3.5 3M58 45l3.5 3-3.5 3"/>
+            <text class="cd-t cd-fade" x="15" y="50.6">i</text>
+            <text class="cd-t cd-fade" x="33" y="50.6">ii</text>
+            <text class="cd-t cd-fade" x="51" y="50.6">iii</text>
+            <text class="cd-t cd-fade" x="69" y="50.6">iv</text>
+          </svg>
+          <div class="cd-k">The unit</div>
+          <div class="cd-d">Each criticism cut into one movement of a reviewer&#8217;s mind: inspected &#183; observed &#183; standard &#183; verdict.</div>
+          <div class="cd-n">410,586 + 1,009,592 units</div>
+        </div>
+        <div class="cd-arr"><span>classified</span><svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg><svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg></div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <path class="cd-lnf cd-draw" pathLength="1" d="M15.3 10V74M20.7 10V74M26 10V74M31.3 10V74M36.7 10V74M42 10V74M47.3 10V74M52.7 10V74M58 10V74M63.3 10V74M68.7 10V74"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M10 15.3H74M10 20.7H74M10 26H74M10 31.3H74M10 36.7H74M10 42H74M10 47.3H74M10 52.7H74M10 58H74M10 63.3H74M10 68.7H74"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="10" y="10" width="64" height="64"/>
+            <g class="cd-fade"><rect class="cd-cell" x="10.9" y="10.9" width="3.5" height="3.5"/><rect class="cd-cell" x="16.2" y="16.2" width="3.5" height="3.5"/><rect class="cd-cell" x="21.6" y="21.6" width="3.5" height="3.5"/><rect class="cd-cell" x="26.9" y="26.9" width="3.5" height="3.5"/><rect class="cd-cell" x="32.2" y="32.2" width="3.5" height="3.5"/><rect class="cd-cell" x="37.6" y="37.6" width="3.5" height="3.5"/><rect class="cd-cell" x="42.9" y="42.9" width="3.5" height="3.5"/><rect class="cd-cell" x="48.2" y="48.2" width="3.5" height="3.5"/><rect class="cd-cell" x="53.6" y="53.6" width="3.5" height="3.5"/><rect class="cd-cell" x="58.9" y="58.9" width="3.5" height="3.5"/><rect class="cd-cell" x="64.2" y="64.2" width="3.5" height="3.5"/><rect class="cd-cell" x="69.6" y="69.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="26.9" y="10.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="48.2" y="21.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="16.2" y="32.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="58.9" y="37.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="32.2" y="48.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="64.2" y="26.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="69.6" y="58.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="42.9" y="64.2" width="3.5" height="3.5"/></g>
+          </svg>
+          <div class="cd-k">The taxonomy</div>
+          <div class="cd-d">Every unit filed in a grammar induced from the data: 12 objects of scrutiny &#215; 12 reasoning standards.</div>
+          <div class="cd-n">144 cells</div>
+        </div>
+        <div class="cd-arr"><span>counted, drawn</span><svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg><svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg></div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-42 42 76)"/><rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(42 42 76)"/><rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-30 42 76)"/><rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(30 42 76)"/><rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-18 42 76)"/><rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(18 42 76)"/><rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-6 42 76)"/>
+            <rect class="cd-ln cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(6 42 76)"/>
+            <circle class="cd-br cd-draw" pathLength="1" cx="42" cy="34" r="3.2" transform="rotate(6 42 76)"/>
+          </svg>
+          <div class="cd-k">The atlas</div>
+          <div class="cd-d">Every figure below is a count of these units &#8212; and every number a door, opening back down to a reviewer&#8217;s sentence.</div>
+          <div class="cd-n">plates I&#8211;XXX &#183; eight acts &amp; a coda</div>
+        </div>
+    </div>
+    <div class="co-drop"><span>arranged</span><svg viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg></div>
+    <div class="co-rail-eye">the course · each act one step farther from the sentence</div>
+    <div class="co-rail">
+      <svg class="co-wedge" viewBox="0 0 44 1000" preserveAspectRatio="none" aria-hidden="true">
+        <polygon class="cellfade" points="22,0 4,1000 40,1000" fill="rgba(138,90,31,0.05)" style="transition-delay:.9s"/>
+        <path d="M22 0L4 1000" fill="none" stroke="rgba(138,90,31,0.45)" stroke-width="1" vector-effect="non-scaling-stroke" data-draw="1"/>
+        <path d="M22 0L40 1000" fill="none" stroke="rgba(138,90,31,0.45)" stroke-width="1" vector-effect="non-scaling-stroke" data-draw="1"/>
+      </svg>
+      <a class="co-row cellfade" href="#act-i" style="transition-delay:0.15s">
+        <span class="co-mag">A SENTENCE</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT I</b><span class="co-title">The Instrument</span><span class="co-pl">PLATES I–III</span></span>
+          <span class="co-q">how a million reviews became countable units</span>
+          <span class="co-find"><b>71.8%</b>of everything reviewers write is criticism · plate i</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-ii" style="transition-delay:0.24s">
+        <span class="co-mag">ONE REVIEW</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT II</b><span class="co-title">One Hand</span><span class="co-pl">PLATES IV–VI</span></span>
+          <span class="co-q">what one reviewer sets down, alone</span>
+          <span class="co-find"><b>0.69</b>the first unit already carries two thirds of the verdict&#8217;s signal · plate vi</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-iii" style="transition-delay:0.33s">
+        <span class="co-mag">A CRITICISM’S CLAIM</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT III</b><span class="co-title">The Law</span><span class="co-pl">PLATES VII–XIII</span></span>
+          <span class="co-q">what a criticism actually says — and asks for</span>
+          <span class="co-find"><b>3.8%</b>of criticisms are formulas with a near-verbatim twin · plate x</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-iv" style="transition-delay:0.42s">
+        <span class="co-mag">A CRITICISM’S COST</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT IV</b><span class="co-title">The Tariff</span><span class="co-pl">PLATES XIV–XV</span></span>
+          <span class="co-q">what a criticism changes</span>
+          <span class="co-find"><b>−0.43</b>points — the price of a novelty objection, paper held fixed · plate xiv</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-v" style="transition-delay:0.51s">
+        <span class="co-mag">A ROOM</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT V</b><span class="co-title">The Encounter</span><span class="co-pl">PLATES XVI–XXI</span></span>
+          <span class="co-q">when people meet, does judgment move</span>
+          <span class="co-find"><b>92%</b>of objections are never mentioned again · plate xix</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-vi" style="transition-delay:0.60s">
+        <span class="co-mag">A COURT</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT VI</b><span class="co-title">The Higher Court</span><span class="co-pl">PLATES XXII–XXIII</span></span>
+          <span class="co-q">the chair&#8217;s court — what it weighs, whose words it borrows</span>
+          <span class="co-find"><b>2.7×</b>the bench overrules toward mercy · plate xx</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-vii" style="transition-delay:0.69s">
+        <span class="co-mag">A RATING</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT VII</b><span class="co-title">The Measure</span><span class="co-pl">PLATES XXIV–XXV</span></span>
+          <span class="co-q">can a rating be trusted as a measurement</span>
+          <span class="co-find"><b>0.18</b>the 2026 intraclass correlation — the ruler on trial · plate xxv</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-viii" style="transition-delay:0.78s">
+        <span class="co-mag">NINE YEARS</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">ACT VIII</b><span class="co-title">Eras &amp; Territories</span><span class="co-pl">PLATES XXVI–XXIX</span></span>
+          <span class="co-q">the instrument measured — is any of it particular to now, or to one field</span>
+          <span class="co-find"><b>−4.9pp</b>clarity&#8217;s nine-year retreat from reviewer attention · plate xxvi</span>
+        </span>
+      </a>
+      <a class="co-row cellfade" href="#act-coda" style="transition-delay:0.87s">
+        <span class="co-mag">THE RECORD ITSELF</span>
+        <span class="co-node" aria-hidden="true"></span>
+        <span class="co-body">
+          <span class="co-l1"><b class="co-no">CODA</b><span class="co-title">The Archive</span><span class="co-pl">PLATE XXX</span></span>
+          <span class="co-q">the raw reasoning, held against its originals</span>
+          <span class="co-find"><b>232</b>real reviews, readable in full · plate xxx</span>
+        </span>
+      </a>
+    </div>
+    <div class="co-doors">
+      <span class="co-d-lab">if you came for&#8202;—</span>
+      <a href="#consult">one sentence from a review &#8594; the Door</a>
+      <a href="#act-iv">the price of a criticism &#8594; Act IV</a>
+      <a href="#act-v">whether rebuttals move judgment &#8594; Act V</a>
+      <a href="#act-viii">the LLM era &#8594; Act VIII</a>
+      <a href="#act-coda">the raw reviews themselves &#8594; the Coda</a>
+    </div>
+  </div></div>
+</section>
+
 <!-- The Field, The Season and The Tide now travel as overtures at the heads of Acts VIII, V and VII -->
 
 
-<div class="act-leaf" data-mag="A SENTENCE"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-i" data-mag="A SENTENCE"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1577,7 +1828,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf" data-mag="ONE REVIEW"><span class="al-rule"></span><div class="al-no">ACT II</div><div class="al-t">One Hand</div><div class="al-s">what one reviewer sets down, alone · plates IV–VI</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-ii" data-mag="ONE REVIEW"><span class="al-rule"></span><div class="al-no">ACT II</div><div class="al-t">One Hand</div><div class="al-s">what one reviewer sets down, alone · plates IV–VI</div><span class="al-rule"></span></div>
 
 <section id="interlude-windows">
   <div class="plate-head">
@@ -1731,7 +1982,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
-<div class="act-leaf" data-mag="A CRITICISM’S CLAIM"><span class="al-rule"></span><div class="al-no">ACT III</div><div class="al-t">The Law</div><div class="al-s">what a criticism actually says — and asks for · plates VII–XIII</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-iii" data-mag="A CRITICISM’S CLAIM"><span class="al-rule"></span><div class="al-no">ACT III</div><div class="al-t">The Law</div><div class="al-s">what a criticism actually says — and asks for · plates VII–XIII</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1835,12 +2086,12 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   <div class="plate-head">
     <div class="plate-no">Plate IX · The Unnamed Precedent</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · 30,824 negative novelty units</div>
-    <h2>The charge that almost never names its precedent</h2>
-    <p class="lede">Plate VIII opened one clause of the novelty rule from the inside &#8212; what redeems &#8220;mere combination.&#8221; This plate opens a different clause the same way: every novelty objection implies a comparison — this work against the prior it allegedly repeats. We went looking for the canon: the named prior works that kill novelty. The search came back nearly empty, and the emptiness is the finding.</p>
+    <h2>The judgment that needs no referent</h2>
+    <p class="lede">Plate VIII opened one clause of the novelty rule from the inside &#8212; what redeems &#8220;mere combination.&#8221; This plate opens a different clause the same way: every novelty objection implies a comparison — this work against the prior it allegedly repeats. We went looking for the canon: the named prior works that kill novelty. The search came back nearly empty, and the emptiness describes the standard itself. A judgment that cites nothing is not automatically careless — novelty can be judged from the reviewer&#8217;s internal map of the field, which is much of what expertise is — but a judgment made that way cannot be checked from the text, and its burden of proof moves to the author. What follows measures that mode of judgment: how common it is, and which way it has moved as the venue grew.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 9a — Of every 100 novelty objections: who names the prior?</div>
-    <div class="fig-deck">12 name a specific work. 25 wave at "prior work." 63 assert un-novelty with no referent at all — and <span class="prov"><button class="stat-door">the naming rate has halved since 2018</button><span class="prov-pop" hidden><b>SOURCE</b> canon-data.json → named_share_by_year["2018"], named_share_by_year["2026"]<br><b>DERIVATION</b> named-citation share fell from 20.15% (2018) to 10.77% (2026), roughly half<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>, under both instruments tried.</div>
+    <div class="fig-deck">12 name a specific work. 25 gesture at "prior work." 63 assert un-novelty with no referent at all — and <span class="prov"><button class="stat-door">the naming rate has halved since 2018</button><span class="prov-pop" hidden><b>SOURCE</b> canon-data.json → named_share_by_year["2018"], named_share_by_year["2026"]<br><b>DERIVATION</b> named-citation share fell from 20.15% (2018) to 10.77% (2026), roughly half<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>, under both instruments tried.</div>
 <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">EACH MARK = 1% OF THE 24,233 LOCATABLE NOVELTY OBJECTIONS</div>
     <div id="canon-fig"></div>
     <div class="caption cap-voices">
@@ -1983,7 +2234,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf" data-mag="A CRITICISM’S COST"><span class="al-rule"></span><div class="al-no">ACT IV</div><div class="al-t">The Tariff</div><div class="al-s">what a criticism changes · plates XIV–XV</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-iv" data-mag="A CRITICISM’S COST"><span class="al-rule"></span><div class="al-no">ACT IV</div><div class="al-t">The Tariff</div><div class="al-s">what a criticism changes · plates XIV–XV</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -2101,7 +2352,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 
 
-<div class="act-leaf" data-mag="A ROOM"><span class="al-rule"></span><div class="al-no">ACT V</div><div class="al-t">The Encounter</div><div class="al-s">when people meet, does judgment move · plates XVI–XXI</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-v" data-mag="A ROOM"><span class="al-rule"></span><div class="al-no">ACT V</div><div class="al-t">The Encounter</div><div class="al-s">when people meet, does judgment move · plates XVI–XXI</div><span class="al-rule"></span></div>
 
 <section id="sec-season">
   <div class="plate-head">
@@ -2397,7 +2648,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf" data-mag="A COURT"><span class="al-rule"></span><div class="al-no">ACT VI</div><div class="al-t">The Higher Court</div><div class="al-s">the chair&#8217;s court — what it weighs, whose words it borrows · plates XXII–XXIII</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-vi" data-mag="A COURT"><span class="al-rule"></span><div class="al-no">ACT VI</div><div class="al-t">The Higher Court</div><div class="al-s">the chair&#8217;s court — what it weighs, whose words it borrows · plates XXII–XXIII</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -2459,7 +2710,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf" data-mag="A RATING"><span class="al-rule"></span><div class="al-no">ACT VII</div><div class="al-t">The Measure</div><div class="al-s">can a rating be trusted as a measurement · plates XXIV–XXV</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-vii" data-mag="A RATING"><span class="al-rule"></span><div class="al-no">ACT VII</div><div class="al-t">The Measure</div><div class="al-s">can a rating be trusted as a measurement · plates XXIV–XXV</div><span class="al-rule"></span></div>
 
 <section id="sec-tide">
   <div class="plate-head">
@@ -2599,7 +2850,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
-<div class="act-leaf" data-mag="NINE YEARS"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXIX</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-viii" data-mag="NINE YEARS"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXIX</div><span class="al-rule"></span></div>
 
 <section id="field">
   <div class="plate-head">
@@ -2811,7 +3062,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf" data-mag="THE RECORD ITSELF"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXX</div><span class="al-rule"></span></div>
+<div class="act-leaf" id="act-coda" data-mag="THE RECORD ITSELF"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXX</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -16705,7 +16956,7 @@ function buildSpecimenPlate(actsByNo, closeChart) {
       "The ruler itself on trial: what the 1\u201310 scale is made of, and how much of a rating is the paper against how much is the reviewer you happened to draw."],
     "ACT VIII": ["\u22124.9pp", "clarity's nine-year retreat from reviewer attention \u00b7 plate xxvi",
       "Nine years and twelve territories: how attention drifted, what the unamended law of novelty held still, and how differently the same venue judges its different fields."],
-    "CODA": ["232", "real reviews, readable in full \u00b7 plate xxix",
+    "CODA": ["232", "real reviews, readable in full \u00b7 plate xxx",
       "The evidence, unprocessed: real reviews with their reasoning laid bare, every specimen linked back to its source on OpenReview."],
   };
   const leaves = [...document.querySelectorAll(".act-leaf")];
