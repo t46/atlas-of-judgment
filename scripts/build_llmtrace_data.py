@@ -150,20 +150,31 @@ def main() -> None:
 
     # kept per year for later passes
     year_cache: dict[int, list[dict]] = {}
+    ttr_by_year: dict[int, dict] = {}
 
     for year in YEARS:
         revs = load_reviews(year)
         year_cache[year] = revs
         df = Counter()
         mh = ch = 0
+        ttrs = []
         for r in revs:
-            toks = set(TOKEN.findall(r["text"].lower()))
+            tlist = TOKEN.findall(r["text"].lower())
+            toks = set(tlist)
             r["tokset_markers"] = toks & MARKER_SET
             df.update(toks)
             if toks & MARKER_SET:
                 mh += 1
             if toks & CONTROL_SET:
                 ch += 1
+            # standardized type-token ratio on the first 200 tokens
+            # (raw TTR is length-sensitive; reviews shorter than 200 are skipped)
+            if len(tlist) >= 200:
+                ttrs.append(len(set(tlist[:200])) / 200)
+        ttr_by_year[year] = {
+            "mean_ttr200": round(float(np.mean(ttrs)), 4),
+            "n": len(ttrs),
+        }
         n = len(revs)
         df_by_year[year] = df
         n_reviews[year] = n
@@ -539,6 +550,7 @@ def main() -> None:
             "delta": {str(y): round(ind[y] - cf[y], 5) for y in cf},
             "control_indicator": {str(y): round(ind_c[y], 5) for y in YEARS},
             "control_delta": {str(y): round(ind_c[y] - cf_c[y], 5) for y in cf_c},
+            "ttr200_by_year": {str(y): ttr_by_year[y] for y in YEARS},
             "per_word_df": {
                 w: {str(y): per_word_df[w][y] for y in YEARS} for w in MARKERS
             },

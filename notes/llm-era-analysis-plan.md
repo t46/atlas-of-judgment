@@ -121,6 +121,18 @@ seeded). Site figure(s) only after numbers are inspected against this plan.
   involvement by the Liang-method threshold. No published work computes
   within-paper co-review textual similarity over years on real OpenReview
   data (checked via S2 + arXiv, 2026-08-27).
+- Exhaustive sweep (2026-08-27, 70 curated 2025–26 papers): additional
+  citations folded into the plate — Kim et al. arXiv:2605.20668 (AI reviewers
+  overlap 21% vs humans' 3%, expert annotation — independent corroboration of
+  convergence via a different instrument); Baumann et al. arXiv:2605.03202
+  ("hivemind effect"); Kahneman4Review arXiv:2607.10511 (2022–23 shift in ICLR
+  review-text diagnostics — timing neighbour; our placebo puts vocabulary
+  arrival one cycle later); Gray arXiv:2512.01560 (excess-vocabulary on papers
+  at large). TTR-200 lexical-diversity series added as a second standardization
+  signal after Li et al. arXiv:2605.25415 named lower lexical diversity a
+  property of LLM reviews. Boos arXiv:2608.14625 relays an untraced "~21% of
+  ICLR 2026 reviews fully AI-generated" estimate — NOT cited on the plate
+  pending a primary source.
 
 ## Interpretation guards (bind the captions)
 

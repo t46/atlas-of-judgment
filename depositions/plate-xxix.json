@@ -20,19 +20,28 @@
         {
           "id": "29a-spike-2024",
           "statement": "7.8% of ICLR 2024 reviews contain at least one of the 13 frozen marker words, against 1.6% expected from the 2018–2022 linear trend — an excess of +6.1 points.",
-          "value": {"quantity": 0.0614, "unit": "share_excess"},
+          "value": {
+            "quantity": 0.0614,
+            "unit": "share_excess"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "vocab.indicator['2024'], vocab.counterfactual['2024'], vocab.delta['2024']",
           "derivation": "0.07785 − 0.01644 = +0.0614; marker set frozen from Liang et al. ICML 2024 and Kobak et al. Science Advances 2025 before any counting",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-spike",
           "verified": "checked against shipped JSON and recounted via direct SQL LIKE queries, 2026-08-27",
-          "caveat_refs": ["29-lower-bound", "29-no-attribution"]
+          "caveat_refs": [
+            "29-lower-bound",
+            "29-no-attribution"
+          ]
         },
         {
           "id": "29a-placebo-2023",
           "statement": "2023 is a clean placebo: 1.2% observed against 1.5% expected (−0.3 points) — ICLR 2023 reviews were written as ChatGPT shipped, not after it.",
-          "value": {"quantity": -0.0025, "unit": "share_excess"},
+          "value": {
+            "quantity": -0.0025,
+            "unit": "share_excess"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "vocab.delta['2023']",
           "derivation": "0.01221 − 0.01474 = −0.0025",
@@ -44,19 +53,28 @@
         {
           "id": "29a-fade",
           "statement": "The excess fades after its 2024 peak: +4.4 points in 2025, +1.1 points in 2026 (3.1% observed vs 2.0% expected) — while the newest outside estimate of actual LLM involvement (26.7% of ICLR 2025 reviews, Sharma et al. arXiv:2601.20920) points up, not down.",
-          "value": {"quantity": 0.011, "unit": "share_excess"},
+          "value": {
+            "quantity": 0.011,
+            "unit": "share_excess"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "vocab.delta['2025'], vocab.delta['2026']",
           "derivation": "2025: 0.06223 − 0.01813 = +0.0441; 2026: 0.03083 − 0.01982 = +0.0110",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-spike",
           "verified": "checked against shipped JSON, 2026-08-27",
-          "caveat_refs": ["29-fade-ambiguous", "29-lower-bound"]
+          "caveat_refs": [
+            "29-fade-ambiguous",
+            "29-lower-bound"
+          ]
         },
         {
           "id": "29a-control-set",
           "statement": "A frozen negative-control list of ten ordinary reviewer words shows no spike; it drifts below its extrapolated trend (−14 to −18 points) as reviews shortened after 2022, which makes the marker spike conservative.",
-          "value": {"quantity": -0.1806, "unit": "share_excess_control_2026"},
+          "value": {
+            "quantity": -0.1806,
+            "unit": "share_excess_control_2026"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "vocab.control_delta",
           "derivation": "presence-based measures are length-sensitive; ambient drift is downward, the marker spike ran against it",
@@ -76,19 +94,27 @@
         {
           "id": "29b-rotation",
           "statement": "In 2024 twelve of thirteen marker words run above their own trend (meticulously ×14.4, meticulous ×12.6, delves ×11.8, pivotal ×11.5, intricate ×10.6). By 2026 the list has split: delves ×0.35, delve ×0.72, showcases ×0.51 fall below their pre-LLM baselines, while underscoring (×253, from a near-zero base), underscores ×6.5, meticulous ×5.1 and commendable ×4.7 persist.",
-          "value": {"quantity": 0.35, "unit": "ratio_delves_2026"},
+          "value": {
+            "quantity": 0.35,
+            "unit": "ratio_delves_2026"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "vocab.per_word_delta[word][year].ratio",
           "derivation": "per-word document frequency vs its own 2018–2022 linear extrapolation; underscoring's ×253 rides a near-zero denominator and is flagged as such in the caption",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-words",
           "verified": "checked against shipped JSON; SQL recount: delve-family reviews 551 → 138 from 2024 to 2026 while the corpus grew 2.7×, 2026-08-27",
-          "caveat_refs": ["29-shelf-life"]
+          "caveat_refs": [
+            "29-shelf-life"
+          ]
         },
         {
           "id": "29b-topic-vs-style",
           "statement": "The largest 2026 vocabulary shifts are subject matter, not style — qwen in 9.2% of reviews, llama 6.4%, deepseek 2.6%, from essentially zero before 2023 — which is why the tracer is restricted to style words.",
-          "value": {"quantity": 0.0924, "unit": "doc_freq_qwen_2026"},
+          "value": {
+            "quantity": 0.0924,
+            "unit": "doc_freq_qwen_2026"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "vocab.discovery_top",
           "derivation": "exploratory ranking of all words by 2026 frequency vs extrapolated trend, content words annotated; not part of the frozen protocol",
@@ -108,30 +134,41 @@
         {
           "id": "29c-lexical-convergence",
           "statement": "Within the constant-form window, under one fixed shared vocabulary, the median pairwise TF-IDF cosine of co-reviews of the same paper rises 0.277 → 0.299 → 0.317 (2024 → 2026, +14%), while random cross-paper pairs stay flat (0.078 → 0.073).",
-          "value": {"quantity": 0.3167, "unit": "median_cosine_2026"},
+          "value": {
+            "quantity": 0.3167,
+            "unit": "median_cosine_2026"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "convergence.fixed_vocab_2024_2026",
           "derivation": "one TfidfVectorizer fitted on all 2024–2026 reviews jointly, so per-year vocabulary differences cannot manufacture the trend; review form identical across the three years",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-conv-lex",
           "verified": "checked against shipped JSON, 2026-08-27",
-          "caveat_refs": ["29-conv-cause", "29-form-eras"]
+          "caveat_refs": [
+            "29-conv-cause",
+            "29-form-eras"
+          ]
         },
         {
           "id": "29c-object-overlap",
           "statement": "The overlap between co-reviewers' sets of charged objects (Jaccard over the 12-object taxonomy) fell from 0.278 in 2018 to 0.252 in 2023, then rose three consecutive years to 0.284 in 2026, its nine-year high; the turn lands on the watermark's arrival year.",
-          "value": {"quantity": 0.2837, "unit": "median_jaccard_2026"},
+          "value": {
+            "quantity": 0.2837,
+            "unit": "median_jaccard_2026"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "content_convergence.within_forum_jaccard",
           "derivation": "unit-taxonomy-direct-v1 track, official_reviewer units only; the full U-shape is reported, not just the rising limb",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-conv-obj",
           "verified": "checked against shipped JSON, 2026-08-27",
-          "caveat_refs": ["29-conv-cause"]
+          "caveat_refs": [
+            "29-conv-cause"
+          ]
         },
         {
           "id": "29c-no-prior-art",
-          "statement": "As of 2026-08, no published study computing within-paper co-review textual similarity across years on real OpenReview data was found (Semantic Scholar + arXiv search); the nearest prior art, Wu et al. arXiv:2604.19578, reads aspect coverage and linguistic standardization on the same venues but explicitly computes no similarity metric. Stated as a search result, not a proof of novelty.",
+          "statement": "As of 2026-08, no published study computing within-paper co-review textual similarity across years on real OpenReview data was found (Semantic Scholar + arXiv sweep, 70 curated 2025–26 papers). Nearest neighbours, all cited on the plate: Wu et al. arXiv:2604.19578 (aspect coverage, no similarity metric); Kahneman4Review arXiv:2607.10511 (review-text diagnostics shift at the 2022–23 transition — a timing neighbour this plate's placebo disagrees with by one cycle); Kim et al. arXiv:2605.20668 (AI reviewers' 21%-vs-3% mutual overlap, expert annotation of generated reviews, not a corpus time series). Stated as a search result, not a proof of novelty.",
           "value": null,
           "source_island": null,
           "source_path": null,
@@ -139,6 +176,21 @@
           "recompute": null,
           "dom_ref": null,
           "verified": "search logged, 2026-08-27",
+          "caveat_refs": []
+        },
+        {
+          "id": "29c-ttr-disconfirms",
+          "statement": "A literature prediction fails and is reported as failing: benchmark studies find machine-written reviews lexically flatter (arXiv:2605.25415), but per-review lexical diversity (type-token ratio over the first 200 tokens) sits at a nine-year high in 2026 — 0.638 vs 0.578-0.598 in all earlier years. The record converges between reviews while growing more varied within them.",
+          "value": {
+            "quantity": 0.638,
+            "unit": "mean_ttr200_2026"
+          },
+          "source_island": "llmtrace-data.json",
+          "source_path": "vocab.ttr200_by_year",
+          "derivation": "unique/200 over each review's first 200 free-text tokens, reviews >=200 tokens only (length-standardized); addendum metric added after the literature sweep, labeled in the plan file",
+          "recompute": "scripts/build_llmtrace_data.py",
+          "dom_ref": null,
+          "verified": "checked against shipped JSON, 2026-08-27",
           "caveat_refs": []
         }
       ]
@@ -152,19 +204,28 @@
         {
           "id": "29d-score-premium",
           "statement": "Within one paper, marked reviews score higher than unmarked co-reviews: +0.14 points in 2024 (sign test p=.014, 1,919 papers), +0.17 in 2025 (p=7.8e-6, 2,563), +0.11 in 2026 (p=.075, 2,189) — replicating the direction of Latona et al. 2024 with a transparent frozen word list instead of a proprietary detector.",
-          "value": {"quantity": 0.1711, "unit": "rating_points_2025"},
+          "value": {
+            "quantity": 0.1711,
+            "unit": "rating_points_2025"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "correlates[year].paired_rating",
           "derivation": "papers holding both a marked and an unmarked review; mean(marked) − mean(unmarked) per paper, averaged; bootstrap CI over papers",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-prof",
           "verified": "checked against shipped JSON, 2026-08-27",
-          "caveat_refs": ["29-marked-not-ai", "29-premium-small"]
+          "caveat_refs": [
+            "29-marked-not-ai",
+            "29-premium-small"
+          ]
         },
         {
           "id": "29d-length-benchmark",
           "statement": "The premium is not a length effect: marked reviews are longer (+58 to +123 words), yet a paper's longest review scores LOWER than its peers (−0.17, −0.17, −0.35 across 2024–26) — length pulls the opposite way.",
-          "value": {"quantity": -0.3495, "unit": "rating_points_2026"},
+          "value": {
+            "quantity": -0.3495,
+            "unit": "rating_points_2026"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "correlates[year].paired_longest_benchmark",
           "derivation": "same paired design with 'longest review of the paper' in place of 'marked'",
@@ -176,39 +237,76 @@
         {
           "id": "29d-quality-strata",
           "statement": "Under a permutation control (conditioning on the comparison group manufactures a weak-paper gradient by mean reversion alone), the premium survives in every quality band (+0.07 to +0.28 points over the permuted baseline), running mildly larger for weakly-rated papers in 2024–25 — the direction of Sharma et al.'s leniency finding.",
-          "value": {"quantity": 0.279, "unit": "excess_over_permuted_weak_2025"},
+          "value": {
+            "quantity": 0.279,
+            "unit": "excess_over_permuted_weak_2025"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "correlates[year].paired_rating.by_quality",
           "derivation": "strata by unmarked co-reviews' mean (<4 / 4–6 / >6); 200 within-paper label permutations preserving each paper's marked count",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-prof",
           "verified": "checked against shipped JSON, 2026-08-27",
-          "caveat_refs": ["29-premium-small"]
+          "caveat_refs": [
+            "29-premium-small"
+          ]
         },
         {
           "id": "29d-profile-dissolves",
           "statement": "Length-adjusted, marked reviews cite scholarship less ('et al.' −6.3pp in 2024, −5.5 in 2025, −3.0 in 2026) and engage less in rebuttal (−0.075 and −0.077 exchanges in 2024–25, −0.0009 in 2026) — the Liang et al. profile of machine-modified text, dissolving year by year as the watermark fades.",
-          "value": {"quantity": -0.0009, "unit": "rebuttal_exchanges_diff_2026"},
+          "value": {
+            "quantity": -0.0009,
+            "unit": "rebuttal_exchanges_diff_2026"
+          },
           "source_island": "llmtrace-data.json",
           "source_path": "correlates[year].et_al_share.diff_length_stratified, correlates[year].rebuttal_replies.diff_length_stratified",
           "derivation": "diffs computed within word-count deciles and averaged with marked-count weights",
           "recompute": "scripts/build_llmtrace_data.py",
           "dom_ref": "#wm-prof",
           "verified": "checked against shipped JSON, 2026-08-27",
-          "caveat_refs": ["29-confidence-disagrees"]
+          "caveat_refs": [
+            "29-confidence-disagrees"
+          ]
         }
       ]
     }
   ],
   "caveats": [
-    {"id": "29-no-attribution", "text": "Nothing on this plate attributes any trend to AI use, and no individual review is labeled. The instrument measures movement toward a documented vocabulary signature, corpus-wide."},
-    {"id": "29-lower-bound", "text": "The excess is a floor, not a count: machine-assisted text avoiding all thirteen words is invisible; Liang et al.'s independent 2024 estimate (one sentence in ten) exceeds this tracer's 7.8% review-level mark."},
-    {"id": "29-fade-ambiguous", "text": "The 2026 fade is ambiguous three ways: newer models prefer different words, ICLR 2026 required disclosure of LLM use, and tells can be edited out. It is evidence about the visibility of the practice, not its prevalence."},
-    {"id": "29-shelf-life", "text": "Any fixed marker list ages with the model generation that made it famous; the per-word ratios for words with near-zero pre-2023 baselines (underscoring) are floor-limited and stated as such."},
-    {"id": "29-form-eras", "text": "The review form changed five times 2018–2026; similarity LEVELS are never compared across form boundaries, and the headline convergence claim lives entirely inside the constant-form 2024–2026 window with a fixed shared vocabulary."},
-    {"id": "29-conv-cause", "text": "Convergence cannot separate a shared tool proposing similar points from papers, templates or norms making the same points unavoidable. The plate claims that and when the juries converged, not why."},
-    {"id": "29-marked-not-ai", "text": "'Marked' means the review contains ≥1 frozen marker word — a transparent, reproducible flag, not an AI-authorship claim; by 2026 the marked population's behavioral distinctness has largely dissolved."},
-    {"id": "29-premium-small", "text": "The score premium is small (≈0.1–0.17 points on a 10-point scale) and the 2026 sign test does not reach conventional significance (p=.075); per-stratum samples are in the hundreds."},
-    {"id": "29-confidence-disagrees", "text": "Stated confidence runs mildly HIGHER for marked reviews in all three years (+0.03 length-adjusted), disagreeing with Liang et al.'s low-confidence correlate; reported as a disagreement."}
+    {
+      "id": "29-no-attribution",
+      "text": "Nothing on this plate attributes any trend to AI use, and no individual review is labeled. The instrument measures movement toward a documented vocabulary signature, corpus-wide."
+    },
+    {
+      "id": "29-lower-bound",
+      "text": "The excess is a floor, not a count: machine-assisted text avoiding all thirteen words is invisible; Liang et al.'s independent 2024 estimate (one sentence in ten) exceeds this tracer's 7.8% review-level mark."
+    },
+    {
+      "id": "29-fade-ambiguous",
+      "text": "The 2026 fade is ambiguous three ways: newer models prefer different words, ICLR 2026 required disclosure of LLM use, and tells can be edited out. It is evidence about the visibility of the practice, not its prevalence."
+    },
+    {
+      "id": "29-shelf-life",
+      "text": "Any fixed marker list ages with the model generation that made it famous; the per-word ratios for words with near-zero pre-2023 baselines (underscoring) are floor-limited and stated as such."
+    },
+    {
+      "id": "29-form-eras",
+      "text": "The review form changed five times 2018–2026; similarity LEVELS are never compared across form boundaries, and the headline convergence claim lives entirely inside the constant-form 2024–2026 window with a fixed shared vocabulary."
+    },
+    {
+      "id": "29-conv-cause",
+      "text": "Convergence cannot separate a shared tool proposing similar points from papers, templates or norms making the same points unavoidable. The plate claims that and when the juries converged, not why."
+    },
+    {
+      "id": "29-marked-not-ai",
+      "text": "'Marked' means the review contains ≥1 frozen marker word — a transparent, reproducible flag, not an AI-authorship claim; by 2026 the marked population's behavioral distinctness has largely dissolved."
+    },
+    {
+      "id": "29-premium-small",
+      "text": "The score premium is small (≈0.1–0.17 points on a 10-point scale) and the 2026 sign test does not reach conventional significance (p=.075); per-stratum samples are in the hundreds."
+    },
+    {
+      "id": "29-confidence-disagrees",
+      "text": "Stated confidence runs mildly HIGHER for marked reviews in all three years (+0.03 length-adjusted), disagreeing with Liang et al.'s low-confidence correlate; reported as a disagreement."
+    }
   ]
 }
