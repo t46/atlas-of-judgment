@@ -97,6 +97,10 @@ h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.28em; text-tra
 .spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--muted);
   text-transform: uppercase; line-height: 2.1; margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--brass-faint); }
 .spec b { color: var(--brass); font-weight: 500; }
+.whynote { max-width: 560px; margin: 0 auto; padding: 26px 0 4px; border-top: 1px solid var(--brass-line, rgba(138,90,31,0.28)); border-bottom: 1px solid var(--brass-line, rgba(138,90,31,0.28)); }
+.whynote h3 { margin-top: 0; }
+.whynote p { font-size: 13.5px; line-height: 1.75; color: var(--ink-2, var(--ink)); }
+.whynote p:last-child { margin-bottom: 26px; }
 
 .frame { position: relative; border: 1px solid var(--brass-line); padding: 8px; margin-top: 26px;
   background: rgba(248,241,224,0.62); }
@@ -436,9 +440,6 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   </div>
   <p class="fig-cap rv">The whole project in one strip: the public record, the four-part unit it is dissected into, the 12&#160;&#215;&#160;12 grammar each unit is filed under, and the plates that count them. Read backwards, it is the route of doubt: any number on any plate descends, step by step, to the reviewer sentences beneath it.</p>
 
-  <h3 class="rv">Why a theatre</h3>
-  <p class="rv">The shape of this page is borrowed from a building. In 1594 the university at Leiden raised a <em>theatrum anatomicum</em>: tiers of standing room in a tight ring, so that one body could be opened in front of witnesses and drawn. Peer review is that room with a paper on the table — a thing examined in public, by people who will say what they saw. This project is the same room turned one quarter further: the instrument pointed back at the hands that hold it.</p>
-  <p class="rv">The crowd in the tiers above is not decoration. Each mark is one unit of reviewer reasoning, roughly one in every hundred the atlas holds, and the colours are their verdicts in the true proportion — overwhelmingly ink, because the corpus is overwhelmingly critical. Section <b>VI</b> explains how much of that is peer review and how much is the instrument.</p>
   <div class="spec rv"><b>410,586</b> units (ICLR 2026, review-level) · <b>1,009,592</b> units (2018–2026, forum-level) · <b>52,460</b> submissions collected · verified 2026-08-18</div>
 </div>
 </section>
@@ -613,6 +614,16 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <p class="fig-cap rv">Pilot-phase exploration (episode schemas, atlas cards, calibration runs) is additional and itemized in the project's provenance ledger; the figures above are the production spine.</p>
   <h3 class="rv">Reproduce it</h3>
   <p class="rv">The companion page, <a href="method.html">The Atlas Method</a>, records the full pipeline — every script, model, parameter, seed, cost, failure mode, and the exact commands — at the level of detail needed to rerun it, along with an honest account of what cannot be reproduced (LLM sampling nondeterminism, a handful of one-off manual repairs, and upstream drift in OpenReview itself).</p>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <aside class="whynote rv">
+    <h3 class="rv">Why a theatre</h3>
+    <p class="rv">The shape of this page is borrowed from a building. In 1594 the university at Leiden raised a <em>theatrum anatomicum</em>: tiers of standing room in a tight ring, so that one body could be opened in front of witnesses and drawn. Peer review is that room with a paper on the table — a thing examined in public, by people who will say what they saw. This project is the same room turned one quarter further: the instrument pointed back at the hands that hold it.</p>
+    <p class="rv">And the crowd in the tiers you have been reading through is not decoration. Each mark is one unit of reviewer reasoning, roughly one in every hundred the atlas holds, and the colours are their verdicts in the true proportion — overwhelmingly ink, because the corpus is overwhelmingly critical. Section <b>VI</b> explains how much of that is peer review and how much is the instrument.</p>
+  </aside>
 </div>
 </section>
 
