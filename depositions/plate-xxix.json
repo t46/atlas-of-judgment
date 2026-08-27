@@ -127,8 +127,8 @@
     },
     {
       "id": "fig-29c",
-      "title": "The convergence: co-reviews grow alike — in words, and in what they inspect",
-      "deck": "Two reviews of the same paper are 14% more alike in wording in 2026 than in 2024 under one fixed vocabulary; random cross-paper pairs are not.",
+      "title": "The convergence: co-reviews grow alike in words — and the object overlap turns out to be set size, not choice",
+      "deck": "Two reviews of the same paper are 14% more alike in wording under one fixed vocabulary; their apparent convergence in what they inspect dissolves against a size-matched null.",
       "dom_host": "#wm-conv-lex",
       "claims": [
         {
@@ -151,15 +151,15 @@
         },
         {
           "id": "29c-object-overlap",
-          "statement": "The overlap between co-reviewers' sets of charged objects (Jaccard over the 12-object taxonomy) fell from 0.278 in 2018 to 0.252 in 2023, then rose three consecutive years to 0.284 in 2026, its nine-year high; the turn lands on the watermark's arrival year.",
+          "statement": "CORRECTED SAME DAY AS FIRST PUBLICATION: co-reviewer object-set overlap (Jaccard over the 12-object taxonomy) rises 0.252 (2023) to 0.284 (2026), but reviewers also charge more objects per review (mean set size 3.4 to 3.8), and a size-matched null (same set sizes, contents drawn from the year's mix, 20 simulations) rises in step. The excess of choice over size is flat: +0.037 to +0.054 across all nine years, maximum in 2018. The apparent content convergence is set size, not choice; the plate's first reading claimed the turn as convergence and was corrected in place (method section 10).",
           "value": {
-            "quantity": 0.2837,
-            "unit": "median_jaccard_2026"
+            "quantity": 0.042,
+            "unit": "excess_over_size_null_2026"
           },
           "source_island": "llmtrace-data.json",
-          "source_path": "content_convergence.within_forum_jaccard",
-          "derivation": "unit-taxonomy-direct-v1 track, official_reviewer units only; the full U-shape is reported, not just the rising limb",
-          "recompute": "scripts/build_llmtrace_data.py",
+          "source_path": "content_convergence.within_forum_jaccard, mix.jaccard_size_null",
+          "derivation": "observed median minus size-matched null median per year; correction recorded in notes/llm-era-analysis-plan.md addendum G and method section 10",
+          "recompute": "scripts/build_llmtrace_data.py, scripts/build_llmtrace_mix.py",
           "dom_ref": "#wm-conv-obj",
           "verified": "checked against shipped JSON, 2026-08-27",
           "caveat_refs": [
@@ -197,12 +197,70 @@
     },
     {
       "id": "fig-29d",
+      "title": "The structure holds still: three instruments, no narrowing",
+      "deck": "The mix of criticism spreads slightly, a reviewer's own attention spreads slightly, and the distilled reasoning's co-review gap holds still — nine years, no structural narrowing.",
+      "dom_host": "#wm-still",
+      "claims": [
+        {
+          "id": "29d-no-concentration",
+          "statement": "The category mix of criticism did not concentrate in the LLM era: normalized entropy of the yearly 12-object mix drifts UP from 0.916 (2018) to 0.940 (2026) (HHI 0.119 to 0.109); the 12-standard mix 0.926 to 0.941; the joint 144-cell mix 0.883 to 0.898. More even, not narrower.",
+          "value": {
+            "quantity": 0.9395,
+            "unit": "object_entropy_2026"
+          },
+          "source_island": "llmtrace-data.json",
+          "source_path": "mix.concentration[year]",
+          "derivation": "Shannon entropy of unit counts over categories / log2(K), official_reviewer units of the direct track (952,856), one extraction pipeline for all years",
+          "recompute": "scripts/build_llmtrace_mix.py",
+          "dom_ref": "#wm-still",
+          "verified": "checked against shipped JSON, 2026-08-27",
+          "caveat_refs": [
+            "29-coarse-grain"
+          ]
+        },
+        {
+          "id": "29d-reviewer-spread",
+          "statement": "Individual reviewers spread attention slightly WIDER, not narrower: mean entropy of one reviewer's own object mix (reviewers with >=5 units, normalized by each reviewer's own ceiling) rises 0.742 (2018) to 0.766 (2026).",
+          "value": {
+            "quantity": 0.766,
+            "unit": "reviewer_attention_entropy_2026"
+          },
+          "source_island": "llmtrace-data.json",
+          "source_path": "mix.concentration[year].reviewer_attention_entropy_mean",
+          "derivation": "per-reviewer Shannon entropy / log2(min(12, n_units)), averaged per year",
+          "recompute": "scripts/build_llmtrace_mix.py",
+          "dom_ref": "#wm-still",
+          "verified": "checked against shipped JSON, 2026-08-27",
+          "caveat_refs": []
+        },
+        {
+          "id": "29d-reasoning-flat",
+          "statement": "At the sub-unit grain (each unit's distilled reasoning, bge-small embeddings), neither dispersion nor co-review convergence moved: yearly mean distance to centroid 0.231 (2018) to 0.229 (2026); the gap between within-forum cross-reviewer unit pairs and random cross-forum pairs holds near 0.012 in every year.",
+          "value": {
+            "quantity": 0.0126,
+            "unit": "within_minus_cross_gap_2026"
+          },
+          "source_island": "llmtrace-data.json",
+          "source_path": "mix.reasoning_dispersion, mix.reasoning_within_forum, mix.reasoning_cross_forum",
+          "derivation": "20k-unit yearly samples for dispersion; <=20 cross-reviewer pairs per forum vs 50k random cross-forum pairs; seed 20260827",
+          "recompute": "scripts/build_llmtrace_mix.py",
+          "dom_ref": "#wm-still",
+          "verified": "checked against shipped JSON, 2026-08-27",
+          "caveat_refs": [
+            "29-distilled-voice",
+            "29-coarse-grain"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fig-29e",
       "title": "The company the watermark keeps",
       "deck": "The marked review is longer, cites less, and hands its paper a slightly higher score than its own co-reviews — and its distinctness is dissolving year by year.",
       "dom_host": "#wm-prof",
       "claims": [
         {
-          "id": "29d-score-premium",
+          "id": "29e-score-premium",
           "statement": "Within one paper, marked reviews score higher than unmarked co-reviews: +0.14 points in 2024 (sign test p=.014, 1,919 papers), +0.17 in 2025 (p=7.8e-6, 2,563), +0.11 in 2026 (p=.075, 2,189) — replicating the direction of Latona et al. 2024 with a transparent frozen word list instead of a proprietary detector.",
           "value": {
             "quantity": 0.1711,
@@ -220,7 +278,7 @@
           ]
         },
         {
-          "id": "29d-length-benchmark",
+          "id": "29e-length-benchmark",
           "statement": "The premium is not a length effect: marked reviews are longer (+58 to +123 words), yet a paper's longest review scores LOWER than its peers (−0.17, −0.17, −0.35 across 2024–26) — length pulls the opposite way.",
           "value": {
             "quantity": -0.3495,
@@ -235,7 +293,7 @@
           "caveat_refs": []
         },
         {
-          "id": "29d-quality-strata",
+          "id": "29e-quality-strata",
           "statement": "Under a permutation control (conditioning on the comparison group manufactures a weak-paper gradient by mean reversion alone), the premium survives in every quality band (+0.07 to +0.28 points over the permuted baseline), running mildly larger for weakly-rated papers in 2024–25 — the direction of Sharma et al.'s leniency finding.",
           "value": {
             "quantity": 0.279,
@@ -252,7 +310,7 @@
           ]
         },
         {
-          "id": "29d-profile-dissolves",
+          "id": "29e-profile-dissolves",
           "statement": "Length-adjusted, marked reviews cite scholarship less ('et al.' −6.3pp in 2024, −5.5 in 2025, −3.0 in 2026) and engage less in rebuttal (−0.075 and −0.077 exchanges in 2024–25, −0.0009 in 2026) — the Liang et al. profile of machine-modified text, dissolving year by year as the watermark fades.",
           "value": {
             "quantity": -0.0009,
@@ -307,6 +365,14 @@
     {
       "id": "29-confidence-disagrees",
       "text": "Stated confidence runs mildly HIGHER for marked reviews in all three years (+0.03 length-adjusted), disagreeing with Liang et al.'s low-confidence correlate; reported as a disagreement."
+    },
+    {
+      "id": "29-coarse-grain",
+      "text": "Twelve categories are coarse: convergence inside one category is invisible to entropy and overlap measures at this grain."
+    },
+    {
+      "id": "29-distilled-voice",
+      "text": "The reasoning embeddings read the atlas's distilled text; the extractor's uniform voice is shared by all years, so a converging style can be masked — converging content should still register."
     }
   ]
 }

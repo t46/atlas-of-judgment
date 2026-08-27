@@ -134,6 +134,50 @@ seeded). Site figure(s) only after numbers are inspected against this plan.
   ICLR 2026 reviews fully AI-generated" estimate — NOT cited on the plate
   pending a primary source.
 
+## Addendum E+F (2026-08-27, user-requested after shipping: category
+## dispersion and sub-unit-grain convergence; frozen before computation)
+
+E. Category-mix concentration (direct track, official_reviewer units,
+2018–2026, one extraction pipeline throughout):
+- Per year: normalized Shannon entropy (H / log2 K) and HHI of (i) the
+  12-object mix, (ii) the 12-standard mix, (iii) the joint 144-cell mix
+  (K=144). Unit-weighted.
+- Per-reviewer view: for reviewers with ≥5 units, entropy of their own
+  object mix, normalized by log2(min(12, n_units)); per-year mean —
+  "does one reviewer spread attention more narrowly than before?"
+- No frozen direction; descriptive, all outcomes reportable. Guard: units
+  per reviewer changed over years; the per-reviewer entropy is normalized
+  by its own ceiling for that reason.
+
+F. Reasoning-prose dispersion at the sub-unit grain (the unit's reasoning
+component, bge-small embeddings, row i = unit_pk i+1):
+- Dispersion: per year, sample 20,000 official_reviewer units (seed
+  20260827); mean cosine distance to the year centroid.
+- Sub-unit convergence: per forum with ≥2 reviewers, sample up to 20
+  cross-reviewer unit pairs; cosine similarity; per-year median across
+  forums. Baseline: 50,000 random same-year cross-forum unit pairs.
+- Guard stated in caption: embeddings are of the DISTILLED reasoning text,
+  so the extractor's uniform style is shared by all years — this measures
+  convergence of reasoning content, complementing the raw-text TF-IDF
+  measure which includes style.
+Output: "mix" section appended to llmtrace-data.json by
+scripts/build_llmtrace_mix.py; new Fig 29d (profile battery relettered 29e).
+
+## Addendum G (2026-08-27, same day): correction of the object-overlap claim
+
+Results of E+F: object entropy 0.916→0.940 (more even), reviewer attention
+entropy 0.742→0.766 (wider), reasoning-embedding dispersion and within-forum
+gap flat. Prompted a size-matched null for the co-reviewer Jaccard (same
+forums, same set sizes, contents drawn from the year's mix, 20 sims): the
+null rises 0.216→0.242 with mean set size 3.4→3.8, absorbing the observed
+0.252→0.284 rise. Excess flat +0.037..+0.054 (max 2018). The shipped claim
+"the turn lands on the watermark's arrival year" was WRONG as a content-
+convergence reading and was corrected in place the same day; recorded in
+method §10. Standing summary: convergence is real in raw wording (Fig 29c
+left, fixed vocabulary), unproven in targets and structure (29c right null,
+29d entropy/embedding nulls), and prose-level assistance is the honest —
+unprovable — reading of that divide.
+
 ## Interpretation guards (bind the captions)
 
 - Never "AI wrote X% of reviews". Only: "at least Δ% of reviews contain

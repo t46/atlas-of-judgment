@@ -2775,25 +2775,35 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each row is one frozen word; each cell holds its document frequency against its own extrapolated trend, so &times;1.0 (pale) means &#8220;exactly as often as human drift predicts.&#8221; In 2024 every row but one runs warm — <em>meticulously</em> &times;14.4, <em>meticulous</em> &times;12.6, <em>delves</em> &times;11.8, <em>pivotal</em> &times;11.5, <em>intricate</em> &times;10.6. By 2026 the column has split: <span class="prov"><button class="stat-door">the delve family collapses to below its pre-LLM baseline (delves &times;0.35, delve &times;0.72)</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; vocab.per_word_delta.delves["2026"].ratio (0.35), .delve["2026"].ratio (0.72)<br><b>DERIVATION</b> document frequency in 2026 divided by the word&#8217;s own 2018&#8211;2022 linear extrapolation; delves: 0.00037 / 0.00104 = 0.35<br><b>VERIFIED</b> checked against shipped JSON; SQL recount finds delve-family reviews falling 551 &#8594; 138 from 2024 to 2026 while the corpus grew 2.7&times;, 2026-08-27</span></span> — undershooting it, as if the word had been scrubbed — along with <em>showcases</em> (&times;0.51) and <em>showcasing</em> (&times;0.98), while <em>underscoring</em> (&times;253, from near-zero), <em>underscores</em> (&times;6.5), <em>meticulous</em> (&times;5.1) and <em>commendable</em> (&times;4.7) persist. One list, two fates: the vocabulary of the 2023-era models burned bright and burned out; a quieter residue is still spreading. For scale, the biggest 2026 vocabulary shifts of all are the field&#8217;s own subject matter — <em>qwen</em> appears in 9.2% of 2026 reviews, <em>llama</em> in 6.4%, <em>deepseek</em> in 2.6%, against essentially zero before — which is why the tracer is restricted to style words: topic drift is real, loud, and not evidence of who held the pen.</div></div>
     </div>
 
-    <div class="fig-title" style="margin-top:38px">Fig. 29c — The convergence: co-reviews grow alike — in words, and in what they inspect</div>
-    <div class="fig-deck">Two reviews of the same paper are 14% more alike in wording in 2026 than in 2024 under one fixed vocabulary; random cross-paper pairs are not.</div>
+    <div class="fig-title" style="margin-top:38px">Fig. 29c — The convergence: co-reviews grow alike in words — and the object overlap turns out to be set size, not choice</div>
+    <div class="fig-deck">Two reviews of the same paper are 14% more alike in wording under one fixed vocabulary; their apparent convergence in <em>what they inspect</em> dissolves against a size-matched null.</div>
     <div class="fig-rel"><b>PLATE XXV READ THE NUMBER&#8217;S REPEATABILITY</b> — how far two juries of the same paper agree in <em>score</em>. This panel reads the same pairs in <em>words</em>: whatever is happening to the diction, co-reviews are converging on each other, not on the corpus.</div>
     <div class="arc-grid" style="grid-template-columns:1fr 1fr">
       <div><div class="rep-cap">WORDING &middot; TF&#8211;IDF COSINE</div><div id="wm-conv-lex"></div></div>
       <div><div class="rep-cap">OBJECTS INSPECTED &middot; JACCARD</div><div id="wm-conv-obj"></div></div>
     </div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">INK = MEDIAN SIMILARITY OF CO-REVIEWS OF ONE PAPER &middot; FAINT = RANDOM CROSS-PAPER PAIRS &middot; VERTICAL RULES = REVIEW-FORM CHANGES &middot; HOLLOW POINTS = FIXED SHARED VOCABULARY, 2024&#8211;26</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">INK = MEDIAN SIMILARITY OF CO-REVIEWS OF ONE PAPER &middot; FAINT = RANDOM CROSS-PAPER PAIRS &middot; VERTICAL RULES = REVIEW-FORM CHANGES &middot; HOLLOW POINTS = FIXED SHARED VOCABULARY, 2024&#8211;26 &middot; RIGHT, BRASS DASH = SIZE-MATCHED NULL (SAME SET SIZES, RANDOM CONTENTS)</div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 29c</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">left: for every paper with two or more reviews, the median pairwise TF&#8211;IDF cosine of its reviews (ink), against the median for random pairs from different papers (faint). If reviews were homogenizing wholesale, both lines would rise together; if the review <em>form</em> were doing the work, the line would jump at form changes (the vertical rules) and hold flat between them. Neither happens: the within-paper line climbs <em>inside</em> the constant-form window — 0.277 &#8594; 0.299 &#8594; 0.317 across 2024&#8211;26 under one shared vocabulary (the hollow points), a +14% rise with no form change and no vocabulary change to blame — while random pairs stay flat (0.078 &#8594; 0.073). Right: the same convergence in <em>what gets inspected</em> — the overlap between co-reviewers&#8217; sets of charged objects (Plate I&#8217;s twelve) fell from 0.278 in 2018 to 0.252 in 2023, then turned and rose three years straight to 0.284, its nine-year high. The turn lands on the same year as the watermark&#8217;s arrival. What this panel cannot separate: reviewers converging because a shared tool proposes similar points, and reviewers converging because papers, templates, or norms make the same points unavoidable. It records <em>that</em> the juries are converging, and <em>when</em> the turn came — not why. Two independent 2026 measurements point the same way with different instruments: in a 45-scientist expert annotation, AI reviewers&#8217; criticisms overlapped with each other seven times more than human reviewers&#8217; did (21% vs 3% of cross-reviewer pairs; Kim et al., arXiv:2605.20668), and a position paper names this &#8220;hivemind effect&#8221; the first risk of automating review (Baumann et al., arXiv:2605.03202). One neighbouring study reads a shift in ICLR review-text diagnostics at the 2022&#8211;23 transition (arXiv:2607.10511); this plate&#8217;s own placebo puts the vocabulary&#8217;s arrival one cycle later — different instruments, both correlational, both cited rather than reconciled. And one prediction from the LLM-review literature fails here, and is reported as failing: benchmark studies find machine-written reviews lexically <em>flatter</em> (arXiv:2605.25415), but each review&#8217;s own lexical diversity sits at a nine-year high in 2026 — type-token ratio 0.638 over a review&#8217;s first 200 words, against 0.578&#8211;0.598 in every earlier year. The record converges <em>between</em> reviews while growing more varied <em>within</em> them; whatever is homogenizing the juries is not flattening the prose.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">left: for every paper with two or more reviews, the median pairwise TF&#8211;IDF cosine of its reviews (ink), against the median for random pairs from different papers (faint). If reviews were homogenizing wholesale, both lines would rise together; if the review <em>form</em> were doing the work, the line would jump at form changes (the vertical rules) and hold flat between them. Neither happens: the within-paper line climbs <em>inside</em> the constant-form window — 0.277 &#8594; 0.299 &#8594; 0.317 across 2024&#8211;26 under one shared vocabulary (the hollow points), a +14% rise with no form change and no vocabulary change to blame — while random pairs stay flat (0.078 &#8594; 0.073). Right: the same pairs read at the unit grain — the overlap between co-reviewers&#8217; sets of charged objects (Plate I&#8217;s twelve) also rises after 2023 (0.252 &#8594; 0.284, ink). This is the panel where the plate corrects its own first reading, published hours earlier: reviewers also charge <em>more objects per review</em> in the LLM years (mean set size 3.4 &#8594; 3.8), and a null that keeps every reviewer&#8217;s set size while drawing its contents at random from the year&#8217;s mix (the brass dash) rises in step. The excess of choice over size — <span class="prov"><button class="stat-door">+0.037 to +0.054 across all nine years, with no trend and its maximum in 2018</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.jaccard_size_null[year].excess<br><b>DERIVATION</b> observed median co-reviewer Jaccard minus a 20-simulation null holding each reviewer&#8217;s set size and drawing contents from the year&#8217;s object mix; 2026: 0.2837 &#8722; 0.2418 = +0.042<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span> — is flat. So the convergence is real in the words and unproven in the targets: what co-reviewers <em>say</em> grows alike; what they <em>choose to charge</em> does not measurably follow. That divide has an honest reading the plate cannot prove: expert annotation finds full machine authorship leaving a <em>content</em> fingerprint — AI reviewers&#8217; criticisms overlap with each other seven times more than humans&#8217; (21% vs 3%; Kim et al., arXiv:2605.20668, the &#8220;hivemind effect&#8221; of Baumann et al., arXiv:2605.03202) — while prose-level assistance would converge the wording and leave the choices alone, which is the pattern this record shows. One neighbouring study reads a shift in ICLR review-text diagnostics at the 2022&#8211;23 transition (arXiv:2607.10511); this plate&#8217;s own placebo puts the vocabulary&#8217;s arrival one cycle later — different instruments, both correlational, both cited rather than reconciled. And one prediction from the LLM-review literature fails here, and is reported as failing: benchmark studies find machine-written reviews lexically <em>flatter</em> (arXiv:2605.25415), but each review&#8217;s own lexical diversity sits at a nine-year high in 2026 — type-token ratio 0.638 over a review&#8217;s first 200 words, against 0.578&#8211;0.598 in every earlier year. The record converges <em>between</em> reviews while growing more varied <em>within</em> them; whatever is homogenizing the juries is not flattening the prose.</div></div>
     </div>
 
-    <div class="fig-title" style="margin-top:38px">Fig. 29d — The company the watermark keeps</div>
+    <div class="fig-title" style="margin-top:38px">Fig. 29d — The structure holds still: three instruments, no narrowing</div>
+    <div class="fig-deck">The mix of criticism spreads slightly, a reviewer&#8217;s own attention spreads slightly, and the distilled reasoning&#8217;s co-review gap holds still — nine years, no structural narrowing.</div>
+    <div class="fig-rel"><b>THE CORRECTION&#8217;S OTHER HALF</b> — Fig.&nbsp;29c found the prose converging; these three instruments ask whether the <em>substance</em> followed. It did not: the convergence, so far, lives in the words.</div>
+    <div id="wm-still"></div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">ENTROPY = EVENNESS OF THE MIX, 1.00 = ALL TWELVE EQUAL &middot; GAP = CO-REVIEW MINUS CROSS-PAPER REASONING SIMILARITY &middot; A STRUCTURAL NARROWING WOULD BEND ANY OF THESE DOWN AFTER 2023 &mdash; NONE DOES</div>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>Fig. 29d</b></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">three panels over the nine-year unit record (952,856 reviewer units, one extraction pipeline throughout), each a way the machine era <em>could</em> have narrowed review&#8217;s substance — and did not. Left: the evenness (normalized entropy) of the year&#8217;s mix over the twelve objects of scrutiny (ink) and twelve standards (faint), where 1.00 would be a perfectly even docket: <span class="prov"><button class="stat-door">the object mix drifts from 0.916 to 0.940 — more even, not more concentrated</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.concentration[year].object_entropy<br><b>DERIVATION</b> Shannon entropy of the year&#8217;s 12-object unit counts &divide; log&#8322;12; 2018: 0.9155 &#8594; 2026: 0.9395 (HHI 0.119 &#8594; 0.109)<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span>. Middle: one reviewer&#8217;s own spread — the mean entropy of each reviewer&#8217;s object mix (reviewers with five or more units, each normalized by their own ceiling) — rises 0.742 &#8594; 0.766: the individual reviewer looks at slightly <em>more</em>, not fewer, kinds of things. Right: the sub-unit grain — each unit&#8217;s distilled reasoning, in embedding space: the gap between co-review pairs of one paper and random cross-paper pairs holds at &#8776;0.012 in every year, and the year&#8217;s overall dispersion is unchanged (0.231 &#8594; 0.229). Three owned limits: twelve categories are coarse, so a convergence <em>inside</em> one category is invisible here; the embeddings read the atlas&#8217;s distilled reasoning, whose uniform extractor voice is shared by all years — it can mask a converging style, though converging <em>content</em> should still register; and a corpus-level mix says nothing about any single paper. The null pattern is the point: had the machine era narrowed what review looks at, some line here would bend down after 2023.</div></div>
+    </div>
+
+    <div class="fig-title" style="margin-top:38px">Fig. 29e — The company the watermark keeps</div>
     <div class="fig-deck">The marked review is longer, cites less, and hands its paper a slightly higher score than its own co-reviews — and its distinctness is dissolving year by year.</div>
     <div class="fig-rel"><b>THE AI-LOTTERY DESIGN, WITH A TRANSPARENT INSTRUMENT</b> — Latona et al. found detector-flagged ICLR 2024 reviews scoring higher within the same paper. The paired comparison here replicates that direction for 2024&#8211;2026 with the frozen public word list in place of a proprietary detector.</div>
     <div id="wm-prof"></div>
     <div class="caption cap-voices">
-    <div class="cv-fig"><b>Fig. 29d</b></div>
+    <div class="cv-fig"><b>Fig. 29e</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">top block: within one paper, the mean score of its marked reviews minus its unmarked ones — <span class="prov"><button class="stat-door">+0.14 points in 2024, +0.17 in 2025, +0.11 in 2026</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; correlates["2024"|"2025"|"2026"].paired_rating.mean_diff (sign-test p = .014, 7.8&times;10&#8722;6, .075)<br><b>DERIVATION</b> papers holding both a marked and an unmarked review; mean(marked ratings) &#8722; mean(unmarked ratings), averaged over papers (1,919 / 2,563 / 2,189 papers)<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span> — small, but on the wrong side of a demanding benchmark: a paper&#8217;s <em>longest</em> review (hatched) scores <em>lower</em> than its peers by 0.17&#8211;0.35 points, and marked reviews are the long ones (+58 to +123 words), so length alone predicts the opposite sign. Split by the co-reviews&#8217; own verdict — under a permutation control, because conditioning on the comparison group manufactures a weak-paper gradient out of mean reversion alone — the premium survives in every quality band (+0.07 to +0.28 points over the permuted baseline), running mildly larger for weakly-rated papers in 2024&#8211;25, the direction the newest leniency study predicts (Sharma et al., arXiv:2601.20920). Bottom block, with reviews compared only against same-length peers: the marked review cites scholarship less (&#8220;et al.&#8221; &#8722;6.3 points in 2024) and replies less in the rebuttal (&#8722;0.08 exchanges) — the profile the ICML study found for machine-modified text — but both gaps thin each year and the rebuttal gap is gone by 2026 (&#8722;0.0009). The null shape matters as much as the effects: as the watermark fades, the population it marks stops being distinctive — consistent with the residue of Fig. 29b belonging increasingly to ordinary, engaged reviewers who have simply absorbed the vocabulary. Confidence runs mildly <em>higher</em> for marked reviews (+0.03, length-adjusted) in all three years — the one place this record disagrees with the ICML study&#8217;s low-confidence profile, and it is reported as the disagreement it is.</div></div>
     </div>
   </div></div>
@@ -4777,6 +4787,280 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
    "2024": 0.0779,
    "2025": 0.0622,
    "2026": 0.0308
+  }
+ },
+ "mix": {
+  "plan": "notes/llm-era-analysis-plan.md addendum E+F (frozen before computation)",
+  "concentration": {
+   "2018": {
+    "n_units": 12369,
+    "object_entropy": 0.9155,
+    "object_hhi": 0.1188,
+    "standard_entropy": 0.9261,
+    "joint_entropy": 0.8827,
+    "reviewer_attention_entropy_mean": 0.7422,
+    "n_reviewers_ge5": 1168
+   },
+   "2019": {
+    "n_units": 19888,
+    "object_entropy": 0.9174,
+    "object_hhi": 0.1188,
+    "standard_entropy": 0.9324,
+    "joint_entropy": 0.8874,
+    "reviewer_attention_entropy_mean": 0.739,
+    "n_reviewers_ge5": 1977
+   },
+   "2020": {
+    "n_units": 30404,
+    "object_entropy": 0.9228,
+    "object_hhi": 0.1156,
+    "standard_entropy": 0.9313,
+    "joint_entropy": 0.8859,
+    "reviewer_attention_entropy_mean": 0.7498,
+    "n_reviewers_ge5": 2939
+   },
+   "2021": {
+    "n_units": 45180,
+    "object_entropy": 0.9276,
+    "object_hhi": 0.1141,
+    "standard_entropy": 0.931,
+    "joint_entropy": 0.8917,
+    "reviewer_attention_entropy_mean": 0.7523,
+    "n_reviewers_ge5": 4437
+   },
+   "2022": {
+    "n_units": 44919,
+    "object_entropy": 0.9294,
+    "object_hhi": 0.1134,
+    "standard_entropy": 0.9261,
+    "joint_entropy": 0.8912,
+    "reviewer_attention_entropy_mean": 0.7507,
+    "n_reviewers_ge5": 4368
+   },
+   "2023": {
+    "n_units": 62033,
+    "object_entropy": 0.9402,
+    "object_hhi": 0.1092,
+    "standard_entropy": 0.9272,
+    "joint_entropy": 0.8931,
+    "reviewer_attention_entropy_mean": 0.7617,
+    "n_reviewers_ge5": 5864
+   },
+   "2024": {
+    "n_units": 131943,
+    "object_entropy": 0.9346,
+    "object_hhi": 0.1106,
+    "standard_entropy": 0.9329,
+    "joint_entropy": 0.8948,
+    "reviewer_attention_entropy_mean": 0.7547,
+    "n_reviewers_ge5": 13256
+   },
+   "2025": {
+    "n_units": 225129,
+    "object_entropy": 0.9377,
+    "object_hhi": 0.1095,
+    "standard_entropy": 0.9369,
+    "joint_entropy": 0.8975,
+    "reviewer_attention_entropy_mean": 0.7558,
+    "n_reviewers_ge5": 23580
+   },
+   "2026": {
+    "n_units": 380991,
+    "object_entropy": 0.9395,
+    "object_hhi": 0.1086,
+    "standard_entropy": 0.9408,
+    "joint_entropy": 0.8983,
+    "reviewer_attention_entropy_mean": 0.766,
+    "n_reviewers_ge5": 40924
+   }
+  },
+  "reasoning_dispersion": {
+   "2018": {
+    "mean_dist_to_centroid": 0.2315,
+    "n_sample": 12369
+   },
+   "2019": {
+    "mean_dist_to_centroid": 0.2306,
+    "n_sample": 19888
+   },
+   "2020": {
+    "mean_dist_to_centroid": 0.2314,
+    "n_sample": 20000
+   },
+   "2021": {
+    "mean_dist_to_centroid": 0.2293,
+    "n_sample": 20000
+   },
+   "2022": {
+    "mean_dist_to_centroid": 0.2294,
+    "n_sample": 20000
+   },
+   "2023": {
+    "mean_dist_to_centroid": 0.2305,
+    "n_sample": 20000
+   },
+   "2024": {
+    "mean_dist_to_centroid": 0.2298,
+    "n_sample": 20000
+   },
+   "2025": {
+    "mean_dist_to_centroid": 0.2291,
+    "n_sample": 20000
+   },
+   "2026": {
+    "mean_dist_to_centroid": 0.2293,
+    "n_sample": 20000
+   }
+  },
+  "reasoning_within_forum": {
+   "2018": {
+    "median": 0.6031,
+    "q25": 0.5854,
+    "q75": 0.622,
+    "n_forums": 885
+   },
+   "2019": {
+    "median": 0.6063,
+    "q25": 0.5886,
+    "q75": 0.6233,
+    "n_forums": 1368
+   },
+   "2020": {
+    "median": 0.6042,
+    "q25": 0.5866,
+    "q75": 0.6224,
+    "n_forums": 2127
+   },
+   "2021": {
+    "median": 0.6075,
+    "q25": 0.59,
+    "q75": 0.6261,
+    "n_forums": 2504
+   },
+   "2022": {
+    "median": 0.607,
+    "q25": 0.5893,
+    "q75": 0.6261,
+    "n_forums": 2503
+   },
+   "2023": {
+    "median": 0.606,
+    "q25": 0.5883,
+    "q75": 0.624,
+    "n_forums": 3618
+   },
+   "2024": {
+    "median": 0.6065,
+    "q25": 0.5885,
+    "q75": 0.6248,
+    "n_forums": 7028
+   },
+   "2025": {
+    "median": 0.6071,
+    "q25": 0.5895,
+    "q75": 0.6255,
+    "n_forums": 11052
+   },
+   "2026": {
+    "median": 0.607,
+    "q25": 0.5896,
+    "q75": 0.6254,
+    "n_forums": 18833
+   }
+  },
+  "reasoning_cross_forum": {
+   "2018": {
+    "median": 0.5911,
+    "n_pairs": 50000
+   },
+   "2019": {
+    "median": 0.5929,
+    "n_pairs": 50000
+   },
+   "2020": {
+    "median": 0.5918,
+    "n_pairs": 50000
+   },
+   "2021": {
+    "median": 0.5947,
+    "n_pairs": 50000
+   },
+   "2022": {
+    "median": 0.5938,
+    "n_pairs": 50000
+   },
+   "2023": {
+    "median": 0.5945,
+    "n_pairs": 50000
+   },
+   "2024": {
+    "median": 0.5936,
+    "n_pairs": 50000
+   },
+   "2025": {
+    "median": 0.5947,
+    "n_pairs": 50000
+   },
+   "2026": {
+    "median": 0.5944,
+    "n_pairs": 50000
+   }
+  },
+  "jaccard_size_null": {
+   "2018": {
+    "observed_median": 0.2778,
+    "null_median": 0.2236,
+    "excess": 0.0542,
+    "mean_set_size": 3.38
+   },
+   "2019": {
+    "observed_median": 0.2778,
+    "null_median": 0.2269,
+    "excess": 0.0509,
+    "mean_set_size": 3.42
+   },
+   "2020": {
+    "observed_median": 0.2643,
+    "null_median": 0.2219,
+    "excess": 0.0424,
+    "mean_set_size": 3.46
+   },
+   "2021": {
+    "observed_median": 0.2694,
+    "null_median": 0.2237,
+    "excess": 0.0458,
+    "mean_set_size": 3.47
+   },
+   "2022": {
+    "observed_median": 0.2611,
+    "null_median": 0.2218,
+    "excess": 0.0393,
+    "mean_set_size": 3.43
+   },
+   "2023": {
+    "observed_median": 0.2523,
+    "null_median": 0.2156,
+    "excess": 0.0367,
+    "mean_set_size": 3.43
+   },
+   "2024": {
+    "observed_median": 0.2738,
+    "null_median": 0.2278,
+    "excess": 0.046,
+    "mean_set_size": 3.58
+   },
+   "2025": {
+    "observed_median": 0.2796,
+    "null_median": 0.2335,
+    "excess": 0.0461,
+    "mean_set_size": 3.67
+   },
+   "2026": {
+    "observed_median": 0.2837,
+    "null_median": 0.2418,
+    "excess": 0.0419,
+    "mean_set_size": 3.82
+   }
   }
  }
 }</script>
@@ -7629,7 +7913,7 @@ const LLMTRACE = __ISL("LLMTRACE");
   })();
 
   // ---- Fig 29c: convergence, words and objects ----
-  function convPanel(hostId, seriesIn, seriesCross, fixedIn, fixedCross, lo, hi, labIn, labCross, crossDashed) {
+  function convPanel(hostId, seriesIn, seriesCross, fixedIn, fixedCross, lo, hi, labIn, labCross, crossDashed, seriesNull, labNull) {
     const host = document.getElementById(hostId);
     if (!host) return;
     const W = 460, H = 290, padL = 44, padR = 86, padT = 18, padB = 34;
@@ -7645,6 +7929,10 @@ const LLMTRACE = __ISL("LLMTRACE");
       s += `<text x="${padL - 6}" y="${ys(g)}" text-anchor="end" dominant-baseline="middle" font-size="9" fill="#6d6657" font-family="${MONO}">${g.toFixed(2)}</text>`;
     }
     s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(seriesCross[i])).join(" ")}" fill="none" stroke="rgba(36,28,20,0.32)" stroke-width="1.6"${crossDashed ? ' stroke-dasharray="5 4"' : ""}/>`;
+    if (seriesNull) {
+      s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(seriesNull[i])).join(" ")}" fill="none" stroke="#8a5a1f" stroke-width="1.6" stroke-dasharray="5 4"><title>size-matched null: same set sizes, contents drawn at random from the year's mix</title></path>`;
+      s += `<text x="${xs(8) + 12}" y="${ys(seriesNull[8])}" dominant-baseline="middle" font-size="9" fill="#8a5a1f" font-family="${MONO}">${labNull}</text>`;
+    }
     s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(seriesIn[i])).join(" ")}" fill="none" stroke="#241c14" stroke-width="2.2" data-draw="1"/>`;
     YRS.forEach((y, i) => {
       s += `<circle cx="${xs(i)}" cy="${ys(seriesIn[i])}" r="2.8" fill="#241c14"><title>${y}: co-reviews of one paper, median ${seriesIn[i].toFixed(3)}; random cross-paper pairs ${seriesCross[i].toFixed(3)}</title></circle>`;
@@ -7666,9 +7954,55 @@ const LLMTRACE = __ISL("LLMTRACE");
     ["2024", "2025", "2026"].map(y => C.fixed_vocab_2024_2026[y].within.median),
     ["2024", "2025", "2026"].map(y => C.fixed_vocab_2024_2026[y].cross.median),
     0.05, 0.35, "same paper", "random", false);
+  const MIX = LLMTRACE.mix;
   convPanel("wm-conv-obj",
     YRS.map(y => J.within_forum_jaccard[y].median), YRS.map(y => J.cross_forum_jaccard[y].median),
-    null, null, 0.15, 0.32, "same paper", "random", true);
+    null, null, 0.15, 0.32, "same paper", "random", true,
+    MIX ? YRS.map(y => MIX.jaccard_size_null[y].null_median) : null, "size null");
+
+  // ---- Fig 29e: the structure holds still ----
+  (function still() {
+    const host = document.getElementById("wm-still");
+    if (!host || !MIX) return;
+    const panel = (series, lo, hi, fmt, endLab) => {
+      const W = 300, H = 150, padL = 40, padR = 14, padT = 26, padB = 22;
+      const xs = i => padL + i / (YRS.length - 1) * (W - padL - padR);
+      const ys = v => padT + (1 - (v - lo) / (hi - lo)) * (H - padT - padB);
+      let s = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block">`;
+      for (const g of [lo, (lo + hi) / 2, hi]) {
+        s += `<line x1="${padL}" y1="${ys(g)}" x2="${W - padR}" y2="${ys(g)}" stroke="rgba(36,28,20,0.08)" stroke-width="1"/>`;
+        s += `<text x="${padL - 5}" y="${ys(g)}" text-anchor="end" dominant-baseline="middle" font-size="8.5" fill="#6d6657" font-family="${MONO}">${fmt(g)}</text>`;
+      }
+      let lastLabY = -99;
+      for (const [vals, color, lab] of series) {
+        s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(vals[i])).join(" ")}" fill="none" stroke="${color}" stroke-width="2" data-draw="1"/>`;
+        YRS.forEach((y, i) => {
+          s += `<circle cx="${xs(i)}" cy="${ys(vals[i])}" r="2.4" fill="${color}"><title>${y}: ${fmt(vals[i])} — ${lab}</title></circle>`;
+        });
+        let ly = ys(vals[8]) - 8;
+        if (Math.abs(ly - lastLabY) < 11) ly = lastLabY + 11 + 8 + 8;
+        lastLabY = ly;
+        s += `<text x="${xs(8)}" y="${ly}" text-anchor="end" font-size="8.5" fill="${color}" font-family="${MONO}">${lab}</text>`;
+      }
+      s += `<text x="${xs(0)}" y="${H - 4}" font-size="8.5" fill="#6d6657" font-family="${MONO}">'18</text>`;
+      s += `<text x="${xs(8)}" y="${H - 4}" text-anchor="end" font-size="8.5" fill="#6d6657" font-family="${MONO}">'26</text>`;
+      if (endLab) s += `<text x="${padL}" y="${padT - 12}" font-size="8" letter-spacing="1" fill="#877f6e" font-family="${MONO}">${endLab}</text>`;
+      return s + `</svg>`;
+    };
+    const C2 = MIX.concentration;
+    const p1 = panel([[YRS.map(y => C2[y].object_entropy), "#241c14", "objects"],
+                      [YRS.map(y => C2[y].standard_entropy), "rgba(36,28,20,0.38)", "standards"]],
+                     0.86, 0.98, v => v.toFixed(2), null);
+    const p2 = panel([[YRS.map(y => C2[y].reviewer_attention_entropy_mean), "#241c14", "spread"]],
+                     0.68, 0.82, v => v.toFixed(2), null);
+    const gap = YRS.map(y => MIX.reasoning_within_forum[y].median - MIX.reasoning_cross_forum[y].median);
+    const p3 = panel([[gap, "#241c14", "co-review gap"]], 0, 0.05, v => v.toFixed(3), null);
+    host.innerHTML = `<div class="arc-grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+      <div><div class="rep-cap">MIX OF CRITICISM &middot; ENTROPY</div>${p1}</div>
+      <div><div class="rep-cap">ONE REVIEWER&#8217;S SPREAD &middot; ENTROPY</div>${p2}</div>
+      <div><div class="rep-cap">DISTILLED REASONING &middot; CO-REVIEW GAP</div>${p3}</div>
+    </div>`;
+  })();
 
   // ---- Fig 29d: the company the watermark keeps ----
   (function profile() {
