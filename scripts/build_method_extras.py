@@ -52,7 +52,7 @@ def main() -> None:
 <style>
 .hm-wrap { }
 .hm { display: grid; gap: 2px; }
-.hm .rl { font-size: 12.5px; color: var(--ink-2); display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; }
+.hm .rl { font-size: 12.5px; color: var(--ink-2); display: flex; align-items: center; justify-content: flex-end; text-align: right; line-height: 1.3; padding-right: 12px; }
 .hm .cl { font-family: var(--mono); font-size: 11px; color: var(--ink-2); justify-self: center; align-self: center; padding: 4px 0; }
 .hm .cell { height: 26px; }
 .hm .cell:hover { outline: 1px solid var(--brass); outline-offset: -1px; }
