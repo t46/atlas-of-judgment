@@ -3734,18 +3734,19 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       float fil = clamp(dot(n, normalize(vec3(0.6, 0.2, 0.7))), 0., 1.);
       float sky = clamp(0.5 + 0.5*n.y, 0., 1.);
       if (isGround(p)){
-        vec3 g = mix(vec3(0.88,0.845,0.762), vec3(0.828,0.780,0.678), clamp(t*0.10, 0., 1.) * (1.0 - 0.88*uPlate));
+        vec3 g = mix(vec3(0.88,0.845,0.762), vec3(0.828,0.780,0.678), clamp(t*0.10, 0., 1.) * (1.0 - uPlate));
         // (vellum texture parked — to be built properly later; keep the ground quiet for now)
         float press = 0.5 + 0.5*sin(p.x*1.7 + 1.1) * sin(p.z*1.3 - 0.4);
         float gr2 = fract(sin(dot(floor(p.xz*680.0), vec2(21.7, 91.3))) * 47531.0);
-        g *= 1.0 + 0.010*(press - 0.5);
-        g += vec3(0.045, 0.037, 0.026) * smoothstep(0.994, 1.0, gr2);
+        g *= 1.0 + 0.010*(press - 0.5)*(1.0 - uPlate);
+        g += vec3(0.045, 0.037, 0.026) * smoothstep(0.994, 1.0, gr2) * (1.0 - uPlate);
         // the act casts the archive: where the bone shades the page, the writing develops
         float shade = 1.0 - dif*sh;
         vec2 iuv = p.xz * 0.34 + 0.5;
         vec3 ink = texture(uInk, fract(iuv)).rgb;
         float near = exp(-dot(p.xz, p.xz) * 0.16);
-        float develop = mix(smoothstep(0.62, 0.95, shade) * uLift * near, (0.22 + 0.62*near) * near, uSink);
+        float develop = mix(smoothstep(0.62, 0.95, shade) * uLift * near, (0.22 + 0.62*near) * near, uSink)
+                      * (1.0 - uPlate);   // a finished plate sits on clean paper; the writing hands off to the prose below
         // the line now being weighed is written brightest, on its own row of the page
         float row = fract(iuv.y * 1.0);
         float band = exp(-pow((row - fract(uInkFocus)) * 26.0, 2.0));
@@ -3757,10 +3758,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
         // an engraver rules a shadow; he does not rule the sheet.
         float engG = max(uFlat, smoothstep(0.35, 0.95, uPlate));
         if (engG > 0.001){
-          float lumG = clamp(mix(0.30, 1.04, sh), 0., 1.);
-          float inkG = engraveInk(p.xz * 13.0, p.xz * vec2(11.0, 15.4) + 3.1, lumG);
-          // the cast shadow is a light tone on a plate, never heavier than the figure
-          vec3 printG = mix(g * 1.03, vec3(0.28, 0.23, 0.17), inkG * 0.44);
+          // On the finished plate the figure is printed ON the sheet — it is not an object
+          // standing above one. An engraver rules a shadow only while there is a body to
+          // cast it; once the burin has done its work there is no body, so the ground stops
+          // being ruled and the sheet is simply paper. What survives is the corpus writing
+          // itself, which by now is a tone on the page rather than a shape thrown onto it.
+          vec3 printG = g * 1.03;
           printG = mix(printG, printG * mix(vec3(1.0), ink, 0.9), develop * 0.9);
           col = mix(col, printG, engG);
         }
