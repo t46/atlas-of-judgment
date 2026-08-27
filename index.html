@@ -7494,7 +7494,7 @@ const LLMTRACE = __ISL("LLMTRACE");
 // ---------------- heatmap (Plate III) ----------------
 (function heatmap() {
   const hm = document.getElementById("heatmap");
-  hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, minmax(0,1fr))`;
+  hm.style.gridTemplateColumns = `236px repeat(${reaOrder.length}, minmax(0,1fr))`;
   hm.dataset.cols = reaOrder.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${REA_SHORT[r]}</div>`).join(""));
   for (const o of objOrder) {
@@ -8865,7 +8865,7 @@ const LLMTRACE = __ISL("LLMTRACE");
   covInk.innerHTML = `SCRUTINY RELOCATES, IT DOES NOT SHRINK — <span style="color:#2f4470">↓ ABANDONED UP THE LADDER:</span> NOVELTY ${Math.round(cov2.novelty.touch * 100)}→${Math.round(cov8.novelty.touch * 100)}%, BASELINES ${Math.round(cov2.baselines_ablations.touch * 100)}→${Math.round(cov8.baselines_ablations.touch * 100)}%, RELATED WORK · <span style="color:#8a5a1f">↑ INTENSIFIED:</span> THEORY, METHOD DESIGN, COMPUTE, ROBUSTNESS`;
   const hmWrap = hm.closest(".hm-wrap") || hm;
   hmWrap.parentNode.insertBefore(covInk, hmWrap);
-  hm.style.gridTemplateColumns = `230px repeat(${objOrder.length}, minmax(0,1fr))`;
+  hm.style.gridTemplateColumns = `236px repeat(${objOrder.length}, minmax(0,1fr))`;
   hm.dataset.cols = objOrder.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + objOrder.map(o => `<div class="cl">${OBJ_SHORT[o]}${covTrend(o)}</div>`).join(""));
   for (const r of covRatings) {
@@ -9343,7 +9343,7 @@ function showDissect(kind, key) {
 
 (function mercy() {
   const hm = document.getElementById("mercy");
-  hm.style.gridTemplateColumns = `230px repeat(${reaOrder.length}, minmax(0,1fr))`;
+  hm.style.gridTemplateColumns = `236px repeat(${reaOrder.length}, minmax(0,1fr))`;
   hm.dataset.cols = reaOrder.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${REA_SHORT[r]}</div>`).join(""));
   const negOf = {};
@@ -10049,7 +10049,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   function relayout() {
     const narrow = innerWidth < 700;
     for (const h of document.querySelectorAll(".hm")) {
-      if (h.dataset.cols) h.style.gridTemplateColumns = (narrow ? "86px" : "230px") + ` repeat(${h.dataset.cols}, minmax(0,1fr))`;
+      if (h.dataset.cols) h.style.gridTemplateColumns = (narrow ? "86px" : "236px") + ` repeat(${h.dataset.cols}, minmax(0,1fr))`;
     }
   }
   relayout();
@@ -14537,7 +14537,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
 (function grammarDrift() {
   const hm = document.getElementById("hm-drift");
   if (!hm || typeof NINE === "undefined") return;
-  hm.style.gridTemplateColumns = `${window.innerWidth < 880 ? "86px" : "230px"} repeat(${reaOrder.length}, minmax(0,1fr))`;
+  hm.style.gridTemplateColumns = `${window.innerWidth < 880 ? "86px" : "236px"} repeat(${reaOrder.length}, minmax(0,1fr))`;
   hm.dataset.cols = reaOrder.length;
   hm.insertAdjacentHTML("beforeend", `<div></div>` + reaOrder.map(r => `<div class="cl">${REA_SHORT[r]}</div>`).join(""));
   const FLOOR = NINE.floor95;
