@@ -68,6 +68,10 @@ td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
 .fm-box.acc { border-color: var(--brass); }
 .fm-box .t { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--ink); }
 .fm-box .s { font-family: var(--mono); font-size: 9px; color: var(--muted); line-height: 1.8; margin-top: 3px; }
+.fm-box { position: relative; }
+.fm-sec { position: absolute; top: 3px; right: 6px; font-family: var(--mono); font-size: 8px; letter-spacing: 0.08em; color: var(--brass); border-bottom: none; opacity: 0.7; }
+.fm-sec:hover, .fm-sec:focus-visible { opacity: 1; color: var(--ink); }
+.fm-box:has(.fm-sec:hover), .fm-box:has(.fm-sec:focus-visible) { border-color: var(--brass); }
 .fm-arrow { font-family: var(--mono); color: var(--brass); text-align: center; align-self: center; font-size: 14px; }
 .fm-arrow .lbl { display: block; font-size: 7.5px; letter-spacing: 0.02em; color: var(--muted); text-transform: uppercase; }
 .fm-row { display: grid; grid-template-columns: 1fr 44px 1fr 44px 1fr; gap: 6px; align-items: stretch; }
@@ -362,32 +366,32 @@ Both labeled unit databases (410,586 review-level units, ICLR 2026 · 1,009,592 
 <div class="fm-row">
   <div class="fm-box"><div class="t">OpenReview</div><div class="s">public API v1/v2<br>52,460 forums · 9 years</div></div>
   <div class="fm-arrow"><span class="g">→</span><span class="lbl">collect</span></div>
-  <div class="fm-box"><div class="t">Raw layer</div><div class="s">openreview.sqlite3<br>written once · immutable</div></div>
+  <div class="fm-box"><a class="fm-sec" href="#s1" title="Collection — the section that writes this layer">§01</a><div class="t">Raw layer</div><div class="s">openreview.sqlite3<br>written once · immutable</div></div>
   <div class="fm-arrow"><span class="g">→</span><span class="lbl">normalize</span></div>
-  <div class="fm-box"><div class="t">Layer I — the record</div><div class="s">analysis.sqlite3<br>papers 52,460 · messages 792,703</div></div>
+  <div class="fm-box"><a class="fm-sec" href="#s2" title="Normalization — the section that builds the record">§02</a><div class="t">Layer I — the record</div><div class="s">analysis.sqlite3<br>papers 52,460 · messages 792,703</div></div>
 </div>
 <div class="fm-down">↓ &nbsp; two memo tracks &nbsp; ↓</div>
 <div class="fm-pair">
   <div class="fm-col">
-    <div class="fm-box"><div class="t">Layer II — DeepSeek memos (Layered)</div><div class="s">initial_blind → trajectory → synthesis<br>ICLR 2026 · 151,193 memos · $314.42</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s3" title="Layer II — DeepSeek analytic memos">§03</a><div class="t">Layer II — DeepSeek memos (Layered)</div><div class="s">initial_blind → trajectory → synthesis<br>ICLR 2026 · 151,193 memos · $314.42</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><div class="t">Layer III — Qwen structuring</div><div class="s">compact schema · realtime API<br>74,380 / 75,859 reviews · $28.79</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s4" title="Layer III — Qwen structured units">§04</a><div class="t">Layer III — Qwen structuring</div><div class="s">compact schema · realtime API<br>74,380 / 75,859 reviews · $28.79</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><div class="t">Unit database — 2026 track</div><div class="s">410,586 logic units<br>review-level · scores joinable</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s6" title="Unit extraction">§06</a><div class="t">Unit database — 2026 track</div><div class="s">410,586 logic units<br>review-level · scores joinable</div></div>
   </div>
   <div class="fm-col">
-    <div class="fm-box"><div class="t">Layer II — DeepSeek memos (Direct)</div><div class="s">whole forum, one pass<br>2018–2026 · 51,813 memos · $194.75</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s3" title="Layer II — DeepSeek analytic memos">§03</a><div class="t">Layer II — DeepSeek memos (Direct)</div><div class="s">whole forum, one pass<br>2018–2026 · 51,813 memos · $194.75</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><div class="t">Layer III — Qwen structuring</div><div class="s">direct schema + 24k/32k retries<br>50,861 / 51,813 forums · $74.80</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s4" title="Layer III — structuring, plus §05 retries & merging">§04–05</a><div class="t">Layer III — Qwen structuring</div><div class="s">direct schema + 24k/32k retries<br>50,861 / 51,813 forums · $74.80</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><div class="t">Unit database — 2018–2026 track</div><div class="s">1,009,592 logic units<br>forum-level · temporal fields</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s6" title="Unit extraction">§06</a><div class="t">Unit database — 2018–2026 track</div><div class="s">1,009,592 logic units<br>forum-level · temporal fields</div></div>
   </div>
 </div>
 <div class="fm-bridge">
   <div class="fm-down">↓ &nbsp; induced from a 12k sample of the 2026 track · applied to both &nbsp; ↓</div>
-  <div class="fm-box acc"><div class="t">Taxonomy v1</div><div class="s">UMAP + HDBSCAN + human naming<br>12 objects × 12 standards</div></div>
+  <div class="fm-box acc"><a class="fm-sec" href="#s6" title="Taxonomy induction, and §07 instrument checks">§06–07</a><div class="t">Taxonomy v1</div><div class="s">UMAP + HDBSCAN + human naming<br>12 objects × 12 standards</div></div>
   <div class="fm-down">↓</div>
-  <div class="fm-box acc"><div class="t">THE ATLAS</div><div class="s">aggregates → plates</div></div>
+  <div class="fm-box acc"><a class="fm-sec" href="#s11" title="Where each plate came from">§11</a><div class="t">THE ATLAS</div><div class="s">aggregates → plates</div></div>
 </div>
 </div>
 
@@ -726,11 +730,13 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 <p>The table below records, for every plate, the question it answers and what we can honestly say about when that question was formed. It exists so that a reader can tell the difference between a question we asked and then answered, and a description we produced and then found interesting. "Not recorded" is a real answer and appears where it appears honestly. Where a record exists, it was recovered from the project's own working history — the full conversation log between the researcher and the assistant, timestamped — not from memory. The log is kept in Japanese; the excerpts quoted below are translated. That log will stay private (decided 2026-08-27): the code-side session history is published in <code>codex-history/</code>, but the conversation log contains material that cannot be responsibly scrubbed at full length, so the dated excerpts quoted in this table are the parts of it that appear. Reconstructing a motive with no record would be exactly the practice this table is meant to prevent.</p>
 <ul class="pv-key"><li><b>stated first</b> — the question was written down before the numbers existed</li><li><b>foundational</b> — built together with the taxonomy itself; no separate hypothesis</li><li><b>exploratory</b> — run because the data allowed the description; nothing predicted</li><li><b>part stated</b> — partly specified in advance, partly added afterwards</li><li><b>not recorded</b> — we do not have a reliable record of what prompted it, and are not going to invent one</li></ul>
 <p style="margin-top:4px">The tally over all 33 ledger rows, before the row-by-row record — a one-glance answer to "how honest is this project about its own process":</p>
+<div class="diagram" style="margin-top:2px">
 <div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">16 stated first<span class="s">question on record before the numbers</span></div></div>
 <div class="fun-row"><div><div class="fun-bar" style="width:56.3%;background:#72654f"></div></div><div class="fun-lbl">9 not recorded<span class="s">and not reconstructed</span></div></div>
 <div class="fun-row"><div><div class="fun-bar" style="width:25%;background:#a3803f"></div></div><div class="fun-lbl">4 part stated<span class="s">seed on record, final design not</span></div></div>
 <div class="fun-row"><div><div class="fun-bar" style="width:18.8%;background:#5b4d3a"></div></div><div class="fun-lbl">3 foundational<span class="s">built with the taxonomy itself</span></div></div>
 <div class="fun-row"><div><div class="fun-bar" style="width:6.3%;background:#b45036"></div></div><div class="fun-lbl">1 exploratory<span class="s">descriptive, nothing predicted</span></div></div>
+</div>
 <div class="pv-wrap"><table class="pv-table">
 <thead><tr><th>Plate</th><th>The question it answers</th><th>Provenance</th><th>Notes</th></tr></thead>
 <tbody>
@@ -774,8 +780,8 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 .pv-wrap { max-width: 100%; }
 .pv-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .pv-table td:nth-child(1) { width: 20%; } .pv-table td:nth-child(2) { width: 30%; } .pv-table td:nth-child(3) { width: 12%; white-space: nowrap; } .pv-table td:nth-child(4) { width: 38%; }
-.pv-table th { text-align: left; font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); }
-.pv-table td { padding: 7px 10px 7px 0; border-bottom: 1px solid rgba(36,28,20,.05); vertical-align: top; }
+.pv-table th { text-align: left; font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); padding: 6px 12px; border-bottom: 1px solid var(--line); }
+.pv-table td { padding: 8px 12px; border-bottom: 1px solid rgba(36,28,20,.05); vertical-align: top; }
 .pv-table td:first-child { color: var(--ink); }
 .pv-st { color: #356b43; } .pv-fo { color: #8a5a1f; } .pv-ex { color: #6b5d94; } .pv-ps { color: #7c5f10; } .pv-nr { color: var(--muted); }
 /* on a phone the ledger stacks like every other table on this page */
