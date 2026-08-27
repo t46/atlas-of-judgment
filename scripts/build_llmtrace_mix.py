@@ -13,6 +13,7 @@ Appends a "mix" section to llmtrace-data.json.
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -21,6 +22,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 DIRECT = ROOT / "data" / "analysis" / "iclr" / "unit-taxonomy-direct-v1"
+CORPUS = ROOT / "data" / "processed" / "iclr" / "analysis.sqlite3"
 OUT = ROOT / "data" / "analysis" / "iclr" / "unit-taxonomy-2026-v1" / "llmtrace-data.json"
 YEARS = list(range(2018, 2027))
 RNG = np.random.default_rng(20260827)
@@ -35,6 +37,121 @@ def norm_entropy(counts: np.ndarray, k: int) -> float:
 def hhi(counts: np.ndarray) -> float:
     p = counts / counts.sum()
     return float((p ** 2).sum())
+
+
+def attention_null(by_year: dict[int, list]) -> dict:
+    """Addendum H: n-matched null for the per-reviewer attention entropy.
+
+    Same reviewers, same unit counts n, units drawn iid (with replacement)
+    from the year's own object mix. If the null rises like the observed
+    series, the "reviewer spread widened" reading is mechanical (n-driven);
+    only the observed-minus-null excess is interpretable. Fresh RNG so the
+    numbers are reproducible independently of the sections above.
+    """
+    rng = np.random.default_rng(20260827)
+
+    def norm_h(counts: np.ndarray) -> float:
+        n = counts.sum()
+        p = counts[counts > 0] / n
+        return float(-(p * np.log2(p)).sum() / np.log2(min(12, n)))
+
+    out = {}
+    for y in YEARS:
+        yr = by_year[y]
+        objs = sorted({r[4] for r in yr})
+        mixc = Counter(r[4] for r in yr)
+        p = np.array([mixc[o] for o in objs], float)
+        p /= p.sum()
+        per_rev: dict[tuple, Counter] = defaultdict(Counter)
+        for _, forum, rk, _, ok, _ in yr:
+            per_rev[(forum, rk)][ok] += 1
+        ns, obs = [], []
+        for cnt in per_rev.values():
+            n = sum(cnt.values())
+            if n >= 5:
+                ns.append(n)
+                obs.append(norm_h(np.array(list(cnt.values()), float)))
+        obs_mean = float(np.mean(obs))
+        null_means = []
+        for _ in range(5):
+            vals = []
+            for n in ns:
+                draw = rng.choice(len(objs), size=n, replace=True, p=p)
+                c = np.bincount(draw, minlength=len(objs)).astype(float)
+                vals.append(norm_h(c))
+            null_means.append(float(np.mean(vals)))
+        null_mean = float(np.mean(null_means))
+        out[str(y)] = {
+            "observed": round(obs_mean, 4),
+            "null_mean": round(null_mean, 4),
+            "excess": round(obs_mean - null_mean, 4),
+            "mean_n": round(float(np.mean(ns)), 2),
+        }
+        print(y, "attnull", out[str(y)])
+    return out
+
+
+HEADER = re.compile(r"^\[([a-z0-9_,:. ]+)\]$")
+
+
+def _free_text(ct: str, keep: set[str]) -> str:
+    out, keeping = [], False
+    for line in ct.splitlines():
+        m = HEADER.match(line.strip())
+        if m:
+            keeping = m.group(1) in keep
+            continue
+        if keeping:
+            out.append(line)
+    return "\n".join(out)
+
+
+def section_convergence() -> dict:
+    """Addendum H: the fixed-vocab within-paper cosine (Fig 29c) decomposed by
+    review section — summary vs weaknesses+questions — over the constant-form
+    window 2024-2026. Same pipeline as the headline series: one vocabulary per
+    variant fit across all three years, sublinear tf, min_df=5, max 100k."""
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.preprocessing import normalize
+
+    years = (2024, 2025, 2026)
+    con = sqlite3.connect(f"file:{CORPUS}?mode=ro&immutable=1", uri=True)
+    data: dict[int, list] = {}
+    for year in years:
+        rows = con.execute(
+            "SELECT forum_id, content_text FROM messages "
+            "WHERE year=? AND kind='official_review'", (year,)).fetchall()
+        data[year] = [
+            {"forum": forum,
+             "summ": _free_text(ct or "", {"summary"}),
+             "crit": _free_text(ct or "", {"weaknesses", "questions"})}
+            for forum, ct in rows]
+    con.close()
+
+    out = {str(y): {} for y in years}
+    for variant, label in (("summ", "summary"), ("crit", "criticism")):
+        vec = TfidfVectorizer(lowercase=True, sublinear_tf=True, min_df=5,
+                              max_features=100_000, token_pattern=r"[a-z]{2,}")
+        vec.fit([r[variant] for y in years for r in data[y]])
+        for y in years:
+            recs = data[y]
+            X = normalize(vec.transform([r[variant] for r in recs]))
+            by_forum = defaultdict(list)
+            for i, r in enumerate(recs):
+                by_forum[r["forum"]].append(i)
+            forum_means = []
+            for idxs in by_forum.values():
+                if len(idxs) < 2:
+                    continue
+                g = (X[idxs] @ X[idxs].T).toarray()
+                forum_means.append(float(np.mean(
+                    [g[i, j] for i in range(len(idxs))
+                     for j in range(i + 1, len(idxs))])))
+            out[str(y)][f"{label}_within"] = round(float(np.median(forum_means)), 4)
+            out[str(y)][f"{label}_mean_words"] = round(float(np.mean(
+                [len(r[variant].split()) for r in recs])), 1)
+        print(label, {y: out[str(y)][f"{label}_within"] for y in years})
+    return out
 
 
 def main() -> None:
@@ -200,14 +317,19 @@ def main() -> None:
         }
         print(y, "jacnull", jaccard_null[str(y)])
 
+    att_null = attention_null(by_year)
+    sect = section_convergence()
+
     d = json.loads(OUT.read_text())
     d["mix"] = {
-        "plan": "notes/llm-era-analysis-plan.md addendum E+F (frozen before computation)",
+        "plan": "notes/llm-era-analysis-plan.md addendum E+F (frozen before computation) + addendum H (audit nulls)",
         "concentration": mix,
         "reasoning_dispersion": disp,
         "reasoning_within_forum": within,
         "reasoning_cross_forum": cross,
         "jaccard_size_null": jaccard_null,
+        "attention_null": att_null,
+        "section_convergence": sect,
     }
     OUT.write_text(json.dumps(d, indent=1))
     print(f"wrote {OUT} ({OUT.stat().st_size/1024:.0f} KB)")

@@ -99,7 +99,7 @@ def main() -> None:
     html = f"""{BEGIN}
 {css}
 
-<div class="no" id="s10">10</div>
+<div class="no" id="s7">07</div>
 <h2>Instrument checks — reading the reader</h2>
 <p>Everything above describes how the data was made; this section asks how far the machine reading can be trusted. Two checks, both computed from the shipped unit databases. They are also shown in the atlas, but they belong here: they are statements about the instrument, not findings about reviewers.</p>
 
@@ -149,7 +149,7 @@ const MX = {data_js};
     vals.forEach((v, i) => {{
       const cell = document.createElement("div");
       cell.className = "cell";
-      cell.style.background = `color-mix(in oklab, #8b84cf ${{Math.round(v * 130)}}%, #161324)`;
+      cell.style.background = `color-mix(in oklab, #6b5d94 ${{Math.min(92, Math.round(4 + v * 96))}}%, #f3ead2)`;
       cell.title = `${{objLabel[o]}} · ${{R.years[i]}}: ${{pct(v)}} memo-inferred`;
       rel.appendChild(cell);
     }});
@@ -164,10 +164,10 @@ const MX = {data_js};
     con.insertAdjacentHTML("beforeend", `<div class="rl">${{objLabel[o]}}</div>`);
     for (const sub of SUBS) {{
       const v = (MX.construct[o] || {{}})[sub] || 0;
-      const mag = Math.min(92, Math.round(Math.abs(v) / 0.35 * 100));
+      const mag = Math.min(92, Math.round(6 + Math.abs(v) / 0.35 * 86));
       const cell = document.createElement("div");
       cell.className = "cell";
-      cell.style.background = `color-mix(in oklab, ${{v < 0 ? "#b45036" : "#2fa383"}} ${{mag}}%, #161324)`;
+      cell.style.background = `color-mix(in oklab, ${{v < 0 ? "#6f1f45" : "#356b43"}} ${{mag}}%, #f3ead2)`;
       cell.title = `negative ${{objLabel[o]}} unit × ${{sub}}: Δ mean = ${{v > 0 ? "+" : ""}}${{v.toFixed(3)}} (rating-adjusted)`;
       con.appendChild(cell);
     }}
@@ -182,20 +182,29 @@ const MX = {data_js};
 
     s = METHOD.read_text()
     if BEGIN in s and END in s:
+        # The replace below is wholesale: anything sitting inside the markers is destroyed.
+        # Hand-written sections have drifted in here before (the provenance ledger among
+        # them), so refuse rather than silently delete work this script cannot regenerate.
+        import re as _re
+        cur = s[s.index(BEGIN) : s.index(END)]
+        orphans = [i for i in _re.findall(r'<h[23][^>]*\bid="([^"]+)"', cur)
+                   if f'id="{i}"' not in html]
+        if orphans:
+            raise SystemExit(
+                "refusing to overwrite METHOD-EXTRAS: the block contains section(s) this "
+                "script does not generate and would delete: " + ", ".join(orphans) +
+                ". Move them below the METHOD-EXTRAS END marker first."
+            )
         s = s[: s.index(BEGIN)] + html + s[s.index(END) + len(END) + 1 :]
     else:
         assert "<footer>" in s
         s = s.replace("<footer>", html + "\n<footer>", 1)
 
     # TOC entries
-    s = s.replace('  <a href="#s11"><span class="tno">11</span>Raw specimens — the reading, inspectable</a>\n', '', 1)
-    if "#s10" not in s:
-        s = s.replace(
-            '  <a href="#s9"><span class="tno">09</span>Cost ledger</a>\n</div>',
-            '  <a href="#s9"><span class="tno">09</span>Cost ledger</a>\n'
-            '  <a href="#s10"><span class="tno">10</span>Instrument checks — reading the reader</a>\n</div>',
-            1,
-        )
+    # The page's contents are hand-maintained since the four-part restructure of
+    # 2026-08-26; this block is section 07 there. Assert rather than re-insert, so a
+    # future renumbering that forgets this file fails loudly instead of drifting.
+    assert '<a href="#s7">' in s, "method.html has no #s7 entry — the contents and this generator disagree"
     # footer scope line
     s = s.replace("<span>Scope: data creation only</span>", "<span>Scope: data creation &amp; instrument validation</span>", 1)
 

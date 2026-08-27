@@ -115,6 +115,63 @@ h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.28em; text-tra
   .step:first-child { border-top: none; } }
 .fig-cap { font-size: 12px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.65; }
 
+/* ------------------------------------------- the conspectus: one-plate view */
+/* the whole pipeline engraved in a strip: record → unit → taxonomy → plates */
+.cd-inner { padding: 22px 20px 20px; }
+.cd-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); text-align: center; }
+.cd-lat { font-style: italic; font-size: 12px; color: var(--ink-2); text-align: center; margin-top: 4px; }
+.cd-flow { display: flex; align-items: stretch; justify-content: center; gap: 2px; margin-top: 20px; }
+.cd-st { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 0 4px; }
+.cd-g { width: 84px; height: 84px; display: block; }
+.cd-k { font-family: var(--display); font-size: 19px; color: var(--ink); margin-top: 9px; line-height: 1.1; }
+.cd-d { font-size: 11.5px; color: var(--ink-2); line-height: 1.55; margin-top: 5px; max-width: 22ch; }
+.cd-n { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; color: var(--brass);
+  margin-top: 8px; text-transform: uppercase; line-height: 1.9; }
+.cd-arr { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding-top: 36px; width: 54px; }
+.cd-arr span { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap; }
+.cd-arr .cd-ah { width: 38px; height: 10px; display: block; }
+.cd-arr .cd-av { display: none; width: 10px; height: 24px; }
+/* glyph strokes: engraver's hairlines from the page's own inks */
+.cd-ln  { fill: none; stroke: rgba(36,28,20,0.62); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.cd-lnf { fill: none; stroke: rgba(36,28,20,0.30); stroke-width: 1; stroke-linecap: round; }
+.cd-br  { fill: none; stroke: var(--brass); stroke-width: 1.2; stroke-linecap: round; }
+.cd-cell   { fill: rgba(138,90,31,0.68); }
+.cd-cell-f { fill: rgba(138,90,31,0.22); }
+.cd-page   { fill: rgba(248,241,224,0.9); }
+.cd-t { font: 500 7px var(--mono); fill: var(--muted); text-anchor: middle; letter-spacing: 0.05em; }
+/* the strip draws itself in, station by station, once the frame is witnessed */
+.cd-frame .cd-draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s var(--ease-settle); }
+.cd-frame.in .cd-draw { stroke-dashoffset: 0; }
+.cd-frame .cd-fade { opacity: 0; transition: opacity 0.8s ease; }
+.cd-frame.in .cd-fade { opacity: 1; }
+.cd-flow > :nth-child(1) .cd-draw { transition-delay: 0.15s }
+.cd-flow > :nth-child(3) .cd-draw { transition-delay: 0.55s }
+.cd-flow > :nth-child(5) .cd-draw { transition-delay: 0.95s }
+.cd-flow > :nth-child(7) .cd-draw { transition-delay: 1.35s }
+.cd-flow > :nth-child(1) .cd-fade { transition-delay: 0.7s }
+.cd-flow > :nth-child(3) .cd-fade { transition-delay: 1.1s }
+.cd-flow > :nth-child(5) .cd-fade { transition-delay: 1.5s }
+.cd-flow > :nth-child(7) .cd-fade { transition-delay: 1.9s }
+.cd-arr { opacity: 0; transition: opacity 0.6s ease; }
+.cd-frame.in .cd-arr { opacity: 1; }
+.cd-flow > :nth-child(2) { transition-delay: 0.5s } .cd-flow > :nth-child(4) { transition-delay: 0.9s }
+.cd-flow > :nth-child(6) { transition-delay: 1.3s }
+@media (max-width: 760px) {
+  .cd-flow { flex-direction: column; align-items: center; gap: 14px; margin-top: 16px; }
+  .cd-st { padding: 0; }
+  .cd-arr { padding-top: 0; width: auto; }
+  .cd-arr .cd-ah { display: none; }
+  .cd-arr .cd-av { display: block; }
+}
+@media (prefers-reduced-motion: reduce), print {
+  .cd-frame .cd-draw { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; transition: none !important; }
+  .cd-frame .cd-fade, .cd-arr { opacity: 1 !important; transition: none !important; }
+}
+
 .layers { display: flex; flex-direction: column; margin-top: 14px; }
 .layer { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 15px 0;
   border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; color: var(--ink-2); }
@@ -296,6 +353,89 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <p class="lede rv">The <a href="index.html">Atlas of Judgment</a> is a metascience instrument: every public peer review of ICLR — the International Conference on Learning Representations — decomposed into atomic units of evaluative logic and mapped at scale. Not <em>what did reviewers decide</em>, but <em>how did they think</em>.</p>
   <p class="rv drop">Peer review decides what counts as knowledge in machine learning. It runs on the unpaid attention of tens of thousands of people, it is argued about constantly, and remarkably little is known about its interior. What is visible from outside is the output — a score, an accept, a reject — the way a verdict is visible while the deliberation behind it is not. This project is an attempt to open the deliberation and describe it.</p>
   <p class="rv">The result is 1,420,178 atomic units of reviewer reasoning, drawn from nine years of ICLR and arranged into thirty-three plates. It is not an argument about peer review. It is a description of it, and it was built so that any part of the description can be taken apart by someone who doubts it.</p>
+
+  <div class="frame rv cd-frame" role="figure" aria-label="Concept diagram: the public record is dissected into four-part units, the units are classified into a 12 by 12 taxonomy, and the taxonomy is counted and drawn into 33 plates.">
+    <div class="frame-inner cd-inner">
+      <div class="cd-eyebrow">The whole instrument, at a glance</div>
+      <div class="cd-lat">conspectus totius operis</div>
+      <div class="cd-flow">
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="22" y="10" width="42" height="56"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="19" y="14" width="42" height="56"/>
+            <rect class="cd-ln cd-page cd-draw" pathLength="1" x="16" y="18" width="42" height="56"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M21 28H53M21 35H53M21 42H53M21 56H53M21 63H53"/>
+            <path class="cd-br cd-draw" pathLength="1" d="M21 49H53"/>
+          </svg>
+          <div class="cd-k">The record</div>
+          <div class="cd-d">Nine years of ICLR, public on OpenReview — every review, rebuttal, and verdict, rejected papers included.</div>
+          <div class="cd-n">52,460 submissions<br>792,703 messages</div>
+        </div>
+        <div class="cd-arr"><span>dissected</span>
+          <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
+          <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
+        </div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <path class="cd-br cd-draw" pathLength="1" d="M10 16H74"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M15 20V41M33 20V41M51 20V41M69 20V41"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="15" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="33" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="51" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="69" cy="48" r="5.5"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M22 45l3.5 3-3.5 3M40 45l3.5 3-3.5 3M58 45l3.5 3-3.5 3"/>
+            <text class="cd-t cd-fade" x="15" y="50.6">i</text>
+            <text class="cd-t cd-fade" x="33" y="50.6">ii</text>
+            <text class="cd-t cd-fade" x="51" y="50.6">iii</text>
+            <text class="cd-t cd-fade" x="69" y="50.6">iv</text>
+          </svg>
+          <div class="cd-k">The unit</div>
+          <div class="cd-d">Each criticism cut into one movement of a reviewer&#8217;s mind: inspected &#183; observed &#183; reasoned &#183; judged.</div>
+          <div class="cd-n">1,420,178 units</div>
+        </div>
+        <div class="cd-arr"><span>classified</span>
+          <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
+          <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
+        </div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <path class="cd-lnf cd-draw" pathLength="1" d="M15.3 10V74M20.7 10V74M26 10V74M31.3 10V74M36.7 10V74M42 10V74M47.3 10V74M52.7 10V74M58 10V74M63.3 10V74M68.7 10V74"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M10 15.3H74M10 20.7H74M10 26H74M10 31.3H74M10 36.7H74M10 42H74M10 47.3H74M10 52.7H74M10 58H74M10 63.3H74M10 68.7H74"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="10" y="10" width="64" height="64"/>
+            <g class="cd-fade">
+              <rect class="cd-cell" x="10.9" y="10.9" width="3.5" height="3.5"/><rect class="cd-cell" x="16.2" y="16.2" width="3.5" height="3.5"/><rect class="cd-cell" x="21.6" y="21.6" width="3.5" height="3.5"/><rect class="cd-cell" x="26.9" y="26.9" width="3.5" height="3.5"/><rect class="cd-cell" x="32.2" y="32.2" width="3.5" height="3.5"/><rect class="cd-cell" x="37.6" y="37.6" width="3.5" height="3.5"/><rect class="cd-cell" x="42.9" y="42.9" width="3.5" height="3.5"/><rect class="cd-cell" x="48.2" y="48.2" width="3.5" height="3.5"/><rect class="cd-cell" x="53.6" y="53.6" width="3.5" height="3.5"/><rect class="cd-cell" x="58.9" y="58.9" width="3.5" height="3.5"/><rect class="cd-cell" x="64.2" y="64.2" width="3.5" height="3.5"/><rect class="cd-cell" x="69.6" y="69.6" width="3.5" height="3.5"/>
+              <rect class="cd-cell-f" x="26.9" y="10.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="48.2" y="21.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="16.2" y="32.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="58.9" y="37.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="32.2" y="48.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="64.2" y="26.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="69.6" y="58.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="42.9" y="64.2" width="3.5" height="3.5"/>
+            </g>
+          </svg>
+          <div class="cd-k">The taxonomy</div>
+          <div class="cd-d">Every unit assigned in a grammar induced from the data: 12 objects of scrutiny &#215; 12 reasoning standards.</div>
+          <div class="cd-n">144 cells</div>
+        </div>
+        <div class="cd-arr"><span>counted, drawn</span>
+          <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
+          <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
+        </div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-42 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(42 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-30 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(30 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-18 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(18 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-6 42 76)"/>
+            <rect class="cd-ln cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(6 42 76)"/>
+            <circle class="cd-br cd-draw" pathLength="1" cx="42" cy="34" r="3.2" transform="rotate(6 42 76)"/>
+          </svg>
+          <div class="cd-k">The atlas</div>
+          <div class="cd-d">Every figure a count of units &#8212; and every number a door, opening back down to a reviewer&#8217;s sentence.</div>
+          <div class="cd-n">33 plates &#183; 8 acts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="fig-cap rv">The whole project in one strip: the public record, the four-part unit it is dissected into, the 12&#160;&#215;&#160;12 grammar each unit is filed under, and the plates that count them. Read backwards, it is the route of doubt: any number on any plate descends, step by step, to the reviewer sentences beneath it.</p>
+
   <h3 class="rv">Why a theatre</h3>
   <p class="rv">The shape of this page is borrowed from a building. In 1594 the university at Leiden raised a <em>theatrum anatomicum</em>: tiers of standing room in a tight ring, so that one body could be opened in front of witnesses and drawn. Peer review is that room with a paper on the table — a thing examined in public, by people who will say what they saw. This project is the same room turned one quarter further: the instrument pointed back at the hands that hold it.</p>
   <p class="rv">The crowd in the tiers above is not decoration. Each mark is one unit of reviewer reasoning, roughly one in every hundred the atlas holds, and the colours are their verdicts in the true proportion — overwhelmingly ink, because the corpus is overwhelmingly critical. Section <b>VI</b> explains how much of that is peer review and how much is the instrument.</p>

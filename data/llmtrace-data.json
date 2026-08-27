@@ -1778,7 +1778,7 @@
   }
  },
  "mix": {
-  "plan": "notes/llm-era-analysis-plan.md addendum E+F (frozen before computation)",
+  "plan": "notes/llm-era-analysis-plan.md addendum E+F (frozen before computation) + addendum H (audit nulls)",
   "concentration": {
    "2018": {
     "n_units": 12369,
@@ -2048,6 +2048,82 @@
     "null_median": 0.2418,
     "excess": 0.0419,
     "mean_set_size": 3.82
+   }
+  },
+  "attention_null": {
+   "2018": {
+    "observed": 0.7422,
+    "null_mean": 0.788,
+    "excess": -0.0457,
+    "mean_n": 6.48
+   },
+   "2019": {
+    "observed": 0.739,
+    "null_mean": 0.7919,
+    "excess": -0.0529,
+    "mean_n": 6.49
+   },
+   "2020": {
+    "observed": 0.7498,
+    "null_mean": 0.7955,
+    "excess": -0.0457,
+    "mean_n": 6.53
+   },
+   "2021": {
+    "observed": 0.7523,
+    "null_mean": 0.7967,
+    "excess": -0.0444,
+    "mean_n": 6.43
+   },
+   "2022": {
+    "observed": 0.7507,
+    "null_mean": 0.7988,
+    "excess": -0.0482,
+    "mean_n": 6.4
+   },
+   "2023": {
+    "observed": 0.7617,
+    "null_mean": 0.8056,
+    "excess": -0.0439,
+    "mean_n": 6.34
+   },
+   "2024": {
+    "observed": 0.7547,
+    "null_mean": 0.8027,
+    "excess": -0.048,
+    "mean_n": 6.57
+   },
+   "2025": {
+    "observed": 0.7558,
+    "null_mean": 0.8024,
+    "excess": -0.0466,
+    "mean_n": 6.63
+   },
+   "2026": {
+    "observed": 0.766,
+    "null_mean": 0.8038,
+    "excess": -0.0378,
+    "mean_n": 6.68
+   }
+  },
+  "section_convergence": {
+   "2024": {
+    "summary_within": 0.2801,
+    "summary_mean_words": 88.8,
+    "criticism_within": 0.1608,
+    "criticism_mean_words": 273.3
+   },
+   "2025": {
+    "summary_within": 0.3102,
+    "summary_mean_words": 87.3,
+    "criticism_within": 0.172,
+    "criticism_mean_words": 293.5
+   },
+   "2026": {
+    "summary_within": 0.3357,
+    "summary_mean_words": 92.6,
+    "criticism_within": 0.1708,
+    "criticism_mean_words": 274.8
    }
   }
  }

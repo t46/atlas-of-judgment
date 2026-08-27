@@ -120,8 +120,33 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 .col-links a:hover { color: var(--ink); }
 .col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
 
+/* --------------------------------------------- the holdings — every island drawn to scale */
+.holdings { margin: 22px 0 0; border: 1px solid var(--brass-line); background: rgba(248,241,224,0.55); }
+.holdings-cap { display: block; padding: 14px 18px 0; }
+.holdings-cap .hc-eb { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--brass); }
+.holdings-cap .hc-note { display: block; font-size: 12.5px; color: var(--ink-2); line-height: 1.6;
+  margin-top: 6px; max-width: 70ch; }
+.holdings-stage { padding: 6px 10px 4px; }
+.holdings-stage svg { display: block; width: 100%; height: auto; }
+.holdings .isl { transform: scale(0); opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; }
+.holdings.on .isl { transform: scale(1); opacity: 1; }
+.holdings .isl-base { transition: stroke-dashoffset 1.4s ease 0.1s; }
+.holdings .isl-note { opacity: 0; transition: opacity 0.7s ease 0.9s; }
+.holdings.on .isl-note { opacity: 1; }
+.holdings a { border: none; }
+@media (prefers-reduced-motion: reduce) {
+  .holdings .isl, .holdings .isl-base, .holdings .isl-note { transition: none; }
+  .holdings .isl { transform: scale(1); opacity: 1; }
+  .holdings .isl-note { opacity: 1; }
+}
+
 /* --------------------------------------------------------------------------------- print */
 @media print {
+  .holdings .isl { transform: none !important; opacity: 1 !important; }
+  .holdings .isl-note { opacity: 1 !important; }
+  .holdings .isl-base { stroke-dashoffset: 0 !important; }
   #topbar { position: static; }
   .band { box-shadow: none; }
   .table-wrap { max-height: none; overflow: visible; border: 1px solid #999; }
@@ -175,9 +200,23 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   </div>
   <p class="spec">File sizes on the Hub are not mirrored here — check the dataset card on Hugging Face for current per-file sizes.</p>
 
-  <h3>Data islands — the 47 aggregate files behind the plates</h3>
+  <h3>Data islands — the 48 aggregate files behind the plates</h3>
   <p>Each file is the exact JSON a plate's charts are built from — same data, same source, just
   detached from the page. Sizes and contents below are read directly off the published files.</p>
+
+  <figure class="holdings" id="holdings-fig">
+    <figcaption class="holdings-cap">
+      <span class="hc-eb">The holdings, drawn to scale</span>
+      <span class="hc-note">Every data island as a circle whose <em>area</em> is its exact weight on
+      disk, read live from the table below. Two files — the taxonomy point-cloud and the core
+      taxonomy tables — carry <span id="hc-share">90%</span> of the atlas&#8217;s
+      <span id="hc-total">5.16&#8202;MB</span>; the other <span id="hc-rest-n">46</span>, together,
+      weigh <span id="hc-rest-mb">half a megabyte</span>. The two drawn dashed are collected but not
+      yet rendered on any plate. Each circle links to its file.</span>
+    </figcaption>
+    <div class="holdings-stage" id="holdings-stage"></div>
+  </figure>
+
   <div class="table-wrap">
   <table>
     <thead><tr><th>File</th><th>Size</th><th>Feeds</th><th>Contents</th></tr></thead>
@@ -206,7 +245,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
       <tr><td class="mono" data-label="File"><a href="api/v1/data/jurisprudence-data.json">jurisprudence-data.json</a></td><td class="num" data-label="Size">3.7 KB</td><td data-label="Feeds">Plates X, XIV</td><td data-label="Contents">Maps reasoning standards to the objects they're applied to and the verdict severity that follows.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/lawtariff-data.json">lawtariff-data.json</a></td><td class="num" data-label="Size">8.2 KB</td><td data-label="Feeds">Plate XIV</td><td data-label="Contents">The score cost of each criticism type, modeled as a volume-response slope.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/lifecycle-data.json">lifecycle-data.json</a></td><td class="num" data-label="Size">1.8 KB</td><td data-label="Feeds">Plate XIX</td><td data-label="Contents">Whether an objection persists, gets addressed, or drops across the rebuttal cycle, by object.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/llmtrace-data.json">llmtrace-data.json</a></td><td class="num" data-label="Size">28.8 KB</td><td data-label="Feeds">Plate XXIX</td><td data-label="Contents">LLM-era traces over 199,031 raw reviews 2018–2026: frozen marker-word excess per year, co-review convergence, and the marked-review profile battery.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/llmtrace-data.json">llmtrace-data.json</a></td><td class="num" data-label="Size">36.3 KB</td><td data-label="Feeds">Plate XXIX</td><td data-label="Contents">LLM-era traces over 199,031 raw reviews 2018–2026: frozen marker-word excess per year, co-review convergence, and the marked-review profile battery.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/lottery-data.json">lottery-data.json</a></td><td class="num" data-label="Size">2.4 KB</td><td data-label="Feeds">Plate XXV</td><td data-label="Contents">Score-gap ("lottery") analysis of how much reviewer assignment appears to affect outcome.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/minds-data.json">minds-data.json</a></td><td class="num" data-label="Size">10.2 KB</td><td data-label="Feeds">Plate XXVI</td><td data-label="Contents">Era profiles of reviewer behavior: rhetoric-form usage by year and the nine-year vital signs behind Fig. 26c.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/mirage-data.json">mirage-data.json</a></td><td class="num" data-label="Size">4.7 KB</td><td data-label="Feeds">Appendix III</td><td data-label="Contents">Real-vs-synthetic reviewer-profile comparison behind the weak-results ("null cabinet") appendix.</td></tr>
@@ -216,6 +255,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
       <tr><td class="mono" data-label="File"><a href="api/v1/data/overrule-data.json">overrule-data.json</a></td><td class="num" data-label="Size">3.3 KB</td><td data-label="Feeds">Plates XX, XXI</td><td data-label="Contents">How often a meta-reviewer's final decision overrules the panel's aggregate score.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/panel-data.json">panel-data.json</a></td><td class="num" data-label="Size">5.8 KB</td><td data-label="Feeds">Plates I, XV, XVII, XX, App. II</td><td data-label="Contents">Cross-cutting panel statistics: rebuttal outcomes, criticism-count "gauntlet," per-standard confidence intervals, meta-reviewer behavior, dissent, and taxonomy reliability.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/repair-manual.json">repair-manual.json</a></td><td class="num" data-label="Size">4.1 KB</td><td data-label="Feeds">Plate XI</td><td data-label="Contents">Catalogue of the specific fixes reviewers suggest, grouped by kind.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/repair-k-robustness.json">repair-k-robustness.json</a></td><td class="num" data-label="Size">2.1 KB</td><td data-label="Feeds">Plate XI (verification)</td><td data-label="Contents">Stability sweep behind the repair catalogue: the same 80,000 asks re-clustered at k = 11&#8211;44; &#8220;extend the evidence&#8221; leads at every k, family sums move by under 5 points.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/repertoire-data.json">repertoire-data.json</a></td><td class="num" data-label="Size">2.1 KB</td><td data-label="Feeds">Plate XXI</td><td data-label="Contents">How much a panel's reviewers' repertoire of standards overlaps or clashes, by year.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/rhetoric-v2.json">rhetoric-v2.json</a></td><td class="num" data-label="Size">3.4 KB</td><td data-label="Feeds">Plates III, XXVI</td><td data-label="Contents">The induced rhetorical-form taxonomy (600 analyst-labeled units) and its validation.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/score-data.json">score-data.json</a></td><td class="num" data-label="Size">3.6 KB</td><td data-label="Feeds">Plates VI, XXIV</td><td data-label="Contents">Raw review scores matched to review text, by rating.</td></tr>
@@ -232,7 +272,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
     </tbody>
   </table>
   </div>
-  <p class="spec"><b>47 files</b> · 5.15 MB combined · all JSON · served from <code>/api/v1/data/</code></p>
+  <p class="spec"><b>48 files</b> · 5.16 MB combined · all JSON · served from <code>/api/v1/data/</code></p>
 
   <h3>Schema and machine-reader entry points</h3>
   <div class="doors">
@@ -289,3 +329,181 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <div class="col-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="method.html">Method</a></div>
   <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
 </footer>
+
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var BRASS = "#8a5a1f", INK2 = "#5b4d3a", MUTED = "#72654f";
+  var BRASS_LINE = "rgba(138,90,31,0.28)", BRASS_FAINT = "rgba(138,90,31,0.13)";
+  var fig = document.getElementById("holdings-fig");
+  var stage = document.getElementById("holdings-stage");
+  if (!fig || !stage) return;
+
+  /* -- read the islands off the table itself: the figure can never disagree with the page -- */
+  function parseKB(s) {
+    var m = /([\d.]+)\s*(KB|MB)/i.exec(s || "");
+    if (!m) return null;
+    return parseFloat(m[1]) * (/mb/i.test(m[2]) ? 1024 : 1);
+  }
+  var items = [];
+  var rows = document.querySelectorAll(".table-wrap tbody tr");
+  for (var i = 0; i < rows.length; i++) {
+    var tds = rows[i].querySelectorAll("td");
+    if (tds.length < 3) continue;
+    var link = tds[0].querySelector("a");
+    var kb = parseKB(tds[1].textContent);
+    if (!link || kb === null) continue;
+    items.push({ name: link.textContent.trim(), href: link.getAttribute("href"),
+      kb: kb, orphan: /orphan/i.test(tds[2].textContent) });
+  }
+  if (items.length < 5) return;
+  items.sort(function (a, b) { return b.kb - a.kb; });
+
+  /* live caption numbers (static fallback text already matches) */
+  var totKB = items.reduce(function (s, d) { return s + d.kb; }, 0);
+  var top2 = items[0].kb + items[1].kb;
+  var restKB = totKB - top2;
+  function put(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
+  put("hc-share", Math.round(100 * top2 / totKB) + "%");
+  put("hc-rest-n", String(items.length - 2));
+  put("hc-rest-mb", (restKB / 1024).toFixed(1) + " MB");
+
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  var shown = false;
+  function render() {
+    var W = Math.max(300, stage.clientWidth - 20);
+    var narrow = W < 620;
+    var rMin = narrow ? 1.4 : 1.9;
+    var gap = narrow ? 3 : 5;
+    var padX = 8;
+
+    /* solve the area scale k so the whole necklace fits the width */
+    function widthAt(k) {
+      var w = padX * 2 + gap * (items.length - 1);
+      for (var i = 0; i < items.length; i++) w += 2 * Math.max(rMin, k * Math.sqrt(items[i].kb));
+      return w;
+    }
+    var lo = 0.05, hi = 4;
+    for (var it = 0; it < 40; it++) {
+      var mid = (lo + hi) / 2;
+      if (widthAt(mid) > W) hi = mid; else lo = mid;
+    }
+    var k = lo;
+
+    var rMax = Math.max(rMin, k * Math.sqrt(items[0].kb));
+    var labelBand = narrow ? 34 : 44;
+    var topPad = 12;
+    var baseY = topPad + 2 * rMax + 2;
+    var H = baseY + labelBand;
+
+    stage.textContent = "";
+    var svg = el("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H,
+      role: "img", "aria-label": "All " + items.length +
+      " data files drawn as circles whose area matches their size on disk; two large files dominate." }, null);
+    svg.style.width = "100%"; svg.style.height = "auto";
+
+    var defs = el("defs", {}, svg);
+    var pat = el("pattern", { id: "hold-hatch", patternUnits: "userSpaceOnUse",
+      width: "5", height: "5", patternTransform: "rotate(45)" }, defs);
+    el("line", { x1: 0, y1: 0, x2: 0, y2: 5, stroke: BRASS_FAINT, "stroke-width": 1.1 }, pat);
+
+    /* baseline the beads rest on — drawn in like a rule being inked */
+    var base = el("line", { x1: padX, y1: baseY, x2: W - padX, y2: baseY,
+      stroke: BRASS_LINE, "stroke-width": 1, "class": "isl-base" }, svg);
+    var blen = W - 2 * padX;
+    base.setAttribute("stroke-dasharray", blen);
+    base.setAttribute("stroke-dashoffset", shown ? 0 : blen);
+
+    var x = padX, braceX0 = null, braceX1 = null;
+    for (var j = 0; j < items.length; j++) {
+      var d = items[j];
+      var r = Math.max(rMin, k * Math.sqrt(d.kb));
+      var cx = x + r, cy = baseY - r;
+      var a = el("a", { href: d.href }, svg);
+      var g = el("g", { "class": "isl" }, a);
+      g.style.transformOrigin = cx + "px " + baseY + "px";
+      g.style.transitionDelay = shown ? "0s" : Math.min(1.3, 0.05 + j * 0.028).toFixed(3) + "s";
+      var attrs = { cx: cx, cy: cy, r: r, fill: "rgba(248,241,224,0.85)",
+        stroke: BRASS, "stroke-width": r > 30 ? 1.1 : 0.9 };
+      if (d.orphan) { attrs["stroke-dasharray"] = "3 2.5"; attrs.stroke = INK2; }
+      el("circle", attrs, g);
+      if (r > 11) {
+        el("circle", { cx: cx, cy: cy, r: r - 2.5, fill: "url(#hold-hatch)", stroke: "none" }, g);
+        el("circle", { cx: cx, cy: cy, r: r > 30 ? 1.6 : 1.1, fill: BRASS }, g);
+      }
+      var t = document.createElementNS(NS, "title");
+      t.textContent = d.name + " · " + (d.kb >= 1024 ?
+        (d.kb / 1024).toFixed(2) + " MB" : d.kb.toFixed(1) + " KB") +
+        (d.orphan ? " · not yet on any plate" : "");
+      g.appendChild(t);
+
+      if (r > 30) {
+        var lab = el("text", { x: cx, y: baseY + (narrow ? 13 : 15), "text-anchor": "middle",
+          fill: BRASS, "font-family": '"IBM Plex Mono", monospace',
+          "font-size": narrow ? 8 : 9.5, "letter-spacing": "0.08em", "class": "isl-note" }, svg);
+        lab.textContent = d.name;
+        var lab2 = el("text", { x: cx, y: baseY + (narrow ? 23 : 27), "text-anchor": "middle",
+          fill: MUTED, "font-family": '"IBM Plex Mono", monospace',
+          "font-size": narrow ? 7.5 : 9, "class": "isl-note" }, svg);
+        lab2.textContent = (d.kb / 1024).toFixed(2) + " MB";
+      } else if (narrow && j < 2 && r > 6) {
+        /* narrow screens: one staggered line per giant, anchored to its left edge */
+        var nlab = el("text", { x: 2, y: baseY + 12 + j * 9,
+          "text-anchor": "start", fill: j === 0 ? BRASS : MUTED,
+          "font-family": '"IBM Plex Mono", monospace', "font-size": 8,
+          "letter-spacing": "0.04em", "class": "isl-note" }, svg);
+        nlab.textContent = d.name + " " + (d.kb / 1024).toFixed(2) + " MB";
+      } else {
+        if (braceX0 === null) braceX0 = cx - r;
+        braceX1 = cx + r;
+      }
+      x += 2 * r + gap;
+    }
+
+    /* one quiet brace under the pebble tail */
+    if (!narrow && braceX0 !== null && braceX1 - braceX0 > 90) {
+      var by = baseY + (narrow ? 8 : 10);
+      var brace = el("path", { d: "M" + braceX0 + "," + by + " v3 H" + braceX1 + " v-3",
+        fill: "none", stroke: BRASS_LINE, "stroke-width": 1, "class": "isl-note" }, svg);
+      var bl = el("text", { x: (braceX0 + braceX1) / 2, y: by + (narrow ? 22 : 17),
+        "text-anchor": "middle", fill: MUTED, "font-family": '"IBM Plex Mono", monospace',        "font-size": narrow ? 7.5 : 9, "letter-spacing": "0.1em", "class": "isl-note" }, svg);
+      bl.textContent = "THE OTHER " + (items.length - 2) + " · " +
+        (restKB / 1024).toFixed(1) + " MB TOGETHER";
+    }
+    stage.appendChild(svg);
+    if (shown) { base.setAttribute("stroke-dashoffset", 0); }
+  }
+
+  function turnOn() {
+    if (shown) return;
+    shown = true;
+    fig.classList.add("on");
+    var base = stage.querySelector(".isl-base");
+    if (base) base.setAttribute("stroke-dashoffset", 0);
+  }
+
+  render();
+  if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++)
+        if (entries[i].isIntersecting) { turnOn(); io.disconnect(); break; }
+    }, { threshold: 0.25 });
+    io.observe(fig);
+    setTimeout(turnOn, 6000);
+  } else { turnOn(); }
+  window.addEventListener("beforeprint", turnOn);
+
+  var rT;
+  window.addEventListener("resize", function () {
+    clearTimeout(rT);
+    rT = setTimeout(function () { render(); if (shown) fig.classList.add("on"); }, 160);
+  });
+})();
+</script>

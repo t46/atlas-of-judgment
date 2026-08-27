@@ -90,6 +90,8 @@ section.console .plate-inner::before, section.console .plate-inner::after { disp
 /* ---- four-voices caption (prototype: Plate I) ---- */
 .cap-voices { columns: auto; column-gap: normal; margin: 18px 0 0; }
 .cv-fig { margin-bottom: 2px; }
+/* the caption's figure anchor sits a tier below the fig-title heading: cv-lab size and dimmed brass, so FIG-heading vs FIG-caption reads at a glance */
+.cv-fig b { font-size: 8.5px; letter-spacing: 0.26em; color: var(--brass-dim); }
 .cv { display: grid; grid-template-columns: 86px 1fr; gap: 20px; padding: 12px 0 13px; }
 .cv + .cv { border-top: 1px solid var(--brass-faint); }
 .cv-lab { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass-dim); text-align: right; padding-top: 4px; line-height: 1.8; }
@@ -192,7 +194,7 @@ svg.bander-lines polyline { stroke: var(--brass-dim); stroke-width: 1; fill: non
 .pz-cap small { display: block; font-family: var(--mono); font-style: normal; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); line-height: 1.9; margin-top: 7px; }
 .pz-cap a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid rgba(36,28,20,0.147); }
 .pz-cap a:hover { color: var(--brass); border-bottom-color: var(--brass); }
-.pz-foot { margin-top: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); max-width: 76ch; }
+.pz-foot { margin: 20px auto 0; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); max-width: 76ch; text-align: center; text-wrap: pretty; }
 @media (max-width: 900px) {
   /* no leaders to draw on a narrow sheet, so the parts run in their own order */
   .pz-stage { grid-template-columns: 1fr; gap: 22px; }
@@ -1081,7 +1083,7 @@ html.al-armed .act-leaf .al-t { clip-path: inset(100% 0 0 0); transform: transla
 html.al-armed .act-leaf .al-s { opacity: 0; transition: opacity .8s var(--ease-settle) .55s; }
 html.al-armed .act-leaf.al-in .al-rule { transform: scaleX(1); }
 html.al-armed .act-leaf.al-in .al-no { opacity: 1; letter-spacing: 0.5em; transform: scale(1); filter: blur(0); }
-html.al-armed .act-leaf.al-in .al-t { clip-path: inset(0 0 0 0); transform: none; animation: alBleed 1.5s var(--ease-settle) .16s both; }
+html.al-armed .act-leaf.al-in .al-t { clip-path: inset(0 0 -0.28em 0); transform: none; animation: alBleed 1.5s var(--ease-settle) .16s both; }
 html.al-armed .act-leaf.al-in .al-s { opacity: 1; }
 /* the press pass: a brass hairline sweeps the gate top-to-bottom as it strikes */
 .act-leaf > .al-press { position: absolute; left: 6%; right: 6%; top: -1%; height: 1px; opacity: 0; pointer-events: none;
@@ -1772,7 +1774,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 7d</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">every negative novelty unit in the nine-year corpus, cut into its three stages — what was seen (ground), the rule invoked (warrant), what was asked (demand) — each stage clustered on its own, then the flow between them counted. Each ribbon is real traffic — its width, the share of denials taking that path; its colour, that path&#8217;s traffic as a multiple of chance (warm above, cool below; hover any ribbon for the exact figures; the dashed bar is the empty ask). If the syllogism were a real circuit, a few ribbons would run hot and the rest would vanish — Plate XIII&#8217;s coupled rule-pairs reach 3.6&#215;. Instead nearly every ribbon is pale: each observation fans out over all the rules at close to their base rates, and each rule fans out over the asks the same way. In the corpus&#8217;s own words, the stages sound like this — a ground: <em>&#8220;Method resembles a combination of existing approaches&#8221;</em>; a warrant: <em>&#8220;Combining existing techniques without a conceptual leap is not a strong contribution&#8221;</em>; and after that warrant, the modal ask is nothing at all.</div></div>
-    <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the coupling is real — &#967;&#178; leaves no doubt at this n — and everywhere faint: Cram&#233;r&#8217;s V &#8776; 0.12&#8211;0.14 at both stages, both grains. Even the natural pair, &#8220;an assembly of known parts&#8221; &#8594; &#8220;combination is not a contribution&#8221;, runs at just 1.22&#215; chance. The channels that do carry current tell one story: confusion invites the imported rigor attack (&#8220;cannot tell what is new&#8221; &#8594; rigor doubts, 1.88&#215;), and the combination rule flows to an empty ask — 49% of its uses request nothing, 1.24&#215; the docket&#8217;s own high base — while rigor-doubt reasoning almost always asks for something (25% empty). The novelty syllogism is less a chain of reasoning than a bin of interchangeable parts: any observation licenses nearly any rule, and the rule barely narrows the ask.</div></div>
+    <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the coupling is real — &#967;&#178; leaves no doubt at this n — and everywhere faint: Cram&#233;r&#8217;s V &#8776; 0.12&#8211;0.14 at both stages, both grains. <button class="hover-bind" data-arg="assembly">Even the natural pair, &#8220;an assembly of known parts&#8221; &#8594; &#8220;combination is not a contribution&#8221;, runs at just 1.22&#215; chance</button>. The channels that do carry current tell one story: <button class="hover-bind" data-arg="rigor">confusion invites the imported rigor attack (&#8220;cannot tell what is new&#8221; &#8594; rigor doubts, 1.88&#215;)</button>, and <button class="hover-bind" data-arg="emptyask">the combination rule flows to an empty ask — 49% of its uses request nothing, 1.24&#215; the docket&#8217;s own high base</button> — while rigor-doubt reasoning almost always asks for something (25% empty). The novelty syllogism is less a chain of reasoning than a bin of interchangeable parts: any observation licenses nearly any rule, and the rule barely narrows the ask.</div></div>
     <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">the observation, reasoning and suggested-fix fields of all 30,447 negative novelty units (2018&#8211;2026, forum track) embedded separately (bge-small) and k-means clustered — 10 grounds, 10 warrants, 8 demands, seed 46 — then merged to the five/four/three named stages shown, by reading exemplars; raw clusters and matrices ship in the dataset. The &#967;&#178; and V above are quoted at the <em>raw</em> grain, before any merge, against the product of marginals — the marginal-preserving shuffle null. The ask stage counts &#8220;nothing asked&#8221; as an outcome, so its V includes the decision to demand at all.</div></div>
     <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">faintness is the finding — this figure must not be quoted as &#8220;criticism has a logic-grammar after all.&#8221; A 1.9&#215; channel over a 1.00 floor is a lean, not a law. And the stages are the model&#8217;s distillation of the reviewer&#8217;s words, read one unit at a time: a distiller that phrases rules generically could smooth real structure away, so these lifts are floors, not ceilings — what survives distillation is faint; what the reviewer privately walked through is beyond this instrument.</div></div>
     </div>
@@ -1909,7 +1911,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 11</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the thin bar on top is the headline: the three-family composition of everything asked. Below it, each bar is one repair type's share of the sampled fixes, grouped and colored by Plate VII's remedy families; click or tap a row to open a verbatim exemplar and the objects the repair most often attaches to. The family assignment is the analyst's, with two judgment calls recorded: error bars count as work of research (they must first be computed), surface fixes as work of writing.</div></div>
-    <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-repair="extend">"extend the evidence" leads alone at 22%</button> — but a single cluster's share depends on how finely the taxonomy is cut (splitting or merging clusters moves it, while the family totals barely move), so the stabler finding is <button class="hover-bind" data-repair="families">the family sum: work of research 69%, writing 26%, disclosure 5%</button>. And one absence, drawn as the empty dashed shelf at the bottom: <button class="hover-bind" data-repair="redesign">none of the sixteen types — none of the 22 raw clusters — asks the authors to change the method itself</button>, the same absence Fig.&nbsp;7c found at coarse grain. On first view the figure assembles as sediment: each falling grain is one sampled ask, settling into its shelf — and nothing ever lands on the redesign shelf.</div></div>
+    <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-repair="extend">"extend the evidence" leads alone at 22%</button> — but a single cluster's share depends on how finely the taxonomy is cut (<span class="prov"><button class="stat-door">splitting or merging clusters moves it, while the family totals barely move</button><span class="prov-pop" hidden><b>SOURCE</b> repair-k-robustness.json (scripts/check_repair_k.py) — the same 80,000 embedded asks re-clustered at k&nbsp;=&nbsp;11,&nbsp;17,&nbsp;22,&nbsp;28,&nbsp;44<br><b>DERIVATION</b> &#8220;extend the evidence&#8221; leads at every k, its share moving 22.2&#8211;27.0% and always &#8805;1.8&#215; the runner-up; the work-of-research family sum moves only 66.8&#8211;71.3% across the same 4&#215; range of k; k=22 reproduces the shipped partition exactly (ARI 1.000, seed 7)<br><b>VERIFIED</b> k-sweep run 2026-08-27, adversarial-audit cycle</span></span>), so the stabler finding is <button class="hover-bind" data-repair="families">the family sum: work of research 69%, writing 26%, disclosure 5%</button>. And one absence, drawn as the empty dashed shelf at the bottom: <button class="hover-bind" data-repair="redesign">none of the sixteen types — none of the 22 raw clusters — asks the authors to change the method itself</button>, the same absence Fig.&nbsp;7c found at coarse grain. On first view the figure assembles as sediment: each falling grain is one sampled ask, settling into its shelf — and nothing ever lands on the redesign shelf.</div></div>
     <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">of 2026's 410,586 units, 307,388 carry a suggested fix; 80,000 of those were sampled, embedded (bge-small) and clustered (k-means, k=22, seed 7), then merged to sixteen types and named by hand from each cluster's most distinctive words (class-based TF-IDF) and most central examples.</div></div>
     <div class="cv cv-caveat" data-tether="repair-rows:redesign:right"><span class="cv-lab">Reading it</span><div class="cv-body">that absence is a fact about what reviewers <em>write</em>, not about what they think. A repair is an ask the authors could plausibly act on within a rebuttal, and "start over" is not — which may be exactly why the harshest criticism arrives with no repair at all (novelty's 39% in Fig.&nbsp;7c). The taxonomy's sixteen-to-three mapping and the two recorded judgment calls are this figure's error bars; any single cluster's share moves with how finely the 22 raw clusters are cut, though the family totals do not.</div></div>
     </div>
@@ -2782,21 +2784,21 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">INK = MEDIAN SIMILARITY OF CO-REVIEWS OF ONE PAPER &middot; FAINT = RANDOM CROSS-PAPER PAIRS &middot; VERTICAL RULES = REVIEW-FORM CHANGES &middot; HOLLOW POINTS = FIXED SHARED VOCABULARY, 2024&#8211;26 &middot; RIGHT, BRASS DASH = SIZE-MATCHED NULL (SAME SET SIZES, RANDOM CONTENTS)</div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 29c</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">left: for every paper with two or more reviews, the median pairwise TF&#8211;IDF cosine of its reviews (ink), against the median for random pairs from different papers (faint). If reviews were homogenizing wholesale, both lines would rise together; if the review <em>form</em> were doing the work, the line would jump at form changes (the vertical rules) and hold flat between them. Neither happens: the within-paper line climbs <em>inside</em> the constant-form window — 0.277 &#8594; 0.299 &#8594; 0.317 across 2024&#8211;26 under one shared vocabulary (the hollow points), a +14% rise with no form change and no vocabulary change to blame — while random pairs stay flat (0.078 &#8594; 0.073). Right: the same pairs read at the unit grain — the overlap between co-reviewers&#8217; sets of charged objects (Plate I&#8217;s twelve) also rises after 2023 (0.252 &#8594; 0.284, ink). This is the panel where the plate corrects its own first reading, published hours earlier: reviewers also charge <em>more objects per review</em> in the LLM years (mean set size 3.4 &#8594; 3.8), and a null that keeps every reviewer&#8217;s set size while drawing its contents at random from the year&#8217;s mix (the brass dash) rises in step. The excess of choice over size — <span class="prov"><button class="stat-door">+0.037 to +0.054 across all nine years, with no trend and its maximum in 2018</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.jaccard_size_null[year].excess<br><b>DERIVATION</b> observed median co-reviewer Jaccard minus a 20-simulation null holding each reviewer&#8217;s set size and drawing contents from the year&#8217;s object mix; 2026: 0.2837 &#8722; 0.2418 = +0.042<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span> — is flat. So the convergence is real in the words and unproven in the targets: what co-reviewers <em>say</em> grows alike; what they <em>choose to charge</em> does not measurably follow. That divide has an honest reading the plate cannot prove: expert annotation finds full machine authorship leaving a <em>content</em> fingerprint — AI reviewers&#8217; criticisms overlap with each other seven times more than humans&#8217; (21% vs 3%; Kim et al., arXiv:2605.20668, the &#8220;hivemind effect&#8221; of Baumann et al., arXiv:2605.03202) — while prose-level assistance would converge the wording and leave the choices alone, which is the pattern this record shows. One neighbouring study reads a shift in ICLR review-text diagnostics at the 2022&#8211;23 transition (arXiv:2607.10511); this plate&#8217;s own placebo puts the vocabulary&#8217;s arrival one cycle later — different instruments, both correlational, both cited rather than reconciled. And one prediction from the LLM-review literature fails here, and is reported as failing: benchmark studies find machine-written reviews lexically <em>flatter</em> (arXiv:2605.25415), but each review&#8217;s own lexical diversity sits at a nine-year high in 2026 — type-token ratio 0.638 over a review&#8217;s first 200 words, against 0.578&#8211;0.598 in every earlier year. The record converges <em>between</em> reviews while growing more varied <em>within</em> them; whatever is homogenizing the juries is not flattening the prose.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">left: for every paper with two or more reviews, the median pairwise TF&#8211;IDF cosine of its reviews (ink), against the median for random pairs from different papers (faint). If reviews were homogenizing wholesale, both lines would rise together; if the review <em>form</em> were doing the work, the line would jump at form changes (the vertical rules) and hold flat between them. Neither happens: the within-paper line climbs <em>inside</em> the constant-form window — 0.277 &#8594; 0.299 &#8594; 0.317 across 2024&#8211;26 under one shared vocabulary (the hollow points), a +14% rise with no form change and no vocabulary change to blame — while random pairs stay flat (0.078 &#8594; 0.073). Read by section, the rise concentrates where delegation is easiest: <span class="prov"><button class="stat-door">the summary sections — which describe the same paper by construction — converge +20% and are still climbing, while the weaknesses-and-questions prose rises +6% and stalls after 2025</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.section_convergence[year]<br><b>DERIVATION</b> the identical fixed-vocabulary pipeline run per section: summary-only within-paper median 0.2801 &#8594; 0.3102 &#8594; 0.3357 (+20%); weaknesses+questions-only 0.1608 &#8594; 0.1720 &#8594; 0.1708 (+6%, then flat); mean section lengths 89/87/93 words (summary) vs 273/294/275 (criticism) — near-constant within each section, so the split is not a length artifact<br><b>VERIFIED</b> reproduced by build_llmtrace_mix.py, 2026-08-27</span></span> — the criticism converges too, but the summary carries most of the headline, and it is the review&#8217;s most delegable section. Right: the same pairs read at the unit grain — the overlap between co-reviewers&#8217; sets of charged objects (Plate I&#8217;s twelve) also rises after 2023 (0.252 &#8594; 0.284, ink). This is the panel where the plate corrects its own first reading, published hours earlier: reviewers also charge <em>more objects per review</em> in the LLM years (mean set size 3.4 &#8594; 3.8), and a null that keeps every reviewer&#8217;s set size while drawing its contents at random from the year&#8217;s mix (the brass dash) rises in step. The excess of choice over size — <span class="prov"><button class="stat-door">+0.037 to +0.054 across all nine years, with no trend and its maximum in 2018</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.jaccard_size_null[year].excess<br><b>DERIVATION</b> observed median co-reviewer Jaccard minus a 20-simulation null holding each reviewer&#8217;s set size and drawing contents from the year&#8217;s object mix; 2026: 0.2837 &#8722; 0.2418 = +0.042<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span> — is flat. So the convergence is real in the words and unproven in the targets: what co-reviewers <em>say</em> grows alike; what they <em>choose to charge</em> does not measurably follow. That divide has an honest reading the plate cannot prove: expert annotation finds full machine authorship leaving a <em>content</em> fingerprint — AI reviewers&#8217; criticisms overlap with each other seven times more than humans&#8217; (21% vs 3%; Kim et al., arXiv:2605.20668, the &#8220;hivemind effect&#8221; of Baumann et al., arXiv:2605.03202) — while prose-level assistance would converge the wording and leave the choices alone, which is the pattern this record shows. One neighbouring study reads a shift in ICLR review-text diagnostics at the 2022&#8211;23 transition (arXiv:2607.10511); this plate&#8217;s own placebo puts the vocabulary&#8217;s arrival one cycle later — different instruments, both correlational, both cited rather than reconciled. And one prediction from the LLM-review literature fails here, and is reported as failing: benchmark studies find machine-written reviews lexically <em>flatter</em> (arXiv:2605.25415), but each review&#8217;s own lexical diversity sits at a nine-year high in 2026 — type-token ratio 0.638 over a review&#8217;s first 200 words, against 0.578&#8211;0.598 in every earlier year. The record converges <em>between</em> reviews while growing more varied <em>within</em> them; whatever is homogenizing the juries is not flattening the prose.</div></div>
     </div>
 
     <div class="fig-title" style="margin-top:38px">Fig. 29d — The structure holds still: three instruments, no narrowing</div>
-    <div class="fig-deck">The mix of criticism spreads slightly, a reviewer&#8217;s own attention spreads slightly, and the distilled reasoning&#8217;s co-review gap holds still — nine years, no structural narrowing.</div>
+    <div class="fig-deck">The mix of criticism spreads slightly, a reviewer&#8217;s own apparent spread turns out to be mostly its null, and the distilled reasoning&#8217;s co-review gap holds still — nine years, no structural narrowing.</div>
     <div class="fig-rel"><b>THE CORRECTION&#8217;S OTHER HALF</b> — Fig.&nbsp;29c found the prose converging; these three instruments ask whether the <em>substance</em> followed. It did not: the convergence, so far, lives in the words.</div>
     <div id="wm-still"></div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">ENTROPY = EVENNESS OF THE MIX, 1.00 = ALL TWELVE EQUAL &middot; GAP = CO-REVIEW MINUS CROSS-PAPER REASONING SIMILARITY &middot; A STRUCTURAL NARROWING WOULD BEND ANY OF THESE DOWN AFTER 2023 &mdash; NONE DOES</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">ENTROPY = EVENNESS OF THE MIX, 1.00 = ALL TWELVE EQUAL &middot; MIDDLE, BRASS DASH = N-MATCHED NULL (SAME UNIT COUNTS, OBJECTS DRAWN FROM THE YEAR&#8217;S MIX) &middot; GAP = CO-REVIEW MINUS CROSS-PAPER REASONING SIMILARITY &middot; A STRUCTURAL NARROWING WOULD BEND ANY OF THESE DOWN AFTER 2023 &mdash; NONE DOES</div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 29d</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">three panels over the nine-year unit record (952,856 reviewer units, one extraction pipeline throughout), each a way the machine era <em>could</em> have narrowed review&#8217;s substance — and did not. Left: the evenness (normalized entropy) of the year&#8217;s mix over the twelve objects of scrutiny (ink) and twelve standards (faint), where 1.00 would be a perfectly even docket: <span class="prov"><button class="stat-door">the object mix drifts from 0.916 to 0.940 — more even, not more concentrated</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.concentration[year].object_entropy<br><b>DERIVATION</b> Shannon entropy of the year&#8217;s 12-object unit counts &divide; log&#8322;12; 2018: 0.9155 &#8594; 2026: 0.9395 (HHI 0.119 &#8594; 0.109)<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span>. Middle: one reviewer&#8217;s own spread — the mean entropy of each reviewer&#8217;s object mix (reviewers with five or more units, each normalized by their own ceiling) — rises 0.742 &#8594; 0.766: the individual reviewer looks at slightly <em>more</em>, not fewer, kinds of things. Right: the sub-unit grain — each unit&#8217;s distilled reasoning, in embedding space: the gap between co-review pairs of one paper and random cross-paper pairs holds at &#8776;0.012 in every year, and the year&#8217;s overall dispersion is unchanged (0.231 &#8594; 0.229). Three owned limits: twelve categories are coarse, so a convergence <em>inside</em> one category is invisible here; the embeddings read the atlas&#8217;s distilled reasoning, whose uniform extractor voice is shared by all years — it can mask a converging style, though converging <em>content</em> should still register; and a corpus-level mix says nothing about any single paper. The null pattern is the point: had the machine era narrowed what review looks at, some line here would bend down after 2023.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">three panels over the nine-year unit record (952,856 reviewer units, one extraction pipeline throughout), each a way the machine era <em>could</em> have narrowed review&#8217;s substance — and did not. Left: the evenness (normalized entropy) of the year&#8217;s mix over the twelve objects of scrutiny (ink) and twelve standards (faint), where 1.00 would be a perfectly even docket: <span class="prov"><button class="stat-door">the object mix drifts from 0.916 to 0.940 — more even, not more concentrated</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.concentration[year].object_entropy<br><b>DERIVATION</b> Shannon entropy of the year&#8217;s 12-object unit counts &divide; log&#8322;12; 2018: 0.9155 &#8594; 2026: 0.9395 (HHI 0.119 &#8594; 0.109)<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span>. Middle: one reviewer&#8217;s own spread — the mean entropy of each reviewer&#8217;s object mix (reviewers with five or more units, each normalized by their own ceiling) — rises 0.742 &#8594; 0.766. The plate&#8217;s first reading said the reviewer &#8220;looks at slightly more kinds of things&#8221;; an audit the same day held that sentence against the null it deserved, and most of it dissolved: an n-matched null (same reviewers&#8217; unit counts, objects drawn at random from the year&#8217;s own mix — the brass dash) rises almost in step, because reviewers file more units in the LLM years (6.5 &#8594; 6.7 per reviewer) and the year&#8217;s mix itself grew more even. <span class="prov"><button class="stat-door">Of the +0.024 rise, only +0.008 survives the null, and the surviving series is trendless</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.attention_null[year]<br><b>DERIVATION</b> observed mean entropy minus a 5-simulation null holding each &#8805;5-unit reviewer&#8217;s n and drawing objects iid from the year&#8217;s object mix; excess &#8722;0.046 (2018) &#8594; &#8722;0.038 (2026), range &#8722;0.053 to &#8722;0.038 with no monotone trend; after 2023: &#8722;0.044 &#8594; &#8722;0.048 &#8594; &#8722;0.047 &#8594; &#8722;0.038<br><b>VERIFIED</b> reproduced by build_llmtrace_mix.py, 2026-08-27</span></span> So this panel affirms nothing about widening — and since its null draws from the year&#8217;s mix, it is best read as the left panel&#8217;s check at the person grain, not a third independent instrument. What it still rules out is the claim that matters: after 2023 the observed-minus-null excess shows no downward bend. Right: the sub-unit grain — each unit&#8217;s distilled reasoning, in embedding space: the gap between co-review pairs of one paper and random cross-paper pairs holds at &#8776;0.012 in every year, and the year&#8217;s overall dispersion is unchanged (0.231 &#8594; 0.229). Three owned limits: twelve categories are coarse, so a convergence <em>inside</em> one category is invisible here; the embeddings read the atlas&#8217;s distilled reasoning, whose uniform extractor voice is shared by all years — it can mask a converging style, though converging <em>content</em> should still register; and a corpus-level mix says nothing about any single paper. The null pattern is the point: had the machine era narrowed what review looks at, some line here would bend down after 2023.</div></div>
     </div>
 
     <div class="fig-title" style="margin-top:38px">Fig. 29e — The company the watermark keeps</div>
-    <div class="fig-deck">The marked review is longer, cites less, and hands its paper a slightly higher score than its own co-reviews — and its distinctness is dissolving year by year.</div>
+    <div class="fig-deck">The marked review is longer, cites less, and hands its paper a slightly higher score than its own co-reviews (firm in 2024&#8211;25, marginal in 2026) — and its distinctness is dissolving year by year.</div>
     <div class="fig-rel"><b>THE AI-LOTTERY DESIGN, WITH A TRANSPARENT INSTRUMENT</b> — Latona et al. found detector-flagged ICLR 2024 reviews scoring higher within the same paper. The paired comparison here replicates that direction for 2024&#8211;2026 with the frozen public word list in place of a proprietary detector.</div>
     <div id="wm-prof"></div>
     <div class="caption cap-voices">
@@ -2935,6 +2937,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 </main>
 <section id="consult" class="appendix" style="padding-top:8px">
+  <div class="shell">
   <div class="plate-head">
     <div class="plate-no">The Door</div>
     <h2>The sentence you were handed</h2>
@@ -2944,6 +2947,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div id="consult-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px"></div>
     <div style="display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;font-size:12.5px;opacity:.85" id="consult-links"></div>
   </div></div>
+  </div>
 </section>
 
 <div id="finale" aria-label="the closing sheet">
@@ -5602,7 +5606,7 @@ const LLMTRACE = __LLMTRACE_JSON__;
     ri.reduce((a, i) => a + ci.reduce((b, j) => b + M[i][j], 0), 0)));
   const GW = merge(ARG.gw, G, W), WD = merge(ARG.wd, W, D);
   const tot = GW.flat().reduce((a, b) => a + b, 0);
-  const WARM = "#a84a32", COOL = "#3565b3", INK = "#241c14", HALO = "#f3ead2";
+  const WARM = "#a84a32", COOL = "#3565b3", INK = "#241c14", HALO = "#f3ead2", BRASS = "#8a5a1f";
   const liftFill = lift => {
     if (Math.abs(lift - 1) < 0.07) return `rgba(36,28,20,0.075)`;
     const warm = lift > 1, mag = Math.min(1, warm ? (lift - 1) / 0.9 : (1 - lift) / 0.7);
@@ -5623,7 +5627,10 @@ const LLMTRACE = __LLMTRACE_JSON__;
   const gN = layout(G.map(([n], i) => [n, GW[i].reduce((a, b) => a + b, 0)]));
   const wN = layout(W.map(([n], j) => [n, GW.reduce((a, r) => a + r[j], 0)]));
   const dN = layout(D.map(([n], k) => [n, WD.reduce((a, r) => a + r[k], 0)]));
-  const ribbons = (M, src, tgt, x0, x1) => {
+  // engraved-key anchors: three ribbons the caption points at by numeral (Fig 1A's convention)
+  const SPECIAL = { "gw:2:3": "rigor", "gw:0:1": "assembly", "wd:1:2": "emptyask" };
+  const ANCH = {};
+  const ribbons = (M, src, tgt, x0, x1, tag, d0) => {
     // stacked offsets on both faces, in stage order — the eye can follow every path
     const so = src.map(nd => nd.y0), toff = tgt.map(nd => nd.y0);
     const rs = M.map(r => r.reduce((a, b) => a + b, 0));
@@ -5635,7 +5642,10 @@ const LLMTRACE = __LLMTRACE_JSON__;
       const h0 = v * src[i].scale, h1 = v * tgt[j].scale;
       const ya = so[i], yb = toff[j]; so[i] += h0; toff[j] += h1;
       const mx = (x0 + x1) / 2;
-      out += `<path d="M${x0},${ya.toFixed(1)} C${mx},${ya.toFixed(1)} ${mx},${yb.toFixed(1)} ${x1},${yb.toFixed(1)}` +
+      const ak = SPECIAL[tag + ":" + i + ":" + j];
+      if (ak) ANCH[ak] = { x: mx - 26, y: (ya + h0 / 2 + yb + h1 / 2) / 2 };
+      out += `<path class="cellfade" style="transition-delay:${(d0 + (i + j) * 0.04).toFixed(2)}s"${ak ? ` data-ak="${ak}"` : ""}` +
+             ` d="M${x0},${ya.toFixed(1)} C${mx},${ya.toFixed(1)} ${mx},${yb.toFixed(1)} ${x1},${yb.toFixed(1)}` +
              ` L${x1},${(yb + h1).toFixed(1)} C${mx},${(yb + h1).toFixed(1)} ${mx},${(ya + h0).toFixed(1)} ${x0},${(ya + h0).toFixed(1)} Z"` +
              ` fill="${liftFill(lift)}"><title>${src[i].name} → ${tgt[j].name}: ${lift.toFixed(2)}× chance · ${Math.round(v).toLocaleString("en-US")} units (${(v / tot * 100).toFixed(1)}% of denials)</title></path>`;
       if (lift >= 1.2 || lift <= 0.65)
@@ -5645,22 +5655,22 @@ const LLMTRACE = __LLMTRACE_JSON__;
     cand.sort((a, b) => a.y - b.y);
     for (let k = 1; k < cand.length; k++) if (cand[k].y - cand[k - 1].y < 14) cand[k].y = cand[k - 1].y + 14;
     const labels = cand.map(c =>
-      `<text x="${c.mx}" y="${c.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="10.5"` +
+      `<text class="cellfade" style="transition-delay:${(d0 + 0.5).toFixed(2)}s" x="${c.mx}" y="${c.y.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="10.5"` +
       ` font-family="IBM Plex Mono, monospace" fill="${INK}" stroke="${HALO}" stroke-width="3" paint-order="stroke">${c.t}</text>`).join("");
     return out + labels;
   };
-  const nodeRects = (nds, x, hollow) => nds.map(nd =>
+  const nodeRects = (nds, x, d0, hollow) => nds.map(nd =>
     hollow && nd.name === "nothing asked"
-      ? `<rect x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="none" stroke="${INK}" stroke-width="1.2" stroke-dasharray="3 3"/>`
-      : `<rect x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="${INK}"/>`).join("");
-  const labelCol = (nds, x, anchor) => nds.map(nd => {
+      ? `<rect class="cellfade" style="transition-delay:${d0}s" x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="none" stroke="${BRASS}" stroke-width="1.2" stroke-dasharray="3 3"/>`
+      : `<rect class="cellfade" style="transition-delay:${d0}s" x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="${BRASS}"/>`).join("");
+  const labelCol = (nds, x, anchor, d0) => nds.map(nd => {
     const cy = (nd.y0 + nd.y1) / 2;
-    return `<text x="${x}" y="${(cy - 3).toFixed(1)}" text-anchor="${anchor}" font-size="12.5" fill="#453a2c" font-family="Source Serif 4, Georgia, serif">${nd.name}</text>` +
-           `<text x="${x}" y="${(cy + 11).toFixed(1)}" text-anchor="${anchor}" font-size="9" fill="#877f6e" font-family="IBM Plex Mono, monospace">${(nd.n / tot * 100).toFixed(0)}%</text>`;
+    return `<text class="cellfade" style="transition-delay:${d0}s" x="${x}" y="${(cy - 3).toFixed(1)}" text-anchor="${anchor}" font-size="12.5" fill="#453a2c" font-family="Source Serif 4, Georgia, serif">${nd.name}</text>` +
+           `<text class="cellfade" style="transition-delay:${d0}s" x="${x}" y="${(cy + 11).toFixed(1)}" text-anchor="${anchor}" font-size="9" fill="#877f6e" font-family="IBM Plex Mono, monospace">${(nd.n / tot * 100).toFixed(0)}%</text>`;
   }).join("");
   const midLabels = nds => nds.map(nd => {
     const cy = (nd.y0 + nd.y1) / 2;
-    return `<text x="${cols[1] + nodeW / 2}" y="${(cy + 3).toFixed(1)}" text-anchor="middle" font-size="11.5" fill="${INK}"` +
+    return `<text class="cellfade" style="transition-delay:0.5s" x="${cols[1] + nodeW / 2}" y="${(cy + 3).toFixed(1)}" text-anchor="middle" font-size="11.5" fill="${INK}"` +
            ` font-family="Source Serif 4, Georgia, serif" stroke="${HALO}" stroke-width="3.5" paint-order="stroke">${nd.name} · ${(nd.n / tot * 100).toFixed(0)}%</text>`;
   }).join("");
   const head = (x, t) => `<text x="${x}" y="18" text-anchor="middle" font-size="9.5" letter-spacing="1.6" fill="#5b4d3a" font-family="IBM Plex Mono, monospace">${t}</text>` +
@@ -5671,13 +5681,35 @@ const LLMTRACE = __LLMTRACE_JSON__;
     head(cols[0] + nodeW / 2, "GROUND · WHAT WAS SEEN") +
     head(cols[1] + nodeW / 2, "WARRANT · THE RULE INVOKED") +
     head(cols[2] + nodeW / 2, "DEMAND · WHAT WAS ASKED") +
-    ribbons(GW, gN, wN, cols[0] + nodeW, cols[1]) +
-    ribbons(WD, wN, dN, cols[1] + nodeW, cols[2]) +
-    nodeRects(gN, cols[0]) + nodeRects(wN, cols[1]) + nodeRects(dN, cols[2], true) +
-    labelCol(gN, cols[0] - 9, "end") + labelCol(dN, cols[2] + nodeW + 9, "start") +
+    ribbons(GW, gN, wN, cols[0] + nodeW, cols[1], "gw", 0.2) +
+    ribbons(WD, wN, dN, cols[1] + nodeW, cols[2], "wd", 0.65) +
+    nodeRects(gN, cols[0], 0.05) + nodeRects(wN, cols[1], 0.5) + nodeRects(dN, cols[2], 0.95, true) +
+    labelCol(gN, cols[0] - 9, "end", 0.05) + labelCol(dN, cols[2] + nodeW + 9, "start", 0.95) +
     midLabels(wN) +
     `</svg>`;
   host.innerHTML = `<div class="hm-wrap" style="flex:1 1 100%">${svg}</div>`;
+  // caption⇄figure binding: numbered keys in the Result phrases, their twins pinned on the ribbons
+  const svgEl = host.querySelector("svg");
+  const ribbonEls = () => [...host.querySelectorAll("path")];
+  let delaysCleared = false;
+  const argApply = key => {
+    if (!delaysCleared) { ribbonEls().forEach(p => { p.style.transitionDelay = "0ms"; }); delaysCleared = true; }
+    ribbonEls().forEach(p => { p.style.opacity = p.dataset.ak === key ? "1" : "0.13"; });
+  };
+  const argClear = () => ribbonEls().forEach(p => { p.style.opacity = ""; });
+  const argLayer = anchorLayer(host, key => {
+    const a = ANCH[key], m = svgEl.getScreenCTM();
+    if (!a || !m) return null;
+    const pt = new DOMPoint(a.x, a.y).matrixTransform(m);
+    const h = host.getBoundingClientRect();
+    return { x: pt.x - h.left, y: pt.y - h.top };
+  });
+  regTether("argfig", argLayer);
+  wireBinds({
+    fig: host, label: "FIG. 7d · MINIATURE", ghostW: 260,
+    buttons: document.querySelectorAll("button.hover-bind[data-arg]"),
+    keyOf: b => b.dataset.arg, apply: argApply, clear: argClear, anchors: argLayer,
+  });
 })();
 
 // ---------------- Fig 15b: the legible verdict ----------------
@@ -5798,13 +5830,13 @@ const LLMTRACE = __LLMTRACE_JSON__;
     const fmt = r => r >= 30 ? "×" + Math.round(r) : r >= 3 ? "×" + r.toFixed(1) : "×" + r.toFixed(2).replace(/0$/, "");
     let h = `<div style="display:grid;grid-template-columns:minmax(108px,150px) repeat(4,minmax(64px,1fr));gap:3px;min-width:440px">`;
     h += `<div></div>` + yrs.map(y => `<div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--muted);text-align:center;padding-bottom:2px">${y}</div>`).join("");
-    for (const w of words) {
+    words.forEach((w, wi) => {
       h += `<div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-2);display:flex;align-items:center;justify-content:flex-end;padding-right:8px">${w}</div>`;
-      for (const y of yrs) {
+      yrs.forEach((y, yi) => {
         const d = V.per_word_delta[w][y];
-        h += `<div style="background:${cell(d.ratio)};color:${ink(d.ratio)};font-family:var(--mono);font-size:10px;display:flex;align-items:center;justify-content:center;height:25px" title="${w}, ${y}: in ${(d.f * 100).toFixed(2)}% of reviews; its own trend expected ${(d.q * 100).toFixed(2)}% — ${fmt(d.ratio)} the expectation">${fmt(d.ratio)}</div>`;
-      }
-    }
+        h += `<div class="cellfade" style="transition-delay:${(wi * 0.045 + yi * 0.09).toFixed(2)}s;background:${cell(d.ratio)};color:${ink(d.ratio)};font-family:var(--mono);font-size:10px;display:flex;align-items:center;justify-content:center;height:25px" title="${w}, ${y}: in ${(d.f * 100).toFixed(2)}% of reviews; its own trend expected ${(d.q * 100).toFixed(2)}% — ${fmt(d.ratio)} the expectation">${fmt(d.ratio)}</div>`;
+      });
+    });
     h += `</div>`;
     host.innerHTML = h;
   })();
@@ -5871,9 +5903,9 @@ const LLMTRACE = __LLMTRACE_JSON__;
         s += `<text x="${padL - 5}" y="${ys(g)}" text-anchor="end" dominant-baseline="middle" font-size="8.5" fill="#6d6657" font-family="${MONO}">${fmt(g)}</text>`;
       }
       let lastLabY = -99;
-      for (const [vals, color, lab] of series) {
-        s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(vals[i])).join(" ")}" fill="none" stroke="${color}" stroke-width="2" data-draw="1"/>`;
-        YRS.forEach((y, i) => {
+      for (const [vals, color, lab, dashed] of series) {
+        s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(vals[i])).join(" ")}" fill="none" stroke="${color}" stroke-width="${dashed ? 1.6 : 2}"${dashed ? ' stroke-dasharray="5 4"' : ' data-draw="1"'}/>`;
+        if (!dashed) YRS.forEach((y, i) => {
           s += `<circle cx="${xs(i)}" cy="${ys(vals[i])}" r="2.4" fill="${color}"><title>${y}: ${fmt(vals[i])} — ${lab}</title></circle>`;
         });
         let ly = ys(vals[8]) - 8;
@@ -5890,8 +5922,10 @@ const LLMTRACE = __LLMTRACE_JSON__;
     const p1 = panel([[YRS.map(y => C2[y].object_entropy), "#241c14", "objects"],
                       [YRS.map(y => C2[y].standard_entropy), "rgba(36,28,20,0.38)", "standards"]],
                      0.86, 0.98, v => v.toFixed(2), null);
-    const p2 = panel([[YRS.map(y => C2[y].reviewer_attention_entropy_mean), "#241c14", "spread"]],
-                     0.68, 0.82, v => v.toFixed(2), null);
+    const p2series = [[YRS.map(y => C2[y].reviewer_attention_entropy_mean), "#241c14", "spread"]];
+    if (MIX.attention_null) p2series.unshift(
+      [YRS.map(y => MIX.attention_null[y].null_mean), "#8a5a1f", "n-matched null", true]);
+    const p2 = panel(p2series, 0.68, 0.82, v => v.toFixed(2), null);
     const gap = YRS.map(y => MIX.reasoning_within_forum[y].median - MIX.reasoning_cross_forum[y].median);
     const p3 = panel([[gap, "#241c14", "co-review gap"]], 0, 0.05, v => v.toFixed(3), null);
     host.innerHTML = `<div class="arc-grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
@@ -5906,7 +5940,9 @@ const LLMTRACE = __LLMTRACE_JSON__;
     const host = document.getElementById("wm-prof");
     if (!host) return;
     const yrs = ["2024", "2025", "2026"];
+    let rowN = 0;
     const zeroRow = (label, vals, fmt, scale, unit, hatched) => {
+      rowN++;
       let r = `<div style="display:grid;grid-template-columns:minmax(120px,220px) 1fr;gap:12px;align-items:center;margin-top:8px">
         <div style="font-size:12.5px;color:var(--ink-2);text-align:right;line-height:1.25">${label}</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">`;
@@ -5916,7 +5952,7 @@ const LLMTRACE = __LLMTRACE_JSON__;
         const pos = v >= 0;
         r += `<div style="position:relative;height:24px" title="${y}: ${fmt(v)}${unit}">
           <div style="position:absolute;left:50%;top:0;bottom:0;border-left:1px solid var(--brass-line)"></div>
-          <div style="position:absolute;top:5px;bottom:5px;${pos ? "left:50%" : `left:calc(50% - ${w}%)`};width:${w}%;${hatched
+          <div class="grow" style="transform-origin:${pos ? "left" : "right"} center;transition-delay:${(0.1 + rowN * 0.07 + k * 0.05).toFixed(2)}s;position:absolute;top:5px;bottom:5px;${pos ? "left:50%" : `left:calc(50% - ${w}%)`};width:${w}%;${hatched
             ? `background:repeating-linear-gradient(135deg, ${pos ? "rgba(168,74,50,0.40)" : "rgba(53,101,179,0.40)"} 0 5px, transparent 5px 9px);border:1px solid ${pos ? "rgba(168,74,50,0.5)" : "rgba(53,101,179,0.5)"}`
             : `background:${pos ? "#a84a32" : "#3565b3"};opacity:0.85`}"></div>
           <div style="position:absolute;${pos ? "left:calc(50% + " + (w + 2) + "%)" : "left:calc(50% + 6px)"};top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9.5px;color:var(--ink)">${fmt(v)}</div>
@@ -8945,7 +8981,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       const st = document.createElementNS(NS, "line");
       st.setAttribute("x1", padL - 6); st.setAttribute("x2", W - padR);
       st.setAttribute("y1", y); st.setAttribute("y2", y);
-      st.setAttribute("stroke", "rgba(138,90,31,0.12)");
+      st.setAttribute("stroke", "rgba(138,90,31,0.20)");
       svg.appendChild(st);
       // label
       const lb = document.createElementNS(NS, "text");

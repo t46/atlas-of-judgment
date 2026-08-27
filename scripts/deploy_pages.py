@@ -58,7 +58,7 @@ PLATES = [
     ("plate-viii", "VIII", "The Combination Clause", "III · The Law", ["combination-data.json"]),
     ("plate-ix", "IX", "The Unnamed Precedent", "III · The Law", ["canon-data.json"]),
     ("plate-x", "X", "The Formulary", "III · The Law", ["boilerplate-data.json", "jurisprudence-data.json"]),
-    ("plate-xi", "XI", "The Repair Manual", "III · The Law", ["repair-manual.json"]),
+    ("plate-xi", "XI", "The Repair Manual", "III · The Law", ["repair-manual.json", "repair-k-robustness.json"]),
     ("plate-xii", "XII", "The Verdicts", "III · The Law", ["viz-data.json"]),
     ("plate-xiii", "XIII", "The Charge Sheet", "III · The Law", ["chargesheet-data.json"]),
     ("plate-xiv", "XIV", "The Price", "IV · The Tariff", ["lawtariff-data.json", "jurisprudence-data.json"]),
@@ -99,6 +99,8 @@ def build_api(dist: Path) -> None:
     build_src = (PROJECT_ROOT / "scripts/build_anatomy_html.py").read_text()
     island_files = sorted(set(re.findall(r'load_json_island\("([a-z0-9_\-]+\.json)"(?:, direct=True)?\)', build_src))
                           | set(re.findall(r'"([a-z0-9_\-]+\.json)"', build_src)))
+    # verification records: not injected into any page, served beside the islands
+    island_files = sorted(set(island_files) | {"repair-k-robustness.json"})
     islands = []
     for name in island_files:
         src = V / name if (V / name).exists() else VDIRECT / name

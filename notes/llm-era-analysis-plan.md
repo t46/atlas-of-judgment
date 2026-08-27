@@ -130,9 +130,20 @@ seeded). Site figure(s) only after numbers are inspected against this plan.
   arrival one cycle later); Gray arXiv:2512.01560 (excess-vocabulary on papers
   at large). TTR-200 lexical-diversity series added as a second standardization
   signal after Li et al. arXiv:2605.25415 named lower lexical diversity a
-  property of LLM reviews. Boos arXiv:2608.14625 relays an untraced "~21% of
-  ICLR 2026 reviews fully AI-generated" estimate — NOT cited on the plate
-  pending a primary source.
+  property of LLM reviews. Boos arXiv:2608.14625 relays a "~21% of
+  ICLR 2026 reviews fully AI-generated" estimate — traced 2026-08-27 to its
+  primary source: a Pangram Labs (commercial AI-detection vendor) self-published
+  blog post (2025-11-18, "Pangram predicts 21% of ICLR reviews are AI-generated"),
+  using their proprietary then-private-beta EditLens per-review detector with
+  self-reported, unaudited false-positive rates. VERDICT: fails this plan's
+  citation bar — it is exactly the per-review-detector category the plate's
+  own first voice block declares unreliable, and ICLR's chairs' 2025-11-19
+  statement pointedly cites no such number and requires human confirmation
+  over detector output. PERMANENTLY UNCITED. Boos's companion "up from 15.8%
+  at ICLR 2024" is Latona et al. arXiv:2405.02150's GPTZero figure, so the
+  15.8%→21% "trend" compares two different proprietary detectors — never cite
+  it as a trend. Checked: no shipped claim depends on either number ("spreads"
+  rests on Sharma's 2025 likelihood-method estimate alone).
 
 ## Addendum E+F (2026-08-27, user-requested after shipping: category
 ## dispersion and sub-unit-grain convergence; frozen before computation)
@@ -177,6 +188,45 @@ method §10. Standing summary: convergence is real in raw wording (Fig 29c
 left, fixed vocabulary), unproven in targets and structure (29c right null,
 29d entropy/embedding nulls), and prose-level assistance is the honest —
 unprovable — reading of that divide.
+
+## Addendum H (2026-08-27, evening): adversarial audit — one more correction,
+## one refinement
+
+A deliberate hunt for siblings of the addendum-G artifact, run before readers
+could find them. Two findings changed the plate; both computations were then
+moved into build_llmtrace_mix.py (mix.attention_null, mix.section_convergence)
+so they are reproducible from the builder.
+
+1. CORRECTION (Fig 29d middle panel). The shipped reading — per-reviewer
+   attention entropy rises 0.742→0.766, "the individual reviewer looks at
+   slightly more kinds of things" — is mostly mechanical: an n-matched null
+   (same reviewers' unit counts, objects drawn iid from the year's own mix,
+   seed 20260827, 5 sims) itself rises 0.788→0.804, because units per
+   ≥5-unit reviewer grew 6.48→6.68 and the year mix grew more even. Excess:
+   −0.046 (2018) → −0.038 (2026), non-monotone, no post-2023 downward bend
+   (−0.044, −0.048, −0.047, −0.038). Only the defensive claim (no narrowing)
+   survives; the panel is now drawn with the null and read as the left
+   panel's person-grain check, not an independent instrument. Corrected in
+   place the same evening; method §10 records it as the third correction.
+
+2. REFINEMENT (Fig 29c left panel). The +14% fixed-vocab within-paper cosine
+   rise decomposes by section: summary-only 0.2801→0.3102→0.3357 (+20%,
+   still climbing); weaknesses+questions-only 0.1608→0.1720→0.1708 (+6%,
+   flat after 2025). Section lengths near-constant (summary 89/87/93 words,
+   criticism 273/294/275) — not a length artifact. The convergence
+   concentrates in the most delegable section; sharpens the plate's
+   assistance-not-delegation reading. Added to the caption with a prov-door.
+
+Also cleared by the same audit (evidence in-session): the cosine rise is not
+a pair-length artifact (rises within every length band) nor panel-size
+composition (rises at every panel size); the 2026 fade is not a length
+artifact (falls inside every fixed length band while reviews did not
+shorten); marked reviews are slightly EARLIER (cdate −0.02 pct), making the
+timing correlate conservative; the embedding row contract (row i = unit_pk
+i+1, unit-norm) holds; the reasoning co-review gap is 0.0115–0.0134 in all
+nine years; aggregate mix entropy is population-level (plug-in bias ≤0.001)
+and not n-mechanical; all spot-checked caption numbers match the shipped
+JSON. Fig 29e's deck now carries the 2026 marginality (p=.075) explicitly.
 
 ## Interpretation guards (bind the captions)
 

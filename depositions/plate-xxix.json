@@ -167,6 +167,23 @@
           ]
         },
         {
+          "id": "29c-section-decomposition",
+          "statement": "Read by review section, the wording convergence concentrates in the summaries: under the identical fixed-vocabulary pipeline run per section, summary-only within-paper cosine rises 0.2801 to 0.3102 to 0.3357 (+20%, still climbing 2026), while weaknesses+questions-only rises 0.1608 to 0.1720 and stalls at 0.1708 (+6%, flat after 2025). Section lengths are near-constant across the three years (summary 89/87/93 words, criticism 273/294/275), so the split is not a length artifact. The summary describes the same paper by construction and is the review's most delegable section; the criticism converges too, but carries little of the headline. Added by the same-day adversarial audit; sharpens rather than weakens the plate's assistance-not-delegation reading.",
+          "value": {
+            "quantity": 0.3357,
+            "unit": "summary_within_cosine_2026"
+          },
+          "source_island": "llmtrace-data.json",
+          "source_path": "mix.section_convergence[year]",
+          "derivation": "one TfidfVectorizer per section variant fitted on all three years jointly (sublinear tf, min_df=5, max 100k features); within-paper forum-mean pairwise cosine, per-year median across forums",
+          "recompute": "scripts/build_llmtrace_mix.py",
+          "dom_ref": "#wm-conv-lex",
+          "verified": "reproduced by build_llmtrace_mix.py against the audit run, 2026-08-27",
+          "caveat_refs": [
+            "29-conv-cause"
+          ]
+        },
+        {
           "id": "29c-no-prior-art",
           "statement": "As of 2026-08, no published study computing within-paper co-review textual similarity across years on real OpenReview data was found (Semantic Scholar + arXiv sweep, 70 curated 2025–26 papers). Nearest neighbours, all cited on the plate: Wu et al. arXiv:2604.19578 (aspect coverage, no similarity metric); Kahneman4Review arXiv:2607.10511 (review-text diagnostics shift at the 2022–23 transition — a timing neighbour this plate's placebo disagrees with by one cycle); Kim et al. arXiv:2605.20668 (AI reviewers' 21%-vs-3% mutual overlap, expert annotation of generated reviews, not a corpus time series). Stated as a search result, not a proof of novelty.",
           "value": null,
@@ -198,7 +215,7 @@
     {
       "id": "fig-29d",
       "title": "The structure holds still: three instruments, no narrowing",
-      "deck": "The mix of criticism spreads slightly, a reviewer's own attention spreads slightly, and the distilled reasoning's co-review gap holds still — nine years, no structural narrowing.",
+      "deck": "The mix of criticism spreads slightly, a reviewer's own apparent spread turns out to be mostly its null, and the distilled reasoning's co-review gap holds still — nine years, no structural narrowing.",
       "dom_host": "#wm-still",
       "claims": [
         {
@@ -220,17 +237,17 @@
         },
         {
           "id": "29d-reviewer-spread",
-          "statement": "Individual reviewers spread attention slightly WIDER, not narrower: mean entropy of one reviewer's own object mix (reviewers with >=5 units, normalized by each reviewer's own ceiling) rises 0.742 (2018) to 0.766 (2026).",
+          "statement": "CORRECTED SAME DAY AS FIRST PUBLICATION: mean entropy of one reviewer's own object mix (reviewers with >=5 units, normalized by each reviewer's own ceiling) rises 0.742 (2018) to 0.766 (2026), but an n-matched null (same reviewers' unit counts, objects drawn iid from the year's own mix, 5 simulations) rises almost in step (0.788 to 0.804), because units per reviewer grew 6.5 to 6.7 and the year mix itself grew more even. Only +0.008 of the +0.024 rise survives the null, trendless (excess -0.053 to -0.038 across nine years; after 2023: -0.044, -0.048, -0.047, -0.038, no downward bend). The plate's first reading claimed the reviewer 'looks at slightly more kinds of things' and was corrected in place the same evening (method section 10). What the panel still establishes: no narrowing after 2023 — and, since the null draws from the year mix, this panel is the left panel's check at the person grain rather than a fully independent instrument.",
           "value": {
-            "quantity": 0.766,
-            "unit": "reviewer_attention_entropy_2026"
+            "quantity": -0.0378,
+            "unit": "excess_over_n_matched_null_2026"
           },
           "source_island": "llmtrace-data.json",
-          "source_path": "mix.concentration[year].reviewer_attention_entropy_mean",
-          "derivation": "per-reviewer Shannon entropy / log2(min(12, n_units)), averaged per year",
+          "source_path": "mix.concentration[year].reviewer_attention_entropy_mean, mix.attention_null[year]",
+          "derivation": "per-reviewer Shannon entropy / log2(min(12, n_units)), averaged per year; null holds each reviewer's n and draws objects iid from the year's object mix; correction recorded in notes/llm-era-analysis-plan.md addendum H and method section 10",
           "recompute": "scripts/build_llmtrace_mix.py",
           "dom_ref": "#wm-still",
-          "verified": "checked against shipped JSON, 2026-08-27",
+          "verified": "reproduced by build_llmtrace_mix.py against the audit run, 2026-08-27",
           "caveat_refs": []
         },
         {
@@ -256,7 +273,7 @@
     {
       "id": "fig-29e",
       "title": "The company the watermark keeps",
-      "deck": "The marked review is longer, cites less, and hands its paper a slightly higher score than its own co-reviews — and its distinctness is dissolving year by year.",
+      "deck": "The marked review is longer, cites less, and hands its paper a slightly higher score than its own co-reviews (firm in 2024–25, marginal in 2026) — and its distinctness is dissolving year by year.",
       "dom_host": "#wm-prof",
       "claims": [
         {
