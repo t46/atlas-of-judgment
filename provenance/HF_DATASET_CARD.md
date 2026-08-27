@@ -36,7 +36,7 @@ data-induced taxonomy of **12 objects of scrutiny × 12 epistemic standards**.
 This is the dataset behind the [Atlas of Judgment](https://atlas-of-judgment.pages.dev)
 (interactive visual atlas). Full reproduction record — every script, model,
 parameter, seed, count, cost, and failure mode — at
-[atlas-of-judgment.pages.dev/method](https://atlas-of-judgment.pages.dev/method.html)
+[atlas-of-judgment.pages.dev/method](https://atlas-of-judgment.pages.dev/method)
 and [github.com/t46/atlas-of-judgment](https://github.com/t46/atlas-of-judgment).
 
 ## ⚠️ AI-generated content disclosure

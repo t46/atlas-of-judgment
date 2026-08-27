@@ -19,22 +19,30 @@ was invoked, what was concluded* — and charted like a sky.
 from 50,861 forums across 2018–2026 (forum-level track), extracted through a three-layer
 pipeline: raw OpenReview record → DeepSeek analytic memos → Qwen schema-constrained
 structuring → locally-induced taxonomy (12 objects of scrutiny × 12 reasoning standards)
-and a validated inference-form classifier. Cross-cutting analyses: the within-review
-itinerary, the elements and price of a charge, rebuttal dynamics, panel deliberation,
-decision associations, nine-year drift, and the field's hardening. (Two early analyses —
-the topic-transition wheel and the five reviewer archetypes — were retired after failing
-their nulls; the archetype mirage is preserved as Appendix III, the Null Cabinet.)
+and a validated inference-form classifier. The atlas presents this as 33 plates — I–XXX
+plus three appendices — arranged in eight acts and a coda, each act one step farther from
+the single review sentence. Cross-cutting analyses: the within-review itinerary, the
+elements and price of a charge, rebuttal dynamics, panel deliberation, decision
+associations, nine-year drift, the field's hardening, and the LLM-era watermark (Plate
+XXIX: a frozen 13-word vocabulary signature spikes in 2024 and fades by 2026 while
+co-review wording converges — corpus-level only; no individual review is labeled). (Two
+early analyses — the topic-transition wheel and the five reviewer archetypes — were
+retired after failing their nulls; the archetype mirage is preserved as Appendix III, the
+Null Cabinet.)
 
 ## Repository layout
 
 | Path | Contents |
 |---|---|
-| `index.html` / `about.html` / `method.html` | the three self-contained pages |
+| `index.html` / `about.html` / `method.html` / `resources.html` | the four self-contained pages |
 | `scripts/` | the full pipeline (collection → normalization → memo → structuring → taxonomy → aggregates). 1Password item IDs in the supervisor shells are redacted. |
+| `depositions/` | per-plate depositions: every figure's claims, with values, derivations, and caveats, as machine-readable JSON (also served at `/api/v1/plates/`) |
+| `notes/` | the frozen pre-registration plan behind Plate XXIX (hypotheses, methods, and decision rules written before computation; corrections logged as dated addenda) |
 | `provenance/` | the project's internal provenance documents (Japanese): end-to-end process, artifact registry, decision log, reproducibility limits, operational handoff |
 | `data/` | derived aggregates the pages are built from (taxonomy, cluster digests, per-plate JSON) — no raw databases |
 | `codex-history/` | the sanitized agent-session history behind the data pipeline (see below) |
-| *(generated, not committed)* | the machine-reader layer — `/api/v1/*` (32 plate depositions + 44 data islands), `/llms.txt`, `/openapi.yaml`, `/api/` docs — is built by `scripts/deploy_pages.py` from `scripts/api_assets/` into the gitignored `.pages-dist/` at deploy time |
+| `LICENSE` | MIT (code) · CC BY 4.0 (text, figures, derived data) |
+| *(generated, not committed)* | the machine-reader layer — `/api/v1/*` (33 plate depositions + 48 data islands), `/llms.txt`, `/openapi.yaml`, `/api/` docs — is built by `scripts/deploy_pages.py` from `scripts/api_assets/` into the gitignored `.pages-dist/` at deploy time |
 
 ## The session history
 
@@ -51,7 +59,16 @@ cannot be reproduced).
 
 Every number on the pages carries its method: the taxonomy was induced, not imposed;
 classifier plates report cross-validated error; the reliability of the instrument itself
-is charted in the atlas appendix. The analysis layers are machine readings of public
-reviews — one consistent reading at scale, not ground truth.
+is charted in the atlas appendix. Load-bearing numbers on the pages open into provenance
+doors (source file, derivation, verification date), and claims that later fell to a null
+are corrected in place and logged in the method page's correction record (§10) rather
+than silently overwritten. The analysis layers are machine readings of public reviews —
+one consistent reading at scale, not ground truth.
 
-*Data source: openreview.net (public records). Analyses verified 2026-08-18.*
+## License
+
+Code is MIT; the written analysis, figures, and derived datasets are CC BY 4.0
+(attribution: "Atlas of Judgment (https://atlas-of-judgment.pages.dev)"). The underlying
+reviews are public OpenReview records, themselves CC BY 4.0. See `LICENSE`.
+
+*Data source: openreview.net (public records). Analyses verified 2026-08-27.*
