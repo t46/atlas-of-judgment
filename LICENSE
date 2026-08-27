@@ -1,0 +1,47 @@
+Atlas of Judgment — licensing
+=============================
+
+This repository contains two kinds of material, licensed separately.
+
+1. Code — MIT License
+---------------------
+All source code (the scripts/ directory and the JavaScript, CSS, and HTML
+markup of the pages themselves) is released under the MIT License:
+
+  Copyright (c) 2026 the Atlas of Judgment authors
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+
+  The above copyright notice and this permission notice shall be included
+  in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+2. Text, figures, and derived data — CC BY 4.0
+----------------------------------------------
+The written analysis, figure designs, captions, method notes, depositions,
+and the derived datasets in data/ are licensed under the Creative Commons
+Attribution 4.0 International License (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+Attribution: "Atlas of Judgment (https://atlas-of-judgment.pages.dev)".
+
+3. Underlying review data
+-------------------------
+The derived datasets are computed from ICLR peer reviews published on
+OpenReview (https://openreview.net), which are themselves released under
+CC BY 4.0. This repository redistributes only aggregated and derived
+quantities; the underlying review texts remain subject to OpenReview's
+terms and their authors' rights.
