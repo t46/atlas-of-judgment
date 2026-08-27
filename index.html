@@ -3004,7 +3004,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="lede lede-voices">
     <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">since 2023, some unknown share of reviews has been written with a language model's help. No review discloses this, and per-review detectors are unreliable — they flag non-native English as machine text and are trivially evaded — so this plate never asks <em>which</em> review. It asks what a corpus-level instrument can honestly measure: whether the record as a whole moved toward the documented signature of machine-assisted prose. One published estimate already exists for one year — about 10.6% of ICLR 2024 review sentences were substantially LLM-modified (Liang et al., ICML 2024). This plate extends the question across all nine years with a simpler, fully reproducible instrument.</div></div>
     <div class="cv"><span class="cv-lab">What was done</span><div class="cv-body">a thirteen-word signature list was frozen <em>before</em> any counting, taken verbatim from the two studies that quantified LLM-preferred vocabulary (Liang et al., ICML 2024; Kobak et al., Science Advances 2025): <em>commendable, meticulous, meticulously, intricate, pivotal, versatile, delve, delves, delving, underscores, underscoring, showcases, showcasing</em>. For every year, the share of reviews containing at least one of these words; the expectation from the 2018–2022 trend alone; and the excess above it. Alongside: how alike co-reviews of the same paper have become, and how the marked minority behaves. The full plan, hypotheses and decision rules were written down before computation (method &#167; 12).</div></div>
-    <div class="cv"><span class="cv-lab">What this cannot say</span><div class="cv-body">nothing here attributes any trend to AI, and the watermark is ink, not a census. The list is a <em>lower-bound tracer with a shelf life</em>: newer models prefer different words, ICLR 2026 required reviewers to disclose LLM use, and a reviewer can delete the tells in one editing pass — so the 2026 fade is ambiguous three ways (different models, the new rule, or cleaner laundering) — and the newest outside estimate points the other way: a January 2026 study applying the ICML likelihood method reads <em>26.7%</em> of ICLR 2025 reviews as LLM-involved (Sharma et al., arXiv:2601.20920), rising while this tracer&#8217;s mark fell. The one year the record can calibrate against says the same: in 2024, when an independent method estimated one review sentence in ten machine-modified, this tracer marked only 7.8% of reviews — the watermark understates the practice even at its darkest.</div></div>
+    <div class="cv"><span class="cv-lab">What this cannot say</span><div class="cv-body">nothing here attributes any trend to AI, and the watermark is ink, not a census. The list is a <em>lower-bound tracer with a shelf life</em>: newer models prefer different words, ICLR 2026 required reviewers to disclose LLM use, and a reviewer can delete the tells in one editing pass — so the 2026 fade is ambiguous three ways (different models, the new rule, or cleaner laundering). A fourth explanation was checked and excluded: <span class="prov"><button class="stat-door">the fade is not reviews growing shorter</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; mix.fade_length_check (build_llmtrace_mix.py, deterministic)<br><b>DERIVATION</b> the signature&#8217;s share falls inside every fixed word-count band from 2024 to 2026 (500&#8211;699 words: 10.4% &#8594; 4.4%; even 700+: 10.2% &#8594; 7.1%) while the mean review lengthened, 406 &#8594; 425 words<br><b>VERIFIED</b> adversarial-audit cycle 2026-08-27, builder-reproduced same day</span></span>. And the newest outside estimate points the other way: a January 2026 study applying the ICML likelihood method reads <em>26.7%</em> of ICLR 2025 reviews as LLM-involved (Sharma et al., arXiv:2601.20920), rising while this tracer&#8217;s mark fell. The one year the record can calibrate against says the same: in 2024, when an independent method estimated one review sentence in ten machine-modified, this tracer marked only 7.8% of reviews — the watermark understates the practice even at its darkest.</div></div>
     </div>
   </div>
   <div class="plate"><div class="plate-inner">
@@ -5391,6 +5391,108 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     "summary_mean_words": 92.6,
     "criticism_within": 0.1708,
     "criticism_mean_words": 274.8
+   }
+  },
+  "fade_length_check": {
+   "2023": {
+    "mean_words": 457.0,
+    "bands": {
+     "0-199": {
+      "share": 0.0028,
+      "n": 1060
+     },
+     "200-349": {
+      "share": 0.0062,
+      "n": 4385
+     },
+     "350-499": {
+      "share": 0.0105,
+      "n": 4178
+     },
+     "500-699": {
+      "share": 0.017,
+      "n": 2830
+     },
+     "700-up": {
+      "share": 0.0282,
+      "n": 1882
+     }
+    }
+   },
+   "2024": {
+    "mean_words": 406.1,
+    "bands": {
+     "0-199": {
+      "share": 0.0304,
+      "n": 3088
+     },
+     "200-349": {
+      "share": 0.0644,
+      "n": 10441
+     },
+     "350-499": {
+      "share": 0.0924,
+      "n": 7736
+     },
+     "500-699": {
+      "share": 0.1043,
+      "n": 4303
+     },
+     "700-up": {
+      "share": 0.1024,
+      "n": 2460
+     }
+    }
+   },
+   "2025": {
+    "mean_words": 426.9,
+    "bands": {
+     "0-199": {
+      "share": 0.0212,
+      "n": 3818
+     },
+     "200-349": {
+      "share": 0.0486,
+      "n": 16764
+     },
+     "350-499": {
+      "share": 0.0652,
+      "n": 13581
+     },
+     "500-699": {
+      "share": 0.0791,
+      "n": 7867
+     },
+     "700-up": {
+      "share": 0.1072,
+      "n": 4718
+     }
+    }
+   },
+   "2026": {
+    "mean_words": 425.2,
+    "bands": {
+     "0-199": {
+      "share": 0.0079,
+      "n": 5087
+     },
+     "200-349": {
+      "share": 0.0184,
+      "n": 26880
+     },
+     "350-499": {
+      "share": 0.0305,
+      "n": 23507
+     },
+     "500-699": {
+      "share": 0.0444,
+      "n": 13548
+     },
+     "700-up": {
+      "share": 0.0711,
+      "n": 6837
+     }
+    }
    }
   }
  }
@@ -8075,9 +8177,10 @@ const LLMTRACE = __ISL("LLMTRACE");
       const ak = SPECIAL[tag + ":" + i + ":" + j];
       if (ak) ANCH[ak] = { x: mx - 26, y: (ya + h0 / 2 + yb + h1 / 2) / 2 };
       out += `<path class="cellfade" style="transition-delay:${(d0 + (i + j) * 0.04).toFixed(2)}s"${ak ? ` data-ak="${ak}"` : ""}` +
+             ` data-tag="${tag}" data-i="${i}" data-j="${j}" data-lift="${lift.toFixed(2)}" data-n="${Math.round(v)}"` +
              ` d="M${x0},${ya.toFixed(1)} C${mx},${ya.toFixed(1)} ${mx},${yb.toFixed(1)} ${x1},${yb.toFixed(1)}` +
              ` L${x1},${(yb + h1).toFixed(1)} C${mx},${(yb + h1).toFixed(1)} ${mx},${(ya + h0).toFixed(1)} ${x0},${(ya + h0).toFixed(1)} Z"` +
-             ` fill="${liftFill(lift)}"><title>${src[i].name} → ${tgt[j].name}: ${lift.toFixed(2)}× chance · ${Math.round(v).toLocaleString("en-US")} units (${(v / tot * 100).toFixed(1)}% of denials)</title></path>`;
+             ` fill="${liftFill(lift)}"/>`;
       if (lift >= 1.2 || lift <= 0.65)
         cand.push({ mx, y: (ya + h0 / 2 + yb + h1 / 2) / 2, t: lift.toFixed(2) + "×" });
     }
@@ -8089,10 +8192,10 @@ const LLMTRACE = __ISL("LLMTRACE");
       ` font-family="IBM Plex Mono, monospace" fill="${INK}" stroke="${HALO}" stroke-width="3" paint-order="stroke">${c.t}</text>`).join("");
     return out + labels;
   };
-  const nodeRects = (nds, x, d0, hollow) => nds.map(nd =>
+  const nodeRects = (nds, x, d0, hollow, colTag) => nds.map((nd, idx) =>
     hollow && nd.name === "nothing asked"
-      ? `<rect class="cellfade" style="transition-delay:${d0}s" x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="none" stroke="${BRASS}" stroke-width="1.2" stroke-dasharray="3 3"/>`
-      : `<rect class="cellfade" style="transition-delay:${d0}s" x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="${BRASS}"/>`).join("");
+      ? `<rect class="cellfade" data-col="${colTag}" data-idx="${idx}" style="transition-delay:${d0}s;pointer-events:all" x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="none" stroke="${BRASS}" stroke-width="1.2" stroke-dasharray="3 3"/>`
+      : `<rect class="cellfade" data-col="${colTag}" data-idx="${idx}" style="transition-delay:${d0}s" x="${x}" y="${nd.y0.toFixed(1)}" width="${nodeW}" height="${(nd.y1 - nd.y0).toFixed(1)}" fill="${BRASS}"/>`).join("");
   const labelCol = (nds, x, anchor, d0) => nds.map(nd => {
     const cy = (nd.y0 + nd.y1) / 2;
     return `<text class="cellfade" style="transition-delay:${d0}s" x="${x}" y="${(cy - 3).toFixed(1)}" text-anchor="${anchor}" font-size="12.5" fill="#453a2c" font-family="Source Serif 4, Georgia, serif">${nd.name}</text>` +
@@ -8108,12 +8211,13 @@ const LLMTRACE = __ISL("LLMTRACE");
   const svg =
     `<svg viewBox="0 0 ${Wv} ${Hv}" style="display:block;min-width:640px;width:100%;height:auto" role="img"` +
     ` aria-label="The novelty syllogism drawn as transitions: what was seen, flowing to the rule invoked, flowing to what was asked. Nearly every ribbon is pale — close to chance.">` +
+    `<style>text{pointer-events:none}</style>` +
     head(cols[0] + nodeW / 2, "GROUND · WHAT WAS SEEN") +
     head(cols[1] + nodeW / 2, "WARRANT · THE RULE INVOKED") +
     head(cols[2] + nodeW / 2, "DEMAND · WHAT WAS ASKED") +
     ribbons(GW, gN, wN, cols[0] + nodeW, cols[1], "gw", 0.2) +
     ribbons(WD, wN, dN, cols[1] + nodeW, cols[2], "wd", 0.65) +
-    nodeRects(gN, cols[0], 0.05) + nodeRects(wN, cols[1], 0.5) + nodeRects(dN, cols[2], 0.95, true) +
+    nodeRects(gN, cols[0], 0.05, false, "g") + nodeRects(wN, cols[1], 0.5, false, "w") + nodeRects(dN, cols[2], 0.95, true, "d") +
     labelCol(gN, cols[0] - 9, "end", 0.05) + labelCol(dN, cols[2] + nodeW + 9, "start", 0.95) +
     midLabels(wN) +
     `</svg>`;
@@ -8122,11 +8226,45 @@ const LLMTRACE = __ISL("LLMTRACE");
   const svgEl = host.querySelector("svg");
   const ribbonEls = () => [...host.querySelectorAll("path")];
   let delaysCleared = false;
-  const argApply = key => {
+  let boundKey = null;   // the caption chip currently applied (hover or pin), so direct hovers can hand back to it
+  const focusRibbons = pred => {
     if (!delaysCleared) { ribbonEls().forEach(p => { p.style.transitionDelay = "0ms"; }); delaysCleared = true; }
-    ribbonEls().forEach(p => { p.style.opacity = p.dataset.ak === key ? "1" : "0.13"; });
+    ribbonEls().forEach(p => { p.style.opacity = pred(p) ? "1" : "0.13"; });
   };
-  const argClear = () => ribbonEls().forEach(p => { p.style.opacity = ""; });
+  const argApply = key => { boundKey = key; focusRibbons(p => p.dataset.ak === key); };
+  const argClear = () => { boundKey = null; ribbonEls().forEach(p => { p.style.opacity = ""; }); };
+  const unfocus = () => { if (boundKey) focusRibbons(p => p.dataset.ak === boundKey); else ribbonEls().forEach(p => { p.style.opacity = ""; }); };
+  // direct hover, Fig 1A's grammar: any ribbon isolates itself with an inked tooltip;
+  // any stage bar isolates its connected ribbons and reads out its partner mix
+  const STAGE = { gw: [gN, wN], wd: [wN, dN] };
+  for (const p of ribbonEls()) {
+    const [src, tgt] = STAGE[p.dataset.tag], n = +p.dataset.n;
+    const tipHtml = `<div class="t">${src[+p.dataset.i].name} → ${tgt[+p.dataset.j].name}</div>` +
+      `<div class="n">${p.dataset.lift}× chance · ${fmt(n)} units · ${(n / tot * 100).toFixed(1)}% of denials</div>`;
+    p.style.cursor = "pointer";
+    p.addEventListener("mousemove", e => showTip(e, tipHtml));
+    p.addEventListener("mouseenter", () => focusRibbons(x => x === p));
+    p.addEventListener("mouseleave", () => { hideTip(); unfocus(); });
+  }
+  const COLS = { g: gN, w: wN, d: dN };
+  host.querySelectorAll("rect[data-col]").forEach(rc => {
+    const col = rc.dataset.col, idx = +rc.dataset.idx, nd = COLS[col][idx];
+    const pred = col === "g" ? (x => x.dataset.tag === "gw" && +x.dataset.i === idx)
+      : col === "d" ? (x => x.dataset.tag === "wd" && +x.dataset.j === idx)
+      : (x => (x.dataset.tag === "gw" && +x.dataset.j === idx) || (x.dataset.tag === "wd" && +x.dataset.i === idx));
+    const mix = (col === "g" ? GW[idx].map((v, j) => [wN[j].name, v])
+      : col === "w" ? WD[idx].map((v, k) => [dN[k].name, v])
+      : WD.map((row, i2) => [wN[i2].name, row[idx]]))
+      .filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1])
+      .map(([nm, v]) => `${nm} ${(100 * v / nd.n).toFixed(0)}%`).join(" · ");
+    const arrow = col === "g" ? "→ " : col === "d" ? "← " : "→ ";
+    const tipHtml = `<div class="t">${nd.name}</div>` +
+      `<div class="n">${fmt(Math.round(nd.n))} units · ${(nd.n / tot * 100).toFixed(0)}% of denials<br>${arrow}${mix}</div>`;
+    rc.style.cursor = "pointer";
+    rc.addEventListener("mousemove", e => showTip(e, tipHtml));
+    rc.addEventListener("mouseenter", () => focusRibbons(pred));
+    rc.addEventListener("mouseleave", () => { hideTip(); unfocus(); });
+  });
   const argLayer = anchorLayer(host, key => {
     const a = ANCH[key], m = svgEl.getScreenCTM();
     if (!a || !m) return null;

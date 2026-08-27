@@ -65,6 +65,7 @@ paths:
               - plate-xxvii
               - plate-xxviii
               - plate-xxix
+              - plate-xxx
               - appendix-i
               - appendix-ii
               - appendix-iii
@@ -105,14 +106,23 @@ components:
   schemas:
     IndexDocument:
       type: object
+      required: [name, version, generated, corpus, endpoints, plates, islands]
       properties:
+        name: { type: string, example: "Atlas of Judgment — Machine Reader API" }
+        version: { type: string, example: "1.0.0" }
+        generated: { type: string, format: date, example: "2026-08-27" }
         corpus:
           type: object
           properties:
             units_2026: { type: integer, example: 410586 }
             reviews_2026: { type: integer, example: 74380 }
-            units_2018_2026: { type: integer, example: 1420178 }
-            papers: { type: integer, example: 52460 }
+            units_2018_2026_direct: { type: integer, example: 1009592 }
+            forums_2018_2026: { type: integer, example: 50861 }
+            units_total: { type: integer, example: 1420178 }
+        endpoints:
+          type: object
+          description: Path templates for every resource this document catalogues.
+          additionalProperties: { type: string }
         plates:
           type: array
           items: { $ref: "#/components/schemas/IndexPlateEntry" }
@@ -122,23 +132,40 @@ components:
 
     IndexPlateEntry:
       type: object
-      required: [id, number, title, act, deposition_url]
+      required: [id, number, title, act, islands, deposition, deposition_status]
       properties:
         id: { type: string, example: plate-i }
         number: { type: string, example: "I" }
         title: { type: string, example: "The Anatomy" }
-        act: { type: string, example: "The Instrument" }
-        deposition_url: { type: string, example: "/api/v1/plates/plate-i.json" }
+        act: { type: string, example: "I · The Instrument" }
+        islands:
+          type: array
+          description: Island filenames this plate reads (resolve via /api/v1/data/{file}).
+          items: { type: string, example: viz-data.json }
+        deposition:
+          type: [string, "null"]
+          description: Path of this plate's deposition, null while pending.
+          example: "/api/v1/plates/plate-i.json"
+        deposition_status:
+          type: string
+          enum: [available, pending]
 
     IndexIslandEntry:
       type: object
-      required: [file, url, status]
+      required: [file, bytes, track, plates, status]
       properties:
-        file: { type: string, example: viz-data.json }
-        url: { type: string, example: "/api/v1/data/viz-data.json" }
-        used_by_plates:
+        file:
+          type: string
+          example: viz-data.json
+          description: Filename; fetch at /api/v1/data/{file}.
+        bytes: { type: integer, example: 1404026 }
+        track:
+          type: string
+          enum: ["2026 full-depth", "2018-2026 direct"]
+        plates:
           type: array
-          items: { type: string }
+          description: Plate ids that read this island (empty for orphaned files).
+          items: { type: string, example: plate-i }
         status:
           type: string
           enum: [active, orphaned]

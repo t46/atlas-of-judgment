@@ -7,7 +7,8 @@
 > was labelled for what it inspects (12 objects), the rule it argues from (12 standards),
 > and the verdict it reaches — induced from the data, not chosen in advance.
 
-This site is built for two readers: a human walking 29 plates across 8 acts, and a
+This site is built for two readers: a human walking 30 plates across 8 acts and a coda
+(plus about, method, and resources companion pages), and a
 machine — you — that wants the underlying claims as structured, sourced, recomputable
 data. This file is the entry point for the second reader.
 
@@ -18,9 +19,11 @@ data. This file is the entry point for the second reader.
   a statement, a numeric value, the source_island and derivation that produced it,
   the recompute script that regenerates it from raw review text, and any caveats that
   govern how to read it. <id> is the plate slug, e.g. plate-i. All __PLATE_COUNT__
-  depositions (29 plates and 3 appendices) are published; the index lists each one.
+  depositions (30 plates and 3 appendices) are published; the index lists each one.
 - /api/v1/data/<island>.json — the __ISLAND_COUNT__ underlying data islands as standalone files
   (the same JSON embedded as script data on the human page — one source, two formats).
+  A few are verification records rather than chart feeds (e.g. repair-k-robustness.json);
+  the index's plates[] field says which plates read each file.
 - /openapi.yaml — machine-readable schema for all of the above.
 - /api/ — human-readable API docs, same visual language as the main site.
 
@@ -29,8 +32,9 @@ data. This file is the entry point for the second reader.
 Scoring itself is not one instrument held constant for nine years: ICLR's review-scale
 and review-form definitions changed four times between 2018 and 2026. Any claim that
 compares a *score* (not a unit count or share) across years needs this "moving ruler"
-caveat — see method.html §10 and the caveats[] array on any plate whose claims
-reference score data (Plates VI, XII, XXIV, XXV are the main ones). Claims about
+caveat — see method §07, "The moving ruler" (method.html#ruler), and the caveats[] array
+on any plate whose claims reference score data (Plates XIV, XXV, XXVI carry it as a
+named caveat; Plate XXIX's rating-premium claims are governed the same way). Claims about
 unit *counts and shares* (most of the site) are not affected — the taxonomy, not the
 1–10 scale, is the constant instrument.
 
@@ -38,7 +42,7 @@ unit *counts and shares* (most of the site) are not affected — the taxonomy, n
 
 Derived data (the islands, the depositions, this API) is released CC BY 4.0. The
 underlying reviews belong to their anonymous authors and are public via OpenReview —
-every specimen in Plate XXIX links back to its original. When citing a number from this
+every specimen in Plate XXX links back to its original. When citing a number from this
 site, cite the plate id and claim id (e.g. plate-i#1a-negative-share), which resolves
 via /api/v1/plates/plate-i.json to the exact derivation and recompute script — more
 precise than citing a caption sentence, because the claim id is stable across visual

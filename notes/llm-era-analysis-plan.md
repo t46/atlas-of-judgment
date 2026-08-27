@@ -227,6 +227,13 @@ i+1, unit-norm) holds; the reasoning co-review gap is 0.0115–0.0134 in all
 nine years; aggregate mix entropy is population-level (plug-in bias ≤0.001)
 and not n-mechanical; all spot-checked caption numbers match the shipped
 JSON. Fig 29e's deck now carries the 2026 marginality (p=.075) explicitly.
+Follow-up (same day): the length-artifact exclusion was builder-ized as
+mix.fade_length_check in build_llmtrace_mix.py (deterministic, no RNG:
+marker share per fixed word-count band 2023–2026 + mean review length;
+2024→2026 the share falls in every band, 500–699w 10.4%→4.4%, 700+ 10.2%→
+7.1%, while mean length rose 406→425 words) and stated on the plate as a
+fourth excluded explanation beside the three-way ambiguity, with a
+prov-door sourcing that key.
 
 ## Interpretation guards (bind the captions)
 

@@ -59,29 +59,6 @@ def main() -> None:
 .fig-cap { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); margin: 26px 0 12px; }
 .hm-note { font-size: 13px; color: var(--ink-2); margin-top: 12px; }
 @media (max-width: 700px) { .hm .rl { font-size: 8.5px; white-space: normal; line-height: 1.15; padding-right: 6px; } .hm .cell { height: 20px; } }
-.filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0; }
-.filters select { background: var(--raise); color: var(--ink); border: 1px solid var(--brass-line); padding: 8px 12px; font-size: 11.5px; font-family: var(--mono); }
-.filters .count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.1em; }
-.review-card { border: 1px solid var(--brass-faint); background: rgba(22,19,36,0.5); padding: 22px 22px; display: flex; flex-direction: column; gap: 14px; }
-.review-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; border-bottom: 1px solid var(--brass-faint); padding-bottom: 12px; }
-.review-head .title { font-family: var(--display); font-size: 19px; font-weight: 600; border: none; color: var(--ink); }
-.review-head a.title:hover, .review-head a.rid:hover { color: var(--brass); }
-.review-head .rid { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; border: none; }
-.chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; padding: 2px 9px; border: 1px solid var(--brass-faint); color: var(--ink-2); white-space: nowrap; }
-.chip.acc { border-color: #3ba183; color: #3ba183; }
-.chip.rej { border-color: #d0685c; color: #d0685c; }
-.summary { color: var(--ink-2); font-style: italic; font-size: 14px; }
-.unit { display: grid; grid-template-columns: 3px 1fr; background: rgba(26,23,41,0.75); border: 1px solid var(--brass-faint); margin-top: 10px; }
-.unit .stripe { height: 100%; }
-.unit .flow { display: grid; grid-template-columns: repeat(4, 1fr); padding: 12px 14px 14px 0; }
-.unit .step { padding: 2px 16px 0; border-left: 1px solid var(--brass-faint); border-top: none; }
-.unit .step:first-child { border-left: none; }
-.unit .step .sl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
-.unit .step p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--ink); }
-.unit .tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 0; }
-.improve { grid-column: 1 / -1; margin: 12px 16px 0; padding: 9px 13px; border-left: 2px solid var(--brass); background: rgba(201,164,92,0.06); font-size: 12.5px; color: var(--ink-2); }
-.improve b { color: var(--brass); font-weight: 500; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; }
-@media (max-width: 880px) { .unit .flow { grid-template-columns: 1fr; gap: 10px; } .unit .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 16px 0; } .unit .step:first-child { border-top: none; } }
 .unit-toggle { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 1px dashed var(--brass-line); color: var(--brass); padding: 6px 14px; cursor: pointer; margin-top: 10px; align-self: flex-start; transition: background .25s ease; }
 .unit-toggle:hover { border-style: solid; background: rgba(201,164,92,0.08); }
 .unit-toggle .arr { display: inline-block; transition: transform .45s cubic-bezier(.25,.8,.25,1); margin-left: 6px; }
@@ -134,8 +111,6 @@ const MX = {data_js};
 (function () {{
   const fmt = n => n.toLocaleString("en-US");
   const pct = x => (100 * x).toFixed(1) + "%";
-  const VAL_ORDER = ["negative", "uncertain", "mixed", "conditional", "positive"];
-  const VAL_COLOR = {{ negative: "#d0685c", uncertain: "#8b84cf", mixed: "#bd5878", conditional: "#bf8a30", positive: "#3ba183" }};
   const objLabel = MX.objLabel, reaLabel = MX.reaLabel, objOrder = MX.objOrder, reaOrder = MX.reaOrder;
 
   // ---- reliability heatmap ----

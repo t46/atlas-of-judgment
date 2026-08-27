@@ -154,6 +154,34 @@ def section_convergence() -> dict:
     return out
 
 
+
+def fade_length_check() -> dict:
+    """Audit-cleared channel, builder-reproduced (plan addendum H): is the
+    2026 marker fade a length artifact? Marker share inside fixed word-count
+    bands, 2023-2026, plus the mean review length. Deterministic, no RNG."""
+    from build_llmtrace_data import MARKER_SET, TOKEN, load_reviews
+
+    bands = [(0, 200), (200, 350), (350, 500), (500, 700), (700, 10 ** 9)]
+    out = {}
+    for y in (2023, 2024, 2025, 2026):
+        lens, hits = [], []
+        for r in load_reviews(y):
+            tl = TOKEN.findall(r["text"].lower())
+            lens.append(len(tl))
+            hits.append(bool(set(tl) & MARKER_SET))
+        lens = np.array(lens); hits = np.array(hits)
+        bd = {}
+        for lo, hi in bands:
+            m = (lens >= lo) & (lens < hi)
+            key = f"{lo}-{hi - 1 if hi < 10 ** 9 else 'up'}"
+            bd[key] = {"share": round(float(hits[m].mean()), 4) if m.any() else None,
+                       "n": int(m.sum())}
+        out[str(y)] = {"mean_words": round(float(lens.mean()), 1), "bands": bd}
+        print(y, "fadelen", out[str(y)]["mean_words"],
+              {k: v["share"] for k, v in bd.items()})
+    return out
+
+
 def main() -> None:
     con = sqlite3.connect(f"file:{DIRECT / 'units.sqlite3'}?mode=ro&immutable=1", uri=True)
     rows = con.execute(
@@ -319,6 +347,7 @@ def main() -> None:
 
     att_null = attention_null(by_year)
     sect = section_convergence()
+    fade_len = fade_length_check()
 
     d = json.loads(OUT.read_text())
     d["mix"] = {
@@ -330,6 +359,7 @@ def main() -> None:
         "jaccard_size_null": jaccard_null,
         "attention_null": att_null,
         "section_convergence": sect,
+        "fade_length_check": fade_len,
     }
     OUT.write_text(json.dumps(d, indent=1))
     print(f"wrote {OUT} ({OUT.stat().st_size/1024:.0f} KB)")
