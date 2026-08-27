@@ -29,6 +29,7 @@ ISLANDS = [
     ("CANON", "canon-data.json"), ("LAWT", "lawtariff-data.json"), ("SHEET", "chargesheet-data.json"),
     ("ACECHO", "acecho-data.json"), ("TML", "timeless-data.json"), ("MOVES", "moves-data.json"),
     ("COMBO", "combination-data.json"), ("TRIBCI", "tribunal-ci.json"), ("ARG", "argument-raw-novelty.json"), ("DEC", "decision-data.json"),
+    ("LLMTRACE", "llmtrace-data.json"),
 ]
 DIRECT_ISLANDS = [
     ("DRIFT", "drift-data.json"), ("PANEL", "panel-data.json"), ("MINDS", "minds-data.json"),

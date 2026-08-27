@@ -1,0 +1,99 @@
+{
+  "id": "plate-xxx",
+  "number": "XXX",
+  "title": "The Specimens",
+  "act": {
+    "number": "Coda",
+    "title": "The Archive"
+  },
+  "corpus_scope": "ICLR 2026 · 232 sampled reviews",
+  "question": "Do the atlas's structured readings hold up against the original review text?",
+  "page_url": "https://atlas-of-judgment.pages.dev/",
+  "figures": [
+    {
+      "id": "fig-29",
+      "title": "Raw reasoning, unretouched",
+      "deck": "Not at random: for each object of scrutiny, up to twenty reviews were taken and deduplicated across objects — 232 reviews in all, here to be checked against the originals.",
+      "dom_host": "#reviews",
+      "claims": [
+        {
+          "id": "29-sample-size",
+          "statement": "For each of the twelve objects of scrutiny, up to twenty reviews were taken that contain at least one unit confidently assigned to that object, deduplicated across objects — 232 reviews in all.",
+          "value": {
+            "quantity": 232,
+            "unit": "count_reviews"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "sample_reviews[]",
+          "derivation": "up to 20 reviews per object of scrutiny (12 objects), each containing ≥1 unit assigned to that object at label similarity ≥0.75, deduplicated across objects so no review is counted twice",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
+          "caveat_refs": [
+            "sampling-not-representative"
+          ]
+        },
+        {
+          "id": "29-per-object-cap",
+          "statement": "Up to twenty reviews were taken per object of scrutiny, across all twelve objects.",
+          "value": {
+            "quantity": [
+              12,
+              20
+            ],
+            "unit": "objects_and_max_reviews_per_object"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "sample_reviews[]",
+          "derivation": "sampling cap of 20 reviews per object, applied independently across the 12-object taxonomy before deduplication",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
+          "caveat_refs": [
+            "sampling-not-representative"
+          ]
+        },
+        {
+          "id": "29-similarity-threshold",
+          "statement": "A review qualifies for a given object only where it contains at least one unit confidently assigned to that object (label similarity 0.75 or better).",
+          "value": {
+            "quantity": 0.75,
+            "unit": "min_label_similarity_threshold"
+          },
+          "source_island": "viz-data.json",
+          "source_path": "sample_reviews[].units[]",
+          "derivation": "inclusion filter: unit-to-object-centroid cosine similarity ≥ 0.75",
+          "recompute": "scripts/build_unit_viz_data.py",
+          "dom_ref": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
+          "caveat_refs": [
+            "structured-reading-not-verbatim"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    {
+      "id": "sampling-not-representative",
+      "text": "The sample therefore covers the taxonomy evenly rather than reflecting how often each object occurs, and it is here to be checked against the originals, not to be counted.",
+      "scope": "the 232-review specimen sample",
+      "verified_by": null
+    },
+    {
+      "id": "structured-reading-not-verbatim",
+      "text": "Each bordered block is one logic unit, the atlas's structured reading of the reviewer's prose — not the reviewer's own words.",
+      "scope": "all specimen unit content",
+      "verified_by": null
+    }
+  ],
+  "links": {
+    "recompute_scripts": [
+      "scripts/build_unit_viz_data.py"
+    ],
+    "data": [
+      "/api/v1/data/viz-data.json"
+    ],
+    "related_plates": []
+  }
+}

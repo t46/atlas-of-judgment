@@ -2594,7 +2594,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
-<div class="act-leaf" data-mag="NINE YEARS"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXVIII</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="NINE YEARS"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXIX</div><span class="al-rule"></span></div>
 
 <section id="field">
   <div class="plate-head">
@@ -2740,11 +2740,67 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf" data-mag="THE RECORD ITSELF"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXIX</div><span class="al-rule"></span></div>
+<section>
+  <div class="plate-head">
+    <div class="plate-no">Plate XXIX · The Watermark</div>
+    <div class="plate-scope">Corpus: ICLR 2018–2026 · 199,031 official reviews · corpus-level traces only — no single review is accused</div>
+    <h2>A watermark appears in 2024 — and fades while the practice spreads</h2>
+    <div class="lede lede-voices">
+    <div class="cv"><span class="cv-lab">Why this exists</span><div class="cv-body">since 2023, some unknown share of reviews has been written with a language model's help. No review discloses this, and per-review detectors are unreliable — they flag non-native English as machine text and are trivially evaded — so this plate never asks <em>which</em> review. It asks what a corpus-level instrument can honestly measure: whether the record as a whole moved toward the documented signature of machine-assisted prose. One published estimate already exists for one year — about 10.6% of ICLR 2024 review sentences were substantially LLM-modified (Liang et al., ICML 2024). This plate extends the question across all nine years with a simpler, fully reproducible instrument.</div></div>
+    <div class="cv"><span class="cv-lab">What was done</span><div class="cv-body">a thirteen-word signature list was frozen <em>before</em> any counting, taken verbatim from the two studies that quantified LLM-preferred vocabulary (Liang et al., ICML 2024; Kobak et al., Science Advances 2025): <em>commendable, meticulous, meticulously, intricate, pivotal, versatile, delve, delves, delving, underscores, underscoring, showcases, showcasing</em>. For every year, the share of reviews containing at least one of these words; the expectation from the 2018–2022 trend alone; and the excess above it. Alongside: how alike co-reviews of the same paper have become, and how the marked minority behaves. The full plan, hypotheses and decision rules were written down before computation (method &#167; 12).</div></div>
+    <div class="cv"><span class="cv-lab">What this cannot say</span><div class="cv-body">nothing here attributes any trend to AI, and the watermark is ink, not a census. The list is a <em>lower-bound tracer with a shelf life</em>: newer models prefer different words, ICLR 2026 required reviewers to disclose LLM use, and a reviewer can delete the tells in one editing pass — so the 2026 fade is ambiguous three ways (different models, the new rule, or cleaner laundering) — and the newest outside estimate points the other way: a January 2026 study applying the ICML likelihood method reads <em>26.7%</em> of ICLR 2025 reviews as LLM-involved (Sharma et al., arXiv:2601.20920), rising while this tracer&#8217;s mark fell. The one year the record can calibrate against says the same: in 2024, when an independent method estimated one review sentence in ten machine-modified, this tracer marked only 7.8% of reviews — the watermark understates the practice even at its darkest.</div></div>
+    </div>
+  </div>
+  <div class="plate"><div class="plate-inner">
+    <div class="fig-title">Fig. 29a — The spike and the fade: the frozen signature, 2018 → 2026</div>
+    <div class="fig-deck">The thirteen-word signature holds near one percent for six years, spikes to 7.8% of reviews in 2024 — and is back to 3.1% by 2026.</div>
+    <div class="fig-rel"><b>PLATE XXVII HELD THE LAW&#8217;S TEXT STILL</b> — novelty&#8217;s stated standard reads the same in 2018 as in 2026. This plate finds the <em>pen</em> moving instead: the statute did not change; the diction did, in one sharp step.</div>
+    <div id="wm-spike"></div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">SHARE OF THE YEAR&#8217;S REVIEWS CONTAINING &ge;1 OF THE 13 FROZEN WORDS &middot; DASHED = 2018&#8211;2022 TREND EXTRAPOLATED &middot; &#8217;24 = FIRST FULL POST-CHATGPT CYCLE &middot; &#8217;25 = OFFICIAL LLM-FEEDBACK PILOT &middot; &#8217;26 = DISCLOSURE REQUIRED</div>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>Fig. 29a</b></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">if the reviewer&#8217;s diction had merely continued its drift, the ink line would track the dashed counterfactual — and through 2023 it does, to within a third of a point (2023 sits at 1.2% against an expected 1.5%, a clean placebo: those reviews were written as ChatGPT shipped, not after it). Then the step: <span class="prov"><button class="stat-door">7.8% of 2024 reviews carry the signature against an expected 1.6% — an excess of +6.1 points</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; vocab.indicator["2024"], vocab.counterfactual["2024"], vocab.delta["2024"]<br><b>DERIVATION</b> 0.07785 &#8722; 0.01644 = +0.0614, i.e. +6.1 points of excess over the 2018&#8211;2022 linear trend<br><b>VERIFIED</b> checked against shipped JSON and recounted via direct SQL, 2026-08-27</span></span>, four to five times the trend, exactly one review cycle after ChatGPT&#8217;s release. Then the fade: +4.4 points of excess in 2025, +1.1 in 2026. A negative-control list of ten ordinary reviewer words (<em>interesting, unclear, convincing&#8230;</em>), run through the identical machinery, shows no spike — it drifts mildly <em>below</em> its trend as reviews shortened, which makes the marker spike conservative, not inflated. The excess is a floor, not a count: a review whose machine-assisted text happens to avoid all thirteen words is invisible here.</div></div>
+    </div>
+
+    <div class="fig-title" style="margin-top:38px">Fig. 29b — The tells rotate: each word against its own pre-LLM trend</div>
+    <div class="fig-deck">The 2024 tells are not the 2026 tells: the <em>delve</em> family dies to below its human baseline while <em>underscoring</em> is still climbing.</div>
+    <div class="fig-rel"><b>A DETECTOR&#8217;S SHELF LIFE, MEASURED</b> — any fixed word list ages with the models that made it famous; whatever replaces the 2024 vocabulary will not announce itself.</div>
+    <div class="hm-wrap"><div id="wm-words"></div></div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">CELL = THE WORD&#8217;S FREQUENCY VS ITS OWN 2018&#8211;2022 TREND &middot; WARM = ABOVE TREND &middot; COOL = BELOW &middot; &times;N = FOLD &middot; ROWS SORTED BY 2026 FOLD</div>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>Fig. 29b</b></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each row is one frozen word; each cell holds its document frequency against its own extrapolated trend, so &times;1.0 (pale) means &#8220;exactly as often as human drift predicts.&#8221; In 2024 every row but one runs warm — <em>meticulously</em> &times;14.4, <em>meticulous</em> &times;12.6, <em>delves</em> &times;11.8, <em>pivotal</em> &times;11.5, <em>intricate</em> &times;10.6. By 2026 the column has split: <span class="prov"><button class="stat-door">the delve family collapses to below its pre-LLM baseline (delves &times;0.35, delve &times;0.72)</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; vocab.per_word_delta.delves["2026"].ratio (0.35), .delve["2026"].ratio (0.72)<br><b>DERIVATION</b> document frequency in 2026 divided by the word&#8217;s own 2018&#8211;2022 linear extrapolation; delves: 0.00037 / 0.00104 = 0.35<br><b>VERIFIED</b> checked against shipped JSON; SQL recount finds delve-family reviews falling 551 &#8594; 138 from 2024 to 2026 while the corpus grew 2.7&times;, 2026-08-27</span></span> — undershooting it, as if the word had been scrubbed — along with <em>showcases</em> (&times;0.51) and <em>showcasing</em> (&times;0.98), while <em>underscoring</em> (&times;253, from near-zero), <em>underscores</em> (&times;6.5), <em>meticulous</em> (&times;5.1) and <em>commendable</em> (&times;4.7) persist. One list, two fates: the vocabulary of the 2023-era models burned bright and burned out; a quieter residue is still spreading. For scale, the biggest 2026 vocabulary shifts of all are the field&#8217;s own subject matter — <em>qwen</em> appears in 9.2% of 2026 reviews, <em>llama</em> in 6.4%, <em>deepseek</em> in 2.6%, against essentially zero before — which is why the tracer is restricted to style words: topic drift is real, loud, and not evidence of who held the pen.</div></div>
+    </div>
+
+    <div class="fig-title" style="margin-top:38px">Fig. 29c — The convergence: co-reviews grow alike — in words, and in what they inspect</div>
+    <div class="fig-deck">Two reviews of the same paper are 14% more alike in wording in 2026 than in 2024 under one fixed vocabulary; random cross-paper pairs are not.</div>
+    <div class="fig-rel"><b>PLATE XXV READ THE NUMBER&#8217;S REPEATABILITY</b> — how far two juries of the same paper agree in <em>score</em>. This panel reads the same pairs in <em>words</em>: whatever is happening to the diction, co-reviews are converging on each other, not on the corpus.</div>
+    <div class="arc-grid" style="grid-template-columns:1fr 1fr">
+      <div><div class="rep-cap">WORDING &middot; TF&#8211;IDF COSINE</div><div id="wm-conv-lex"></div></div>
+      <div><div class="rep-cap">OBJECTS INSPECTED &middot; JACCARD</div><div id="wm-conv-obj"></div></div>
+    </div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:6px 0 8px">INK = MEDIAN SIMILARITY OF CO-REVIEWS OF ONE PAPER &middot; FAINT = RANDOM CROSS-PAPER PAIRS &middot; VERTICAL RULES = REVIEW-FORM CHANGES &middot; HOLLOW POINTS = FIXED SHARED VOCABULARY, 2024&#8211;26</div>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>Fig. 29c</b></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">left: for every paper with two or more reviews, the median pairwise TF&#8211;IDF cosine of its reviews (ink), against the median for random pairs from different papers (faint). If reviews were homogenizing wholesale, both lines would rise together; if the review <em>form</em> were doing the work, the line would jump at form changes (the vertical rules) and hold flat between them. Neither happens: the within-paper line climbs <em>inside</em> the constant-form window — 0.277 &#8594; 0.299 &#8594; 0.317 across 2024&#8211;26 under one shared vocabulary (the hollow points), a +14% rise with no form change and no vocabulary change to blame — while random pairs stay flat (0.078 &#8594; 0.073). Right: the same convergence in <em>what gets inspected</em> — the overlap between co-reviewers&#8217; sets of charged objects (Plate I&#8217;s twelve) fell from 0.278 in 2018 to 0.252 in 2023, then turned and rose three years straight to 0.284, its nine-year high. The turn lands on the same year as the watermark&#8217;s arrival. What this panel cannot separate: reviewers converging because a shared tool proposes similar points, and reviewers converging because papers, templates, or norms make the same points unavoidable. It records <em>that</em> the juries are converging, and <em>when</em> the turn came — not why.</div></div>
+    </div>
+
+    <div class="fig-title" style="margin-top:38px">Fig. 29d — The company the watermark keeps</div>
+    <div class="fig-deck">The marked review is longer, cites less, and hands its paper a slightly higher score than its own co-reviews — and its distinctness is dissolving year by year.</div>
+    <div class="fig-rel"><b>THE AI-LOTTERY DESIGN, WITH A TRANSPARENT INSTRUMENT</b> — Latona et al. found detector-flagged ICLR 2024 reviews scoring higher within the same paper. The paired comparison here replicates that direction for 2024&#8211;2026 with the frozen public word list in place of a proprietary detector.</div>
+    <div id="wm-prof"></div>
+    <div class="caption cap-voices">
+    <div class="cv-fig"><b>Fig. 29d</b></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">top block: within one paper, the mean score of its marked reviews minus its unmarked ones — <span class="prov"><button class="stat-door">+0.14 points in 2024, +0.17 in 2025, +0.11 in 2026</button><span class="prov-pop" hidden><b>SOURCE</b> llmtrace-data.json &#8594; correlates["2024"|"2025"|"2026"].paired_rating.mean_diff (sign-test p = .014, 7.8&times;10&#8722;6, .075)<br><b>DERIVATION</b> papers holding both a marked and an unmarked review; mean(marked ratings) &#8722; mean(unmarked ratings), averaged over papers (1,919 / 2,563 / 2,189 papers)<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-27</span></span> — small, but on the wrong side of a demanding benchmark: a paper&#8217;s <em>longest</em> review (hatched) scores <em>lower</em> than its peers by 0.17&#8211;0.35 points, and marked reviews are the long ones (+58 to +123 words), so length alone predicts the opposite sign. Split by the co-reviews&#8217; own verdict — under a permutation control, because conditioning on the comparison group manufactures a weak-paper gradient out of mean reversion alone — the premium survives in every quality band (+0.07 to +0.28 points over the permuted baseline), running mildly larger for weakly-rated papers in 2024&#8211;25, the direction the newest leniency study predicts (Sharma et al., arXiv:2601.20920). Bottom block, with reviews compared only against same-length peers: the marked review cites scholarship less (&#8220;et al.&#8221; &#8722;6.3 points in 2024) and replies less in the rebuttal (&#8722;0.08 exchanges) — the profile the ICML study found for machine-modified text — but both gaps thin each year and the rebuttal gap is gone by 2026 (&#8722;0.0009). The null shape matters as much as the effects: as the watermark fades, the population it marks stops being distinctive — consistent with the residue of Fig. 29b belonging increasingly to ordinary, engaged reviewers who have simply absorbed the vocabulary. Confidence runs mildly <em>higher</em> for marked reviews (+0.03, length-adjusted) in all three years — the one place this record disagrees with the ICML study&#8217;s low-confidence profile, and it is reported as the disagreement it is.</div></div>
+    </div>
+  </div></div>
+</section>
+
+<div class="act-leaf" data-mag="THE RECORD ITSELF"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXX</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
-    <div class="plate-no">Plate XXIX · The Specimens</div>
+    <div class="plate-no">Plate XXX · The Specimens</div>
     <div class="plate-scope">Corpus: ICLR 2026 · 232 sampled reviews</div>
     <h2>Raw reasoning, unretouched</h2>
     <div class="lede lede-voices">
@@ -4583,6 +4639,7 @@ const COMBO = __COMBO_JSON__;
 const TRIBCI = __TRIBCI_JSON__;
 const ARG = __ARG_JSON__;
 const DEC = __DEC_JSON__;
+const LLMTRACE = __LLMTRACE_JSON__;
 
 
 // ---------------- sankey (Plate II) ----------------
@@ -5660,6 +5717,163 @@ const DEC = __DEC_JSON__;
     <div style="font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.5">year by year<br>0.75 \u2192 0.63</div>
     <div>${spark}</div></div>`;
   host.innerHTML = h;
+})();
+
+// ---------------- the watermark (Plate XXIX) ----------------
+(function watermark() {
+  if (typeof LLMTRACE === "undefined") return;
+  const V = LLMTRACE.vocab, C = LLMTRACE.convergence, J = LLMTRACE.content_convergence, B = LLMTRACE.correlates;
+  const YRS = ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"];
+  const NS = "http://www.w3.org/2000/svg";
+  const MONO = "IBM Plex Mono, monospace";
+  const pctf = v => (v * 100).toFixed(1) + "%";
+
+  // ---- Fig 29a: the spike and the fade ----
+  (function spike() {
+    const host = document.getElementById("wm-spike");
+    if (!host) return;
+    const W = 940, H = 330, padL = 50, padR = 26, padT = 26, padB = 40;
+    const vMax = 0.088;
+    const xs = i => padL + i / (YRS.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - v / vMax) * (H - padT - padB);
+    // least-squares line over 2018-2022, the pre-LLM counterfactual
+    const yv = [0, 1, 2, 3, 4].map(i => V.indicator[YRS[i]]);
+    const my = yv.reduce((a, b) => a + b, 0) / 5;
+    let num = 0, den = 0;
+    yv.forEach((v, x) => { num += (x - 2) * (v - my); den += (x - 2) * (x - 2); });
+    const sl = num / den, ic = my - sl * 2;
+    const cf = i => Math.max(0, sl * i + ic);
+    let s = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block" role="img" aria-label="share of reviews containing the frozen thirteen-word signature, by year, against the pre-2023 trend">`;
+    for (const g of [0, 0.02, 0.04, 0.06, 0.08]) {
+      s += `<line x1="${padL}" y1="${ys(g)}" x2="${W - padR}" y2="${ys(g)}" stroke="rgba(36,28,20,0.10)" stroke-width="1"/>`;
+      s += `<text x="${padL - 8}" y="${ys(g)}" text-anchor="end" dominant-baseline="middle" font-size="10" fill="#6d6657" font-family="${MONO}">${Math.round(g * 100)}%</text>`;
+    }
+    // the excess, inked: observed over counterfactual, 2023-2026
+    let poly = "";
+    for (let i = 5; i <= 8; i++) poly += `${xs(i)},${ys(V.indicator[YRS[i]])} `;
+    for (let i = 8; i >= 5; i--) poly += `${xs(i)},${ys(cf(i))} `;
+    s += `<polygon points="${poly}" fill="rgba(168,74,50,0.15)"/>`;
+    s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(cf(i))).join(" ")}" fill="none" stroke="#8a5a1f" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.75"/>`;
+    s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(V.indicator[y])).join(" ")}" fill="none" stroke="#241c14" stroke-width="2.2" data-draw="1"/>`;
+    const NOTES = { 2024: "first full post-ChatGPT review cycle", 2025: "official LLM-feedback pilot year", 2026: "disclosure required" };
+    YRS.forEach((y, i) => {
+      const v = V.indicator[y];
+      s += `<circle cx="${xs(i)}" cy="${ys(v)}" r="3.4" fill="#241c14"><title>${y}: ${pctf(v)} of reviews carry the signature (trend expects ${pctf(cf(i))})${y === "2023" ? " — placebo year: written as ChatGPT shipped" : ""}${NOTES[y] ? " — " + NOTES[y] : ""}</title></circle>`;
+      s += `<text x="${xs(i)}" y="${H - padB + 18}" text-anchor="middle" font-size="10.5" fill="#6d6657" font-family="${MONO}">${y.slice(2)}</text>`;
+      if (NOTES[y]) s += `<path d="M ${xs(i)} ${padT - 10} l 4 -7 l -8 0 z" fill="#8a5a1f"><title>${y}: ${NOTES[y]}</title></path>`;
+    });
+    s += `<text x="${xs(6) + 10}" y="${ys(V.indicator["2024"]) - 8}" font-size="12" fill="#a84a32" font-family="${MONO}">7.8% — +6.1pp above trend</text>`;
+    s += `<text x="${xs(8) - 8}" y="${ys(V.indicator["2026"]) - 12}" text-anchor="end" font-size="11" fill="#241c14" font-family="${MONO}">3.1%</text>`;
+    s += `<text x="${xs(4)}" y="${ys(cf(8)) + 16}" font-size="10" fill="#8a5a1f" font-family="${MONO}">expected from 2018–22 drift alone</text>`;
+    s += `</svg>`;
+    host.innerHTML = s;
+  })();
+
+  // ---- Fig 29b: the tells rotate ----
+  (function tells() {
+    const host = document.getElementById("wm-words");
+    if (!host) return;
+    const words = V.marker_set.slice().sort((a, b) => V.per_word_delta[b]["2026"].ratio - V.per_word_delta[a]["2026"].ratio);
+    const yrs = ["2023", "2024", "2025", "2026"];
+    const cell = r => {
+      if (r >= 0.9 && r <= 1.15) return "#f3ead2";
+      if (r > 1) {
+        const p = Math.min(1, Math.log10(r) / Math.log10(30));
+        return `color-mix(in oklab, #a84a32 ${Math.round(10 + p * 70)}%, #f3ead2)`;
+      }
+      const p = Math.min(1, Math.log10(1 / Math.max(r, 0.05)) / Math.log10(4));
+      return `color-mix(in oklab, #3565b3 ${Math.round(10 + p * 55)}%, #f3ead2)`;
+    };
+    const ink = r => (r > 6 || r < 0.3) ? "#f6efdd" : "#241c14";
+    const fmt = r => r >= 30 ? "×" + Math.round(r) : r >= 3 ? "×" + r.toFixed(1) : "×" + r.toFixed(2).replace(/0$/, "");
+    let h = `<div style="display:grid;grid-template-columns:minmax(108px,150px) repeat(4,minmax(64px,1fr));gap:3px;min-width:440px">`;
+    h += `<div></div>` + yrs.map(y => `<div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--muted);text-align:center;padding-bottom:2px">${y}</div>`).join("");
+    for (const w of words) {
+      h += `<div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-2);display:flex;align-items:center;justify-content:flex-end;padding-right:8px">${w}</div>`;
+      for (const y of yrs) {
+        const d = V.per_word_delta[w][y];
+        h += `<div style="background:${cell(d.ratio)};color:${ink(d.ratio)};font-family:var(--mono);font-size:10px;display:flex;align-items:center;justify-content:center;height:25px" title="${w}, ${y}: in ${(d.f * 100).toFixed(2)}% of reviews; its own trend expected ${(d.q * 100).toFixed(2)}% — ${fmt(d.ratio)} the expectation">${fmt(d.ratio)}</div>`;
+      }
+    }
+    h += `</div>`;
+    host.innerHTML = h;
+  })();
+
+  // ---- Fig 29c: convergence, words and objects ----
+  function convPanel(hostId, seriesIn, seriesCross, fixedIn, fixedCross, lo, hi, labIn, labCross, crossDashed) {
+    const host = document.getElementById(hostId);
+    if (!host) return;
+    const W = 460, H = 290, padL = 44, padR = 86, padT = 18, padB = 34;
+    const xs = i => padL + i / (YRS.length - 1) * (W - padL - padR);
+    const ys = v => padT + (1 - (v - lo) / (hi - lo)) * (H - padT - padB);
+    let s = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block">`;
+    // review-form boundaries: 2019|20, 2020|21, 2021|22, 2022|23, 2023|24
+    for (const b of [1.5, 2.5, 3.5, 4.5, 5.5]) {
+      s += `<line x1="${xs(b)}" y1="${padT}" x2="${xs(b)}" y2="${H - padB}" stroke="rgba(138,90,31,0.22)" stroke-width="1" stroke-dasharray="2 4"><title>the review form changes here</title></line>`;
+    }
+    const gset = [lo, (lo + hi) / 2, hi];
+    for (const g of gset) {
+      s += `<text x="${padL - 6}" y="${ys(g)}" text-anchor="end" dominant-baseline="middle" font-size="9" fill="#6d6657" font-family="${MONO}">${g.toFixed(2)}</text>`;
+    }
+    s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(seriesCross[i])).join(" ")}" fill="none" stroke="rgba(36,28,20,0.32)" stroke-width="1.6"${crossDashed ? ' stroke-dasharray="5 4"' : ""}/>`;
+    s += `<path d="${YRS.map((y, i) => (i ? "L" : "M") + xs(i) + "," + ys(seriesIn[i])).join(" ")}" fill="none" stroke="#241c14" stroke-width="2.2" data-draw="1"/>`;
+    YRS.forEach((y, i) => {
+      s += `<circle cx="${xs(i)}" cy="${ys(seriesIn[i])}" r="2.8" fill="#241c14"><title>${y}: co-reviews of one paper, median ${seriesIn[i].toFixed(3)}; random cross-paper pairs ${seriesCross[i].toFixed(3)}</title></circle>`;
+    });
+    if (fixedIn) {
+      [6, 7, 8].forEach((i, k) => {
+        s += `<circle cx="${xs(i)}" cy="${ys(fixedIn[k])}" r="4.6" fill="none" stroke="#8a5a1f" stroke-width="1.8"><title>${YRS[i]} under one fixed shared vocabulary: within ${fixedIn[k].toFixed(3)}, cross ${fixedCross[k].toFixed(3)}</title></circle>`;
+      });
+    }
+    s += `<text x="${xs(0)}" y="${H - 8}" font-size="9" fill="#6d6657" font-family="${MONO}">'18</text>`;
+    s += `<text x="${xs(8)}" y="${H - 8}" text-anchor="middle" font-size="9" fill="#6d6657" font-family="${MONO}">'26</text>`;
+    s += `<text x="${xs(8) + 12}" y="${ys(seriesIn[8])}" dominant-baseline="middle" font-size="9" fill="#241c14" font-family="${MONO}">${labIn}</text>`;
+    s += `<text x="${xs(8) + 8}" y="${ys(seriesCross[8])}" dominant-baseline="middle" font-size="9" fill="#877f6e" font-family="${MONO}">${labCross}</text>`;
+    s += `</svg>`;
+    host.innerHTML = s;
+  }
+  convPanel("wm-conv-lex",
+    YRS.map(y => C.within_paper[y].median), YRS.map(y => C.cross_paper[y].median),
+    ["2024", "2025", "2026"].map(y => C.fixed_vocab_2024_2026[y].within.median),
+    ["2024", "2025", "2026"].map(y => C.fixed_vocab_2024_2026[y].cross.median),
+    0.05, 0.35, "same paper", "random", false);
+  convPanel("wm-conv-obj",
+    YRS.map(y => J.within_forum_jaccard[y].median), YRS.map(y => J.cross_forum_jaccard[y].median),
+    null, null, 0.15, 0.32, "same paper", "random", true);
+
+  // ---- Fig 29d: the company the watermark keeps ----
+  (function profile() {
+    const host = document.getElementById("wm-prof");
+    if (!host) return;
+    const yrs = ["2024", "2025", "2026"];
+    const zeroRow = (label, vals, fmt, scale, unit, hatched) => {
+      let r = `<div style="display:grid;grid-template-columns:minmax(120px,220px) 1fr;gap:12px;align-items:center;margin-top:8px">
+        <div style="font-size:12.5px;color:var(--ink-2);text-align:right;line-height:1.25">${label}</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">`;
+      yrs.forEach((y, k) => {
+        const v = vals[k];
+        const w = Math.min(48, Math.abs(v) / scale * 48);
+        const pos = v >= 0;
+        r += `<div style="position:relative;height:24px" title="${y}: ${fmt(v)}${unit}">
+          <div style="position:absolute;left:50%;top:0;bottom:0;border-left:1px solid var(--brass-line)"></div>
+          <div style="position:absolute;top:5px;bottom:5px;${pos ? "left:50%" : `left:calc(50% - ${w}%)`};width:${w}%;${hatched
+            ? `background:repeating-linear-gradient(135deg, ${pos ? "rgba(168,74,50,0.40)" : "rgba(53,101,179,0.40)"} 0 5px, transparent 5px 9px);border:1px solid ${pos ? "rgba(168,74,50,0.5)" : "rgba(53,101,179,0.5)"}`
+            : `background:${pos ? "#a84a32" : "#3565b3"};opacity:0.85`}"></div>
+          <div style="position:absolute;${pos ? "left:calc(50% + " + (w + 2) + "%)" : "left:calc(50% + 6px)"};top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9.5px;color:var(--ink)">${fmt(v)}</div>
+          <div style="position:absolute;left:2px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:8px;color:var(--muted)">'${y.slice(2)}</div>
+        </div>`;
+      });
+      return r + `</div></div>`;
+    };
+    let h = `<div style="font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:2px">The score it hands down &middot; within one paper, marked minus unmarked</div>`;
+    h += zeroRow("marked co-review", yrs.map(y => B[y].paired_rating.mean_diff), v => (v > 0 ? "+" : "") + v.toFixed(2), 0.45, " rating points");
+    h += zeroRow("benchmark: the paper’s longest review", yrs.map(y => B[y].paired_longest_benchmark.mean_diff), v => (v > 0 ? "+" : "") + v.toFixed(2), 0.45, " rating points — length pulls the other way", true);
+    h += `<div style="font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin:18px 0 2px">The company it keeps &middot; marked minus unmarked, same-length peers only</div>`;
+    h += zeroRow("cites scholarship (“et al.”)", yrs.map(y => B[y].et_al_share.diff_length_stratified * 100), v => (v > 0 ? "+" : "") + v.toFixed(1) + "pp", 8, "");
+    h += zeroRow("rebuttal exchanges", yrs.map(y => B[y].rebuttal_replies.diff_length_stratified), v => (v > 0 ? "+" : "") + v.toFixed(3), 0.1, " replies");
+    h += zeroRow("stated confidence", yrs.map(y => B[y].confidence.diff_length_stratified), v => (v > 0 ? "+" : "") + v.toFixed(3), 0.1, " points of 5");
+    host.innerHTML = h;
+  })();
 })();
 
 // ---------------- the hardening (Fig 26c) ----------------
