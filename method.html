@@ -51,10 +51,16 @@ td code { overflow-wrap: anywhere; }
 td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
 .callout { border: 1px solid var(--brass-line); background: rgba(248,241,224,0.6); padding: 16px 20px; margin-top: 18px; font-size: 13.5px; color: var(--ink-2); }
 .callout b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); display: block; margin-bottom: 6px; }
-.toc { columns: 2; gap: 40px; margin-top: 20px; font-size: 13.5px; }
-.toc a { display: grid; grid-template-columns: 24px minmax(0, 1fr); border: none; color: var(--ink-2); padding: 3px 0; }
-.toc a:hover { color: var(--brass); }
-.toc .tno { font-family: var(--mono); font-size: 10px; color: var(--brass); padding-top: 3px; }
+.toc { columns: 2; gap: 46px; margin-top: 20px; font-size: 13.5px; }
+.toc a { display: grid; grid-template-columns: 26px minmax(0, 1fr); border: none; border-left: 1px solid var(--brass-faint);
+  color: var(--ink-2); padding: 4px 0 4px 13px; margin-left: 3px; position: relative;
+  transition: color .22s ease, border-color .22s ease, opacity .55s ease var(--td, 0ms), transform .55s ease var(--td, 0ms); }
+.toc a::before { content: ""; position: absolute; left: -1px; top: 50%; width: 7px; height: 1px; background: var(--brass);
+  transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
+.toc a:hover { color: var(--brass); border-left-color: var(--brass); }
+.toc a:hover::before, .toc a:focus-visible::before { transform: scaleX(1); }
+.toc a:focus-visible { color: var(--brass); border-left-color: var(--brass); outline: none; }
+.toc .tno { font-family: var(--mono); font-size: 10px; color: var(--brass); padding-top: 3px; font-variant-numeric: tabular-nums; }
 @media (max-width: 700px) { .toc { columns: 1; } }
 .diagram { border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.55); padding: 20px 18px; margin-top: 22px; }
 .diagram .cap { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 14px 2px; }
@@ -145,11 +151,19 @@ h1 { clip-path: inset(100% 0 0 0); transform: translateY(14px); animation: pgH1 
 .part + .no { margin-top: 46px; }
 
 /* ---- the contents, grouped the way the page now is ---- */
-.toc { columns: 2; gap: 40px; margin-top: 22px; font-size: 13.5px; }
-.toc-part { break-inside: avoid; margin-bottom: 18px; }
+.toc { columns: 2; gap: 46px; margin-top: 22px; font-size: 13.5px; }
+.toc-part { break-inside: avoid; margin-bottom: 20px; }
 .toc-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--muted); padding-bottom: 5px; margin-bottom: 4px; border-bottom: 1px solid var(--brass-faint); }
-.toc-h b { color: var(--brass); font-weight: 500; }
+  color: var(--ink-2); padding-bottom: 5px; margin-bottom: 6px; border-bottom: 1px solid var(--brass-faint); }
+.toc-h b { color: var(--brass); font-weight: 500; margin-right: 2px; }
+/* entrance: the container reveals instantly; the rail's rows ink in, staggered down the route */
+.toc.mv { opacity: 1; transform: none; }
+.toc.mv .toc-h { opacity: 0; transition: opacity .5s ease; }
+.toc.mv.in .toc-h { opacity: 1; }
+.toc.mv a { opacity: 0; transform: translateY(7px); }
+.toc.mv.in a { opacity: 1; transform: none; }
+/* the later .toc block above out-cascades the early mobile rule — restate it here */
+@media (max-width: 700px) { .toc { columns: 1; } }
 
 /* ---- the yield: every stage's intake, and the tail that never came out ---- */
 .yl-note { font-size: 12px; font-style: italic; color: var(--muted); margin: 0 0 16px; line-height: 1.6; }
@@ -505,6 +519,7 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
   <li><b>Human step</b>: cluster exemplars were read and merged by hand into <b>12 objects × 12 standards</b>, with definitions, recorded in <code>taxonomy-v1.json</code>. Two heterogeneous clusters were excluded from centroid construction. No prior scheme (including the project's own Atlas cards) was used as seed.</li>
   <li><b>Assignment</b>: category centroid = normalized mean of member-cluster sample embeddings (the seeded pipeline re-run reproduces cluster membership exactly — verified); every unit gets its nearest centroid by cosine, with the similarity stored as per-unit confidence. High-confidence (≥0.75) share: objects 94.5%, standards 87.9% (2026 track); per-year mean similarity on the direct track is flat at ~0.81, so cross-year comparisons are not a transfer artifact.</li>
   <li><b>Caveat</b>: the taxonomy was induced on 2026 compact memos and transferred to the direct track; identical centroids, different memo style. The flat similarity profile is the evidence this transfer holds.</li>
+  <li><b>Scheme validity</b>: the four-part unit grain and the 12 &times; 12 taxonomy are one induced carving of the review text &mdash; internally consistent by the checks above, and externally anchored once (the construct-validity grid in &sect;07: the categories dent the venue's own sub-scores where they should) &mdash; but no check establishes them as the <em>right</em> carving. A different grain or a different merge would draw a different map; every downstream count is a count within this scheme.</li>
 </ul>
 
 <div class="diagram"><p class="cap">The induction at a glance — from raw units to the 12 × 12 taxonomy</p>
@@ -870,6 +885,8 @@ for (const table of document.querySelectorAll("table")) {
 <style>
 #ether { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
 .mv { opacity: 0; transform: translateY(14px); transition: opacity 0.7s ease, transform 0.7s ease; }
+/* print integrity: every reveal-gated block renders complete on paper */
+@media print { .mv, .mv *, .toc.mv .toc-h, .toc.mv a { opacity: 1 !important; transform: none !important; transition: none !important; } }
 .mv.in { opacity: 1; transform: none; }
 /* the engraving wipe rides a MASK, not clip-path: a fully clipped element reports no
    intersection at all, so the observer that would reveal it never fires (the headings
@@ -910,7 +927,7 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
 .hm .cell { opacity: 0; transition: opacity 0.45s ease; }
 .hm.in .cell { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
-  .mv, h2.mv, .fm-box, .fun-bar, .hm .cell { opacity: 1 !important; transform: none !important; transition: none !important; clip-path: none !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  .mv, h2.mv, .fm-box, .fun-bar, .hm .cell, .toc a, .toc .toc-h { opacity: 1 !important; transform: none !important; transition: none !important; clip-path: none !important; -webkit-mask-image: none !important; mask-image: none !important; }
   #topbar, #reticle { transition: none; }
 }
 </style>
@@ -984,6 +1001,7 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
     [...hm.querySelectorAll(".cell")].forEach((c, i) => c.style.transitionDelay = Math.min(i * 4, 800) + "ms");
   });
   document.querySelectorAll(".diagram .fm-box").forEach((b, i) => b.style.transitionDelay = (i * 90) + "ms");
+  document.querySelectorAll(".toc a").forEach((a, i) => a.style.setProperty("--td", (60 + i * 38) + "ms"));
   // ---- top bar + meridian ----
   const topbar = document.getElementById("topbar");
   const rail = document.getElementById("meridian");

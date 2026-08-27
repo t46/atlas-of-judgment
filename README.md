@@ -2,9 +2,11 @@
 
 **Live: [atlas-of-judgment.pages.dev](https://atlas-of-judgment.pages.dev)**
 
-**How a paper is judged.** Every public peer review of ICLR (2018–2026), decomposed into
-atomic units of evaluative logic — *what was inspected, what was observed, which standard
-was invoked, what was concluded* — and charted like a sky.
+**How a paper is judged.** An analysis of every public peer review of ICLR (2018–2026),
+asking what the act of reviewing is: each review read into atomic units of evaluative
+logic — *what was inspected, what was observed, which standard was invoked, what was
+concluded* — under one induced scheme; the units counted, compared, and tested; the
+result charted like a sky.
 
 - **The Atlas** — `index.html` (interactive; live at [atlas-of-judgment.pages.dev](https://atlas-of-judgment.pages.dev))
 - **About** — `about.html`: the question, the three-layer pipeline, the findings digest
@@ -57,7 +59,7 @@ cannot be reproduced).
 
 ## Provenance & honesty
 
-Every number on the pages carries its method: the taxonomy was induced, not imposed;
+Every number on the pages carries its method: the taxonomy was induced, not imposed — and it is one carving among possible carvings, its reliability measured, its aptness a design choice no internal check can prove;
 classifier plates report cross-validated error; the reliability of the instrument itself
 is charted in the atlas appendix. Load-bearing numbers on the pages open into provenance
 doors (source file, derivation, verification date), and claims that later fell to a null

@@ -1,22 +1,21 @@
+<meta charset="utf-8">
 <title>Atlas of Judgment · Machine Reader</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root {
-  --ground: #12101f; --raise: #1a1729; --ink: #ece7dc; --ink-2: #b3aa99; --muted: #6f6758;
-  --brass: #c9a45c; --brass-dim: #8a713e; --brass-line: rgba(201,164,92,0.28); --brass-faint: rgba(201,164,92,0.13);
+  --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
+  --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
+  --brass: #8a5a1f; --brass-dim: #6b5636; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
   --mono: "IBM Plex Mono", ui-monospace, monospace;
   --display: "Cormorant Garamond", Georgia, serif;
   --serif: "Source Serif 4", Georgia, serif;
-  --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1);
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.7;
-  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(201,164,92,0.05), transparent 60%); }
-body::before { content: ""; position: fixed; inset: 0; z-index: 2500; pointer-events: none; opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'%20opacity='0.5'/%3E%3C/svg%3E");
-  background-size: 160px 160px; }
-a { color: var(--brass); text-decoration: none; }
-a:hover { text-decoration: underline; }
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(138,90,31,0.05), transparent 60%); }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(138,90,31,0.45); }
+a:hover { border-bottom-style: solid; }
 .shell { max-width: 980px; margin: 0 auto; padding: 0 clamp(20px, 3vw, 44px) 90px; }
 .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--brass); margin-top: 64px; }
 h1 { font-family: var(--display); font-weight: 500; font-size: clamp(40px, 6vw, 64px); line-height: 1.02; margin: 14px 0 10px; }
@@ -27,24 +26,27 @@ h1 { font-family: var(--display); font-weight: 500; font-size: clamp(40px, 6vw, 
 .leaf .rule { width: min(320px, 60%); height: 1px; background: var(--brass-line); }
 .leaf .no { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.5em; color: var(--brass); }
 .leaf .t { font-family: var(--display); font-size: 23px; color: var(--ink); }
-.card { border: 1px solid var(--brass-line); border-left: 2px solid var(--brass); background: rgba(255,255,255,0.012); padding: 18px 22px 20px; margin: 14px 0; }
+.card { border: 1px solid var(--brass-line); border-left: 2px solid var(--brass); background: rgba(248,241,224,0.75); padding: 18px 22px 20px; margin: 14px 0; }
 .card .k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); margin-bottom: 8px; }
 .card .ep { font-family: var(--mono); font-size: 13px; color: var(--ink); }
 .card p { font-size: 13.5px; color: var(--ink-2); margin: 8px 0 0; }
-pre { background: var(--raise); border: 1px solid var(--brass-faint); padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 11px; line-height: 1.65; color: var(--ink-2); margin: 12px 0 0; }
+pre { background: var(--paper); border: 1px solid var(--brass-faint); padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 11px; line-height: 1.65; color: var(--ink-2); margin: 12px 0 0; }
 pre b { color: var(--brass); font-weight: 500; }
-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
 th { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--brass-line); }
-td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--ink-2); vertical-align: top; }
+td { padding: 7px 10px; border-bottom: 1px solid rgba(138,90,31,0.10); color: var(--ink-2); vertical-align: top; }
+tr:hover td { background: rgba(248,241,224,0.6); }
 td .pn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--brass); white-space: nowrap; }
-.chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.06em; color: var(--ink-2); border: 1px solid rgba(255,255,255,0.12); padding: 1px 7px; border-radius: 9px; margin: 1px 2px 1px 0; }
+.chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.06em; color: var(--ink-2); border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.6); padding: 1px 7px; margin: 1px 2px 1px 0; }
 .pending { color: var(--muted); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; }
-details { border: 1px solid rgba(255,255,255,0.08); margin: 6px 0; background: rgba(255,255,255,0.008); }
+details { border: 1px solid var(--brass-faint); margin: 6px 0; background: rgba(248,241,224,0.55); }
+details[open] { background: var(--paper); }
 summary { cursor: pointer; padding: 9px 14px; font-family: var(--mono); font-size: 11.5px; color: var(--ink); }
+summary:hover { background: var(--paper); }
 summary .sz { color: var(--muted); font-size: 10px; margin-left: 10px; }
 details .body { padding: 4px 16px 12px; font-size: 12.5px; color: var(--ink-2); }
 details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--brass); }
-.note { border: 1px solid var(--brass-line); padding: 16px 20px; font-size: 13.5px; color: var(--ink-2); margin: 14px 0; }
+.note { border: 1px solid var(--brass-line); background: rgba(248,241,224,0.45); padding: 16px 20px; font-size: 13.5px; color: var(--ink-2); margin: 14px 0; }
 .note b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
 .colophon { margin-top: 90px; padding-top: 22px; border-top: 1px solid var(--brass-faint); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); line-height: 2.1; }
 .wrap-x { overflow-x: auto; }

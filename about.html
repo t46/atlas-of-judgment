@@ -176,6 +176,111 @@ h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.28em; text-tra
   .cd-frame .cd-fade, .cd-arr { opacity: 1 !important; transition: none !important; }
 }
 
+/* --------------------------------------- the forum specimen (Tier III) */
+.ff-tree { position: relative; margin-top: 20px; }
+.ff-tree::before { content: ""; position: absolute; left: 21px; top: 12px; bottom: 16px; width: 1px;
+  background: var(--brass-faint); transform: scaleY(0); transform-origin: top;
+  transition: transform 1.5s var(--ease-settle) 0.1s; }
+.cd-frame.in .ff-tree::before { transform: scaleY(1); }
+.ff-row { display: grid; grid-template-columns: 44px 1fr; gap: 15px; align-items: start; padding: 10px 0; position: relative; }
+.ff-g { width: 42px; height: 42px; display: block; }
+.ff-k { font-family: var(--display); font-size: 17px; color: var(--ink); line-height: 1.15; }
+.ff-x { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass); margin-left: 8px; }
+.ff-d { font-size: 12.5px; color: var(--ink-2); line-height: 1.6; margin-top: 4px; max-width: 62ch; }
+.ff-d b { color: var(--ink); font-weight: 600; }
+.ff-fork { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+.ff-o { font-family: var(--mono); font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--ink-2); border: 1px solid var(--brass-faint); padding: 7px 12px; }
+.ff-n { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--brass); margin-top: 14px; line-height: 1.9; }
+.ff-tree > :nth-child(1) .cd-draw { transition-delay: 0.15s } .ff-tree > :nth-child(1) .cd-fade { transition-delay: 0.35s }
+.ff-tree > :nth-child(2) .cd-draw { transition-delay: 0.45s } .ff-tree > :nth-child(2) .cd-fade { transition-delay: 0.65s }
+.ff-tree > :nth-child(3) .cd-draw { transition-delay: 0.75s } .ff-tree > :nth-child(3) .cd-fade { transition-delay: 0.95s }
+.ff-tree > :nth-child(4) .cd-draw { transition-delay: 1.05s } .ff-tree > :nth-child(4) .cd-fade { transition-delay: 1.25s }
+.ff-tree > :nth-child(5) .cd-draw { transition-delay: 1.35s } .ff-tree > :nth-child(5) .cd-fade { transition-delay: 1.55s }
+.ff-frame .ff-n { transition-delay: 1.8s }
+@media (prefers-reduced-motion: reduce), print {
+  .ff-tree::before { transform: none !important; transition: none !important; }
+}
+
+/* ------------------------------------------- tier VII: the act rail */
+.ar-rail { position: relative; margin-top: 18px; }
+.ar-wedge { position: absolute; left: 98px; top: 6px; height: calc(100% - 12px); width: 38px; pointer-events: none; }
+a.ar-row { display: grid; grid-template-columns: 92px 50px 1fr; align-items: center;
+  padding: 10px 0; border-bottom: none; position: relative; transition: background 0.2s ease; }
+a.ar-row:hover, a.ar-row:focus-visible { background: rgba(138,90,31,0.06); }
+.ar-mag { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); text-align: right; line-height: 1.5; padding-right: 4px; }
+.ar-node { width: 9px; height: 9px; border: 1px solid var(--brass); border-radius: 50%;
+  background: var(--paper); justify-self: center; position: relative; z-index: 1; }
+.ar-body { display: block; padding-left: 12px; min-width: 0; }
+.ar-l1 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.ar-no { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; color: var(--brass); font-weight: 500; }
+.ar-title { font-family: var(--display); font-size: 17px; color: var(--ink); line-height: 1.15; transition: color 0.2s ease; }
+a.ar-row:hover .ar-title { color: var(--brass); }
+.ar-pl { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; color: var(--muted); margin-left: auto; }
+.ar-q { display: block; font-style: italic; font-size: 12.5px; color: var(--ink-2); line-height: 1.5; margin-top: 2px; }
+.ar-rail > a:nth-of-type(1).cd-fade { transition-delay: 0.25s } .ar-rail > a:nth-of-type(2).cd-fade { transition-delay: 0.35s }
+.ar-rail > a:nth-of-type(3).cd-fade { transition-delay: 0.45s } .ar-rail > a:nth-of-type(4).cd-fade { transition-delay: 0.55s }
+.ar-rail > a:nth-of-type(5).cd-fade { transition-delay: 0.65s } .ar-rail > a:nth-of-type(6).cd-fade { transition-delay: 0.75s }
+.ar-rail > a:nth-of-type(7).cd-fade { transition-delay: 0.85s } .ar-rail > a:nth-of-type(8).cd-fade { transition-delay: 0.95s }
+.ar-rail > a:nth-of-type(9).cd-fade { transition-delay: 1.05s }
+.ar-frame .ar-wedge .cd-draw { transition-duration: 1.7s; transition-delay: 0.15s; }
+.ar-frame .ff-n { transition-delay: 1.25s }
+@media (max-width: 620px) {
+  a.ar-row { grid-template-columns: 26px 1fr; row-gap: 1px; }
+  .ar-mag { grid-column: 2; grid-row: 1; text-align: left; padding-left: 12px; }
+  .ar-node { grid-column: 1; grid-row: 1 / span 2; }
+  .ar-body { grid-column: 2; grid-row: 2; }
+  .ar-wedge { left: -6px; }
+  .ar-pl { margin-left: 0; flex-basis: 100%; }
+}
+/* ------------------------------------------- tier VIII: the open circuit */
+.oc-grid { display: grid; grid-template-columns: 1fr 208px; gap: 6px 28px; margin-top: 20px; }
+.oc-flow { position: relative; }
+.oc-flow::before { content: ""; position: absolute; left: 21px; top: 14px; bottom: 30px; width: 1px;
+  background: var(--brass-faint); transform: scaleY(0); transform-origin: top;
+  transition: transform 1.6s var(--ease-settle) 0.1s; }
+.cd-frame.in .oc-flow::before { transform: scaleY(1); }
+a.oc-row { display: grid; grid-template-columns: 44px 1fr; gap: 15px; align-items: start;
+  padding: 8px 0; border-bottom: none; position: relative; transition: background 0.2s ease; }
+a.oc-row:hover, a.oc-row:focus-visible { background: rgba(138,90,31,0.06); }
+a.oc-row:hover .oc-k, a.oc-door:hover .oc-k { color: var(--brass); }
+.oc-g { width: 42px; height: 42px; display: block; position: relative; z-index: 1; }
+.oc-k { font-family: var(--display); font-size: 17px; color: var(--ink); line-height: 1.15; transition: color 0.2s ease; }
+.oc-x { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass); margin-left: 8px; }
+.oc-d { font-size: 12.5px; color: var(--ink-2); line-height: 1.6; margin-top: 3px; max-width: 58ch; }
+.oc-via { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin: 1px 0 1px 59px; }
+.oc-fork { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0 2px 59px; }
+a.oc-door { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start;
+  border: 1px solid var(--brass-faint); padding: 11px 13px; border-bottom: 1px solid var(--brass-faint);
+  transition: background 0.2s ease, border-color 0.2s ease; }
+a.oc-door:hover, a.oc-door:focus-visible { background: rgba(138,90,31,0.06); border-color: var(--brass-line); }
+a.oc-door .oc-g { width: 34px; height: 34px; }
+a.oc-door .oc-k { font-size: 15.5px; }
+a.oc-door .oc-d { font-size: 11.5px; max-width: none; }
+a.oc-side { display: flex; flex-direction: column; justify-content: center; gap: 4px;
+  border-left: 1px dashed var(--brass-line); padding: 10px 0 10px 20px; border-bottom: none;
+  transition: background 0.2s ease; }
+a.oc-side:hover, a.oc-side:focus-visible { background: rgba(138,90,31,0.05); }
+a.oc-side:hover .oc-k { color: var(--brass); }
+.oc-flow > :nth-child(1) .cd-draw { transition-delay: 0.15s } .oc-flow > :nth-child(1) .cd-fade { transition-delay: 0.3s }
+.oc-flow > :nth-child(2).cd-fade { transition-delay: 0.45s }
+.oc-flow > :nth-child(3) .cd-draw { transition-delay: 0.5s } .oc-flow > :nth-child(3) .cd-fade { transition-delay: 0.65s }
+.oc-flow > :nth-child(4).cd-fade { transition-delay: 0.8s }
+.oc-flow > :nth-child(5) .cd-draw { transition-delay: 0.85s } .oc-flow > :nth-child(5) .cd-fade { transition-delay: 1.0s }
+.oc-flow > :nth-child(6).cd-fade { transition-delay: 1.15s }
+.oc-flow > :nth-child(7) .cd-draw { transition-delay: 1.2s } .oc-flow > :nth-child(7) .cd-fade { transition-delay: 1.35s }
+.oc-grid > .oc-side .cd-draw { transition-delay: 1.0s } .oc-grid > .oc-side .cd-fade { transition-delay: 1.2s }
+@media (prefers-reduced-motion: reduce), print {
+  .oc-flow::before { transform: none !important; transition: none !important; }
+}
+@media (max-width: 700px) {
+  .oc-grid { grid-template-columns: 1fr; }
+  a.oc-side { border-left: none; border-top: 1px dashed var(--brass-line); padding: 14px 0 2px; margin-top: 6px; }
+  .oc-fork { grid-template-columns: 1fr; margin-left: 0; }
+}
 .layers { display: flex; flex-direction: column; margin-top: 14px; }
 .layer { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 15px 0;
   border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; color: var(--ink-2); }
@@ -353,10 +458,10 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 <section class="band">
 <div class="shell">
   <div class="hdl rv">I · what it is</div>
-  <h2 class="hd rv">A description of peer review, at the resolution of a single thought</h2>
-  <p class="lede rv">The <a href="index.html">Atlas of Judgment</a> is a metascience instrument: every public peer review of ICLR — the International Conference on Learning Representations — decomposed into atomic units of evaluative logic and mapped at scale. Not <em>what did reviewers decide</em>, but <em>how did they think</em>.</p>
+  <h2 class="hd rv">An attempted description of peer review, at the resolution of a single thought</h2>
+  <p class="lede rv">The <a href="index.html">Atlas of Judgment</a> is a metascience instrument: an analysis of every public peer review of ICLR — the International Conference on Learning Representations — asking what the act of reviewing is. To make that analysable, each review is read into atomic units of evaluative logic — and what kinds of unit the record turns out to contain is itself part of the question — then the units are counted, compared, and tested at scale. Not <em>what did reviewers decide</em>, but <em>how did they think</em>.</p>
   <p class="rv drop">Peer review decides what counts as knowledge in machine learning. It runs on the unpaid attention of tens of thousands of people, it is argued about constantly, and its interior is studied far less than its verdicts. What is visible from outside is the output — a score, an accept, a reject — the way a verdict is visible while the deliberation behind it is not. This project is an attempt to open the deliberation and describe it.</p>
-  <p class="rv">The result is 1,420,178 atomic units of reviewer reasoning, drawn from nine years of ICLR and arranged into thirty-three plates. It is not an argument about peer review. It is a description of it, and it was built so that any part of the description can be taken apart by someone who doubts it.</p>
+  <p class="rv">The result is 1,420,178 atomic units of reviewer reasoning, drawn from nine years of ICLR and analysed across thirty-three plates. It is not an argument about peer review. It is an attempt at a description of it — made in one chosen form, carried all the way through — and it was built so that any part of the description can be taken apart by someone who doubts it.</p>
 
   <div class="frame rv cd-frame" role="figure" aria-label="Concept diagram: the public record is dissected into four-part units, the units are classified into a 12 by 12 taxonomy, and the taxonomy is counted and drawn into 33 plates.">
     <div class="frame-inner cd-inner">
@@ -458,7 +563,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <p class="rv drop">Two reviewers write 5. One means <em>the idea is not new</em>. The other means <em>the experiments do not support the claim</em>. Averaged into a panel statistic, the difference disappears — and the difference was the whole of what happened. A score is a compression, and what it compresses away is precisely the part that could be argued with, learned from, or improved.</p>
   <p class="rv">The project's research question was fixed early, and verbatim, in its design documents: not whether a paper was accepted, nor whether a review was favorable, but — <em>what do reviewers inspect, and through which criteria, comparisons, assumptions, and inferences does that observation become a judgment?</em></p>
   <p class="rv">Peer review is a central quality-control mechanism of science, yet the reasoning inside it is rarely studied as an object in its own right. Reviews are usually reduced to scores, sentiment, or accept/reject outcomes. This project treats the <b>reasoning itself</b> as the data.</p>
-  <p class="rv">That choice sets the shape of everything downstream. Sentiment analysis would have counted how reviewers felt. Outcome modelling would have predicted what became of the paper. Neither says what was being <em>weighed</em>. The atlas is built for a narrower and more stubborn question: which part of a paper was looked at, and which standard was held against it.</p>
+  <p class="rv">That choice sets the shape of everything downstream. Sentiment analysis would have counted how reviewers felt. Outcome modelling would have predicted what became of the paper. Neither says what was being <em>weighed</em>. The atlas is built for a narrower and more stubborn question: which part of a paper was looked at, and which standard was held against it. Asking that at scale meant choosing a grain and a vocabulary before any answer could exist — the four-part unit, the twelve-by-twelve grammar — so every answer the atlas gives is an answer in that chosen vocabulary: one way of carving the reasoning, carried through, not the only way it could have been carved.</p>
 </div>
 </section>
 
@@ -472,17 +577,88 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 <section class="band">
 <div class="shell">
   <div class="hdl rv">III · why ICLR</div>
-  <h2 class="hd rv">The one venue that publishes the reviews of the papers it rejects</h2>
-  <p class="rv drop">One property makes ICLR nearly unique among top machine-learning venues: it publishes the reviews of <b>rejected papers</b>. ICML and NeurIPS mostly expose reviews only for accepted work, which biases any study of judgment toward papers that survived it. ICLR's OpenReview forums carry the full distribution — every submission, every review, every rebuttal, every verdict — for nine consecutive years, 2018 through 2026. That is 52,460 submissions and 792,703 forum messages, all from a single source with a single collection path.</p>
-  <table class="rv" aria-label="Review visibility at the three top machine-learning venues">
-    <thead><tr><th>Venue</th><th>Reviews of accepted papers</th><th>Reviews of rejected papers</th></tr></thead>
-    <tbody>
-      <tr><td><b>ICLR</b></td><td>public</td><td><b>public</b> — the property this atlas rests on</td></tr>
-      <tr><td>NeurIPS</td><td>public in recent years</td><td>generally not published</td></tr>
-      <tr><td>ICML</td><td>generally not published</td><td>generally not published</td></tr>
-    </tbody>
-  </table>
-  <p class="rv" style="font-size:12px;color:var(--muted);margin-top:8px">Practice as of the 2026 cycle; each venue's policy has shifted over the years, always leaving rejected-paper reviews the rarity.</p>
+  <h2 class="hd rv">The venue that publishes the reviews of the papers it rejects</h2>
+  <p class="rv drop">One property makes ICLR nearly unique among top machine-learning venues: it publishes the reviews of <b>rejected papers</b>. Public review archives usually begin where acceptance ends — and a record without the rejected majority shows judgment only where judgment said yes. ICLR's OpenReview forums carry the full distribution — every submission, every review, every rebuttal, every verdict — for nine consecutive years, 2018 through 2026. That is 52,460 submissions and 792,703 forum messages, all from a single source with a single collection path.</p>
+  <div class="frame rv cd-frame ff-frame" role="figure" aria-label="One ICLR forum's public record: the submission, its official reviews with summary, strengths, weaknesses and questions, the open rebuttal exchange, the meta-review, and a decision fork whose record stays public whether the paper is accepted or rejected.">
+    <div class="frame-inner"><div class="cd-inner">
+      <div class="cd-eyebrow">One forum, as anyone may read it</div>
+      <div class="cd-lat">acta integra — the record, entire</div>
+      <div class="ff-tree">
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-lnf cd-draw" pathLength="1" x="11" y="4" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+            <rect class="cd-lnf cd-draw" pathLength="1" x="8" y="7" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="5" y="10" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M9,16 h14 M9,20 h14 M9,24 h9"/>
+            <path class="cd-br cd-draw" pathLength="1" d="M9,30 h11"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">The submission</div>
+            <div class="ff-d">the paper itself, public from the day the forum opens — and it stays.</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-ln cd-draw" pathLength="1" x="4" y="4" width="34" height="34" fill="rgba(248,241,224,0.9)"/>
+            <rect class="cd-br cd-draw" pathLength="1" x="27" y="8" width="7" height="4"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,13 h13 M8,16 h10"/>
+            <path class="cd-ln cd-draw" pathLength="1" d="M4,20 h34"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,24 h26 M8,27 h20"/>
+            <path class="cd-ln cd-draw" pathLength="1" d="M4,31 h34"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,34 h16"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">The official reviews <span class="ff-x">&#8776; 3.8 per paper</span></div>
+            <div class="ff-d">each on one form &#8212; <b>summary &#183; strengths &#183; weaknesses &#183; questions</b> &#8212; with a rating and a confidence attached: &#8776;425 words of judgment, signed by a stable pseudonym.</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,5 v32"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="13" y="6" width="24" height="9" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M16,10.5 h14"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="18" y="18" width="19" height="9" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M21,22.5 h11"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="13" y="30" width="24" height="9" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M16,34.5 h14"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">The exchange</div>
+            <div class="ff-d">the authors answer under every review, and reviewers may return &#8212; the whole volley, timestamped, stays in the thread.</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-ln cd-draw" pathLength="1" x="4" y="7" width="34" height="28" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,13 h20 M8,17 h26 M8,21 h22"/>
+            <circle class="cd-br cd-draw" pathLength="1" cx="31" cy="28" r="4"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">The meta-review</div>
+            <div class="ff-d">the area chair reads the panel and writes reasons of their own.</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <path class="cd-ln cd-draw" pathLength="1" d="M21,3 v7 M21,10 c0,5 -10,4 -10,9 M21,10 c0,5 10,4 10,9"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="4" y="21" width="14" height="17" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M7,26 h8 M7,29 h8 M7,32 h5"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="24" y="21" width="14" height="17" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M27,26 h8 M27,29 h8 M27,32 h5"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">The decision</div>
+            <div class="ff-fork">
+              <span class="ff-o">accepted &#183; record stays open</span>
+              <span class="ff-o">rejected &#183; record stays open</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ff-n cd-fade">52,460 submissions &#183; 792,703 public messages &#183; nine years, one source</div>
+    </div></div>
+  </div>
+  <p class="fig-cap rv">One forum&#8217;s record, drawn to its parts. The counts are the corpus&#8217;s own: &#8776;3.8 official reviews per paper and &#8776;425 words per review are the 2026 means (74,380 reviews over 19,474 papers); 52,460 submissions and 792,703 messages are the nine-year totals. The fork&#8217;s two ends are drawn with the same ink on purpose &#8212; the record&#8217;s completeness does not depend on the verdict, and that is the property this atlas rests on.</p>
   <p class="rv">The choice is a constraint, not an endorsement. ICLR is one venue, in one field, with one culture and a review form that changed four times across the nine years. Everything in the atlas describes ICLR; nothing in it should be read as a fact about peer review in general unless the plate says so, and none of them do.</p>
 </div>
 </section>
@@ -498,7 +674,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 <div class="shell">
   <div class="hdl rv">IV · the unit of analysis</div>
   <h2 class="hd rv">One complete movement of a reviewer's mind</h2>
-  <p class="rv drop">The unit of analysis is one complete movement of a reviewer's mind — from a thing inspected, through an observation, through the standard invoked, to a judgment. A real unit from the corpus:</p>
+  <p class="rv drop">The unit of analysis is what this project treats as one complete movement of a reviewer's mind — from a thing inspected, through an observation, through the standard invoked, to a judgment. A real unit from the corpus:</p>
   <div class="frame rv"><div class="frame-inner">
     <div class="unit-demo">
       <div class="step"><div class="sl">Inspected</div>The paper's notation system and formatting consistency.</div>
@@ -548,7 +724,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <div class="hdl rv">VI · what this is not</div>
   <h2 class="hd rv">A machine reading of reviews, not a measurement of reviewers</h2>
   <p class="rv drop"><b>What this is not:</b> a direct measurement of human reviewers. Every unit is a two-stage machine reading. The <code>support_status</code> flag (explicit vs. inferred) and a per-category reliability grid in the atlas appendix exist so that every claim can be read against the instrument's own error.</p>
-  <p class="rv">Read the atlas with four caveats. <b>(1)</b> It measures a machine reading of reviews, not reviewers directly; the reliability grid shows where inference substitutes for quotation. <b>(2)</b> The negative share reflects the memo prompts' bias toward articulating criticism — it is not a sentiment ratio. <b>(3)</b> Coverage is 98.1–98.2% on both tracks; the missing tail (parse failures, provider content-policy refusals) is documented and its topic correlation unverified. <b>(4)</b> Decision-linked plates (the Consequence) are associations: outcomes were never shown to the extraction pipeline, but criticism breadth and paper quality are entangled by design.</p>
+  <p class="rv">Read the atlas with five caveats. <b>(1)</b> It measures a machine reading of reviews, not reviewers directly; the reliability grid shows where inference substitutes for quotation. <b>(2)</b> The negative share reflects the memo prompts' bias toward articulating criticism — it is not a sentiment ratio. <b>(3)</b> Coverage is 98.1–98.2% on both tracks; the missing tail (parse failures, provider content-policy refusals) is documented and its topic correlation unverified. <b>(4)</b> Decision-linked plates (the Consequence) are associations: outcomes were never shown to the extraction pipeline, but criticism breadth and paper quality are entangled by design. <b>(5)</b> The four-part unit and the 12 × 12 taxonomy are one induced carving of the text, not the only possible one: their internal reliability is measured, and the categories track ICLR's own sub-scores where they should, but no check can establish them as the <em>right</em> carving — a different scheme would draw a different map of the same reviews.</p>
   <p class="rv">A caveat kept in an appendix is a caveat that has been hidden. These ride at the same weight as the findings, on the plates themselves as well as here — and the atlas's third appendix is given over entirely to results that <em>failed</em>: patterns that looked real, were tested against a null, and did not survive it.</p>
 </div>
 </section>
@@ -565,6 +741,94 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <div class="hdl rv">VII · how to read it</div>
   <h2 class="hd rv">Eight acts, a coda, three appendices</h2>
   <p class="rv drop">The atlas proper is one continuous instrument, read by scrolling: <em>The Instrument</em>, <em>One Hand</em>, <em>The Law</em>, <em>The Tariff</em>, <em>The Encounter</em>, <em>The Higher Court</em>, <em>The Measure</em>, <em>Eras &amp; Territories</em>, a coda in the archive, and three appendices — thirty-three plates in all. Each plate asks one question, answers it with one figure, and states in its own caption what it cannot answer.</p>
+
+  <div class="frame rv cd-frame ar-frame" role="figure" aria-label="The course of the atlas, condensed: nine stations from a single sentence to the whole record — Acts I through VIII and the coda, each one step farther from the sentence, each row linking to its act on the atlas.">
+    <div class="frame-inner"><div class="cd-inner">
+      <div class="cd-eyebrow">The course — each act one step farther from the sentence</div>
+      <div class="cd-lat">cursus operis</div>
+      <div class="ar-rail">
+        <svg class="ar-wedge" viewBox="0 0 38 1000" preserveAspectRatio="none" aria-hidden="true">
+          <polygon class="cd-fade" points="19,0 5,1000 33,1000" fill="rgba(138,90,31,0.05)" stroke="none" style="transition-delay:1.15s"/>
+          <path class="cd-draw" pathLength="1" d="M19 0L5 1000" fill="none" stroke="rgba(138,90,31,0.4)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+          <path class="cd-draw" pathLength="1" d="M19 0L33 1000" fill="none" stroke="rgba(138,90,31,0.4)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <a class="ar-row cd-fade" href="index.html#act-i">
+          <span class="ar-mag">A sentence</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT I</b><span class="ar-title">The Instrument</span><span class="ar-pl">PLATES I–III</span></span>
+            <span class="ar-q">how a million reviews became countable units</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-ii">
+          <span class="ar-mag">One review</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT II</b><span class="ar-title">One Hand</span><span class="ar-pl">PLATES IV–VI</span></span>
+            <span class="ar-q">what one reviewer sets down, alone</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-iii">
+          <span class="ar-mag">A criticism&#8217;s claim</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT III</b><span class="ar-title">The Law</span><span class="ar-pl">PLATES VII–XIII</span></span>
+            <span class="ar-q">what a criticism actually says — and asks for</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-iv">
+          <span class="ar-mag">A criticism&#8217;s cost</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT IV</b><span class="ar-title">The Tariff</span><span class="ar-pl">PLATES XIV–XV</span></span>
+            <span class="ar-q">what a criticism changes</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-v">
+          <span class="ar-mag">A room</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT V</b><span class="ar-title">The Encounter</span><span class="ar-pl">PLATES XVI–XXI</span></span>
+            <span class="ar-q">when people meet, does judgment move</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-vi">
+          <span class="ar-mag">A court</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT VI</b><span class="ar-title">The Higher Court</span><span class="ar-pl">PLATES XXII–XXIII</span></span>
+            <span class="ar-q">the chair&#8217;s court — what it weighs, whose words it borrows</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-vii">
+          <span class="ar-mag">A rating</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT VII</b><span class="ar-title">The Measure</span><span class="ar-pl">PLATES XXIV–XXV</span></span>
+            <span class="ar-q">can a rating be trusted as a measurement</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-viii">
+          <span class="ar-mag">Nine years</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">ACT VIII</b><span class="ar-title">Eras &amp; Territories</span><span class="ar-pl">PLATES XXVI–XXIX</span></span>
+            <span class="ar-q">the instrument measured — is any of it particular to now, or to one field</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-coda">
+          <span class="ar-mag">The record itself</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">CODA</b><span class="ar-title">The Archive</span><span class="ar-pl">PLATE XXX</span></span>
+            <span class="ar-q">the raw reasoning, held against its originals</span>
+          </span>
+        </a>
+      </div>
+      <div class="ff-n cd-fade">after the coda, three appendices: <a href="index.html#lexicon">the lexicon</a> &#183; <a href="index.html#prov">provenance &amp; method</a> &#183; <a href="index.html#null-cabinet">the null cabinet</a> of retired analyses</div>
+    </div></div>
+  </div>
+  <p class="fig-cap rv">The same rail that opens the atlas, condensed: the wedge widens as the frame of reference does, from one sentence to the whole nine-year record. Each row opens its act.</p>
   <p class="rv">Three habits make it read faster. Every technical term is defined on hover. Every number opens: click into a figure and it will keep going down until a real reviewer sentence, with a link to the OpenReview thread it came from, is on screen. And every plate has a machine-readable deposition — the same claim in JSON, with its counts, at <code>/api/v1/plates/</code>.</p>
   <h3 class="rv">Some of what the plates hold</h3>
   <ul class="findings rv">
@@ -595,6 +859,94 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <div class="hdl rv">VIII · everything that is public</div>
   <h2 class="hd rv">Nothing here is behind anything</h2>
   <p class="rv drop">The corpus was public before this project touched it, the derived data is public now, and so is every step in between. There is no private supplement, no held-back table, no "results available on request".</p>
+
+  <div class="frame rv cd-frame oc-frame" role="figure" aria-label="Concept diagram: the public OpenReview record is read by the public pipeline code into 48 islands of derived data, which open to two readers — the atlas for people and the API for machines — while the method page documents the whole passage alongside. Every node links to its public home.">
+    <div class="frame-inner"><div class="cd-inner">
+      <div class="cd-eyebrow">What is public, and how it connects</div>
+      <div class="cd-lat">omnia in aperto — the whole passage, in the open</div>
+      <div class="oc-grid">
+        <div class="oc-flow">
+          <a class="oc-row" href="#t3">
+            <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+              <rect class="cd-lnf cd-draw" pathLength="1" x="11" y="4" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+              <rect class="cd-lnf cd-draw" pathLength="1" x="8" y="7" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+              <rect class="cd-ln cd-draw" pathLength="1" x="5" y="10" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+              <path class="cd-lnf cd-draw" pathLength="1" d="M9,16 h14 M9,20 h14 M9,24 h9"/>
+              <path class="cd-br cd-draw" pathLength="1" d="M9,30 h11"/>
+            </svg>
+            <div class="cd-fade">
+              <div class="oc-k">The public record <span class="oc-x">52,460&nbsp;forums &#183; 792,703&nbsp;messages</span></div>
+              <div class="oc-d">reviews, rebuttals, verdicts — public on OpenReview before this project began. Tier III shows one forum entire.</div>
+            </div>
+          </a>
+          <div class="oc-via cd-fade">&#8595; read and normalized by</div>
+          <a class="oc-row" href="https://github.com/t46/atlas-of-judgment">
+            <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+              <rect class="cd-ln cd-draw" pathLength="1" x="6" y="5" width="30" height="32" fill="rgba(248,241,224,0.9)"/>
+              <path class="cd-lnf cd-draw" pathLength="1" d="M10,11 h14 M10,33 h10"/>
+              <path class="cd-br cd-draw" pathLength="1" d="M15,18 l-4,4 4,4 M27,18 l4,4 -4,4 M23,16 l-4,12"/>
+            </svg>
+            <div class="cd-fade">
+              <div class="oc-k">The code <span class="oc-x">github &#183; one&nbsp;repository</span></div>
+              <div class="oc-d">the whole pipeline — collection, memos, structuring, taxonomy induction, aggregation — and the source of these pages themselves.</div>
+            </div>
+          </a>
+          <div class="oc-via cd-fade">&#8595; distilled into</div>
+          <a class="oc-row" href="https://huggingface.co/datasets/t46/atlas-of-judgment">
+            <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+              <path class="cd-ln cd-draw" pathLength="1" d="M4,33 h34"/>
+              <circle class="cd-br cd-draw" pathLength="1" cx="12" cy="25.5" r="7.5" fill="rgba(248,241,224,0.9)"/>
+              <circle class="cd-ln cd-draw" pathLength="1" cx="23.5" cy="28.5" r="4.5" fill="rgba(248,241,224,0.9)"/>
+              <circle class="cd-lnf cd-draw" pathLength="1" cx="31.5" cy="30.5" r="2.5" fill="rgba(248,241,224,0.9)"/>
+            </svg>
+            <div class="cd-fade">
+              <div class="oc-k">The derived data <span class="oc-x">48&nbsp;islands &#183; 5.16&#8202;MB</span></div>
+              <div class="oc-d">the units and every aggregate the plates draw, as plain JSON — one induced reading of the record, mirrored as a Hugging Face dataset, CC&nbsp;BY&nbsp;4.0.</div>
+            </div>
+          </a>
+          <div class="oc-via cd-fade">&#8595; open to two readers</div>
+          <div class="oc-fork">
+            <a class="oc-door" href="index.html">
+              <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+                <g transform="rotate(-16 21 36)"><rect class="cd-lnf cd-draw" pathLength="1" x="14" y="6" width="14" height="28" fill="rgba(248,241,224,0.9)"/></g>
+                <g transform="rotate(16 21 36)"><rect class="cd-lnf cd-draw" pathLength="1" x="14" y="6" width="14" height="28" fill="rgba(248,241,224,0.9)"/></g>
+                <rect class="cd-ln cd-draw" pathLength="1" x="14" y="4" width="14" height="30" fill="rgba(248,241,224,0.9)"/>
+                <circle class="cd-br cd-draw" pathLength="1" cx="21" cy="12" r="2.6"/>
+              </svg>
+              <div class="cd-fade">
+                <div class="oc-k">The atlas <span class="oc-x">33&nbsp;plates</span></div>
+                <div class="oc-d">the human door: every figure a count of the same units.</div>
+              </div>
+            </a>
+            <a class="oc-door" href="/api/">
+              <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+                <path class="cd-br cd-draw" pathLength="1" d="M13,7 c-6,2 -3,11 -8,14 c5,3 2,12 8,14"/>
+                <path class="cd-br cd-draw" pathLength="1" d="M29,7 c6,2 3,11 8,14 c-5,3 -2,12 -8,14"/>
+                <path class="cd-lnf cd-draw" pathLength="1" d="M17,16 h8 M17,21 h9 M17,26 h7"/>
+              </svg>
+              <div class="cd-fade">
+                <div class="oc-k">The API <span class="oc-x">33&nbsp;depositions</span></div>
+                <div class="oc-d">the machine door: per-plate claims and every island, with <code>llms.txt</code> and an OpenAPI schema.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <a class="oc-side" href="method.html">
+          <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-ln cd-draw" pathLength="1" x="7" y="4" width="28" height="34" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M11,10 h20 M11,14 h20 M11,18 h16 M11,22 h20 M11,26 h13"/>
+            <circle class="cd-br cd-draw" pathLength="1" cx="28" cy="31" r="3.5"/>
+          </svg>
+          <div class="cd-fade">
+            <div class="oc-k">The method</div>
+            <div class="oc-d">the passage&#8217;s own record, kept beside the pipe rather than inside it: every script, model, seed and cost — and the corrections, written down as they happened.</div>
+          </div>
+        </a>
+      </div>
+    </div></div>
+  </div>
+  <p class="fig-cap rv">The circuit of the open door. The record was public before the project began; the code that reads it and the data it becomes are public now; and the two readers — the atlas for people, the API for machines — stand on the same 48 islands, with the method walking beside every arrow. Each node above is a door: it links to the public place it names.</p>
+
   <div class="doors rv">
     <a href="method.html"><div class="dk">Method</div><div class="dt">The Atlas Method</div><div class="dd">Every script, model, parameter, seed, cost and failure mode, at the level of detail needed to rerun it.</div></a>
     <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">Code</div><div class="dt">GitHub</div><div class="dd">The pipeline, the taxonomy induction, the aggregations, and the source of the atlas itself.</div></a>
@@ -633,6 +985,15 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <h2>The colophon</h2>
   <div class="lat">sub finem — at the end, the terms</div>
 </div></div>
+
+<section class="band">
+<div class="shell">
+  <aside class="whynote rv">
+    <h3 class="rv">A note on the type and the tools</h3>
+    <p class="rv">These pages are set in Cormorant Garamond for the display, Source Serif for the text, and IBM Plex Mono for the instrument labels. The figures are hand-written SVG, drawn stroke by stroke in the browser; the theatre behind the tiers is a single WebGL line engraving. The reviews were read by open-weight language models — analytic memos first, schema-constrained structuring second — and the pages themselves were built in a recorded conversation between the researcher and a language-model assistant, the passage the Method page quotes. Engraved MMXXVI.</p>
+  </aside>
+</div>
+</section>
 
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
