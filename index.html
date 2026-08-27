@@ -300,16 +300,8 @@ html.plate-done #neb { visibility: hidden; }
 /* The question is the page's one sentence, so it gets a leaf of tissue over the plate:
    the engraving behind it is thrown out of focus and washed toward vellum, and both the
    blur and the wash are masked to the same soft ellipse so neither shows a box edge. */
+/* the hold gives the question the sheet to itself, so it needs no tissue behind it */
 .tq-block { position: relative; display: inline-block; padding: 34px 58px 40px; margin-left: -58px; }
-.tq-block::before { content: ""; position: absolute; inset: -12px; z-index: -1; pointer-events: none;
-  -webkit-backdrop-filter: blur(9px) saturate(0.84); backdrop-filter: blur(9px) saturate(0.84);
-  background: radial-gradient(ellipse farthest-side at 46% 54%, rgba(239,228,201,0.93) 0%,
-    rgba(239,228,201,0.87) 32%, rgba(239,228,201,0.64) 54%, rgba(239,228,201,0.26) 74%,
-    rgba(239,228,201,0.05) 90%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse farthest-side at 46% 54%, #000 0%, #000 44%,
-    rgba(0,0,0,0.55) 68%, rgba(0,0,0,0.12) 86%, transparent 100%);
-  mask-image: radial-gradient(ellipse farthest-side at 46% 54%, #000 0%, #000 44%,
-    rgba(0,0,0,0.55) 68%, rgba(0,0,0,0.12) 86%, transparent 100%); }
 .tq-eye { display: flex; align-items: center; gap: 13px; font-family: var(--mono); font-size: 9.5px;
   letter-spacing: 0.30em; text-transform: uppercase; color: var(--brass); margin-bottom: 15px; }
 .tq-eye i { display: block; width: clamp(22px, 5vw, 56px); height: 1px; background: var(--brass-line); }
@@ -352,6 +344,23 @@ html.q-inked.neb3d .tq-flor { opacity: 1; transform: scaleX(1); }
   html.neb3d .tp-table .tq { -webkit-mask-image: none !important; mask-image: none !important; } }
 @media print { html.neb3d .tp-table .tq { -webkit-mask-image: none !important; mask-image: none !important; } }
 .tp-sheet { position: relative; z-index: 3; background: var(--ground); box-shadow: 0 -26px 56px rgba(61,44,20,.20), 0 -1px 0 var(--brass-faint); }
+/* ---- the deposition: the three blocks between the question and Act I play as scenes.
+   Classes are added by script, so print, no-JS and reduced-motion read a plain page.
+   Inside Plate 0 the entrance is focus, not movement — its leader lines are measured
+   from the live boxes, and a translate at draw time would bend them permanently. ---- */
+.tp-below { min-height: 82svh; display: flex; align-items: center; }
+@media (max-width: 760px) { .tp-below { min-height: 0; } }
+.tp-below-grid { width: 100%; }
+.sc-i { opacity: 0; transform: translateY(22px);
+  transition: opacity .8s ease var(--d, 0s), transform .95s var(--ease-settle) var(--d, 0s); }
+.sc.on .sc-i { opacity: 1; transform: none; }
+#specimen .sc-i { transform: none; filter: blur(8px);
+  transition: opacity .9s ease var(--d, 0s), filter 1.15s ease var(--d, 0s); }
+#specimen.sc.on .sc-i { filter: blur(0); }
+.rn-box .rn-eyebrow.sc-i { transform: none; letter-spacing: .5em;
+  transition: opacity .8s ease var(--d, 0s), letter-spacing 1.3s var(--ease-settle) var(--d, 0s); }
+.sc.on .rn-eyebrow.sc-i { letter-spacing: .24em; }
+@media print { .sc-i { opacity: 1 !important; transform: none !important; filter: none !important; letter-spacing: inherit; } }
 @media (prefers-reduced-motion: reduce) { .tp-table { min-height: 0; padding-top: 0; padding-bottom: 34px; } .tp-table .shell { position: static; } }
 html.neb3d .tp-sky { visibility: hidden; }
 /* the hero turns to vellum while the bone is on the page; everything below stays as it was */
@@ -1050,8 +1059,6 @@ body.tour-on #spec-dock { display: none !important; }
 .half-gate.al-in .hg-rule { transform: scaleX(1); }
 .half-gate.al-in .hg-t { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .half-gate .hg-rule { transform: scaleX(1); transition: none; } .half-gate .hg-t { opacity: 1; transition: none; } }
-.act-leaf .al-mag { max-width: 40em; margin: clamp(18px, 3svh, 30px) auto 0; padding-top: 14px; border-top: 1px solid var(--brass-faint); font-size: clamp(13.5px, 1.5vw, 15px); line-height: 1.66; color: var(--ink-2); }
-.act-leaf .al-mag b { display: block; font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--brass); margin-bottom: 9px; }
 /* act-leaf entrance: mask opens upward while the title settles upward — one correlated gesture */
 .act-leaf .al-rule { transform: scaleX(0); transition: transform 1.1s var(--ease-settle); }
 .act-leaf .al-rule:first-child { transform-origin: right center; }
@@ -1376,7 +1383,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 <!-- The Field, The Season and The Tide now travel as overtures at the heads of Acts VIII, V and VII -->
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><div class="al-mag"><b>Magnification · A SENTENCE</b>The rule opens at its finest mark. What sits under it here is one sentence of one review — and the first question is whether such a thing can be counted at all.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="A SENTENCE"><span class="al-rule"></span><div class="al-no">ACT I</div><div class="al-t">The Instrument</div><div class="al-s">how a million reviews became countable units · plates I–III</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1483,7 +1490,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT II</div><div class="al-t">One Hand</div><div class="al-s">what one reviewer sets down, alone · plates IV–VI</div><div class="al-mag"><b>Magnification · ONE REVIEW</b>One mark coarser. The unit is no longer the sentence but the page it sits in: what a single reviewer, working alone, sets down and in what order.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="ONE REVIEW"><span class="al-rule"></span><div class="al-no">ACT II</div><div class="al-t">One Hand</div><div class="al-s">what one reviewer sets down, alone · plates IV–VI</div><span class="al-rule"></span></div>
 
 <section id="interlude-windows">
   <div class="plate-head">
@@ -1636,7 +1643,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT III</div><div class="al-t">The Law</div><div class="al-s">what a criticism actually says — and asks for · plates VII–XIII</div><div class="al-mag"><b>Magnification · A CRITICISM’S CLAIM</b>Back to fine work, and to a different object. Not the review now but one charge inside it — what that charge asserts, and what it asks for.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="A CRITICISM’S CLAIM"><span class="al-rule"></span><div class="al-no">ACT III</div><div class="al-t">The Law</div><div class="al-s">what a criticism actually says — and asks for · plates VII–XIII</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1868,7 +1875,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT IV</div><div class="al-t">The Tariff</div><div class="al-s">what a criticism changes · plates XIV–XV</div><div class="al-mag"><b>Magnification · A CRITICISM’S COST</b>The same charge at the same magnification, with a different question underneath it: not what it says, but what it costs.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="A CRITICISM’S COST"><span class="al-rule"></span><div class="al-no">ACT IV</div><div class="al-t">The Tariff</div><div class="al-s">what a criticism changes · plates XIV–XV</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -1974,7 +1981,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT V</div><div class="al-t">The Encounter</div><div class="al-s">when people meet, does judgment move · plates XVI–XXI</div><div class="al-mag"><b>Magnification · A ROOM</b>The rule opens wider. The unit is no longer one person’s page but the room they argue in — authors, reviewers, and the exchange between them.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="A ROOM"><span class="al-rule"></span><div class="al-no">ACT V</div><div class="al-t">The Encounter</div><div class="al-s">when people meet, does judgment move · plates XVI–XXI</div><span class="al-rule"></span></div>
 
 <section id="sec-season">
   <div class="plate-head">
@@ -2270,7 +2277,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VI</div><div class="al-t">The Higher Court</div><div class="al-s">the chair&#8217;s court — what it weighs, whose words it borrows · plates XXII–XXIII</div><div class="al-mag"><b>Magnification · A COURT</b>Wider still, and upward. Above the room sits the court that reads it, and writes the decision in its own hand — or in someone else’s.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="A COURT"><span class="al-rule"></span><div class="al-no">ACT VI</div><div class="al-t">The Higher Court</div><div class="al-s">the chair&#8217;s court — what it weighs, whose words it borrows · plates XXII–XXIII</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -2332,7 +2339,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VII</div><div class="al-t">The Measure</div><div class="al-s">can a rating be trusted as a measurement · plates XXIV–XXV</div><div class="al-mag"><b>Magnification · A RATING</b>Here the rule folds back on itself. What it measures now is a number the instrument itself produced: the score, held up against everything already counted.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="A RATING"><span class="al-rule"></span><div class="al-no">ACT VII</div><div class="al-t">The Measure</div><div class="al-s">can a rating be trusted as a measurement · plates XXIV–XXV</div><span class="al-rule"></span></div>
 
 <section id="sec-tide">
   <div class="plate-head">
@@ -2472,7 +2479,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 </section>
 
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXVIII</div><div class="al-mag"><b>Magnification · NINE YEARS</b>The widest mark on the rule — nine years of it, and the separate fields inside those years.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="NINE YEARS"><span class="al-rule"></span><div class="al-no">ACT VIII</div><div class="al-t">Eras &amp; Territories</div><div class="al-s">the instrument measured — is any of it particular to now, or to one field · plates XXVI–XXVIII</div><span class="al-rule"></span></div>
 
 <section id="field">
   <div class="plate-head">
@@ -2618,7 +2625,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   </div></div>
 </section>
 
-<div class="act-leaf"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXIX</div><div class="al-mag"><b>Magnification · THE RECORD ITSELF</b>The rule is set down. What is left is the record it was read from, held against its originals.</div><span class="al-rule"></span></div>
+<div class="act-leaf" data-mag="THE RECORD ITSELF"><span class="al-rule"></span><div class="al-no">CODA</div><div class="al-t">The Archive</div><div class="al-s">the raw reasoning, held against its originals · plate XXIX</div><span class="al-rule"></span></div>
 
 <section>
   <div class="plate-head">
@@ -6828,15 +6835,53 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     el.classList.add("reveal");
     io.observe(el);
   }
-  // count-up on title-page spec
-  for (const el of document.querySelectorAll(".cnt")) {
-    const target = +el.dataset.n, t0 = performance.now(), dur = 1500;
-    (function tick(t) {
-      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-      el.textContent = Math.round(target * e).toLocaleString("en-US");
-      if (k < 1) requestAnimationFrame(tick);
-    })(t0);
+  // (the docket count-up now belongs to the deposition scenes below — it used to run
+  //  at page load, spending its whole performance while the docket was off screen)
+})();
+
+// ---------------- the deposition: three scenes between the question and Act I ----------------
+(function scenes() {
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (REDUCED) return;                        // the record is simply there
+  const DEFS = [
+    { root: document.querySelector(".tp-below"),
+      items: [[".tp-sub", 0.05], [".dk-cell", 0.40, 0.16], [".dk-more", 0.95]], counters: true },
+    { root: document.getElementById("specimen"),
+      items: [[".pz-plate", 0], [".pz-mark", 0.15], ["#pz-quote", 0.35], [".pz-margin.pz-left .pz-cell", 0.85, 0.5],
+              [".pz-margin.pz-right .pz-cell", 1.1, 0.5], [".pz-leaders", 1.55], [".pz-cap", 1.9], [".pz-foot", 2.1]] },
+    { root: document.querySelector("#readers-note .rn-box"),
+      items: [[".rn-eyebrow", 0], [".rn-grid > div", 0.3, 0.22]] },
+  ].filter(d => d.root);
+  let counted = false;
+  function runCounters() {
+    if (counted) return; counted = true;
+    for (const el of document.querySelectorAll(".cnt")) {
+      const target = +el.dataset.n, t0 = performance.now(), dur = 1600;
+      (function tick(t) {
+        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        el.textContent = Math.round(target * e).toLocaleString("en-US");
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    }
   }
+  for (const d of DEFS) {
+    d.root.classList.add("sc");
+    for (const [sel, base, step] of d.items)
+      [...d.root.querySelectorAll(sel)].forEach((el, i) => {
+        el.classList.add("sc-i"); el.style.setProperty("--d", (base + (step || 0) * i).toFixed(2) + "s");
+      });
+  }
+  const on = d => { if (d.root.classList.contains("on")) return;
+    d.root.classList.add("on"); if (d.counters) runCounters(); };
+  const io = new IntersectionObserver(en => {
+    for (const e of en) if (e.isIntersecting) { const d = DEFS.find(x => x.root === e.target); if (d) { on(d); io.unobserve(e.target); } }
+  }, { threshold: 0.22 });
+  for (const d of DEFS) io.observe(d.root);
+  // a fast flick must not leave a scene stuck dark — but only a scene the reader has
+  // effectively passed is forced; arriving normally, the observer runs the entrance
+  addEventListener("scroll", () => {
+    for (const d of DEFS) if (d.root.getBoundingClientRect().top < innerHeight * 0.12) on(d);
+  }, { passive: true });
 })();
 
 // ---------------- Plate 0: one unit, opened, with leaders to the words it came from ----------------
@@ -7155,7 +7200,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     if (!last) return null;
     const no = last.querySelector(".al-no"), ti = last.querySelector(".al-t");
     // the magnification travels with the act: the one part of the long rule that reaches every width
-    const mg = ((last.querySelector(".al-mag b") || {}).textContent || "").replace(/^Magnification\s*·\s*/i, "");
+    const mg = last.dataset.mag || "";   // the plaque is gone; the word rides the leaf itself
     return `<b>${no ? no.textContent : ""}</b><span class="sx-sep">·</span>${ti ? ti.textContent : ""}` +
       (mg ? `<span class="sx-mag">${mg}</span>` : "");
   };
@@ -13718,7 +13763,7 @@ function buildSpecimenPlate(actsByNo, closeChart) {
       cur = { leaf: last,
         no: (last.querySelector(".al-no") || {}).textContent || "",
         title: (last.querySelector(".al-t") || {}).textContent || "",
-        mag: ((last.querySelector(".al-mag b") || {}).textContent || "").replace(/^Magnification\s*·\s*/i, ""),
+        mag: last.dataset.mag || "",
         sub: (last.querySelector(".al-s") || {}).textContent || "", items: [] };
       groups.push(cur);
     }
