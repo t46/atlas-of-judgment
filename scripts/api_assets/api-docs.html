@@ -50,8 +50,25 @@ details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--b
 .note b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
 .colophon { margin-top: 90px; padding-top: 22px; border-top: 1px solid var(--brass-faint); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); line-height: 2.1; }
 .wrap-x { overflow-x: auto; }
+/* topbar — same family as the companion pages, in this page's tokens */
+#topbar { position: relative; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px clamp(14px, 3vw, 40px); background: rgba(239,228,201,0.92); border-bottom: 1px solid var(--brass-faint); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links a:hover, #topbar .tb-links a.tb-here { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
 </style>
-<div class="shell">
+<nav id="topbar" aria-label="site">
+  <a class="tb-mark" href="../">Atlas of Judgment</a>
+  <div class="tb-links">
+    <a href="../">The Atlas</a>
+    <a href="../about.html">About</a>
+    <a href="../method.html">Method</a>
+    <a href="../resources.html">Resources</a>
+    <a href="#top" class="tb-here">API</a>
+  </div>
+</nav>
+<div class="shell" id="top">
   <div class="eyebrow">Atlas of Judgment</div>
   <h1>Machine <em>Reader</em></h1>
   <p class="sub">A static, zero-cost API over the same audited data the plates are built from. Every endpoint is a plain JSON file on the CDN — one source, two formats: the page you can read, and the claims a machine can cite, recompute, and audit.</p>
@@ -112,6 +129,6 @@ details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--b
 
   <div class="colophon">
     Atlas of Judgment · machine reader v1 · generated __BUILD_DATE__<br>
-    <a href="/">Atlas</a> · <a href="/about">About</a> · <a href="/method">Method</a> · <a href="https://github.com/t46/atlas-of-judgment">GitHub</a> · <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a> · CC BY 4.0
+    <a href="/">Atlas</a> · <a href="/about">About</a> · <a href="/method">Method</a> · <a href="/resources">Resources</a> · <a href="https://github.com/t46/atlas-of-judgment">GitHub</a> · <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a> · CC BY 4.0
   </div>
 </div>
