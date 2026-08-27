@@ -86,6 +86,7 @@ PLATES = [
 
 def build_api(dist: Path) -> None:
     """Stage the machine-reader layer: /api/v1/*, /llms.txt, /openapi.yaml, /api/."""
+    import hashlib
     import json
     import re
     import shutil
@@ -111,10 +112,15 @@ def build_api(dist: Path) -> None:
         islands.append({
             "file": name,
             "bytes": src.stat().st_size,
+            "sha256": hashlib.sha256(src.read_bytes()).hexdigest(),
             "track": "2018-2026 direct" if src.parent == VDIRECT else "2026 full-depth",
             "plates": used_by,
             "status": "active" if used_by else "orphaned",
         })
+
+    # 1b. the correction ledger (mirrors method sec.10; hand-maintained asset)
+    json.loads((API_ASSETS / "corrections.json").read_text())  # fail loudly if invalid
+    shutil.copy(API_ASSETS / "corrections.json", api / "corrections.json")
 
     # 2. depositions
     dep_ids = []
@@ -139,6 +145,7 @@ def build_api(dist: Path) -> None:
             "index": "/api/v1/index.json",
             "deposition": "/api/v1/plates/{plate-id}.json",
             "data": "/api/v1/data/{island}.json",
+            "corrections": "/api/v1/corrections.json",
             "openapi": "/openapi.yaml",
             "llms": "/llms.txt",
             "docs": "/api/",

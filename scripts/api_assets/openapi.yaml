@@ -102,6 +102,17 @@ paths:
         "404":
           description: Unknown island
 
+  /api/v1/corrections.json:
+    get:
+      summary: The correction ledger — every published claim later found wrong, corrected in place and recorded
+      operationId: getCorrections
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CorrectionsDocument" }
+
 components:
   schemas:
     IndexDocument:
@@ -152,13 +163,16 @@ components:
 
     IndexIslandEntry:
       type: object
-      required: [file, bytes, track, plates, status]
+      required: [file, bytes, sha256, track, plates, status]
       properties:
         file:
           type: string
           example: viz-data.json
           description: Filename; fetch at /api/v1/data/{file}.
         bytes: { type: integer, example: 1404026 }
+        sha256:
+          type: string
+          description: SHA-256 of the served file, for reproducibility checks.
         track:
           type: string
           enum: ["2026 full-depth", "2018-2026 direct"]
@@ -169,6 +183,43 @@ components:
         status:
           type: string
           enum: [active, orphaned]
+
+    CorrectionsDocument:
+      type: object
+      required: [what, corrections]
+      properties:
+        what:
+          type: string
+          description: What this ledger is; source of truth is method sec. 10.
+        corrections:
+          type: array
+          items: { $ref: "#/components/schemas/CorrectionEntry" }
+
+    CorrectionEntry:
+      type: object
+      required: [id, date, plate, figure, claim_as_shipped, what_the_check_showed, corrected_reading, lived_on_page, recorded_in, links]
+      properties:
+        id: { type: string, example: watermark-object-overlap-size-null }
+        date:
+          type: [string, "null"]
+          description: Correction date (ISO); null where method sec. 10 records no date.
+        date_note: { type: string, description: Present only when date is null. }
+        plate: { type: string, example: plate-xxix }
+        figure: { type: string, example: fig-29c }
+        claim_as_shipped: { type: string }
+        what_the_check_showed: { type: string }
+        corrected_reading: { type: string }
+        lived_on_page:
+          type: string
+          description: How long the uncorrected reading was live, as honestly as the record allows.
+        recorded_in: { type: string, example: "method §10" }
+        links:
+          type: object
+          properties:
+            deposition: { type: string, example: /api/v1/plates/plate-xxix.json }
+            island_keys:
+              type: array
+              items: { type: string, example: "llmtrace-data.json → mix.jaccard_size_null" }
 
     Deposition:
       type: object

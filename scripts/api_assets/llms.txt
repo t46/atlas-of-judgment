@@ -25,6 +25,8 @@ data. This file is the entry point for the second reader.
   A few are verification records rather than chart feeds (e.g. repair-k-robustness.json);
   the index's plates[] field says which plates read each file.
 - /openapi.yaml — machine-readable schema for all of the above.
+- /api/v1/corrections.json — the record self-corrects; this is the ledger of corrections
+  (each entry: the claim as shipped, what the check showed, the corrected reading), mirroring method §10.
 - /api/ — human-readable API docs, same visual language as the main site.
 
 ## The one caveat that applies across the whole corpus

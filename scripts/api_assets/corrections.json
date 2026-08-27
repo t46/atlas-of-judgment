@@ -1,0 +1,51 @@
+{
+ "what": "The atlas's correction record, as structured data. Every published claim that was later found wrong is corrected in place on the plate and recorded in method §10 rather than quietly overwritten; this file mirrors that record for machine readers. Source of truth: method §10 (\"The order of the plates is not the order of the work\").",
+ "corrections": [
+  {
+   "id": "early-verdict-median-units",
+   "date": null,
+   "date_note": "§10 records the error and the fix but not the correction date",
+   "plate": "plate-vi",
+   "figure": "the early-verdict curve",
+   "claim_as_shipped": "A review's verdict was readable by its sixth unit \"against a median review length of eleven units\".",
+   "what_the_check_showed": "The median review length is five units, which makes the original claim close to circular.",
+   "corrected_reading": "The analysis was re-run restricted to reviews of ten units or more — where the question is real — and the plate now reports that curve, which saturates at eight or nine.",
+   "lived_on_page": "not recorded",
+   "recorded_in": "method §10",
+   "links": {
+    "deposition": "/api/v1/plates/plate-vi.json",
+    "island_keys": []
+   }
+  },
+  {
+   "id": "watermark-object-overlap-size-null",
+   "date": "2026-08-27",
+   "plate": "plate-xxix",
+   "figure": "fig-29c",
+   "claim_as_shipped": "The rise in co-reviewers' object-set overlap after 2023 was presented as content-level convergence, noting its turn \"lands on the watermark's arrival year\".",
+   "what_the_check_showed": "A size-matched null run the same day — same forums, same set sizes, contents drawn at random from the year's mix — absorbed the rise: reviewers simply charge more objects per review in the LLM years (mean set size 3.4 → 3.8), and the excess of choice over size is flat (+0.037–0.054, maximum in 2018).",
+   "corrected_reading": "Fig. 29c now draws the null; Fig. 29d reports the two further structural nulls (mix entropy, reasoning-embedding gap) run at the same time.",
+   "lived_on_page": "roughly half a day",
+   "recorded_in": "method §10",
+   "links": {
+    "deposition": "/api/v1/plates/plate-xxix.json",
+    "island_keys": ["llmtrace-data.json → mix.jaccard_size_null"]
+   }
+  },
+  {
+   "id": "watermark-attention-entropy-null",
+   "date": "2026-08-27",
+   "plate": "plate-xxix",
+   "figure": "fig-29d",
+   "claim_as_shipped": "An individual reviewer's own attention entropy \"rises 0.742 → 0.766: the individual reviewer looks at slightly more, not fewer, kinds of things\".",
+   "what_the_check_showed": "An adversarial audit run the same evening — looking deliberately for siblings of the set-size artifact — found this rise mostly mechanical too: an n-matched null (same reviewers' unit counts, objects drawn at random from the year's own mix) rises almost in step, because reviewers file more units per review in the LLM years and the year's mix itself grew more even. Only +0.008 of the +0.024 rise survives the null, with no trend.",
+   "corrected_reading": "Fig. 29d now draws that null and claims only what survives: no narrowing after 2023. The same audit sharpened, rather than weakened, the wording-convergence panel: split by section, the within-paper rise concentrates in the summaries (+20%, still climbing) while the criticism prose rises +6% and stalls after 2025 — both decompositions now on the plate.",
+   "lived_on_page": "under a day",
+   "recorded_in": "method §10",
+   "links": {
+    "deposition": "/api/v1/plates/plate-xxix.json",
+    "island_keys": ["llmtrace-data.json → mix.attention_null", "llmtrace-data.json → mix.section_convergence"]
+   }
+  }
+ ]
+}

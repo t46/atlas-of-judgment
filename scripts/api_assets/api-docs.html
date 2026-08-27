@@ -99,7 +99,12 @@ details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--b
   <div class="card">
     <div class="k">03 · Data island</div>
     <div class="ep">GET <a href="/api/v1/data/viz-data.json">/api/v1/data/viz-data.json</a></div>
-    <p>The __ISLAND_COUNT__ underlying data islands as standalone files — byte-identical twins of the JSON embedded in the human page.</p>
+    <p>The __ISLAND_COUNT__ underlying data islands as standalone files — byte-identical twins of the JSON embedded in the human page. Each island's entry in the index carries a <code>sha256</code> of the served file, so a recomputation can prove it started from the same bytes.</p>
+  </div>
+  <div class="card">
+    <div class="k">04 · Corrections</div>
+    <div class="ep">GET <a href="/api/v1/corrections.json">/api/v1/corrections.json</a></div>
+    <p>The correction ledger: every published claim later found wrong, corrected in place on the plate and recorded in method §10 — here as structured entries (the claim as shipped, what the check showed, the corrected reading, how long the error was live, and links to the deposition and island keys).</p>
   </div>
   <div class="note"><b>Also</b> &nbsp; <a href="/openapi.yaml">/openapi.yaml</a> — machine-readable schema &nbsp;·&nbsp; <a href="/llms.txt">/llms.txt</a> — the entry point for AI readers</div>
 
