@@ -1,6 +1,6 @@
 # データ由来（Provenance）ドキュメント群 — 入口
 
-このディレクトリは、`/Users/s30825/unktok/dev/ml-top-conf-review-analysis` プロジェクトが OpenReview からの生データ収集を起点として、どのような変換・LLM分析を経て現在の成果物に至ったかを記録する。**運用状態（進行中タスクの監視・再開・マージ手順）は `docs/handoff/CLAUDE_CODE_HANDOFF.md` を参照** — 本ディレクトリは由来・方法論に特化する。
+このディレクトリは、`/Users/s30825/unktok/dev/ml-top-conf-review-analysis` プロジェクトが OpenReview からの生データ収集を起点として、どのような変換・LLM分析を経て現在の成果物に至ったかを記録する。**運用状態（進行中タスクの監視・再開・マージ手順）は `CLAUDE_CODE_HANDOFF.md`（同ディレクトリ） を参照** — 本ディレクトリは由来・方法論に特化する。
 
 本プロジェクトは Git 管理下にない。証跡は主にファイルシステムのタイムスタンプ、SQLiteデータベースの内容、およびローカルの Codex セッション履歴（`/Users/s30825/.codex/sessions/2026/08/11/rollout-2026-08-11T18-17-08-019ff01c-83cb-7060-ac21-3658f8b4a748.jsonl`、約34MB・約2万行、本ドキュメント作成時点でも成長中）に依拠する。
 

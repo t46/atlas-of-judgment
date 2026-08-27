@@ -17,10 +17,9 @@ data. This file is the entry point for the second reader.
 - /api/v1/plates/<id>.json — one "deposition" per plate: its headline claims, each with
   a statement, a numeric value, the source_island and derivation that produced it,
   the recompute script that regenerates it from raw review text, and any caveats that
-  govern how to read it. <id> is the plate slug, e.g. plate-i. (v1 ships plate-i;
-  the remaining depositions are being transcribed from the audited captions — the
-  index lists their status.)
-- /api/v1/data/<island>.json — the 41 underlying data islands as standalone files
+  govern how to read it. <id> is the plate slug, e.g. plate-i. All __PLATE_COUNT__
+  depositions (29 plates and 3 appendices) are published; the index lists each one.
+- /api/v1/data/<island>.json — the __ISLAND_COUNT__ underlying data islands as standalone files
   (the same JSON embedded as script data on the human page — one source, two formats).
 - /openapi.yaml — machine-readable schema for all of the above.
 - /api/ — human-readable API docs, same visual language as the main site.

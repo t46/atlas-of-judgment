@@ -10,6 +10,8 @@ was invoked, what was concluded* — and charted like a sky.
 - **About** — `about.html`: the question, the three-layer pipeline, the findings digest
 - **The Method** — `method.html`: full reproduction record of the data layer, including
   the chronicle of pilots, failures, and mid-course decisions
+- **Resources** — `resources.html`: source code, data downloads, the machine-reader API,
+  citation, and license — every outbound door on one quiet page
 
 ## Scale
 
@@ -18,8 +20,10 @@ from 50,861 forums across 2018–2026 (forum-level track), extracted through a t
 pipeline: raw OpenReview record → DeepSeek analytic memos → Qwen schema-constrained
 structuring → locally-induced taxonomy (12 objects of scrutiny × 12 reasoning standards)
 and a validated inference-form classifier. Cross-cutting analyses: the within-review
-script, topic-transition wheel, five reviewer archetypes, rebuttal dynamics, decision
-associations, nine-year drift, and the field's hardening.
+itinerary, the elements and price of a charge, rebuttal dynamics, panel deliberation,
+decision associations, nine-year drift, and the field's hardening. (Two early analyses —
+the topic-transition wheel and the five reviewer archetypes — were retired after failing
+their nulls; the archetype mirage is preserved as Appendix III, the Null Cabinet.)
 
 ## Repository layout
 
@@ -30,6 +34,7 @@ associations, nine-year drift, and the field's hardening.
 | `provenance/` | the project's internal provenance documents (Japanese): end-to-end process, artifact registry, decision log, reproducibility limits, operational handoff |
 | `data/` | derived aggregates the pages are built from (taxonomy, cluster digests, per-plate JSON) — no raw databases |
 | `codex-history/` | the sanitized agent-session history behind the data pipeline (see below) |
+| *(generated, not committed)* | the machine-reader layer — `/api/v1/*` (32 plate depositions + 44 data islands), `/llms.txt`, `/openapi.yaml`, `/api/` docs — is built by `scripts/deploy_pages.py` from `scripts/api_assets/` into the gitignored `.pages-dist/` at deploy time |
 
 ## The session history
 

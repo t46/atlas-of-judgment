@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Resources — Atlas of Judgment</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
+  --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
+  --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Cormorant Garamond", Georgia, serif;
+  --serif: "Source Serif 4", Georgia, serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif);
+  font-size: 15.5px; line-height: 1.75; }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(138,90,31,0.45); }
+a:hover { border-bottom-style: solid; }
+code { font-family: var(--mono); font-size: 12px; }
+main { position: relative; z-index: 3; }
+.shell { max-width: 840px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 36px); }
+
+/* ------------------------------------------------------------- topbar (static — no JS, no hide/show) */
+#topbar { position: relative; z-index: 70; display: flex; align-items: center;
+  justify-content: space-between; gap: 14px; padding: 14px clamp(14px, 3vw, 40px);
+  background: rgba(239,228,201,0.92); border-bottom: 1px solid var(--brass-faint); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links a:hover, #topbar .tb-links a.tb-here { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; }
+  #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+
+/* --------------------------------------------------------------- quiet header (no hero theatrics) */
+.page-head { padding: clamp(46px, 8vh, 82px) 0 clamp(28px, 5vh, 44px); text-align: left; }
+.page-head .eb { font-family: var(--mono); font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--brass); }
+.page-head h1 { font-family: var(--display); font-weight: 500; font-size: clamp(34px, 5.4vw, 52px);
+  line-height: 1.05; margin: 12px 0 0; text-wrap: balance; }
+.page-head .sub { font-size: 15.5px; color: var(--ink-2); max-width: 62ch; margin-top: 12px; }
+
+/* ------------------------------------------------------------------------------ page proper */
+.band { position: relative; background: rgba(243, 234, 210, 0.955);
+  border-top: 1px solid var(--brass-faint); border-bottom: 1px solid var(--brass-faint); }
+.band > .shell { padding-top: clamp(40px, 6vh, 60px); padding-bottom: clamp(40px, 6vh, 60px); }
+p { margin: 13px 0 0; color: var(--ink-2); }
+p b, p strong { color: var(--ink); font-weight: 600; }
+.hdl { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); margin-bottom: 10px; }
+h2.hd { font-family: var(--display); font-weight: 500; font-size: clamp(24px, 3.2vw, 32px);
+  line-height: 1.12; margin: 0 0 4px; text-wrap: balance; }
+h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--brass); font-weight: 500; margin: 30px 0 0; }
+
+/* doors: identical pattern to about.html's "open door" tier — Source code / Data / API cards */
+.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px;
+  margin-top: 18px; background: var(--brass-faint); border: 1px solid var(--brass-faint); }
+.doors a { display: block; background: rgba(248,241,224,0.75); padding: 16px 18px; border: none; color: var(--ink); }
+.doors a:hover { background: var(--paper); }
+.doors .dk { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); }
+.doors .dt { font-family: var(--display); font-size: 20px; line-height: 1.2; margin-top: 4px; }
+.doors .dd { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; line-height: 1.55; }
+
+table { border-collapse: collapse; margin-top: 14px; font-size: 12px; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { border: 1px solid var(--brass-faint); padding: 6px 10px; text-align: left; color: var(--ink-2); vertical-align: top; }
+th { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  position: sticky; top: 0; background: rgba(243,234,210,0.98); }
+td.mono { font-family: var(--mono); font-size: 11px; color: var(--ink); white-space: nowrap; }
+td.num { text-align: right; font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+.table-wrap { overflow-x: auto; max-height: 62vh; overflow-y: auto; border: 1px solid var(--brass-faint); margin-top: 14px; }
+.table-wrap table { margin-top: 0; border: none; }
+.table-wrap th, .table-wrap td { border-left: none; border-right: none; }
+@media (max-width: 640px) {
+  .table-wrap { max-height: none; }
+  table, tbody { display: block; }
+  thead { display: none; }
+  tr { display: block; border-top: 1px solid var(--brass-faint); padding: 8px 0; }
+  .table-wrap tr:first-child { border-top: none; }
+  td { display: flex; justify-content: space-between; gap: 12px; border: none !important; text-align: right; }
+  td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 1px; }
+  td.mono, td.num { text-align: right; }
+}
+
+.spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; color: var(--muted);
+  text-transform: uppercase; line-height: 2.1; margin-top: 18px; }
+.spec b { color: var(--brass); font-weight: 500; }
+
+.cite-block { border: 1px solid var(--brass-line); background: rgba(248,241,224,0.55); padding: 16px 18px;
+  margin-top: 14px; font-family: var(--serif); font-size: 13.5px; color: var(--ink); line-height: 1.7; }
+.cite-block + .cite-block { margin-top: 12px; }
+.cite-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brass); margin-bottom: 6px; display: block; }
+
+.lic-list { margin: 14px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.lic-list li { display: grid; grid-template-columns: 110px 1fr; gap: 14px; font-size: 13px; color: var(--ink-2); }
+.lic-list .lk { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--brass); padding-top: 2px; }
+.lic-list b { color: var(--ink); font-weight: 600; }
+@media (max-width: 560px) { .lic-list li { grid-template-columns: 1fr; gap: 3px; } }
+
+/* --------------------------------------------------------------- colophon (identical to about.html) */
+footer.colophon { position: relative; z-index: 3; background: var(--ground); border-top: 1px solid var(--brass-faint);
+  padding: clamp(48px, 8vh, 76px) 20px 70px; display: flex; flex-direction: column; align-items: center;
+  gap: 11px; text-align: center; }
+.col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
+.col-rule::before, .col-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-line); }
+.col-rule svg { display: block; }
+.col-mark { font-family: var(--display); font-size: 27px; color: var(--ink); letter-spacing: 0.03em; margin-top: 4px; }
+.col-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--ink-2); }
+.col-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 8px; }
+.col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; }
+.col-links a:hover { color: var(--ink); }
+.col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
+
+/* --------------------------------------------------------------------------------- print */
+@media print {
+  #topbar { position: static; }
+  .band { box-shadow: none; }
+  .table-wrap { max-height: none; overflow: visible; border: 1px solid #999; }
+  a { border-bottom: none; text-decoration: underline; }
+  th { position: static; }
+}
+</style>
+
+<nav id="topbar" aria-label="site">
+  <a class="tb-mark" href="index.html">Atlas of Judgment</a>
+  <div class="tb-links">
+    <a href="index.html">The Atlas</a>
+    <a href="about.html">About</a>
+    <a href="method.html">Method</a>
+    <a href="#top" class="tb-here">Resources</a>
+  </div>
+</nav>
+
+<main id="top">
+<div class="shell page-head">
+  <div class="eb">Atlas of Judgment</div>
+  <h1>Resources</h1>
+  <p class="sub">Every link to the source code, the underlying data, and the machine-reader API,
+  gathered in one place — plus how to cite the atlas and what you may do with what's here.</p>
+</div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">Source code</div>
+  <h2 class="hd">The pipeline that built this</h2>
+  <p>Collection, normalization, the DeepSeek/Qwen labeling pipeline, taxonomy induction, and every
+  aggregation script behind every plate — the full working repository, including the sanitized agent
+  session history the pipeline was built under.</p>
+  <div class="doors">
+    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">Repository</div><div class="dt">GitHub</div><div class="dd">t46/atlas-of-judgment — scripts, provenance documents, and the source HTML pages themselves.</div></a>
+  </div>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">Data downloads</div>
+  <h2 class="hd">The labeled units, and everything built from them</h2>
+  <p>Two layers are published. The <b>primary dataset</b> is the labeled unit tables themselves. The
+  <b>data islands</b> below it are the smaller derived aggregates — one JSON file per statistic the
+  plates chart — published so any number on the site can be recomputed or re-plotted independently.</p>
+
+  <h3>Primary dataset</h3>
+  <div class="doors">
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">Parquet · Hugging Face Hub</div><div class="dt">t46/atlas-of-judgment</div><div class="dd">410,586 review-level units (74,380 ICLR 2026 reviews, read at full depth) · 1,009,592 forum-level units (50,861 forums, 2018–2026) · the taxonomy definitions · 600 analyst-labeled rhetoric units. Released CC BY 4.0.</div></a>
+  </div>
+  <p class="spec">File sizes on the Hub are not mirrored here — check the dataset card on Hugging Face for current per-file sizes.</p>
+
+  <h3>Data islands — the 44 aggregate files behind the plates</h3>
+  <p>Each file is the exact JSON a plate's charts are built from — same data, same source, just
+  detached from the page. Sizes and contents below are read directly off the published files.</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>File</th><th>Size</th><th>Feeds</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/acecho-data.json">acecho-data.json</a></td><td class="num" data-label="Size">1.0 KB</td><td data-label="Feeds">Plate XXIII</td><td data-label="Contents">How much a meta-review's language echoes each reviewer below it, split by that reviewer's score tier and the panel's verdict.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/archipelago-data.json">archipelago-data.json</a></td><td class="num" data-label="Size">4.8 KB</td><td data-label="Feeds">Plate XXVIII</td><td data-label="Contents">Research areas clustered into "islands" by dominant object of scrutiny, against a baseline mix.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/boilerplate-data.json">boilerplate-data.json</a></td><td class="num" data-label="Size">12.7 KB</td><td data-label="Feeds">Plate X</td><td data-label="Contents">Text-similarity measurements of formulaic review language, by object and by rating band.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/canon-data.json">canon-data.json</a></td><td class="num" data-label="Size">0.7 KB</td><td data-label="Feeds">Plate IX</td><td data-label="Contents">How often an objection names a specific prior work vs. stays vague, by year.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/chain-data.json">chain-data.json</a></td><td class="num" data-label="Size">1.4 KB</td><td data-label="Feeds">Plate IV</td><td data-label="Contents">Transition likelihoods between successive units within one review — what follows what.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/chargesheet-data.json">chargesheet-data.json</a></td><td class="num" data-label="Size">41.1 KB</td><td data-label="Feeds">Plate XIII</td><td data-label="Contents">Co-occurrence matrix of which reasoning standards get invoked together in the same review.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/combination-data.json">combination-data.json</a></td><td class="num" data-label="Size">5.3 KB</td><td data-label="Feeds">Plate VIII</td><td data-label="Contents">The &#8220;mere combination&#8221; novelty rule, sub-clustered into its exception clauses and referent kinds, with exemplars.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/commit-data.json">commit-data.json</a></td><td class="num" data-label="Size">1.9 KB</td><td data-label="Feeds">Plate VI</td><td data-label="Contents">How early in a review the eventual verdict becomes predictable from text alone, by review-length decile.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/construct-data.json">construct-data.json</a></td><td class="num" data-label="Size">1.1 KB</td><td data-label="Feeds">— (orphaned)</td><td data-label="Contents">A construct-validity matrix kept for reference; not currently rendered on any plate.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/counterfactual-data.json">counterfactual-data.json</a></td><td class="num" data-label="Size">65.8 KB</td><td data-label="Feeds">Plate XXV</td><td data-label="Contents">Counterfactual re-scoring comparison between the 2025 and 2026 cycles.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/court-data.json">court-data.json</a></td><td class="num" data-label="Size">3.2 KB</td><td data-label="Feeds">Plate XXII</td><td data-label="Contents">How meta-reviewers revise, forgive, or redeem the panel's judgment below them.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/currents-data.json">currents-data.json</a></td><td class="num" data-label="Size">2.6 KB</td><td data-label="Feeds">Plate XXVI</td><td data-label="Contents">Year-over-year score, word-count, and unit-count series feeding the drift analysis.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/deliberation-data.json">deliberation-data.json</a></td><td class="num" data-label="Size">72.3 KB</td><td data-label="Feeds">Plate XXI</td><td data-label="Contents">Per-forum record of reviewer moves made during panel deliberation.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/drift-data.json">drift-data.json</a></td><td class="num" data-label="Size">4.9 KB</td><td data-label="Feeds">Plates XXVI, XXVII</td><td data-label="Contents">Nine-year share trends of which objects, standards, and verdict valences reviewers invoke.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/elements-all.json">elements-all.json</a></td><td class="num" data-label="Size">67.9 KB</td><td data-label="Feeds">Plate VII</td><td data-label="Contents">Per-object statistics for each of the twelve objects of scrutiny (empirical scope, method design, theory, and so on).</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/field-stats.json">field-stats.json</a></td><td class="num" data-label="Size">1.7 KB</td><td data-label="Feeds">Appendix III</td><td data-label="Contents">Per-year corpus statistics used as the control baseline for the null-model comparison.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/galaxy.json">galaxy.json</a></td><td class="num" data-label="Size">3.25 MB</td><td data-label="Feeds">Appendix II</td><td data-label="Contents">The full point-cloud embedding of sampled units used for the taxonomy map, with region labels. Largest file on the site.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/interrogative-data.json">interrogative-data.json</a></td><td class="num" data-label="Size">3.2 KB</td><td data-label="Feeds">Plate XIX</td><td data-label="Contents">Rate at which objections are phrased as questions vs. assertions, by object.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/itinerary-data.json">itinerary-data.json</a></td><td class="num" data-label="Size">8.0 KB</td><td data-label="Feeds">Plate V</td><td data-label="Contents">The within-review itinerary — which objects get visited, and in what order.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/jurisprudence-data.json">jurisprudence-data.json</a></td><td class="num" data-label="Size">3.7 KB</td><td data-label="Feeds">Plates X, XIV</td><td data-label="Contents">Maps reasoning standards to the objects they're applied to and the verdict severity that follows.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/lawtariff-data.json">lawtariff-data.json</a></td><td class="num" data-label="Size">8.2 KB</td><td data-label="Feeds">Plate XIV</td><td data-label="Contents">The score cost of each criticism type, modeled as a volume-response slope.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/lifecycle-data.json">lifecycle-data.json</a></td><td class="num" data-label="Size">1.8 KB</td><td data-label="Feeds">Plate XIX</td><td data-label="Contents">Whether an objection persists, gets addressed, or drops across the rebuttal cycle, by object.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/lottery-data.json">lottery-data.json</a></td><td class="num" data-label="Size">2.4 KB</td><td data-label="Feeds">Plate XXV</td><td data-label="Contents">Score-gap ("lottery") analysis of how much reviewer assignment appears to affect outcome.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/minds-data.json">minds-data.json</a></td><td class="num" data-label="Size">10.2 KB</td><td data-label="Feeds">Plate XXVI</td><td data-label="Contents">Era profiles of reviewer behavior: rhetoric-form usage by year and the nine-year vital signs behind Fig. 26c.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/mirage-data.json">mirage-data.json</a></td><td class="num" data-label="Size">4.7 KB</td><td data-label="Feeds">Appendix III</td><td data-label="Contents">Real-vs-synthetic reviewer-profile comparison behind the weak-results ("null cabinet") appendix.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/moves-data.json">moves-data.json</a></td><td class="num" data-label="Size">3.7 KB</td><td data-label="Feeds">Plate XVIII</td><td data-label="Contents">Classification of rebuttal moves (concede, rebut, clarify, and so on) and the effort behind each.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/ninegrammar-data.json">ninegrammar-data.json</a></td><td class="num" data-label="Size">14.3 KB</td><td data-label="Feeds">Plate II</td><td data-label="Contents">Object&#8211;standard coupling in the early era (2018&#8211;20) vs the late era (2024&#8211;26), with the shuffle-null floor behind Plate II&#8217;s 138/144.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/oracle-data.json">oracle-data.json</a></td><td class="num" data-label="Size">8.6 KB</td><td data-label="Feeds">Plate XXVIII</td><td data-label="Contents">Outcome prediction by research area, against a baseline model.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/overrule-data.json">overrule-data.json</a></td><td class="num" data-label="Size">3.3 KB</td><td data-label="Feeds">Plates XX, XXI</td><td data-label="Contents">How often a meta-reviewer's final decision overrules the panel's aggregate score.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/panel-data.json">panel-data.json</a></td><td class="num" data-label="Size">5.8 KB</td><td data-label="Feeds">Plates I, XV, XVII, XX, App. II</td><td data-label="Contents">Cross-cutting panel statistics: rebuttal outcomes, criticism-count "gauntlet," per-standard confidence intervals, meta-reviewer behavior, dissent, and taxonomy reliability.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/repair-manual.json">repair-manual.json</a></td><td class="num" data-label="Size">4.1 KB</td><td data-label="Feeds">Plate XI</td><td data-label="Contents">Catalogue of the specific fixes reviewers suggest, grouped by kind.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/repertoire-data.json">repertoire-data.json</a></td><td class="num" data-label="Size">2.1 KB</td><td data-label="Feeds">Plate XXI</td><td data-label="Contents">How much a panel's reviewers' repertoire of standards overlaps or clashes, by year.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/rhetoric-v2.json">rhetoric-v2.json</a></td><td class="num" data-label="Size">3.4 KB</td><td data-label="Feeds">Plates III, XXVI</td><td data-label="Contents">The induced rhetorical-form taxonomy (600 analyst-labeled units) and its validation.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/score-data.json">score-data.json</a></td><td class="num" data-label="Size">3.6 KB</td><td data-label="Feeds">Plates VI, XXIV</td><td data-label="Contents">Raw review scores matched to review text, by rating.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/score-depth.json">score-depth.json</a></td><td class="num" data-label="Size">24.0 KB</td><td data-label="Feeds">Plate XXIV</td><td data-label="Contents">How much review depth and detail scales with the score given — dispersion and coverage by rating.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/searchparty-data.json">searchparty-data.json</a></td><td class="num" data-label="Size">1.0 KB</td><td data-label="Feeds">Plate XX</td><td data-label="Contents">How much of the twelve-object space a panel collectively covers vs. leaves unseen.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/season-data.json">season-data.json</a></td><td class="num" data-label="Size">6.7 KB</td><td data-label="Feeds">— (orphaned)</td><td data-label="Contents">Daily submission and review-activity time series; not currently rendered on any plate.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/structure-data.json">structure-data.json</a></td><td class="num" data-label="Size">14.3 KB</td><td data-label="Feeds">Plate V, App. II</td><td data-label="Contents">The structural arc of a review — opening move, positional transitions, and length.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/threads-data.json">threads-data.json</a></td><td class="num" data-label="Size">6.4 KB</td><td data-label="Feeds">Plate XVI</td><td data-label="Contents">The shape of author-reviewer rebuttal threads — whether and how the reviewer returns.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/tide-data.json">tide-data.json</a></td><td class="num" data-label="Size">1.7 KB</td><td data-label="Feeds">— (orphaned)</td><td data-label="Contents">A 2025-vs-2026 comparison series; not currently rendered on any plate.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/timeless-data.json">timeless-data.json</a></td><td class="num" data-label="Size">2.2 KB</td><td data-label="Feeds">Plate XXVII</td><td data-label="Contents">Which reasoning standards read as stable in phrasing across nine years, and which drifted.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/tribunal-ci.json">tribunal-ci.json</a></td><td class="num" data-label="Size">0.9 KB</td><td data-label="Feeds">Plate XV</td><td data-label="Contents">Bootstrap confidence intervals on the score effect of each criticism type, by object.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/viz-data.json">viz-data.json</a></td><td class="num" data-label="Size">1.40 MB</td><td data-label="Feeds">Plates I, II, XII, XXIX, App. II</td><td data-label="Contents">Core taxonomy definitions, headline KPIs, and sample specimen reviews most plates draw from.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/yield-data.json">yield-data.json</a></td><td class="num" data-label="Size">0.5 KB</td><td data-label="Feeds">Plate XVII</td><td data-label="Contents">How much post-rebuttal units strengthen, weaken, or reverse the pre-response judgment.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="spec"><b>44 files</b> · 5.09 MB combined · all JSON · served from <code>/api/v1/data/</code></p>
+
+  <h3>Schema and machine-reader entry points</h3>
+  <div class="doors">
+    <a href="api/v1/index.json"><div class="dk">JSON · 1.5 KB</div><div class="dt">index.json</div><div class="dd">Catalogue of every API endpoint, plus the plate and data-island lists.</div></a>
+    <a href="openapi.yaml"><div class="dk">YAML · 7.4 KB</div><div class="dt">openapi.yaml</div><div class="dd">Machine-readable schema for the whole API layer.</div></a>
+    <a href="llms.txt"><div class="dk">Text · 3.0 KB</div><div class="dt">llms.txt</div><div class="dd">The entry point written for an AI reader — how to use the API, and the one caveat that applies across the whole corpus.</div></a>
+    <a href="api/"><div class="dk">HTML docs</div><div class="dt">/api/</div><div class="dd">Human-readable documentation for every endpoint above, in the same visual language as this page's data.</div></a>
+  </div>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">Citation</div>
+  <h2 class="hd">How to cite this</h2>
+  <p>Cite the atlas as a whole for general reference. For a specific number, cite the plate and claim
+  it came from — that resolves to the exact derivation and recompute script behind it, and stays
+  correct even if the caption prose around it is later rewritten.</p>
+
+  <div class="cite-block">
+    <span class="cite-label">Citing the atlas as a whole</span>
+    Takagi, Shiro (UNKTOK). <em>Atlas of Judgment: a metascience instrument reading the reasoning inside ICLR peer review, 2018–2026.</em> 2026. https://atlas-of-judgment.pages.dev
+  </div>
+  <div class="cite-block">
+    <span class="cite-label">Citing one claim</span>
+    Cite its plate id and claim id — for example <code>plate-i#1a-negative-share</code> — which
+    resolves via <code>/api/v1/plates/&lt;plate-id&gt;.json</code> to the exact statement, numeric
+    value, source data island, and recompute script behind it.
+  </div>
+  <p class="spec">Scoring itself changed instrument four times between 2018 and 2026 — any citation
+  comparing a <em>score</em> (not a unit count or share) across years should carry that caveat.
+  See method.html §10.</p>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">License</div>
+  <h2 class="hd">What you may do with what's here</h2>
+  <ul class="lic-list">
+    <li><span class="lk">Code</span><span><b>No license declared.</b> The GitHub repository carries no LICENSE file (confirmed against the GitHub API). In the absence of an explicit license, default copyright applies — the code is not affirmatively open for reuse, even though it's public to read.</span></li>
+    <li><span class="lk">Derived data</span><span><b>CC BY 4.0</b> for the labeled unit tables on Hugging Face, as stated on the dataset card. The depositions and the 44 data islands above are aggregates derived from that same material, served so every number can be recomputed &mdash; attribute the atlas when reusing them.</span></li>
+    <li><span class="lk">Review text</span><span><b>Not this project's to license.</b> The underlying reviews belong to their anonymous authors and are public via OpenReview. Every specimen the atlas quotes links back to its original.</span></li>
+  </ul>
+</div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
+  <div class="col-mark">Atlas of Judgment</div>
+  <div class="col-sub">resources — code, data, and how to cite it</div>
+  <div class="col-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="method.html">Method</a></div>
+  <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
+</footer>

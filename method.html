@@ -35,7 +35,12 @@ li { margin-top: 6px; }
 .nav a { border: none; color: var(--ink-2); } .nav a:hover { color: var(--brass); }
 .nav .here { color: var(--brass); }
 code, .path { font-family: var(--mono); font-size: 12px; color: var(--ink); background: rgba(138,90,31,0.07); padding: 1px 5px; border-radius: 2px; }
-pre { background: var(--raise); border: 1px solid var(--brass-faint); border-left: 2px solid var(--brass); padding: 14px 18px; overflow-x: auto; font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--ink); margin: 16px 0 0; }
+pre { position: relative; background: var(--raise); border: 1px solid var(--brass-faint); padding: 16px 20px; overflow-x: auto; font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--ink); margin: 16px 0 0; }
+/* specimen-drawer chrome: the same brass corner brackets the atlas's figure panels wear,
+   so a code block reads as a drawer of the cabinet rather than a terminal paste */
+pre::before, pre::after { content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none; }
+pre::before { left: -1px; top: -1px; border-left: 2px solid var(--brass); border-top: 2px solid var(--brass); }
+pre::after { right: -1px; bottom: -1px; border-right: 2px solid var(--brass); border-bottom: 2px solid var(--brass); }
 pre .c { color: var(--muted); }
 table { border-collapse: collapse; margin-top: 16px; font-size: 12.5px; font-variant-numeric: tabular-nums; max-width: 100%; }
 .tw { overflow-x: auto; }
@@ -499,6 +504,24 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
   <li><b>Assignment</b>: category centroid = normalized mean of member-cluster sample embeddings (the seeded pipeline re-run reproduces cluster membership exactly — verified); every unit gets its nearest centroid by cosine, with the similarity stored as per-unit confidence. High-confidence (≥0.75) share: objects 94.5%, standards 87.9% (2026 track); per-year mean similarity on the direct track is flat at ~0.81, so cross-year comparisons are not a transfer artifact.</li>
   <li><b>Caveat</b>: the taxonomy was induced on 2026 compact memos and transferred to the direct track; identical centroids, different memo style. The flat similarity profile is the evidence this transfer holds.</li>
 </ul>
+
+<div class="diagram"><p class="cap">The induction at a glance — from raw units to the 12 × 12 taxonomy</p>
+<div class="fm-row">
+  <div class="fm-box"><div class="t">Sampled units</div><div class="s">12,000 of 410,586<br>seed 7</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">embed</span></div>
+  <div class="fm-box"><div class="t">Embeddings</div><div class="s">bge-small-en-v1.5<br>object &amp; reasoning, separately</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">project</span></div>
+  <div class="fm-box"><div class="t">UMAP</div><div class="s">15 comp · 30 nbrs<br>cosine · seed 7</div></div>
+</div>
+<div class="fm-down">↓ &nbsp; HDBSCAN, min cluster 60 — 36 object clusters (37.6% noise) · 17 reasoning clusters (61.5% noise) &nbsp; ↓</div>
+<div class="fm-row">
+  <div class="fm-box"><div class="t">Hand merge</div><div class="s">exemplars read &amp; named<br>2 mixed clusters excluded</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">record</span></div>
+  <div class="fm-box acc"><div class="t">taxonomy-v1.json</div><div class="s">12 objects × 12 standards<br>with definitions</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">assign all</span></div>
+  <div class="fm-box"><div class="t">Nearest centroid</div><div class="s">cosine, both tracks<br>similarity kept as confidence</div></div>
+</div>
+</div>
 <p>Everything downstream of these two labeled databases — aggregation files and the atlas's plates — is a separate, continuously evolving layer, documented in the <a href="index.html">atlas</a> appendix itself.</p>
 
 </div></div>
@@ -708,6 +731,12 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 <h2 id="provenance-ledger">Where each plate came from</h2>
 <p>The table below records, for every plate, the question it answers and what we can honestly say about when that question was formed. It exists so that a reader can tell the difference between a question we asked and then answered, and a description we produced and then found interesting. "Not recorded" is a real answer and appears where it appears honestly. Where a record exists, it was recovered from the project's own working history — the full conversation log between the researcher and the assistant, timestamped — not from memory; the log itself is slated for publication alongside the code history once it has been scrubbed of sensitive material. Reconstructing a motive with no record would be exactly the practice this table is meant to prevent.</p>
 <ul class="pv-key"><li><b>stated first</b> — the question was written down before the numbers existed</li><li><b>foundational</b> — built together with the taxonomy itself; no separate hypothesis</li><li><b>exploratory</b> — run because the data allowed the description; nothing predicted</li><li><b>part stated</b> — partly specified in advance, partly added afterwards</li><li><b>not recorded</b> — we do not have a reliable record of what prompted it, and are not going to invent one</li></ul>
+<p style="margin-top:4px">The tally over all 33 ledger rows, before the row-by-row record — a one-glance answer to "how honest is this project about its own process":</p>
+<div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">16 stated first<span class="s">question on record before the numbers</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:56.3%;background:#72654f"></div></div><div class="fun-lbl">9 not recorded<span class="s">and not reconstructed</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:25%;background:#a3803f"></div></div><div class="fun-lbl">4 part stated<span class="s">seed on record, final design not</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:18.8%;background:#5b4d3a"></div></div><div class="fun-lbl">3 foundational<span class="s">built with the taxonomy itself</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:6.3%;background:#b45036"></div></div><div class="fun-lbl">1 exploratory<span class="s">descriptive, nothing predicted</span></div></div>
 <div class="pv-wrap"><table class="pv-table">
 <thead><tr><th>Plate</th><th>The question it answers</th><th>Provenance</th><th>Notes</th></tr></thead>
 <tbody>
@@ -838,7 +867,7 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
   <div class="col-mark">Atlas of Judgment</div>
   <div class="col-sub">the reproduction record — how the data was made, verified</div>
   <div class="col-stats">1,420,178 units of reviewer logic · 52,460 forums · nine years of ICLR · engraved MMXXVI</div>
-  <div class="col-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a></div>
+  <div class="col-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="resources.html">Resources</a></div>
   <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
 </footer>
 </main>
@@ -908,7 +937,7 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
 }
 </style>
 <canvas id="ether" aria-hidden="true"></canvas>
-<nav id="topbar" aria-label="site"><a class="tb-mark" href="#top">Atlas of Judgment</a><div class="tb-links"><a href="about.html">About</a><a href="#top" class="tb-here">Method</a><a href="index.html">The Atlas</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Data</a></div></nav>
+<nav id="topbar" aria-label="site"><a class="tb-mark" href="#top">Atlas of Judgment</a><div class="tb-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="#top" class="tb-here">Method</a><a href="resources.html">Resources</a></div></nav>
 <nav id="meridian" aria-label="sections"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
 <div id="reticle" aria-hidden="true"></div>
 <script>

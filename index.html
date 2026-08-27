@@ -631,6 +631,9 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 #topbar .tb-links #tb-contents:hover { color: var(--ink); }
 #topbar .tb-links a:hover { color: var(--brass); }
 #topbar .tb-links a.tb-live { color: var(--brass); }
+#topbar .tb-links a.tb-here { color: var(--brass); }
+/* phones: every nav word gets a real tap target, not a hairline of text */
+@media (max-width: 560px) { #topbar .tb-links a, #topbar .tb-links #tb-contents { padding: 10px 2px; } #topbar { padding-top: 2px; padding-bottom: 2px; } }
 @media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.16em; } #topbar .tb-links { gap: 10px; } #topbar .tb-links a { font-size: 8.5px; letter-spacing: 0.1em; } }
 @media (prefers-reduced-motion: reduce) { #topbar { transition: none; } }
 #delib-head .dh-def { flex-basis: 100%; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; color: var(--muted); }
@@ -1046,10 +1049,16 @@ body.tour-on #spec-dock { display: none !important; }
 #sextant .sx-sep { color: var(--brass-dim); margin: 0 6px; }
 #sextant .sx-plate { color: var(--ink-2); transition: opacity .28s var(--ease-settle); }
 #sextant .sx-mag { color: var(--brass-dim); margin-left: 8px; }
-#sextant .sx-mag::before { content: "\2b1a\a0"; color: var(--brass); }
+#sextant .sx-mag::before { content: "\00d7\a0"; color: var(--brass); }
 #sextant.sx-swap .sx-plate { opacity: 0; }
-@media (max-width: 700px) { #sextant { font-size: 7.5px; padding: 4px 7px; left: 10px; bottom: 10px; } }
+@media (max-width: 700px) { #sextant { font-size: 7.5px; padding: 4px 7px; left: 10px; bottom: 10px; background: var(--ground); } }
 @media print { #sextant { display: none; } }
+#mprog { display: none; }
+@media (max-width: 760px) {
+  #mprog { display: block; position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 80; pointer-events: none; background: rgba(138,90,31,0.10); }
+  #mprog i { display: block; height: 100%; width: 100%; background: var(--brass); transform-origin: left center; transform: scaleX(0); }
+}
+@media print { #mprog { display: none !important; } }
 /* half-gate: a slim mid-act breath for the longest flat stretches */
 .half-gate { min-height: 34svh; display: flex; align-items: center; justify-content: center; gap: 16px; padding: 0 20px; }
 .half-gate .hg-rule { width: min(180px, 26vw); height: 1px; background: var(--brass-line); transition: transform 1s var(--ease-settle); }
@@ -1284,16 +1293,17 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   <a class="tb-mark" href="#top">Atlas of Judgment</a>
   <div class="tb-links">
     <button id="tb-contents">Contents</button>
+    <a href="#top" class="tb-here">The Atlas</a>
     <a href="about.html">About</a>
     <a href="method.html">Method</a>
-    <a href="https://github.com/t46/atlas-of-judgment">GitHub</a>
-    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Data</a>
+    <a href="resources.html">Resources</a>
     
   </div>
 </nav>
 
 <nav id="rule" aria-label="the long rule — where you are in the argument"><div id="rl-flag"></div></nav>
 <div id="sextant" aria-hidden="true"></div>
+<div id="mprog" aria-hidden="true"><i></i></div>
 <div id="reticle" aria-hidden="true"></div>
 
 <div id="page-edge" aria-hidden="true"></div>
@@ -1512,8 +1522,8 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 3</b></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each row is one reasoning standard; its bar splits that standard’s units by the argument form the classifier assigned, and the right column names the dominant form. The plate’s question — does each standard have a voice? — is answered by how far the rows depart from sameness: if the shape of an argument had nothing to do with the rule it runs on, every bar here would show the same six-way split, the corpus-wide mix (37% on-balance, 30% norm, 13% scope, 8% precedent, 6% rival-cause, 6% can’t-verify) — drawn as the dimmed first bar, so each row's departure from it is the finding.</div></div>
-    <div class="cv cv-done"><span class="cv-lab">Method</span><div class="cv-body">600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; the example quoted beside each form above is one of those 600 gold units, verbatim. A logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; the weakest class is the precedent-citing form, at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the rows are nothing like the uniform mix. <button class="hover-bind" data-rhet="repro-norm">Reproducibility is 69% pure norm-invocation</button>; <button class="hover-bind" data-rhet="stats-blocked">statistical identifiability leads with the can’t-verify form at 43%</button> — more than seven times that form’s corpus-wide share — the form that says a check the reviewer needs cannot be made, as in the 2019 unit <em>“Without error bars, it is impossible to assess if differences are statistically significant”</em>; and <button class="hover-bind" data-rhet="novelty-precedent">no standard cites precedent as often as the novelty standard</button> (29% of its units — though even there, on-balance weighing leads the row). On-balance is also where the mercy lives: <button class="hover-bind" data-rhet="weigh-mercy">it is the only form in which praise occurs at scale</button> (42% positive, and 78.8% of all praise in the corpus takes this one form; the other five forms run 88–97% negative).</div></div>
+    <div class="cv cv-done"><span class="cv-lab">Method</span><div class="cv-body">600 units labeled by the analyst (an LLM reading each sentence), merged to six forms; the example quoted beside each form above is one of those 600 gold units, verbatim. A logistic classifier over local embeddings plus surface-marker features (5-fold CV accuracy 0.685, macro-F1 0.666; the weakest class is the precedent-citing form, at F1 0.53 — read its cells gently) then labels the full corpus. A cheaper second annotator agreed with the gold labels only 42% of the time and was excluded — the construct is genuinely interpretive, and these are one consistent reading at scale, not ground truth.</div></div>
     <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">the six-way split is one model's reading of a genuinely interpretive construct (macro-F1 0.666, weakest on precedent-citing) — trust the shape of each row against the corpus-mix bar above more than any single cell's exact share.</div></div>
     </div>
   </div></div>
@@ -1543,6 +1553,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="fig-title">Fig. 4a — The transition table, as departure from each review's own mix</div>
     <div class="fig-deck">The grammar hunt comes back nearly empty: no transition beats chance by more than 18% — and the little structure that remains looks like the review template, not a way of thinking.</div>
     <div class="fig-rel"><b>WHO SPEAKS FIRST, WHO LAST</b> — the flanking OPENS / CLOSES columns ask of the six argument forms what the next plate&#8217;s prologue will ask of the twelve subjects: who gets the first word of a review, and who the last.</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">CELL = LIFT VS. EACH REVIEW&#8217;S OWN SHUFFLED MIX &middot; 1.00 = ORDER CARRIES NO INFORMATION</div>
     <div id="chain-fig"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 4a</b></div>
@@ -1586,7 +1597,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-lifts="framing-opens">problem framing opens a review 1.86× more often than its overall share predicts</button> (5.5% of first units against 3.0% of all units), with novelty (1.57×) and method design (1.37×) behind it; the closing end belongs to clarity (1.81×), related work (1.66×) and reproducibility (1.41×). No subject claims both ends, and statistical rigour — a plausible guess for a closing subject — closes exactly at its base rate (1.00×) while avoiding the opening (0.63×).</div></div>
     <div class="cv cv-caveat cv-longlab" data-tether="lifts:framing-opens:right"><span class="cv-lab">How much of this is the form?</span><div class="cv-body">The whole-review cut mixes the strengths section into the opening, and that matters most for the top row: when problem framing opens a review, 49% of the time it opens as praise — "the paper tackles an important problem" is the classic first strength. Recomputed over negative units only, asking which subject the <em>criticism</em> starts with, problem framing's lift drops to 1.34× while novelty's sharpens to 1.65× (89% of novelty's openings are objections). The closing side barely moves under the same check — clarity 1.81 → 1.77, related work 1.66 → 1.65, reproducibility 1.41 → 1.40 — so closing on clarity is a habit of the criticism itself, the "minor points" tail; and those closing clarity units are asserted, not asked (78% negative, 8% hedged). The opening result is also confirmed below: Fig.&nbsp;5c makes the same cut independently, never leaving the weaknesses section, and finds novelty leading off the listed faults at 1.62× against the 1.65× here — two cuts, one habit. </div></div>
     <div class="cv-fig" style="margin-top:16px"><b>Fig. 5b</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the horizontal axis is position within the review in fifths; each curve is the share of that fifth's units carrying one verdict — negative, positive, or hedged (the dashed line; conditional, uncertain, or mixed, as defined in the lede) — pooled over the <span id="ge3"></span> reviews with three or more units, so the three curves sum to 100% in every fifth.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the horizontal axis is position within the review in fifths; each curve is the share of that fifth's units carrying one verdict — negative, positive, or hedged (the dashed line; conditional, uncertain, or mixed, as defined in the lede) — pooled over the <span id="ge3"></span> reviews with three or more units, so the three curves sum to 100% in every fifth. If position carried no information, all three curves would run flat at their overall share; every bend is the finding.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the negative share runs 70% in the opening fifth, peaks at 82% in the middle, and falls to 60% at the close. Praise does something different from a mirror image: 26% of opening-fifth units are positive, collapsing to 6% by the third fifth and 5% in the fourth, then only half-returning (13%) at the close. <button class="hover-bind" data-arc="hedged">What actually grows toward the end is the hedged share — monotonically, 3% → 27%</button>.</div></div>
     <div class="cv cv-caveat cv-longlab" data-tether="arc:hedged:right"><span class="cv-lab">How much of this is the form?</span><div class="cv-body">Most of it, and that is the honest reading: ICLR's template asks for strengths before weaknesses and questions at the end. The warm opening is the strengths section passing by; the hard middle is the weaknesses section (93.4% of weaknesses-section units are negative — Fig.&nbsp;5c documents this); and the close softens less because warmth returns than because assertion gives way to questions — it is the hedged curve, not the positive one, that claims the final fifth. The arc is better read as the form's script, executed in near-unison across the corpus, than as a rhetorical choice each reviewer makes.</div></div>
     <div class="cv cv-caveat"><span class="cv-lab">Reading it</span><div class="cv-body">this describes where in a document a kind of judgment tends to be written down; it is not evidence about the order in which the reviewer thought, or decided.</div></div>
@@ -1679,12 +1690,13 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate VII · The Elements</div>
     <div class="plate-scope">Corpus: 698,507 negative units across all twelve objects, 2018–2026 · ground → law → remedy, decomposed at the unit level</div>
     <h2>What a charge actually says</h2>
-    <p class="lede">Tell a first-year researcher their paper "lacks novelty" — or rigor, or clarity — and they learn nothing. This plate takes such a sentence apart. Because each unit stores the reviewer's observation and their reasoning separately, every negative unit can be split into three: the <b>ground</b> — what the reviewer actually saw in the paper; the <b>rule</b> — the general principle they applied to it, quoted in their own words; and the <b>remedy</b> — what they asked the author to do, if anything. (The courtroom words are used consistently from here on: a negative unit is a <em>denial</em> or a <em>charge</em>, and the principle behind it is a <em>rule</em> or a <em>law</em>.) One more borrowed word: a <b>docket</b> is all the criticism aimed at one of the twelve objects of scrutiny from Plate I, so "the novelty docket" means every criticism of novelty. Pick one below and it opens as ground → rule → remedy. A single criticism can invoke several rules at once, and nothing here forces it into one.</p>
+    <p class="lede">Act II watched one reviewer write — the order, the arc, the early verdict. This act stops watching the writer and cross-examines the writing. Tell a first-year researcher their paper "lacks novelty" — or rigor, or clarity — and they learn nothing. This plate takes such a sentence apart. Because each unit stores the reviewer's observation and their reasoning separately, every negative unit can be split into three: the <b>ground</b> — what the reviewer actually saw in the paper; the <b>rule</b> — the general principle they applied to it, quoted in their own words; and the <b>remedy</b> — what they asked the author to do, if anything. (The courtroom words are used consistently from here on: a negative unit is a <em>denial</em> or a <em>charge</em>, and the principle behind it is a <em>rule</em> or a <em>law</em>.) One more borrowed word: a <b>docket</b> is all the criticism aimed at one of the twelve objects of scrutiny from Plate I, so "the novelty docket" means every criticism of novelty. Pick one below and it opens as ground → rule → remedy. A single criticism can invoke several rules at once, and nothing here forces it into one.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div id="elem-sel" class="modes" role="group" aria-label="docket" style="flex-wrap:wrap;margin-bottom:14px"></div>
     <div class="fig-title">Fig. 7a — The decomposition of a charge: <span id="elem-obj-name">novelty</span></div>
     <div class="fig-deck">Pick a docket: every charge decomposes into what was observed, the laws it invokes, and the remedy it demands — <span class="prov"><button class="stat-door">26–40% of denials state their rule in words</button><span class="prov-pop" hidden><b>SOURCE</b> elements-all.json → [docket].stated, all 12 dockets<br><b>DERIVATION</b> min across dockets = clarity 26.4%, max = novelty 40.4%<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>.</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">GROUND &#8594; LAW &#8594; REMEDY &middot; RIBBON WIDTH = SHARE OF THE DOCKET&#8217;S DENIALS &middot; RIBBONS DO NOT CONSERVE</div>
     <div id="elem-tri"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 7a</b></div>
@@ -1701,6 +1713,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     </div>
     <div class="fig-title" style="margin-top:40px">Fig. 7c — What each charge asks of you</div>
     <div class="fig-deck">Every docket has a remedy signature: clarity wants writing (90%), baselines want experiments (80%), reproducibility wants disclosure (76%) — and novelty, alone, wants nothing at all 39% of the time.</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">BAR = SHARE OF THIS OBJECT&#8217;S DENIALS, BY REMEDY REQUESTED</div>
     <div id="elem-matrix"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 7c</b></div>
@@ -1746,6 +1759,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
         </div>
         <div class="fig-title">Fig. 8b — The referents: what is being called a combination</div>
         <div class="fig-deck">In 46% of charges the assembled parts are never named: the reviewer says the work combines existing methods without saying which.</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">BAR = SHARE OF COMBINATION CHARGES POINTING AT THIS KIND OF REFERENT</div>
         <div id="combo-ref"></div>
       </div>
     </div>
@@ -1761,15 +1775,16 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="plate-no">Plate IX · The Unnamed Precedent</div>
     <div class="plate-scope">Corpus: ICLR 2018–2026 · 30,824 negative novelty units</div>
     <h2>The charge that almost never names its precedent</h2>
-    <p class="lede">Every novelty objection implies a comparison — this work against the prior it allegedly repeats. We went looking for the canon: the named prior works that kill novelty. The search came back nearly empty, and the emptiness is the finding.</p>
+    <p class="lede">Plate VIII opened one clause of the novelty rule from the inside &#8212; what redeems &#8220;mere combination.&#8221; This plate opens a different clause the same way: every novelty objection implies a comparison — this work against the prior it allegedly repeats. We went looking for the canon: the named prior works that kill novelty. The search came back nearly empty, and the emptiness is the finding.</p>
   </div>
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 9a — Of every 100 novelty objections: who names the prior?</div>
     <div class="fig-deck">12 name a specific work. 25 wave at "prior work." 63 assert un-novelty with no referent at all — and <span class="prov"><button class="stat-door">the naming rate has halved since 2018</button><span class="prov-pop" hidden><b>SOURCE</b> canon-data.json → named_share_by_year["2018"], named_share_by_year["2026"]<br><b>DERIVATION</b> named-citation share fell from 20.15% (2018) to 10.77% (2026), roughly half<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>, under both instruments tried.</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">EACH MARK = 1% OF THE 24,233 LOCATABLE NOVELTY OBJECTIONS</div>
     <div id="canon-fig"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 9a</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each mark is 1% of the 24,233 negative novelty units whose charge could be located in its source review (79% of 30,824). The unit only <em>locates</em> the charge; the measurement runs on the reviewer&#8217;s original words — a citation regex over every sentence mentioning novelty, plus two sentences either side. <button class="hover-bind" data-canon="named">Lit marks carry an extractable citation (an "Author et al., year" pattern or arXiv ID)</button>, <button class="hover-bind" data-canon="vague">half-lit marks only a generic gesture at prior literature</button>, <button class="hover-bind" data-canon="none">dark marks neither</button>. The line below tracks the named share by year: <button class="hover-bind" data-canon="halved">20% in 2018 falling to 11% in 2026</button> — as the venue grew, the charge became <em>more</em> anonymous, not less.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each mark is 1% of the 24,233 negative novelty units whose charge could be located in its source review (79% of 30,824). The unit only <em>locates</em> the charge; the measurement runs on the reviewer&#8217;s original words — a citation regex over every sentence mentioning novelty, plus two sentences either side. <button class="hover-bind" data-canon="named">Lit marks carry an extractable citation (an "Author et al., year" pattern or arXiv ID)</button>, <button class="hover-bind" data-canon="vague">half-lit marks only a generic gesture at prior literature</button>, <button class="hover-bind" data-canon="none">dark marks neither</button>. The line below tracks the named share by year: <button class="hover-bind" data-canon="halved">20% in 2018 falling to 11% in 2026</button> — as the venue grew, the charge became <em>more</em> anonymous, not less. One pair, side by side — both distilled units quoted verbatim from the shipped clusters: a lit mark reads <em>&#8220;Prior works (Cohen et al. 2023, Choi &amp; Chung 2019) address similar concepts; the paper fails to clearly distinguish its contribution&#8221;</em> (2025) — the citation is extractable; a dark mark reads <em>&#8220;The method appears to be an incremental combination of existing methods. The contribution lacks fundamental novelty compared to prior art&#8221;</em> (2026) — no referent at all, and the burden of naming the collision passes to the accused.</div></div>
     <div class="cv cv-read cv-longlab"><span class="cv-lab">Two instruments, one reading</span><div class="cv-body">an earlier version ran the same regex on the distilled units instead and found 5 / 29 / 66. The naming <em>level</em> is instrument-sensitive — the tight unit reading is a floor, and the ±2-sentence window leans high because it can absorb a neighbouring criticism&#8217;s citation — but the two facts this plate rests on hold under both: roughly two thirds of novelty objections carry no referent at all (66 tight, 63 generous), and the naming rate halves from 2018 to 2026 under either reading (8.4%→3.5% tight; 20%→11% generous). Nor is there a canon among the named: under a deliberately generous key (surname + year, which merges distinct papers), the most-cited key reaches 21 of the 23,251 papers these objections were filed against. The accusation of un-novelty is structurally unnamed: the burden of locating the colliding prior work is left with the accused. The regex misses prose references ("the BERT paper"), so all lit shares are undercounts.</div></div>
     </div>
   </div></div>
@@ -1789,6 +1804,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
       <div>
         <div class="fig-title">Fig. 10a — The spectrum: how close is your criticism's nearest twin?</div>
     <div class="fig-deck">Most criticisms have a familiar twin in someone else's review — <span class="prov"><button class="stat-door">the median criticism's nearest twin sits at 0.81 similarity</button><span class="prov-pop" hidden><b>SOURCE</b> boilerplate-data.json → median_sim<br><b>DERIVATION</b> the median nearest-other-paper-twin cosine similarity across all embedded 2026 negative units is 0.8114, which rounds to 0.81<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span>.</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">&#8592; LESS SIMILAR &middot; NEAREST-TWIN COSINE SIMILARITY &middot; MORE SIMILAR &#8594;</div>
         <div id="form-spec"></div>
       </div>
       <div>
@@ -1810,6 +1826,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     </div>
     <div class="fig-title" style="margin-top:38px">Fig. 10c — Twin exhibits: the same criticism, two different papers</div>
     <div class="fig-deck">Three tiers of twinhood, descending Fig.&nbsp;10a&#8217;s guides — brass marks the words that differ; in the top tier, almost nothing.</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">BRASS RUNS = THE STRETCHES WHERE THE TWO PAPERS&#8217; REVIEWS DIFFER</div>
     <div id="form-twins"></div>
     <div class="fig-annot" id="annot-twins"></div>
     <div class="caption cap-voices">
@@ -1831,12 +1848,13 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="fig-title">Fig. 11 — The sixteen repairs, by share of all suggested fixes</div>
     <div class="fig-deck"><span class="prov"><button class="stat-door">'Extend the evidence' leads at 22%</button><span class="prov-pop" hidden><b>SOURCE</b> repair-manual.json → groups[0].share<br><b>DERIVATION</b> the top-ranked of 16 merged repair-type clusters ("Extend the evidence") holds 22.15% of the 80,000 sampled 2026 suggested-fixes, clearly ahead of the next two clusters (8.59%, 8.48%)<br><b>VERIFIED</b> checked against shipped JSON, 2026-08-25</span></span> — and its whole family, the work of research, is over two thirds of everything asked.</div>
     <div class="fig-rel"><b>THE SAME FIELD AS PLATE VII&#8217;S REMEDIES</b> — Fig.&nbsp;7c read the fix field at four-remedy grain, per docket, over nine years; here the same field is clustered into sixteen named types across 2026 alone, and the colors carry Plate VII&#8217;s families. Once again, no type asks for a redesign.</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">BAR = SHARE OF THE 80,000 SAMPLED SUGGESTED FIXES</div>
     <div id="repair-rows" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 11</b></div>
-    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">of 2026's 410,586 units, 307,388 carry a suggested fix; 80,000 of those were sampled, embedded (bge-small) and clustered (k-means, k=22, seed 7), then merged to sixteen types and named by hand from each cluster's most distinctive words (class-based TF-IDF) and most central examples.</div></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">the thin bar on top is the headline: the three-family composition of everything asked. Below it, each bar is one repair type's share of the sampled fixes, grouped and colored by Plate VII's remedy families; click or tap a row to open a verbatim exemplar and the objects the repair most often attaches to. The family assignment is the analyst's, with two judgment calls recorded: error bars count as work of research (they must first be computed), surface fixes as work of writing.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-repair="extend">"extend the evidence" leads alone at 22%</button> — but a single cluster's share depends on how finely the taxonomy is cut (splitting or merging clusters moves it, while the family totals barely move), so the stabler finding is <button class="hover-bind" data-repair="families">the family sum: work of research 69%, writing 26%, disclosure 5%</button>. And one absence, drawn as the empty dashed shelf at the bottom: <button class="hover-bind" data-repair="redesign">none of the sixteen types — none of the 22 raw clusters — asks the authors to change the method itself</button>, the same absence Fig.&nbsp;7c found at coarse grain. On first view the figure assembles as sediment: each falling grain is one sampled ask, settling into its shelf — and nothing ever lands on the redesign shelf.</div></div>
+    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">of 2026's 410,586 units, 307,388 carry a suggested fix; 80,000 of those were sampled, embedded (bge-small) and clustered (k-means, k=22, seed 7), then merged to sixteen types and named by hand from each cluster's most distinctive words (class-based TF-IDF) and most central examples.</div></div>
     <div class="cv cv-caveat" data-tether="repair-rows:redesign:right"><span class="cv-lab">Reading it</span><div class="cv-body">that absence is a fact about what reviewers <em>write</em>, not about what they think. A repair is an ask the authors could plausibly act on within a rebuttal, and "start over" is not — which may be exactly why the harshest criticism arrives with no repair at all (novelty's 39% in Fig.&nbsp;7c). The taxonomy's sixteen-to-three mapping and the two recorded judgment calls are this figure's error bars; any single cluster's share moves with how finely the 22 raw clusters are cut, though the family totals do not.</div></div>
     </div>
   </div></div>
@@ -1864,9 +1882,9 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     <div class="fig-annot" id="annot-vp12b"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 12</b></div>
-    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">every 2026 unit is grouped by the object it inspects. <b>12a</b> splits each object's units by the verdict they reach; <b>12b</b> asks two further yes/no questions of each object's negative units — did the reviewer write a concrete suggested fix alongside the criticism, and does the unit quote or point at specific text in the paper rather than resting on the model's inference.</div></div>
     <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body"><span id="annot-vp12a-src">in 12a every object hangs on one shared axis: the sienna wing reaching left is the share of its units that criticise, the green wing reaching right the share that praise, and the dim band between them everything in between (uncertain, mixed, conditional — hover for the split; the full five-way mix is Plate I's). The further a row reaches left, the more that topic exists only to be criticised.</span> <span id="annot-vp12b-src">In 12b each track is 100% of the object's criticism; the dark band is the share arriving with <em>no</em> suggested fix, and the dim remainder arrives with one — so novelty's band is the largest, yet still only a third of its criticism.</span></div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body"><button class="hover-bind" data-vp12a="positioning">the positioning objects — related work and novelty — are almost never written about except to criticise (88% and 82% of their units are negative)</button>, and <button class="hover-bind" data-vp12b="novelty-nofix">novelty criticism is also the least actionable, alone: 37% of it arrives with no fix, two to four times the no-fix share of any other object (8–18%)</button>. A second quantity was checked and retired from the chart: the share of units grounded in the reviewer's own explicit words is flat across all twelve objects (17–22%), so it is reported here rather than drawn.</div></div>
+    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">every 2026 unit is grouped by the object it inspects. <b>12a</b> splits each object's units by the verdict they reach; <b>12b</b> asks two further yes/no questions of each object's negative units — did the reviewer write a concrete suggested fix alongside the criticism, and does the unit quote or point at specific text in the paper rather than resting on the model's inference.</div></div>
     <div class="cv cv-caveat" data-tether="rx:novelty-nofix:right"><span class="cv-lab">Reading it</span><div class="cv-body">"comes with a fix" is a property of what the reviewer wrote, not of whether the problem is fixable, though for novelty the two are hard to separate — a reviewer who thinks a contribution too small often has no repair to offer.</div></div>
     </div>
   </div></div>
@@ -2785,7 +2803,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   <div class="col-mark">Atlas of Judgment</div>
   <div class="col-sub">a metascience instrument — the reasoning inside peer review, mapped</div>
   <div class="col-stats">1,420,178 units of reviewer logic · 52,460 papers · nine years of ICLR · engraved MMXXVI</div>
-  <div class="col-links"><a href="about.html">About</a><a href="method.html">Method</a><a href="https://github.com/t46/atlas-of-judgment">GitHub</a><a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a></div>
+  <div class="col-links"><a href="about.html">About</a><a href="method.html">Method</a><a href="resources.html">Resources</a></div>
   <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
 </footer>
 <div id="tooltip" role="status"></div>
@@ -5457,7 +5475,9 @@ const TRIBCI = __ISL("TRIBCI");
     end.setAttribute("dominant-baseline", "middle"); end.setAttribute("font-size", "11"); end.setAttribute("fill", "#8a5a1f");
     end.textContent = fmtV(vals[vals.length - 1]); svg.appendChild(end);
     const st0 = document.createElementNS(NS, "text");
-    st0.setAttribute("x", xs(0)); st0.setAttribute("y", ys(vals[0]) - 8);
+    // the label steps aside from the line: below the point when the series climbs
+    // away upward, above it when the series falls away downward
+    st0.setAttribute("x", xs(0)); st0.setAttribute("y", ys(vals[0]) + (vals[1] >= vals[0] ? 16 : -8));
     st0.setAttribute("font-size", "10"); st0.setAttribute("fill", "#877f6e");
     st0.setAttribute("font-family", "IBM Plex Mono, monospace");
     st0.textContent = fmtV(vals[0]); svg.appendChild(st0);
@@ -7273,9 +7293,14 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     }
   }
   const topbar = document.getElementById("topbar");
+  const mprog = document.querySelector("#mprog i");
   addEventListener("scroll", () => {
     onScroll();
     topbar.classList.toggle("show", scrollY > innerHeight * 0.6);
+    if (mprog) {
+      const dh = document.documentElement.scrollHeight - innerHeight;
+      mprog.style.transform = `scaleX(${dh ? Math.min(1, scrollY / dh) : 0})`;
+    }
   }, { passive: true });
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -13632,8 +13657,8 @@ function buildSpecimenPlate(actsByNo, closeChart) {
   const NS = "http://www.w3.org/2000/svg";
   const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
   const host = document.createElement("div");
-  host.innerHTML = '<div class="sp-head"><div class="sp-h2">What this atlas cuts, and at what nine depths</div></div>' +
-    '<div class="sp-wrap"><svg class="sp-plate" viewBox="0 0 1200 720" role="img" aria-label="One review drawn as an anatomical specimen, with the nine acts of the atlas keyed to the part each one examines."></svg></div>' +
+  host.innerHTML = '<div class="sp-head"><div class="sp-h2">What this atlas cuts &#8212; the eight acts and the coda, each at its own depth</div></div>' +
+    '<div class="sp-wrap"><svg class="sp-plate" viewBox="0 0 1200 720" role="img" aria-label="One review drawn as an anatomical specimen, with the eight acts and the coda keyed to the part each one examines."></svg></div>' +
     '<div class="sp-read"></div><p class="sp-cap"></p>';
   const svg = host.querySelector(".sp-plate"), read = host.querySelector(".sp-read");
 
