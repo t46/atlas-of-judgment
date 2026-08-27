@@ -314,25 +314,32 @@ html.neb3d .tp-table .tq {
   mask-position: calc(100% - var(--tqk, 1) * 100%) 0; }
 /* the beat after the plate: the impression pales behind it, and the question — the one
    thing still holding full ink — leans forward a breath and takes an engraved title rule */
-html.neb3d .tq-block { transform: scale(calc(1 + 0.05 * var(--tqg, 0))); transform-origin: 18% 60%; }
+html.neb3d .tq-block { transform-origin: 18% 60%; transition: transform 1.15s var(--ease-settle); }
+html.q-inked.neb3d .tq-block { transform: scale(1.05); }
 /* An engraver cuts the plate first and inks it after. During the descent the burin only
-   CUTS the question — pale scratched lines; at the beat the ink is pulled through them
-   and the words strike to full black. The beat is the inking, and it is unmissable. */
-html.neb3d .tp-table .tq { opacity: calc(0.34 + 0.66 * min(1, var(--tqg, 1) * 1.5)); }
-html.neb3d .tq-eye { opacity: calc(0.5 + 0.5 * min(1, var(--tqg, 1) * 1.5)); }
+   CUTS the question — pale scratched lines. The inking is an EVENT, not a scrub: when
+   the beat begins the ink is pulled through the letters over one second, however fast
+   the reader is scrolling, so the strike always happens in front of them. */
+html.neb3d .tp-table .tq { opacity: 0.34;
+  transition: opacity 1.0s cubic-bezier(0.25, 0.6, 0.2, 1); }
+html.neb3d .tq-eye { opacity: 0.5; transition: opacity 0.9s ease 0.05s; }
+html.q-inked.neb3d .tp-table .tq, html.q-inked.neb3d .tq-eye { opacity: 1; }
 .tq-flor { height: 11px; margin-top: 18px; opacity: 0; transform: scaleX(0.2); transform-origin: left center; }
-html.neb3d .tq-flor { opacity: min(1, calc(var(--tqg, 0) * 1.4)); transform: scaleX(calc(0.2 + 0.8 * var(--tqg, 0))); }
+html.neb3d .tq-flor { transition: opacity 0.9s ease 0.25s, transform 1.05s var(--ease-settle) 0.25s; }
+html.q-inked.neb3d .tq-flor { opacity: 1; transform: scaleX(1); }
 .tq-flor { background:
   radial-gradient(ellipse 50% 46% at 50% 50%, rgba(36,28,20,0.75) 0%, rgba(36,28,20,0.75) 28%, transparent 66%),
   linear-gradient(transparent 5px, rgba(36,28,20,0.62) 5px, rgba(36,28,20,0.62) 6px, transparent 6px);
   background-size: 34px 11px, 100% 11px; background-repeat: no-repeat;
   background-position: 50% 50%, 0 0; max-width: 44ch; }
 @media (max-width: 760px) { .tq-block { margin-left: -18px; padding: 26px 24px 30px; display: block; }
-  /* full-width block: the lean-forward scale would push past the sheet edge */
-  html.neb3d .tq-block { transform: none; } }
+  /* full-width block: the lean-forward scale would push past the sheet edge
+     (!important: the .q-inked strike rule outranks this by specificity) */
+  html.neb3d .tq-block { transform: none !important; } }
 @media (prefers-reduced-motion: reduce) {
+  html.neb3d .tq-block, html.neb3d .tp-table .tq, html.neb3d .tq-eye, html.neb3d .tq-flor { transition: none !important; }
   html.neb3d .tq-block { transform: none; }
-  html.neb3d .tp-table .tq, html.neb3d .tq-eye { opacity: 1; }
+  html.neb3d .tp-table .tq, html.neb3d .tq-eye { opacity: 1 !important; }
   html.neb3d .tq-flor { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
   html.neb3d .tp-table .tq { -webkit-mask-image: none !important; mask-image: none !important; } }
@@ -342,7 +349,8 @@ html.neb3d .tq-flor { opacity: min(1, calc(var(--tqg, 0) * 1.4)); transform: sca
 html.neb3d .tp-sky { visibility: hidden; }
 /* the hero turns to vellum while the bone is on the page; everything below stays as it was */
 html.neb3d .tp-hero { --v-ground: #ece5d3; --v-ink: #33291f; --v-ink-2: #5c4f3d; --v-faded: #8b7c64; --v-brass: var(--brass); --v-wax: var(--v-negative);
-                      background: var(--v-ground); color: var(--v-ink); }
+                      /* the ground the canvas hides into must be the site's ground, or the hide reads as a colour flash */
+                      background: var(--ground); color: var(--v-ink); }
 html.neb3d .tp-hero .tp-eyebrow { color: var(--v-brass); text-shadow: none; }
 html.neb3d .tp-hero .tp-title-hero { color: #241c12; text-shadow: none; }
 html.neb3d .tp-hero .tp-tag { color: var(--v-ink-2); text-shadow: none; }
@@ -3533,7 +3541,8 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
 // ---------------- the atlas vertebra: the joint of judgment (WebGL2; the planisphere stays as the print/fallback plate) ----------------
 (function atlasVertebra() {
     const cv = document.getElementById("neb");
-  const gl = cv.getContext("webgl2", { antialias: true, alpha: false });
+  // alpha: the canvas dissolves into the page at the end of the ghost beat
+  const gl = cv.getContext("webgl2", { antialias: true, alpha: true, premultipliedAlpha: true });
   if (!gl) return;
   document.documentElement.classList.add("neb3d");
   window.__neb3dActive = 1;
@@ -3860,15 +3869,23 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
       // atmosphere back into the vellum
       col = mix(col, vell, clamp(1.0 - exp(-0.05*(t-2.0)), 0., 1.) * 0.5 * (1.0 - prn));
     }
-    // the second beat: the impression pales like an earlier pull of the same plate,
-    // and the one thing that keeps its ink is the question printed beside it
-    col = mix(col, vec3(0.906, 0.868, 0.790), uGhost * 0.60);
+    // The second beat: the impression pales like an earlier pull of the same plate —
+    // and it pales all the way to the SITE'S own ground (#efe4c9), not to the print
+    // paper, so that when the canvas finally goes it goes from a sheet of exactly the
+    // page's colour and nobody sees the join. The figure leaves with the scroll, not
+    // with a display toggle.
+    col = mix(col, vec3(0.937, 0.894, 0.788), clamp(uGhost * 1.15, 0., 1.));
     // paper grain + vignette
     float gr = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898,78.233))) * 43758.5453);
     col += (gr - 0.5) * 0.018;
     float vig = 1.0 - 0.22*dot(vP*vec2(0.7,0.9), vP*vec2(0.7,0.9)) * (1.0 - prn);
     col *= vig;
-    frag = vec4(col, 1.0);
+    // The canvas does not get switched off — it DISSOLVES, on the scroll's own schedule.
+    // As the ghost completes, the sheet becomes transparent and the page's real ground
+    // (vellum texture and all) comes through, so the later display toggle removes a
+    // canvas that is already invisible and no eye can find the join.
+    float aOut = 1.0 - smoothstep(0.70, 0.98, uGhost);
+    frag = vec4(col * aOut, aOut);
   }`));
   gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw gl.getProgramInfoLog(prog);
@@ -3896,12 +3913,20 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   const U = n => gl.getUniformLocation(prog, n);
 
   let W = 0, H = 0;
+  // Two resolutions. The raymarch is the page's whole GPU bill, and its cost is
+  // pixels x steps: at 1.6 DPR the living bone burned a laptop even at 30fps. While
+  // anything moves the eye cannot hold a hairline anyway, so motion renders soft;
+  // the one frame where the grain matters — the finished plate, drawn once before
+  // the loop parks — is re-rendered at full resolution and then costs nothing.
+  const RES_LIVE = Math.min(devicePixelRatio || 1, matchMedia("(pointer: coarse)").matches ? 1.0 : 1.15);
+  const RES_PLATE = Math.min(devicePixelRatio || 1, 2);
+  let RES = RES_LIVE;
   function size() {
-    const DPR = Math.min(devicePixelRatio || 1, matchMedia("(pointer: coarse)").matches ? 1.25 : 1.6);
     W = cv.clientWidth; H = cv.clientHeight;
-    cv.width = W * DPR; cv.height = H * DPR;
+    cv.width = Math.round(W * RES); cv.height = Math.round(H * RES);
     gl.viewport(0, 0, cv.width, cv.height);
   }
+  function setRes(r) { if (Math.abs(r - RES) < 0.01) return; RES = r; size(); }
   size(); addEventListener("resize", size);
 
   // ---------- the joint's verdict machine: real draws decide nod or refusal ----------
@@ -3974,7 +3999,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const portrait = W < 700 || H > W * 1.1;
     const pk2 = Math.min(1, (window.__plateK || 0) / 0.92);
     const pke = 0.34 * pk2 + 0.66 * (pk2 * pk2 * (3 - 2 * pk2));   // flatter peak: the camera must not lurch either
-    const az = -0.85 + orbit * (1 - pke) + (1 - ee) * 0.55 + pke * 0.30;
+    const az = -0.85 + orbit * (1 - pke) + (1 - ee) * 0.55;   // no swing in the descent: overhead, azimuth IS rotation
     // from straight above the printed plate, down to the specimen — and back up, because a plate is read face-on
     const el = (1.35 - ee * 0.89 + myN * 0.07) * (1 - pke) + 1.30 * pke;
     const dist = (portrait ? 5.4 + ee * 1.7 : 6.4 - ee * 1.25) * (1 - pke) + (portrait ? 7.6 : 7.4) * pke;
@@ -3983,9 +4008,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     // the finished plate sits high and to the right; the question is printed to its left
     // the camera is nearly overhead at the end, so what places the plate on screen is the
     // gaze in x and z (solved for the plate sitting upper-right of the printed question)
-    const gx2 = (portrait ? 0 : -1.3 - (1 - ee) * 0.55) * (1 - pke) + (portrait ? -0.88 : -1.06) * pke;
+    const gx2 = (portrait ? 0 : -1.3 - (1 - ee) * 0.55) * (1 - pke) + (portrait ? -1.27 : -1.50) * pke;
     const gy2 = (portrait ? -0.05 - 1.15 * ee : -0.05 - 0.1 * ee) * (1 - pke) + (-0.30) * pke;
-    const gz2 = (portrait ? 1.44 : 1.64) * pke;
+    const gz2 = (portrait ? 1.12 : 1.25) * pke;
     return { pos: [tx * dist, ty * dist - 0.05, tz * dist], tgt: [gx2, gy2, gz2] };
   }
   function pickAndLabels(t, entrance) {
@@ -4148,7 +4173,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
   // The wheel delivers scroll in notch-sized jumps, so a bone that follows scrollY
   // directly teleports a notch at a time. These are targets; tick() eases toward them.
   let scrollT = 0, plateT = 0, scrollK = 0, plateK = 0, lastNow = 0, primed = false, lastTqk = -1;
-  let ghostT = 0, ghostK = 0, lastTqg = -1;
+  let ghostT = 0, ghostK = 0, lastTqg = -1, qInked = false, turnLock = null;
   let settleFrames = 0, lastDrawAt = 0;
   // a resize while the loop is parked would leave a stretched frame on screen
   addEventListener("resize", () => { settleFrames = 0; }, { passive: true });
@@ -4186,6 +4211,9 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     window.__plateK = plateK;
     if (Math.abs(plateK - lastTqk) > 0.002) { lastTqk = plateK; htmlEl.style.setProperty("--tqk", plateK.toFixed(3)); }
     if (Math.abs(ghostK - lastTqg) > 0.002) { lastTqg = ghostK; htmlEl.style.setProperty("--tqg", ghostK.toFixed(3)); }
+    // the inking fires once, as an event; scrolling well back above the beat un-inks it
+    if (ghostT > 0.10 && !qInked) { qInked = true; htmlEl.classList.add("q-inked"); }
+    else if (ghostT < 0.03 && qInked) { qInked = false; htmlEl.classList.remove("q-inked"); }
     // stage 1 (0-1.6s): the printed plate, seen flat on the page. stage 2 (1.6-4.4s): light arrives, the plate rises.
     const entrance = REDUCED ? 1 : Math.min(1, Math.max(0, (t - 1.6) / 2.8));
     // ---- the governor: a fullscreen raymarch must not idle at 120Hz ----
@@ -4198,8 +4226,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     if (busy) settleFrames = 0;
     if (plateK > 0.995 && !busy) {
       if (settleFrames >= 3) return;        // parked: the last frame persists on screen
+      if (settleFrames === 0) setRes(RES_PLATE);   // one full-grain frame, then silence
       settleFrames++;
-    } else if (!busy && now - lastDrawAt < 30) return;  // alive but idle: ~30fps, whatever the display
+    } else {
+      setRes(RES_LIVE);
+      if (!busy && now - lastDrawAt < 30) return;  // alive but idle: ~30fps, whatever the display
+    }
     lastDrawAt = now;
     window.__nebDraws = (window.__nebDraws || 0) + 1;
     // once the descent starts the bone is being laid down, not weighing: beginning a
@@ -4223,6 +4255,12 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     // a drawing does not weigh anything: as the plate sets, the joint stops moving
     // The bone was moving into place and converting to line at the same time, and that
     // overlap is what read as a stumble. The pose lands first; the burin follows it.
+    // And the turn is FROZEN, not steered: near-overhead, any change of turn or azimuth
+    // is pure in-plane rotation of the figure, which grows with elevation and arrived
+    // as a late lurch. A plan view has no canonical rotation, so the descent keeps
+    // whatever orientation it began with.
+    if (plateK > 0.01 && turnLock === null) turnLock = turn;
+    if (plateK <= 0.005) turnLock = null;
     // The turn read as a lurch because the whole of it was spent in the first 58% of
     // the descent on a smoothstep, whose peak rate is 1.5x its average. Same endpoints,
     // nearly the whole scroll to reach them, and a curve with a flatter peak.
@@ -4230,7 +4268,7 @@ document.getElementById("val-legend-2").innerHTML = valLegendHtml;
     const pi = Math.max(0, (plateK - 0.10) / 0.90), pkInk = pi * pi * (3 - 2 * pi);
     // a figure in an atlas is not tilted: the specimen lies flat and is read square on
     gl.uniform1f(U("uNod"), (nod + breathe) * (1 - pk));
-    gl.uniform1f(U("uTurn"), turn * (1 - pk) + 0.30 * pk);
+    gl.uniform1f(U("uTurn"), turn * (1 - pk) + (turnLock === null ? turn : turnLock) * pk);
     // scroll sinks the bone back into the page; its shadow's writing stays and becomes the text below
     // sinking is for a body; a drawing lies on the sheet, not in it
     // the old scroll-sink (x0.92) fought the plate's own lift: the bone dipped to ~0.55
