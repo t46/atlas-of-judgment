@@ -37,6 +37,7 @@ PAGES = [
     ("anatomy.html", "index.html", {ABOUT_URL: "about.html", METHOD_URL: "method.html"}),
     ("about.html", "about.html", {ATLAS_URL: "index.html", METHOD_URL: "method.html"}),
     ("method.html", "method.html", {ATLAS_URL: "index.html", ABOUT_URL: "about.html"}),
+    ("resources.html", "resources.html", {ATLAS_URL: "index.html", ABOUT_URL: "about.html", METHOD_URL: "method.html"}),
 ]
 
 
@@ -47,13 +48,13 @@ DEPOSITIONS = PROJECT_ROOT / "notes/depositions"
 # plate catalogue for /api/v1/index.json and the docs page (islands per the
 # DOM-verified map in notes/api-layer-draft.md §2.2)
 PLATES = [
-    ("plate-i", "I", "The Anatomy", "I · The Instrument", ["viz-data.json", "panel-data.json"]),
+    ("plate-i", "I", "The Anatomy", "I · The Instrument", ["viz-data.json", "panel-data.json", "construct-data.json"]),
     ("plate-ii", "II", "The Grammar", "I · The Instrument", ["viz-data.json", "ninegrammar-data.json"]),
     ("plate-iii", "III", "The Rhetoric", "I · The Instrument", ["rhetoric-v2.json"]),
     ("plate-iv", "IV", "The Syntax", "II · One Hand", ["chain-data.json"]),
     ("plate-v", "V", "The Itinerary", "II · One Hand", ["structure-data.json", "itinerary-data.json"]),
     ("plate-vi", "VI", "The Early Verdict", "II · One Hand", ["commit-data.json", "score-data.json"]),
-    ("plate-vii", "VII", "The Elements", "III · The Law", ["elements-all.json"]),
+    ("plate-vii", "VII", "The Elements", "III · The Law", ["elements-all.json", "argument-raw-novelty.json"]),
     ("plate-viii", "VIII", "The Combination Clause", "III · The Law", ["combination-data.json"]),
     ("plate-ix", "IX", "The Unnamed Precedent", "III · The Law", ["canon-data.json"]),
     ("plate-x", "X", "The Formulary", "III · The Law", ["boilerplate-data.json", "jurisprudence-data.json"]),
@@ -61,7 +62,7 @@ PLATES = [
     ("plate-xii", "XII", "The Verdicts", "III · The Law", ["viz-data.json"]),
     ("plate-xiii", "XIII", "The Charge Sheet", "III · The Law", ["chargesheet-data.json"]),
     ("plate-xiv", "XIV", "The Price", "IV · The Tariff", ["lawtariff-data.json", "jurisprudence-data.json"]),
-    ("plate-xv", "XV", "The Consequence", "IV · The Tariff", ["tribunal-ci.json", "panel-data.json"]),
+    ("plate-xv", "XV", "The Consequence", "IV · The Tariff", ["tribunal-ci.json", "panel-data.json", "decision-data.json"]),
     ("plate-xvi", "XVI", "The Shapes of Talk", "V · The Encounter", ["threads-data.json"]),
     ("plate-xvii", "XVII", "The Rebuttal", "V · The Encounter", ["yield-data.json", "panel-data.json"]),
     ("plate-xviii", "XVIII", "The Moves", "V · The Encounter", ["moves-data.json"]),
@@ -109,7 +110,7 @@ def build_api(dist: Path) -> None:
             "bytes": src.stat().st_size,
             "track": "2018-2026 direct" if src.parent == VDIRECT else "2026 full-depth",
             "plates": used_by,
-            "status": "orphaned" if name == "construct-data.json" else "active",
+            "status": "active" if used_by else "orphaned",
         })
 
     # 2. depositions
@@ -153,7 +154,9 @@ def build_api(dist: Path) -> None:
     llms = (API_ASSETS / "llms.txt").read_text()
     llms = (llms.replace("__TOTAL_UNITS__", f"{man['units'] + man_d['units']:,}")
                 .replace("__U2026__", f"{man['units']:,}")
-                .replace("__R2026__", f"{man['reviews']:,}"))
+                .replace("__R2026__", f"{man['reviews']:,}")
+                .replace("__ISLAND_COUNT__", str(len(islands)))
+                .replace("__PLATE_COUNT__", str(len(dep_ids))))
     (dist / "llms.txt").write_text(llms)
 
     # 5. openapi.yaml
@@ -182,7 +185,11 @@ def build_api(dist: Path) -> None:
     docs = (API_ASSETS / "api-docs.html").read_text()
     docs = (docs.replace("__PLATE_ROWS__", "\n    ".join(rows))
                 .replace("__ISLANDS__", "\n  ".join(details))
+                .replace("__ISLAND_COUNT__", str(len(islands)))
                 .replace("__BUILD_DATE__", date.today().isoformat()))
+    if all(p["deposition"] for p in index["plates"]):
+        # nothing is pending — drop the transcription-status note entirely
+        docs = re.sub(r"<p[^>]*>Depositions marked[^<]*<span[^>]*>PENDING</span>[^<]*</p>\n?", "", docs)
     (dist / "api" / "index.html").write_text(HEAD + docs)
     print(f"api: {len(islands)} islands, {len(dep_ids)} deposition(s), index + llms.txt + openapi + docs staged")
 
