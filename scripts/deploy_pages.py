@@ -31,6 +31,7 @@ HEAD = (
     "<!doctype html>\n"
     '<html lang="en">\n'
     '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+    '<link rel="icon" type="image/svg+xml" href="/favicon.svg">\n'
 )
 
 PAGES = [
@@ -219,6 +220,9 @@ def main() -> None:
         (REPO / out_name).write_text(HEAD + html)
         (dist / out_name).write_text(HEAD + html)
         print(f"{out_name}: {len(html) / 1e6:.2f} MB staged")
+    import shutil
+    shutil.copy(API_ASSETS / "favicon.svg", dist / "favicon.svg")
+    shutil.copy(API_ASSETS / "favicon.svg", REPO / "favicon.svg")
     build_api(dist)
 
 

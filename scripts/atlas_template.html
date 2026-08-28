@@ -10429,7 +10429,9 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   // (a pinned or hovered binding must survive the entrance/resize re-renders,
   // which wipe innerHTML — so the applied state is tracked and re-applied)
   let billDim = false, sucKey = null;
-  const dimBillRows = () => billHost.querySelectorAll(".bill-row[data-o]").forEach(rw => { rw.style.opacity = rw.dataset.o === "novelty" ? "1" : "0.15"; });
+  // the entrance animation (dlIn … both) pins each row's opacity at 1 via its
+  // fill, which outranks inline style — so the dim must also drop the animation
+  const dimBillRows = () => billHost.querySelectorAll(".bill-row[data-o]").forEach(rw => { rw.style.animation = "none"; rw.style.opacity = rw.dataset.o === "novelty" ? "1" : "0.15"; });
   const billLayer = anchorLayer(billHost, key => {
     if (key !== "novelty-opens") return null;
     const el = billHost.querySelector('.bill-row[data-o="novelty"]');
@@ -10443,7 +10445,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     buttons: document.querySelectorAll("button.hover-bind[data-bill]"),
     keyOf: b => b.dataset.bill,
     apply: () => { billDim = true; dimBillRows(); },
-    clear: () => { billDim = false; billHost.querySelectorAll(".bill-row[data-o]").forEach(rw => { rw.style.opacity = ""; }); },
+    clear: () => { billDim = false; billHost.querySelectorAll(".bill-row[data-o]").forEach(rw => { rw.style.opacity = ""; rw.style.animation = ""; }); },
     anchors: billLayer,
   });
   const SUCPRED = {
