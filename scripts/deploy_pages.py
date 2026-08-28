@@ -34,6 +34,44 @@ HEAD = (
     '<link rel="icon" type="image/svg+xml" href="/favicon.svg">\n'
 )
 
+SITE = "https://atlas-of-judgment.pages.dev"
+
+# social cards: og/twitter meta per page, one shared card image
+OG = {
+    "index.html": ("Atlas of Judgment — How a Paper is Judged",
+        "An interactive atlas of the reasoning inside every public ICLR peer review, "
+        "2018–2026: 1,009,592 units of reviewer logic, analysed across 30 plates."),
+    "about.html": ("About — Atlas of Judgment",
+        "What this project is, why the reasoning and not the score, and why ICLR: "
+        "the question, the pipeline, and the findings digest."),
+    "method.html": ("Method — Atlas of Judgment",
+        "The full reproduction record: every script, model, seed and cost — including "
+        "the pilots that failed and the corrections as they happened."),
+    "resources.html": ("Resources — Atlas of Judgment",
+        "Source code, data downloads, the machine-reader API, citation, and licence — "
+        "every outbound door on one page."),
+    "api": ("Machine Reader — Atlas of Judgment",
+        "A static JSON API over the same audited data the plates are built from: "
+        "per-plate depositions, 48 data islands, corrections, llms.txt."),
+}
+
+
+def og_block(out_name: str) -> str:
+    title, desc = OG[out_name]
+    path = "" if out_name == "index.html" else ("api/" if out_name == "api" else out_name.removesuffix(".html"))
+    return (
+        f'<meta name="description" content="{desc}">\n'
+        '<meta property="og:type" content="website">\n'
+        '<meta property="og:site_name" content="Atlas of Judgment">\n'
+        f'<meta property="og:title" content="{title}">\n'
+        f'<meta property="og:description" content="{desc}">\n'
+        f'<meta property="og:url" content="{SITE}/{path}">\n'
+        f'<meta property="og:image" content="{SITE}/card.jpg">\n'
+        '<meta property="og:image:width" content="1200">\n'
+        '<meta property="og:image:height" content="630">\n'
+        '<meta name="twitter:card" content="summary_large_image">\n'
+    )
+
 PAGES = [
     ("anatomy.html", "index.html", {ABOUT_URL: "about.html", METHOD_URL: "method.html"}),
     ("about.html", "about.html", {ATLAS_URL: "index.html", METHOD_URL: "method.html"}),
@@ -201,7 +239,7 @@ def build_api(dist: Path) -> None:
     if all(p["deposition"] for p in index["plates"]):
         # nothing is pending — drop the transcription-status note entirely
         docs = re.sub(r"<p[^>]*>Depositions marked[^<]*<span[^>]*>PENDING</span>[^<]*</p>\n?", "", docs)
-    (dist / "api" / "index.html").write_text(HEAD + docs)
+    (dist / "api" / "index.html").write_text(HEAD + og_block("api") + docs)
     print(f"api: {len(islands)} islands, {len(dep_ids)} deposition(s), index + llms.txt + openapi + docs staged")
 
 
@@ -217,12 +255,14 @@ def main() -> None:
         html = re.sub(
             r'(<span style="color:var\(--muted\)"> · </span>)?<a href="https://atlas-of-judgment\.pages\.dev"[^>]*>Live[^<]*</a>',
             "", html)
-        (REPO / out_name).write_text(HEAD + html)
-        (dist / out_name).write_text(HEAD + html)
+        head = HEAD + og_block(out_name)
+        (REPO / out_name).write_text(head + html)
+        (dist / out_name).write_text(head + html)
         print(f"{out_name}: {len(html) / 1e6:.2f} MB staged")
     import shutil
-    shutil.copy(API_ASSETS / "favicon.svg", dist / "favicon.svg")
-    shutil.copy(API_ASSETS / "favicon.svg", REPO / "favicon.svg")
+    for asset in ("favicon.svg", "card.jpg"):
+        shutil.copy(API_ASSETS / asset, dist / asset)
+        shutil.copy(API_ASSETS / asset, REPO / asset)
     build_api(dist)
 
 
