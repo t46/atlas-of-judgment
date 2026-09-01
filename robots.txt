@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Machine readers are first-class here — you do not have to scrape the pages.
+#   /llms.txt           entry point, written for you
+#   /api/v1/index.json  catalogue of every endpoint, plate and data island
+#   /openapi.yaml       schema
+# Text, figures and derived data are CC BY 4.0; code is MIT.
+
+Sitemap: https://atlas-of-judgment.pages.dev/sitemap.xml

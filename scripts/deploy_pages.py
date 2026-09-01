@@ -243,6 +243,115 @@ def build_api(dist: Path) -> None:
     print(f"api: {len(islands)} islands, {len(dep_ids)} deposition(s), index + llms.txt + openapi + docs staged")
 
 
+NOT_FOUND = """<title>Not in the record — Atlas of Judgment</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --ground:#efe4c9; --paper:#f3ead2; --ink:#241c14; --brass:#8a5a1f; --muted:#7d7059;
+          --serif:"Cormorant Garamond",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace; }
+  html,body { margin:0; height:100%; background:var(--ground); color:var(--ink); }
+  main { min-height:100%; box-sizing:border-box; display:flex; flex-direction:column;
+         justify-content:center; max-width:640px; margin:0 auto; padding:48px 28px; }
+  .code { font:400 12px/1 var(--mono); letter-spacing:.22em; color:var(--brass); }
+  h1 { font:400 clamp(38px,9vw,60px)/1.1 var(--serif); margin:18px 0 0; }
+  h1 em { font-style:italic; }
+  hr { border:0; border-top:1px solid rgba(138,90,31,.4); margin:26px 0; }
+  p { font:400 clamp(18px,4.4vw,21px)/1.55 var(--serif); margin:0 0 18px; }
+  nav { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:8px;
+        font:400 12px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+  a { color:var(--brass); }
+  .machine { margin-top:34px; padding:16px 18px; background:var(--paper);
+             border-left:2px solid var(--brass); font:400 12.5px/1.7 var(--mono); color:var(--muted); }
+  .machine code { color:var(--ink); }
+</style>
+<main>
+  <span class="code">404 &middot; NO SUCH HOLDING</span>
+  <h1>This address is not <em>in the record</em>.</h1>
+  <hr>
+  <p>Every page and every data file in this atlas is listed somewhere. Nothing else exists at
+     this address &mdash; not a moved page, simply one that was never here.</p>
+  <nav>
+    <a href="/">The Atlas</a><a href="/about">About</a><a href="/method">Method</a>
+    <a href="/resources">Resources</a><a href="/api/">Machine reader</a>
+  </nav>
+  <div class="machine">
+    Machine readers: the catalogue of every valid endpoint, plate id and data island is
+    <code><a href="/api/v1/index.json">/api/v1/index.json</a></code>.<br>
+    Start here: <code><a href="/llms.txt">/llms.txt</a></code> &middot;
+    schema: <code><a href="/openapi.yaml">/openapi.yaml</a></code>
+  </div>
+</main>
+"""
+
+# Cloudflare Pages edge rules. Without a 404.html, Pages falls back to index.html
+# with a 200 — so a mistyped plate id used to return the whole 7 MB atlas page to a
+# machine reader. The cache rules keep the launch-day spike off the origin while
+# staying short enough that a correction propagates within the hour.
+HEADERS = """/api/v1/data/*
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/api/v1/plates/*
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/api/v1/index.json
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/api/v1/corrections.json
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/openapi.yaml
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/llms.txt
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/favicon.svg
+  Cache-Control: public, max-age=604800
+
+/card.jpg
+  Cache-Control: public, max-age=604800
+"""
+
+ROBOTS = f"""User-agent: *
+Allow: /
+
+# Machine readers are first-class here — you do not have to scrape the pages.
+#   /llms.txt           entry point, written for you
+#   /api/v1/index.json  catalogue of every endpoint, plate and data island
+#   /openapi.yaml       schema
+# Text, figures and derived data are CC BY 4.0; code is MIT.
+
+Sitemap: {SITE}/sitemap.xml
+"""
+
+
+def build_edge(dist: Path) -> None:
+    """Stage robots.txt, sitemap.xml, 404.html and _headers."""
+    from datetime import date
+
+    today = date.today().isoformat()
+    urls = "".join(
+        f"  <url><loc>{SITE}/{p}</loc><lastmod>{today}</lastmod>"
+        f"<changefreq>monthly</changefreq><priority>{pri}</priority></url>\n"
+        for p, pri in (("", "1.0"), ("about", "0.8"), ("method", "0.8"),
+                       ("resources", "0.6"), ("api/", "0.6"))
+    )
+    files = {
+        "robots.txt": ROBOTS,
+        "sitemap.xml": ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                        f"{urls}</urlset>\n"),
+        "404.html": HEAD + NOT_FOUND,
+        "_headers": HEADERS,
+    }
+    for name, body in files.items():
+        (dist / name).write_text(body)
+        (REPO / name).write_text(body)
+    print("edge: robots.txt, sitemap.xml, 404.html, _headers staged")
+
+
 def main() -> None:
     dist = REPO / ".pages-dist"
     dist.mkdir(exist_ok=True)
@@ -264,6 +373,7 @@ def main() -> None:
         shutil.copy(API_ASSETS / asset, dist / asset)
         shutil.copy(API_ASSETS / asset, REPO / asset)
     build_api(dist)
+    build_edge(dist)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Not in the record — Atlas of Judgment</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --ground:#efe4c9; --paper:#f3ead2; --ink:#241c14; --brass:#8a5a1f; --muted:#7d7059;
+          --serif:"Cormorant Garamond",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace; }
+  html,body { margin:0; height:100%; background:var(--ground); color:var(--ink); }
+  main { min-height:100%; box-sizing:border-box; display:flex; flex-direction:column;
+         justify-content:center; max-width:640px; margin:0 auto; padding:48px 28px; }
+  .code { font:400 12px/1 var(--mono); letter-spacing:.22em; color:var(--brass); }
+  h1 { font:400 clamp(38px,9vw,60px)/1.1 var(--serif); margin:18px 0 0; }
+  h1 em { font-style:italic; }
+  hr { border:0; border-top:1px solid rgba(138,90,31,.4); margin:26px 0; }
+  p { font:400 clamp(18px,4.4vw,21px)/1.55 var(--serif); margin:0 0 18px; }
+  nav { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:8px;
+        font:400 12px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+  a { color:var(--brass); }
+  .machine { margin-top:34px; padding:16px 18px; background:var(--paper);
+             border-left:2px solid var(--brass); font:400 12.5px/1.7 var(--mono); color:var(--muted); }
+  .machine code { color:var(--ink); }
+</style>
+<main>
+  <span class="code">404 &middot; NO SUCH HOLDING</span>
+  <h1>This address is not <em>in the record</em>.</h1>
+  <hr>
+  <p>Every page and every data file in this atlas is listed somewhere. Nothing else exists at
+     this address &mdash; not a moved page, simply one that was never here.</p>
+  <nav>
+    <a href="/">The Atlas</a><a href="/about">About</a><a href="/method">Method</a>
+    <a href="/resources">Resources</a><a href="/api/">Machine reader</a>
+  </nav>
+  <div class="machine">
+    Machine readers: the catalogue of every valid endpoint, plate id and data island is
+    <code><a href="/api/v1/index.json">/api/v1/index.json</a></code>.<br>
+    Start here: <code><a href="/llms.txt">/llms.txt</a></code> &middot;
+    schema: <code><a href="/openapi.yaml">/openapi.yaml</a></code>
+  </div>
+</main>

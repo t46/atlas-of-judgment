@@ -1,0 +1,23 @@
+/api/v1/data/*
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/api/v1/plates/*
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/api/v1/index.json
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/api/v1/corrections.json
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/openapi.yaml
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/llms.txt
+  Cache-Control: public, max-age=300, s-maxage=3600
+
+/favicon.svg
+  Cache-Control: public, max-age=604800
+
+/card.jpg
+  Cache-Control: public, max-age=604800
