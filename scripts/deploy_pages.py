@@ -143,15 +143,34 @@ def build_api(dist: Path) -> None:
     build_src = (PROJECT_ROOT / "scripts/build_anatomy_html.py").read_text()
     island_files = sorted(set(re.findall(r'load_json_island\("([a-z0-9_\-]+\.json)"(?:, direct=True)?\)', build_src))
                           | set(re.findall(r'"([a-z0-9_\-]+\.json)"', build_src)))
-    # verification records: not injected into any page, served beside the islands
-    island_files = sorted(set(island_files) | {"repair-k-robustness.json"})
+    # Any island a deposition points at has to be published too, or that claim
+    # dead-ends for the machine reader the depositions exist for. Scan them
+    # instead of hand-keeping a list: control and robustness records are never
+    # injected into a page, so the regex above cannot see them.
+    dep_islands: dict[str, set[str]] = {}
+    if DEPOSITIONS.exists():
+        for f in sorted(DEPOSITIONS.glob("*.json")):
+            dep = json.loads(f.read_text())
+            names = {c["source_island"]
+                     for fig in dep.get("figures", []) for c in fig.get("claims", [])
+                     if c.get("source_island")}
+            names |= {Path(d).name for d in dep.get("links", {}).get("data", [])}
+            dep_islands[f.stem] = names
+    cited = set().union(*dep_islands.values()) if dep_islands else set()
+    island_files = sorted(set(island_files) | {"repair-k-robustness.json"} | cited)
+
     islands = []
     for name in island_files:
         src = V / name if (V / name).exists() else VDIRECT / name
         if not src.exists() or not name.endswith(".json"):
+            if name in cited:
+                raise SystemExit(
+                    f"deposition cites an island that does not exist: {name} — "
+                    "a published claim would dead-end")
             continue
         shutil.copy(src, api / "data" / name)
-        used_by = [p[0] for p in PLATES if name in p[4]]
+        used_by = sorted({p[0] for p in PLATES if name in p[4]}
+                         | {pid for pid, names in dep_islands.items() if name in names})
         islands.append({
             "file": name,
             "bytes": src.stat().st_size,
@@ -305,8 +324,13 @@ def build_api(dist: Path) -> None:
                     f'<td>{dep}</td><td>{chips}</td></tr>')
     details = []
     for isl in islands:
-        keys = ", ".join(list(json.loads((api / "data" / isl["file"]).read_text()).keys())[:8]) \
-            if isl["bytes"] < 8_000_000 else "(large file)"
+        if isl["bytes"] >= 8_000_000:
+            keys = "(large file)"
+        else:
+            doc = json.loads((api / "data" / isl["file"]).read_text())
+            # a few records are arrays at the root, not objects
+            keys = ", ".join(list(doc)[:8]) if isinstance(doc, dict) else \
+                f"(array of {len(doc)} records)"
         flag = ' · <span style="color:var(--muted)">orphaned — not currently rendered on any plate</span>' \
             if isl["status"] == "orphaned" else ""
         plates_txt = ", ".join(isl["plates"]) or "—"

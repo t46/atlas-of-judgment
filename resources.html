@@ -275,7 +275,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   </div>
   <p class="spec">File sizes on the Hub are not mirrored here — check the dataset card on Hugging Face for current per-file sizes.</p>
 
-  <h3>Data islands — the 48 aggregate files behind the plates</h3>
+  <h3>Data islands — the 50 aggregate files behind the plates</h3>
   <p>Each file is the exact JSON a plate's charts are built from — same data, same source, just
   detached from the page. Sizes and contents below are read directly off the published files.</p>
 
@@ -285,7 +285,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
       <span class="hc-note">Every data island as a circle whose <em>area</em> is its exact weight on
       disk, read live from the table below. Two files — the taxonomy point-cloud and the core
       taxonomy tables — carry <span id="hc-share">90%</span> of the atlas&#8217;s
-      <span id="hc-total">5.16&#8202;MB</span>; the other <span id="hc-rest-n">46</span>, together,
+      <span id="hc-total">5.17&#8202;MB</span>; the other <span id="hc-rest-n">48</span>, together,
       weigh <span id="hc-rest-mb">half a megabyte</span>. The two drawn dashed are collected but not
       yet rendered on any plate. Each circle links to its file.</span>
     </figcaption>
@@ -303,6 +303,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
       <tr><td class="mono" data-label="File"><a href="api/v1/data/boilerplate-data.json">boilerplate-data.json</a></td><td class="num" data-label="Size">12.7 KB</td><td data-label="Feeds">Plate X</td><td data-label="Contents">Text-similarity measurements of formulaic review language, by object and by rating band.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/canon-data.json">canon-data.json</a></td><td class="num" data-label="Size">0.7 KB</td><td data-label="Feeds">Plate IX</td><td data-label="Contents">How often an objection names a specific prior work vs. stays vague, by year.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/chain-data.json">chain-data.json</a></td><td class="num" data-label="Size">1.4 KB</td><td data-label="Feeds">Plate IV</td><td data-label="Contents">Transition likelihoods between successive units within one review — what follows what.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/chargesheet-control.json">chargesheet-control.json</a></td><td class="num" data-label="Size">6.7 KB</td><td data-label="Feeds">Plate XIII</td><td data-label="Contents">The control behind that matrix: the same standard pairs re-measured three ways — inside one unit, across different units of one review, and across two <em>different</em> reviewers of the same paper — which is what separates a real repulsion from a mixture of habits.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/chargesheet-data.json">chargesheet-data.json</a></td><td class="num" data-label="Size">41.1 KB</td><td data-label="Feeds">Plate XIII</td><td data-label="Contents">Co-occurrence matrix of which reasoning standards get invoked together in the same review.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/combination-data.json">combination-data.json</a></td><td class="num" data-label="Size">5.3 KB</td><td data-label="Feeds">Plate VIII</td><td data-label="Contents">The &#8220;mere combination&#8221; novelty rule, sub-clustered into its exception clauses and referent kinds, with exemplars.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/commit-data.json">commit-data.json</a></td><td class="num" data-label="Size">1.9 KB</td><td data-label="Feeds">Plate VI</td><td data-label="Contents">How early in a review the eventual verdict becomes predictable from text alone, by review-length decile.</td></tr>
@@ -313,6 +314,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
       <tr><td class="mono" data-label="File"><a href="api/v1/data/decision-data.json">decision-data.json</a></td><td class="num" data-label="Size">2.8 KB</td><td data-label="Feeds">Plate XV</td><td data-label="Contents">Decision legibility: cross-validated AUCs at reading accept/reject from criticism tallies, text, and scores (Fig. 15b).</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/deliberation-data.json">deliberation-data.json</a></td><td class="num" data-label="Size">72.3 KB</td><td data-label="Feeds">Plate XXI</td><td data-label="Contents">Per-forum record of reviewer moves made during panel deliberation.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/drift-data.json">drift-data.json</a></td><td class="num" data-label="Size">4.9 KB</td><td data-label="Feeds">Plates XXVI, XXVII</td><td data-label="Contents">Nine-year share trends of which objects, standards, and verdict valences reviewers invoke.</td></tr>
+      <tr><td class="mono" data-label="File"><a href="api/v1/data/drift-language.json">drift-language.json</a></td><td class="num" data-label="Size">1.1 KB</td><td data-label="Feeds">Appendix II</td><td data-label="Contents">Whether the words attached to an object actually moved: the span of each object’s yearly vocabulary path against a shuffle noise floor, with the terms that rose early and late.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/elements-all.json">elements-all.json</a></td><td class="num" data-label="Size">67.9 KB</td><td data-label="Feeds">Plate VII</td><td data-label="Contents">Per-object statistics for each of the twelve objects of scrutiny (empirical scope, method design, theory, and so on).</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/field-stats.json">field-stats.json</a></td><td class="num" data-label="Size">1.7 KB</td><td data-label="Feeds">Appendix III</td><td data-label="Contents">Per-year corpus statistics used as the control baseline for the null-model comparison.</td></tr>
       <tr><td class="mono" data-label="File"><a href="api/v1/data/galaxy.json">galaxy.json</a></td><td class="num" data-label="Size">3.25 MB</td><td data-label="Feeds">Appendix II</td><td data-label="Contents">The full point-cloud embedding of sampled units used for the taxonomy map, with region labels. Largest file on the site.</td></tr>
@@ -348,7 +350,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
     </tbody>
   </table>
   </div>
-  <p class="spec"><b>48 files</b> · 5.16 MB combined · all JSON · served from <code>/api/v1/data/</code></p>
+  <p class="spec"><b>50 files</b> · 5.17 MB combined · all JSON · served from <code>/api/v1/data/</code></p>
 
   <h3>Schema and machine-reader entry points</h3>
   <div class="doors">
@@ -407,7 +409,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <h2 class="hd">What you may do with what's here</h2>
   <ul class="lic-list">
     <li><span class="lk">Code</span><span><b>MIT.</b> The pipeline scripts and the pages&#8217; own markup are open for reuse under the MIT License &mdash; see the <a href="https://github.com/t46/atlas-of-judgment/blob/main/LICENSE">LICENSE</a> file in the repository.</span></li>
-    <li><span class="lk">Text, figures &amp; derived data</span><span><b>CC BY 4.0</b> for the written analysis, the figures, the labeled unit tables on Hugging Face, and the depositions and 48 data islands above &mdash; aggregates served so every number can be recomputed. Attribute &#8220;Atlas of Judgment (https://atlas-of-judgment.pages.dev)&#8221; when reusing them.</span></li>
+    <li><span class="lk">Text, figures &amp; derived data</span><span><b>CC BY 4.0</b> for the written analysis, the figures, the labeled unit tables on Hugging Face, and the depositions and 50 data islands above &mdash; aggregates served so every number can be recomputed. Attribute &#8220;Atlas of Judgment (https://atlas-of-judgment.pages.dev)&#8221; when reusing them.</span></li>
     <li><span class="lk">Review text</span><span><b>Not this project's to license.</b> The underlying reviews belong to their anonymous authors and are public via OpenReview. Every specimen the atlas quotes links back to its original.</span></li>
   </ul>
 </div>
