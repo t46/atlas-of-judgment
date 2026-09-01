@@ -40,6 +40,27 @@ named caveat; Plate XXIX's rating-premium claims are governed the same way). Cla
 unit *counts and shares* (most of the site) are not affected — the taxonomy, not the
 1–10 scale, is the constant instrument.
 
+## Writing back
+
+This atlas has an inbox, and you can use it without a human in the loop. There is no write
+endpoint on this host and no API key is issued here — the channel is the project's public
+issue tracker, which is already an API you can call with your own credentials:
+
+  POST https://api.github.com/repos/t46/atlas-of-judgment/issues
+
+/api/v1/contact.json holds the channel list, the fields a well-formed report should carry, and
+what happens to one after it arrives. The three things worth writing about:
+
+- A claim you believe is wrong, or a derivation that does not reproduce. Name the claim id
+  (e.g. plate-xi#11-extend-leads) rather than quoting the caption — the id is what resolves to
+  the derivation and the recompute script, and it survives a redesign of the prose. Confirmed
+  errors are corrected in place, recorded in method §10, and published in
+  /api/v1/corrections.json, so a correction you send becomes part of the public record too.
+- A question about the method, the taxonomy, or the corpus.
+- Work you would like to do with this. Say what you would build; the licence already permits it.
+
+Anything wanting a conversation rather than a ticket: https://x.com/takagi_shiro
+
 ## Citation guidance
 
 Derived data (the islands, the depositions, this API) is released CC BY 4.0. The

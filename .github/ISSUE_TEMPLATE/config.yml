@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: A conversation rather than a ticket
+    url: https://x.com/takagi_shiro
+    about: For anything that wants talking through instead of filing.
+  - name: Machine-readable version of these channels
+    url: https://atlas-of-judgment.pages.dev/api/v1/contact.json
+    about: If you are an agent — the channels, the fields a report should carry, and what happens to one.

@@ -35,6 +35,8 @@ HEAD = (
 )
 
 SITE = "https://atlas-of-judgment.pages.dev"
+X_HANDLE = "@takagi_shiro"
+GH_REPO = "t46/atlas-of-judgment"
 
 # social cards: og/twitter meta per page, one shared card image
 OG = {
@@ -70,6 +72,8 @@ def og_block(out_name: str) -> str:
         '<meta property="og:image:width" content="1200">\n'
         '<meta property="og:image:height" content="630">\n'
         '<meta name="twitter:card" content="summary_large_image">\n'
+        f'<meta name="twitter:site" content="{X_HANDLE}">\n'
+        f'<meta name="twitter:creator" content="{X_HANDLE}">\n'
     )
 
 PAGES = [
@@ -185,6 +189,7 @@ def build_api(dist: Path) -> None:
             "deposition": "/api/v1/plates/{plate-id}.json",
             "data": "/api/v1/data/{island}.json",
             "corrections": "/api/v1/corrections.json",
+            "contact": "/api/v1/contact.json",
             "openapi": "/openapi.yaml",
             "llms": "/llms.txt",
             "docs": "/api/",
@@ -198,6 +203,84 @@ def build_api(dist: Path) -> None:
         "islands": islands,
     }
     (api / "index.json").write_text(json.dumps(index, indent=1, ensure_ascii=False))
+
+    # 3b. contact.json — the inbox, described so an agent can use it unaided.
+    # Deliberately not a write endpoint on this host: a public POST box would need
+    # moderation and would collect arbitrary text under this project's name, while
+    # the issue tracker is already a write API, already moderated, and public in the
+    # same way the correction ledger is.
+    contact = {
+        "what": "How to reach the author of this atlas, including from an agent with no human "
+                "in the loop. This host serves static files only — it has no write endpoint and "
+                "issues no API keys. The inbox is the project's public issue tracker, which you "
+                "call with your own credentials.",
+        "author": {
+            "name": "Shiro Takagi",
+            "x": f"https://x.com/{X_HANDLE.lstrip('@')}",
+            "conversation": "Use X for anything that wants a conversation rather than a ticket.",
+        },
+        "channels": [
+            {
+                "id": "correction",
+                "for": "A claim on this site you believe is wrong, or a derivation that does not "
+                       "reproduce when you run its recompute script.",
+                "visibility": "public",
+                "web": f"https://github.com/{GH_REPO}/issues/new?template=correction.yml",
+                "api": {
+                    "method": "POST",
+                    "url": f"https://api.github.com/repos/{GH_REPO}/issues",
+                    "auth": "Your own GitHub token. This site holds no credentials for you.",
+                    "body": {
+                        "title": "correction: <claim-id> — <one line>",
+                        "labels": ["correction"],
+                        "body": "Markdown; see report_fields below.",
+                    },
+                },
+                "report_fields": {
+                    "claim_id": "Required. e.g. plate-xi#11-extend-leads — name the id, not the "
+                                "caption sentence; the id resolves to the derivation and survives "
+                                "a rewrite of the prose around it.",
+                    "as_published": "The value or statement currently on the site.",
+                    "proposed": "What you believe is correct.",
+                    "evidence": "How you checked — a recompute you ran, a source island and path, "
+                                "or an argument about the derivation.",
+                    "confidence": "Optional. Say plainly if you are unsure; a flagged suspicion is "
+                                  "still useful.",
+                },
+                "what_happens": "A confirmed error is corrected in place on the plate, recorded in "
+                                "method §10, and published at /api/v1/corrections.json — so the "
+                                "correction becomes part of the public record, not a private fix.",
+            },
+            {
+                "id": "question",
+                "for": "A question about the method, the taxonomy, the corpus, or a caveat.",
+                "visibility": "public",
+                "web": f"https://github.com/{GH_REPO}/issues/new?template=question.yml",
+                "api": {
+                    "method": "POST",
+                    "url": f"https://api.github.com/repos/{GH_REPO}/issues",
+                    "auth": "Your own GitHub token.",
+                    "body": {"title": "question: <one line>", "labels": ["question"]},
+                },
+            },
+            {
+                "id": "collaboration",
+                "for": "Work you would like to do with this — a different view built on the same "
+                       "islands, a replication on another venue, a joint analysis.",
+                "visibility": "public or direct",
+                "web": f"https://github.com/{GH_REPO}/issues/new?template=question.yml",
+                "direct": f"https://x.com/{X_HANDLE.lstrip('@')}",
+                "note": "The licence already permits building on this (code MIT, derived data "
+                        "CC BY 4.0) — you do not need permission, only an interest in comparing notes.",
+            },
+        ],
+        "not_available": {
+            "write_endpoint": "There is no POST endpoint under /api/ on this host.",
+            "api_keys": "None are issued. Any key you need is your own, for the channel above.",
+            "email": "No address is published; use the tracker or X.",
+        },
+    }
+    (api / "contact.json").write_text(json.dumps(contact, indent=1, ensure_ascii=False))
 
     # 4. llms.txt (counts interpolated so a corpus refresh can't leave it stale)
     llms = (API_ASSETS / "llms.txt").read_text()

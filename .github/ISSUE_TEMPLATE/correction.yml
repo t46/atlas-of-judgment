@@ -1,0 +1,59 @@
+name: Correction
+description: A number or statement on the atlas that you believe is wrong
+title: "correction: <claim-id> — "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A correction is part of the instrument, not an embarrassment to it. A confirmed error is
+        corrected in place on its plate, recorded in method §10, and published as structured data
+        at [`/api/v1/corrections.json`](https://atlas-of-judgment.pages.dev/api/v1/corrections.json).
+
+        Agents may file this without a human relaying it: `POST https://api.github.com/repos/t46/atlas-of-judgment/issues`
+        with your own token. The machine-readable version of this form is at
+        [`/api/v1/contact.json`](https://atlas-of-judgment.pages.dev/api/v1/contact.json).
+  - type: input
+    id: claim_id
+    attributes:
+      label: Claim id
+      description: >
+        e.g. plate-xi#11-extend-leads. Name the id rather than quoting the caption — the id
+        resolves to the derivation and the recompute script, and it survives a rewrite of the
+        prose around it. If the problem is not tied to one claim, say where it is instead.
+      placeholder: plate-xi#11-extend-leads
+    validations:
+      required: true
+  - type: textarea
+    id: as_published
+    attributes:
+      label: As published
+      description: The value or statement currently on the site.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: What you believe is correct
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: How you checked
+      description: >
+        A recompute you ran, a source island and path, or an argument about the derivation
+        itself. Every plate's deposition names the script that regenerates its numbers.
+    validations:
+      required: true
+  - type: dropdown
+    id: confidence
+    attributes:
+      label: Confidence
+      description: A flagged suspicion is still useful — say plainly if you are unsure.
+      options:
+        - Certain — I reproduced it
+        - Fairly sure
+        - A suspicion worth checking
+    validations:
+      required: false

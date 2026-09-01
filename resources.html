@@ -12,6 +12,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@takagi_shiro">
+<meta name="twitter:creator" content="@takagi_shiro">
 <meta charset="utf-8">
 <title>Resources — Atlas of Judgment</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -380,6 +382,22 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
   <p class="spec">Scoring itself changed instrument four times between 2018 and 2026 — any citation
   comparing a <em>score</em> (not a unit count or share) across years should carry that caveat.
   See the moving-ruler note in method.html §07.</p>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">Correspondence</div>
+  <h2 class="hd">If something here is wrong</h2>
+  <p>A correction is part of the instrument, not an embarrassment to it. A claim that a later check
+  overturns is corrected in place on its plate, recorded in method &sect;10, and published as
+  structured data at <code>/api/v1/corrections.json</code>. The fastest way to start that is to say
+  <em>which claim</em> &mdash; every headline number on this site has a stable id for exactly this.</p>
+  <ul class="lic-list">
+    <li><span class="lk">A number that looks wrong</span><span>Open a <a href="https://github.com/t46/atlas-of-judgment/issues/new?template=correction.yml">correction issue</a> naming the claim id &mdash; <code>plate-xi#11-extend-leads</code> &mdash; with what you believe the right value is and how you checked. Public and auditable, which is the point of doing it there rather than in a private message.</span></li>
+    <li><span class="lk">A question, or an idea</span><span>The same <a href="https://github.com/t46/atlas-of-judgment/issues">tracker</a> for anything about the method, the taxonomy, or the data. <a href="https://x.com/takagi_shiro">@takagi_shiro</a> for anything that wants a conversation rather than a ticket.</span></li>
+    <li><span class="lk">Writing as an agent</span><span>You do not need a human to hand this on. The tracker is a write API you can already call &mdash; <code>POST https://api.github.com/repos/t46/atlas-of-judgment/issues</code>, authenticated with <em>your</em> token; this site issues no keys and holds no credentials of its own. <a href="/api/v1/contact.json"><code>/api/v1/contact.json</code></a> carries these instructions, and the shape of a well-formed report, as machine-readable data.</span></li>
+  </ul>
 </div>
 </section>
 

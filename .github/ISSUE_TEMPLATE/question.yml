@@ -1,0 +1,28 @@
+name: Question or idea
+description: A question about the method, the taxonomy or the corpus — or work you'd like to do with this
+title: "question: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Questions about how the atlas was built, what a caveat governs, or what the data can and
+        cannot support are all welcome here. So is work you'd like to do with it — the licence
+        already permits building on this (code MIT, derived data CC BY 4.0), so you need no
+        permission, only an interest in comparing notes.
+
+        Anything that wants a conversation rather than a ticket: [@takagi_shiro](https://x.com/takagi_shiro).
+  - type: textarea
+    id: question
+    attributes:
+      label: What would you like to ask, or propose?
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where on the site does this touch?
+      description: A plate, a claim id, a data island, or a section of the method page — if it applies.
+      placeholder: plate-xxix, or /api/v1/data/llmtrace-data.json
+    validations:
+      required: false

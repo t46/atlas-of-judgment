@@ -113,6 +113,22 @@ paths:
             application/json:
               schema: { $ref: "#/components/schemas/CorrectionsDocument" }
 
+  /api/v1/contact.json:
+    get:
+      summary: How to write back — the channels, the shape of a well-formed report, and what happens to one
+      description: >
+        This API is read-only: there is no POST endpoint on this host and no key is issued here.
+        This document describes the channels that do accept writes (the project's public issue
+        tracker, callable with the caller's own credentials) so that an agent can send a
+        correction or a question without a human relaying it.
+      operationId: getContact
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: object }
+
 components:
   schemas:
     IndexDocument:
