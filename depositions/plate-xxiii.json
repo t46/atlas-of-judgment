@@ -1,131 +1,152 @@
 {
-  "id": "plate-xxiii",
-  "number": "XXIII",
-  "title": "The Borrowed Verdict",
-  "act": {
-    "number": "VI",
-    "title": "The Higher Court"
-  },
-  "corpus_scope": "ICLR 2018–2026 · 8,439 papers · every meta-review unit matched to the reviewer unit it most resembles",
-  "question": "Where does the area chair's language in a meta-review come from — near-copy, echo, or their own words — and whose voice gets echoed?",
-  "page_url": "https://atlas-of-judgment.pages.dev/",
-  "figures": [
+ "id": "plate-xxiii",
+ "number": "XXIII",
+ "title": "The Borrowed Verdict",
+ "act": {
+  "number": "VI",
+  "title": "The Higher Court"
+ },
+ "corpus_scope": "ICLR 2018–2026 · 8,439 papers · every meta-review unit matched to the reviewer unit it most resembles",
+ "question": "Where does the area chair's language in a meta-review come from — near-copy, echo, or their own words — and whose voice gets echoed?",
+ "page_url": "https://atlas-of-judgment.pages.dev/",
+ "figures": [
+  {
+   "id": "fig-23a",
+   "title": "What the meta-review is made of",
+   "deck": "73% of meta-review reasoning is the area chair's own words; 0.5% is near-copy. But criticism is borrowed more than praise — at every cutoff.",
+   "dom_host": "#acecho-tiers",
+   "claims": [
     {
-      "id": "fig-23a",
-      "title": "What the meta-review is made of",
-      "deck": "73% of meta-review reasoning is the area chair's own words; 0.5% is near-copy. But criticism is borrowed more than praise — at every cutoff.",
-      "dom_host": "#acecho-tiers",
-      "claims": [
-        {
-          "id": "23a-own-copy",
-          "statement": "73% of meta-review reasoning is the area chair's own words; 0.5% is near-copy.",
-          "value": {
-            "quantity": [0.73, 0.005],
-            "unit": "share_of_meta_review_units",
-            "own": 0.73,
-            "copy": 0.005
-          },
-          "source_island": "acecho-data.json",
-          "source_path": "tiers[]",
-          "derivation": "own = 0.7306 → 73%; copy = 0.0047 → 0.5%, share of meta-review units by cosine-similarity tier to their nearest reviewer unit",
-          "recompute": "scripts/build_acecho_data.py",
-          "dom_ref": "data-echo23a=\"own-copy\"",
-          "verified": "checked against shipped JSON, 2026-08-25",
-          "caveat_refs": []
-        },
-        {
-          "id": "23a-crit-vs-praise",
-          "statement": "Criticism's borrowed edge reaches 6.6 points past praise's, and the gap survives any cutoff (+7.0 / +6.6 / +3.3 at similarity thresholds of 0.70 / 0.75 / 0.80).",
-          "value": {
-            "quantity": [7.0, 6.6, 3.3],
-            "unit": "pp_gap_by_cutoff",
-            "cutoffs": [0.70, 0.75, 0.80]
-          },
-          "source_island": "acecho-data.json",
-          "source_path": "tiers[]",
-          "derivation": "borrowed-mass (copy+echo) share for criticism minus praise meta-units, recomputed at similarity cutoffs 0.70/0.75/0.80; at the 0.75 default, negative meta units echo reviewers at 28.8% against 22.4% for positive ones",
-          "recompute": "scripts/build_acecho_data.py",
-          "dom_ref": "data-echo23a=\"crit-vs-praise\"",
-          "verified": null,
-          "caveat_refs": []
-        }
-      ]
+     "id": "23a-own-copy",
+     "statement": "73% of meta-review reasoning is the area chair's own words; 0.5% is near-copy.",
+     "value": {
+      "quantity": [
+       0.73,
+       0.005
+      ],
+      "unit": "share_of_meta_review_units",
+      "own": 0.73,
+      "copy": 0.005
+     },
+     "source_island": "acecho-data.json",
+     "source_path": "tiers[]",
+     "derivation": "own = 0.7306 → 73%; copy = 0.0047 → 0.5%, share of meta-review units by cosine-similarity tier to their nearest reviewer unit",
+     "recompute": "scripts/build_acecho_data.py",
+     "dom_ref": "data-echo23a=\"own-copy\"",
+     "verified": "checked against shipped JSON, 2026-08-25",
+     "caveat_refs": []
     },
     {
-      "id": "fig-23b",
-      "title": "When the AC borrows, from whom",
-      "deck": "Echoes concentrate on one reviewer (60% from a single voice), and in rejections they lean to the harsher side of the panel, 60/40.",
-      "dom_host": "#acecho-who",
-      "claims": [
-        {
-          "id": "23b-single-voice",
-          "statement": "On papers with three or more echoed units, 60% of echoes come from a single reviewer.",
-          "value": {
-            "quantity": 0.60,
-            "unit": "share_of_echoes_from_one_reviewer"
-          },
-          "source_island": "acecho-data.json",
-          "source_path": "who[]",
-          "derivation": "share of echo-tier meta units on multi-echo papers (≥3 echoed units) attributed to the single most-echoed reviewer",
-          "recompute": "scripts/build_acecho_data.py",
-          "dom_ref": null,
-          "verified": null,
-          "caveat_refs": []
-        },
-        {
-          "id": "23b-low-vs-high",
-          "statement": "The most-echoed reviewer is the panel's uniquely lowest rater in 16% of cases against 13% for the uniquely highest.",
-          "value": {
-            "quantity": [0.16, 0.13],
-            "unit": "share_of_panels",
-            "lowest": 0.16,
-            "highest": 0.13
-          },
-          "source_island": "acecho-data.json",
-          "source_path": "echoed_position[]",
-          "derivation": "ACECHO.echoed_position.lowest and .highest, among the 3,334 panels with full, non-unanimous rating panels; in half of panels the echoed reviewer's rating ties an extreme",
-          "recompute": "scripts/build_acecho_data.py",
-          "dom_ref": "data-echo23b=\"low-vs-high\"",
-          "verified": null,
-          "caveat_refs": ["nearest-neighbor-not-causal"]
-        },
-        {
-          "id": "23b-rejection-lean",
-          "statement": "In rejections, echoes lean to the harsher side of the panel, 60/40; accepts do not (51/49, interval crossing even).",
-          "value": {
-            "quantity": [0.60, 0.51],
-            "unit": "share_toward_harsher_side",
-            "rejections": 0.60,
-            "accepts": 0.51
-          },
-          "source_island": "acecho-data.json",
-          "source_path": "who[]",
-          "derivation": "share of echoes attributed to the harsher-than-mean side of the panel, split by decision, among the 2,220 decided rejections and 752 accepts where the echo-weighted rating differs from the panel mean",
-          "recompute": "scripts/build_acecho_data.py",
-          "dom_ref": null,
-          "verified": null,
-          "caveat_refs": ["nearest-neighbor-not-causal"]
-        }
+     "id": "23a-crit-vs-praise",
+     "statement": "Criticism's borrowed edge reaches 6.6 points past praise's, and the gap survives any cutoff (+7.0 / +6.6 / +3.3 at similarity thresholds of 0.70 / 0.75 / 0.80).",
+     "value": {
+      "quantity": [
+       7.0,
+       6.6,
+       3.3
+      ],
+      "unit": "pp_gap_by_cutoff",
+      "cutoffs": [
+       0.7,
+       0.75,
+       0.8
       ]
+     },
+     "source_island": "acecho-data.json",
+     "source_path": "tiers[]",
+     "derivation": "borrowed-mass (copy+echo) share for criticism minus praise meta-units, recomputed at similarity cutoffs 0.70/0.75/0.80; at the 0.75 default, negative meta units echo reviewers at 28.8% against 22.4% for positive ones",
+     "recompute": "scripts/build_acecho_data.py",
+     "dom_ref": "data-echo23a=\"crit-vs-praise\"",
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": []
     }
-  ],
-  "caveats": [
+   ]
+  },
+  {
+   "id": "fig-23b",
+   "title": "When the AC borrows, from whom",
+   "deck": "Echoes concentrate on one reviewer (60% from a single voice), and in rejections they lean to the harsher side of the panel, 60/40.",
+   "dom_host": "#acecho-who",
+   "claims": [
     {
-      "id": "nearest-neighbor-not-causal",
-      "text": "Nearest-neighbor attribution measures textual proximity, not causal influence: an area chair and a reviewer may both independently echo the paper itself rather than one echoing the other.",
-      "scope": "Fig 23b who-is-echoed and side-of-panel findings",
-      "verified_by": null
+     "id": "23b-single-voice",
+     "statement": "On papers with three or more echoed units, 60% of echoes come from a single reviewer.",
+     "value": {
+      "quantity": 0.6,
+      "unit": "share_of_echoes_from_one_reviewer"
+     },
+     "source_island": "acecho-data.json",
+     "source_path": "top_echo_share_hist[] / side[]",
+     "derivation": "share of echo-tier meta units on multi-echo papers (≥3 echoed units) attributed to the single most-echoed reviewer",
+     "recompute": "scripts/build_acecho_data.py",
+     "dom_ref": null,
+     "verified": "claim recomputed from source island; source_path corrected from who[], 2026-08-26",
+     "caveat_refs": []
+    },
+    {
+     "id": "23b-low-vs-high",
+     "statement": "The most-echoed reviewer is the panel's uniquely lowest rater in 16% of cases against 13% for the uniquely highest.",
+     "value": {
+      "quantity": [
+       0.16,
+       0.13
+      ],
+      "unit": "share_of_panels",
+      "lowest": 0.16,
+      "highest": 0.13
+     },
+     "source_island": "acecho-data.json",
+     "source_path": "echoed_position[]",
+     "derivation": "ACECHO.echoed_position.lowest and .highest, among the 3,334 panels with full, non-unanimous rating panels; in half of panels the echoed reviewer's rating ties an extreme",
+     "recompute": "scripts/build_acecho_data.py",
+     "dom_ref": "data-echo23b=\"low-vs-high\"",
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": [
+      "nearest-neighbor-not-causal"
+     ]
+    },
+    {
+     "id": "23b-rejection-lean",
+     "statement": "In rejections, echoes lean to the harsher side of the panel, 60/40; accepts do not (51/49, interval crossing even).",
+     "value": {
+      "quantity": [
+       0.6,
+       0.51
+      ],
+      "unit": "share_toward_harsher_side",
+      "rejections": 0.6,
+      "accepts": 0.51
+     },
+     "source_island": "acecho-data.json",
+     "source_path": "top_echo_share_hist[] / side[]",
+     "derivation": "share of echoes attributed to the harsher-than-mean side of the panel, split by decision, among the 2,220 decided rejections and 752 accepts where the echo-weighted rating differs from the panel mean",
+     "recompute": "scripts/build_acecho_data.py",
+     "dom_ref": null,
+     "verified": "claim recomputed from source island; source_path corrected from who[], 2026-08-26",
+     "caveat_refs": [
+      "nearest-neighbor-not-causal"
+     ]
     }
-  ],
-  "links": {
-    "recompute_scripts": [
-      "scripts/build_acecho_data.py"
-    ],
-    "data": [
-      "/api/v1/data/acecho-data.json"
-    ],
-    "related_plates": [
-      "plate-xxii"
-    ]
+   ]
   }
+ ],
+ "caveats": [
+  {
+   "id": "nearest-neighbor-not-causal",
+   "text": "Nearest-neighbor attribution measures textual proximity, not causal influence: an area chair and a reviewer may both independently echo the paper itself rather than one echoing the other.",
+   "scope": "Fig 23b who-is-echoed and side-of-panel findings",
+   "verified_by": null
+  }
+ ],
+ "links": {
+  "recompute_scripts": [
+   "scripts/build_acecho_data.py"
+  ],
+  "data": [
+   "/api/v1/data/acecho-data.json"
+  ],
+  "related_plates": [
+   "plate-xxii"
+  ]
+ }
 }

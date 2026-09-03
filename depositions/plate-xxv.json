@@ -28,7 +28,7 @@
           "derivation": "LOTTERY.years[y].icc for y = 2018..2025, min/max range",
           "recompute": "scripts/build_lottery_data.py",
           "dom_ref": "data-icc=\"y-range\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["moving-ruler"]
         },
         {
@@ -71,7 +71,7 @@
           "derivation": "share of real ICLR 2026 panels (three or more rated reviews) accepted, grouped by max−min rating spread, at spread=8 vs. spread=0 (unanimous)",
           "recompute": "scripts/build_lottery_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]
@@ -97,7 +97,7 @@
           "derivation": "each paper's underlying value is estimated from its observed panel mean via the Fig 25a variance decomposition (shrunk toward the venue mean by panel-size reliability); a fresh same-size panel is redrawn and the venue's empirical P(accept | panel mean) makes the call, averaged over 4,000 redraws",
           "recompute": "scripts/build_counterfactual_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["simulation-not-real-committee"]
         },
         {
@@ -113,7 +113,7 @@
           "derivation": "maximum of the flip-probability curve P(different decision | panel mean) over 4,000 redraws",
           "recompute": "scripts/build_counterfactual_data.py",
           "dom_ref": "data-cfx=\"peak\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["simulation-not-real-committee"]
         }
       ]

@@ -54,8 +54,31 @@ OG = {
         "every outbound door on one page."),
     "api": ("Machine Reader — Atlas of Judgment",
         "A static JSON API over the same audited data the plates are built from: "
-        "per-plate depositions, 48 data islands, corrections, llms.txt."),
+        "per-plate depositions, 50 data islands, corrections, llms.txt."),
 }
+
+
+def analytics_block() -> str:
+    """Cloudflare Web Analytics — cookieless, no personal data, no consent banner.
+
+    The site token is public (it ships in the HTML) but it is not in this repo, so
+    the beacon only appears when a token is supplied: put it in
+    scripts/api_assets/cf-analytics-token.txt, or set CF_ANALYTICS_TOKEN. Without
+    one this returns nothing and the pages stay free of third-party requests —
+    which is the correct default for a site that otherwise contacts only Google
+    Fonts. (Flipping the toggle in the Pages dashboard does the same thing
+    server-side; this path exists so that what the pages load is visible in git.)
+    """
+    import os
+
+    token = os.environ.get("CF_ANALYTICS_TOKEN", "").strip()
+    token_file = API_ASSETS / "cf-analytics-token.txt"
+    if not token and token_file.exists():
+        token = token_file.read_text().strip()
+    if not token:
+        return ""
+    return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+            f'data-cf-beacon=\'{{"token": "{token}"}}\'></script>\n')
 
 
 def og_block(out_name: str) -> str:
@@ -190,6 +213,16 @@ def build_api(dist: Path) -> None:
         for f in sorted(DEPOSITIONS.glob("*.json")):
             shutil.copy(f, api / "plates" / f.name)
             dep_ids.append(f.stem)
+
+    # 2b. the repo is the citable, archival copy — keep its depositions and data
+    # in step with what is actually served. These used to be seeded by hand and
+    # drifted: 19 of 33 depositions in git disagreed with the API, and two data
+    # islands were missing entirely.
+    for sub, src_dir in (("depositions", api / "plates"), ("data", api / "data")):
+        dest = REPO / sub
+        dest.mkdir(exist_ok=True)
+        for f in sorted(src_dir.glob("*.json")):
+            shutil.copy(f, dest / f.name)
 
     # 3. index.json
     man = json.loads((V / "manifest.json").read_text())
@@ -346,7 +379,7 @@ def build_api(dist: Path) -> None:
     if all(p["deposition"] for p in index["plates"]):
         # nothing is pending — drop the transcription-status note entirely
         docs = re.sub(r"<p[^>]*>Depositions marked[^<]*<span[^>]*>PENDING</span>[^<]*</p>\n?", "", docs)
-    (dist / "api" / "index.html").write_text(HEAD + og_block("api") + docs)
+    (dist / "api" / "index.html").write_text(HEAD + og_block("api") + analytics_block() + docs)
     print(f"api: {len(islands)} islands, {len(dep_ids)} deposition(s), index + llms.txt + openapi + docs staged")
 
 
@@ -471,7 +504,7 @@ def main() -> None:
         html = re.sub(
             r'(<span style="color:var\(--muted\)"> · </span>)?<a href="https://atlas-of-judgment\.pages\.dev"[^>]*>Live[^<]*</a>',
             "", html)
-        head = HEAD + og_block(out_name)
+        head = HEAD + og_block(out_name) + analytics_block()
         (REPO / out_name).write_text(head + html)
         (dist / out_name).write_text(head + html)
         print(f"{out_name}: {len(html) / 1e6:.2f} MB staged")

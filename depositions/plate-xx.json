@@ -1,167 +1,184 @@
 {
-  "id": "plate-xx",
-  "number": "XX",
-  "title": "The Panel",
-  "act": {
-    "number": "V",
-    "title": "The Encounter"
+ "id": "plate-xx",
+ "number": "XX",
+ "title": "The Panel",
+ "act": {
+  "number": "V",
+  "title": "The Encounter"
+ },
+ "corpus_scope": "ICLR 2018–2026 · 1,009,592 units",
+ "question": "Where do co-reviewers of the same paper take opposite stances, how does the meta-reviewer's tone differ from the panel it summarizes, which way does the final decision err when it departs from the panel's lean, and how much ground does a panel actually cover?",
+ "page_url": "https://atlas-of-judgment.pages.dev/",
+ "figures": [
+  {
+   "id": "fig-20a",
+   "title": "Contested ground: share of papers where reviewers took opposite stances",
+   "deck": "Panels split most over whether the question matters at all.",
+   "dom_host": "#dissent",
+   "claims": [
+    {
+     "id": "20a-extremes",
+     "statement": "Reviewers split most on problem framing (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks.",
+     "value": {
+      "quantity": [
+       0.386,
+       0.163
+      ],
+      "unit": "share_of_papers_with_opposite_stances",
+      "problem_framing": 0.386,
+      "robustness_sensitivity": 0.163
+     },
+     "source_island": "panel-data.json",
+     "source_path": "dissent_by_object[]",
+     "derivation": "share of papers with ≥2 official reviewers touching the object where they landed on opposite valence stances, ranked across the 12 objects (a paper counts only when at least two reviewers touched the object)",
+     "recompute": "scripts/build_panel_data.py",
+     "dom_ref": "data-dissent=\"extremes\"",
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": []
+    },
+    {
+     "id": "20a-meta-kinder",
+     "statement": "Across nine years of units, meta-reviewers run 13.7pp less negative and 10.5pp more positive than the panels they summarize — the judge is kinder than the prosecution.",
+     "value": {
+      "quantity": [
+       -0.137,
+       0.105
+      ],
+      "unit": "pp_difference_meta_vs_panel"
+     },
+     "source_island": "panel-data.json",
+     "source_path": "meta[]",
+     "derivation": "meta-reviewer unit valence mix minus official-reviewer unit valence mix, across nine years of units (PANEL.meta vs. reviewer valence shares)",
+     "recompute": "scripts/build_panel_data.py",
+     "dom_ref": null,
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": [
+      "meta-review-genre"
+     ]
+    }
+   ]
   },
-  "corpus_scope": "ICLR 2018–2026 · 1,009,592 units",
-  "question": "Where do co-reviewers of the same paper take opposite stances, how does the meta-reviewer's tone differ from the panel it summarizes, which way does the final decision err when it departs from the panel's lean, and how much ground does a panel actually cover?",
-  "page_url": "https://atlas-of-judgment.pages.dev/",
-  "figures": [
+  {
+   "id": "fig-20b",
+   "title": "The bench: when the decision disagrees with the panel's lean",
+   "deck": "When the decision departs from its panel, it departs toward mercy: 919 papers lifted from below the line against 338 dropped from above it — 2.7×.",
+   "dom_host": "#bench-curve",
+   "claims": [
     {
-      "id": "fig-20a",
-      "title": "Contested ground: share of papers where reviewers took opposite stances",
-      "deck": "Panels split most over whether the question matters at all.",
-      "dom_host": "#dissent",
-      "claims": [
-        {
-          "id": "20a-extremes",
-          "statement": "Reviewers split most on problem framing (38.6%) — whether the question matters — and least on robustness (16.3%), where the evidence speaks.",
-          "value": {
-            "quantity": [0.386, 0.163],
-            "unit": "share_of_papers_with_opposite_stances",
-            "problem_framing": 0.386,
-            "robustness_sensitivity": 0.163
-          },
-          "source_island": "panel-data.json",
-          "source_path": "dissent_by_object[]",
-          "derivation": "share of papers with ≥2 official reviewers touching the object where they landed on opposite valence stances, ranked across the 12 objects (a paper counts only when at least two reviewers touched the object)",
-          "recompute": "scripts/build_panel_data.py",
-          "dom_ref": "data-dissent=\"extremes\"",
-          "verified": null,
-          "caveat_refs": []
-        },
-        {
-          "id": "20a-meta-kinder",
-          "statement": "Across nine years of units, meta-reviewers run 13.7pp less negative and 10.5pp more positive than the panels they summarize — the judge is kinder than the prosecution.",
-          "value": {
-            "quantity": [-0.137, 0.105],
-            "unit": "pp_difference_meta_vs_panel"
-          },
-          "source_island": "panel-data.json",
-          "source_path": "meta[]",
-          "derivation": "meta-reviewer unit valence mix minus official-reviewer unit valence mix, across nine years of units (PANEL.meta vs. reviewer valence shares)",
-          "recompute": "scripts/build_panel_data.py",
-          "dom_ref": null,
-          "verified": null,
-          "caveat_refs": ["meta-review-genre"]
-        }
-      ]
-    },
-    {
-      "id": "fig-20b",
-      "title": "The bench: when the decision disagrees with the panel's lean",
-      "deck": "When the decision departs from its panel, it departs toward mercy: 919 papers lifted from below the line against 338 dropped from above it — 2.7×.",
-      "dom_host": "#bench-curve",
-      "claims": [
-        {
-          "id": "20b-overrule-lift",
-          "statement": "919 papers were lifted from below the accept line and 338 dropped from above it — when the decision departs from its panel, it does so toward acceptance about 2.7 times as often.",
-          "value": {
-            "quantity": 2.7,
-            "unit": "ratio_lifted_to_dropped",
-            "n_lifted": 919,
-            "n_dropped": 338
-          },
-          "source_island": "overrule-data.json",
-          "source_path": "overruled_papers[]",
-          "derivation": "919 papers accepted despite a below-line panel mean ÷ 338 rejected despite an above-line mean = 2.72, rounds to 2.7×",
-          "recompute": "scripts/build_overrule_data.py",
-          "dom_ref": "data-wings=\"both\"",
-          "verified": "checked against shipped JSON, 2026-08-25",
-          "caveat_refs": ["inferred-accept-line"]
-        }
-      ]
-    },
-    {
-      "id": "fig-20c",
-      "title": "The search party: what a panel covers, duplicates, and never sees",
-      "deck": "The panel duplicates some searches and leaves a third of the ground unwalked.",
-      "dom_host": "#party",
-      "claims": [
-        {
-          "id": "20c-coverage-avg",
-          "statement": "The average panel covers 7.95 of the twelve objects, agrees on examining only 0.83 of them, and leaves 4.05 entirely unvisited.",
-          "value": {
-            "quantity": [7.95, 0.83, 4.05],
-            "unit": "objects_count",
-            "covered_avg": 7.95,
-            "agreed_avg": 0.83,
-            "unvisited_avg": 4.05
-          },
-          "source_island": "searchparty-data.json",
-          "source_path": "by_object[]",
-          "derivation": "mean count, across the 18,074 rated 2026 panels of three or four, of the 12 objects examined by ≥1 reviewer, by ≥3 reviewers (agreement), and by 0 reviewers",
-          "recompute": "scripts/build_searchparty_data.py",
-          "dom_ref": null,
-          "verified": null,
-          "caveat_refs": []
-        },
-        {
-          "id": "20c-scope-vs-repro",
-          "statement": "Over half of panels put three or more reviewers on empirical scope while two-thirds leave reproducibility unexamined.",
-          "value": {
-            "quantity": [0.5, 0.667],
-            "unit": "share_of_panels",
-            "empirical_scope_triple_covered_over": 0.5,
-            "reproducibility_unexamined_approx": 0.667
-          },
-          "source_island": "searchparty-data.json",
-          "source_path": "by_object[]",
-          "derivation": "share of panels with ≥3 reviewers examining empirical_scope (>50%) vs. share of panels with 0 reviewers examining reproducibility (~66.7%)",
-          "recompute": "scripts/build_searchparty_data.py",
-          "dom_ref": "data-party=\"scope-vs-repro\"",
-          "verified": null,
-          "caveat_refs": []
-        },
-        {
-          "id": "20c-novelty-unseen",
-          "statement": "Novelty, the costliest charge on the tariff (Plate XIV), goes unexamined by every reviewer in 56% of panels.",
-          "value": {
-            "quantity": 0.56,
-            "unit": "share_of_panels_unexamined",
-            "object": "novelty"
-          },
-          "source_island": "searchparty-data.json",
-          "source_path": "by_object[]",
-          "derivation": "share of panels where zero reviewers examined novelty at all",
-          "recompute": "scripts/build_searchparty_data.py",
-          "dom_ref": "data-party=\"novelty-unseen\"",
-          "verified": null,
-          "caveat_refs": []
-        }
-      ]
+     "id": "20b-overrule-lift",
+     "statement": "919 papers were lifted from below the accept line and 338 dropped from above it — when the decision departs from its panel, it does so toward acceptance about 2.7 times as often.",
+     "value": {
+      "quantity": 2.7,
+      "unit": "ratio_lifted_to_dropped",
+      "n_lifted": 919,
+      "n_dropped": 338
+     },
+     "source_island": "overrule-data.json",
+     "source_path": "overruled_papers[]",
+     "derivation": "919 papers accepted despite a below-line panel mean ÷ 338 rejected despite an above-line mean = 2.72, rounds to 2.7×",
+     "recompute": "scripts/build_overrule_data.py",
+     "dom_ref": "data-wings=\"both\"",
+     "verified": "checked against shipped JSON, 2026-08-25",
+     "caveat_refs": [
+      "inferred-accept-line"
+     ]
     }
-  ],
-  "caveats": [
+   ]
+  },
+  {
+   "id": "fig-20c",
+   "title": "The search party: what a panel covers, duplicates, and never sees",
+   "deck": "The panel duplicates some searches and leaves a third of the ground unwalked.",
+   "dom_host": "#party",
+   "claims": [
     {
-      "id": "meta-review-genre",
-      "text": "Part of the meta-reviewer's milder tone is genre: a meta-review summarizes and justifies a decision rather than inspecting a paper, so its milder valence mix is not by itself proof of a milder mind.",
-      "scope": "Fig 20a rail (meta-reviewer vs. panel valence gap)",
-      "verified_by": null
+     "id": "20c-coverage-avg",
+     "statement": "The average panel covers 7.95 of the twelve objects, agrees on examining only 0.83 of them, and leaves 4.05 entirely unvisited.",
+     "value": {
+      "quantity": [
+       7.95,
+       0.83,
+       4.05
+      ],
+      "unit": "objects_count",
+      "covered_avg": 7.95,
+      "agreed_avg": 0.83,
+      "unvisited_avg": 4.05
+     },
+     "source_island": "searchparty-data.json",
+     "source_path": "by_object[]",
+     "derivation": "mean count, across the 18,074 rated 2026 panels of three or four, of the 12 objects examined by ≥1 reviewer, by ≥3 reviewers (agreement), and by 0 reviewers",
+     "recompute": "scripts/build_searchparty_data.py",
+     "dom_ref": null,
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": []
     },
     {
-      "id": "inferred-accept-line",
-      "text": "The accept line is inferred from the outcomes, not published by the venue, so a paper counted as overruled may simply have been decided on information the mean does not carry — a chair's reading of the discussion, a policy on scope, a reviewer discounted. The half-point overrule margin is also a choice: recomputed at margins of 0.25, 0.75, and a full point, the ratio runs 2.4×, 3.9×, 3.9× — the direction survives any reasonable margin.",
-      "scope": "Fig 20b overrule ratio",
-      "verified_by": null
+     "id": "20c-scope-vs-repro",
+     "statement": "Over half of panels put three or more reviewers on empirical scope while two-thirds leave reproducibility unexamined.",
+     "value": {
+      "quantity": [
+       0.5579,
+       0.6749
+      ],
+      "unit": "share_of_panels",
+      "empirical_scope_triple_covered_over": 0.5579,
+      "reproducibility_unexamined_approx": 0.6749
+     },
+     "source_island": "searchparty-data.json",
+     "source_path": "by_object[]",
+     "derivation": "share of panels with ≥3 reviewers examining empirical_scope (by_object.empirical_scope[3] = 55.79%) vs. share of panels with 0 reviewers examining reproducibility (by_object.reproducibility[0] = 67.49%). The deposition previously recorded 50% and ~66.7%; corrected to the shipped values 2026-08-26. The page's prose reads these as “over half” and “two-thirds”, which both remain true.",
+     "recompute": "scripts/build_searchparty_data.py",
+     "dom_ref": "data-party=\"scope-vs-repro\"",
+     "verified": "claim recomputed from source island; value corrected, 2026-08-26",
+     "caveat_refs": []
+    },
+    {
+     "id": "20c-novelty-unseen",
+     "statement": "Novelty, the costliest charge on the tariff (Plate XIV), goes unexamined by every reviewer in 56% of panels.",
+     "value": {
+      "quantity": 0.56,
+      "unit": "share_of_panels_unexamined",
+      "object": "novelty"
+     },
+     "source_island": "searchparty-data.json",
+     "source_path": "by_object[]",
+     "derivation": "share of panels where zero reviewers examined novelty at all",
+     "recompute": "scripts/build_searchparty_data.py",
+     "dom_ref": "data-party=\"novelty-unseen\"",
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": []
     }
-  ],
-  "links": {
-    "recompute_scripts": [
-      "scripts/build_overrule_data.py",
-      "scripts/build_panel_data.py",
-      "scripts/build_searchparty_data.py"
-    ],
-    "data": [
-      "/api/v1/data/overrule-data.json",
-      "/api/v1/data/panel-data.json",
-      "/api/v1/data/searchparty-data.json"
-    ],
-    "related_plates": [
-      "plate-xiv"
-    ]
+   ]
   }
+ ],
+ "caveats": [
+  {
+   "id": "meta-review-genre",
+   "text": "Part of the meta-reviewer's milder tone is genre: a meta-review summarizes and justifies a decision rather than inspecting a paper, so its milder valence mix is not by itself proof of a milder mind.",
+   "scope": "Fig 20a rail (meta-reviewer vs. panel valence gap)",
+   "verified_by": null
+  },
+  {
+   "id": "inferred-accept-line",
+   "text": "The accept line is inferred from the outcomes, not published by the venue, so a paper counted as overruled may simply have been decided on information the mean does not carry — a chair's reading of the discussion, a policy on scope, a reviewer discounted. The half-point overrule margin is also a choice: recomputed at margins of 0.25, 0.75, and a full point, the ratio runs 2.4×, 3.9×, 3.9× — the direction survives any reasonable margin.",
+   "scope": "Fig 20b overrule ratio",
+   "verified_by": null
+  }
+ ],
+ "links": {
+  "recompute_scripts": [
+   "scripts/build_overrule_data.py",
+   "scripts/build_panel_data.py",
+   "scripts/build_searchparty_data.py"
+  ],
+  "data": [
+   "/api/v1/data/overrule-data.json",
+   "/api/v1/data/panel-data.json",
+   "/api/v1/data/searchparty-data.json"
+  ],
+  "related_plates": [
+   "plate-xiv"
+  ]
+ }
 }

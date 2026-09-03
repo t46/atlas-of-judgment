@@ -47,7 +47,7 @@
           "derivation": "COURT.grammars.reviewer.objects[o].share vs. COURT.grammars.ac.objects[o].share, for o in {stats_metrics, related_work, novelty}, across 952,856 official-reviewer units and 56,736 meta-reviewer units",
           "recompute": "scripts/build_court_data.py",
           "dom_ref": "data-court22a=\"rising\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         },
         {
@@ -63,7 +63,7 @@
           "derivation": "COURT.grammars.ac.objects[o].share ÷ COURT.grammars.reviewer.objects[o].share < 0.5 for o in {empirical_scope, theory, method_design}",
           "recompute": "scripts/build_court_data.py",
           "dom_ref": "data-court22a=\"falling\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]
@@ -87,7 +87,7 @@
           "derivation": "COURT.forgive.clarity.adj_delta, matched inside 0.25-point mean-rating bins among the 6,547 borderline 2026 panels, 95% interval from resampling whole papers excludes zero",
           "recompute": "scripts/build_court_data.py",
           "dom_ref": "data-court22b=\"clarity-clear\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["borderline-margin-association"]
         },
         {
@@ -103,7 +103,7 @@
           "derivation": "sign of COURT.forgive[o].adj_delta is negative for o in {problem_framing, novelty}",
           "recompute": "scripts/build_court_data.py",
           "dom_ref": "data-court22b=\"identity-lean\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["borderline-margin-association"]
         },
         {
@@ -119,7 +119,7 @@
           "derivation": "COURT.forgive[o].adj_delta most positive (paper still lifted despite the charge) for o in {robustness_sensitivity, related_work}",
           "recompute": "scripts/build_court_data.py",
           "dom_ref": "data-court22b=\"overlooked\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["borderline-margin-association"]
         }
       ]
@@ -144,7 +144,7 @@
           "derivation": "COURT.redemption praise-share of meta-review units on lifted vs. rejected borderline papers",
           "recompute": "scripts/build_court_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["justification-not-evidence"]
         }
       ]

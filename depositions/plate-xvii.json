@@ -29,7 +29,7 @@
           "derivation": "strengthened (14,194) ÷ (weakened + reversed = 4,636 + 1,371 = 6,007) = 2.36 ≈ 2.4×, among all 130,650 post-response units",
           "recompute": "scripts/build_panel_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "written-judgment-only"
           ]
@@ -54,7 +54,7 @@
           "derivation": "triggers.new_evidence: strengthened (2,626) ÷ (weakened + reversed = 633 + 287 = 920) = 2.85 ≈ 2.9×",
           "recompute": "scripts/build_panel_data.py",
           "dom_ref": "data-trig17=\"new-evidence\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "written-judgment-only"
           ]
@@ -74,7 +74,7 @@
           "derivation": "softened / n per object category, range across the twelve objects",
           "recompute": "scripts/build_panel_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "written-judgment-only"
           ]

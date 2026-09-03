@@ -43,7 +43,7 @@
           "derivation": "share of the 551,595 objections whose own reviewer never mentions the object again after the author response",
           "recompute": "scripts/build_lifecycle_data.py",
           "dom_ref": "data-fate19=\"silence\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["written-judgment-only-19"]
         },
         {
@@ -59,7 +59,7 @@
           "derivation": "per-object harden_given_revisit ÷ soften_given_revisit ratio, ranked across the 12 objects; overall ratio computed from LIFECYCLE totals",
           "recompute": "scripts/build_lifecycle_data.py",
           "dom_ref": "data-fate19=\"harden-range\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         },
         {
@@ -76,7 +76,7 @@
           "derivation": "LIFECYCLE.objects.related_work.revisit_rate (max across 12 objects) and LIFECYCLE.objects.novelty harden-given-revisit share (min across 12)",
           "recompute": "scripts/build_lifecycle_data.py",
           "dom_ref": "data-fate19=\"revisit-extremes\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]
@@ -101,7 +101,7 @@
           "derivation": "share of 2026 objections revisited after the response, split by whether the objection was phrased as a question ([questions] field, 13,568) or asserted ([weaknesses] field, 85,343)",
           "recompute": "scripts/build_interrogative_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         },
         {
@@ -118,7 +118,7 @@
           "derivation": "ov.both[key] for key='revisit' and key='harden', among the 5,151 objections raised in both the weaknesses and questions fields",
           "recompute": "scripts/build_interrogative_data.py",
           "dom_ref": "data-intq=\"both-fields\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]

@@ -28,7 +28,7 @@
           "derivation": "sum of n across all 21 primary-area islands",
           "recompute": "scripts/build_archipelago_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["association-not-destiny"]
         },
         {
@@ -61,7 +61,7 @@
           "derivation": "multidimensional-scaling placement (x,y) of the learning-theory island, driven by its dev[] vector relative to the other 20 islands",
           "recompute": "scripts/build_archipelago_data.py",
           "dom_ref": "data-archi=\"learning-theory\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["association-not-destiny"]
         },
         {
@@ -78,7 +78,7 @@
           "derivation": "lowest dev[theory] value across all 21 islands, combined with its (x,y) MDS placement",
           "recompute": "scripts/build_archipelago_data.py",
           "dom_ref": "data-archi=\"datasets\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["association-not-destiny"]
         }
       ]

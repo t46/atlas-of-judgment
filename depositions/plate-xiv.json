@@ -46,7 +46,7 @@
           "derivation": "within-paper regression coefficients for problem_framing, related_work, baselines_ablations",
           "recompute": "scripts/build_jurisprudence_data.py",
           "dom_ref": "data-tariff=\"next-prices\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "association-not-causation"
           ]
@@ -72,7 +72,7 @@
           "derivation": "with_improvement / n for novelty (5,977 / 9,409 = 63.5%, ≈64%), against 82–92% for the other eleven objects, joined against Fig. 14a's tariff coefficient",
           "recompute": "scripts/build_unit_viz_data.py",
           "dom_ref": "data-pricerep=\"novelty-corner\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]
@@ -99,7 +99,7 @@
           "derivation": "same-standard pair disagreement rate = 1 − law.dominant.same.agree = 20.5%; different-standard = 1 − law.dominant.diff.agree = 30.1%; difference = +9.7 points",
           "recompute": "scripts/build_jurisprudence_data.py",
           "dom_ref": "data-lawrow=\"same-standard\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "standard-part-of-judgment"
           ]
@@ -119,7 +119,7 @@
           "derivation": "law.by_object[o].same.n for reproducibility (776) and related_work (1,335), both under the plate's 1,500 read-loosely threshold",
           "recompute": "scripts/build_jurisprudence_data.py",
           "dom_ref": "data-lawrow=\"thin-rows\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]
@@ -145,7 +145,7 @@
           "derivation": "dockets.problem_framing and dockets.clarity, the evidence_imported entry's .adj field (mean within-paper score deficit in σ, volume-regressed out)",
           "recompute": "scripts/build_lawtariff_data.py",
           "dom_ref": "data-lawfig=\"hero-dockets\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "association-not-causation",
             "era-scale"
@@ -175,7 +175,7 @@
           "derivation": "dockets.novelty entries' .adj field: combination −0.4362, increment −0.4558, against the borrowed claims (\"evidence rule (imported)\") entry at −0.1926",
           "recompute": "scripts/build_lawtariff_data.py",
           "dom_ref": "data-lawnov=\"brass-vs-borrowed\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "association-not-causation"
           ]

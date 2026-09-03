@@ -1,119 +1,137 @@
 {
-  "id": "plate-xviii",
-  "number": "XVIII",
-  "title": "The Moves",
-  "act": {
-    "number": "V",
-    "title": "The Encounter"
+ "id": "plate-xviii",
+ "number": "XVIII",
+ "title": "The Moves",
+ "act": {
+  "number": "V",
+  "title": "The Encounter"
+ },
+ "corpus_scope": "ICLR 2018–2026 · 67,290 author–reviewer exchanges with observable outcomes",
+ "question": "What do authors do in their replies, and which of it actually moves a reviewer's judgment?",
+ "page_url": "https://atlas-of-judgment.pages.dev/",
+ "figures": [
+  {
+   "id": "fig-18a",
+   "title": "The currency is effort",
+   "deck": "Softening doubles across reply-length deciles, 4.6% → 9.6% — no single move tracks softening as strongly as sheer volume of engagement.",
+   "dom_host": "#moves-effort",
+   "claims": [
+    {
+     "id": "18a-deciles",
+     "statement": "Softening doubles across reply-length deciles, 4.6% → 9.6%.",
+     "value": {
+      "quantity": [
+       0.046,
+       0.096
+      ],
+      "unit": "share_softened_by_decile"
+     },
+     "source_island": "moves-data.json",
+     "source_path": "effort[]",
+     "derivation": "softening share of exchanges in the first vs. last decile of author reply length (median words), MOVES.effort array",
+     "recompute": "scripts/build_moves_markers.py",
+     "dom_ref": "data-moves18a=\"deciles\"",
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": [
+      "association-not-causation-moves"
+     ]
+    }
+   ]
   },
-  "corpus_scope": "ICLR 2018–2026 · 67,290 author–reviewer exchanges with observable outcomes",
-  "question": "What do authors do in their replies, and which of it actually moves a reviewer's judgment?",
-  "page_url": "https://atlas-of-judgment.pages.dev/",
-  "figures": [
+  {
+   "id": "fig-18b",
+   "title": "The seven moves, effort held fixed",
+   "deck": "One move survives the length control: the contest. \"We respectfully disagree\" keeps a +1.4 to +2.8pp softening premium in every reply-length stratum; every other move's premium touches or crosses zero.",
+   "dom_host": "#moves-marks",
+   "claims": [
     {
-      "id": "fig-18a",
-      "title": "The currency is effort",
-      "deck": "Softening doubles across reply-length deciles, 4.6% → 9.6% — no single move tracks softening as strongly as sheer volume of engagement.",
-      "dom_host": "#moves-effort",
-      "claims": [
-        {
-          "id": "18a-deciles",
-          "statement": "Softening doubles across reply-length deciles, 4.6% → 9.6%.",
-          "value": {
-            "quantity": [0.046, 0.096],
-            "unit": "share_softened_by_decile"
-          },
-          "source_island": "moves-data.json",
-          "source_path": "effort[]",
-          "derivation": "softening share of exchanges in the first vs. last decile of author reply length (median words), MOVES.effort array",
-          "recompute": "scripts/build_moves_markers.py",
-          "dom_ref": "data-moves18a=\"deciles\"",
-          "verified": null,
-          "caveat_refs": ["association-not-causation-moves"]
-        }
-      ]
+     "id": "18b-soft-base",
+     "statement": "Only 6% of the 67,290 author-reply/reviewer-response exchanges show the reviewer softening — that is the baseline every move has to beat.",
+     "value": {
+      "quantity": 0.0597,
+      "unit": "share_of_exchanges",
+      "n": 67290
+     },
+     "source_island": "moves-data.json",
+     "source_path": "exchange_pairs[]",
+     "derivation": "soft_base = 0.0597 = 5.97% ≈ 6% of the 67,290 author-reply/reviewer-response exchange pairs where the reviewer's post-response judgment softened or reversed",
+     "recompute": "scripts/build_moves_markers.py",
+     "dom_ref": null,
+     "verified": "checked against shipped JSON, 2026-08-25",
+     "caveat_refs": [
+      "written-judgment-only"
+     ]
     },
     {
-      "id": "fig-18b",
-      "title": "The seven moves, effort held fixed",
-      "deck": "One move survives the length control: the contest. \"We respectfully disagree\" keeps a +1.4 to +2.8pp softening premium in every reply-length stratum; every other move's premium touches or crosses zero.",
-      "dom_host": "#moves-marks",
-      "claims": [
-        {
-          "id": "18b-soft-base",
-          "statement": "Only 6% of the 67,290 author-reply/reviewer-response exchanges show the reviewer softening — that is the baseline every move has to beat.",
-          "value": {
-            "quantity": 0.0597,
-            "unit": "share_of_exchanges",
-            "n": 67290
-          },
-          "source_island": "moves-data.json",
-          "source_path": "exchange_pairs[]",
-          "derivation": "soft_base = 0.0597 = 5.97% ≈ 6% of the 67,290 author-reply/reviewer-response exchange pairs where the reviewer's post-response judgment softened or reversed",
-          "recompute": "scripts/build_moves_markers.py",
-          "dom_ref": null,
-          "verified": "checked against shipped JSON, 2026-08-25",
-          "caveat_refs": ["written-judgment-only"]
-        },
-        {
-          "id": "18b-contest",
-          "statement": "One move survives the length control: the contest keeps a +1.4 to +2.8pp softening premium in every reply-length stratum; every other move's premium touches or crosses zero.",
-          "value": {
-            "quantity": [0.014, 0.028],
-            "unit": "pp_softening_premium",
-            "move": "disagree"
-          },
-          "source_island": "moves-data.json",
-          "source_path": "moves[]",
-          "derivation": "softening-rate premium of the 'disagree' (contest) move computed inside reply-length quartiles, MOVES.moves[key='disagree']; detected in 5% of exchanges",
-          "recompute": "scripts/build_moves_markers.py",
-          "dom_ref": "data-moves18b=\"contest\"",
-          "verified": null,
-          "caveat_refs": ["association-not-causation-moves"]
-        },
-        {
-          "id": "18b-delivered",
-          "statement": "The delivered experiment — the move authors invest most in — is the flattest of all: within ±0.7pp of the line, negative in three of four strata, the only move whose average premium sits below zero.",
-          "value": {
-            "quantity": [-0.007, 0.007],
-            "unit": "pp_softening_premium_range",
-            "move": "delivered_experiment"
-          },
-          "source_island": "moves-data.json",
-          "source_path": "moves[]",
-          "derivation": "softening-rate premium of the delivered-experiment move across reply-length quartiles, MOVES.moves[key='experiment']",
-          "recompute": "scripts/build_moves_markers.py",
-          "dom_ref": "data-moves18b=\"delivered\"",
-          "verified": null,
-          "caveat_refs": ["written-judgment-only"]
-        }
-      ]
-    }
-  ],
-  "caveats": [
-    {
-      "id": "association-not-causation-moves",
-      "text": "Authors choose which move to make — a contest is deployed when the author already holds a strong hand — so a move's association with softening is not proof the move itself changes minds; a reviewer already inclined to reconsider may also be the one who draws a longer, more contested reply.",
-      "scope": "Fig 18a and Fig 18b move-effect estimates",
-      "verified_by": null
+     "id": "18b-contest",
+     "statement": "One move survives the length control: the contest keeps a +1.4 to +2.8pp softening premium in every reply-length stratum; every other move's premium touches or crosses zero.",
+     "value": {
+      "quantity": [
+       0.014,
+       0.028
+      ],
+      "unit": "pp_softening_premium",
+      "move": "disagree"
+     },
+     "source_island": "moves-data.json",
+     "source_path": "moves[]",
+     "derivation": "softening-rate premium of the 'disagree' (contest) move computed inside reply-length quartiles, MOVES.moves[key='disagree']; detected in 5% of exchanges",
+     "recompute": "scripts/build_moves_markers.py",
+     "dom_ref": "data-moves18b=\"contest\"",
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": [
+      "association-not-causation-moves"
+     ]
     },
     {
-      "id": "written-judgment-only",
-      "text": "The outcome measure is conservative: it counts only judgment changes the reviewer put in writing. A reviewer who quietly raises a score without re-engaging the argument is invisible to this plate; the corpus keeps no rating history.",
-      "scope": "the 67,290-exchange softening baseline and the delivered-experiment finding",
-      "verified_by": null
+     "id": "18b-delivered",
+     "statement": "The delivered experiment — the move authors invest most in — is the flattest of all: within ±0.7pp of the line, negative in three of four strata, and the most negative average premium of the seven moves (−0.27pp; the ritual thanks −0.03pp and the plain revision −0.11pp also average below zero).",
+     "value": {
+      "quantity": -0.00265,
+      "unit": "mean_pp_premium_over_quartiles",
+      "rank_of_seven": 1,
+      "others_below_zero": {
+       "gratitude": -0.0003,
+       "revision": -0.0011
+      }
+     },
+     "source_island": "moves-data.json",
+     "source_path": "moves[]",
+     "derivation": "mean of moves[key].delta_by_quartile_all over the four effort quartiles, for each of the seven moves; new_evidence is the minimum. An earlier wording claimed it was the ONLY move below zero; gratitude and revision are also below zero, and the claim was corrected 2026-08-26.",
+     "recompute": "scripts/build_moves_markers.py",
+     "dom_ref": "data-moves18b=\"delivered\"",
+     "verified": "claim recomputed from source island; superlative corrected, 2026-08-26",
+     "caveat_refs": [
+      "written-judgment-only"
+     ]
     }
-  ],
-  "links": {
-    "recompute_scripts": [
-      "scripts/build_moves_markers.py"
-    ],
-    "data": [
-      "/api/v1/data/moves-data.json"
-    ],
-    "related_plates": [
-      "plate-xvi",
-      "plate-xvii"
-    ]
+   ]
   }
+ ],
+ "caveats": [
+  {
+   "id": "association-not-causation-moves",
+   "text": "Authors choose which move to make — a contest is deployed when the author already holds a strong hand — so a move's association with softening is not proof the move itself changes minds; a reviewer already inclined to reconsider may also be the one who draws a longer, more contested reply.",
+   "scope": "Fig 18a and Fig 18b move-effect estimates",
+   "verified_by": null
+  },
+  {
+   "id": "written-judgment-only",
+   "text": "The outcome measure is conservative: it counts only judgment changes the reviewer put in writing. A reviewer who quietly raises a score without re-engaging the argument is invisible to this plate; the corpus keeps no rating history.",
+   "scope": "the 67,290-exchange softening baseline and the delivered-experiment finding",
+   "verified_by": null
+  }
+ ],
+ "links": {
+  "recompute_scripts": [
+   "scripts/build_moves_markers.py"
+  ],
+  "data": [
+   "/api/v1/data/moves-data.json"
+  ],
+  "related_plates": [
+   "plate-xvi",
+   "plate-xvii"
+  ]
+ }
 }

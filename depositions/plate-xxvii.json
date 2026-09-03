@@ -45,7 +45,7 @@
           "derivation": "dist_to_2026[year] − control.heldout_2026, for 2018–2020, averaging about +0.006, against dist_se giving a two-to-three-SE gap",
           "recompute": "scripts/build_timeless_data.py",
           "dom_ref": "data-tml27a=\"early-years\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["size-not-undetectability", "sentence-embedding-limit"]
         },
         {
@@ -60,7 +60,7 @@
           "derivation": "max over all nine years of dist_to_2026[year] − control.heldout_2026",
           "recompute": "scripts/build_timeless_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["size-not-undetectability"]
         }
       ]
@@ -84,7 +84,7 @@
           "derivation": "mix_by_year[\"2018\"].diff = 0.50 to mix_by_year[\"2026\"].diff = 0.381, ≈38%; mix_by_year[\"2018\"].combination = 0.2987 to mix_by_year[\"2026\"].combination = 0.3428 absorbs most of the drop",
           "recompute": "scripts/build_timeless_data.py",
           "dom_ref": "data-tml27b=\"diff-combo\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         },
         {
@@ -100,7 +100,7 @@
           "derivation": "min/max across all nine years of mix_by_year[year].diff, .combination, .transfer",
           "recompute": "scripts/build_timeless_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["transfer-clause-uncertain"]
         }
       ]

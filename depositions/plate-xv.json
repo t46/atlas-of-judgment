@@ -1,86 +1,162 @@
 {
-  "id": "plate-xv",
-  "number": "XV",
-  "title": "The Consequence",
-  "act": {
-    "number": "IV",
-    "title": "The Tariff"
+ "id": "plate-xv",
+ "number": "XV",
+ "title": "The Consequence",
+ "act": {
+  "number": "IV",
+  "title": "The Tariff"
+ },
+ "corpus_scope": "ICLR 2026 · decisions joined at display time",
+ "question": "Which criticism travels with rejection, and does the breadth of criticism a paper draws predict its acceptance?",
+ "page_url": "https://atlas-of-judgment.pages.dev/",
+ "figures": [
+  {
+   "id": "fig-15a",
+   "title": "Acceptance rate with vs. without negative units, per object",
+   "deck": "Novelty criticism travels with rejection — a 10.6-point lower acceptance rate; compute-cost and robustness criticism travel with nothing.",
+   "dom_host": "#tribunal",
+   "claims": [
+    {
+     "id": "15a-novelty-gap",
+     "statement": "Novelty shows the largest acceptance gap, −10.6 points (95% CI −12.1 to −9.0), with statistical rigour (−9.5) and baseline complaints (−9.3) behind it.",
+     "value": {
+      "quantity": [
+       -10.6,
+       -9.5,
+       -9.3
+      ],
+      "unit": "acceptance_rate_points"
+     },
+     "source_island": "tribunal-ci.json",
+     "source_path": "novelty",
+     "derivation": "novelty.gap × 100 = −10.6 points (accept-rate of papers with a novelty negative unit minus papers without one); stats_metrics.gap × 100 = −9.5; baselines_ablations.gap × 100 = −9.3",
+     "recompute": "scripts/build_panel_data.py",
+     "dom_ref": "data-trib=\"widest-none\"",
+     "verified": "checked against shipped JSON, 2026-08-25",
+     "caveat_refs": [
+      "between-paper-association"
+     ]
+    },
+    {
+     "id": "15a-no-gap-objects",
+     "statement": "Compute cost (CI −1.7 to +1.4) and robustness (−0.9 to +2.4) show no gap at all — papers criticised on those grounds are accepted at the same rate as papers that are not.",
+     "value": {
+      "quantity": [
+       -1.71,
+       1.39,
+       -0.92,
+       2.43
+      ],
+      "unit": "acceptance_rate_ci_points"
+     },
+     "source_island": "tribunal-ci.json",
+     "source_path": "compute_cost, robustness_sensitivity",
+     "derivation": "compute_cost and robustness_sensitivity's 95% confidence intervals (.lo/.hi × 100) both cross zero",
+     "recompute": "scripts/build_panel_data.py",
+     "dom_ref": "data-trib=\"widest-none\"",
+     "verified": "claim recomputed from source island, 2026-08-25",
+     "caveat_refs": [
+      "between-paper-association"
+     ]
+    }
+   ]
   },
-  "corpus_scope": "ICLR 2026 · decisions joined at display time",
-  "question": "Which criticism travels with rejection, and does the breadth of criticism a paper draws predict its acceptance?",
-  "page_url": "https://atlas-of-judgment.pages.dev/",
-  "figures": [
+  {
+   "id": "fig-15b",
+   "title": "The legible verdict: how much of the decision is written in the criticism",
+   "deck": "Counting what was criticised reads accept-vs-reject at AUC 0.645; the criticism's words 0.740; the panel's scores 0.896 — and the tally's legibility has fallen for nine years.",
+   "dom_host": "#decision-fig",
+   "claims": [
     {
-      "id": "fig-15a",
-      "title": "Acceptance rate with vs. without negative units, per object",
-      "deck": "Novelty criticism travels with rejection — a 10.6-point lower acceptance rate; compute-cost and robustness criticism travel with nothing.",
-      "dom_host": "#tribunal",
-      "claims": [
-        {
-          "id": "15a-novelty-gap",
-          "statement": "Novelty shows the largest acceptance gap, −10.6 points (95% CI −12.1 to −9.0), with statistical rigour (−9.5) and baseline complaints (−9.3) behind it.",
-          "value": {
-            "quantity": [
-              -10.6,
-              -9.5,
-              -9.3
-            ],
-            "unit": "acceptance_rate_points"
-          },
-          "source_island": "tribunal-ci.json",
-          "source_path": "novelty",
-          "derivation": "novelty.gap × 100 = −10.6 points (accept-rate of papers with a novelty negative unit minus papers without one); stats_metrics.gap × 100 = −9.5; baselines_ablations.gap × 100 = −9.3",
-          "recompute": "scripts/build_panel_data.py",
-          "dom_ref": "data-trib=\"widest-none\"",
-          "verified": "checked against shipped JSON, 2026-08-25",
-          "caveat_refs": [
-            "between-paper-association"
-          ]
-        },
-        {
-          "id": "15a-no-gap-objects",
-          "statement": "Compute cost (CI −1.7 to +1.4) and robustness (−0.9 to +2.4) show no gap at all — papers criticised on those grounds are accepted at the same rate as papers that are not.",
-          "value": {
-            "quantity": [
-              -1.71,
-              1.39,
-              -0.92,
-              2.43
-            ],
-            "unit": "acceptance_rate_ci_points"
-          },
-          "source_island": "tribunal-ci.json",
-          "source_path": "compute_cost, robustness_sensitivity",
-          "derivation": "compute_cost and robustness_sensitivity's 95% confidence intervals (.lo/.hi × 100) both cross zero",
-          "recompute": "scripts/build_panel_data.py",
-          "dom_ref": "data-trib=\"widest-none\"",
-          "verified": null,
-          "caveat_refs": [
-            "between-paper-association"
-          ]
-        }
-      ]
-    }
-  ],
-  "caveats": [
+     "id": "15b-tally-auc",
+     "statement": "Twelve per-object counts of pre-rebuttal negative units read the paper's accept/reject decision at cross-validated AUC 0.645 (text ceiling 0.740; the panel's own scores 0.896; review count alone 0.506), over 39,484 decided papers 2018-2026.",
+     "value": {
+      "quantity": 0.6453,
+      "unit": "cv_auc",
+      "n": 39484
+     },
+     "source_island": "decision-data.json",
+     "source_path": "aucs",
+     "derivation": "stratified 5-fold CV logistic regression; features = per-object negative-unit counts plus total praise and hedged counts, from initial reviews; base acceptance rate 0.3945; 2019 carries no decision records in this corpus and is absent",
+     "recompute": "scripts/build_decision_commit.py",
+     "dom_ref": null,
+     "verified": "checked against shipped JSON, 2026-08-27",
+     "caveat_refs": [
+      "15b-association-only"
+     ]
+    },
     {
-      "id": "between-paper-association",
-      "text": "Association only, and the direction is not established: reviewers raise novelty on papers they are already unconvinced by, so this measures which criticism keeps company with rejection, not which criticism causes it. Nothing is held fixed, so this compares different papers, not one paper's reviewers against each other.",
-      "scope": "Fig. 15a acceptance gaps",
-      "verified_by": null
+     "id": "15b-novelty-heaviest",
+     "statement": "The heaviest tally coefficient is novelty (-0.36 per unit; problem framing -0.22, baselines -0.17), while compute cost and robustness carry ~0 - the third independent appearance of the novelty premium after Plate VI's score weights and Plate XIV's tariff.",
+     "value": {
+      "quantity": -0.3624,
+      "unit": "logistic_coef_per_unit",
+      "n": 39484
+     },
+     "source_island": "decision-data.json",
+     "source_path": "tally_coef.coef",
+     "derivation": "mean over CV folds of the standardized-input logistic coefficients",
+     "recompute": "scripts/build_decision_commit.py",
+     "dom_ref": null,
+     "verified": "checked against shipped JSON, 2026-08-27",
+     "caveat_refs": [
+      "15b-association-only"
+     ]
+    },
+    {
+     "id": "15b-legibility-drift",
+     "statement": "Read year by year, the tally's AUC falls from 0.75 (2018) to 0.63 (2025-26) while the text ceiling gives up almost nothing (0.73 -> 0.71): the verdict has drifted away from which topics were criticised far more than from the criticism's language.",
+     "value": {
+      "quantity": 0.6347,
+      "unit": "cv_auc_2026",
+      "n": 39484
+     },
+     "source_island": "decision-data.json",
+     "source_path": "per_year_auc",
+     "derivation": "per-year stratified CV within each year's papers; per-year AUCs are immune to the cross-year score-scale changes",
+     "recompute": "scripts/build_decision_commit.py",
+     "dom_ref": null,
+     "verified": "checked against shipped JSON, 2026-08-27",
+     "caveat_refs": [
+      "15b-association-only",
+      "15b-legibility-not-rigor",
+      "15b-not-unique-to-criticism"
+     ]
     }
-  ],
-  "links": {
-    "recompute_scripts": [
-      "scripts/build_panel_data.py"
-    ],
-    "data": [
-      "/api/v1/data/tribunal-ci.json",
-      "/api/v1/data/panel-data.json"
-    ],
-    "related_plates": [
-      "plate-xiv",
-      "plate-xxviii"
-    ]
+   ]
   }
+ ],
+ "caveats": [
+  {
+   "id": "between-paper-association",
+   "text": "Association only, and the direction is not established: reviewers raise novelty on papers they are already unconvinced by, so this measures which criticism keeps company with rejection, not which criticism causes it. Nothing is held fixed, so this compares different papers, not one paper's reviewers against each other.",
+   "scope": "Fig. 15a acceptance gaps",
+   "verified_by": null
+  },
+  {
+   "id": "15b-association-only",
+   "text": "Association, not mechanism: reviewers may criticise novelty because they are rejecting; an AUC cannot tell the direction."
+  },
+  {
+   "id": "15b-legibility-not-rigor",
+   "text": "The nine-year fall of the tally AUC is a fact about legibility, not rigor: the decision increasingly turns on something other than the topic-mix of criticism - the words, the rebuttal, or what no text records."
+  },
+  {
+   "id": "15b-not-unique-to-criticism",
+   "text": "The nine-year fall in tally AUC is not unique to criticism: the scores' own legibility also slips, later and less (0.96 through 2023 -> 0.89 in 2026). The tally-vs-text contrast is the criticism-specific part."
+  }
+ ],
+ "links": {
+  "recompute_scripts": [
+   "scripts/build_panel_data.py"
+  ],
+  "data": [
+   "/api/v1/data/tribunal-ci.json",
+   "/api/v1/data/panel-data.json"
+  ],
+  "related_plates": [
+   "plate-xiv",
+   "plate-xxviii"
+  ]
+ }
 }

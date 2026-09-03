@@ -51,7 +51,7 @@
           "derivation": "shapes['2021'].stump / total 2021 threads = 8.7%, ≈9%; shapes['2026'].stump / total 2026 threads = 26.4%, ≈26%",
           "recompute": "scripts/build_threads_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "process-not-people"
           ]
@@ -81,7 +81,7 @@
           "derivation": "accept_by_shape.return.acc = 50.7%, .volley.acc = 50.2%, .monologue.acc = 39.1%, .stump.acc = 1.2%",
           "recompute": "scripts/build_threads_data.py",
           "dom_ref": "data-talk16b=\"vines-stumps\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "triage-both-ways"
           ]

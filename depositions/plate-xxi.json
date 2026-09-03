@@ -47,7 +47,7 @@
           "derivation": "DELIB.move_units.strengthened vs. DELIB.move_units.weakened + DELIB.move_units.reversed",
           "recompute": "scripts/build_deliberation_data.py",
           "dom_ref": "data-delib=\"movement\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["written-judgment-only-21"]
         }
       ]
@@ -72,7 +72,7 @@
           "derivation": "REP.signatures.silence.accept_2026 and REP.signatures.entrenchment.accept_2026",
           "recompute": "scripts/build_repertoire_data.py",
           "dom_ref": "data-repsig=\"quiet-endings\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["deliberation-association-not-cause"]
         },
         {
@@ -89,7 +89,7 @@
           "derivation": "REP.overlap.real_hist (co-reviewers of one paper) vs. REP.overlap.base_hist (strangers), mean overlap of inspected objects",
           "recompute": "scripts/build_repertoire_data.py",
           "dom_ref": "data-repov=\"two-curves\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]
@@ -115,7 +115,7 @@
           "derivation": "REP.by_year[y].silence for y = first year, 2022, and last year of the 49,441-panel 2018–2026 series",
           "recompute": "scripts/build_repertoire_data.py",
           "dom_ref": "data-repyr=\"landmarks\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": ["descriptive-confound"]
         }
       ]

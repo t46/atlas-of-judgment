@@ -52,7 +52,7 @@
           "derivation": "n_profiles = 98,513 real reviewer-paper profiles (official reviewers with ≥5 units, min_units = 5), clustered k-means with k=5, seed 7",
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": "data-mirage=\"real\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "small-profile-noise"
           ]
@@ -69,7 +69,7 @@
           "derivation": "same k-means (k=5) partition applied to synthetic profiles drawn from one shared multinomial field mix, null seed 46, at each reviewer's own unit volume",
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": "data-mirage=\"null\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "small-profile-noise"
           ]
@@ -90,7 +90,7 @@
           "derivation": "overdisp_median = 1.15, overdisp_max = 1.584 ≈ 1.58, and ev_real − ev_null = 0.3578 − 0.3102 = 0.0476 ≈ 4.8pp",
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "mirage-quantified-not-total"
           ]
@@ -111,7 +111,7 @@
           "derivation": "each real cluster's own leading (top) standard ratio, ranging from ×2.43 to ×3.1 across the five clusters — the same real[] clusters this appendix's deflating test reruns",
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "mirage-quantified-not-total",
             "small-profile-noise"
@@ -135,7 +135,7 @@
           "derivation": "each synthetic-null cluster's own leading (top) standard ratio, ranging from ×2.03 to ×2.96 across the five clusters — despite the null profiles containing no reviewer types by construction",
           "recompute": "scripts/build_mirage_data.py",
           "dom_ref": null,
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "mirage-quantified-not-total",
             "small-profile-noise"
@@ -165,7 +165,7 @@
           "derivation": "acceptance rate of 2026 decided papers grouped by count of distinct objects criticised (breadth 2, 3, 9-or-more), papers with fewer than 30 at a breadth dropped",
           "recompute": "scripts/build_panel_data.py",
           "dom_ref": "data-gaunt=\"staircase\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": [
             "breadth-entangled"
           ]
@@ -183,7 +183,7 @@
           "derivation": "breadth 7 holds the largest paper count (3,459) among the gauntlet buckets",
           "recompute": "scripts/build_panel_data.py",
           "dom_ref": "data-gaunt=\"modal-seven\"",
-          "verified": null,
+          "verified": "claim recomputed from source island, 2026-08-25",
           "caveat_refs": []
         }
       ]
