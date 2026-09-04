@@ -14991,4 +14991,42 @@ function buildSpecimenPlate(actsByNo, closeChart) {
   else setTimeout(go, 60);
   setTimeout(go, 12000);   // safety: build no matter what
 })();
+
+/* ---------------------------------------------------------------- deep links
+   The browser makes its one jump the moment a #figure URL loads, which is
+   before the overture clears and before the entrances give the plates their
+   real heights — so the target then drifts, sometimes a screen or two below
+   the fold. Re-aim at it a few times while the layout settles, and stop the
+   moment the reader takes over. */
+(function () {
+  "use strict";
+  const PAD = 84;                      // clear the topbar
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let taken = false;
+  const yield_ = () => { taken = true; };
+  ["wheel", "touchstart", "keydown"].forEach(
+    ev => addEventListener(ev, yield_, { passive: true, once: true }));
+
+  const aim = (id, tries) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    tries.forEach(t => setTimeout(() => {
+      if (taken) return;
+      const e = document.getElementById(id);
+      if (!e) return;
+      const top = e.getBoundingClientRect().top;
+      if (Math.abs(top - PAD) < 90) return;        // already parked
+      window.scrollTo({ top: top + window.scrollY - PAD,
+                        behavior: REDUCED ? "auto" : "smooth" });
+    }, t));
+  };
+
+  if (location.hash.length > 1) aim(location.hash.slice(1), [500, 1400, 2800, 4200]);
+  addEventListener("hashchange", () => {
+    taken = false;
+    ["wheel", "touchstart", "keydown"].forEach(
+      ev => addEventListener(ev, yield_, { passive: true, once: true }));
+    if (location.hash.length > 1) aim(location.hash.slice(1), [80, 600]);
+  });
+})();
 </script>
