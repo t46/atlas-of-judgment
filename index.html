@@ -1251,6 +1251,26 @@ html.loupe-held #reticle { opacity: 0 !important; }
 #dissect .d-n { font-family: var(--mono); font-size: 10px; text-align: right; }
 #dissect .d-facts { font-size: 12.5px; color: var(--ink-2); display: flex; flex-direction: column; gap: 8px; }
 #dissect .d-facts b { color: var(--brass); font-weight: 500; }
+/* Fig. 4a: transitions use multipliers; review boundaries use percentages. */
+.chain-scroll { overflow-x: auto; padding-bottom: 6px; }
+.chain-table { width: 100%; min-width: 700px; border-collapse: separate; border-spacing: 4px; table-layout: fixed; font-size: 13px; }
+.chain-table th { font-weight: 400; }
+.chain-table .chain-current { width: 112px; text-align: right; padding-right: 8px; }
+.chain-table .chain-axis { font-family: var(--mono); font-size: 10px; line-height: 1.6; color: var(--ink-2); }
+.chain-table .chain-next { padding: 0 0 10px; border-bottom: 1px solid var(--brass-line); }
+.chain-table .chain-form { padding: 9px 3px; line-height: 1.3; overflow-wrap: anywhere; }
+.chain-table tbody th { text-align: right; padding-right: 8px; }
+.chain-table tbody th, .chain-table .chain-current { position: sticky; left: 0; z-index: 1; background: var(--ground); }
+.chain-table td { text-align: center; padding: 16px 2px; border-radius: 2px; font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.chain-table .chain-edge { width: 80px; color: var(--brass); }
+.chain-table .chain-edge small { display: block; font-size: 9px; font-family: var(--mono); color: var(--ink-2); }
+.chain-table .chain-matrix-first, .chain-table .chain-last { border-left: 12px solid transparent; background-clip: padding-box; }
+.chain-table .chain-unit { font-size: 9px; opacity: .65; margin-left: 1px; }
+.chain-key { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 10px; font-size: 12px; color: var(--ink-2); }
+.chain-key b { color: var(--ink); font-weight: 500; }
+.chain-scroll-hint { display: none; font-size: 11px; color: var(--ink-2); margin-bottom: 6px; }
+#chain-fig.chain-overflow .anchor-overlay { display: none; }
+@media (max-width: 760px) { .chain-scroll-hint { display: block; } }
 /* dynamics */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
 .reveal.in { opacity: 1; transform: none; }
@@ -1865,12 +1885,12 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
   <div class="plate"><div class="plate-inner">
     <div class="fig-title">Fig. 4a — The transition table, as departure from each review's own mix</div>
     <div class="fig-deck">The grammar hunt comes back nearly empty: no transition beats chance by more than 18% — and the little structure that remains looks like the review template, not a way of thinking.</div>
-    <div class="fig-rel"><b>WHO SPEAKS FIRST, WHO LAST</b> — the flanking OPENS / CLOSES columns ask of the six argument forms what the next plate&#8217;s prologue will ask of the twelve subjects: who gets the first word of a review, and who the last.</div>
-<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">CELL = LIFT VS. EACH REVIEW&#8217;S OWN SHUFFLED MIX &middot; 1.00 = ORDER CARRIES NO INFORMATION</div>
+    <div class="fig-rel"><b>ONE FIGURE, TWO MEASURES</b> — the central 6 × 6 table compares consecutive forms with shuffled order (×). The separate FIRST UNIT / LAST UNIT columns show the percentage of reviews that begin or end with each form (%).</div>
+<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">READ A ROW AS: CURRENT FORM → NEXT FORM · 1.00× = AS OFTEN AS SHUFFLED ORDER</div>
     <div id="chain-fig"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 4a</b></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each cell is a lift: how often one argument form actually follows another, divided by how often it would if each review's own units were shuffled — so 1.00 means order carries no information, and if the forms did not care what comes next, the entire table would sit at 1.00. Sienna marks a following that happens more than the review's own mix predicts, verdigris less; the flanking columns give each form's share of opening and closing positions.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">rows name the current form; columns in the central table name the form immediately after it. Both axes use the same six labels. Each central cell is a multiplier: the observed frequency of that ordered pair divided by its frequency after shuffling units within each review. For example, 1.18× means 18% more frequent than shuffled order, not an 18% probability. Sienna marks more frequent pairs, verdigris less frequent ones. FIRST UNIT and LAST UNIT use a different denominator: the percentage of reviews whose first or last unit is the row's form.</div></div>
     <div class="cv cv-result"><span class="cv-lab">Result</span><div class="cv-body">the finding is an absence. No cell leaves the 0.80–1.18 band: once a review's own mix of forms is fixed, knowing the current form changes the odds of the next one by at most ±20% — argument order is nearly memoryless. If reviewer reasoning had a real syntax, the way sentences do, cells here would run to several times chance; nothing comes close. What little structure survives: <button class="hover-bind" data-chain="self-attract">a form is most attracted to itself (rival-cause follows rival-cause at 1.18, scope follows scope at 1.18)</button>, <button class="hover-bind" data-chain="weigh-column">every other form mildly resists being followed by on-balance (0.80–0.95)</button>, and <button class="hover-bind" data-chain="weigh-opens">on-balance opens 38.5% of reviews against its 30.5% share of all units</button> — eight points above chance — while closing shares sit near every form's baseline (largest deviation: norm, +1.7pp).</div></div>
     <div class="cv cv-caveat" data-tether="chain-fig:weigh-opens:right"><span class="cv-lab">Interpretation</span><div class="cv-body">read even that residue with suspicion: reviews are written into a template — a summary up front, strengths and weaknesses in blocks — and the template alone would produce exactly these traces. The on-balance-first opening matches the summary-section convention, and same-form runs match section blocks. So the honest reading is not "reasoning has a grammar" but the reverse: we went looking for one, found almost nothing, and what remains is plausibly the architecture of the review form rather than of thought. Forms from the Plate III classifier (CV accuracy 0.685); transitions pool 183,717 reviews, 829,684 units.</div></div>
     </div>
@@ -15075,36 +15095,34 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const FS = { NORM: "norm", BLOCK: "can’t-verify", DOUBT: "rival-cause", ANCHOR: "precedent", REACH: "scope", WEIGH: "on-balance" };
   function build() {
     const F = CHAIN.forms, L = CHAIN.lift;
-    const w = host.clientWidth || 600;
-    const narrow = w < 640;
-    const labpx = narrow ? 54 : 150;
-    const edgepx = narrow ? 34 : 52;
-    const cellpx = Math.min(72, Math.max(22, Math.floor((w - labpx - 2 * edgepx - 8 * 3 - 2) / 6)));
-    const fs = narrow ? (cellpx < 30 ? 8 : 9) : 10.5;
-    let h = `<div>`;
-    h += `<div style="display:grid;grid-template-columns:${labpx}px ${edgepx}px repeat(6,${cellpx}px) ${edgepx}px;gap:3px;align-items:center;font-size:${fs}px">`;
-    h += `<div></div><div style="text-align:center;opacity:.55;letter-spacing:.06em">OPENS</div>` +
-      F.map(f => `<div style="text-align:center;opacity:.7;line-height:1.25">${FS[f].replace("precedent","prece\u00ADdent")}</div>`).join("") +
-      `<div style="text-align:center;opacity:.55;letter-spacing:.06em">CLOSES</div>`;
+    host.classList.toggle("chain-overflow", host.clientWidth < 700);
+    let h = `<div class="chain-scroll-hint">Scroll horizontally to see all six next-form columns and LAST UNIT →</div>`;
+    h += `<div class="chain-scroll" tabindex="0" role="region" aria-label="Fig. 4a: argument-form transitions and review boundaries">`;
+    h += `<table class="chain-table" aria-label="Rows: current form. Central columns: next form. Multipliers compare observed with shuffled order; first and last columns are percentages of reviews."><thead>`;
+    h += `<tr><th rowspan="2" class="chain-current chain-axis" scope="col">CURRENT FORM ↓</th>` +
+      `<th rowspan="2" class="chain-edge chain-axis" scope="col">FIRST UNIT<small>% of reviews</small></th>` +
+      `<th colspan="6" class="chain-next chain-axis" scope="colgroup">NEXT FORM → · TIMES SHUFFLED FREQUENCY (×)</th>` +
+      `<th rowspan="2" class="chain-edge chain-last chain-axis" scope="col">LAST UNIT<small>% of reviews</small></th></tr>`;
+    h += `<tr>` + F.map((f, j) => `<th scope="col" class="chain-form${j === 0 ? " chain-matrix-first" : ""}" title="${FN[f]}">${FS[f]}</th>`).join("") + `</tr></thead><tbody>`;
     const mx = 0.2;
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < F.length; i++) {
       const f = F[i];
-      h += `<div style="opacity:.85;text-align:right;padding-right:6px;overflow-wrap:anywhere;line-height:1.2">${narrow ? FS[f] : FN[f]}</div>`;
+      h += `<tr><th scope="row" title="${FN[f]}">${FS[f]}</th>`;
       const s = CHAIN.start_share[f], e2 = CHAIN.end_share[f];
-      h += `<div data-form="${f}" data-edge="open" style="text-align:center;color:#8a5a1f;font-variant-numeric:tabular-nums;background:rgba(138,90,31,${(s / 0.4) * 0.28});padding:${narrow ? 7 : 12}px 0;border-radius:2px">${Math.round(s * 100)}%</div>`;
-      for (let j = 0; j < 6; j++) {
+      h += `<td class="chain-edge" data-form="${f}" data-edge="open" title="${(s * 100).toFixed(1)}% of reviews begin with ${FS[f]}" style="background-color:rgba(138,90,31,${(s / 0.4) * 0.28})">${Math.round(s * 100)}%</td>`;
+      for (let j = 0; j < F.length; j++) {
         const v = L[i][j], d = Math.max(-mx, Math.min(mx, v - 1));
         const bg = d >= 0 ? `rgba(208,104,92,${(d / mx) * 0.75})` : `rgba(59,161,131,${(-d / mx) * 0.75})`;
-        h += `<div class="cellfade" data-f1="${f}" data-f2="${F[j]}" title="${FN[f]} → ${FN[F[j]]}: lift ${v.toFixed(2)}" style="background:${bg};text-align:center;padding:${narrow ? 7 : 12}px 0;border-radius:2px;font-variant-numeric:tabular-nums;transition-delay:${Math.min((i * 6 + j) * 12, 500)}ms">${v.toFixed(2)}</div>`;
+        h += `<td class="cellfade${j === 0 ? " chain-matrix-first" : ""}" data-f1="${f}" data-f2="${F[j]}" title="${FS[f]} → ${FS[F[j]]}: ${v.toFixed(2)} times the frequency after shuffling within each review" style="background-color:${bg};transition-delay:${Math.min((i * F.length + j) * 12, 500)}ms">${v.toFixed(2)}<span class="chain-unit">×</span></td>`;
       }
-      h += `<div data-form="${f}" data-edge="close" style="text-align:center;color:#8a5a1f;font-variant-numeric:tabular-nums;background:rgba(138,90,31,${(e2 / 0.4) * 0.28});padding:${narrow ? 7 : 12}px 0;border-radius:2px">${Math.round(e2 * 100)}%</div>`;
+      h += `<td class="chain-edge chain-last" data-form="${f}" data-edge="close" title="${(e2 * 100).toFixed(1)}% of reviews end with ${FS[f]}" style="background-color:rgba(138,90,31,${(e2 / 0.4) * 0.28})">${Math.round(e2 * 100)}%</td></tr>`;
     }
-    h += `</div></div>`;
-    h += `<div style="font-size:10.5px;opacity:.55;margin-top:8px">rows: this form · columns: the form that follows · OPENS / CLOSES = share of reviews whose first / last unit is this form</div>`;
+    h += `</tbody></table></div>`;
+    h += `<div class="chain-key"><span><b>Center (×):</b> 1.00× = shuffled frequency; 1.18× = 18% more frequent.</span><span><b>Edges (%):</b> share of reviews that start or end with this form.</span></div>`;
     host.innerHTML = h;
   }
   build(); debounceResize(build);
-  cbar(host, "rgba(59,161,131,0.75), rgba(239,228,201,0) 50%, rgba(208,104,92,0.75)", "how often the column form follows the row form · 1.00 = chance", "≤0.80× (avoided)", "≥1.20× (favored)");
+  cbar(host, "rgba(59,161,131,0.75), rgba(239,228,201,0) 50%, rgba(208,104,92,0.75)", "central cells only · observed frequency ÷ shuffled frequency", "≤0.80× · less frequent", "≥1.20× · more frequent");
 
   // caption⇄figure binding (marks re-queried live: build() re-runs on resize)
   const CPRED = {
@@ -15122,10 +15140,10 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     if (!els.length) return null;
   const h = host.getBoundingClientRect();
   const rects = els.map(e => e.getBoundingClientRect());
-  if (rects.length === 1) { const r = rects[0]; return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2 }; }
-  const x0 = Math.min(...rects.map(r => r.left)) - h.left, x1 = Math.max(...rects.map(r => r.right)) - h.left;
-  const y0 = Math.min(...rects.map(r => r.top)) - h.top, y1 = Math.max(...rects.map(r => r.bottom)) - h.top;
-  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+  if (rects.length === 1) { const r = rects[0]; return { x: r.right - h.left - 9, y: r.top - h.top + 9 }; }
+  const x1 = Math.max(...rects.map(r => r.right)) - h.left;
+  const y0 = Math.min(...rects.map(r => r.top)) - h.top;
+  return { x: x1 - 9, y: y0 + 9 };
   });
   regTether("chain-fig", chainLayer);
   wireBinds({
