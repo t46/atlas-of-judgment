@@ -793,6 +793,35 @@ details.table-view summary { cursor: pointer; padding: 14px 20px; font-family: v
 .law-row { display: grid; grid-template-columns: 112px 1fr 92px; gap: 10px; align-items: center; margin-bottom: 3px; }
 .law-l { font-size: 12px; color: var(--ink-2); text-align: right; line-height: 1.15; }
 .law-v { font-family: var(--mono); font-size: 9px; color: var(--muted); }
+.law-comparison { --law-same: #8a5a1f; --law-diff: #a84a32; }
+.law-comparison .law-legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 12px; font-size: 12px; }
+.law-comparison .law-key { display: inline-block; width: 18px; height: 7px; margin-right: 7px; vertical-align: 1px; }
+.law-comparison .law-pair-row { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--brass-faint); margin: 0; }
+.law-comparison .law-pair-row.is-overall { padding: 16px 0; border-top: 1px solid var(--brass-faint); background: rgba(138,90,31,.035); }
+.law-comparison .law-l { font-size: 12px; line-height: 1.4; }
+.law-comparison .law-pair-count { display: block; font: 9px var(--mono); color: var(--muted); margin-top: 4px; font-weight: normal; }
+.law-comparison .law-bars { min-width: 0; }
+.law-comparison .law-rate { display: grid; grid-template-columns: 64px minmax(0, 1fr) 52px; align-items: center; gap: 8px; min-height: 22px; }
+.law-comparison .law-group-label { font-size: 10px; color: var(--ink-2); }
+.law-comparison .law-track { height: 13px; background: repeating-linear-gradient(to right, rgba(138,90,31,.15) 0, rgba(138,90,31,.15) 1px, transparent 1px, transparent 20%); border-right: 1px solid rgba(138,90,31,.15); }
+.law-comparison .law-bar { display: block; height: 100%; background: var(--law-same); }
+.law-comparison .law-rate[data-group="diff"] .law-bar { background: var(--law-diff); }
+.law-comparison .law-rate-value { font: 12px var(--mono); color: var(--law-same); text-align: right; }
+.law-comparison .law-rate[data-group="diff"] .law-rate-value { color: var(--law-diff); }
+.law-comparison .law-axis { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; margin-bottom: 5px; }
+.law-comparison .law-ticks { position: relative; height: 18px; margin-left: 72px; margin-right: 60px; font: 9px var(--mono); color: var(--muted); }
+.law-comparison .law-ticks span { position: absolute; transform: translateX(-50%); }
+.law-comparison .law-ticks span:first-child { transform: none; }
+.law-comparison .law-ticks span:last-child { transform: translateX(-100%); }
+.law-comparison .law-axis-title { margin-bottom: 10px; font: 10px var(--mono); color: var(--muted); }
+.law-comparison .law-object-note { margin: 14px 0 0; font: 9px var(--mono); letter-spacing: .08em; color: var(--muted); }
+@media (max-width: 560px) {
+  .law-comparison .law-pair-row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .law-comparison .law-l { text-align: left; }
+  .law-comparison .law-pair-count { display: inline; margin-left: 10px; }
+  .law-comparison .law-axis { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .law-comparison .law-axis > :first-child { display: none; }
+}
 @media (max-width: 880px) { .tar-row { grid-template-columns: 84px 1fr 46px; } .tar-l, .law-l { font-size: 10px; } .law-row { grid-template-columns: 84px 1fr 74px; } }
 /* ---- the itinerary ---- */
 .bill-row { display: grid; grid-template-columns: 118px 1fr 112px 62px; gap: 12px; align-items: center; margin-bottom: 4px; }
@@ -2299,15 +2328,15 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
     </div>
     <p class="caption"><b>Fig. 14b</b> — Each object placed by the share of its negative units that arrive with a prescribed repair (horizontal) against its within-paper tariff (vertical). <span id="annot-pricerep-src">Circle area tracks how many criticisms the object drew, fill repeats Fig.&nbsp;14a's color — red = costs rating points, green = travels with higher ones, gray = interval crosses zero — and each label is inked in its circle's color, with a thin line tying the two</span> — novelty alone in white, the plate's finding. The bill collects in one corner: the one objection that rarely comes with a fix — <button class="hover-bind" data-pricerep="novelty-corner">novelty, 64% against 82–92% for everything else</button> — is also by far the costliest. Cheap objections are prescriptions; the expensive one is a sentence. The unlabeled points crowding the near-zero center — <button class="hover-bind" data-pricerep="center-cluster">theory, clarity, statistics, method design, empirical scope</button> — are the objections that neither cost nor spare; hover any point for its numbers.</p>
     <div class="fig-title" style="margin-top:38px">Fig. 14c — Same bench, different law</div>
-    <div class="fig-deck">Same paper, same object — and still, one split in three among pairs holding different standards travels with the standards alone.</div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">A PAIR = TWO REVIEWERS OF THE SAME PAPER WHO BOTH EXAMINED THIS OBJECT &mdash; THE PAPER CANNOT EXPLAIN WHAT FOLLOWS. EACH CRACK SPREADS FROM THE CENTER LINE: LEFTWARD, HOW OFTEN SAME-STANDARD PAIRS STILL REACH OPPOSITE STANCES &middot; RIGHTWARD, THE ADDED SPLIT WHEN THEIR STANDARDS DIFFER</div>
+    <div class="fig-deck">Reviewers of the same object of the same paper disagree 20.5% of the time when their main standard is the same, versus 30.1% when it differs.</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;margin:0 0 8px">EACH PAIR = TWO REVIEWERS OF THE SAME PAPER, ASSESSING THE SAME OBJECT &middot; BOTH BARS SHOW THE DISAGREEMENT RATE ON THE SAME 0&ndash;50% SCALE</div>
     <div id="law"></div>
     <div class="caption cap-voices">
     <div class="cv-fig"><b>Fig. 14c</b></div>
-    <div class="cv cv-read"><span class="cv-lab">Where to look</span><div class="cv-body">the top row is the finding, and the bracket marks it. Its brass wing: <button class="hover-bind" data-lawrow="same-standard">reviewer pairs who argued from the same standard reach opposite stances 20.5% of the time</button>. Its sienna wing: pairs who argued from different standards, 30.1% — half again as often, and the bracketed +9.7 points is the split added by the standards alone: of the splits among different-standard pairs, one in three is excess over the shared-standard rate (in agreement terms, 79.5% against 69.9%). The paper cannot be the explanation — both reviewers read the same paper. The rows beneath repeat the reading object by object: every sienna wing is positive.</div></div>
-    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">every crack spreads from the shared center line — brass leftward for the same-standard split rate, sienna rightward for the addition when standards differ — so both wings compare directly across rows, and rows are sorted by the sienna wing.</div></div>
-    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">across all nine years, take every pair of reviewers who examined the <em>same object of the same paper</em> in their initial reviews; a reviewer's stance on the object is whether the majority of their units on it were negative, and their <em>standard</em> is the reasoning law they used most.</div></div>
-    <div class="cv cv-caveat" data-tether="law:thin-rows:left"><span class="cv-lab">Reading it</span><div class="cv-body">the <button class="hover-bind" data-lawrow="thin-rows">two thinnest rows (reproducibility, related work) rest on under 1,500 same-standard pairs</button> — read their exact sizes loosely. Splits are rare in absolute terms because criticism dominates the corpus — most pairs condemn together — which is why the sienna addition, not the whole crack, is the quantity to read. And stance and standard are extracted from the same few units, so consistency of a reviewer's writing can contribute to the gap. The choice of standard is not prior to the judgment — it is part of it: which law a reviewer reaches for already carries most of the verdict they are about to give.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">Where to look</span><div class="cv-body">start with the top pair of bars: <button class="hover-bind" data-lawrow="same-standard">20.5% of same-standard reviewer pairs disagree, compared with 30.1% of different-standard pairs</button>. The disagreement rate is about 1.5 times as high in the different-standard group, a gap of 9.7 percentage points. Each topic below shows the same comparison; the different-standard bar is longer in every topic. This is an association between the standard match and disagreement, not an estimate of disagreement caused by changing standards.</div></div>
+    <div class="cv cv-read"><span class="cv-lab">How to read</span><div class="cv-body">each row is an object of scrutiny, not a particular standard. Both bars start at zero: the upper brass bar is the disagreement rate among pairs whose main standard matches; the lower sienna bar is the rate among pairs whose main standards differ. The percentages at the bar ends are the rates themselves, not differences. Every row uses the same 0–50% scale. Topics are sorted by the gap between the two rates; the pair count beside each topic is the two groups combined. Hover a bar for its group's count.</div></div>
+    <div class="cv cv-done"><span class="cv-lab">What was done</span><div class="cv-body">across all nine years, take every pair of reviewers who examined the <em>same object of the same paper</em> in their initial reviews; a reviewer's stance on the object is whether the majority of their units on it were negative, and their <em>standard</em> is the reasoning law they used most. A disagreement means one reviewer has a majority-negative stance and the other does not; it is not a difference in numerical rating or an accept/reject decision.</div></div>
+    <div class="cv cv-caveat" data-tether="law:thin-rows:left"><span class="cv-lab">Reading it</span><div class="cv-body">the <button class="hover-bind" data-lawrow="thin-rows">reproducibility and related-work rows each rest on under 1,500 same-standard pairs</button> — read their exact sizes loosely. Most pairs agree because criticism dominates the corpus: both reviewers often have a majority-negative stance. Stance and standard are extracted from the same few units, so consistency of a reviewer's writing can contribute to the gap. Standards were not assigned at random or measured before the judgment; this comparison cannot establish whether different standards lead to different judgments or accompany them.</div></div>
     </div>
     <div class="fig-rel" style="margin-top:18px"><b>THE FIVE FIGURES, READ TOGETHER</b> — hold the paper fixed and most objections cost nothing (14a); the one objection that does cost is the one that rarely arrives with a repair (14b); two reviewers of the same object disagree half again as often when they argue from different standards (14c); and the stated rule prices by where it is aimed, not by what it says (14d, 14e). Together they say one thing: what a review writes as its <em>reasons</em> looks less like the input that produced the verdict than like a part of the verdict itself. The repairable criticism is homework that leaves the score alone; the unrepairable charge, and even the choice of standard, travel with the judgment. Association throughout, never causation — but the same picture, three ways.</div>
     <div class="fig-title" style="margin-top:38px;letter-spacing:.14em">The Law&#8217;s Price — the same rule, priced docket by docket over nine years</div>
@@ -12944,99 +12973,36 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const lawHost = document.getElementById("law");
   function buildLaw(animate) {
     lawHost.innerHTML = "";
-    const rowsData = [];
+    lawHost.classList.add("law-comparison");
     const ov = JURIS.law.dominant;
-    rowsData.push({ label: "All objects", same: ov.same.agree, diff: ov.diff.agree, n: ov.same.n + ov.diff.n, big: true });
     const per = Object.entries(JURIS.law.by_object)
       .filter(([, v]) => v.same.n >= 500 && v.diff.n >= 500)
-      .map(([o, v]) => ({ o, label: SHORT[o] || o, same: v.same.agree, diff: v.diff.agree, n: v.same.n + v.diff.n }))
-      .sort((a, b) => (b.same - b.diff) - (a.same - a.diff));
-    rowsData.push(...per);
-    const crack = (x0, x1, H, seed, amp) => {
-      let p = `M${x0.toFixed(1)},${H / 2}`;
-      const seg = Math.max(2, Math.round((x1 - x0) / 30));
-      let u = 0;
-      for (let i = 1; i <= seg; i++) {
-        // long straight runs with occasional kinks, like a real fracture
-        u = i / seg + (i === seg ? 0 : Math.sin(i * 5.1 + seed * 7.3) * 0.35 / seg);
-        const x = x0 + (x1 - x0) * Math.min(1, u);
-        const w = Math.sin(i * 2.7 + seed * 13.7) * Math.sin(i * 1.31 + seed * 3.1);
-        const y = H / 2 + (i === seg ? 0 : w * amp);
-        p += ` L${x.toFixed(1)},${y.toFixed(1)}`;
-      }
-      return p;
-    };
-    const LMAX = 0.3, RMAX = 0.24, SPAN = LMAX + RMAX;
+      .map(([o, v]) => ({ o, label: SHORT[o] || o, ...v }))
+      .sort((a, b) => (b.same.agree - b.diff.agree) - (a.same.agree - a.diff.agree));
+    const rowsData = [{ o: "__all__", label: "All objects", ...ov }, ...per];
+    // Both groups show their full disagreement rate, from the same zero.
+    const MAX_RATE = 0.5;
+    const rateLabel = rate => (rate * 100).toFixed(1) + "%";
+    lawHost.insertAdjacentHTML("beforeend", `<div class="law-axis-title">REVIEWER PAIRS WHO DISAGREE · % OF EACH GROUP</div>
+      <div class="law-legend"><span><i class="law-key" style="background:var(--law-same)"></i>Same main standard</span><span><i class="law-key" style="background:var(--law-diff)"></i>Different main standards</span></div>
+      <div class="law-axis" aria-hidden="true"><div></div><div class="law-ticks">${[0, 10, 20, 30, 40, 50].map(v => `<span style="left:${v / 50 * 100}%">${v}%</span>`).join("")}</div></div>`);
     rowsData.forEach((d, ri) => {
-      const dSame = 1 - d.same, dDiff = 1 - d.diff, delta = dDiff - dSame;
+      if (ri === 1) lawHost.insertAdjacentHTML("beforeend", '<div class="law-object-note">THE SAME COMPARISON, BY OBJECT OF SCRUTINY</div>');
       const row = document.createElement("div");
-      row.className = "law-row";
-      row.dataset.o = d.big ? "__all__" : d.o;
-      row.innerHTML = `<div class="law-l"${d.big ? ' style="color:var(--ink);font-weight:600"' : ""}>${d.label}</div><div class="law-svg"></div>
-        <div class="law-v">+${(delta * 100).toFixed(1)}pp · ${fmt(d.n)}</div>`;
-      const holder = row.querySelector(".law-svg");
+      row.className = "law-row law-pair-row" + (ri === 0 ? " is-overall" : "");
+      row.dataset.o = d.o;
+      const bars = ["same", "diff"].map(group => {
+        const rate = 1 - d[group].agree;
+        const label = group === "same" ? "Same" : "Different";
+        const fullLabel = group === "same" ? "Same main standard" : "Different main standards";
+        const description = d.label + ": " + fullLabel + "; " + rateLabel(rate) + " disagree; " + fmt(d[group].n) + " reviewer pairs";
+        return `<div class="law-rate" data-group="${group}" data-rate="${rate}" data-n="${d[group].n}" role="img" aria-label="${description}" title="${description}">
+          <span class="law-group-label">${label}</span><div class="law-track"><span class="law-bar" style="width:${rate / MAX_RATE * 100}%"></span></div><span class="law-rate-value">${rateLabel(rate)}</span></div>`;
+      }).join("");
+      row.innerHTML = `<div class="law-l">${d.label}<span class="law-pair-count">${fmt(d.same.n + d.diff.n)} pairs</span></div><div class="law-bars">${bars}</div>`;
       lawHost.appendChild(row);
-      const W = Math.max(120, holder.clientWidth || 400), H = d.big ? (W < 300 ? 52 : 48) : 23;
-      const ppu = (W - 8) / SPAN;
-      const ax = 4 + LMAX * ppu;
-      const xL = ax - dSame * ppu, xR = ax + delta * ppu;
-      const amp = d.big ? 2.4 : 1.6;
-      const svg = el("svg", { width: W, height: H });
-      svg.appendChild(el("line", { x1: 4, x2: W - 4, y1: H / 2, y2: H / 2, stroke: "rgba(138,90,31,0.08)" }));
-      const dBrass = crack(ax, xL, H, ri, amp);
-      const dSienna = crack(ax, xR, H, ri + 7, amp * 1.3);
-      const g2 = el("path", { d: dSienna, fill: "none", stroke: OX, "stroke-width": d.big ? 6 : 4.5, "stroke-linejoin": "round", opacity: 0.18 });
-      const p1 = el("path", { d: dBrass, fill: "none", stroke: "#8a5a1f", "stroke-width": d.big ? 1.8 : 1.2, "stroke-linejoin": "round", opacity: 0.55 });
-      const p2 = el("path", { d: dSienna, fill: "none", stroke: OX, "stroke-width": d.big ? 2.2 : 1.6, "stroke-linejoin": "round" });
-      const nick = el("line", { x1: ax, x2: ax, y1: H / 2 - (d.big ? 6.5 : 5), y2: H / 2 + (d.big ? 6.5 : 5), stroke: "#8a5a1f", "stroke-width": d.big ? 1.4 : 1, opacity: 0.75 });
-      const tipL = el("circle", { cx: xL, cy: H / 2, r: d.big ? 2.2 : 1.7, fill: "#8a5a1f", opacity: 0.7 });
-      const tipR = el("circle", { cx: xR, cy: H / 2, r: d.big ? 2.6 : 2, fill: OX });
-      const anno = [];
-      if (d.big) {
-        const rTxt = W < 300
-          ? `+${(delta * 100).toFixed(1)}pp → ${(dDiff * 100).toFixed(1)}% · ×${(dDiff / dSame).toFixed(1)}`
-          : `+${(delta * 100).toFixed(1)}pp → ${(dDiff * 100).toFixed(1)}% — ONE SPLIT IN THREE IS ADDED BY THE STANDARDS ALONE`;
-        anno.push(el("text", { x: Math.max(xL - 6, 36), y: H / 2 - 7, "text-anchor": "end", "font-size": 9, fill: "#8a5a1f", style: "font-family:var(--mono)" }, `${(dSame * 100).toFixed(1)}%`));
-        anno.push(el("path", { d: `M${ax.toFixed(1)},${H / 2 + 7} L${ax.toFixed(1)},${H / 2 + 10} L${xR.toFixed(1)},${H / 2 + 10} L${xR.toFixed(1)},${H / 2 + 7}`, fill: "none", stroke: OX, "stroke-width": 1, opacity: 0.7 }));
-        const halfT = rTxt.length * 2.8;
-        anno.push(el("text", { x: Math.min(Math.max((ax + xR) / 2, 4 + halfT), W - 4 - halfT), y: H / 2 + 21, "text-anchor": "middle", "font-size": 9, fill: OX, style: "font-family:var(--mono)" }, rTxt));
-      }
-      for (const e of [g2, p1, p2, nick, tipL, tipR, ...anno]) svg.appendChild(e);
-      const title = el("title", {}, `${d.label}: pairs split ${pct(dSame)} of the time under the same standard, ${pct(dDiff)} under different standards (+${(delta * 100).toFixed(1)}pp) · ${fmt(d.n)} reviewer pairs · in agreement terms ${pct(d.same)} vs ${pct(d.diff)}`);
-      svg.appendChild(title);
-      holder.appendChild(svg);
-      if (animate && !REDUCED) {
-        row.style.opacity = 0; row.style.animation = `dlIn 0.4s ease ${ri * 45}ms both`;
-        const L1 = p1.getTotalLength(), L2 = p2.getTotalLength();
-        p1.style.strokeDasharray = L1; p1.style.strokeDashoffset = L1;
-        p1.style.transition = `stroke-dashoffset .55s cubic-bezier(.3,.7,.4,1) ${ri * 45 + 250}ms`;
-        p2.style.strokeDasharray = L2; p2.style.strokeDashoffset = L2;
-        p2.style.transition = `stroke-dashoffset .45s cubic-bezier(.3,.7,.4,1) ${ri * 45 + 850}ms`;
-        for (const [e, dl] of [[g2, 850], [tipL, 780], [tipR, 1250], ...anno.map(a => [a, 1300])]) {
-          e.dataset.op = e.getAttribute("opacity") || 1;
-          e.style.opacity = 0; e.style.transition = `opacity .4s ease ${ri * 45 + dl}ms`;
-        }
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          p1.style.strokeDashoffset = 0; p2.style.strokeDashoffset = 0;
-          for (const e of [g2, tipL, tipR, ...anno]) e.style.opacity = e.dataset.op;
-        }));
-      }
-      if (d.big) {
-        const dv = document.createElement("div");
-        dv.className = "law-row";
-        dv.innerHTML = `<div></div><div style="font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--muted);padding:5px 0 1px">THE SAME READING, OBJECT BY OBJECT &#8595;</div><div></div>`;
-        lawHost.appendChild(dv);
-      }
+      if (animate && !REDUCED) row.style.animation = `dlIn 0.4s ease ${ri * 35}ms both`;
     });
-    const lax = document.createElement("div");
-    lax.className = "law-row";
-    lax.innerHTML = `<div></div><div style="position:relative;height:14px">${[-0.3, -0.2, -0.1, 0, 0.1, 0.2].map(v =>
-      `<div style="position:absolute;left:${((v + LMAX) / SPAN) * 100}%;transform:translateX(${v === -LMAX ? "0" : "-50%"});font-family:var(--mono);font-size:8.5px;color:${v === 0 ? "var(--brass)" : "var(--muted)"}">${v < 0 ? Math.round(-v * 100) + "%" : v === 0 ? "0" : "+" + Math.round(v * 100) + "pp"}</div>`).join("")}</div><div style="font-family:var(--mono);font-size:8.5px;color:var(--muted)">of pairs</div></div>`;
-    lawHost.appendChild(lax);
-    const lg = document.createElement("div");
-    lg.className = "law-row";
-    lg.innerHTML = `<div></div><div style="font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.1em;display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap"><span style="color:#8a5a1f">&#8592;&#9473; SPLIT RATE WHEN BOTH ARGUED FROM THE SAME STANDARD</span><span style="color:${OX}">ADDED SPLIT WHEN THE STANDARDS DIFFER &#9473;&#8594;</span></div><div></div>`;
-    lawHost.appendChild(lg);
   }
 
   buildTariff(false); buildPr(); buildLaw(false);
@@ -13120,13 +13086,10 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
     const rows = [...lawHost.querySelectorAll(".law-row[data-o]")].filter(r => pred(r.dataset.o));
     const hr = lawHost.getBoundingClientRect();
     const pts = rows.map(r => {
-      const svg = r.querySelector(".law-svg svg");
-      if (!svg) return null;
-      const cs = svg.querySelectorAll("circle");
-      const tip = cs[cs.length - 1];
-      if (!tip) return null;
-      const sr = svg.getBoundingClientRect();
-      return { x: sr.left - hr.left + (+tip.getAttribute("cx")), y: sr.top - hr.top + (+tip.getAttribute("cy")) };
+      const bar = r.querySelector('.law-rate[data-group="diff"] .law-bar');
+      if (!bar) return null;
+      const br = bar.getBoundingClientRect();
+      return { x: br.right - hr.left, y: br.top - hr.top + br.height / 2 };
     }).filter(Boolean);
     if (!pts.length) return null;
   if (pts.length === 1) return pts[0];
